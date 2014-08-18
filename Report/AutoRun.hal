@@ -1,0 +1,206 @@
+external procedure AutoUnreservOrderMn();
+external procedure MyReservStstEn();
+external procedure DebitorkaReportEn(integer);
+
+//------------------------------------------------------------------------------------------------------------------------------
+global procedure AutoRun()
+begin
+integer iStore,Computek,PhotoTek,Technomedia,AService,WD,MMR,PPhL;
+record RcVc RepSpec;
+
+iStore = 1;
+Computek = 2;	//iTek
+WD = 3;
+PPhL = 4;
+PhotoTek = 5;//Textera
+MMR = 6;
+Technomedia = 7;//Technomedia
+AService = 8;
+
+
+  /*if (SetCompany(iStore,false)) then begin
+
+    UndeliveredItemsReportEn;
+    AT2DeprEn;
+    RepSpec.Media = 3;
+    RepSpec.f1 = "DN_KARAVAN,DREAM_TOWN,D_DEKOR_SR,KH_KRV,K_KARAVAN,K_TC_OLIMP,O_SADI,LV_O_PASS,OCEANPLAZA,MAIN,INT_STORE,K_TRANSIT,SRV_OUT,STOCK2,K_TC_GLLV,STOCK2_SRV"; 
+    LocManyStockEn(RepSpec);
+    
+    RepSpec.Media = 31;
+    RepSpec.f1 = "SRV_OUT"; 
+    LocManyStockEn(RepSpec);
+    
+    RepSpec.Media = 32;
+    RepSpec.f1 = "DEMO_OF"; 
+    LocManyStockEn(RepSpec);
+    
+    MyItemReportEn;
+    BuhExportEn;
+
+    KreditorkaReportEn(iStore);
+    DebitorkaReportEn(iStore);
+    //MyStockCustEn;
+    
+    SalesReportEn;
+    
+    StockMovJEn(iStore);
+    
+    StoresStockEn;
+    ResetCompany(iStore);  
+  end;
+  
+  if (SetCompany(Computek,false)) then begin
+	UndeliveredItemsReportEn;  
+
+    RepSpec.Media = 0;
+    RepSpec.f1 = "INV#1,INV#2,EXHIBITION,TRWH,DEMO"; //***Edit by victor add DEMO
+    LocManyStockEn(RepSpec);
+    
+    RepSpec.Media = 1;
+    RepSpec.f1 = "INV#1/ADJ,INV#1/ADJS,INV#2/ADJ,EXHIB/ADJ";
+    LocManyStockEn(RepSpec);
+    
+    RepSpec.Media = 11;
+    RepSpec.f1 = "INV#2/RTN,INV#1/ADJ,SRV_OUT";
+    LocManyStockEn(RepSpec);
+    
+    RepSpec.Media = 12;
+    RepSpec.f1 = "STORE,STORE_DEMO";
+    RepSpec.f3 = "IM-1";
+    LocManyStockEn(RepSpec);
+        
+    RepSpec.Media = 14;
+    RepSpec.f1 = "STORE_OLMP,STORE_OL_D";
+    RepSpec.f3 = "IM-3";
+    LocManyStockEn(RepSpec);
+    
+   
+    
+    MyItemReportEn;
+    
+    MyTransitReportEn;    
+  
+    BuhExportEn;
+    KreditorkaReportEn(Computek);
+    DebitorkaReportEn(Computek);
+    MyShopsReportEn(Computek);
+    SalesReportEn;
+    IPEn;
+    MyReservStstEn;
+    ManagersSalesReportEn;
+    ResetCompany(Computek);  
+  end;
+  
+  if (SetCompany(WD,false)) then begin
+    KreditorkaWDEn;
+    //KreditorkaReportEn(WD);
+    
+    if(GetDateID(currentdate)==5)then begin
+      PUOrdersToPrepayWDEn;
+    end;
+    ProcessWDEn;// Edit ************************** среда, 25 июня 2014 г., 13:00:18
+    
+    DebitorkaReportEn(WD);
+    SalesReportEn;
+    ResetCompany(WD);  
+  end;
+  
+  if (SetCompany(PPhL,false)) then begin
+
+    if(GetDateID(currentdate)==1)then begin
+      DebitorkaReportEn(PPhL);
+      KreditorkaReportEn(PPhL);
+    end;
+    ResetCompany(PPhL);  
+  end;*/
+  
+  if (SetCompany(PhotoTek,false)) then begin//textera
+    /*UndeliveredItemsReportEn;
+    RepSpec.Media = 2;
+    RepSpec.f1 = "DOA#1,DOA_INV,INV#1,INV#2,INV_OUT,K_TRANSIT,MARKETING,OFFICE,RSV_OKS,SERVICE,TRANSIT#2,TRWH,INV#1/E,INV#1_TXT,INV#2_TXT,TRWH_TXT,MARKET_TXT,TRNS#2_TXT"; 
+    RepSpec.f2 = ",FOL,PROMS,";
+    LocManyStockGroupEn(RepSpec);
+    LocManyStockEn(RepSpec);
+    MyTransitReportEn;
+    MyTransitReportGroupEn;
+    MyItemReportEn;
+    KreditorkaReportEn(PhotoTek);
+    
+    MyShopsReportEn(PhotoTek);
+    SalesReportEn;
+    IPEn;*/
+    DebitorkaReportEn(PhotoTek);
+    AutoUnreservOrderMn;
+    MyReservStstEn;
+    
+    ResetCompany(PhotoTek);  
+  end;
+  
+  /*
+  
+  if (SetCompany(MMR,false)) then begin
+	       
+     RepSpec.Media = 61;
+    RepSpec.f1 = "K_OL,K_OL_EXB";
+    //RepSpec.f3 = "P111";	
+    LocManyStockEn(RepSpec);
+    
+	RepSpec.Media = 62;
+    RepSpec.f1 = "K_A_OP_EX,K_A_STO_EX,K_A_OP,K_A_ST_OP";
+    //RepSpec.f3 = "P211";
+    LocManyStockEn(RepSpec);
+    
+    
+	MyItemReportEn;
+	
+	SalesReportEn;
+    //K
+    if(GetDateID(currentdate)==1)then begin
+      KreditorkaReportEn(MMR);
+      DebitorkaReportEn(MMR);
+      MyItemReportEn;
+    end;    
+    
+    MyReservStstEn;
+    
+    ResetCompany(MMR);  
+  end;*/
+  
+  if (SetCompany(Technomedia,false)) then begin
+    //UndeliveredItemsReportEn;
+
+    //RepSpec.Media = 7;
+    //RepSpec.f1 = "DOA#1,DOA_INV,DOA_INV#1,EXHIBITION,INV#1,INV#1/ADJ,INV#2/ADJ,INV#1/E,INV#1/SRV,INV#1E_RTN,INV#2,INV_OUT#1,K_TRANSIT,OFFICE,RTN,SERVICE,TRANSIT#2,TRWH,INV#1/E"; 
+    //RepSpec.f2 = ",FOL,PROMS,";
+    //LocManyStockEn(RepSpec);
+    //MyItemReportEn;
+    
+    //KreditorkaReportEn(Technomedia);
+    //
+    //MyShopsReportEn(Technomedia);
+    //SalesReportEn;
+    //IPEn;
+    DebitorkaReportEn(Technomedia);
+    AutoUnreservOrderMn;
+    MyReservStstEn;
+    ResetCompany(Technomedia);  
+  end;
+  
+  /*if (SetCompany(AService,false)) then begin
+    RepSpec.Media = 8;
+    RepSpec.f1 = "DOA_INV,EXHIBITION,INV#1,OFFICE,OFFICE_С,OUT_ICC,OUT_IT,OUT_OFI,OUT_SE,RTN,SRV_E,SRV_MDL,INV#1/E"; 
+    LocManyStockEn(RepSpec);
+    MyItemReportEn;
+    SVOStockMyNewEn;
+    WSVcOKReportEn;
+    KreditorkaReportEn(AService);
+    DebitorkaReportEn(AService);
+    ResetCompany(AService); 
+  end;*/
+  
+
+return;
+end;
+
+
+

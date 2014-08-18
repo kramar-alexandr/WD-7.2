@@ -1,0 +1,148 @@
+remote procedure CreatePrintNoter(record RcVc, record ORVc);
+
+global function string 255 GetTextForPrint(integer i, string rec)
+begin
+record FormDefVc FDr;
+row FormDefVc FDrw;
+record StockMovDefBlock StockMovDefRec;
+row StockMovDefBlock StockMovDefrw;
+record InvDefBlock InvDefRec;
+row InvDefBlock InvDefrw;
+record DocVc Docr;
+integer wn;
+record RcVc RepSpec;
+string 255 res;
+  wn = CurWindow;
+//  GetWindowRecord(wn,RepSpec);
+  res = "";
+  switch(rec) begin
+    case "ORVc":FDr.repname = "OrdForm";
+    						readfirstmain(FDr,1,true);
+                MatRowGet(FDr,i,FDrw);
+                if(nonblank(FDrw.FPCode))begin
+                  Docr.Code = FDrw.FPCode;
+                  ReadFirstMain(Docr,1,true);
+                  res = FDrw.FPCode & " " & Docr.Comment;
+                end;
+    /*case "StockMovVc":blockload(StockMovDefRec); 
+                MatRowGet(StockMovDefRec,i,StockMovDefrw);
+                if(nonblank(StockMovDefrw.FPCode))begin
+                  Docr.Code = StockMovDefrw.FPCode;
+                  ReadFirstMain(Docr,1,true);
+                  res = StockMovDefrw.FPCode & " " & Docr.Comment;
+                end;
+    case "IVVc":blockload(InvDefRec); 
+                MatRowGet(InvDefRec,i,InvDefrw);
+                if(nonblank(InvDefrw.FPCode))begin
+                  Docr.Code = InvDefrw.FPCode;
+                  ReadFirstMain(Docr,1,true);
+                  res = InvDefrw.FPCode & " " & Docr.Comment;
+                end;*/
+  end;
+  
+  
+  GetTextForPrint = res;
+
+return;
+end;
+
+global
+procedure PrintDoOrdFormButton()
+BEGIN
+integer wn,nwn;
+record RcVc RepSpec;
+record ORVc ORr;
+    
+		wn = CurWindow;
+		getWindowRecord(wn,ORr);
+    RepSpec.long1 = ORr.SerNr;
+    RepSpec.f1 = WindowFormName(wn);
+  	nwn = OpenWindow("MyPrintTClass",0,0,"","",RepSpec);
+RETURN;
+END;
+
+global
+procedure PrintDoStockMovFormButton()
+BEGIN
+integer wn,nwn;
+record RcVc RepSpec;
+record StockMovVc SMr;
+    
+		wn = CurWindow;
+		getWindowRecord(wn,SMr);
+    RepSpec.long1 = SMr.SerNr;
+  	nwn = OpenWindow("MyPrintSMTClass",0,0,"","",RepSpec);
+RETURN;
+END;
+
+global
+procedure PrintDoInvFormButton()
+BEGIN
+integer wn,nwn;
+record RcVc RepSpec;
+record IVVc IVr;
+    
+		wn = CurWindow;
+		getWindowRecord(wn,IVr);
+    RepSpec.long1 = IVr.SerNr;
+  	nwn = OpenWindow("MyPrintIVTClass",0,0,"","",RepSpec);
+RETURN;
+END;
+
+
+global updating procedure PrintDoOrdForm()
+begin
+integer wn;
+record RcVc RepSpec; 
+record ORVc ORr;
+
+	wn = curwindow;
+	GetWindowRecord(wn,RepSpec);
+	CloseWindow(wn);
+	
+	RepSpec.f1 = RepSpec.long1;
+  RepSpec.Media = mtPrinter;
+  ORr.SerNr = RepSpec.f1;
+  readfirstmain(ORr,1,true);
+    
+  if (PrintDocument(RepSpec,"OrdForm1",false)) then begin  
+    CreatePrintNoter(RepSpec,ORr);
+  end;
+return;
+end;
+
+global updating procedure PrintDoStockMovForm()
+begin
+integer wn;
+record RcVc RepSpec; 
+
+	wn = curwindow;
+	GetWindowRecord(wn,RepSpec);
+	CloseWindow(wn);
+	
+	RepSpec.f1 = RepSpec.long1;
+  RepSpec.Media = mtPrinter;
+    
+  if (PrintDocument(RepSpec,"StockMovForm1",false)) then begin  
+
+  end;
+return;
+end;
+
+global updating procedure PrintDoIVForm()
+begin
+integer wn;
+record RcVc RepSpec; 
+
+	wn = curwindow;
+	GetWindowRecord(wn,RepSpec);
+	CloseWindow(wn);
+	
+	RepSpec.f1 = RepSpec.long1;
+  RepSpec.Media = mtPrinter;
+    
+  if (PrintDocument(RepSpec,"InvForm1",false)) then begin  
+
+  end;
+return;
+end;

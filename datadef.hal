@@ -1,0 +1,165 @@
+SourceFile("halcust\\halpatch",0);
+SourceFile("halcust\\Import",0);
+SourceFile("halcust\\Report",0);
+SourceFile("halcust\\RemoteWA",0);
+SourceFile("halcust\\Windows",0);
+SourceFile("halcust\\WAction",0);
+SourceFile("halcust\\Web",0);
+SourceFile("halcust\\Print",0);
+
+begin
+    	 
+    	 
+  RecordBegin(ItemHistVc,-,"ItemHistVc2");
+  RecordField(SerNr,M4Long,0,ItemHistVc);
+  RecordField(ArtCode,M4Code,20,INVc);
+  RecordField(Variety,M4Code,20,0);
+  RecordField(Location,M4Code,10,LocationVc);
+  FieldIsLocation(Location);
+  RecordField(FileName,M4Str,20,0);
+  RecordField(TransNr,M4Long,0,0);
+  RecordField(Row,M4Int,0,0);
+  RecordField(TransDate,M4Date,0,0);
+  RecordField(StockAffectf,M4Int,0,0);
+  RecordField(Qty,M45Val,0,0);
+  RecordField(Qty2,M45Val,0,0);
+  RecordField(RemQty,M45Val,0,0);
+  RecordField(Source,M4Long,0,ItemHistVc);
+  RecordField(TotCostPrice,M45Val,0,0);
+  RecordField(SerialNr,M4Str,30,0);
+  RecordField(RemCostPrice,M45Val,0,0);
+  RecordField(FIFODate,M4Date,0,0);
+  RecordField(WATotCost,M45Val,0,0);
+  RecordField(CPTotCost,M45Val,0,0);
+  RecordField(BPTotCost,M45Val,0,0);
+  RecordField(WATotCostPerLoc,M45Val,0,0);
+  RecordField(CPTotCostPerLoc,M45Val,0,0);
+  RecordField(BPTotCostPerLoc,M45Val,0,0);
+  RecordField(Position,M4Code,20,PosVc);
+  RecordField(Invalid,M4Int,0,0);
+  FieldIsInvalid(Invalid);
+  RecordField(SerNrPerLoc,M4Qty,0,0);
+  RecordField(VECode,M4Code,20,CUVc);
+  RecordField(ConsigStock,M4Int,0,0);
+  RecordField(WillBePurged,M4Mark,0,0);
+  RecordField(TREOStock,M4Int,0,0);
+  RecordField(PrimaryCostModel,M4Int,0,0);
+  RecordField(QueuedCostModel,M4Int,0,0);
+  RecordField(FIFOPerLocation,M4Int,0,0);
+  RecordField(ItemType,M4Int,0,0);
+  RecordField(FIFOPerSerialNr,M4Int,0,0);
+  RecordField(NoNLCostOnShip,M4Int,0,0);
+  RecordField(WAPerLocation,M4Int,0,0);
+  RecordField(WABase2,M4Int,0,0);
+  RecordField(UpdWeightAvFromRetPU,M4Int,0,0);
+  RecordField(UpdWeightAvFromRet,M4Int,0,0);
+  RecordField(PUCurncyCode,M4Str,20,0);// Edit ************************** Tuesday, 12 August 2014 16:32:04
+  RecordField(InFileName,M4Str,20,0);// Edit ************************** Tuesday, 12 August 2014 16:32:04
+  RecordField(InSerNr,M4Long,0,0);// Edit ************************** Tuesday, 12 August 2014 16:32:04
+  RecordField(InRow,M4Int,0,0);// Edit ************************** Tuesday, 12 August 2014 16:32:04
+  RecordField(TotCostPriceCurncy,M45Val,0,0);// Edit ************************** Tuesday, 12 August 2014 16:41:46
+  RecordField(RemCostPriceCurncy,M45Val,0,0);// Edit ************************** Tuesday, 12 August 2014 16:41:47
+  
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  KeyBegin(ActiveQty);
+  KeySegment(ArtCode);
+  KeySegment(FIFODate);
+  KeySegment(SerNr);
+  KeyBegin(ActiveLocQty);
+  KeySegment(ArtCode);
+  KeySegment(Location);
+  KeySegment(FIFODate);
+  KeySegment(SerNr);
+  KeyBegin(ArtCode);
+  KeySegment(ArtCode);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  KeyBegin(ArtCodeVariety); // KJELL
+  KeySegment(ArtCode);
+  KeySegment(Variety);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  KeyBegin(FNTransNr);
+  KeySegment(FileName);
+  KeySegment(TransNr);
+  KeySegment(Row);
+  KeySegment(SerNr);
+  KeyBegin(ArtCodeLoc);
+  KeySegment(ArtCode);
+  KeySegment(Location);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  KeyBegin(ArtCodeSN);
+  KeySegment(ArtCode);
+  KeySegment(SerNr);
+  KeyBegin(ArtCodeLocSN);
+  KeySegment(ArtCode);
+  KeySegment(Location);
+  KeySegment(SerNr);
+  KeyBegin(ArtCodeFD);
+  KeySegment(ArtCode);
+  KeySegment(FIFODate);
+  KeySegment(SerNr);
+  KeyBegin(ArtCodeLocFD);
+  KeySegment(ArtCode);
+  KeySegment(Location);
+  KeySegment(FIFODate);
+  KeySegment(SerNr);
+  KeyBegin(FNArtCode);
+  KeySegment(FileName);
+  KeySegment(ArtCode);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  KeyBegin(Source);
+  KeySegment(Source);
+  KeySegment(SerNr);
+  KeyBegin(ArtCodeSerialNr);
+  KeySegment(ArtCode);
+  KeySegment(SerialNr);
+  KeySegment(FileName);
+  KeySegment(SerNr);
+  KeyBegin(Position);
+  KeySegment(Position);
+  KeySegment(ArtCode);
+  KeySegment(SerNr);
+  KeyBegin(FutArtFile);
+  KeySegment(ArtCode);
+  KeySegment(TransDate);
+  KeySegment(FileName);
+  KeySegment(SerNr);
+  KeyBegin(SerNrPerLoc);
+  KeySegment(Location);
+  KeySegment(SerNrPerLoc);
+  KeySegment(SerNr); 
+  KeyBegin(TransDate);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  KeyBegin(FNTransDate);
+  KeySegment(FileName);
+  KeySegment(TransDate);
+  KeySegment(ArtCode);
+  KeySegment(SerNr);
+  KeyBegin(FNLocation);
+  KeySegment(FileName);
+  KeySegment(Location);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  KeyBegin(SerialNr);
+  KeySegment(SerialNr);
+  KeySegment(FileName);
+  KeySegment(SerNr);
+  KeyBegin(ActiveSerialNr);
+  KeySegment(ArtCode);
+  KeySegment(SerialNr);
+  KeySegment(SerNr);
+  
+  KeyBegin(CodeSerialNrArtCode);// Edit ************************** Thursday, 14 August 2014 16:13:01
+  KeySegment(SerialNr);
+  KeySegment(ArtCode);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  EndRecord;
+    	  	
+return;
+end;
