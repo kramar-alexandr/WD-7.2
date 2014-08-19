@@ -5,6 +5,7 @@ begin
 	SetLangMode(LangUkrainian,"UKR",0);
 	
 	Report("§сторґЯ продажґв по клґ№нтам ",CUSalesRepRClass,CustSalesReportRn,0,modSO);
+	Report("‡вґт по продажам",SalesReportRClass,SalesReportRn,0,modSL);
 
 	 
   SString(31000,"грн.");

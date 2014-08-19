@@ -1,129 +1,287 @@
 external function LongInt DateDiff(Date,Date);
+external procedure ExtractObj(string,var Integer,var string);
+
+SetLangMode(LangUkrainian,"UKR",0);
 
 
-global procedure  MyReservStstRn(record RcVc RepSpec)
+procedure CollectCostMyInvoice(record IVVc IVr, integer rownr,var array val cost,var array string curncy,var array val rate,var array date indate,var array string vecode,var array string serial,var array val qty,var integer ressize)
 begin
-record ORVc ORr;
-row ORVc ORrw;
-string 255 client;
-boolean TrHs,testf,TrHs1;
-integer i,mtrw,mtrw1,j;
-record RetVc Retr;
-row RetVc Retrw;
-integer quant;
-
-  client="";
-  if(nonblank(RepSpec.f1))then begin
-    client = RepSpec.f1;
-  end;
-  StartReportnoheaderJob("Report");
-  
-  StartFormat(15)
-    OutString(0,0,USetStr(7815),false);//Client
-    OutString(0,0,USetStr(3523),false);//ArtCode
-    OutString(0,0,USetStr(4063),false);//Name
-    OutString(140,0,USetStr(3524),false);//Order #
-    OutString(190,0,USetStr(3543),false);//Ord. date
-    OutString(250,0,USetStr(5510),false);//In reserv
-    OutString(310,0,USetStr(2634),false);//In Invoice
-    OutString(370,0,USetStr(4045),false);//Days in reserv
-    OutString(1,0,USetStr(2765),true);//Stock
-  endformat;
-  
-  ORr.Reserved = 1;
-  TrHs = true;
-  while(loopkey("Reserved",ORr,1,TrHs))begin
-    testf = true;
-    if(nonblank(client) and ORr.CustCode!=client)then begin testf = false; end;
-    if(ORr.Reserved==0)then begin testf = false; TrHs = false; end;
-    if(ORr.Closed!=0)then begin testf = false; end;
-    if(ORr.ShipFlag!=0)then begin testf = false; end;
-    
-    if(testf)then begin
-      mtrw = matrowcnt(ORr);
-      For(i=0;i<mtrw;i=i+1) begin
-        Matrowget(ORr,i,ORrw);
-        
-        quant = ORrw.Quant - ORrw.Shipd2;
-        Retr.OrdNr = ORr.SerNr;
-        TrHs1 = true;
-        while(loopkey("OrdNr",Retr,1,TrHs1))begin
-          if(Retr.OrdNr!=ORr.SerNr)then begin TrHs1=false; end;
-          if(TrHs1)then begin
-            mtrw1 = matrowcnt(Retr);
-            for(j=0;j<mtrw1;j=j+1)begin
-              matrowget(Retr,j,Retrw);
-              if(Retrw.ArtCode==ORrw.ArtCode and Retrw.OrdRow==i)then begin
-                quant = quant - Retrw.Quant;
-              end;
-            end;
-          end;
-        end;
-        resetloop(Retr);
-        
-        if(quant>0)then begin
-          StartFormat(15)
-            OutString(0,0,ORr.CustCode,false);//Client
-            OutString(0,0,ORrw.ArtCode,false);//ArtCode
-            OutString(0,0,ORrw.Spec,false);//Name
-            OutString(140,"DblORVc",ORr.SerNr,false);//Order #
-            OutString(190,0,ORr.OrdDate,false);//Ord. date
-            OutString(250,0,quant,false);//In reserv
-            OutString(310,0,ORrw.Invd - ORrw.Shipd2,false);//In Invoice
-            OutString(370,0,DateDiff(currentDate,ORr.OrdDate),false);//Days in reserv
-            if(nonblank(ORrw.Location))then begin
-              OutString(1,0,ORrw.Location,true);//Stock
-            end else begin
-              OutString(1,0,ORr.Location,true);//Stock
-            end;
-          endformat;
-        end;
-      end; 
-    end;    
-  end;
-  endjob;
+	row IVVc IVrw;
+	record ORVc ORr;
+	row ORVc ORrw;
+	record ItemHistVc IHr;
+	boolean updstock;
+	boolean TrHs,testf;
+	record PUVc PUr;
+	row PUVc PUrw;
+	record SHVc SHr;
+	row SHVc SHrw;
+	
+	ressize = 0;
+	
+	matrowget(IVr,rownr,IVrw);
+	updstock = false;
+	if(IVr.UpdStockFlag==1)then begin
+		if (IVr.OrderNr<=0 and IVr.SVONr<=0) then begin
+			updstock = true; 
+		end;
+	end;
+	
+	
+	
+	
+	if(updstock)then begin
+		TrHs = true;
+		//IHr.ArtCode = IVrw.ArtCode;
+		IHr.FileName = "IVVc";
+		IHr.TransNr = IVr.SerNr;
+		IHr.Row = rownr;
+		while(loopkey("FNTransNr",IHr,3,TrHs))begin
+			testf = true;
+			if(IHr.FileName!="IVVc")then begin TrHs = false; testf = false; end;
+			if(IHr.TransNr!=IVr.SerNr)then begin TrHs = false; testf = false; end;
+			if(IHr.Row!=rownr)then begin TrHs = false; testf = false; end;
+			
+			if(testf)then begin
+				if(IHr.InFileName=="PUVc")then begin
+					PUr.SerNr = IHr.InSerNr;
+					if(readfirstmain(PUr,1,true))then begin
+						cost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+						curncy[ressize] = IHr.PUCurncyCode;
+						rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+						indate[ressize] =	PUr.TransDate;
+						vecode[ressize] = PUr.VECode;
+						serial[ressize] = IHr.SerialNr;
+						qty[ressize] = -IHr.Qty; 
+						ressize = ressize + 1;
+					end;
+				end;
+			end;
+		end;
+	end else begin
+		if(IVrw.SHNr>-1)then begin
+			SHr.SerNr = IVrw.SHNr;
+			if(readfirstmain(SHr,1,true))then begin
+				if(IVrw.SHRow>=0 and IVrw.SHRow<matrowcnt(SHr))then begin
+					IHr.FileName = "SHVc";
+					IHr.TransNr = SHr.SerNr;
+					IHr.Row = IVrw.SHRow;
+					TrHs = true;
+					while(loopkey("FNTransNr",IHr,3,TrHs))begin
+						testf = true;
+						if(IHr.FileName!="IVVc")then begin TrHs = false; testf = false; end;
+						if(IHr.TransNr!=IVr.SerNr)then begin TrHs = false; testf = false; end;
+						if(IHr.Row!=rownr)then begin TrHs = false; testf = false; end;
+			
+						if(testf)then begin
+							if(IHr.InFileName=="PUVc")then begin
+								PUr.SerNr = IHr.InSerNr;
+								if(readfirstmain(PUr,1,true))then begin
+									cost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+									curncy[ressize] = IHr.PUCurncyCode;
+									rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+									indate[ressize] =	PUr.TransDate;
+									vecode[ressize] = PUr.VECode;
+									serial[ressize] = IHr.SerialNr;
+									qty[ressize] = -IHr.Qty; 
+									ressize = ressize + 1;
+								end;
+							end;
+						end;
+					end;
+				end;
+			end;
+		end;
+		
+	end;
+		
 return;
 end;
 
 
-global procedure  MyReservStstEn()
+global
+function string 200 ValToMyString(val value,integer dec)
 begin
-record RcVc RepSpec;
-string 50 filename;
-date repdate;
-integer compnr;
-      
-      if(GetDateID(currentdate)==5)then begin
-        compnr = currentcompany;
-      
-        switch(compnr)begin
-          //case 1: filename = "Reports/1/ISTORReserves.xls";
-          //case 2: filename = "Reports/2/ITEKUAReserves.xls";
-          //case 3: filename = "Reports/3/WDReserves.xls";
-          //case 5: filename = "Reports/5/TXTReserves.xls";
-          //case 6: filename = "Reports/6/MMRReserves.xls";
-          case 7: filename = "Reports/7/TNMReserves.xls";
-          //case 8: filename = "Reports/8/A-SRVReserves.xls";
-        end;
-        
-        CreateFile(filename);
-        closefile;
-        millisleep(100);
-        openexportfile(filename,true);
-        
-        MyReservStstRn(RepSpec);
-        
-        closefile;
-        
-        switch(compnr)begin
-          //case 1: RunProgram("Reports/1/ISTORReserves.sh","");
-          //case 2: RunProgram("Reports/2/ITEKUAReserves.sh","");
-          //case 3: RunProgram("Reports/3/WDReserves.sh","");
-          //case 5: RunProgram("Reports/5/TXTReserves.sh","");
-          //case 6: RunProgram("Reports/6/MMRReserves.sh","");
-          case 7: RunProgram("Reports/7/TNMReserves.sh","");
-          //case 8: RunProgram("Reports/8/A-SRVReserves.sh","");
-        end;
-      end;
+string 200 res,tempres;
+val tempval;
+integer i,templen;
+
+	res = "";
+	tempval = value;
+	For(i=0;i<dec;i=i+1) begin
+	  tempval = tempval * 10;
+	end; 
+	tempres = ValToString(tempval,M4Val,"",DecimalSeparator,1);
+	templen = len(tempres);
+	if(left(tempres,templen-dec)=="")then begin
+		res = "0" & DecimalSeparator & right(tempres,dec);
+	end else begin
+		res = left(tempres,templen-dec) & DecimalSeparator & right(tempres,dec);
+	end;
+	
+	ValToMyString = res;
 return;
 end;
+
+global procedure SalesReportRn(record RcVc RepSpec)
+begin
+	integer i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
+	integer i,mtrw;
+	record IVVc IVr;
+	row IVVc IVrw;
+	record IVCashVc IVcashr;
+	row IVCashVc IVcashrw;
+	date sd,ed;
+	boolean TrHs,testf;
+	record INVc INr;
+	record ITVc ITr;
+	record DIVc DIr;
+	array string 200 class;
+	integer k,j,pos,l;
+	string 200 tstr,location;
+	val fr,to1,to2,br1,br2;
+	val invfr,invto1,invto2,invbr1,invbr2;
+	record CUVc CUr;
+	array val rate,qty,cost;
+	array date indate;
+	array string 100 vecode,serial,curncy;
+	integer ressize;
+	
+	sd = RepSpec.sStartDate;
+	ed = RepSpec.sEndDate;
+	
+	startreportnoheaderjob("Звіт по продажам");
+		startformat(15);		
+			outstring(i1,0,"Група",false);
+			outstring(i2,0,"Код товару",false);
+			outstring(i3,0,"Найменування",false);
+			outstring(i4,0,"Дата продажу",false);
+			outstring(i5,0,"Клієнт",false);
+			outstring(i6,0,"Склад",false);
+			outstring(i7,0,"Кіл-ть",false);
+			outstring(i8,0,"Валюта",false);
+			outstring(i9,0,"Курс",false);
+			outstring(i10,0,"Ціна за од., валюта",false);
+			outstring(i11,0,"Ціна за од., $",false);
+			outstring(i12,0,"Знижка",false);
+			outstring(i13,0,"Сума, валюта",false);
+			outstring(i14,0,"Сума, $",false);
+			outstring(i15,0,"Собівартість за од., валюта",false);
+			outstring(i16,0,"Собівартість за од., $",false);
+			outstring(i17,0,"Собівартість, валюта",false);
+			outstring(i18,0,"Собірвартість, $",false);
+			outstring(i19,0,"Прибуток, валюта",false);
+			outstring(i20,0,"Прибуток, $",false);
+			outstring(i21,0,"Маржа",false);
+			outstring(i22,0,"Спосіб відвантаження",false);
+			outstring(i23,0,"Дата надходження",false);
+			outstring(i24,0,"Постачальник",false);
+			outstring(i25,0,"Серійний номер",false);
+			outstring(i26,0,"Продавець",false);
+			outstring(i27,0,"Виписав Акт/накл.",false);
+			outstring(i28,0,"Сервісний інженер",false);
+			outstring(i29,0,"Класiфiкацiя",false);
+			outstring(i30,0,"Класiфiкацiя2",false);
+			outstring(i31,0,"Класiфiкацiя3",false);
+		endformat;
+	
+	
+	TrHs = true;
+	IVr.InvDate = sd;
+	while(loopkey("InvDate",IVr,1,TrHs))begin
+		testf = true;
+		if(IVr.InvDate>ed)then begin TrHs = false; testf = false; end;
+		if(IVr.Invalid==1)then begin testf = false; end;
+		if(IVr.OKFlag==0)then begin testf = false; end;
+				
+		If(testf) then begin
+			CUr.Code = IVr.CustCode;
+			readfirstmain(CUr,1,true);
+			
+			invfr = IVr.FrRate;
+			invto1 = IVr.ToRateB1;
+			if(invfr==0 or invto1==0)then begin
+				invfr = 1;
+				invto1 = 1;
+			end;
+		
+			mtrw = matrowcnt(IVr);
+			For(i=0;i<mtrw;i=i+1) begin
+				matrowget(IVr,i,IVrw);
+				if(IVrw.stp==kInvoiceRowTypeNormal and nonblank(IVrw.ArtCode))then begin
+					
+					INr.Code = IVrw.ArtCode;
+					readfirstmain(INr,1,true);
+					ITr.Comment = "";
+					if(nonblank(INr.Group))THEN BEGIN
+						ITr.Code = INr.Group;
+						readfirstmain(ITr,1,true);
+					END;
+					k=0;
+					if(nonblank(INr.DispGroups))then begin
+						pos = 0;
+						ExtractObj(INr.DispGroups,pos,tstr);
+						While (nonblank(tstr)) begin
+							if(nonblank(tstr))then begin
+								DIr.Code = tstr;
+								readfirstmain(DIr,1,true);
+								class[k] = DIr.Name;
+								k = k + 1;
+							end;
+							ExtractObj(INr.DispGroups,pos,tstr);
+						end;
+					end;
+					
+					location = "";
+					if(nonblank(IVrw.Location))then begin
+						location = IVrw.Location;
+					end else begin
+						location = IVr.Location;
+					end;
+					
+					CollectCostMyInvoice(IVr,i,cost,curncy,rate,indate,vecode,serial,qty,ressize);			
+					For(j=0;j<ressize;j=j+1) begin
+						startformat(15);		
+							outstring(i1,0,ITr.Comment,false);
+							outstring(i2,0,INr.Code,false);
+							outstring(i3,0,INr.Name,false);
+							outstring(i4,0,IVr.InvDate,false);
+							outstring(i5,0,IVr.CustCode,false);
+							outstring(i6,0,IVr.Location,false);
+							outstring(i7,0,location,false);
+							outstring(i8,0,IVr.CurncyCode,false);
+							outstring(i9,0,rate[k],false);
+							outstring(i10,0,IVrw.Price,false);
+							outstring(i11,0,"Ціна за од., $",false);
+							outstring(i12,0,IVrw.vRebate,false);
+							outstring(i13,0,IVrw.Sum,false);
+							outstring(i14,0,"Сума, $",false);
+							outstring(i15,0,cost[k],false);
+							outstring(i16,0,"Собівартість за од., $",false);
+							outstring(i17,0,"Собівартість, валюта",false);
+							outstring(i18,0,"Собірвартість, $",false);
+							outstring(i19,0,"Прибуток, валюта",false);
+							outstring(i20,0,"Прибуток, $",false);
+							outstring(i21,0,"Маржа",false);
+							outstring(i22,0,IVr.ShipMode,false);
+							outstring(i23,0,indate[k],false);
+							outstring(i24,0,vecode[k],false);
+							outstring(i25,0,serial[k],false);
+							outstring(i26,0,CUr.SalesMan,false);
+							outstring(i27,0,IVr.SalesMan,false);
+							outstring(i28,0,"Сервісний інженер",false);
+							for(l=0;l<k;l=l+1)begin
+							outstring(i29,0,class[l],false);
+							end;
+						endformat;
+					end;
+				end;	  
+			end; 
+		end; 
+	end;
+	
+	endjob;
+
+return;
+end;
+

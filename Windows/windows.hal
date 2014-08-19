@@ -21,3 +21,23 @@ begin
     EditField(h,60,150,"Товар",Normal,f2,false,INSClass);
   EndWindow;
 end;
+
+window SalesReportRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+
+	WindowBegin("Звіт по продажам",SalesReportRClass,CGRcW,RcType);
+		SetWRect(20,120,350,300);
+		h=100; v=10;
+		PeriodField(h,v,"Період");
+		/*EditField(h,v+=20,150,"Клієнт",Normal,f1,false,CUSClass);
+		EditField(h,v+=20,150,"Група",Normal,f2,false,ITSClass);
+		EditField(h,v+=20,150,"Товар",Normal,f3,false,INSClass);
+		EditField(h,v+=20,150,"Постачальник",Normal,f4,false,VESClass);
+		EditField(h,v+=20,150,"Класифікація",Normal,f5,false,DISClass);*/
+	
+	EndWindow;
+return;
+end;
