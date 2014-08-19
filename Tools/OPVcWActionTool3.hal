@@ -366,7 +366,14 @@ BEGIN
   	OPrw.PInvVal=OPrw.BankVal;
   end else begin
   	CurValToOtherCur(OPp.TransDate,OPrw.BankCurncy,OPrw.BankVal,OPrw.RecCurncy,OPrw.RecVal,DefaultCurRoundOff);
-  	ChangeOPInvVal(OPrw,OPp.TransDate);
+  	if (OPrw.VISerNr > -1) then begin
+  		//ChangeOPInvVal(OPrw,OPp.TransDate);
+		if (OPrw.PInvCurncy==OPrw.RecCurncy) then begin
+			OPrw.PInvVal = OPrw.RecVal;
+		end else begin
+			CurValToOtherCur(OPp.TransDate,OPrw.BankCurncy,OPrw.BankVal,OPrw.PInvCurncy,OPrw.PInvVal,DefaultCurRoundOff);
+		end;
+  	end;
   end;
   
   if (nonblank(OPrw.VATCode)) then begin

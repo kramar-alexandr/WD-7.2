@@ -1423,6 +1423,7 @@ begin
   record AccBlock Accb;
   record IVVc IVr;
   record TaxMatrixVc TMr;
+  val fr,to1,to2,br1,br2,tt;
  
   MatRowGet(IPp,rownr,IPrw);
   if (IPrw.InvCurncy==IPrw.BankCurncy) then begin
@@ -1430,7 +1431,24 @@ begin
   	IPrw.InvVal = IPrw.BankVal;
   end else begin
   	CurValToOtherCur(IPp.TransDate,IPrw.BankCurncy,IPrw.BankVal,IPrw.RecCurncy,IPrw.RecVal,DefaultCurRoundOff);
-  	ChangeIPInvVal(IPrw,IPp.TransDate);
+  	if (IPrw.InvoiceNr > -1) then begin
+  		//ChangeIPInvVal(IPrw,IPp.TransDate);
+  		 if (IPrw.InvCurncy==IPrw.RecCurncy) then begin
+		     IPrw.InvVal = IPrw.RecVal;
+		 end else begin
+		   if (IPrw.CUPNr==-1) then begin
+		     CurValToOtherCur(IPp.TransDate,IPrw.BankCurncy,IPrw.BankVal,IPrw.InvCurncy,IPrw.InvVal,DefaultCurRoundOff);
+		   end else begin      
+		     if (GetORRate(IPrw.OrderNr,fr,to1,to2,br1,br2)) then begin//CUPNr
+		       tt = MulRateToBase1(IPrw.BankCurncy,IPrw.BankVal,fr,to1,to2,br1,br2,DefaultCurRoundOff);      
+		     end else begin
+		       tt = MulWithRateToBase1(IPrw.BankCurncy,IPp.TransDate,IPrw.BankVal,DefaultCurRoundOff);
+		   end;
+		   Base1ToOther(IPrw.InvCurncy,tt,fr,to1,to2,br1,br2,tt,DefaultCurRoundOff); 
+		   IPrw.InvVal = tt;
+		 end;  
+	end;
+  end;
   end;
   
   if (nonblank(IPrw.VATCode)) then begin
