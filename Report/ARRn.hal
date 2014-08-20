@@ -600,11 +600,15 @@ L22:;
           Gray_Divider(0,1);
           StartFormat(15);
            OutString(0,"DblCUVc",CUr.Code,false);
-           OutString(100,0,CUr.Name,false);
-           OutString(280,0,CUr.Phone,false);
-           if (RepSpec.flags[2]==1) then begin
-             OutString(480,0,CUr.CurncyCode,true);
-           end;  
+           if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,15:23 19.08.2014 {
+           		OutString(30,0,CUr.Name,false);
+           end else begin
+	       		OutString(100,0,CUr.Name,false);
+	       		OutString(280,0,CUr.Phone,false);
+	        	if (RepSpec.flags[2]==1) then begin
+	          		OutString(480,0,CUr.CurncyCode,true);
+	        	end;  
+           end; //Edit***************************Sasha2,15:23 19.08.2014 }    
           EndFormat;          
           CustOut = true;
         end;
@@ -679,9 +683,9 @@ L22:;
           if ((IVr.InstallmentInv==1) and (RepSpec.flags[19]!=0)) then begin
             SumAgedInstalmenInvoice(RepSpec,CUr,agedate,IVr,Agedb.ActualInvoices,sact,s0,s1,s2,s3,s4,s5,s6,s7);
           end else begin
-            if (RepSpec.flags[2]==0) then begin
+            if (RepSpec.flags[2]==0) then begin 
               SumAged(agedate,latedays,Agedb.ActualInvoices,rs,sactinv,s0inv,s1inv,s2inv,s3inv,s4inv,s5inv,s6inv,s7inv);
-            end else begin
+            end else begin 
               SumAged(agedate,latedays,Agedb.ActualInvoices,rval,sactinv,s0inv,s1inv,s2inv,s3inv,s4inv,s5inv,s6inv,s7inv);
             end;
           end;
@@ -809,11 +813,15 @@ if (testf) then begin
           EndFormat;
           CustOut = true;
         end;
-        StartFormat(15);
-        OutString(140,0,USetStr(11857),false);
-        OutValBiDi(450,0,sum,M4Val,true,490);
-        EndFormat;
-        if (RepSpec.flags[20]!=0) then begin
+        if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,11:13 20.08.2014 {
+        end else begin
+          StartFormat(15);
+        	OutString(140,0,USetStr(11857),false);
+        	OutValBiDi(450,0,sum,M4Val,true,490);
+          EndFormat;
+        end; //Edit***************************Sasha2,11:13 20.08.2014 }
+        
+        if (RepSpec.flags[20]!=0) then begin 
           PrintPrepaymentsNrsIP(RepSpec.flags[2],RepSpec,CUr.Code,backdatf,140,450);
         end;        
       end else begin
@@ -901,7 +909,7 @@ if (testf) then begin
 
       StartFormat(15);
        OutString(0,"DblCUVc",CUr.Code,false);
-       OutString(48,0,CUr.Name,false);
+       OutString(48,0,CUr.Name,false); 
        if (RepSpec.flags[2]==1) then begin
          if (blank(CUr.CurncyCode)) then begin
            PrintAgedLine(sact,s0,s1,s2,s3,s4,s5,s6,s7,sum,tot,nrofper,480,CUr.Code);
