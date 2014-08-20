@@ -258,7 +258,7 @@ begin
 							outstring(i14,0,"Сума, $",false);
 							outstring(i15,0,cost[k],false);
 							outstring(i16,0,"Собівартість за од., $",false);
-							outstring(i17,0,"Собівартість, валюта",false);
+							outstring(i17,0,cost[k] * qty[k],false);
 							outstring(i18,0,"Собірвартість, $",false);
 							outstring(i19,0,"Прибуток, валюта",false);
 							outstring(i20,0,"Прибуток, $",false);
