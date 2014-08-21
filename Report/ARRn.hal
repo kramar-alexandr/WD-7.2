@@ -1079,8 +1079,10 @@ end;
 	          OutString(pos + 10,0,altcur[0],false);
 	        end else begin
             	for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
-  					OutValBiDi(pos,0,valClientTot[i],M4Val,true,520)
-  					OutString(pos + 10,0,altcur[i],false);
+  					if (NonBlank(valClientTot[i])) then begin
+  					  	OutValBiDi(pos,0,valClientTot[i],M4Val,true,520)
+  						OutString(pos + 10,0,altcur[i],false);
+  					end;		    	
   		    	end; //Edit***************************Sasha2,16:16 20.08.2014
 	        end;
 		end else begin
@@ -1307,8 +1309,10 @@ L88:;
 	          OutString(pos + 10,0,altcur[0],false);
 	        end else begin
             	for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
-  					OutValBiDi(pos,0,valTotSum[i],M4Val,true,520);
-  					OutString(pos + 10,0,altcur[i],false);
+  					if (NonBlank(valTotSum[i])) then begin
+  						OutValBiDi(pos,0,valTotSum[i],M4Val,true,520);
+  						OutString(pos + 10,0,altcur[i],false);
+  					end;
   		    	end; //Edit***************************Sasha2,16:16 20.08.2014
 	        end;
     	EndFormat;
