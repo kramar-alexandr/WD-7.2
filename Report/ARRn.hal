@@ -1101,7 +1101,7 @@ end;
      EndFormat;
      if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,13:49 21.08.2014 {
 	     if (RepSpec.flags[2]==1) then begin
-	     	for (i=0;i<altcurcnt;i=i+1) begin
+	     	for (i=1;i<altcurcnt;i=i+1) begin
 		     	if (NonBlank(valClientTot[i])) then begin
 		     	StartFormat(15);
 		     		OutValBiDi(pos,0,valClientTot[i],M4Val,true,520)
@@ -1329,7 +1329,7 @@ L88:;
 	        end;
     	EndFormat;
     	if (RepSpec.flags[2]==1) then begin
-	    	for (i=0;i<altcurcnt;i=i+1) begin
+	    	for (i=1;i<altcurcnt;i=i+1) begin
 		    	if (NonBlank(valTotSum[i])) begin 
 			    	StartFormat(15);
 			    	OutValBiDi(pos,0,valTotSum[i],M4Val,true,520);
