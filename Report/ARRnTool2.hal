@@ -447,12 +447,16 @@ BEGIN
 	    end;
 	end; //Edit***************************Sasha2,9:21 20.08.2014 }
    EndFormat;
-LARRPrintOverView:;   
-  if ((RepSpec.flags[14]!=0) and (IVr.InvComment<>"")) then begin
-    StartFormat(15);
-    OutString(150,0,IVr.InvComment,false);
+LARRPrintOverView:;
+  if (RepSpec .ArtMode ==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,10:57 21.08.2014 {
+  end else begin
+  	if ((RepSpec.flags[14]!=0) and (IVr.InvComment<>"")) then begin
+    	StartFormat(15);
+    	OutString(150,0,IVr.InvComment,false);
     EndFormat;
   end;
+  end; //Edit***************************Sasha2,10:57 21.08.2014 }
+
   RETURN;         
 END;
 
@@ -1376,7 +1380,7 @@ BEGIN
       if (testf) then begin
         if (prepno<>ARPayHistr.CUPNr) then begin
           if ((prepno<>-1) and (prepbal<>0)) then begin
-            StartFormat(15);
+            StartFormat(15); LogText(0, "1 " & prepno & "   " & prepbal);
             tstr = prepno;
             OutStringID(pos1,"DblPrHisSL",tstr,false,custcode);
             OutVal(pos2,0,-prepbal,M4Val,true);
@@ -1431,7 +1435,7 @@ BEGIN
       end;
     end; 
     if ((prepno<>-1) and (prepbal<>0)) then begin 
-      StartFormat(15);LogText(0, "1 " & prepno & "   " & prepbal);
+      StartFormat(15); LogText(0, "2 " & prepno & "   " & prepbal);
       OutStringID(pos1,"DblPrHisSL",tstr,false,custcode);
       OutVal(pos2,0,-prepbal,M4Val,true);
       if (amntincurncy!=0) then begin

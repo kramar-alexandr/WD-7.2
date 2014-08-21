@@ -164,6 +164,7 @@ BEGIN
 
   
   tot1Sum = blankval;
+  Altcurcnt = 1; //Edit***************************Sasha2,14:42 20.08.2014
   BlockLoad(Agedb);
   debcnt = -1;
   if (nonblankdate(RepSpec.d1)) then begin
@@ -301,7 +302,6 @@ L22:;
   s5 = 0; s5b2 = 0;
   s6 = 0; s6b2 = 0;
   s7 = 0; s7b2 = 0;
-  Altcurcnt = 1; //Edit***************************Sasha2,14:42 20.08.2014
   if (RepSpec.flags[2]==1) then begin
     s0 = CurSum + s0;
   end else begin
@@ -660,11 +660,14 @@ L22:;
           CustOut = true;
         end;
         if ((RepSpec.ArtMode==0) or (RepSpec.ArtMode==1)) then begin
-          if (IVr.Addr0<>CUr.Name) then begin
-            StartFormat(15);
-            OutString(100,0,IVr.Addr0,false);
-            EndFormat;
-          end;
+          if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,11:26 21.08.2014 {
+          end else begin
+          	if (IVr.Addr0<>CUr.Name) then begin
+            	StartFormat(15);
+            	OutString(100,0,IVr.Addr0,false);
+            	EndFormat;
+            end;
+          end; //Edit***************************Sasha2,11:26 21.08.2014 }
         end;
         AR1Sum = rs + AR1Sum;
         AR2Sum = rs2 + AR2Sum;
@@ -679,13 +682,13 @@ L22:;
         if (RepSpec.ArtMode==0) then begin// Historik 
           ARWithLogg(CUr,acur,av1,curcnt,RepSpec,IVr,IPrsr,TRr,rval,rwcnt,backdatf);
         end;        
-        if (RepSpec.ArtMode==1) then begin// Overview        
+        if (RepSpec.ArtMode==1) then begin // Overview        
           ARRPrintOverView(CUr,IVr,IPrsr,TRr,RepSpec,rval,rs,latedays);
           AddCurncyTotals(acur,av1,curcnt,IVr.CurncyCode,rval);
           AddCurncyTotalsCustom(altcur,altcurcnt,IVr.CurncyCode,rval,rs,valClientTot,valTotSum); //Edit***************************Sasha2,15:06 20.08.2014
         	//LogText(0, "Inv: rval = " & rval & "|||" & "rs = " & rs);
         end;
-        if (RepSpec.ArtMode==2) then begin// Aged
+        if (RepSpec.ArtMode==2) then begin // Aged
           if ((IVr.InstallmentInv==1) and (RepSpec.flags[19]!=0)) then begin
             SumAgedInstalmenInvoice(RepSpec,CUr,agedate,IVr,Agedb.ActualInvoices,sact,s0,s1,s2,s3,s4,s5,s6,s7);
           end else begin
@@ -702,10 +705,10 @@ L22:;
             end;
           end;
         end;
-        if (RepSpec.ArtMode==3) then begin// Saldo          
+        if (RepSpec.ArtMode==3) then begin // Saldo          
           AddCurTotalsRow(IVr.CurncyCode,rval,blankval,blankval,CurTotalsr);
         end;
-        if (RepSpec.ArtMode==4) then begin// rate difference 
+        if (RepSpec.ArtMode==4) then begin // rate difference 
           ARRnRateDifferences(RepSpec,IVr,rval,rs,agedate,sumnow,sumcurncy,sumbooked,sumdiff,lastcurncycode,onecurncyf,CurTotalsr);
 //          GetOnAccBalance(RepSpec,CUr.Code,CUr.CurncyCode,backdatf,RepSpec.flags[2],sum,sum2,rval,onaccsumbooked,onaccsumnow,onaccsumcurncy,onaccsumdiff,OnAccCurTotalsr,debaccs,debbal,debcnt);
 //          sumbooked = sumbooked - onaccsumbooked;
@@ -718,7 +721,7 @@ L22:;
                             sumnow,sumcurncy,sumbooked,sumdiff,CustOut,lastcurncycode,onecurncyf,CurTotalsr);
         end;
         
-        if (RepSpec.ArtMode==5) then begin// Detailed  Aged          
+        if (RepSpec.ArtMode==5) then begin // Detailed  Aged          
           sactinv = 0;
           s0inv = 0;
           s1inv = 0;
