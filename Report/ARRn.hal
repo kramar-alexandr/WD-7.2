@@ -91,7 +91,7 @@ begin
       foundf = true;
       i = curcnt;
     end;
-  end; LogText(0,curcnt & "   " &  pos);
+  end;
   if (pos>0) then begin
 	  if (foundf==false) then begin
 	    pos = curcnt;
@@ -1311,7 +1311,7 @@ L88:;
   					OutString(pos + 10,0,altcur[i],false);
   		    	end; //Edit***************************Sasha2,16:16 20.08.2014
 	        end;
-    	EndFormat;
+    	EndFormat; MessageBox(0,valTotSum[1]);
     end else begin
     	PrintARReportTotals(RepSpec,Agedb.ActualInvoices,tot1Sum,Total1Due,Total1NotDue,TotOnAcc,tot2Sum,Total2Due,Total2NotDue,totCurSum,TotalCurDue,TotalCurNotDue,TotalCurrent);
     end; //Edit***************************Sasha2,17:12 20.08.2014 }
