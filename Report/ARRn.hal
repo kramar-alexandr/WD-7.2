@@ -1304,6 +1304,7 @@ L88:;
     		OutString(290,0,USetStr(2429),false);
     		if (RepSpec.flags[2]==0) then begin
 	          OutValBiDi(pos,0,valTotSum[0],M4Val,true,520);
+	          OutValBiDi(pos,0,valTotSum[1] & "S",M4Val,true,520);
 	          OutString(pos + 10,0,altcur[0],false);
 	        end else begin
             	for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
@@ -1311,7 +1312,7 @@ L88:;
   					OutString(pos + 10,0,altcur[i],false);
   		    	end; //Edit***************************Sasha2,16:16 20.08.2014
 	        end;
-    	EndFormat; MessageBox(0,valTotSum[1]);
+    	EndFormat;
     end else begin
     	PrintARReportTotals(RepSpec,Agedb.ActualInvoices,tot1Sum,Total1Due,Total1NotDue,TotOnAcc,tot2Sum,Total2Due,Total2NotDue,totCurSum,TotalCurDue,TotalCurNotDue,TotalCurrent);
     end; //Edit***************************Sasha2,17:12 20.08.2014 }
