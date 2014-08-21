@@ -1062,11 +1062,13 @@ end;
        end;
        Black_Divider(290,460);
      end;
-     StartFormat(15);
+     //StartFormat(15); //Edit***************************Sasha2,14:47 21.08.2014
       //OutString(320,0,USetStr(2424),true); //Edit***************************Sasha2,14:29 21.08.2014
       if (nonblank(RepSpec.CurncyCode)) and (RepSpec.flags[2]==1) then begin
-      	OutString(320,0,USetStr(2424),true);
-        OutValBiDi(450,0,CurSum,M4Val,true,490);
+      	StartFormat(15); //Edit***************************Sasha2,14:46 21.08.2014
+      		OutString(320,0,USetStr(2424),true); //Edit***************************Sasha2,14:43 21.08.2014
+        	OutValBiDi(450,0,CurSum,M4Val,true,490);
+        EndFormat; //Edit***************************Sasha2,14:47 21.08.2014
       end else begin
         pos = 450;
         if (RepSpec.ArtMode==0) then begin
@@ -1074,20 +1076,16 @@ end;
             pos = 480;
           end;
         end;
-		if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,16:51 20.08.2014 {
+		if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,16:51 20.08.2014 {
 			if (RepSpec.flags[2]==0) then begin
+			StartFormat(15);
 			  OutString(320,0,USetStr(2424),true);
 	          OutValBiDi(pos,0,valClientTot[0],M4Val,true,520);
 	          OutString(pos + 10,0,altcur[0],false);
-	        end else begin
-            	//for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
-  					//if (NonBlank(valClientTot[i])) then begin
-  					  //	OutValBiDi(pos,0,valClientTot[i],M4Val,true,520)
-  						//OutString(pos + 10,0,altcur[i],false);
-  					//end;		    	
-  		    	//end; //Edit***************************Sasha2,16:16 20.08.2014
+	        EndFormat;
 	        end;
 		end else begin
+			StartFormat(15); //Edit***************************Sasha2,14:47 21.08.2014
 			OutString(320,0,USetStr(2424),true); //Edit***************************Sasha2,14:30 21.08.2014
 			if (RepSpec.flags[2]==0) then begin
 	          OutValBiDi(pos,0,AR1Sum,M4Val,true,520);
@@ -1098,10 +1096,11 @@ end;
 	            OutValBiDi(pos,0,AR1Sum,M4Val,true,500);
 	          end;
 	        end;
+	        EndFormat //Edit***************************Sasha2,14:47 21.08.2014
 		end; //Edit***************************Sasha2,16:51 20.08.2014 }
         
       end;
-     EndFormat;
+     //EndFormat; //Edit***************************Sasha2,14:47 21.08.2014
      if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,13:49 21.08.2014 {
 	     if (RepSpec.flags[2]==1 and blank(RepSpec.CurncyCode)) then begin
 	     	for (i=0;i<altcurcnt;i=i+1) begin
@@ -1327,20 +1326,13 @@ L88:;
   
   if (RepSpec.ArtMode!=10) then begin 
     if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,17:12 20.08.2014 {
-    	StartFormat(15);
-    		if (RepSpec.flags[2]==0) then begin
-    		  OutString(290,0,USetStr(2429),false);
+		if (RepSpec.flags[2]==0) then begin
+			StartFormat(15);
+			  OutString(290,0,USetStr(2429),false);
 	          OutValBiDi(pos,0,valTotSum[0],M4Val,true,520);
 	          OutString(pos + 10,0,altcur[0],false);
-	        end else begin
-            	//for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
-  					//if (NonBlank(valTotSum[i])) then begin
-  						//OutValBiDi(pos,0,valTotSum[i],M4Val,true,520);
-  						//OutString(pos + 10,0,altcur[i],false);
-  					//end;
-  		    	//end; //Edit***************************Sasha2,16:16 20.08.2014
-	        end;
-    	EndFormat;
+	        EndFormat;  
+        end;
     	if (RepSpec.flags[2]==1) then begin
 	    	for (i=0;i<altcurcnt;i=i+1) begin
 		    	if (NonBlank(valTotSum[i])) begin 
