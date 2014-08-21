@@ -646,9 +646,6 @@ L22:;
         if ((CustOut==false) and (RepSpec.ArtMode<>3) and (RepSpec.ArtMode<>2) and (RepSpec.ArtMode<>4) and (RepSpec.ArtMode<>6) and (RepSpec.ArtMode!=10)) then begin
           Gray_Divider(0,1);
           StartFormat(15);
-          	OutString(0,0,"",false);
-          EndFormat;
-          StartFormat(15);
            OutString(0,"DblCUVc",CUr.Code,false);
            if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,15:23 19.08.2014 {
            		OutString(30,0,CUr.Name,false);
@@ -1346,6 +1343,9 @@ L88:;
 		    	end;
 	    	end;
     	end;
+    	StartFormat(15);
+          OutString(0,0,"",false);
+        EndFormat;
     end else begin
     	PrintARReportTotals(RepSpec,Agedb.ActualInvoices,tot1Sum,Total1Due,Total1NotDue,TotOnAcc,tot2Sum,Total2Due,Total2NotDue,totCurSum,TotalCurDue,TotalCurNotDue,TotalCurrent);
     end; //Edit***************************Sasha2,17:12 20.08.2014 }
