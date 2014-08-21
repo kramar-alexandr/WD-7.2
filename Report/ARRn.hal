@@ -1078,12 +1078,12 @@ end;
 	          OutValBiDi(pos,0,valClientTot[0],M4Val,true,520);
 	          OutString(pos + 10,0,altcur[0],false);
 	        end else begin
-            	for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
-  					if (NonBlank(valClientTot[i])) then begin
-  					  	OutValBiDi(pos,0,valClientTot[i],M4Val,true,520)
-  						OutString(pos + 10,0,altcur[i],false);
-  					end;		    	
-  		    	end; //Edit***************************Sasha2,16:16 20.08.2014
+            	//for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
+  					//if (NonBlank(valClientTot[i])) then begin
+  					  //	OutValBiDi(pos,0,valClientTot[i],M4Val,true,520)
+  						//OutString(pos + 10,0,altcur[i],false);
+  					//end;		    	
+  		    	//end; //Edit***************************Sasha2,16:16 20.08.2014
 	        end;
 		end else begin
 			if (RepSpec.flags[2]==0) then begin
@@ -1099,6 +1099,18 @@ end;
         
       end;
      EndFormat;
+     if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,13:49 21.08.2014 {
+	     if (RepSpec.flags[2]==1) then begin
+	     	for (i=0;i<altcurcnt;i=i+1) begin
+		     	if (NonBlank(valClientTot[i])) then begin
+		     	StartFormat(15);
+		     		OutValBiDi(pos,0,valClientTot[i],M4Val,true,520)
+  					OutString(pos + 10,0,altcur[i],false);
+		     	EndFormat;
+		     	end;
+	     	end;
+     	 end;
+     end; //Edit***************************Sasha2,13:49 21.08.2014 }
      if (overduetot[1]<>0) then begin
      	if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,13:02 20.08.2014 {
      	end else begin
@@ -1308,14 +1320,24 @@ L88:;
 	          OutValBiDi(pos,0,valTotSum[0],M4Val,true,520);
 	          OutString(pos + 10,0,altcur[0],false);
 	        end else begin
-            	for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
-  					if (NonBlank(valTotSum[i])) then begin
-  						OutValBiDi(pos,0,valTotSum[i],M4Val,true,520);
-  						OutString(pos + 10,0,altcur[i],false);
-  					end;
-  		    	end; //Edit***************************Sasha2,16:16 20.08.2014
+            	//for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
+  					//if (NonBlank(valTotSum[i])) then begin
+  						//OutValBiDi(pos,0,valTotSum[i],M4Val,true,520);
+  						//OutString(pos + 10,0,altcur[i],false);
+  					//end;
+  		    	//end; //Edit***************************Sasha2,16:16 20.08.2014
 	        end;
     	EndFormat;
+    	if (RepSpec.flags[2]==1) then begin
+	    	for (i=0;i<altcurcnt;i=i+1) begin
+		    	if (NonBlank(valTotSum[i])) begin 
+			    	StartFormat(15);
+			    	OutValBiDi(pos,0,valTotSum[i],M4Val,true,520);
+	  				OutString(pos + 10,0,altcur[i],false);
+			    	EndFormat;
+		    	end;
+	    	end;
+    	end;
     end else begin
     	PrintARReportTotals(RepSpec,Agedb.ActualInvoices,tot1Sum,Total1Due,Total1NotDue,TotOnAcc,tot2Sum,Total2Due,Total2NotDue,totCurSum,TotalCurDue,TotalCurNotDue,TotalCurrent);
     end; //Edit***************************Sasha2,17:12 20.08.2014 }
