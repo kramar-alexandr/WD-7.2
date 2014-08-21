@@ -356,6 +356,8 @@ BEGIN
   
    StartFormat(15);
     if (RepSpec .ArtMode ==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,9:21 20.08.2014 {
+    	OutString(0,0,"",false);
+    	OutString(30,0,"",false);
     	OutString(90,0,USetStr(2423),false);
     	if (RepSpec.flags[23]!=0) then begin
 	      if (IVr.DisputedFlag==1) then begin 
@@ -370,6 +372,8 @@ BEGIN
 	    end;
 	    if (IVr.OrderNr > -1) then begin
 	    	OutLongInt(145,0,IVr.OrderNr,false);
+	    end else begin
+	    	OutString(145,0,"",false);
 	    end;
 	    OutDate(170,0,IVr.InvDate,false);
 	    OutString(210,0,IVr.PayDeal,false);
@@ -395,13 +399,13 @@ BEGIN
 	      //OutLongInt(360,0,IVr.LastRemndr,true);
 	      OutValBiDi(360,0,rval,M4Val,true,490);
 	      OutValBiDi(410,0,rs,M4Val,true,490);
-	      if (NonBlank(ORr.Comment)) then begin
+	      if (NonBlank(ORr.Comment) and RepSpec.flags[14]==1) then begin
 	      	OutString(440,0,ORr.Comment,false);
 	      end;
 	    end else begin
 	      //OutLongInt(360,0,IVr.LastRemndr,true);
 	      OutValBiDi(360,0,rs,M4Val,true,490);
-	      if (NonBlank(ORr.Comment)) then begin
+	      if (NonBlank(ORr.Comment)and RepSpec.flags[14]==1) then begin
 	      	OutString(390,0,ORr.Comment,false);
 	      end;
 	    end;
@@ -1083,11 +1087,15 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
 	    end;
 	    if (RepSpec.flags[2]==0) then begin
 	    	OutString(360,0,USetStr(9962)&", "& bascur.BaseCur1,true);
-	    	OutString(390,0,USetStr(8583),false);
+	    	if (RepSpec.flags[14]==1) then begin
+	    		OutString(390,0,USetStr(8583),false);
+	    	end;
 	    end else begin
 	    	OutString(360,0,USetStr(9962)&", "& LowerCase(USetStr(8107)),true);
 	    	OutString(410,0,USetStr(9962)&", "& bascur.BaseCur1,true);
-	    	OutString(440,0,USetStr(8583),false);
+	    	if (RepSpec.flags[14]==1) then begin
+	    		OutString(440,0,USetStr(8583),false);
+	    	end;
 	    end;	
 	    
      end else begin
@@ -1161,6 +1169,281 @@ begin
   return;
 end;
 
+
+global
+procedure PrintPrepaymentsNrsIPCustom(Integer amntincurncy,record RcVc RepSpec,string custcode,Boolean backdate,Integer pos1,Integer pos2, var array val valClientTot, var array val valTotSum, var array string cur,var Integer curcnt)
+BEGIN
+  record ARPayHistVc ARPayHistr;
+  record ARPayVc ARPayr;
+  Boolean found,testf;
+  string 255 tstr,curncycode;
+  record IPVc IPr;
+  row IPVc IPrw;
+  record CLInVc CLInr;
+  row CLInVc CLInrw;
+  record CLOutVc CLOutr;
+  row CLOutVc CLOutrw;
+  Integer i,rwcnt;
+  LongInt prepno;
+  val prepbal,t,lossv;
+  val frrate,torate1,torate2,baserate1,baserate2;
+  record BaseCurBlock BCb;  
+  record IVVc IVr;
+  Integer j,pos; //Edit***************************Sasha2,18:16 20.08.2014
+  string 20 code; //Edit***************************Sasha2,18:16 20.08.2014
+  Boolean foundf; //Edit***************************Sasha2,18:17 20.08.2014
+
+  if (backdate==false) then begin 
+    found = true;
+    ARPayr.CustCode = custcode;
+    while LoopKey("CustCode",ARPayr,1,found) begin
+      if (ARPayr.CustCode<>custcode) then begin 
+        found = false; 
+      end;
+      if (found) then begin
+        testf = true;
+        ARPayHistr.CUPNr = ARPayr.CUPNr;
+        ReadFirstMain(ARPayHistr,1,true);
+        if (nonblank(RepSpec.AccStr)) then begin
+          if (nonblank(ARPayHistr.ARAcc)) then begin
+            if (RepSpec.AccStr!=ARPayHistr.ARAcc) then begin
+              testf = false;
+            end;
+          end else begin
+            if (GetCustomerOnAccountAC(ARPayHistr.CustCode)!=RepSpec.AccStr) then begin
+              testf = false;
+            end;
+          end;
+        end;
+        if (testf) then begin
+          if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,10:31 20.08.2014 {
+          	StartFormat(15); 
+	          tstr = ARPayr.CUPNr;
+	          OutString(0,0,"",false);
+    		  OutString(30,0,"",false);
+	          OutString(90,0,USetStr(2497),false);
+	          OutStringID(120,"DblPrHisSL",tstr,false,custcode);
+	          OutString(145,0,"",false);
+	          OutString(170,0,"",false);
+	    	  OutString(210,0,"",false);
+	    	  OutString(240,0,"",false);
+	    	  OutString(280,0,"",false);
+	          if (amntincurncy==0) then begin
+	            OutVal(360,0,-ARPayr.BookRVal,M4Val,true);    
+	          end else begin
+	            OutString(310,0,ARPayr.CurncyCode,true);
+	            OutVal(360,0,-ARPayr.RVal,M4Val,true);
+	            OutVal(410,0,-ARPayr.BookRVal,M4Val,true);
+	          end;
+	        EndFormat;
+	        foundf = false;
+	        valClientTot[0] = valClientTot[0] - ARPayr.BookRVal;
+  			valTotSum[0] = valTotSum[0] - ARPayr.BookRVal;
+  			code = ARPayr.CurncyCode;
+  			  for (j=0;j<curcnt;j=j+1) begin
+			    if (code==cur[j]) then begin
+			      pos = j;
+			      foundf = true;
+			      j = curcnt;
+			    end;
+			  end;
+			  if (pos>0) then begin
+				  if (foundf==false) then begin
+				    pos = curcnt;
+				    curcnt = curcnt + 1;
+				    cur[pos] = code;
+				    valClientTot[pos] = BlankVal;
+				    valTotSum[pos] = BlankVal;
+				  end;
+				  valClientTot[pos] = valClientTot[pos] - ARPayr.RVal;
+				  valTotSum[pos] = valTotSum[pos] - ARPayr.RVal;
+			  end;
+          end else begin
+          	StartFormat(15); 
+	          tstr = ARPayr.CUPNr;
+	          OutStringID(pos1,"DblPrHisSL",tstr,false,custcode);
+	          if (amntincurncy==0) then begin
+	            OutVal(pos2,0,-ARPayr.BookRVal,M4Val,true);
+	          end else begin
+	            OutVal(pos2,0,-ARPayr.RVal,M4Val,true);
+	            OutString(pos2+10,0,ARPayr.CurncyCode,false);
+	          end;
+	        EndFormat;
+          end;//Edit***************************Sasha2,10:31 20.08.2014 }
+          
+        end;
+      end;
+    end;
+  end else begin 
+    BlockLoad(BCb);
+    ARPayHistr.CustCode = custcode;
+    found = true;
+    ResetLoop(ARPayHistr);
+    while (LoopKey("CUPNrCustCode",ARPayHistr,1,found)) begin
+      if (found) then begin
+        testf = true;
+        if (ARPayHistr.CustCode<>custcode) then begin 
+          found = false; 
+          testf = false;
+        end;
+        if (RepSpec.d1<ARPayHistr.TransDate) then begin
+          testf = false;
+        end;
+        if (nonblank(RepSpec.AccStr)) then begin
+          if (nonblank(ARPayHistr.ARAcc)) then begin
+            if (RepSpec.AccStr!=ARPayHistr.ARAcc) then begin
+              testf = false;
+            end;
+          end else begin
+            if (GetCustomerOnAccountAC(ARPayHistr.CustCode)!=RepSpec.AccStr) then begin
+              testf = false;
+            end;
+          end;
+        end;
+        if (testf) then begin
+          if (ARPayHistr.FileName=="IPVc") then begin
+            if ((nonblank(RepSpec.ObjType)) or (nonblank(RepSpec.ObjStr))) then begin
+              IPr.SerNr = ARPayHistr.SerNr;
+              if (ReadFirstMain(IPr,1,true)) then begin
+                rwcnt = MatRowCnt(IPr);
+                for (i=0;i<rwcnt;i=i+1) begin
+                  MatRowGet(IPr,i,IPrw);
+                  if (IPrw.CUPNr==ARPayHistr.CUPNr) then begin
+                    if (nonblank(RepSpec.ObjType)) then begin
+                      testf = ObjectTypeMatch(IPrw.Objects,RepSpec.ObjType);
+                    end;
+                    if (nonblank(RepSpec.ObjStr)) then begin
+                      testf = SetInSet(RepSpec.ObjStr,IPrw.Objects);
+                    end;
+                  end;
+                end;
+              end;
+            end;
+            /*if (testf) then begin
+              testf = IsOpenARPayHist(RepSpec,ARPayHistr.CUPNr,ARPayHistr.Val,backdate);
+           end;*/
+          end;
+          if (ARPayHistr.FileName=="CLInVc") then begin
+            if ((nonblank(RepSpec.ObjType)) or (nonblank(RepSpec.ObjStr))) then begin
+              CLInr.SerNr = ARPayHistr.SerNr;
+              if (ReadFirstMain(CLInr,1,true)) then begin
+                rwcnt = MatRowCnt(CLInr);
+                for (i=0;i<rwcnt;i=i+1) begin
+                  MatRowGet(CLInr,i,CLInrw);
+                  if (CLInrw.Type==4) then begin
+                    if (CLInrw.TransNr==ARPayHistr.CUPNr) then begin
+                      if (nonblank(RepSpec.ObjType)) then begin
+                        testf = ObjectTypeMatch(CLInr.Objects,RepSpec.ObjType);
+                      end;
+                      if (nonblank(RepSpec.ObjStr)) then begin
+                        testf = SetInSet(RepSpec.ObjStr,CLInr.Objects);
+                      end;
+                      i = rwcnt;
+                    end;
+                  end;
+                end;
+              end;
+            end;
+            /*if (testf) then begin
+              testf = IsOpenARPayHist(RepSpec,ARPayHistr.CUPNr,ARPayHistr.Val,backdate);
+            end;*/
+          end;
+          
+          if (ARPayHistr.FileName=="CLOutVc") then begin
+            if ((nonblank(RepSpec.ObjType)) or (nonblank(RepSpec.ObjStr))) then begin
+              CLOutr.SerNr = ARPayHistr.SerNr;
+              if (ReadFirstMain(CLOutr,1,true)) then begin
+                rwcnt = MatRowCnt(CLOutr);
+                for (i=0;i<rwcnt;i=i+1) begin
+                  MatRowGet(CLOutr,i,CLOutrw);
+                  if (CLOutrw.Type==5) then begin
+                    if (CLOutrw.TransNr==ARPayHistr.CUPNr) then begin
+                      if (nonblank(RepSpec.ObjType)) then begin
+                        testf = ObjectTypeMatch(CLOutr.Objects,RepSpec.ObjType);
+                      end;
+                      if (nonblank(RepSpec.ObjStr)) then begin
+                        testf = SetInSet(RepSpec.ObjStr,CLOutr.Objects);
+                      end;
+                      i = rwcnt;
+                    end;
+                  end;
+                end;
+              end;
+            end;
+          end;
+        end;
+      end;
+      if (testf) then begin
+        if (prepno<>ARPayHistr.CUPNr) then begin
+          if ((prepno<>-1) and (prepbal<>0)) then begin
+            StartFormat(15);
+            tstr = prepno;
+            OutStringID(pos1,"DblPrHisSL",tstr,false,custcode);
+            OutVal(pos2,0,-prepbal,M4Val,true);
+            if (amntincurncy!=0) then begin
+              OutString(pos2+10,0,curncycode,false);
+            end;
+            EndFormat;
+            prepbal = 0;
+          end;
+        end;
+        prepno = ARPayHistr.CUPNr;
+        curncycode = ARPayHistr.CurncyCode;
+        if ((ARPayHistr.FileName=="IVVc") or (ARPayHistr.FileName=="CLOutVc")) then begin
+          if (amntincurncy==0) then begin
+            prepbal = prepbal - ARPayHistr.BookVal;
+          end else begin
+            prepbal = prepbal - ARPayHistr.Val;
+          end;
+        end else begin
+          if (amntincurncy==0) then begin
+            if (GetARPayRate(-1,ARPayHistr.CUPNr,frrate,torate1,torate2,baserate1,baserate2,ARPayHistr.CurncyCode,ARPayHistr.TransDate)) then begin
+              t = MulRateToBase1(ARPayHistr.CurncyCode,ARPayHistr.Val,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
+            end else begin            
+              t = MulWithRateToBase1(ARPayHistr.CurncyCode,ARPayHistr.TransDate,ARPayHistr.Val,DefaultCurRoundOff);
+            end;
+            prepbal = prepbal + t;
+            lossv = blankval;
+            if (ARPayHistr.CurncyCode==BCb.BaseCur1) then begin
+            end else begin
+              IPr.SerNr = ARPayHistr.SerNr;
+              if (ReadFirstMain(IPr,1,true)) then begin
+                rwcnt = MatRowCnt(IPr);
+                for (i=0;i<rwcnt;i=i+1) begin
+                  MatRowGet(IPr,i,IPrw);
+                  if (IPrw.CUPNr==ARPayHistr.CUPNr) then begin
+                    if (nonblank(IPrw.B1BankVal)) then begin
+                      prepbal = prepbal - t;
+                      prepbal = prepbal + IPrw.B1BankVal;
+                    end;
+                    FindAllPrepayLosses(IPrw.InvCurncy,IPr.TransDate,IPrw.InvVal,IPrw.CUPNr,IPrw.InvVal,lossv,IVr,IPrw.InvoiceNr,-1,false,BCb,IPrw.B1BankVal,IPrw.BankCurncy);
+                    if (lossv!=t) then begin
+                      prepbal = prepbal - lossv;
+                    end;
+                  end;
+                end;
+              end;
+            end;
+          end else begin
+            prepbal = prepbal + ARPayHistr.Val;
+          end;
+        end;  
+      end;
+    end; 
+    if ((prepno<>-1) and (prepbal<>0)) then begin 
+      StartFormat(15);LogText(0, "1 " & prepno & "   " & prepbal);
+      OutStringID(pos1,"DblPrHisSL",tstr,false,custcode);
+      OutVal(pos2,0,-prepbal,M4Val,true);
+      if (amntincurncy!=0) then begin
+        OutString(pos2+10,0,curncycode,false);
+      end;
+      EndFormat;
+    end;
+  end;
+  RETURN;
+END;
+
+
 global
 procedure PrintPrepaymentsNrsIP(Integer amntincurncy,record RcVc RepSpec,string custcode,Boolean backdate,Integer pos1,Integer pos2)
 BEGIN
@@ -1204,20 +1487,6 @@ BEGIN
           end;
         end;
         if (testf) then begin
-          if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,10:31 20.08.2014 {
-          	StartFormat(15); 
-	          tstr = ARPayr.CUPNr;
-	          OutString(90,0,USetStr(2497),false);
-	          OutStringID(120,"DblPrHisSL",tstr,false,custcode);
-	          if (amntincurncy==0) then begin
-	            OutVal(360,0,-ARPayr.BookRVal,M4Val,true);
-	          end else begin
-	            OutString(310,0,ARPayr.CurncyCode,true);
-	            OutVal(360,0,-ARPayr.RVal,M4Val,true);
-	            OutVal(410,0,-ARPayr.BookRVal,M4Val,true);
-	          end;
-	        EndFormat;
-          end else begin
           	StartFormat(15); 
 	          tstr = ARPayr.CUPNr;
 	          OutStringID(pos1,"DblPrHisSL",tstr,false,custcode);
@@ -1227,9 +1496,7 @@ BEGIN
 	            OutVal(pos2,0,-ARPayr.RVal,M4Val,true);
 	            OutString(pos2+10,0,ARPayr.CurncyCode,false);
 	          end;
-	        EndFormat;
-          end;//Edit***************************Sasha2,10:31 20.08.2014 }
-          
+	        EndFormat;         
         end;
       end;
     end;
@@ -1404,7 +1671,7 @@ BEGIN
 END;
 
 global
-procedure PrintOnAccountInfo(record CUVc CUp,val rval,val sum,var Boolean CustOut,record RcVc RepSpec,record SMVc CurTotalsr,Boolean backdatf)
+procedure PrintOnAccountInfoCustom(record CUVc CUp,val rval,val sum,var Boolean CustOut,record RcVc RepSpec,record SMVc CurTotalsr,Boolean backdatf, var array val valClientTot, var array val valTotSum,var array string cur,var Integer curcnt)
 BEGIN 
   if (CustOut==false) then begin
     Gray_Divider(0,1);
@@ -1438,6 +1705,48 @@ BEGIN
 	    EndFormat;
   	end; //Edit***************************Sasha2,10:15 20.08.2014 }
     
+  end;  
+  if (RepSpec.flags[20]!=0) then begin
+    if (RepSpec.flags[2]==1) then begin
+      PrintPrepaymentsNrsIPCustom(RepSpec.flags[2],RepSpec,CUp.Code,backdatf,140,360,valClientTot,valTotSum,cur,curcnt);
+    end else begin
+      PrintPrepaymentsNrsIPCustom(RepSpec.flags[2],RepSpec,CUp.Code,backdatf,140,380,valClientTot,valTotSum,cur,curcnt);
+    end;
+  end;
+  RETURN;
+END;
+
+global
+procedure PrintOnAccountInfo(record CUVc CUp,val rval,val sum,var Boolean CustOut,record RcVc RepSpec,record SMVc CurTotalsr,Boolean backdatf)
+BEGIN 
+  if (CustOut==false) then begin
+    Gray_Divider(0,1);
+    StartFormat(15);
+    OutString(0,0,CUp.Code,false);
+    OutString(100,0,CUp.Name,false);
+    OutString(280,0,CUp.Phone,false);
+    if (RepSpec.flags[2]==1) then begin
+      OutString(480,0,CUp.CurncyCode,true);
+    end;  
+    EndFormat;
+    CustOut = true;
+  end;
+  if (blank(CUp.CurncyCode)) then begin
+    if (RepSpec.ArtMode==5) then begin
+      PrintCurTotalsRow(CurTotalsr,2497,150,2,-1,-1);
+    end else begin
+      PrintCurTotalsRow(CurTotalsr,2497,150,450,-1,-1);
+    end;
+  end else begin
+	StartFormat(15);
+    OutString(140,0,USetStr(11857),false);
+    if (RepSpec.flags[2]==1) then begin
+      OutValBiDi(360,0,rval,M4Val,true,380);
+      OutString(480,0,CUp.CurncyCode,true);
+    end else begin
+      OutVal(380,0,sum,M4Val,true);
+    end;
+    EndFormat;  
   end;  
   if (RepSpec.flags[20]!=0) then begin
     if (RepSpec.flags[2]==1) then begin

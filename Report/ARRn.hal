@@ -22,6 +22,7 @@ external procedure SubCashRows_IVVc(record IVVc,Boolean,var val,var val);
 external function val MulRateToBase2(var string,val,val,val,val,val,val,roundmode);
 external function val MulRateToBase1(var string,val,val,val,val,val,val,roundmode);
 external procedure PrintPrepaymentsNrsIP(Integer,record RcVc,string,Boolean,Integer,Integer);
+external procedure PrintPrepaymentsNrsIPCustom(Integer,record RcVc,string,Boolean,Integer,Integer,var Array val,var Array val,var array string,var Integer); //Edit***************************Sasha2,13:17 20.08.2014
 external function Boolean ObjectTypeMatch(string,string);
 external procedure BeginCurncyTotals(var Integer);
 external procedure AddCurncyTotals(var array string,var array val,var Integer,string,val);
@@ -32,6 +33,7 @@ external procedure PrintHeaderAR(record RcVc);
 external procedure PrintHeaderAR2(record RcVc,Date,Integer,Integer,Integer);
 external procedure SubPrePayments(record IVVc,var val,var val);
 external procedure PrintOnAccountInfo(record CUVc,val,val,var Boolean,record RcVc,record SMVc,Boolean);
+external procedure PrintOnAccountInfoCustom(record CUVc,val,val,var Boolean,record RcVc,record SMVc,Boolean,var Array val,var Array val,var array string,var Integer); //Edit***************************Sasha2,13:18 20.08.2014
 external procedure GetOnAccBalance(record RcVc,string,string,Boolean,Integer,var val,var val,var val,var val,var val,var val,var val,record SMVc,
                    Array string,Array val,var Integer);
 external procedure Base1ToBase2(var val,Date,var val);
@@ -67,6 +69,42 @@ begin
   CalcARRnColumnSpacing = ncols;
   return;
 end;
+
+global //Edit***************************Sasha2,14:24 20.08.2014 {
+procedure AddCurncyTotalsCustom(var array string cur,var Integer curcnt,string curncy, val rvalP,val rsP,var array val valClientTot,var array val valTotSum)
+begin
+  record BaseCurBlock bascur;
+  Integer i,pos;
+  string 20 code;
+  Boolean foundf;
+  
+  foundf = false;
+  BlockLoad(bascur);
+  cur[0] = bascur.BaseCur1;
+  valClientTot[0] = valClientTot[0] + rsP;
+  valTotSum[0] = valTotSum[0] + rsP;
+  code = curncy;
+  
+  for (i=0;i<curcnt;i=i+1) begin
+    if (code==cur[i]) then begin
+      pos = i;
+      foundf = true;
+      i = curcnt;
+    end;
+  end;
+  if (pos>0) then begin
+	  if (foundf==false) then begin
+	    pos = curcnt;
+	    curcnt = curcnt + 1;
+	    cur[pos] = code;
+	    valClientTot[pos] = BlankVal;
+	    valTotSum[pos] = BlankVal;
+	  end;
+	  valClientTot[pos] = valClientTot[pos] + rvalP;
+	  valTotSum[pos] = valTotSum[pos] + rvalP;
+  end;
+  return;
+end; //Edit***************************Sasha2,14:25 20.08.2014 }
 
 global
 procedure RunARRn(record RcVc RepSpec,var val tot1Sum)
@@ -120,6 +158,10 @@ BEGIN
   Boolean ivfound;
   LongInt colstart,colwidth,col2start,ncols;
   val onaccsumbooked,onaccsumnow,onaccsumcurncy,onaccsumdiff;
+  array val valClientTot,valTotSum; //Edit***************************Sasha2,14:31 20.08.2014
+  array string 20 altcur; //Edit***************************Sasha2,14:25 20.08.2014
+  Integer altcurcnt; //Edit***************************Sasha2,14:29 20.08.2014
+
   
   tot1Sum = blankval;
   BlockLoad(Agedb);
@@ -194,7 +236,7 @@ L22:;
       first1f = false; 
       ResetLoop(CUr);      
     end;
-    CUs = LoopKey(ckey,CUr,keys,true);  
+    CUs = LoopKey(ckey,CUr,keys,true); 
     if (CUs) then begin
       testf = true;
       if (CUr.CUType==0) then begin testf = false; end;
@@ -259,11 +301,16 @@ L22:;
   s5 = 0; s5b2 = 0;
   s6 = 0; s6b2 = 0;
   s7 = 0; s7b2 = 0;
+  Altcurcnt = 1; //Edit***************************Sasha2,14:42 20.08.2014
   if (RepSpec.flags[2]==1) then begin
     s0 = CurSum + s0;
   end else begin
     s0 = AR1Sum + s0;
   end;  
+  
+  for (i=0;i<Altcurcnt;i=i+1) begin//Edit***************************Sasha2,16:16 20.08.2014
+  	valClientTot[i] = BlankVal;
+  end; //Edit***************************Sasha2,16:16 20.08.2014
 
   if (backdatf) then begin
     ResetLoop(IPrsr);
@@ -635,6 +682,8 @@ L22:;
         if (RepSpec.ArtMode==1) then begin// Overview        
           ARRPrintOverView(CUr,IVr,IPrsr,TRr,RepSpec,rval,rs,latedays);
           AddCurncyTotals(acur,av1,curcnt,IVr.CurncyCode,rval);
+          AddCurncyTotalsCustom(altcur,altcurcnt,IVr.CurncyCode,rval,rs,valClientTot,valTotSum); //Edit***************************Sasha2,15:06 20.08.2014
+        	//LogText(0, "Inv: rval = " & rval & "|||" & "rs = " & rs);
         end;
         if (RepSpec.ArtMode==2) then begin// Aged
           if ((IVr.InstallmentInv==1) and (RepSpec.flags[19]!=0)) then begin
@@ -798,8 +847,8 @@ if (testf) then begin
       PrintOnAccountInfo(CUr,rval,sum,CustOut,RepSpec,CurTotalsr,backdatf);
     end;
   end;
-  if (RepSpec.ArtMode==1) then begin
-    if ((sum<>0) or (rval<>0)) then begin
+  if (RepSpec.ArtMode==1) then begin 
+    if ((sum<>0) or (rval<>0)) then begin  
       if (RepSpec.flags[2]==0) then begin
         if (CustOut==false) then begin
           Gray_Divider(0,1);
@@ -813,7 +862,7 @@ if (testf) then begin
           EndFormat;
           CustOut = true;
         end;
-        if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,11:13 20.08.2014 {
+        if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,11:13 20.08.2014 {
         end else begin
           StartFormat(15);
         	OutString(140,0,USetStr(11857),false);
@@ -821,15 +870,24 @@ if (testf) then begin
           EndFormat;
         end; //Edit***************************Sasha2,11:13 20.08.2014 }
         
-        if (RepSpec.flags[20]!=0) then begin 
-          PrintPrepaymentsNrsIP(RepSpec.flags[2],RepSpec,CUr.Code,backdatf,140,450);
+        if (RepSpec.flags[20]!=0) then begin
+          if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,11:13 20.08.2014 { 
+          	PrintPrepaymentsNrsIPCustom(RepSpec.flags[2],RepSpec,CUr.Code,backdatf,140,450,valClientTot,valTotSum,altcur,altcurcnt);
+          end else begin
+          	PrintPrepaymentsNrsIP(RepSpec.flags[2],RepSpec,CUr.Code,backdatf,140,450);
+          end;	//Edit***************************Sasha2,16:44 20.08.2014 }
         end;        
       end else begin
-        PrintOnAccountInfo(CUr,rval,sum,CustOut,RepSpec,CurTotalsr,backdatf);
+      	if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,11:13 20.08.2014 {
+        	PrintOnAccountInfoCustom(CUr,rval,sum,CustOut,RepSpec,CurTotalsr,backdatf,valClientTot,valTotSum,altcur,altcurcnt);
+        end else begin
+        	PrintOnAccountInfo(CUr,rval,sum,CustOut,RepSpec,CurTotalsr,backdatf);
+        end; //Edit***************************Sasha2,15:20 20.08.2014 }	
       end;
       if (nonblank(CUr.CurncyCode)) then begin
-        AddCurncyTotals(acur,av1,curcnt,CUr.CurncyCode,rval);
+        AddCurncyTotals(acur,av1,curcnt,CUr.CurncyCode,rval);    
       end;
+      //LogText(0, "IP: rval = " & rvalP & "|||" & "rs = " & rsP);
     end;
   end;
   if (RepSpec.ArtMode==4) then begin
@@ -994,7 +1052,10 @@ end;
        if (RepSpec.ArtMode==0) then begin
          PrintCurncyTotals(acur,av1,av2,av3,curcnt,450,-1,-1,320,false,RepSpec.PocketPC);
        end else begin
-         PrintCurncyTotals(acur,av1,av2,av3,curcnt,450,-1,-1,320,false,RepSpec.PocketPC);
+       	 if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,16:51 20.08.2014 {
+         end else begin	
+         	PrintCurncyTotals(acur,av1,av2,av3,curcnt,450,-1,-1,320,false,RepSpec.PocketPC);
+         end;//Edit***************************Sasha2,17:05 20.08.2014 }
        end;
        Black_Divider(290,460);
      end;
@@ -1009,58 +1070,81 @@ end;
             pos = 480;
           end;
         end;
-        if (RepSpec.flags[2]==0) then begin
-          OutValBiDi(pos,0,AR1Sum,M4Val,true,520);
-        end else begin
-          if (nonblank(CUr.CurncyCode)) then begin
-            OutValBiDi(pos,0,CurSum,M4Val,true,500);
-          end else begin
-            OutValBiDi(pos,0,AR1Sum,M4Val,true,500);
-          end;
-        end;
+		if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,16:51 20.08.2014 {
+			if (RepSpec.flags[2]==0) then begin
+	          OutValBiDi(pos,0,valClientTot[0],M4Val,true,520);
+	          OutString(pos + 10,0,altcur[0],false);
+	        end else begin
+            	for (i=0;i<Altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
+  					OutValBiDi(pos,0,valClientTot[i],M4Val,true,520)
+  					OutString(pos + 10,0,altcur[i],false);
+  		    	end; //Edit***************************Sasha2,16:16 20.08.2014
+	        end;
+		end else begin
+			if (RepSpec.flags[2]==0) then begin
+	          OutValBiDi(pos,0,AR1Sum,M4Val,true,520);
+	        end else begin
+	          if (nonblank(CUr.CurncyCode)) then begin
+	            OutValBiDi(pos,0,CurSum,M4Val,true,500);
+	          end else begin
+	            OutValBiDi(pos,0,AR1Sum,M4Val,true,500);
+	          end;
+	        end;
+		end; //Edit***************************Sasha2,16:51 20.08.2014 }
+        
       end;
      EndFormat;
      if (overduetot[1]<>0) then begin
-        StartFormat(15);
-         OutString(320,0,USetStr(2527),true);
-         if (nonblank(RepSpec.CurncyCode)) and (RepSpec.flags[2]!=0) then begin
-           OutValBiDi(450,0,overduetot[0],M4Val,true,490);
-         end else begin
-           if (RepSpec.flags[2]!=0) and (nonblank(CUr.CurncyCode)) then begin
-             OutValBiDi(450,0,overduetot[0],M4Val,true,490);
-           end else begin
-             OutValBiDi(450,0,overduetot[1],M4Val,true,490);
-           end;
-         end;
-        EndFormat;
+     	if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,13:02 20.08.2014 {
+     	end else begin
+	     	StartFormat(15);
+	         OutString(320,0,USetStr(2527),true);
+	         if (nonblank(RepSpec.CurncyCode)) and (RepSpec.flags[2]!=0) then begin
+	           OutValBiDi(450,0,overduetot[0],M4Val,true,490);
+	         end else begin
+	           if (RepSpec.flags[2]!=0) and (nonblank(CUr.CurncyCode)) then begin
+	             OutValBiDi(450,0,overduetot[0],M4Val,true,490);
+	           end else begin
+	             OutValBiDi(450,0,overduetot[1],M4Val,true,490);
+	           end;
+	         end;
+	        EndFormat;
+     	end; //Edit***************************Sasha2,13:03 20.08.2014 }
+        
      end;
      if (currenttot[1]<>0) then begin
-        StartFormat(15);
-         OutString(320,0,USetStr(2520),true);
-         if (nonblank(RepSpec.CurncyCode)) and (RepSpec.flags[2]==1) then begin
-           OutVal(1,0,currenttot[0],M4Val,true);
-         end else begin
-           OutVal(1,0,currenttot[1],M4Val,true);
-         end;
-        EndFormat;
+     	if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,13:02 20.08.2014 {
+     	end else begin
+	        StartFormat(15);
+	         OutString(320,0,USetStr(2520),true);
+	         if (nonblank(RepSpec.CurncyCode)) and (RepSpec.flags[2]==1) then begin
+	           OutVal(1,0,currenttot[0],M4Val,true);
+	         end else begin
+	           OutVal(1,0,currenttot[1],M4Val,true);
+	         end;
+	        EndFormat;
+	    end; //Edit***************************Sasha2,13:04 20.08.2014 }
      end;
      if (notduetot[1]<>0) then begin
-        StartFormat(15);
-         OutString(320,0,USetStr(2521),true);
-         if (nonblank(RepSpec.CurncyCode)) and (RepSpec.flags[2]==1) then begin
-           OutValBiDi(450,0,notduetot[0],M4Val,true,490);
-         end else begin
-           if (RepSpec.ArtMode==0) then begin
-             if (RepSpec.flags[2]==0) then begin
-               OutValBiDi(480,0,notduetot[1],M4Val,true,520);
-             end else begin
-               OutValBiDi(450,0,notduetot[1],M4Val,true,500);
-             end;
-           end else begin
-             OutValBiDi(450,0,notduetot[1],M4Val,true,490);
-           end;
-         end;
-        EndFormat;
+     	if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,13:02 20.08.2014 {
+     	end else begin
+	        StartFormat(15);
+	         OutString(320,0,USetStr(2521),true);
+	         if (nonblank(RepSpec.CurncyCode)) and (RepSpec.flags[2]==1) then begin
+	           OutValBiDi(450,0,notduetot[0],M4Val,true,490);
+	         end else begin
+	           if (RepSpec.ArtMode==0) then begin
+	             if (RepSpec.flags[2]==0) then begin
+	               OutValBiDi(480,0,notduetot[1],M4Val,true,520);
+	             end else begin
+	               OutValBiDi(450,0,notduetot[1],M4Val,true,500);
+	             end;
+	           end else begin
+	             OutValBiDi(450,0,notduetot[1],M4Val,true,490);
+	           end;
+	         end;
+	        EndFormat;
+	    end; //Edit***************************Sasha2,13:04 20.08.2014
      end;
    end;
  end; 
@@ -1211,8 +1295,23 @@ L88:;
 //  if ((RepSpec.flags[2]==1) and (RepSpec.ArtMode==3)) then begin goto L99; end;
   if ((RepSpec.flags[2]==1) and (RepSpec.ArtMode==5)) then begin goto L99; end;
   
-  if (RepSpec.ArtMode!=10) then begin
-    PrintARReportTotals(RepSpec,Agedb.ActualInvoices,tot1Sum,Total1Due,Total1NotDue,TotOnAcc,tot2Sum,Total2Due,Total2NotDue,totCurSum,TotalCurDue,TotalCurNotDue,TotalCurrent);
+  if (RepSpec.ArtMode!=10) then begin 
+    if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,17:12 20.08.2014 {
+    	StartFormat(15);
+    		OutString(290,0,USetStr(2429),false);
+    		if (RepSpec.flags[2]==0) then begin
+	          OutValBiDi(pos,0,valTotSum[0],M4Val,true,520);
+	          OutString(pos + 10,0,altcur[0],false);
+	        end else begin
+            	for (i=0;i<Altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
+  					OutValBiDi(pos,0,valTotSum[i],M4Val,true,520)
+  					OutString(pos + 10,0,altcur[i],false);
+  		    	end; //Edit***************************Sasha2,16:16 20.08.2014
+	        end;
+    	EndFormat;
+    end else begin
+    	PrintARReportTotals(RepSpec,Agedb.ActualInvoices,tot1Sum,Total1Due,Total1NotDue,TotOnAcc,tot2Sum,Total2Due,Total2NotDue,totCurSum,TotalCurDue,TotalCurNotDue,TotalCurrent);
+    end; //Edit***************************Sasha2,17:12 20.08.2014 }
     if (RepSpec.ArtMode==3) then begin
       if (RepSpec.flags[2]==1) then begin
         StartFormat(5);
@@ -1221,7 +1320,6 @@ L88:;
       end;
     end;
   end;
-  
   if (RepSpec.ArtMode==4) or (RepSpec.ArtMode==6) then begin
     StartFormat(15);
     OutVal(320,0,totnow,M4Val,true);
