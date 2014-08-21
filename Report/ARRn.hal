@@ -1344,7 +1344,7 @@ L88:;
 	    	end;
     	end;
     	StartFormat(15);
-          OutString(0,0,"",false);
+          OutString(450,0,"",false);
         EndFormat;
     end else begin
     	PrintARReportTotals(RepSpec,Agedb.ActualInvoices,tot1Sum,Total1Due,Total1NotDue,TotOnAcc,tot2Sum,Total2Due,Total2NotDue,totCurSum,TotalCurDue,TotalCurNotDue,TotalCurrent);
