@@ -92,7 +92,7 @@ begin
       i = curcnt;
     end;
   end;
-  if (pos>0) then begin LogText(0,1);
+  if (pos>0) then begin MessageBox(0,1);
 	  if (foundf==false) then begin
 	    pos = curcnt;
 	    curcnt = curcnt + 1;
