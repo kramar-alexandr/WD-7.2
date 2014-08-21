@@ -164,7 +164,7 @@ BEGIN
 
   
   tot1Sum = blankval;
-  Altcurcnt = 1; //Edit***************************Sasha2,14:42 20.08.2014
+  altcurcnt = 1; //Edit***************************Sasha2,14:42 20.08.2014
   BlockLoad(Agedb);
   debcnt = -1;
   if (nonblankdate(RepSpec.d1)) then begin
@@ -308,7 +308,7 @@ L22:;
     s0 = AR1Sum + s0;
   end;  
   
-  for (i=0;i<Altcurcnt;i=i+1) begin//Edit***************************Sasha2,16:16 20.08.2014
+  for (i=0;i<altcurcnt;i=i+1) begin//Edit***************************Sasha2,16:16 20.08.2014
   	valClientTot[i] = BlankVal;
   end; //Edit***************************Sasha2,16:16 20.08.2014
 
@@ -1078,7 +1078,7 @@ end;
 	          OutValBiDi(pos,0,valClientTot[0],M4Val,true,520);
 	          OutString(pos + 10,0,altcur[0],false);
 	        end else begin
-            	for (i=0;i<Altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
+            	for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
   					OutValBiDi(pos,0,valClientTot[i],M4Val,true,520)
   					OutString(pos + 10,0,altcur[i],false);
   		    	end; //Edit***************************Sasha2,16:16 20.08.2014
@@ -1306,7 +1306,7 @@ L88:;
 	          OutValBiDi(pos,0,valTotSum[0],M4Val,true,520);
 	          OutString(pos + 10,0,altcur[0],false);
 	        end else begin
-            	for (i=0;i<Altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
+            	for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
   					OutValBiDi(pos,0,valTotSum[i],M4Val,true,520)
   					OutString(pos + 10,0,altcur[i],false);
   		    	end; //Edit***************************Sasha2,16:16 20.08.2014
