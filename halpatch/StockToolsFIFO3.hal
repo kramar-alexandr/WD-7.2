@@ -847,6 +847,20 @@ begin
         IHr.TotCostPrice = (sourceIHr.TotCostPrice/sourceIHr.Qty) * useqty;
       end;
       IHr.Source = sourceIHr.SerNr;
+      // Edit Start ---------------------------------------------- Edit Start
+	//Thursday, 21 August 2014 16:49:52
+	
+ 
+      IHr.PUCurncyCode = sourceIHr.PUCurncyCode;
+			IHr.TotCostPriceCurncy = sourceIHr.TotCostPriceCurncy / sourceIHr.Qty * -IHr.Qty;
+			IHr.RemCostPriceCurncy = blankval;
+      IHr.InFileName = sourceIHr.InFileName;
+			IHr.InSerNr =	sourceIHr.InSerNr;
+			IHr.InRow =	sourceIHr.InRow;
+      
+	// Edit End ---------------------------------------------- Edit End
+	
+      
     end else begin
       if (IHr.RemQty<0) then begin
 //        IHr.TotCostPrice = (ltotalcost/qty)*useqty;
@@ -927,6 +941,7 @@ begin
       RecordCopy(oldsourceIHr,sourceIHr);
       sourceIHr.RemQty = sourceIHr.RemQty - useqty;
       sourceIHr.RemCostPrice = sourceIHr.RemCostPrice - IHr.TotCostPrice;
+			sourceIHr.RemCostPriceCurncy = sourceIHr.RemCostPriceCurncy + sourceIHr.TotCostPriceCurncy/sourceIHr.Qty*IHr.Qty;// Edit ************************** Thursday, 21 August 2014 17:01:16
       totsourcecost = totsourcecost + IHr.TotCostPrice;
       if (RecordUpdate(oldsourceIHr,sourceIHr,false)==0) then begin end;
     end;
