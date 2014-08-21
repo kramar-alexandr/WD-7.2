@@ -646,6 +646,9 @@ L22:;
         if ((CustOut==false) and (RepSpec.ArtMode<>3) and (RepSpec.ArtMode<>2) and (RepSpec.ArtMode<>4) and (RepSpec.ArtMode<>6) and (RepSpec.ArtMode!=10)) then begin
           Gray_Divider(0,1);
           StartFormat(15);
+          	OutString(0,0,"",false);
+          EndFormat;
+          StartFormat(15);
            OutString(0,"DblCUVc",CUr.Code,false);
            if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,15:23 19.08.2014 {
            		OutString(30,0,CUr.Name,false);
@@ -1315,8 +1318,8 @@ L88:;
   if (RepSpec.ArtMode!=10) then begin 
     if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,17:12 20.08.2014 {
     	StartFormat(15);
-    		OutString(290,0,USetStr(2429),false);
     		if (RepSpec.flags[2]==0) then begin
+    		  OutString(290,0,USetStr(2429),false);
 	          OutValBiDi(pos,0,valTotSum[0],M4Val,true,520);
 	          OutString(pos + 10,0,altcur[0],false);
 	        end else begin
@@ -1334,6 +1337,8 @@ L88:;
 			    	StartFormat(15);
 			    	if (i==0) then begin
 			    		OutString(290,0,USetStr(2429),false);
+			    	else
+			    		OutString(290,0,"",false);	
 			    	end;
 			    	OutValBiDi(pos,0,valTotSum[i],M4Val,true,520);
 	  				OutString(pos + 10,0,altcur[i],false);
