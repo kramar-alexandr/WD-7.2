@@ -1261,7 +1261,7 @@ BEGIN
 	        foundf = false;
 	        valClientTot[0] = valClientTot[0] - ARPayr.BookRVal;
   			valTotSum[0] = valTotSum[0] - ARPayr.BookRVal;
-  			code = ARPayr.CurncyCode;
+  			code = ipcurncy/*ARPayr.CurncyCode*/;
   			  for (j=0;j<curcnt;j=j+1) begin
 			    if (code==cur[j]) then begin
 			      pos = j;
@@ -1277,8 +1277,8 @@ BEGIN
 			    valTotSum[pos] = BlankVal;
 			  end;
 			  if (pos>0) then begin
-				  valClientTot[pos] = valClientTot[pos] - ARPayr.RVal;
-				  valTotSum[pos] = valTotSum[pos] - ARPayr.RVal;
+				  valClientTot[pos] = valClientTot[pos] - ARPayr.RVal * koef;
+				  valTotSum[pos] = valTotSum[pos] - ARPayr.RVal * koef;
 			  end;
           end else begin
           	StartFormat(15); 
