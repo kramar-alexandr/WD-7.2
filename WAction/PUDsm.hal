@@ -38,7 +38,7 @@ begin
 		getwindowrecord(wn,PUr);
 		recordNew(SMr);
 		if(CreateSMfromPU(PUr,SMr))then begin
-			OpenWindow("StockMovDClass",0,0,"","",SMr);
+			OpenWindow("StockMovDClass",1,0,"","",SMr);
 		end else begin
 			beep;
 		end;	
@@ -61,7 +61,7 @@ begin
 		getwindowrecord(wn,PUr);
 		recordNew(SDr);
 		if(CreateSDfromPU(PUr,SDr))then begin
-			OpenWindow("SDDClass",0,0,"","",SDr);
+			OpenWindow("SDDClass",1,0,"","",SDr);
 		end else begin
 			beep;
 		end;	

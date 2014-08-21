@@ -13,7 +13,7 @@ begin
 		getwindowrecord(wn,SDr);
 		recordNew(PUr);
 		if(CreatePUfromSD(SDr,PUr))then begin
-			OpenWindow("PUDClass",0,0,"","",PUr);
+			OpenWindow("PUDClass",1,0,"","",PUr);
 		end else begin
 			beep;
 		end;	

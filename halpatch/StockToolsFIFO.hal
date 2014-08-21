@@ -1289,7 +1289,7 @@ begin
     if (foundf) then begin
       destinationIHr.Source = inIHr.SerNr;
       destinationIHr.RemQty = -(destinationIHr.RemQty - useqty);
-      
+
       destinationIHr.PUCurncyCode = inIHr.PUCurncyCode;// Edit ************************** Tuesday, 12 August 2014 17:12:00
       destinationIHr.InFileName = inIHr.InFileName;// Edit ************************** Tuesday, 12 August 2014 17:12:00
       destinationIHr.InSerNr = inIHr.InSerNr;// Edit ************************** Tuesday, 12 August 2014 17:12:00
@@ -1426,15 +1426,34 @@ begin
   switch(filename)begin
   	case "PUVc":	PUr.SerNr = transnr;
   								readfirstmain(PUr,1,true);
-  								matrowget(PUr,IHr.Row,PUrw);
-  								curncy = PUr.CurncyCode;
-  								if(blank(curncy))then begin
-  									curncy = BCb.BaseCur1;
+  								if(nonblank(PUr.VECode))then begin
+										matrowget(PUr,IHr.Row,PUrw);
+										curncy = PUr.CurncyCode;
+										if(blank(curncy))then begin
+											curncy = BCb.BaseCur1;
+										end;
+										sfilename = "PUVc";
+										ssernr = transnr;
+										srow = IHr.Row;
+										totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
+  								end else begin
+  									INr.Code = IHr.ArtCode;
+  									if(readfirstmain(INr,1,true))then begin
+  										if(INr.SerNrf>0)then begin
+  											sourceIHr.SerialNr = IHr.SerialNr;
+  											sourceIHr.ArtCode = IHr.ArtCode;
+  											if(readlastkey("CodeSerialNrArtCode",sourceIHr,2,true))then begin
+  												curncy = sourceIHr.PUCurncyCode;
+  												totcostpricecurncy = sourceIHr.TotCostPriceCurncy;
+													sfilename = sourceIHr.InFileName;
+													ssernr = sourceIHr.InSerNr;
+													srow = sourceIHr.InRow;
+  											end;
+  										end else begin
+  										
+  										end;
+  									end;
   								end;
-  								sfilename = "PUVc";
-  								ssernr = transnr;
-									srow = IHr.Row;
-  								totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
 		case	"IVVc":	IVr.SerNr = transnr;
   								readfirstmain(IVr,1,true);
   								matrowget(IVr,IHr.Row,IVrw);

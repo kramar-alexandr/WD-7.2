@@ -78,8 +78,11 @@ external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,va
 external procedure GetCurUser(var record UserVc);
 external function val GetAcceptanceSum_PUVc(record PUVc);
 external function Integer SetAcceptanceStatus(Integer,string,val);
-remote function Boolean StockMovVc_PasteArtCode(var record StockMovVc,Integer,Integer,var array string);// Edit ************************** Monday, July 14, 2014 at 11:04:12
+external function Boolean StockMovVc_PasteArtCode(var record StockMovVc,Integer,Integer,var array string);// Edit ************************** Monday, July 14, 2014 at 11:04:12
+external function Boolean StockMovVc_PasteQuant(var record StockMovVc,Integer);// Edit ************************** Monday, July 14, 2014 at 11:04:12
 external function Boolean SDVc_PasteArtCode(var record SDVc,Integer,Integer,var string,var string);// Edit ************************** Monday, July 14, 2014 at 11:38:32
+external function Boolean SDVc_PasteQty(var record SDVc,Integer);// Edit ************************** Wednesday, 20 August 2014 18:27:24
+external procedure SDVc_PasteSerialNr(var record SDVc,Integer,var string);// Edit ************************** Wednesday, 20 August 2014 18:28:59
 
 
 procedure SetPUAcceptanceFlag(var record PUVc PUr,record PUVc prevPUr,LongInt stat)
@@ -1791,6 +1794,9 @@ begin
 			StockMovVc_PasteArtCode(SMr,k,1,aWarning);
 			matrowget(SMr,k,SMrw);
 			SMrw.Quant = PUrw.Quant;
+			matrowput(SMr,k,SMrw);
+			StockMovVc_PasteQuant(SMr,k);
+			matrowget(SMr,k,SMrw);
 			SMrw.OrdQuant = PUrw.Quant;
 			SMrw.SerialNr = PUrw.SerialNr;
 			matRowPut(SMr,k,SMrw);
@@ -1826,8 +1832,12 @@ begin
 			SDVc_PasteArtCode(SDr,k,1,tstr,tstr);
 			matrowget(SDr,k,SDrw);
 			SDrw.Qty = PUrw.Quant;
+			matrowput(SDr,k,SDrw);
+			SDVc_PasteQty(SDr,k);
+			matrowget(SDr,k,SDrw);
 			SDrw.SerialNr = PUrw.SerialNr;
 			matRowPut(SDr,k,SDrw);
+			SDVc_PasteSerialNr(SDr,k,tstr);
 			k=k+1;
   	end;
 		res = true;
