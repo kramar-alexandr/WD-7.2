@@ -1380,7 +1380,7 @@ BEGIN
       if (testf) then begin
         if (prepno<>ARPayHistr.CUPNr) then begin
           if ((prepno<>-1) and (prepbal<>0)) then begin
-            StartFormat(15); LogText(0, "1 " & prepno & "   " & prepbal);
+            StartFormat(15); //LogText(0, "1 " & prepno & "   " & prepbal);
             tstr = prepno;
             OutStringID(pos1,"DblPrHisSL",tstr,false,custcode);
             OutVal(pos2,0,-prepbal,M4Val,true);
@@ -1435,7 +1435,7 @@ BEGIN
       end;
     end; 
     if ((prepno<>-1) and (prepbal<>0)) then begin 
-      StartFormat(15); LogText(0, "2 " & prepno & "   " & prepbal);
+      StartFormat(15); //LogText(0, "2 " & prepno & "   " & prepbal);
       OutStringID(pos1,"DblPrHisSL",tstr,false,custcode);
       OutVal(pos2,0,-prepbal,M4Val,true);
       if (amntincurncy!=0) then begin
