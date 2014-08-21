@@ -1251,14 +1251,14 @@ BEGIN
 			      j = curcnt;
 			    end;
 			  end;
+			  if (foundf==false) then begin
+			    pos = curcnt;
+			    curcnt = curcnt + 1;
+			    cur[pos] = code;
+			    valClientTot[pos] = BlankVal;
+			    valTotSum[pos] = BlankVal;
+			  end;
 			  if (pos>0) then begin
-				  if (foundf==false) then begin
-				    pos = curcnt;
-				    curcnt = curcnt + 1;
-				    cur[pos] = code;
-				    valClientTot[pos] = BlankVal;
-				    valTotSum[pos] = BlankVal;
-				  end;
 				  valClientTot[pos] = valClientTot[pos] - ARPayr.RVal;
 				  valTotSum[pos] = valTotSum[pos] - ARPayr.RVal;
 			  end;

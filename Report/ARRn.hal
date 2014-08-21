@@ -92,14 +92,14 @@ begin
       i = curcnt;
     end;
   end;
+  if (foundf==false) then begin
+    pos = curcnt;
+    curcnt = curcnt + 1;
+    cur[pos] = code;
+    valClientTot[pos] = BlankVal;
+    valTotSum[pos] = BlankVal;
+  end;
   if (pos>0) then begin
-	  if (foundf==false) then begin
-	    pos = curcnt;
-	    curcnt = curcnt + 1;
-	    cur[pos] = code;
-	    valClientTot[pos] = BlankVal;
-	    valTotSum[pos] = BlankVal;
-	  end;
 	  valClientTot[pos] = valClientTot[pos] + rvalP;
 	  valTotSum[pos] = valTotSum[pos] + rvalP;
   end;
@@ -1305,9 +1305,9 @@ L88:;
     		if (RepSpec.flags[2]==0) then begin
 	          OutValBiDi(pos,0,valTotSum[0],M4Val,true,520);
 	          OutString(pos + 10,0,altcur[0],false);
-	        end else begin LogText(0,"altcurcn: " & altcurcnt);
+	        end else begin
             	for (i=0;i<altcurcnt;i=i+1) begin //Edit***************************Sasha2,16:16 20.08.2014
-  					OutValBiDi(pos,0,valTotSum[i],M4Val,true,520)
+  					OutValBiDi(pos,0,valTotSum[i],M4Val,true,520);
   					OutString(pos + 10,0,altcur[i],false);
   		    	end; //Edit***************************Sasha2,16:16 20.08.2014
 	        end;
