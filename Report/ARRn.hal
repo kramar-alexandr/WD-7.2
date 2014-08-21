@@ -1337,7 +1337,7 @@ L88:;
 			    	StartFormat(15);
 			    	if (i==0) then begin
 			    		OutString(290,0,USetStr(2429),false);
-			    	else
+			    	end else begin
 			    		OutString(290,0,"",false);	
 			    	end;
 			    	OutValBiDi(pos,0,valTotSum[i],M4Val,true,520);
