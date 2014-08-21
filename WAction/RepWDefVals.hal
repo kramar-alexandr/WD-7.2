@@ -1,0 +1,19 @@
+global
+procedure ARRClassReportDefaults(Integer wn)
+BEGIN
+  record RcVc RepSpec;
+  string 255 tstr;
+  
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  ReportDefaults(RepSpec,"ARRClass");  
+  RepSpec.ArtMode = 1;
+  RepSpec.flags[1] = 0; //Edit***************************Sasha2,16:49 21.08.2014
+  RepSpec.flags[20] = 1; //Edit***************************Sasha2,16:49 21.08.2014
+  RepSpec.flags[14] = 1; //Edit***************************Sasha2,16:49 21.08.2014
+  RepSpec.flags[2] = 1; //Edit***************************Sasha2,16:49 21.08.2014
+  PutWindowRecord(wn,RepSpec);
+  SelectWindow(wn);
+  RETURN;
+END;
+
