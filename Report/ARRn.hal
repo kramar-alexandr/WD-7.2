@@ -645,18 +645,17 @@ L22:;
     if (testf) then begin
         if ((CustOut==false) and (RepSpec.ArtMode<>3) and (RepSpec.ArtMode<>2) and (RepSpec.ArtMode<>4) and (RepSpec.ArtMode<>6) and (RepSpec.ArtMode!=10)) then begin
           Gray_Divider(0,1);
-          StartFormat(15);
-           OutString(0,"DblCUVc",CUr.Code,false);
-           if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,15:23 19.08.2014 {
-           		OutString(30,0,CUr.Name,false);
-           end else begin
+          if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,15:23 19.08.2014 {
+          end else begin
+          	StartFormat(15);
+           		OutString(0,"DblCUVc",CUr.Code,false);
 	       		OutString(100,0,CUr.Name,false);
 	       		OutString(280,0,CUr.Phone,false);
 	        	if (RepSpec.flags[2]==1) then begin
 	          		OutString(480,0,CUr.CurncyCode,true);
 	        	end;  
-           end; //Edit***************************Sasha2,15:23 19.08.2014 }    
-          EndFormat;          
+           	EndFormat; 
+          end; //Edit***************************Sasha2,15:23 19.08.2014 }    
           CustOut = true;
         end;
         if ((RepSpec.ArtMode==0) or (RepSpec.ArtMode==1)) then begin
@@ -1078,11 +1077,13 @@ end;
         end;
 		if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,16:51 20.08.2014 {
 			if (RepSpec.flags[2]==0) then begin
-			StartFormat(15);
-			  OutString(320,0,USetStr(2424),true);
-	          OutValBiDi(pos,0,valClientTot[0],M4Val,true,520);
-	          OutString(pos + 10,0,altcur[0],false);
-	        EndFormat;
+			if (NonBlank(valClientTot[0])) then begin
+				StartFormat(15);
+				  OutString(320,0,USetStr(2424),true);
+		          OutValBiDi(pos,0,valClientTot[0],M4Val,true,520);
+		          OutString(pos + 10,0,altcur[0],false);
+		        EndFormat;
+			end;
 	        end;
 		end else begin
 			StartFormat(15); //Edit***************************Sasha2,14:47 21.08.2014
@@ -1327,11 +1328,13 @@ L88:;
   if (RepSpec.ArtMode!=10) then begin 
     if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,17:12 20.08.2014 {
 		if (RepSpec.flags[2]==0) then begin
-			StartFormat(15);
-			  OutString(290,0,USetStr(2429),false);
-	          OutValBiDi(pos,0,valTotSum[0],M4Val,true,520);
-	          OutString(pos + 10,0,altcur[0],false);
-	        EndFormat;  
+			if (NonBlank(valTotSum[0])) then begin
+				StartFormat(15);
+				  OutString(290,0,USetStr(2429),false);
+		          OutValBiDi(pos,0,valTotSum[0],M4Val,true,520);
+		          OutString(pos + 10,0,altcur[0],false);
+		        EndFormat;  
+			end;
         end;
     	if (RepSpec.flags[2]==1) then begin
 	    	for (i=0;i<altcurcnt;i=i+1) begin

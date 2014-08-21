@@ -356,8 +356,8 @@ BEGIN
   
    StartFormat(15);
     if (RepSpec .ArtMode ==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,9:21 20.08.2014 {
-    	OutString(0,0,"",false);
-    	OutString(30,0,"",false);
+    	OutString(0,"DblCUVc",CUr.Code,false);
+    	OutString(30,0,IVr.Addr0,false);
     	OutString(90,0,USetStr(2423),false);
     	if (RepSpec.flags[23]!=0) then begin
 	      if (IVr.DisputedFlag==1) then begin 
@@ -1196,6 +1196,9 @@ BEGIN
   Integer j,pos; //Edit***************************Sasha2,18:16 20.08.2014
   string 20 code; //Edit***************************Sasha2,18:16 20.08.2014
   Boolean foundf; //Edit***************************Sasha2,18:17 20.08.2014
+  String 255 custname; //Edit***************************Sasha2,17:58 21.08.2014
+  val koef; //Edit***************************Sasha2,17:58 21.08.2014
+  String 20 ipcurncy;//Edit***************************Sasha2,18:05 21.08.2014
 
   if (backdate==false) then begin 
     found = true;
@@ -1221,10 +1224,25 @@ BEGIN
         end;
         if (testf) then begin
           if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,10:31 20.08.2014 {
+          	ARPayHistr.CUPNr = ARPayr.CUPNr;
+          	if (ReadFirstMain(ARPayHistr,1,true)) then begin
+          	  IPr.SerNr = ARPayHistr.SerNr;
+              if (ReadFirstMain(IPr,1,true)) then begin
+                rwcnt = MatRowCnt(IPr);
+                for (i=0;i<rwcnt;i=i+1) begin
+                  MatRowGet(IPr,i,IPrw);
+                  if (IPrw.CUPNr==ARPayHistr.CUPNr) then begin
+                    custname = IPrw.CustName;
+                    koef = IPrw.BankVal/IPrw.RecVal;
+                    ipcurncy = IPrw.BankCurncy;
+                  end;
+                end;
+              end;
+          	end;
           	StartFormat(15); 
 	          tstr = ARPayr.CUPNr;
-	          OutString(0,0,"",false);
-    		  OutString(30,0,"",false);
+	          OutString(0,"DblCUVc",custcode,false);
+    		  OutString(30,0,custname,false);
 	          OutString(90,0,USetStr(2497),false);
 	          OutStringID(120,"DblPrHisSL",tstr,false,custcode);
 	          OutString(145,0,"",false);
@@ -1235,8 +1253,8 @@ BEGIN
 	          if (amntincurncy==0) then begin
 	            OutVal(360,0,-ARPayr.BookRVal,M4Val,true);    
 	          end else begin
-	            OutString(310,0,ARPayr.CurncyCode,true);
-	            OutVal(360,0,-ARPayr.RVal,M4Val,true);
+	            OutString(310,0,/*ARPayr.CurncyCode*/ipcurncy,true);
+	            OutVal(360,0,-ARPayr.RVal * koef,M4Val,true);
 	            OutVal(410,0,-ARPayr.BookRVal,M4Val,true);
 	          end;
 	        EndFormat;
