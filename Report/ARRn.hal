@@ -1079,6 +1079,8 @@ end;
 			if (RepSpec.flags[2]==0) then begin
 			if (NonBlank(valClientTot[0])) then begin
 				StartFormat(15);
+				  OutString(0,"DblCUVc",CUr.Code,false);
+	       		  OutString(30,0,CUr.Name,false);
 				  OutString(320,0,USetStr(2424),true);
 		          OutValBiDi(pos,0,valClientTot[0],M4Val,true,520);
 		          OutString(pos + 10,0,altcur[0],false);
@@ -1107,11 +1109,7 @@ end;
 	     	for (i=0;i<altcurcnt;i=i+1) begin
 		     	if (NonBlank(valClientTot[i])) then begin
 		     	StartFormat(15);
-		     		if (i==0) then begin
-		     			OutString(320,0,USetStr(2424),true);
-		     		end else begin
-		     			OutString(320,0,"",true);
-		     		end;
+		     		OutString(320,0,USetStr(2424),true);
 		     		OutValBiDi(pos,0,valClientTot[i],M4Val,true,520)
   					OutString(pos + 10,0,altcur[i],false);
 		     	EndFormat;
