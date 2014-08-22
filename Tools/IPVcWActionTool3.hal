@@ -732,7 +732,8 @@ begin
   ChangeSVIPRecCur(iprp,tdp,t);
   if (iprp.InvoiceNr==-1) then begin
     iprp.InvVal = iprp.RecVal;
-    iprp.InvCurncy = iprp.BankCurncy;
+    //iprp.InvCurncy = iprp.BankCurncy;
+    iprp.InvCurncy = iprp.RecCurncy;// Edit ************************** Friday, 22 August 2014 10:09:38
   end;  
   return;
 end;
@@ -855,6 +856,9 @@ begin
     MatRowPut(IPp,rownr,IPrw);
   end;
   IPVc_RecalcRecVal(IPp,rownr); //Edit***************************Sasha2,15:56 18.08.2014
+  MatRowGet(IPp,rownr,IPrw);// Edit ************************** Friday, 22 August 2014 11:04:11
+  	IPrw.InvVal = IPrw.RecVal;// Edit ************************** Friday, 22 August 2014 11:04:35
+  MatRowPut(IPp,rownr,IPrw);// Edit ************************** Friday, 22 August 2014 11:04:12
   IPSumup(IPp);
   return;
 end;
