@@ -17,3 +17,19 @@ BEGIN
   RETURN;
 END;
 
+global
+procedure INRClassReportDefaults(Integer wn)
+begin
+  record RcVc RepSpec;
+  record VarietyBlock Varb;
+  
+  BlockLoad(Varb);  
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  ReportDefaults(RepSpec,"INRClass");  
+  RepSpec.flags[22] = Varb.AutoVarietyDef;
+  RepSpec.flags[18] = 1; //Edit***************************Sasha2,14:37 22.08.2014
+  PutWindowRecord(wn,RepSpec);
+  SelectWindow(wn);
+  return;
+end;
