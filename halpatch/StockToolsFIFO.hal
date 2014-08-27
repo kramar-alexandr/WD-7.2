@@ -1426,6 +1426,11 @@ begin
   switch(filename)begin
   	case "PUVc":	PUr.SerNr = transnr;
   								readfirstmain(PUr,1,true);
+  								sfilename = "PUVc";
+									ssernr = transnr;
+									srow = IHr.Row;
+									totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
+									curncy = PUr.CurncyCode;
   								if(nonblank(PUr.VECode))then begin
 										matrowget(PUr,IHr.Row,PUrw);
 										curncy = PUr.CurncyCode;

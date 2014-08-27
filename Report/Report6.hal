@@ -1,0 +1,181 @@
+SetLangMode(LangUkrainian,"UKR",0);
+
+function val GetItemPrice(string artcode, string PLCode)
+begin
+	val res;
+	record PLVc PLr;
+	
+	res = 0;
+	PLr.ArtCode = artcode;
+	PLr.PLCode = PLCode;
+	if(readfirstmain(PLr,2,true))then begin
+		res = PLr.ExVatPrice;
+	end;
+	
+	GetItemPrice = res;
+
+return;
+end;
+
+global procedure MyItemReportRn(record RcVc RepSpec)
+begin
+  record INVc INr;
+  Boolean TrHs,TrHs1;
+  Boolean testf,testf1;
+  record ItemStatusVc ISr;
+  record PLVc PLr;
+  record PLDefVc PLDefr;
+  record ITVc ITr;
+  array string 20 plcode;
+  array val price;
+  integer plcnt,i;
+  record ItemHistVc IHr;
+  
+  PLDefr.Code = "";
+  while(loopmain(PLDefr,1,true))begin
+  	plcode[plcnt] = PLDefr.Code;
+  	price[plcnt] = 0;
+  	plcnt = plcnt + 1;
+  end;
+  
+  startreportnoheaderjob("MyItemReportRn");
+  
+  startformat(15);
+    outstring(0,0,"Товар",false);
+    outstring(0,0,"Назва",false);
+    outstring(0,0,"На складі",false);
+    if(RepSpec.ArtMode==0)then begin
+			outstring(0,0,"Доступно",false);
+    end;
+    if(RepSpec.flags[0]==1)then begin
+			outstring(0,0,"Собівартість",false);
+			outstring(0,0,"Сума",false);
+    end;
+    outstring(0,0,"Склад",false);
+    
+    For(i=0;i<plcnt;i=i+1) begin
+	  	OutString(4,0,"Ціна " & plcode[i],false);
+		end; 
+    
+    outstring(0,0,"Група",false);
+  endformat;
+  
+  TrHs = true;
+  ISr.Code = "";
+  while (loopmain(ISr,1,TrHs)) begin
+  	testf = true;
+    if(ISr.Instock==0 or ISr.Location==";;;") then begin testf = false; end;
+    
+    
+    if(testf)then begin
+      INr.Code = ISr.Code;
+      If(readfirstmain(INr,1,True)) then begin
+      	ITr.Code = INr.Group;
+				readfirstmain(ITr,1,true);
+				For(i=0;i<plcnt;i=i+1) begin
+					price[i] = GetItemPrice(INr.Code,plcode[i]);
+				end; 
+				
+				if(RepSpec.ArtMode==0)then begin
+					StartFormat(15)
+						OutString(0,0,ISr.Code,false);
+						OutString(1,0,INr.Name,false);
+						OutString(2,0,ISr.Instock,false);
+						if(RepSpec.ArtMode==0)then begin
+							OutString(3,0,ISr.Instock-ISr.RsrvQty-ISr.StockRsrvQty,false);
+						end;
+						if(RepSpec.flags[0]==1)then begin
+							OutString(1,0,INr.InPrice,false);
+							OutString(1,0,INr.InPrice*ISr.Instock,false);
+						end;
+						OutString(4,0,ISr.Location,false);
+						For(i=0;i<plcnt;i=i+1) begin
+							OutString(4,0,price[i],false);
+						end; 
+						OutString(5,0,ITr.Comment,false);
+					endformat;
+        end else begin
+        	
+        	IHr.ArtCode = INr.Code;
+        	TrHs1 = true;
+        	while(loopkey("ActiveQty",IHr,1,TrHs1))begin
+        		testf1 = true;
+        		if(IHr.ArtCode!=INr.Code)then begin testf1 = false; TrHs1 = false; end;
+        		if(IHr.Location!=ISr.Location)then begin testf1 = false; end;
+        		
+        		if(testf1)then begin 
+        			StartFormat(15)
+								OutString(0,0,ISr.Code,false);
+								OutString(1,0,INr.Name,false);
+								OutString(2,0,IHr.RemQty,false);
+								if(RepSpec.flags[0]==1)then begin
+									OutString(3,0,ISr.Instock-ISr.RsrvQty-ISr.StockRsrvQty,false);
+									OutString(1,0,IHr.RemCostPrice / IHr.RemQty,false);
+								end;
+								OutString(1,0,IHr.RemCostPrice,false);
+								OutString(4,0,ISr.Location,false);
+								For(i=0;i<plcnt;i=i+1) begin
+									OutString(4,0,price[i],false);
+								end; 
+								OutString(5,0,ITr.Comment,false);
+							endformat;
+        		end;
+        	end;
+        	resetloop(IHr);
+        end;
+      end;
+    end;
+  end;
+  endjob;
+return;
+end;
+
+
+
+global procedure FullStockEn()
+begin
+record RcVc RepSpec;
+integer compno;
+  compno = CurrentCompany;
+	RepSpec.ArtMode = 1;
+	RepSpec.flags[0] = 1;
+      switch (compno) begin  
+      case 5: CreateFile("Stock/TXTStockFull.xls");
+              closefile;
+              openexportfile("Stock/TXTStockFull.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/TXTStockFull.sh", "");
+      
+      case 7: CreateFile("Stock/TNMStockFull.xls");
+              closefile;
+              openexportfile("Stock/TNMStockFull.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/TNMStockFull.sh", "");
+      
+  end;
+  closefile;
+return;
+end;
+
+global procedure ManagersFullStockEn()
+begin
+record RcVc RepSpec;
+integer compno;
+  compno = CurrentCompany;
+      switch (compno) begin
+      case 5: CreateFile("Stock/TXTStockFullManagers.xls");
+              closefile;
+              openexportfile("Stock/TXTStockFullManagers.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/TXTStockFullManagers.sh", "");
+      
+      case 7: CreateFile("Stock/TNMStockFullManagers.xls");
+              closefile;
+              openexportfile("Stock/TNMStockFullManagers.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/TNMStockFullManagers.sh", "");
+  end;
+  closefile;
+return;
+end;
+

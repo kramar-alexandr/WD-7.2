@@ -41,3 +41,26 @@ begin
 	EndWindow;
 return;
 end;
+
+
+
+window MyFullStockRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+
+	WindowBegin("Отчет по стоку",MyFullStockRClass,CGRcW,RcType);
+    UseView(RcVc);
+    SetWRect(20,120,350,300);
+    h=100; v=20;
+    ButtonFrame(h,v=vm+10,140,2,"Режим");
+		RadioButton(h,v,0,0,"Зведено",ArtMode);
+		RadioButton(h,v+=16,1,0,"Детально",ArtMode);
+		vm = v + 20;
+    ButtonFrame(h,v=vm+10,140,2,"Кост");
+		RadioButton(h,v,0,0,"Не показувати",flags[0]);
+		RadioButton(h,v+=16,1,0,"Показувати",flags[0]);
+  EndWindow;
+return;
+end;

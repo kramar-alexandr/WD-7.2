@@ -6,7 +6,8 @@ begin
 	
 	Report("Історія продажів по клієнтам ",CUSalesRepRClass,CustSalesReportRn,0,modSO);
 	Report("Звіт по продажам",SalesReportRClass,SalesReportRn,0,modSL);
-
+	Report("Звіт по складу для менеджерів",SalesReportRClass,SalesReportRn,0,modSO);
+	Report("FullStock Manual",MyFullStockRClass,MyItemReportRn,0,modIN);
 	 
   SString(31000,"грн.");
   SString(31001,"Підготовлено у системі HansaWorld");
