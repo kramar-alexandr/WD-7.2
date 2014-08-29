@@ -2378,6 +2378,8 @@ email not working yet
   if (HasTaxMatrix) then begin
   SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixORDsm"); 
   end;
+  SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+  SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
   end;
   EndWindow;
 end;
