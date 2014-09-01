@@ -209,7 +209,7 @@ begin
 				for (i=0;i<rwcnt;i=i+1) begin
 					MatRowGet(StockMovr,i,StockMovrw);
 					testf = true;
-					if (StockMovrw.ArtCode!=SHrw.ArtCode or StockMovrw.IntORRow!=SHrw.OrdRow) then begin testf = false; end;
+					if (StockMovrw.ArtCode!=SHrw.ArtCode or StockMovrw.ORRow!=SHrw.OrdRow) then begin testf = false; end;
 					if (NonBlank(SHrw.SerialNr) and SHrw.SerialNr!=StockMovrw.SerialNr) then begin  testf = false; end;
 					if (testf) then begin
 						if (StockMovr.ToLocation==ORr.Location) then begin
@@ -243,7 +243,7 @@ begin
 		Retr.OrdNr = ORr.SerNr;
 		TrHs = true;
 		while (LoopKey("OrdNr",Retr,1,TrHs)) begin
-			if (Retr.OKFlag==1 and Retr.OrdNr==ORr.SerNr) then begin
+			if (Retr.OKFlag==1 and Retr.OrdNr==ORr.SerNr and Retr.Location==SHp.Location) then begin
 				rwcnt=MatRowCnt(Retr);
 				for (i=0;i<rwcnt;i=i+1) begin
 					MatRowGet(Retr,i,Retrw);
