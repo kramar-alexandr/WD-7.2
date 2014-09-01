@@ -1,10 +1,11 @@
 external function LongInt DateDiff(Date,Date);
 external procedure ExtractObj(string,var Integer,var string);
+external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
 
-procedure CollectCostMyInvoice(record IVVc IVr, integer rownr,var array val cost,var array string curncy,var array val rate,var array date indate,var array string vecode,var array string serial,var array val qty,var integer ressize)
+procedure CollectCostMyInvoice(record IVVc IVr, integer rownr,var array val cost,var array val curcost,var array string curncy,var array val rate,var array date indate,var array string vecode,var array string serial,var array val qty,var integer ressize)
 begin
 	row IVVc IVrw;
 	record ORVc ORr;
@@ -16,6 +17,8 @@ begin
 	row PUVc PUrw;
 	record SHVc SHr;
 	row SHVc SHrw;
+	boolean trhs1;
+	integer shi,shmtrw;
 	
 	ressize = 0;
 	
@@ -46,7 +49,8 @@ begin
 				if(IHr.InFileName=="PUVc")then begin
 					PUr.SerNr = IHr.InSerNr;
 					if(readfirstmain(PUr,1,true))then begin
-						cost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+						curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+						cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
 						curncy[ressize] = IHr.PUCurncyCode;
 						rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 						indate[ressize] =	PUr.TransDate;
@@ -69,15 +73,15 @@ begin
 					TrHs = true;
 					while(loopkey("FNTransNr",IHr,3,TrHs))begin
 						testf = true;
-						if(IHr.FileName!="IVVc")then begin TrHs = false; testf = false; end;
-						if(IHr.TransNr!=IVr.SerNr)then begin TrHs = false; testf = false; end;
+						if(IHr.TransNr!=SHr.SerNr)then begin TrHs = false; testf = false; end;
 						if(IHr.Row!=rownr)then begin TrHs = false; testf = false; end;
 			
 						if(testf)then begin
 							if(IHr.InFileName=="PUVc")then begin
 								PUr.SerNr = IHr.InSerNr;
 								if(readfirstmain(PUr,1,true))then begin
-									cost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+									cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
+									curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
 									curncy[ressize] = IHr.PUCurncyCode;
 									rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 									indate[ressize] =	PUr.TransDate;
@@ -90,6 +94,52 @@ begin
 						end;
 					end;
 				end;
+			end;
+		end else begin
+			SHr.OrderNr = IVr.OrderNr;
+			trhs1=true;
+			while(LoopBackKey("OrderKey",SHr,1,trhs1)) begin// loopkey -> loopbackkey
+				if(SHr.OrderNr!=IVr.OrderNr)then begin trhs1=false; end;
+				
+				if(SHr.OrderNr==IVr.OrderNr) then begin
+					shmtrw = Matrowcnt(SHr);
+					For(shi=0;shi<shmtrw;shi=shi+1) begin
+						matrowget(SHr,shi,SHrw);
+						if(SHrw.ArtCode==IVrw.ArtCode and SHrw.OrdRow==IVrw.OrdRow)then begin
+							IHr.FileName = "SHVc";
+							IHr.TransNr = SHr.SerNr;
+							IHr.Row = shi;
+							TrHs = true;
+							while(loopkey("FNTransNr",IHr,3,TrHs))begin
+								testf = true;
+								if(IHr.TransNr!=SHr.SerNr)then begin TrHs = false; testf = false; end;
+								if(IHr.Row!=shi)then begin TrHs = false; testf = false; end;
+			
+								if(testf)then begin
+									if(IHr.InFileName=="PUVc")then begin
+										PUr.SerNr = IHr.InSerNr;
+										if(readfirstmain(PUr,1,true))then begin
+											cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
+											curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+											curncy[ressize] = IHr.PUCurncyCode;
+											if(PUr.CurncyCode!="USD")then begin
+												rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+											end else begin
+												rate[ressize] = blankval;
+											end;
+											indate[ressize] =	PUr.TransDate;
+											vecode[ressize] = PUr.VECode;
+											serial[ressize] = IHr.SerialNr;
+											qty[ressize] = -IHr.Qty; 
+											ressize = ressize + 1;
+										end;
+									end;
+								end;
+							end;
+							resetloop(IHr);
+						end;
+					end; 
+				end else begin trhs1=false; end;
 			end;
 		end;
 		
@@ -125,7 +175,7 @@ end;
 
 global procedure SalesReportRn(record RcVc RepSpec)
 begin
-	integer i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
+	integer i0,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
 	integer i,mtrw;
 	record IVVc IVr;
 	row IVVc IVrw;
@@ -142,16 +192,18 @@ begin
 	val fr,to1,to2,br1,br2;
 	val invfr,invto1,invto2,invbr1,invbr2;
 	record CUVc CUr;
-	array val rate,qty,cost;
+	array val rate,qty,cost,curcost;
 	array date indate;
 	array string 100 vecode,serial,curncy;
 	integer ressize;
+	val t,sumcur,sumusd,sumcostcur,sumcostusd;
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
 	
 	startreportnoheaderjob("Звіт по продажам");
 		startformat(15);		
+			outstring(i0,0,"Акт",false);
 			outstring(i1,0,"Група",false);
 			outstring(i2,0,"Код товару",false);
 			outstring(i3,0,"Найменування",false);
@@ -160,6 +212,7 @@ begin
 			outstring(i6,0,"Склад",false);
 			outstring(i7,0,"Кіл-ть",false);
 			outstring(i8,0,"Валюта",false);
+			outstring(i8,0,"Валюта надх.",false);
 			outstring(i9,0,"Курс",false);
 			outstring(i10,0,"Ціна за од., валюта",false);
 			outstring(i11,0,"Ціна за од., $",false);
@@ -239,37 +292,78 @@ begin
 						location = IVr.Location;
 					end;
 					
-					CollectCostMyInvoice(IVr,i,cost,curncy,rate,indate,vecode,serial,qty,ressize);			
+					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize);			
 					For(j=0;j<ressize;j=j+1) begin
 						startformat(15);		
+							outstring(i0,0,IVr.SerNr,false);
 							outstring(i1,0,ITr.Comment,false);
 							outstring(i2,0,INr.Code,false);
 							outstring(i3,0,INr.Name,false);
 							outstring(i4,0,IVr.InvDate,false);
 							outstring(i5,0,IVr.CustCode,false);
 							outstring(i6,0,IVr.Location,false);
-							outstring(i7,0,location,false);
+							outstring(i7,0,qty[j],false);
 							outstring(i8,0,IVr.CurncyCode,false);
+							outstring(i81,0,curncy[k],false);
 							outstring(i9,0,rate[k],false);
 							outstring(i10,0,IVrw.Price,false);
-							outstring(i11,0,"Ціна за од., $",false);
+							if(curncy[k]=="USD")then begin
+								outstring(i11,0,IVrw.Price * invfr / invto1,false);
+							end else begin
+								CurValToOtherCur(indate[k],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
+								outstring(i11,0,t,false);
+							end;
+							//outstring(i11,0,"Ціна за од., $",false);
 							outstring(i12,0,IVrw.vRebate,false);
-							outstring(i13,0,IVrw.Sum,false);
-							outstring(i14,0,"Сума, $",false);
-							outstring(i15,0,cost[k],false);
-							outstring(i16,0,"Собівартість за од., $",false);
-							outstring(i17,0,cost[k] * qty[k],false);
-							outstring(i18,0,"Собірвартість, $",false);
-							outstring(i19,0,"Прибуток, валюта",false);
-							outstring(i20,0,"Прибуток, $",false);
-							outstring(i21,0,"Маржа",false);
+							sumcur = IVrw.Sum/IVrw.Quant * qty[k];
+							outstring(i13,0,sumcur,false);
+							
+							if(curncy[k]=="USD")then begin
+								sumusd = IVrw.Sum/IVrw.Quant * qty[k] * invfr / invto1;
+								outstring(i14,0,sumusd,false);
+							end else begin
+								CurValToOtherCur(indate[k],IVr.CurncyCode,IVrw.Sum,"USD",t,DefaultCurRoundOff);
+								sumusd = t;
+								outstring(i11,0,sumusd,false);
+							end;
+							//outstring(i14,0,"Сума, $",false);
+							if(curncy[k]=="USD")then begin
+								outval(i15,0,-cost[k] / invfr * invto1,m4UVal,false);
+								outval(i16,0,-cost[k],m4UVal,false);
+							end else begin
+								CurValToOtherCur(IVr.InvDate,curncy[k],curcost[k],IVr.CurncyCode,t,DefaultCurRoundOff);
+								outval(i15,0,-t,m4UVal,false);
+								CurValToOtherCur(IVr.InvDate,curncy[k],curcost[k],"USD",t,DefaultCurRoundOff);
+								outval(i16,0,-t,m4UVal,false);
+							end;
+							
+							if(curncy[k]=="USD")then begin
+								sumcostcur = -cost[k] / invfr * invto1 * qty[k];
+								outstring(i17,0,sumcostcur,false);
+								sumcostusd = -cost[k]* qty[k];
+								outstring(i18,0,sumcostusd,false);
+							end else begin
+								sumcostcur = -curcost[k] * qty[k];
+								CurValToOtherCur(indate[k],curncy[k],sumcostcur,IVr.CurncyCode,t,DefaultCurRoundOff);
+								sumcostcur = t;
+								outstring(i17,0,sumcostcur,false);
+								sumcostusd = -curcost[k] * qty[k];
+								CurValToOtherCur(indate[k],curncy[k],sumcostusd,"USD",t,DefaultCurRoundOff);
+								sumcostusd = t;
+								outstring(i18,0,sumcostusd,false);
+							end;
+							
+							
+							outstring(i19,0,sumcur - sumcostcur,false);
+							outstring(i20,0,sumusd - sumcostusd,false);
+							outstring(i21,0,(sumusd - sumcostusd)/sumcostusd,false);
 							outstring(i22,0,IVr.ShipMode,false);
 							outstring(i23,0,indate[k],false);
 							outstring(i24,0,vecode[k],false);
 							outstring(i25,0,serial[k],false);
 							outstring(i26,0,CUr.SalesMan,false);
 							outstring(i27,0,IVr.SalesMan,false);
-							outstring(i28,0,"Сервісний інженер",false);
+							outstring(i28,0,"",false);
 							for(l=0;l<k;l=l+1)begin
 							outstring(i29,0,class[l],false);
 							end;
