@@ -3,6 +3,7 @@ external procedure MyReservStstEn();
 external procedure DebitorkaReportEn(integer);
 external procedure FullStockEn();
 external procedure ManagersFullStockEn();
+external procedure ShopsReportEn(); //Edit***************************Sasha2,17:24 02.09.2014
 //------------------------------------------------------------------------------------------------------------------------------
 global procedure AutoRun()
 begin
@@ -30,6 +31,8 @@ AService = 8;
     AutoUnreservOrderMn;
     logtext(0,currentcompany & " MyReservStstEn");
     MyReservStstEn;
+    logtext(0,currentcompany & " ShopsReportEn"); //Edit***************************Sasha2,17:27 02.09.2014
+    ShopsReportEn; //Edit***************************Sasha2,17:27 02.09.2014
     
     ResetCompany(Textera);  
   end;
@@ -49,6 +52,9 @@ AService = 8;
     AutoUnreservOrderMn;
     logtext(0,currentcompany & " MyReservStstEn");
     MyReservStstEn;
+    logtext(0,currentcompany & " ShopsReportEn"); //Edit***************************Sasha2,17:27 02.09.2014
+    ShopsReportEn;
+    
     ResetCompany(Technomedia);  
   end;
   
