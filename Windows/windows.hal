@@ -77,5 +77,6 @@ begin
     PeriodField(h,20,"Період");
     EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
     EditField(h,60,150,"Товар",Normal,f2,false,INSClass);
+    EditField(h,80,150,"Склад",Normal,f3,false,LocationSClass);
   EndWindow;
 end;
