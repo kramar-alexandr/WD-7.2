@@ -20,10 +20,15 @@ AService = 8;
 
   
   if (SetCompany(Textera,false)) then begin//textera
+  	logtext(0,currentcompany & " FullStockEn");
     FullStockEn;
+    logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
+    logtext(0,currentcompany & " DebitorkaReportEn");
     DebitorkaReportEn(Textera);
+    logtext(0,currentcompany & " AutoUnreservOrderMn");
     AutoUnreservOrderMn;
+    logtext(0,currentcompany & " MyReservStstEn");
     MyReservStstEn;
     
     ResetCompany(Textera);  
@@ -34,10 +39,15 @@ AService = 8;
 
   
   if (SetCompany(Technomedia,false)) then begin
+    logtext(0,currentcompany & " FullStockEn");
     FullStockEn;
+    logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
+    logtext(0,currentcompany & " DebitorkaReportEn");
     DebitorkaReportEn(Technomedia);
+    logtext(0,currentcompany & " AutoUnreservOrderMn");
     AutoUnreservOrderMn;
+    logtext(0,currentcompany & " MyReservStstEn");
     MyReservStstEn;
     ResetCompany(Technomedia);  
   end;

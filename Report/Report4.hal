@@ -106,6 +106,7 @@ integer compnr;
           //case 8: filename = "Reports/8/A-SRVReserves.xls";
         end;
         
+        delete_file(filename);
         CreateFile(filename);
         closefile;
         millisleep(100);

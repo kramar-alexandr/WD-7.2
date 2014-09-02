@@ -109,7 +109,6 @@ begin
 								OutString(1,0,INr.Name,false);
 								OutString(2,0,IHr.RemQty,false);
 								if(RepSpec.flags[0]==1)then begin
-									OutString(3,0,ISr.Instock-ISr.RsrvQty-ISr.StockRsrvQty,false);
 									OutString(1,0,IHr.RemCostPrice / IHr.RemQty,false);
 								end;
 								OutString(1,0,IHr.RemCostPrice,false);
@@ -140,13 +139,15 @@ integer compno;
 	RepSpec.ArtMode = 1;
 	RepSpec.flags[0] = 1;
       switch (compno) begin  
-      case 5: CreateFile("Stock/TXTStockFull.xls");
+      case 5: delete_file("Stock/TXTStockFull.xls");
+      				CreateFile("Stock/TXTStockFull.xls");
               closefile;
               openexportfile("Stock/TXTStockFull.xls",true);
               MyItemReportRn(RepSpec);
               RunProgram("Stock/TXTStockFull.sh", "");
       
-      case 7: CreateFile("Stock/TNMStockFull.xls");
+      case 7: delete_file("Stock/TNMStockFull.xls");
+      				CreateFile("Stock/TNMStockFull.xls");
               closefile;
               openexportfile("Stock/TNMStockFull.xls",true);
               MyItemReportRn(RepSpec);
@@ -163,13 +164,15 @@ record RcVc RepSpec;
 integer compno;
   compno = CurrentCompany;
       switch (compno) begin
-      case 5: CreateFile("Stock/TXTStockFullManagers.xls");
+      case 5: delete_file("Stock/TXTStockFullManagers.xls");
+      				CreateFile("Stock/TXTStockFullManagers.xls");
               closefile;
               openexportfile("Stock/TXTStockFullManagers.xls",true);
               MyItemReportRn(RepSpec);
               RunProgram("Stock/TXTStockFullManagers.sh", "");
       
-      case 7: CreateFile("Stock/TNMStockFullManagers.xls");
+      case 7: delete_file("Stock/TNMStockFullManagers.xls");
+      				CreateFile("Stock/TNMStockFullManagers.xls");
               closefile;
               openexportfile("Stock/TNMStockFullManagers.xls",true);
               MyItemReportRn(RepSpec);

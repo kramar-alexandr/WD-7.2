@@ -8,6 +8,7 @@ begin
   row ORVc ORrw;
   boolean TrHs,testf;
   integer compnr,counter,i,mtrw;
+  string 100 filename;
   
   
   compnr = currentcompany;
@@ -16,15 +17,19 @@ begin
   
   switch(compnr)begin
     
-    case  5:  CreateFile("Stock/AutoreservTXT.xls");
+    case  5:  filename = "Stock/AutoreservTXT";
+    					delete_file(filename & ".xls");
+    					CreateFile(filename & ".xls");
               closefile;
               millisleep(100);
-              openexportfile("Stock/AutoreservTXT.xls",true);
+              openexportfile(filename & ".xls",true);
     
-    case  7:  CreateFile("Stock/AutoreservTXT.xls");
+    case  7:  filename = "Stock/AutoreservTNM";
+    					delete_file(filename & ".xls");
+    					CreateFile(filename & ".xls");
               closefile;
               millisleep(100);
-              openexportfile("Stock/AutoreservTNM.xls",true);
+              openexportfile(filename & ".xls",true);
   end;
   
   startformat(15);
@@ -104,6 +109,7 @@ string 50 filename;
           //case 8: filename = "Stock/A-SRVDebitorka.xls";
         end;
         
+        delete_file(filename);
         CreateFile(filename);
         closefile;
         millisleep(100);
