@@ -1,3 +1,16 @@
+external function Boolean IsEnterprise();
+external function Boolean StandardHansa();
+external function Boolean HasItemClassification();
+external function Boolean HasItemGroups();
+external function Boolean HasMultiLocations();
+external function Boolean HasPositions();
+external function Boolean HasDepartments();
+external function Boolean HasModPO();
+external function Boolean HasSerialNumbers();
+external function Boolean HasSecondQuantity();
+external function Boolean HasVarieties();
+external function Boolean HasMultiCurrency();
+
 //##ii
 procedure dummy() //##ii
 begin //##ii
@@ -78,5 +91,120 @@ begin
     EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
     EditField(h,60,150,"Товар",Normal,f2,false,INSClass);
     EditField(h,80,150,"Склад",Normal,f3,false,LocationSClass);
+  EndWindow;
+end;
+
+window NewINRClass:2
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,h3,h4,v,v1,vm,vs,v2,temp;
+  WindowBegin("Визначте звіт по складу (модифікований)",NewINRClass,CGRcW,RcType);
+  h = 160; v = 6; vs = 20; h2 = 30; h3 = 180; h4 = 330;
+
+  if (IsEnterprise) then begin
+  SetWRect(20,80,/*580*/400,470);
+    h4 = 330;
+  end else begin
+    SetWRect(20,80,400,470);
+    h4 = 227;
+    h = 120;
+  end;
+
+  EditFieldTL(h,v,150,"Товар",M4UStr,Normal,50,f1,false,INSClass);
+  if (HasItemGroups) then begin
+  EditFieldTL(h,v+=vs,150,"Група",M4UStr,Normal,11,f3,false,ITSClass);
+  end;
+  if (HasItemClassification) then begin
+  EditFieldTL(h,v+=vs,150,"Класифікація товару", M4UStr,Normal,100,f4,false,DISClass); 
+  EditFieldTL(h,v+=vs,150,"Тип класифікації",M4UStr,Normal,60,f5,false,CTypeSClass);
+  end;
+  if (HasMultiLocations) then begin
+  EditFieldTL(h,v+=vs,80,"Склад",M4Code,Normal,10,f2,false,LocationSClass);
+  end;
+
+  if (HasPositions) then begin
+  EditFieldTL(h,v+=vs,150,"Місце",M4Code,Normal,10,FirstAcc,false,PosSClass);
+    end;
+  if (HasDepartments) then begin
+  EditFieldTL(h,v+=vs,150,"Відділ",M4UStr,Normal,10,AccStr,false,DepSClass);
+  end;
+  if (HasModPO) then begin
+  EditFieldTL(h,v+=vs,150,"Постачальник",M4UStr,Normal,20,LastAcc,false,VESClass);
+  end;
+  EditFieldTL(h,v+=vs,80,"Дата",M4Date,Normal,0,d1,false,PasteCurDate);
+  if (StandardHansa==true) then begin
+    v = v + vs;
+  end;
+  ButtonFrame(h2,vm=(v+=60),123,5,"Функція");
+  RadioButton(h2,v,0,0,"зведений",ArtMode);
+  RadioButton(h2,v+=16,1,0,"докладний",ArtMode);
+  /*if (HasMultiLocations) then begin
+  RadioButton(h2,v+=16,2,0,"по складам",ArtMode);
+  CheckBox(h2+30,v+=16,0,"врахов. суми",flags[14]);
+  RadioButton(h2,v+=16,3,0,"Загалом по складу",ArtMode);
+  end;*/
+  EndFrame;
+  if (HasMultiCurrency) then begin
+    v = v + 45; v1 = v;
+  end;
+  
+  /*if (IsEnterprise) then begin
+  ButtonFrame(h3,v=vm,123,5,"Метод оцінки");
+  RadioButton(h3,v,0,0,"по замовчуванню",flags[11]);
+  RadioButton(h3,v+=16,1,0,"собівартість",flags[11]);
+  RadioButton(h3,v+=16,2,0,"% базової ціни",flags[11]);
+  RadioButton(h3,v+=16,3,0,"середньозважена",flags[11]);
+  RadioButton(h3,v+=16,4,0,"черга",flags[11]);
+  ButtonFrame(h3,v=v1,123,3,"Відобразити");
+  RadioButton(h3,v,0,0,"нормальні",flags[19]);
+  RadioButton(h3,v+=16,1,0,"підсумовані",flags[19]);
+  RadioButton(h3,v+=16,2,0,"не підсумовані",flags[19]);
+  end;*/
+  temp = h3; //Edit***************************Sasha2,17:33 03.09.2014 !!!!!!was h4
+  /*ButtonFrame(temp,v=vm,123,5,"Сортувати за");
+  RadioButton(temp,v,0,0,"номером",flags[2]);
+  if (HasItemGroups) then begin
+  RadioButton(temp,v+=16,1,0,"групою",flags[2]);
+  end;
+  RadioButton(temp,v+=16,2,0,"найменуванням",flags[2]);
+  if (IsEnterprise) then begin
+  RadioButton(temp,v+=16,3,0,"штрих-кодом",flags[2]);
+    if (StandardHansa==false) then begin
+  RadioButton(temp,v+=16,4,0,"класифікацією",flags[2]);
+    end;
+  end;
+  EndFrame;*/
+  v2 = v + 16;
+  v = v1;
+  /*if (IsEnterprise) then begin
+    ButtonFrame(h4,v,188,3,"Функція");
+  RadioButton(h4,v,0,0,"врахов. товар під консигн.",flags[12]);
+  RadioButton(h4,v+=16,1,0,"не врахов. товар під консигн.",flags[12]);
+  RadioButton(h4,v+=16,2,0,"тільки товар під консигн.",flags[12]);
+  CheckBox(h4,v=20,0,"Тільки із залишками",UsedOnly);
+  CheckBox(h4,v+=16,0,"Тільки від'ємні значення",flags[17]);
+  end;*/
+  if (IsEnterprise==false) then begin
+    v = v2;
+  end;
+  v = vm - 30; //Edit***************************Sasha2,17:35 03.09.2014
+  temp = h3; //Edit***************************Sasha2,17:47 03.09.2014
+  if (HasSerialNumbers) then begin
+    CheckBox(temp,v+=16,0,"Показ. сер. номер",flags[10]); v = v + 16;
+  end;
+  if (IsEnterprise) then begin
+    //CheckBox(temp,v,0,"Value - Two Decimals",flags[16]); v = v + 16; // Who wanted this? Decimals per report....nahh.., I haven't added this one, JJ 
+    CheckBox(temp,v,0,"Вкл. закритий товар",flags[18]); v = v + 16;
+    //CheckBox(temp,v,0,"Report Calculates Back Dated WA",flags[20]); v = v + 16;
+    if (StandardHansa==false) then begin
+      //CheckBox(temp,v,0,"Show with Supersessions",flags[21]); v = v + 16;
+    end;
+  end;
+  if (HasVarieties) then begin
+    //CheckBox(temp,v,0,"Показувати варіанти",flags[22]); v = v + 16;
+  end;
+  if (HasLocalization("ARG,MEX,USA") and IsStandardProduct==false) then begin
+    //CheckBox(temp,v,0,"Показ. номер відпр. (Детально)",flags[23]); v = v + 16;
+  end;
   EndWindow;
 end;

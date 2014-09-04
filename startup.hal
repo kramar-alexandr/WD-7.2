@@ -9,6 +9,7 @@ begin
 	Report("‡вґт по складу длЯ менеджерґв",SalesReportRClass,SalesReportRn,0,modSO);
 	Report("FullStock Manual",MyFullStockRClass,MyItemReportRn,0,modIN);
 	Report("‡вґт по Shops",ShopsReportRClass,ShopsReportRn,0,modSO); //Edit***************************Sasha2,9:29 01.09.2014
+	Report("‡вґт по складу (модифґкований)",NewINRClass,NewInvValRn,0,modIN); //Edit***************************Sasha2,11:25 03.09.2014
 	 
   SString(31000,"грн.");
   SString(31001,"Џґдготовлено у системґ HansaWorld");
