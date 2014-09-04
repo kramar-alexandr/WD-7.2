@@ -115,9 +115,12 @@ string 50 filename;
         millisleep(100);
         openexportfile(filename,true);
         ReportDefaults(RepSpec,"ARRClass");
-        RepSpec.ArtMode = 0;
+        RepSpec.ArtMode = 1;
+        RepSpec.flags[1] = 0;
         RepSpec.flags[20] = 1;
-        RepSpec.Media = 20;
+        RepSpec.flags[14] = 1;
+        RepSpec.flags[2] = 1;
+        RepSpec.Media = mtExcel;
         ARRn(RepSpec);
         closefile;
         

@@ -1426,11 +1426,15 @@ begin
   switch(filename)begin
   	case "PUVc":	PUr.SerNr = transnr;
   								readfirstmain(PUr,1,true);
+  								matrowget(PUr,IHr.Row,PUrw);
   								sfilename = "PUVc";
 									ssernr = transnr;
 									srow = IHr.Row;
 									totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
 									curncy = PUr.CurncyCode;
+									if(IHr.ArtCode=="9500097010")then begin
+										logtext(0,totcostpricecurncy);
+									end;
   								if(nonblank(PUr.VECode))then begin
 										matrowget(PUr,IHr.Row,PUrw);
 										curncy = PUr.CurncyCode;
@@ -1441,6 +1445,9 @@ begin
 										ssernr = transnr;
 										srow = IHr.Row;
 										totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
+										if(IHr.ArtCode=="9500097010")then begin
+											logtext(0,totcostpricecurncy);
+										end;
   								end else begin
   									INr.Code = IHr.ArtCode;
   									if(readfirstmain(INr,1,true))then begin
@@ -1453,9 +1460,19 @@ begin
 													sfilename = sourceIHr.InFileName;
 													ssernr = sourceIHr.InSerNr;
 													srow = sourceIHr.InRow;
+  											end else begin
+  												sfilename = "PUVc";
+													ssernr = transnr;
+													srow = IHr.Row;
+													totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
+													curncy = PUr.CurncyCode;
   											end;
   										end else begin
-  										
+  											sfilename = "PUVc";
+												ssernr = transnr;
+												srow = IHr.Row;
+												totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
+												curncy = PUr.CurncyCode;
   										end;
   									end;
   								end;
@@ -1465,8 +1482,11 @@ begin
 									curncy = INr.LastPurchCurncyCode;
   								totcostpricecurncy = INr.LastPurchPrice2 * IHr.Qty;
   	case	"StockMovVc":	if(IHr.Qty>=0)then begin
-  												sourceIHr.SerNr = 9000000;
-  												readlastmain(sourceIHr,1,false);
+  	
+  												sourceIHr.FileName = "StockMovVc";
+  												sourceIHr.TransNr = IHr.TransNr;
+  												sourceIHr.Row = IHr.Row;
+  												readlastkey("FNTransNr",sourceIHr,3,false);
 													curncy = sourceIHr.PUCurncyCode;
 													totcostpricecurncy = sourceIHr.TotCostPriceCurncy;
 													sfilename = sourceIHr.InFileName;
