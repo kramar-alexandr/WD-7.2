@@ -376,6 +376,8 @@ BEGIN
   bm = 1 - GetDay(nbd);
   nbd = AddDay(nbd,bm);
   
+  logtext(0,bdp);
+  
   dvp = 0;
   cvp = 0;
   ocnt = CountObjects(objstr);
@@ -425,6 +427,7 @@ when TransAccTurnover dates should not be changed
     BlockLoad(bascur);
     dvp = GetBalance(ObjBalr,"transdebit",ltd);
     cvp = GetBalance(ObjBalr,"transcredit",ltd);
+    logtext(0,cvp & " " & ltd);
     if ((simf<>0) and (GetDay(nbd)==1)) then begin
       dvp = dvp + dv;
       cvp = cvp + cv;
@@ -452,6 +455,8 @@ when TransAccTurnover dates should not be changed
       end else begin
         dvp = GetBalance(ObjBalr,"transdebit",ltd);
         cvp = GetBalance(ObjBalr,"transcredit",ltd);
+        logtext(0,cvp & " " & ltd);
+
       end;
       if ((simf<>0) and (GetDay(nbd)==1)) then begin
         if (basecurncy==1) then begin                
@@ -475,7 +480,6 @@ L8:;
   dvp = dvp + dv;
   cvp = cvp + cv;
 LIncDaughter:;
-logtext(0,cvp);
   if (IncDaughter<>0) then begin
     GetAccDaughtersDCBalance(accstr,objstr,bdp,simf,basecurncy,crncy,crncycode,dvp,cvp);
   end;
