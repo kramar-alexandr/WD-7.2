@@ -298,7 +298,7 @@ BEGIN
   record BaseCurBlock BCb;
   record SMVc VATSumr;
   val cerfr,certo1,certo2,cerbr1,cerbr2;
-  
+    
   MainCnt = 0;
   MainLoopAccp(mhrckey,mhrvc,mhrLLoop,Accr);
   headeroutf = false;
