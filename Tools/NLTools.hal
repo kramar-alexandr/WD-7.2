@@ -421,7 +421,6 @@ when TransAccTurnover dates should not be changed
     dv = GetBalance(ObjBalr,"simdebit",ltd);
     cv = GetBalance(ObjBalr,"simcredit",ltd);
   end;
-  logtext(0,dvp);
   if (basecurncy==kReportBCOneConsolidationRate) then begin 
     BlockLoad(bascur);
     dvp = GetBalance(ObjBalr,"transdebit",ltd);
@@ -434,7 +433,6 @@ when TransAccTurnover dates should not be changed
     MulM4OneRate(dvp,(to1/fr)*100,dvp,DefaultCurRoundOff,true);
     MulM4OneRate(cvp,(to1/fr)*100,cvp,DefaultCurRoundOff,true);
   end else begin
-  logtext(0,dvp);
     if (nonblank(crncycode)) then begin
       nbd = bdp;
       bm = 1 - GetDay(nbd);
@@ -468,7 +466,6 @@ when TransAccTurnover dates should not be changed
       end;
     end;
   end;
-  logtext(0,dvp);
   if (GetDay(nbd)==1) then begin goto LIncDaughter; end;  
   nbd = bdp;
   bm = 1 - GetDay(nbd);
@@ -478,13 +475,10 @@ L8:;
   dvp = dvp + dv;
   cvp = cvp + cv;
 LIncDaughter:;
-logtext(0,100);
+logtext(0,cvp);
   if (IncDaughter<>0) then begin
     GetAccDaughtersDCBalance(accstr,objstr,bdp,simf,basecurncy,crncy,crncycode,dvp,cvp);
   end;
-  
-  logtext(0,cvp);
-  
   RETURN;
 END;
 
