@@ -324,7 +324,7 @@ BEGIN
         balostr = balostr & ";;;";
       end;
     end;
-*/
+*/	
     FindNLAccBal(Accr.AccNumber,balostr,RepSpec.ObjType,Accr.AccType,AccumStartDate,RepSpec.sStartDate,
                  RepSpec.SimVerf,RepSpec.basecurncy,resUseAccum,RepSpec.CurncyCode,RepSpec.IncDaughter,RepSpec.f3,"",CurBal);
 
