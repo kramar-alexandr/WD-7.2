@@ -4,6 +4,7 @@ external procedure DebitorkaReportEn(integer);
 external procedure FullStockEn();
 external procedure ManagersFullStockEn();
 external procedure ShopsReportEn(); //Edit***************************Sasha2,17:24 02.09.2014
+external procedure IPEn(); //Edit***************************Sasha2,15:41 05.09.2014
 //------------------------------------------------------------------------------------------------------------------------------
 global procedure AutoRun()
 begin
@@ -33,13 +34,12 @@ AService = 8;
     MyReservStstEn;
     logtext(0,currentcompany & " ShopsReportEn"); //Edit***************************Sasha2,17:27 02.09.2014
     ShopsReportEn; //Edit***************************Sasha2,17:27 02.09.2014
+    logtext(0,currentcompany & " IPEn"); //Edit***************************Sasha2,15:39 05.09.2014
+    IPEn; //Edit***************************Sasha2,15:39 05.09.2014
     
     ResetCompany(Textera);  
   end;
   
-  
-  
-
   
   if (SetCompany(Technomedia,false)) then begin
     logtext(0,currentcompany & " FullStockEn");
@@ -54,7 +54,8 @@ AService = 8;
     MyReservStstEn;
     logtext(0,currentcompany & " ShopsReportEn"); //Edit***************************Sasha2,17:27 02.09.2014
     ShopsReportEn;
-    
+    logtext(0,currentcompany & " IPEn"); //Edit***************************Sasha2,15:39 05.09.2014
+    IPEn; //Edit***************************Sasha2,15:39 05.09.2014
     ResetCompany(Technomedia);  
   end;
   
