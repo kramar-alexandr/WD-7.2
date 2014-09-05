@@ -569,3 +569,29 @@ BEGIN
   EndJob; 
   RETURN;
 END;
+
+global procedure IPEn() //Edit***************************Sasha2,17:25 02.09.2014 {
+begin
+record RcVc RepSpec;
+integer compno;
+  compno = CurrentCompany;
+  if(GetDateID(currentdate)==1 or GetDateID(currentdate)==3)then begin
+		switch (compno) begin
+		case 5: delete_file("Stock/TXTIP.xls");
+						CreateFile("Stock/TXTIP.xls");
+						closefile;
+						openexportfile("Stock/TXTIP.xls",true);
+						IPRn(RepSpec);
+						RunProgram("Stock/TXTIP.sh", "");
+		
+		case 7: delete_file("Stock/TNMIP.xls");
+						CreateFile("Stock/TNMIP.xls");
+						closefile;
+						openexportfile("Stock/TNMIP.xls",true);
+						IPRn(RepSpec);
+						RunProgram("Stock/TNMIP.sh", "");
+		end;
+		closefile; 
+  end;
+return;
+end; //Edit***************************Sasha2,17:25 02.09.2014 }
