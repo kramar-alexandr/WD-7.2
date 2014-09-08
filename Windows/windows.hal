@@ -55,6 +55,20 @@ begin
 return;
 end;
 
+window SalesReportForManagersRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+
+	WindowBegin("‡вґт по продажам",SalesReportForManagersRClass,CGRcW,RcType);
+		SetWRect(20,120,350,300);
+		h=100; v=10;
+		PeriodField(h,v,"Џерґод");	
+	EndWindow;
+return;
+end;
+
 
 
 window MyFullStockRClass:1

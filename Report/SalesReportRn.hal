@@ -213,7 +213,7 @@ begin
 			outstring(i6,0,"Склад",false);
 			outstring(i7,0,"Кіл-ть",false);
 			outstring(i8,0,"Валюта",false);
-			outstring(i8,0,"Валюта надх.",false);
+			outstring(i81,0,"Валюта надх.",false);
 			outstring(i9,0,"Курс",false);
 			outstring(i10,0,"Ціна за од., валюта",false);
 			outstring(i11,0,"Ціна за од., $",false);
@@ -383,3 +383,344 @@ begin
 return;
 end;
 
+
+global procedure SalesReportForManagersRn(record RcVc RepSpec)
+begin
+	integer i0,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
+	integer i,mtrw;
+	record IVVc IVr;
+	row IVVc IVrw;
+	record IVCashVc IVcashr;
+	row IVCashVc IVcashrw;
+	date sd,ed;
+	boolean TrHs,testf;
+	record INVc INr;
+	record ITVc ITr;
+	record DIVc DIr;
+	array string 200 class;
+	integer k,j,pos,l;
+	string 200 tstr,location;
+	val fr,to1,to2,br1,br2;
+	val invfr,invto1,invto2,invbr1,invbr2;
+	record CUVc CUr;
+	array val rate,qty,cost,curcost;
+	array date indate;
+	array string 100 vecode,serial,curncy;
+	integer ressize;
+	val t,sumcur,sumusd,sumcostcur,sumcostusd;
+	string salesgroup;
+	record ORVc ORr;
+	record UserVc User;
+	string usercode;
+	
+	
+	usercode = currentuser;
+	if(nonblank(usercode))then begin
+		User.Code = usercode;
+		if(readfirstmain(User))then begin
+			if(nonblank(User.SalesGroup))then begin
+				salesgroup = User.SalesGroup;
+			end;
+		end;
+	end
+	
+	sd = RepSpec.sStartDate;
+	ed = RepSpec.sEndDate;
+	if(nonblank(RepSpec.f1) and blank(salesgroup))begin
+		salesgroup = RepSpec.f1;
+	end;
+	
+	startreportnoheaderjob("Звіт по продажам");
+		startformat(15);		
+			outstring(i0,0,"Група",false);
+			outstring(i2,0,"Код товару",false);
+			outstring(i3,0,"Найменування",false);
+			outstring(i4,0,"Дата продажу",false);
+			outstring(i1,0,"Акт",false);
+			outstring(i5,0,"Клієнт",false);
+			outstring(i6,0,"Склад",false);
+			outstring(i7,0,"Кіл-ть",false);
+			outstring(i8,0,"Валюта",false);
+			//outstring(i81,0,"Валюта надх.",false);
+			//outstring(i9,0,"Курс",false);
+			outstring(i10,0,"Ціна за од., валюта",false);
+			outstring(i11,0,"Ціна за од., $",false);
+			outstring(i12,0,"Знижка",false);
+			outstring(i13,0,"Сума, валюта",false);
+			outstring(i14,0,"Сума, $",false);
+			//outstring(i15,0,"Собівартість за од., валюта",false);
+			//outstring(i16,0,"Собівартість за од., $",false);
+			//outstring(i17,0,"Собівартість, валюта",false);
+			//outstring(i18,0,"Собірвартість, $",false);
+			//outstring(i19,0,"Прибуток, валюта",false);
+			//outstring(i20,0,"Прибуток, $",false);
+			//outstring(i21,0,"Маржа,%",false);
+			outstring(i22,0,"Спосіб відвантаження",false);
+			//outstring(i23,0,"Дата надходження",false);
+			//outstring(i24,0,"Постачальник",false);
+			outstring(i25,0,"Серійний номер",false);
+			outstring(i26,0,"Продавець",false);
+			outstring(i27,0,"Виписав Акт/накл.",false);
+			outstring(i28,0,"Сервісний інженер",false);
+			outstring(i29,0,"Класiфiкацiя",false);
+			outstring(i30,0,"Класiфiкацiя2",false);
+			outstring(i31,0,"Класiфiкацiя3",false);
+		endformat;
+	
+	
+	TrHs = true;
+	IVr.InvDate = sd;
+	while(loopkey("InvDate",IVr,1,TrHs))begin
+		testf = true;
+		if(IVr.InvDate>ed)then begin TrHs = false; testf = false; end;
+		if(IVr.Invalid==1)then begin testf = false; end;
+		if(IVr.OKFlag==0)then begin testf = false; end;
+		if(nonblank(salesgroup) and IVr.SalesGroup!=salesgroup)then begin end;
+				
+		If(testf) then begin
+			CUr.Code = IVr.CustCode;
+			readfirstmain(CUr,1,true);
+			
+			invfr = IVr.FrRate;
+			invto1 = IVr.ToRateB1;
+			if(invfr==0 or invto1==0)then begin
+				invfr = 1;
+				invto1 = 1;
+			end;
+		
+			mtrw = matrowcnt(IVr);
+			For(i=0;i<mtrw;i=i+1) begin
+				matrowget(IVr,i,IVrw);
+				if(IVrw.stp==kInvoiceRowTypeNormal and nonblank(IVrw.ArtCode))then begin
+					
+					INr.Code = IVrw.ArtCode;
+					readfirstmain(INr,1,true);
+					ITr.Comment = "";
+					if(nonblank(INr.Group))THEN BEGIN
+						ITr.Code = INr.Group;
+						readfirstmain(ITr,1,true);
+					END;
+					k=0;
+					if(nonblank(INr.DispGroups))then begin
+						pos = 0;
+						ExtractObj(INr.DispGroups,pos,tstr);
+						While (nonblank(tstr)) begin
+							if(nonblank(tstr))then begin
+								DIr.Code = tstr;
+								readfirstmain(DIr,1,true);
+								class[k] = DIr.Name;
+								k = k + 1;
+							end;
+							ExtractObj(INr.DispGroups,pos,tstr);
+						end;
+					end;
+					
+					location = "";
+					if(nonblank(IVrw.Location))then begin
+						location = IVrw.Location;
+					end else begin
+						location = IVr.Location;
+					end;
+					
+					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize);			
+					For(j=0;j<ressize;j=j+1) begin
+						startformat(15);		
+							outstring(i0,0,ITr.Comment,false);
+							outstring(i2,0,INr.Code,false);
+							outstring(i3,0,INr.Name,false);
+							outstring(i4,0,IVr.InvDate,false);
+							outstring(i1,0,IVr.SerNr,false);
+							outstring(i5,0,IVr.CustCode,false);
+							outstring(i6,0,IVr.Location,false);
+							outstring(i7,0,qty[j],false);
+							outstring(i8,0,IVr.CurncyCode,false);
+							//outstring(i81,0,curncy[j],false);
+							//outstring(i9,0,ValToMyString(rate[j],4),false);
+							outstring(i10,0,IVrw.Price,false);
+							if(curncy[j]=="USD")then begin
+								outstring(i11,0,ValToMyString(IVrw.Price * invfr / invto1,3),false);
+							end else begin
+								if(IVr.CurncyCode=="USD")then begin
+									outstring(i11,0,IVrw.Price,false);
+								end else begin
+									CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
+									outstring(i11,0,t,false);
+								end;
+							end;
+							outstring(i12,0,IVrw.vRebate,false);
+							
+							sumcur = IVrw.Sum/IVrw.Quant * qty[j];
+							outstring(i13,0,ValToMyString(sumcur,3),false);
+							
+							if(curncy[j]=="USD")then begin
+								sumusd = IVrw.Sum/IVrw.Quant * qty[j] * invfr / invto1;
+								outstring(i14,0,ValToMyString(sumusd,3),false);
+							end else begin
+								if(IVr.CurncyCode=="USD")then begin
+									sumusd = IVrw.Sum/IVrw.Quant * qty[j];
+								end else begin
+									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
+									sumusd = t;
+								end;
+								outstring(i14,0,ValToMyString(sumusd,3),false);
+							end;
+							
+							t = blankval;
+							if(curncy[j]=="USD")then begin
+								//outval(i15,0,-curcost[j],m4UVal,false);
+								//outval(i16,0,-cost[j],m4UVal,false);
+							end else begin
+								//outval(i15,0,-curcost[j],m4UVal,false);
+								CurValToOtherCur(indate[j],"USD",-cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
+								t = t / invfr * invto1;
+								//outval(i16,0,t,m4UVal,false);
+							end;
+							
+							
+							sumcostcur = -curcost[j] * qty[j];
+							//outstring(i17,0,ValToMyString(sumcostcur,3),false);
+							sumcostusd = -cost[j] * qty[j];
+							//outstring(i18,0,ValToMyString(sumcostusd,3),false);
+							
+							
+							if(IVr.CurncyCode==curncy[j])then begin
+								//outstring(i19,0,ValToMyString((sumcur - sumcostcur),3),false);
+							end else begin
+								//outstring(i19,0,"",false);
+							end;
+							//outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
+							//outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100,3),false);
+							outstring(i22,0,IVr.ShipMode,false);
+							//outstring(i23,0,indate[j],false);
+							//outstring(i24,0,vecode[j],false);
+							outstring(i25,0,serial[j],false);
+							outstring(i26,0,CUr.SalesMan,false);
+							outstring(i27,0,IVr.SalesMan,false);
+							outstring(i28,0,"",false);
+							for(l=0;l<k;l=l+1)begin
+							outstring(i29,0,class[l],false);
+							end;
+						endformat;
+					end;
+				end;	  
+			end; 
+		end; 
+	end;
+	
+	endjob;
+
+return;
+end;
+
+
+
+global procedure  SalesReportForManagersEn()
+begin
+record RcVc RepSpec;
+string 50 filename;
+date repdate;
+integer compnr;
+      
+        compnr = currentcompany;
+      	
+      	RepSpec.sStartDate = stringtodate("1/" & getmonth(CurrentDate) & "/" & getyear(CurrentDate));//addday(CurrentDate,-1); 
+				RepSpec.sEndDate = stringtodate("31/" & getmonth(CurrentDate) & "/" & getyear(CurrentDate));//addday(CurrentDate,-1);
+		
+				if(getday(CurrentDate)==1)then begin
+					RepSpec.sStartDate = stringtodate("1/" & getmonth(CurrentDate)-1 & "/" & getyear(CurrentDate));//addday(CurrentDate,-1); 
+					RepSpec.sEndDate = stringtodate("31/" & getmonth(CurrentDate)-1 & "/" & getyear(CurrentDate));//addday(CurrentDate,-1);
+					if(getmonth(CurrentDate)==1)then begin
+						RepSpec.sStartDate = stringtodate("1/12/" & getyear(CurrentDate)-1);//addday(CurrentDate,-1); 
+						RepSpec.sEndDate = stringtodate("31/12/" & getyear(CurrentDate)-1);//addday(CurrentDate,-1);
+					end;
+				end;
+				      	
+        switch(compnr)begin
+          case 5: filename = "Reports/5/ManSalesRep.xls";
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									RepSpec.f1 = "";
+									SalesReportForManagersRn(RepSpec);
+									closefile;
+									RunProgram("Reports/5/ManSalesRep.sh","");
+									
+									filename = "Reports/7/ManSalesRepTXT.xls";//for TNMManagers ofTXT
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									RepSpec.f1 = "BO";
+									SalesReportForManagersRn(RepSpec);
+									closefile;
+									//RunProgram("Reports/7/ManSalesRepTXT.sh","");
+									
+									
+          case 7: filename = "Reports/7/ManSalesRep.xls";//for TNMManagers ofTXT
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									RepSpec.f1 = "";
+									SalesReportForManagersRn(RepSpec);
+									closefile;
+									RunProgram("Reports/7/ManSalesRep.sh","");
+        end;
+        
+        
+return;
+end;
+
+
+
+global procedure  SalesReportEn()
+begin
+record RcVc RepSpec;
+string 50 filename;
+date repdate;
+integer compnr;
+      
+        compnr = currentcompany;
+      	
+      	RepSpec.sStartDate = stringtodate("1/" & getmonth(CurrentDate) & "/" & getyear(CurrentDate));//addday(CurrentDate,-1); 
+				RepSpec.sEndDate = stringtodate("31/" & getmonth(CurrentDate) & "/" & getyear(CurrentDate));//addday(CurrentDate,-1);
+		
+				if(getday(CurrentDate)==1)then begin
+					RepSpec.sStartDate = stringtodate("1/" & getmonth(CurrentDate)-1 & "/" & getyear(CurrentDate));//addday(CurrentDate,-1); 
+					RepSpec.sEndDate = stringtodate("31/" & getmonth(CurrentDate)-1 & "/" & getyear(CurrentDate));//addday(CurrentDate,-1);
+					if(getmonth(CurrentDate)==1)then begin
+						RepSpec.sStartDate = stringtodate("1/12/" & getyear(CurrentDate)-1);//addday(CurrentDate,-1); 
+						RepSpec.sEndDate = stringtodate("31/12/" & getyear(CurrentDate)-1);//addday(CurrentDate,-1);
+					end;
+				end;
+				      	
+        switch(compnr)begin
+          case 5: filename = "Reports/5/SalesRep.xls";
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									SalesReportRn(RepSpec);
+									closefile;
+									RunProgram("Reports/5/SalesRep.sh","");
+																		
+									
+          case 7: filename = "Reports/7/SalesRep.xls";//for TNMManagers ofTXT
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									SalesReportRn(RepSpec);
+									closefile;
+									RunProgram("Reports/7/SalesRep.sh","");
+        end;
+        
+        
+return;
+end;

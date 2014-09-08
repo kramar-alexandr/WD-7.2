@@ -5,7 +5,8 @@ begin
 	SetLangMode(LangUkrainian,"UKR",0);
 	
 	Report("Історія продажів по клієнтам ",CUSalesRepRClass,CustSalesReportRn,0,modSO);
-	Report("Звіт по продажам",SalesReportRClass,SalesReportRn,0,modSL);
+	Report("Звiт по продажах",SalesReportRClass,SalesReportRn,0,modSL);
+	Report("Звiт по продажах для менеджерів",SalesReportForManagersRClass,SalesReportForManagersRn,0,modSL);
 	Report("Звіт по складу для менеджерів",SalesReportRClass,SalesReportRn,0,modSO);
 	Report("FullStock Manual",MyFullStockRClass,MyItemReportRn,0,modIN);
 	Report("Звіт по Shops",ShopsReportRClass,ShopsReportRn,0,modSO); //Edit***************************Sasha2,9:29 01.09.2014
