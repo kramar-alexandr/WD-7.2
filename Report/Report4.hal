@@ -11,15 +11,12 @@ integer compnr;
       compnr = currentcompany;
       
         switch(compnr)begin
-          //case 1: filename = "Reports/1/ISTORPayments.xls";
-          //case 2: filename = "Reports/2/ITEKUAPayments.xls";
-          //case 3: filename = "Reports/3/WDPayments.xls";
           case 5: filename = "Reports/5/TXTPayments.xls";
-          //case 6: filename = "Reports/6/ITEKMDPayments.xls";
           case 7: filename = "Reports/7/TNMPayments.xls";
-          //case 8: filename = "Reports/8/A-SRVPayments.xls";
         end;
         recordnew(RepSpec);
+        
+        delete_file(filename);
         CreateFile(filename);
         closefile;
         millisleep(150);
@@ -35,41 +32,18 @@ integer compnr;
         RepSpec.flags[1] = 0;
         RepSpec.flags[2] = 1;
         switch(compnr)begin
-          //case 1: RepSpec.f2 = "27";
-          //case 2: RepSpec.f3 = "B1";//IP
-          //case 3: RepSpec.f3 = "27";
           case 5: RepSpec.f3 = "24";//TXT
-          //case 6: RepSpec.f2 = "27";
           case 7: RepSpec.f3 = "24";//tntm
-          //case 8: RepSpec.f2 = "27";
         end;
         RepSpec.Media = 20;
         IPRn(RepSpec);
-        
-        /*if(compnr==1)then begin
-        RepSpec.f3 = "30";
-        IPRn(RepSpec);
-        
-        RepSpec.f3 = "6";
-        IPRn(RepSpec);
-        end;*/
-        
-        if(compnr==7)then begin
-        RepSpec.f3 = "OI";
-        IPRn(RepSpec);
-        end;
-        
+                
         
         closefile;
         millisleep(100);
         switch(compnr)begin
-          //case 1: RunProgram("Reports/1/ISTORPayments.sh","");
-          //case 2: RunProgram("Reports/2/ITEKUAPayments.sh","");
-          //case 3: RunProgram("Reports/3/WDPayments.sh","");
           case 5: RunProgram("Reports/5/TXTPayments.sh","");
-          //case 6: RunProgram("Reports/6/ITEKMDPayments.sh","");
           case 7: RunProgram("Reports/7/TNMPayments.sh","");
-          //case 8: RunProgram("Reports/8/A-SRVPayments.sh","");
         end;
 return;
 end;
