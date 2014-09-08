@@ -306,10 +306,10 @@ begin
 							outstring(i7,0,qty[j],false);
 							outstring(i8,0,IVr.CurncyCode,false);
 							outstring(i81,0,curncy[j],false);
-							outstring(i9,0,rate[j],false);
+							outstring(i9,0,ValToMyString(rate[j],4),false);
 							outstring(i10,0,IVrw.Price,false);
 							if(curncy[j]=="USD")then begin
-								outstring(i11,0,IVrw.Price * invfr / invto1,false);
+								outstring(i11,0,ValToMyString(IVrw.Price * invfr / invto1,3),false);
 							end else begin
 								if(IVr.CurncyCode=="USD")then begin
 									outstring(i11,0,IVrw.Price,false);
@@ -321,11 +321,11 @@ begin
 							outstring(i12,0,IVrw.vRebate,false);
 							
 							sumcur = IVrw.Sum/IVrw.Quant * qty[j];
-							outstring(i13,0,sumcur,false);
+							outstring(i13,0,ValToMyString(sumcur,3),false);
 							
 							if(curncy[j]=="USD")then begin
 								sumusd = IVrw.Sum/IVrw.Quant * qty[j] * invfr / invto1;
-								outstring(i14,0,sumusd,false);
+								outstring(i14,0,ValToMyString(sumusd,3),false);
 							end else begin
 								if(IVr.CurncyCode=="USD")then begin
 									sumusd = IVrw.Sum/IVrw.Quant * qty[j];
@@ -333,7 +333,7 @@ begin
 									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 									sumusd = t;
 								end;
-								outstring(i14,0,sumusd,false);
+								outstring(i14,0,ValToMyString(sumusd,3),false);
 							end;
 							
 							t = blankval;
@@ -349,18 +349,18 @@ begin
 							
 							
 							sumcostcur = -curcost[j] * qty[j];
-							outstring(i17,0,sumcostcur,false);
+							outstring(i17,0,ValToMyString(sumcostcur,3),false);
 							sumcostusd = -cost[j] * qty[j];
-							outstring(i18,0,sumcostusd,false);
+							outstring(i18,0,ValToMyString(sumcostusd,3),false);
 							
 							
 							if(IVr.CurncyCode==curncy[j])then begin
-								outstring(i19,0,sumcur - sumcostcur,false);
+								outstring(i19,0,ValToMyString((sumcur - sumcostcur),3),false);
 							end else begin
 								outstring(i19,0,"",false);
 							end;
-							outstring(i20,0,sumusd - sumcostusd,false);
-							outstring(i21,0,(sumusd - sumcostusd)/sumcostusd*100,false);
+							outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
+							outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100,3),false);
 							outstring(i22,0,IVr.ShipMode,false);
 							outstring(i23,0,indate[j],false);
 							outstring(i24,0,vecode[j],false);
