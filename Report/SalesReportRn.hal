@@ -408,21 +408,21 @@ begin
 	array string 100 vecode,serial,curncy;
 	integer ressize;
 	val t,sumcur,sumusd,sumcostcur,sumcostusd;
-	string salesgroup;
+	string 20 salesgroup;
 	record ORVc ORr;
 	record UserVc User;
-	string usercode;
+	string 20 usercode;
 	
 	
 	usercode = currentuser;
 	if(nonblank(usercode))then begin
 		User.Code = usercode;
-		if(readfirstmain(User))then begin
+		if(readfirstmain(User,1,true))then begin
 			if(nonblank(User.SalesGroup))then begin
 				salesgroup = User.SalesGroup;
 			end;
 		end;
-	end
+	end;
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
@@ -647,7 +647,7 @@ integer compnr;
 									closefile;
 									RunProgram("Reports/5/ManSalesRep.sh","");
 									
-									filename = "Reports/7/ManSalesRepTXT.xls";//for TNMManagers ofTXT
+									filename = "Reports/5/ManSalesRepTXT.xls";//for TNMManagers ofTXT
           				delete_file(filename);
 									CreateFile(filename);
 									closefile;
@@ -656,10 +656,10 @@ integer compnr;
 									RepSpec.f1 = "BO";
 									SalesReportForManagersRn(RepSpec);
 									closefile;
-									//RunProgram("Reports/7/ManSalesRepTXT.sh","");
+									RunProgram("Reports/5/ManSalesRepTXT.sh","");
 									
 									
-          case 7: filename = "Reports/7/ManSalesRep.xls";//for TNMManagers ofTXT
+          case 7: filename = "Reports/7/ManSalesRep.xls";
           				delete_file(filename);
 									CreateFile(filename);
 									closefile;
@@ -699,7 +699,7 @@ integer compnr;
 				end;
 				      	
         switch(compnr)begin
-          case 5: filename = "Reports/5/SalesRep.xls";
+          case 5: filename = "Reports/5/FullSalesRep.xls";
           				delete_file(filename);
 									CreateFile(filename);
 									closefile;
@@ -707,10 +707,10 @@ integer compnr;
 									openexportfile(filename,true);
 									SalesReportRn(RepSpec);
 									closefile;
-									RunProgram("Reports/5/SalesRep.sh","");
+									RunProgram("Reports/5/FullSalesRep.sh","");
 																		
 									
-          case 7: filename = "Reports/7/SalesRep.xls";//for TNMManagers ofTXT
+          case 7: filename = "Reports/7/FullSalesRep.xls";
           				delete_file(filename);
 									CreateFile(filename);
 									closefile;
@@ -718,7 +718,7 @@ integer compnr;
 									openexportfile(filename,true);
 									SalesReportRn(RepSpec);
 									closefile;
-									RunProgram("Reports/7/SalesRep.sh","");
+									RunProgram("Reports/7/FullSalesRep.sh","");
         end;
         
         

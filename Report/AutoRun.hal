@@ -5,6 +5,8 @@ external procedure FullStockEn();
 external procedure ManagersFullStockEn();
 external procedure ShopsReportEn(); //Edit***************************Sasha2,17:24 02.09.2014
 external procedure IPEn(); //Edit***************************Sasha2,15:41 05.09.2014
+external procedure SalesReportEn();
+external procedure SalesReportForManagersEn();
 //------------------------------------------------------------------------------------------------------------------------------
 global procedure AutoRun()
 begin
@@ -36,7 +38,8 @@ AService = 8;
     ShopsReportEn; //Edit***************************Sasha2,17:27 02.09.2014
     logtext(0,currentcompany & " IPEn"); //Edit***************************Sasha2,15:39 05.09.2014
     IPEn; //Edit***************************Sasha2,15:39 05.09.2014
-    
+    SalesReportEn;
+    SalesReportForManagersEn;
     ResetCompany(Textera);  
   end;
   
@@ -56,6 +59,8 @@ AService = 8;
     ShopsReportEn;
     logtext(0,currentcompany & " IPEn"); //Edit***************************Sasha2,15:39 05.09.2014
     IPEn; //Edit***************************Sasha2,15:39 05.09.2014
+    SalesReportEn;
+    SalesReportForManagersEn;
     ResetCompany(Technomedia);  
   end;
   
