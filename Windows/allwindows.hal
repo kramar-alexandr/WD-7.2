@@ -5867,3 +5867,94 @@ begin
   end;
   EndWindow;
 end;
+
+
+window ORLClass:3
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer") 
+begin
+  Integer pos,rn;
+//  RlColKey(341,341,"C._O.no.",CustOrdNr,false,CustOrdNr);
+  WindowBegin("Рахунки клієнтів",ORLClass,CGmlist,-);
+  SpawnClass(ORDClass);
+  SetWRect(20,80,850,298);
+  Sizeable(-1,-1,0,0);
+  UseView(ORVc);
+  FormName(PrintORL);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Номер",SerNr,false,SerNr);
+  RlColKey(79,79,"OK",OKFlag,false,OKFlag);
+  pos = 111;
+  if (HasModIN) then begin
+    RlColKey(pos,pos,"Відв.",ShipMark,false,ShipFlag); 
+    pos = pos + 32;
+  end;
+  if (HasModSL) then begin
+    RlColKey(pos,pos,"Акт/накл.",InvMark,false,InvFlag); 
+    pos = pos + 32;
+  end;
+  RlCol(pos,pos,"Закрито",Closed,false); 
+  pos = pos + 32;
+  RlColKey(pos,pos,"Дата рах.",OrdDate,false,OrdDate); 
+  pos = pos + 80;
+  if (HasMultiLocations) then begin
+    RlCol   (pos,pos,"Склад",Location,false); 
+    pos = pos + 60;
+  end;
+  RlColKey(pos,pos,"Номер рах. клієнту",CustOrdNr,false,CustOrdNr); 
+  pos = pos + 80;
+  RlColKey(pos,pos,"Клієнт",CustCode,false,CustCode); 
+  pos = pos + 60;
+  RlColKey(pos,pos,"Найменув.",Addr0,false,Name); 
+  if (IsEnterprise) then begin
+    RlColKey(-200,-200,"Вид",OrderClass,false,OrderClass);
+    RlColKey(-155,-155,"Всього",Sum4,true,Sum4);
+    RlCol(-75,-75,"Попер. сплачено",DownPaySent,true);
+  end else begin
+    RlColKey(-55,-55,"Всього",Sum4,true,Sum4); 
+  end;
+  if (HasLimitedAccess) then begin
+  BrowseSubsetButton(-40,-15);
+  end;
+  SearchField("Пошук"); 
+  if (GuiType==kGuiMetro) then begin
+    rn = 0;
+    RowMenuBegin("");
+    if (HasModIN) then begin
+      RowMenuItem(rn,"Відвантаження",'L','L',4300,"SHFromORLsm"); rn = rn + 1;
+    end;
+    RowMenuItem(rn,"Акт/накл.",'L','L',4300,"IVFromORLsm"); rn = rn + 1;
+    if (IsEnterprise) then begin
+      RowMenuItem(rn,"Аванс",'o','o',4300,"DownPayFromORLsm"); rn = rn + 1;
+    end;
+    RowMenuItem(rn,"Статус замовлення",'r','r',4300,"ORStatusORLsm"); rn = rn + 1;
+    if (HasModPO) then begin
+      RowMenuItem(rn,"Замовлення постачальнику",' ',' ',4300,"POFromORLsm"); rn = rn + 1;
+    end;
+    if (HasModCRM) then begin
+      RowMenuItem(rn,"Створити діяльність",'c','c',4300,"ActFromORLsm"); rn = rn + 1;
+    end;
+    if (IsEnterprise) then begin
+      RowMenuItem(rn,"Позначити рахунок як закритий накладною",' ',' ',4300,"ORToInvORLsm"); rn = rn + 1;
+    end;
+    EndRowMenu;
+  end else begin
+  if (HasModIN) then begin
+  SpecialMenu("Відвантаження",'L',0,"SHFromORLsm");
+  end;
+  SpecialMenu("Акт/накладна",'F',1,"IVFromORLsm");  
+  if (IsEnterprise) then begin
+  SpecialMenu("Аванс",'o',2,"DownPayFromORLsm");  
+  end;
+  SpecialMenu("Статус рахунка",'r',3,"ORStatusORLsm");  
+  if (HasModPO) then begin
+  SpecialMenu("Замовлення постачальнику",' ',4,"POFromORLsm");  
+  end;
+  if (HasModCRM) then begin
+  SpecialMenu("Створити діяльність",'c',5,"ActFromORLsm");  
+end;
+  if (IsEnterprise) then begin
+    SpecialMenu("Позначити рахунок як закритий накладною",' ',6,"ORToInvORLsm"); 
+    end;
+  end;
+  EndWindow;
+end;
