@@ -1245,7 +1245,7 @@ BEGIN
     		  OutString(30,0,custname,false);
 	          OutString(90,0,USetStr(2497),false);
 	          OutStringID(120,"DblPrHisSL",tstr,false,custcode);
-	          OutString(145,0,"",false);
+	          OutString(145,0,IPrw.OrderNr,false);
 	          OutString(170,0,"",false);
 	    	  OutString(210,0,"",false);
 	    	  OutString(240,0,"",false);
