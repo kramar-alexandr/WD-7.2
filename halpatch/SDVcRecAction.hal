@@ -62,7 +62,11 @@ external updating function val NextLocOKNr(string);
 external function val GetAcceptanceSum_SDVc(record SDVc);
 external function Integer SetAcceptanceStatus(Integer,string,val);
 external function Boolean PUVc_PasteArtCode(var record PUVc,Integer,var string,var string);// Edit ************************** Monday, July 14, 2014 at 11:48:41
-
+external procedure PUCalcCostPrice(string,val,Integer,Integer,string,string,
+                                   val,val,val,val,val,
+                                   val,val,val,val,val,val,
+                                   string,var val,val,var val,string,Integer);
+external function Integer PUVc_PasteQuant(var record PUVc,Integer);// Edit ************************** Tuesday, 9 September 2014 13:57:09
 
 procedure SetSDAcceptanceFlag(var record SDVc SDr,record SDVc prevSDr,LongInt stat)
 begin
@@ -1403,6 +1407,7 @@ begin
 	row SDVc SDrw;
 	boolean res;
   string 255 tstr;
+  VAL t,sv;
 
 	res = false;
 	k=0;
@@ -1415,8 +1420,18 @@ begin
 			PUVc_PasteArtCode(PUr,k,tstr,tstr);
 			matrowget(PUr,k,PUrw);
 			PUrw.Quant = SDrw.Qty;
+			PUrw.UPrice = SDrw.FIFO;// Edit ************************** Tuesday, 9 September 2014 13:53:01
+			PUrw.Objects = SDrw.Objects;// Edit ************************** Tuesday, 9 September 2014 13:52:58
 			PUrw.SerialNr = SDrw.SerialNr;
+                      
+      PUCalcCostPrice(PUrw.ArtCode,PUrw.UPrice,PUr.InclVAT,PUr.NoTAXonVAT,PUrw.Extra,PUr.CurncyCode,
+                            PUr.FrRate,PUr.ToRateB1,PUr.ToRateB2,PUr.BaseRate1,PUr.BaseRate2,
+                            PUrw.ShipCost,PUrw.RowCost1,PUrw.RowCost2,PUrw.RowCost3,PUrw.RowCost4,PUrw.RowCost5,
+                            PUrw.CustomsCost,t,PUrw.Quant,sv,PUrw.VATCode,PUr.ExportFlag);
+			PUrw.CostPrice = t;                                        
+			PUrw.Sum = sv;
 			matRowPut(PUr,k,PUrw);
+			PUVc_PasteQuant(PUr,k);
 			k=k+1;
   	end;
 		res = true;

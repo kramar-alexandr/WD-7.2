@@ -814,7 +814,7 @@ L22LFindNL:;
       sd = StartDatep;
       fullmonthf = true;
       if (sd.day==DaysInMonth(sd.year,sd.month)) then begin
-        if(sd!=ed)then begin// Edit ************************** Thursday, 4 September 2014 17:46:16
+        if(sd!=ed and nonblank(ed))then begin// Edit ************************** Thursday, 4 September 2014 17:46:16
 					sd = AddDay(sd,1);
       	end;// Edit ************************** Thursday, 4 September 2014 17:46:17
       end else begin
@@ -824,7 +824,6 @@ L22LFindNL:;
       end;
       if (fullmonthf) then begin
         GetAccStartBalance(AccNumber,objtemp,sd,ObjBalr,SimVerf,basecurncy,crncycode,IncDaughter,accbal);
-        logtext(0,1);
         if (nonblank(exclobject)) then begin
           exclObjBalr.AccNumber = AccNumber;
           exclObjBalr.Object = exclobject;
@@ -837,7 +836,6 @@ L22LFindNL:;
           accbal = accbal - v;
         end;
       end else begin
-        //ed = addday(sd,-1);// Edit ************************** Thursday, 4 September 2014 17:29:39// Edit ************************** Thursday, 4 September 2014 17:30:24
         sd.year = 1980; sd.month = 1; sd.day = 1;
         TransAccTurnover(AccNumber,objtemp,sd,ed,SimVerf,basecurncy,0,crncycode,compcode,dv,cv);
         accbal = (dv-cv);
