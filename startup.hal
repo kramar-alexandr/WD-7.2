@@ -11,6 +11,8 @@ begin
 	Report("FullStock Manual",MyFullStockRClass,MyItemReportRn,0,modIN);
 	Report("Звіт по Shops",ShopsReportRClass,ShopsReportRn,0,modSO); //Edit***************************Sasha2,9:29 01.09.2014
 	Report("Звіт по складу (модифікований)",NewINRClass,NewInvValRn,0,modIN); //Edit***************************Sasha2,11:25 03.09.2014
+	Report("Відомість розрахунків з клієнтами (новий)",CuPer2RClass,MyCuPerRn,0,modSL); //Edit***************************Sasha2,11:25 09.09.2014 
+	Report("Відомість розрахунків з клієнтами (новий)",CuPer2RClass,MyCuPerRn,0,modSO); //Edit***************************Sasha2,11:25 09.09.2014
 	 
   SString(31000,"грн.");
   SString(31001,"Підготовлено у системі HansaWorld");
