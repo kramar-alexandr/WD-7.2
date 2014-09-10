@@ -69,8 +69,6 @@ begin
 return;
 end;
 
-
-
 window MyFullStockRClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
@@ -222,3 +220,14 @@ begin
   end;
   EndWindow;
 end;
+
+
+window MyBonusRClass:1  //Edit***************************Sasha2,13:10 10.09.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm;
+  WindowBegin("‚изначте звґт Bonus",MyBonusRClass,CGRcW,RcType);
+  SetWRect(20,120,360,280);
+  PeriodField(150,45,"Џерґод");
+  EndWindow;
+end; //Edit***************************Sasha2,13:10 10.09.2014 }
