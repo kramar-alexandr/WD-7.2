@@ -475,7 +475,7 @@ begin
 		if(IVr.InvDate>ed)then begin TrHs = false; testf = false; end;
 		if(IVr.Invalid==1)then begin testf = false; end;
 		if(IVr.OKFlag==0)then begin testf = false; end;
-		if(nonblank(salesgroup) and IVr.SalesGroup!=salesgroup)then begin end;
+		if(nonblank(salesgroup) and IVr.SalesGroup!=salesgroup)then begin testf = false;  end;
 				
 		If(testf) then begin
 			CUr.Code = IVr.CustCode;
