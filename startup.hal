@@ -14,6 +14,8 @@ begin
 	Report("Відомість розрахунків з клієнтами (новий)",CuPer2RClass,MyCuPerRn,0,modSL); //Edit***************************Sasha2,11:25 09.09.2014 
 	Report("Відомість розрахунків з клієнтами (новий)",CuPer2RClass,MyCuPerRn,0,modSO); //Edit***************************Sasha2,11:25 09.09.2014
 	Report("Bonus",MyBonusRClass,MyBonusRn,0,modSL); //Edit***************************Sasha2,11:54 10.09.2014
+	Setting("Валюта ЕККА",POSCurncyTClass,modPOS); //Edit***************************Sasha2,17:25 11.09.2014
+	Setting("Рахунки продавців",LocalMachineAccTClass,modPOS); //Edit***************************Sasha2,17:26 11.09.2014
 	 
   SString(31000,"грн.");
   SString(31001,"Підготовлено у системі HansaWorld");

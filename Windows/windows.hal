@@ -231,3 +231,65 @@ begin
   PeriodField(150,45,"Період");
   EndWindow;
 end; //Edit***************************Sasha2,13:10 10.09.2014 }
+
+window POSCurncyTClass:1 //Edit***************************Sasha2,17:28 11.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,f;
+  WindowBegin("Настройка валюти ЕККА",POSCurncyTClass,CGSbl,-);
+  SetBlid(POSCurncyBlock);
+  SetWRect(64,80,380,357);
+  h=160;f=70; 
+  v=6;
+	EditField(h,v+=vs,f,"Валюта ЕККА",Normal,CurncyCode,false,CurncyCodeSClass); 
+  EndWindow;
+end; //Edit***************************Sasha2,17:28 11.09.2014 }
+
+window LocalMachineAccTClass:1 //Edit***************************Sasha2,17:28 11.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,f;
+ WindowBegin("Рахунки продавців ЕККА",LocalMachineAccTClass,CGHbl,-);
+  SetBlid(LocalMachineAccBlock);
+  SetWRect(64,80,500,400);
+    MatrixBegin(5,27,-50,-20,-,99);
+    Flip(0);
+    MatCol(1,24,"Лок. маш.",0,LocalMachine,false,LocalMachineSClass);
+    MatCol(1,85,"Клієнт",0,CustCode,false,CUSClass);
+    Flip(1);
+    MatCol(1,-200,"Назва",0,Name,false,0);
+    Flip(2);
+    MatCol(1,150,"SaleAcc",0,SaleAcc,false,AccSClass);
+    MatCol(1,210,"RecAcc",0,RecAcc,false,AccSClass);
+    MatCol(1,270,"RetAcc",0,RetAcc,false,AccSClass);
+    Flip(3);
+    MatCol(1,150,"StockAcc",0,StockAcc,false,AccSClass);
+    MatCol(1,210,"ServAcc",0,ServAcc,false,AccSClass);
+    MatCol(1,290,"PayDeal",0,PayDeal,false,PDSClass);
+    Flip(4);
+    MatCol(1,150,"CurDiffCred",0,CurDiffCred,false,AccSClass);
+    MatCol(1,230,"CurDiffDeb",0,CurDiffDeb,false,AccSClass);
+    Flip(5);
+    MatCol(1,150,"PLCode",0,Str01,false,PLDefSClass);
+    MatCol(1,230,"Object",0,Objects,false,ObjSClass);
+    Flip(6);
+    MatCol(1,150,"Користувач",0,UserCode,false,UserSClass);
+    MatCol(1,210,"Склад",0,DefLoc,false,LocationSClass);
+    MatCol(1,270,"Скринька",0,Drawer,false,DrawerSClass);
+    Flip(7);
+    MatCol(1,150,"Cash",0,CashID,false,PMSClass);
+    MatCol(1,200,"Term",0,TermID,false,PMSClass);
+    MatCol(1,250,"Sert",0,SertID,false,PMSClass);
+    MatCol(1,300,"Web",0,Oth01ID,false,PMSClass);
+    EndMatrix;
+    vs = 20;
+    v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+    v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+    v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+    v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
+    v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,5,"E");
+    v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,6,"F");
+    v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,7,"G");
+   /* v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,8,"H");*/
+  EndWindow;
+ end; //Edit***************************Sasha2,17:28 11.09.2014 }

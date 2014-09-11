@@ -870,6 +870,55 @@ begin
   KeySegment(SerNr);
     
   EndRecord;
+  
+  BlockBegin(POSCurncyBlock,-,""); //Edit***************************Sasha2,17:26 11.09.2014 {
+  RecordField(CurncyCode,M4Code,5,CurncyCodeVc);
+  EndBlock; //Edit***************************Sasha2,17:26 11.09.2014 }
+  
+  BlockBegin(LocalMachineAccBlock,-,""); //Edit***************************Sasha2,17:27 11.09.2014 {
+		RecordField(Math,M4Matrix,0,0);
+		ArrayBegin(Math,-,1);
+		ArrayField(LocalMachine,M4Code,20,0);
+		ArrayField(Name,M4Str,200,0);
+		ArrayField(CustCode,M4UStr,60,CUVc);
+		ArrayField(SaleAcc,M4Code,10,AccVc);
+		ArrayField(RecAcc,M4Code,10,AccVc);
+		ArrayField(RetAcc,M4Code,10,AccVc);
+		ArrayField(StockAcc,M4Code,10,AccVc);
+		ArrayField(ServAcc,M4Code,10,AccVc);
+		ArrayField(CurDiffCred,M4Code,10,AccVc);
+		ArrayField(CurDiffDeb,M4Code,10,AccVc);
+		ArrayField(Objects,M4UStr,60,ObjVc);
+		ArrayField(PayDeal,M4Code,2,0);
+		ArrayField(Acc01,M4Code,10,AccVc);
+		ArrayField(Acc02,M4Code,10,AccVc);
+		ArrayField(Acc03,M4Code,10,AccVc);
+		ArrayField(Acc04,M4Code,10,AccVc);
+		ArrayField(Acc05,M4Code,10,AccVc);
+		ArrayField(Str01,M4Str,100,0);//PriceCurant
+		ArrayField(Str02,M4Str,100,0);
+		ArrayField(Str03,M4Str,100,0);
+		ArrayField(Str04,M4Str,100,0);
+		ArrayField(Str05,M4Str,100,0);
+    ArrayField(ArInt1,M4int,0,0);
+    ArrayField(ArInt2,M4int,0,0);
+    ArrayField(ArInt3,M4int,0,0);
+    ArrayField(ArInt4,M4int,0,0);
+		ArrayField(ArInt5,M4int,0,0);
+		ArrayField(UserCode,M4Str,50,0);// Edit ************************** Wednesday, 6 June 2012 14:34:32
+		ArrayField(DefLoc,M4Str,50,0);
+		ArrayField(DefLocRet,M4Str,50,0);
+		ArrayField(Drawer,M4Str,10,0);
+		ArrayField(CashID,M4Str,10,0);
+		ArrayField(TermID,M4Str,10,0);
+		ArrayField(SertID,M4Str,10,0);
+		ArrayField(Oth01ID,M4Str,10,0);
+		ArrayField(Oth02ID,M4Str,10,0);
+		ArrayField(Oth03ID,M4Str,10,0);
+		ArrayField(Oth04ID,M4Str,10,0);
+		ArrayField(Oth05ID,M4Str,10,0);
+		EndArray;
+	EndBlock; //Edit***************************Sasha2,17:27 11.09.2014 }
     	  	
 return;
 end;
