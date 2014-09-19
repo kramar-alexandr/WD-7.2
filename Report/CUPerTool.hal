@@ -317,29 +317,30 @@ change does not increase invoice values
       EndFormat;
       
       for(j=0;j<mtrw;j=j+1) begin
-      StartFormat(15);
-        matrowget(IVr,j,IV1rw);
-        //outstring(11,0,"",false);
-        outstring(12,0,"",false);
-        outstring(13,0,"",false);
-        outstring(14,0,"",false);
-        outstring(15,0,"",false);
-        outstring(16,0,"",false);
-        outstring(17,0,"",false);
-        outstring(230,0,IV1rw.ArtCode,false);
-        outstring(240,0,IV1rw.Spec,false);
-        outval(250,0,IV1rw.Quant,M4Val,false);
-        
-        if (IVr.CurncyCode == "USD") then begin
-          outval(260,0,IV1rw.Price,M4Val,false);
-          outval(270,0,IV1rw.Sum,M4Val,false);
-        end else begin
-          outval(260,0,IV1rw.Price/IVr.FrRate,M4Val,false);
-          outval(270,0,IV1rw.Sum/IVr.FrRate,M4Val,false);
-        
+      	matrowget(IVr,j,IV1rw);
+      	if (IV1rw.Sum<>0) then begin
+	      	StartFormat(15);
+	        //outstring(11,0,"",false);
+	        outstring(12,0,"",false);
+	        outstring(13,0,"",false);
+	        outstring(14,0,"",false);
+	        outstring(15,0,"",false);
+	        outstring(16,0,"",false);
+	        outstring(17,0,"",false);
+	        outstring(230,0,IV1rw.ArtCode,false);
+	        outstring(240,0,IV1rw.Spec,false);
+	        outval(250,0,IV1rw.Quant,M4Val,false);
+	        
+	        if (IVr.CurncyCode == "USD") then begin
+	          outval(260,0,IV1rw.Price,M4Val,false);
+	          outval(270,0,IV1rw.Sum,M4Val,false);
+	        end else begin
+	          outval(260,0,IV1rw.Price/IVr.FrRate,M4Val,false);
+	          outval(270,0,IV1rw.Sum/IVr.FrRate,M4Val,false);
+	        
+	        end;
+	        EndFormat;
         end;
-        EndFormat;
-        
       end; //Edit***************************Sasha2,13:53 09.09.2014 }
       
 // I don't think we should be printing them here plus the loss is beeing calculated when the Receipt takes place
