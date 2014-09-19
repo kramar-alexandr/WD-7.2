@@ -8,6 +8,7 @@ SourceFile("halcust\\Web",0);
 SourceFile("halcust\\Print",0);
 SourceFile("halcust\\Tools",0);
 SourceFile("halcust\\RActions",0);
+SourceFile("halcust\\Synchronization",0);
 
 begin
     	 
