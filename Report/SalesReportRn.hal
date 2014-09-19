@@ -454,7 +454,9 @@ begin
 			//outstring(i18,0,"Собірвартість, $",false);
 			//outstring(i19,0,"Прибуток, валюта",false);
 			//outstring(i20,0,"Прибуток, $",false);
-			//outstring(i21,0,"Маржа,%",false);
+			if(currentcompany==2)then begin
+				outstring(i21,0,"Маржа,%",false);
+			end;
 			outstring(i22,0,"Спосіб відвантаження",false);
 			//outstring(i23,0,"Дата надходження",false);
 			//outstring(i24,0,"Постачальник",false);
@@ -589,7 +591,9 @@ begin
 								//outstring(i19,0,"",false);
 							end;
 							//outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
-							//outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100,3),false);
+							if(currentcompany==2)then begin
+								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100,3),false);
+							end;
 							outstring(i22,0,IVr.ShipMode,false);
 							//outstring(i23,0,indate[j],false);
 							//outstring(i24,0,vecode[j],false);
@@ -636,6 +640,17 @@ integer compnr;
 				end;
 				      	
         switch(compnr)begin
+          case 2: filename = "Reports/2/ManSalesRep.xls";
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									RepSpec.f1 = "";
+									SalesReportForManagersRn(RepSpec);
+									closefile;
+									RunProgram("Reports/2/ManSalesRep.sh","");
+									
           case 5: filename = "Reports/5/ManSalesRep.xls";
           				delete_file(filename);
 									CreateFile(filename);
@@ -699,6 +714,16 @@ integer compnr;
 				end;
 				      	
         switch(compnr)begin
+        	case 2: filename = "Reports/2/FullSalesRep.xls";
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									SalesReportRn(RepSpec);
+									closefile;
+									RunProgram("Reports/2/FullSalesRep.sh","");
+									
           case 5: filename = "Reports/5/FullSalesRep.xls";
           				delete_file(filename);
 									CreateFile(filename);

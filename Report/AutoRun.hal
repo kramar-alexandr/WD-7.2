@@ -1,4 +1,4 @@
-external procedure AutoUnreservOrderMn();
+external updating procedure AutoUnreservOrderMn();
 external procedure MyReservStstEn();
 external procedure DebitorkaReportEn(integer);
 external procedure FullStockEn();
@@ -8,13 +8,13 @@ external procedure IPEn(); //Edit***************************Sasha2,15:41 05.09.2
 external procedure SalesReportEn();
 external procedure SalesReportForManagersEn();
 //------------------------------------------------------------------------------------------------------------------------------
-global procedure AutoRun()
+global updating procedure AutoRun()
 begin
-integer iStore,Computek,Textera,Technomedia,AService,WD,MMR,PPhL;
+integer iStore,iTek,Textera,Technomedia,AService,WD,MMR,PPhL;
 record RcVc RepSpec;
 
 iStore = 1;
-Computek = 2;	//iTek
+iTek = 2;	//iTek
 WD = 3;
 PPhL = 4;
 Textera = 5;//Textera
@@ -22,6 +22,29 @@ MMR = 6;
 Technomedia = 7;//Technomedia
 AService = 8;
 
+  
+  if (SetCompany(iTek,false)) then begin//itek
+  	logtext(0,currentcompany & " IPEn"); 
+    IPEn; 
+  	logtext(0,currentcompany & " SalesReportEn");
+    SalesReportEn;
+  	logtext(0,currentcompany & " DebitorkaReportEn");
+    DebitorkaReportEn(iTek);
+    logtext(0,currentcompany & " ShopsReportEn");
+    ShopsReportEn;
+  	logtext(0,currentcompany & " FullStockEn");
+    FullStockEn;
+    logtext(0,currentcompany & " ManagersFullStockEn");
+    ManagersFullStockEn;
+    logtext(0,currentcompany & " SalesReportForManagersEn");
+    SalesReportForManagersEn;
+    logtext(0,currentcompany & " AutoUnreservOrderMn");
+    AutoUnreservOrderMn;
+    logtext(0,currentcompany & " MyReservStstEn");
+    MyReservStstEn;
+    
+    ResetCompany(iTek);  
+  end;
   
   if (SetCompany(Textera,false)) then begin//textera
   	logtext(0,currentcompany & " FullStockEn");
@@ -38,7 +61,9 @@ AService = 8;
     ShopsReportEn; //Edit***************************Sasha2,17:27 02.09.2014
     logtext(0,currentcompany & " IPEn"); //Edit***************************Sasha2,15:39 05.09.2014
     IPEn; //Edit***************************Sasha2,15:39 05.09.2014
+    logtext(0,currentcompany & " SalesReportEn");
     SalesReportEn;
+    logtext(0,currentcompany & " SalesReportForManagersEn");
     SalesReportForManagersEn;
     ResetCompany(Textera);  
   end;
@@ -59,7 +84,9 @@ AService = 8;
     ShopsReportEn;
     logtext(0,currentcompany & " IPEn"); //Edit***************************Sasha2,15:39 05.09.2014
     IPEn; //Edit***************************Sasha2,15:39 05.09.2014
+    logtext(0,currentcompany & " SalesReportEn");
     SalesReportEn;
+    logtext(0,currentcompany & " SalesReportForManagersEn");
     SalesReportForManagersEn;
     ResetCompany(Technomedia);  
   end;

@@ -16,7 +16,13 @@ begin
   ORr.Reserved = 1;
   
   switch(compnr)begin
-    
+    case  2:  filename = "Stock/AutoreservIT";
+    					delete_file(filename & ".xls");
+    					CreateFile(filename & ".xls");
+              closefile;
+              millisleep(100);
+              openexportfile(filename & ".xls",true);
+              
     case  5:  filename = "Stock/AutoreservTXT";
     					delete_file(filename & ".xls");
     					CreateFile(filename & ".xls");
@@ -100,7 +106,7 @@ string 50 filename;
       if(GetDateID(currentdate)==1 or GetDateID(currentdate)==3)then begin
         switch(compnr)begin
           //case 1: filename = "Stock/ISTORDebitorka.xls";
-          //case 2: filename = "Stock/ITEKUADebitorka.xls";
+          case 2: filename = "Stock/ITEKUADebitorka.xls";
           //case 3: filename = "Stock/WDDebitorka.xls";
           //case 4: filename = "Stock/PPhLDebitorka.xls";//PPhL
           case 5: filename = "Stock/TXTDebitorka.xls";
@@ -126,7 +132,7 @@ string 50 filename;
         
         switch(compnr)begin
           //case 1: RunProgram("Stock/ISTORDebitorka.sh","");
-          //case 2: RunProgram("Stock/ITEKUADebitorka.sh","");
+          case 2: RunProgram("Stock/ITEKUADebitorka.sh","");
           //case 3: RunProgram("Stock/WDDebitorka.sh","");
           //case 4: RunProgram("Stock/PPhLDebitorka.sh","");//PPhL
           case 5: RunProgram("Stock/TXTDebitorka.sh","");

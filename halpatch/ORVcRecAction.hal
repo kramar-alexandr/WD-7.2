@@ -977,11 +977,11 @@ begin
     end;
   end;
   if (ORr.ExportFlag==0) then begin
-    if (UserCanAction("DisallowDomSales",false)) then begin
+    /*if (UserCanAction("DisallowDomSales",false)) then begin// Edit ************************** Tuesday, 16 September 2014 11:01:17
       RecordCheckError(20056,"",-1,"CustCode");   
       res = -1; 
       goto LORVcRecordCheck;
-    end; 
+    end; */
   end;
   if (ORr.ExportFlag!=0) then begin
     if (UserCanAction("DisallowExpSales",false)) then begin
@@ -1133,11 +1133,11 @@ begin
             res = -1;
             goto LORVcRecordCheck;
           end;
-          if (!INVc_AllowSales(INr,ErrorCode)) then begin
+          /*if (!INVc_AllowSales(INr,ErrorCode)) then begin// Edit ************************** Tuesday, 16 September 2014 11:05:11
             RecordCheckError(ErrorCode,"",i,"ArtCode");      
             res = -1; 
             goto LORVcRecordCheck;
-          end;
+          end;*/
           if (closingf==false) then begin
             if (INr.Terminated!=0) then begin
               RecordCheckError(1266,ORrw.ArtCode,i,"ArtCode");      

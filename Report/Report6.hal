@@ -30,12 +30,15 @@ begin
   array val price;
   integer plcnt,i;
   record ItemHistVc IHr;
+  record PUVc PUr;
   
   PLDefr.Code = "";
   while(loopmain(PLDefr,1,true))begin
-  	plcode[plcnt] = PLDefr.Code;
-  	price[plcnt] = 0;
-  	plcnt = plcnt + 1;
+  	if(PLDefr.Code!="C+9%")then begin
+			plcode[plcnt] = PLDefr.Code;
+			price[plcnt] = 0;
+			plcnt = plcnt + 1;
+  	end;
   end;
   
   startreportnoheaderjob("MyItemReportRn");
@@ -43,6 +46,11 @@ begin
   startformat(15);
     outstring(0,0,"Товар",false);
     outstring(0,0,"Назва",false);
+    if(RepSpec.flags[0]==1)then begin
+    	outstring(0,0,"Постачальник",false);
+    	outstring(0,0,"Дата надходження",false);
+    	outstring(0,0,"Серiйний номер",false);
+    end;
     outstring(0,0,"На складі",false);
     if(RepSpec.ArtMode==0)then begin
 			outstring(0,0,"Доступно",false);
@@ -107,6 +115,17 @@ begin
         			StartFormat(15)
 								OutString(0,0,ISr.Code,false);
 								OutString(1,0,INr.Name,false);
+								if(RepSpec.flags[0]==1)then begin
+									PUr.SerNr = IHr.InSerNr;
+									if(readfirstmain(PUr,1,true) and IHr.InFileName=="PUVc")then begin
+										outstring(0,0,PUr.VECode,false);
+										outstring(0,0,PUr.TransDate,false);
+									end else begin
+										outstring(0,0,"",false);
+										outstring(0,0,"",false);
+									end;
+									outstring(0,0,IHr.SerialNr,false);
+								end;
 								OutString(2,0,IHr.RemQty,false);
 								if(RepSpec.flags[0]==1)then begin
 									OutString(1,0,IHr.RemCostPrice / IHr.RemQty,false);
@@ -139,6 +158,13 @@ integer compno;
 	RepSpec.ArtMode = 1;
 	RepSpec.flags[0] = 1;
       switch (compno) begin  
+      case 2: delete_file("Stock/ITEKUAStockFull.xls");
+      				CreateFile("Stock/ITEKUAStockFull.xls");
+              closefile;
+              openexportfile("Stock/ITEKUAStockFull.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/ITEKUAStockFull.sh", "");
+              
       case 5: delete_file("Stock/TXTStockFull.xls");
       				CreateFile("Stock/TXTStockFull.xls");
               closefile;
@@ -164,6 +190,13 @@ record RcVc RepSpec;
 integer compno;
   compno = CurrentCompany;
       switch (compno) begin
+      case 2: delete_file("Stock/ITEKUAStockFullManagers.xls");
+      				CreateFile("Stock/ITEKUAStockFullManagers.xls");
+              closefile;
+              openexportfile("Stock/ITEKUAStockFullManagers.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/ITEKUAStockFullManagers.sh", "");
+              
       case 5: delete_file("Stock/TXTStockFullManagers.xls");
       				CreateFile("Stock/TXTStockFullManagers.xls");
               closefile;

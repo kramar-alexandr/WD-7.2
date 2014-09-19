@@ -525,7 +525,7 @@ begin
   row IPVc IPrw;
   val tot;
   string 5 crncy,thepm;
-
+		
   MatRowGet(IPp,rownr,IPrw);
   if (HasLocalization("PRT")) then begin 
     if (CheckMultipleCustomers_IPVc(IPp,rownr,error)) then begin 
