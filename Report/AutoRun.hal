@@ -2,6 +2,7 @@ external updating procedure AutoUnreservOrderMn();
 external procedure MyReservStstEn();
 external procedure DebitorkaReportEn(integer);
 external procedure FullStockEn();
+external procedure FullStockTRWH2En(); //Edit***************************Sasha2,11:41 22.09.2014
 external procedure ManagersFullStockEn();
 external procedure ShopsReportEn(); //Edit***************************Sasha2,17:24 02.09.2014
 external procedure IPEn(); //Edit***************************Sasha2,15:41 05.09.2014
@@ -34,6 +35,8 @@ AService = 8;
     ShopsReportEn;
   	logtext(0,currentcompany & " FullStockEn");
     FullStockEn;
+    logtext(0,currentcompany & " FullStockTRWH2En"); //Edit***************************Sasha2,11:40 22.09.2014
+    FullStockTRWH2En; //Edit***************************Sasha2,11:40 22.09.2014
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
     logtext(0,currentcompany & " SalesReportForManagersEn");
@@ -49,6 +52,8 @@ AService = 8;
   if (SetCompany(Textera,false)) then begin//textera
   	logtext(0,currentcompany & " FullStockEn");
     FullStockEn;
+    logtext(0,currentcompany & " FullStockTRWH2En"); //Edit***************************Sasha2,11:40 22.09.2014
+    FullStockTRWH2En; //Edit***************************Sasha2,11:40 22.09.2014
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
     logtext(0,currentcompany & " DebitorkaReportEn");
@@ -72,6 +77,8 @@ AService = 8;
   if (SetCompany(Technomedia,false)) then begin
     logtext(0,currentcompany & " FullStockEn");
     FullStockEn;
+    logtext(0,currentcompany & " FullStockTRWH2En"); //Edit***************************Sasha2,11:40 22.09.2014
+    FullStockTRWH2En; //Edit***************************Sasha2,11:40 22.09.2014
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
     logtext(0,currentcompany & " DebitorkaReportEn");

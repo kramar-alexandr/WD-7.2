@@ -79,7 +79,8 @@ begin
     UseView(RcVc);
     SetWRect(20,120,350,300);
     h=100; v=20;
-    ButtonFrame(h,v=vm+10,140,2,"Режим");
+    EditField(h,20,70,"Склад",Normal,f1,false,LocationSClass); //Edit***************************Sasha2,11:31 22.09.2014
+    ButtonFrame(h,v=vm+60,140,2,"Режим");
 		RadioButton(h,v,0,0,"Зведено",ArtMode);
 		RadioButton(h,v+=16,1,0,"Детально",ArtMode);
 		vm = v + 20;
