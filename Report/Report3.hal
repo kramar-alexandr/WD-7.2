@@ -12,9 +12,6 @@ begin
   
   
   compnr = currentcompany;
-  TrHs = true;
-  ORr.Reserved = 1;
-  
   switch(compnr)begin
     case  2:  filename = "Stock/AutoreservIT";
     					delete_file(filename & ".xls");
@@ -46,7 +43,10 @@ begin
     outString(0,0,"Назва клієнта",false);
     outString(0,0,"Продавець",false);
   endformat;
+  
   counter = 0;
+  TrHs = true;
+  ORr.Reserved = 1;
   while(loopkey("Reserved",ORr,1,TrHs))begin
     testf = true;
     if(ORr.Reserved!=1)then begin TrHs=false; testf = false; end;
