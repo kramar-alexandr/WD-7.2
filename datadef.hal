@@ -1302,26 +1302,7 @@ begin
   
   EndRecord;
   
-  
-  RecordBegin(SynkAutoSerVc,-,"");
-  RecordField(UserCode,M4Code,10,UserVc);
-  RecordField(SalesGroup,M4Code,5,SalesGroupVc);
-  RecordField(Math,M4Matrix,0,0);
-  ArrayBegin(Math,-,1);
-  ArrayField(FileName,M4Str,60,0);
-  ArrayField(NumberSeries,M4Long,0,0);
-  ArrayField(NrsRangeQty,M4Long,0,0);
-  ArrayField(NrsMinimum,M4Long,0,0);
-  EndArray;
-  MainKeyBegin(UserCode,0);
-  KeySegment(UserCode);
-  KeySegment(SalesGroup);
-  SynchronizationIndex; //Edit***************************Sasha2,15:05 25.09.2014
-  KeyBegin(SalesGroup);
-  KeySegment(SalesGroup);
-  KeySegment(UserCode);
-  EndRecord;
-  
+    
   RecordBegin(GigieneTextVc,-,"");
   RecordField(ArtCode,M4Code,20,INVc);
   RecordField(Math,M4Matrix,0,0);
