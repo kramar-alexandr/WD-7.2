@@ -43,27 +43,3 @@ begin
   return;
 end;
 
-global
-function Boolean SynkAutoSerVcRecordShouldBeSynchronised(record SynkAutoSerVc SynkAutoSerr,string tagstr)
-begin
-  Boolean res;
-
-  if (SynkAutoSerr.UserCode==tagstr) then begin
-  	res = true;
-  end else begin
-  	res = false;
-  end;
-  
-  SynkAutoSerVcRecordShouldBeSynchronised = res;
-  return;
-end;
-
-global 
-function Boolean SynkAutoSerVcRecordSync(record SynkAutoSerVcVc SynkAutoSerr,string tagstr)
-begin
-  Boolean res;
-    
-  res = true;
-  SynkAutoSerVcRecordSync = res;
-  return;
-end;

@@ -275,30 +275,40 @@ begin
   RETURN;
 END;
 
-function record FilterIVCashSerBlock(record IVCashSerBlock IVCSB,string locmachine)
+procedure FilterIVCashSerBlock(record IVCashSerBlock IVCSBServer,string locmachine,var record IVCashSerBlock IVCSBClient)
 begin
-  record IVCashSerBlock newIVCSB;
+  row IVCashSerBlock IVCSBServerw;
+  row IVCashSerBlock IVCSBClientw;
   row IVCashSerBlock newIVCSBw;
-  row IVCashSerBlock IVCSBw;
   integer i,rwcnt;
+  boolean found;
+  Date blankd;
   
-    RECORDNEW(newIVCSB);
-  	rwcnt = MatRowCnt(IVCSB);
+    found = false;
+  	rwcnt = MatRowCnt(IVCSBServer);
   	for (i=0;i<rwcnt;i=i+1) begin
-  		MatRowGet(IVCSB,i,IVCSBw);
-  		if (NonBlank(IVCSBw.TSerCom) and IVCSBw.TSerCom==locmachine) then begin
-  			newIVCSBw.TSerStart = IVCSBw.TSerStart;
-  			newIVCSBw.TSerEnd = IVCSBw.TSerEnd;
-			newIVCSBw.StartDate = IVCSBw.StartDate;
-			newIVCSBw.EndDate = IVCSBw.EndDate;
-			newIVCSBw.TSerCom = IVCSBw.TSerCom;
-			newIVCSBw.DonotGenTrans = IVCSBw.DonotGenTrans;
-			MatRowPut(newIVCSB,0,newIVCSBw);
-			i = rwcnt;
+  		MatRowGet(IVCSBServer,i,IVCSBServerw);
+  		if (IVCSBServerw.TSerCom==locmachine) then begin
+  			newIVCSBw.TSerStart = IVCSBServerw.TSerStart;
+			newIVCSBw.TSerEnd = IVCSBServerw.TSerEnd;
+			newIVCSBw.StartDate = IVCSBServerw.StartDate;
+			newIVCSBw.EndDate = IVCSBServerw.EndDate;
+			newIVCSBw.TSerCom = UpperCase(IVCSBServerw.TSerCom);
+			newIVCSBw.DonotGenTrans = IVCSBServerw.DonotGenTrans;
+			found = true;
   		end;
   	end;
   	
-    FilterIVCashSerBlock = newIVCSB;
+  	rwcnt = MatRowCnt(IVCSBClient);
+	for (i=0;i<rwcnt;i=i+1) begin
+		MatRowGet(IVCSBClient,i,IVCSBClientw);
+		MatRowDelete(IVCSBClient,i);
+	end;
+  	
+  	if (found) then begin
+  		MatRowPut(IVCSBClient,0,newIVCSBw);
+  	end;
+  	
   return;
 end;
 
@@ -329,6 +339,7 @@ BEGIN
   record LangBlock LangRec;
   record IVCashDefBlock IVCashDefRec;
   record IVCashSerBlock IVCashSerRec;
+  record IVCashSerBlock IVCashSerRecClient; //Edit***************************Sasha2,11:20 26.09.2014
   record CashierDefBlock CDb;
   record CashPrintBlock CashPrintRec;
   record CostAccBlock CAb;
@@ -355,6 +366,7 @@ BEGIN
   SetServerCompany(offlinecomp);
   BlockLoad(LMb);  
   BlockLoad(SeqnrRec);
+  BlockLoad(IVCashSerRecClient); //Edit***************************Sasha2,11:21 26.09.2014
   SetServerCompany(curcomp);
 
   BlockLoad(OffLb);  
@@ -424,7 +436,9 @@ BEGIN
   BlockStore(CYRec);
   BlockStore(LangRec);
   BlockStore(IVCashDefRec);
-  BlockStore(IVCashSerRec);
+  FilterIVCashSerBlock(IVCashSerRec,LMb.LocalMachineCode,IVCashSerRecClient); //Edit***************************Sasha2,10:12 26.09.2014
+  //BlockStore(IVCashSerRec); //Edit***************************Sasha2,11:22 26.09.2014
+  BlockStore(IVCashSerRecClient); //Edit***************************Sasha2,11:22 26.09.2014
   BlockStore(CDb);
   BlockStore(CashPrintRec);
   BlockStore(CAb);

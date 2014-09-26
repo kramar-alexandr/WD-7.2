@@ -126,7 +126,6 @@ updating procedure POSServToOffLine_SynchRegisters(Integer servcomp,Integer offl
    var LongInt Custom9VcSeqNr,var LongInt Custom10VcSeqNr,
    var LongInt SerBalVcSeqNr,string location,string machinecode)  //Edit***************************Sasha2,16:07 22.09.2014
 begin
-  LongInt SynkAutoSerSeqNr; //Edit***************************Sasha2,14:29 25.09.2014
 
   UnitVcSeqNr = SynchroniseRegister("UnitVc",servcomp,offlinecomp,UnitVcSeqNr,"");    
   PLQVcSeqNr = SynchroniseRegister("PLQVc",servcomp,offlinecomp,PLQVcSeqNr,"");    
@@ -145,7 +144,6 @@ begin
   DrawerVcSeqNr = SynchroniseRegister("DrawerVc",servcomp,offlinecomp,DrawerVcSeqNr,"");
   ItemStatusVcSeqNr = SynchroniseRegister("ItemStatusVc",servcomp,offlinecomp,ItemStatusVcSeqNr,"");  
   SerBalVcSeqNr = SynchroniseRegister("SerBalVc",servcomp,offlinecomp,SerBalVcSeqNr,location); //Edit***************************Sasha2,16:08 22.09.2014
-  SynkAutoSerSeqNr = SynchroniseRegister("SynkAutoSerVc",servcomp,offlinecomp,-1,machinecode); //Edit***************************Sasha2,16:08 22.09.2014
   
   return;
 end;
