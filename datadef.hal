@@ -571,6 +571,7 @@ begin
   RecordField(RecipientGLN,M4Str,20,0);
   RecordField(DelRecipientGLN,M4Str,20,0);
   RecordField(IntrastatTransCode,M4Code,20,0);
+  RecordField(ReservToDate,M4Date,0,0);// Edit ************************** Tuesday, 23 September 2014 21:46:08
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
   ArrayField(ArtCode,M4Code,20,INVc);

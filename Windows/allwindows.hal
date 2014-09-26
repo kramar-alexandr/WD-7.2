@@ -1985,7 +1985,7 @@ begin
   vs = 20; h1 = 110; h2 = 290; h3 = 530; h4 = -100;
   EditField(h1,vm=(v=6),82,"Дата",Normal,OrdDate,false,PasteCurDate);
   EditField(h1,v+=vs,25,"Умови сплати",Normal,PayDeal,false,PDSClass);
-  EditField(h1,v+=vs,82,"Дата резервування",Normal,PlanShip,false,PasteCurDate);// Edit ************************** Wednesday, July 9, 2014 at 13:43:49
+  EditField(h1,v+=vs,82,"Дата резервування",Normal,ReservToDate,false,PasteCurDate);// Edit ************************** Wednesday, July 9, 2014 at 13:43:49
   EditField(h1,v+=vs,82,"Дата відправл.",Normal,DespatchDate,false,PasteCurDate);
   EditField(h1,v+=vs,82,"Час відправл.",Normal,DespatchTime,false,PasteCurTime);
   EditField(h2,v=vm,135,"Посилання",Normal,OurContact,false,0);
@@ -5640,7 +5640,8 @@ begin
   if (IsEnterprise) then begin
     RlColKey(-200,-200,"Вид",OrderClass,false,OrderClass);
     RlColKey(-155,-155,"Всього",Sum4,true,Sum4);
-    RlCol(-75,-75,"Попер. сплачено",DownPaySent,true);
+    //RlCol(-75,-75,"Попер. сплачено",DownPaySent,true);// Edit ************************** Wednesday, 24 September 2014 09:46:50
+    RlColKey(-75,-75,"Резерв",Reserved,true,Reserved);// Edit ************************** Wednesday, 24 September 2014 09:46:50
   end else begin
     RlColKey(-55,-55,"Всього",Sum4,true,Sum4); 
   end;

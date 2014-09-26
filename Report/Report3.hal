@@ -51,8 +51,8 @@ begin
     testf = true;
     if(ORr.Reserved!=1)then begin TrHs=false; testf = false; end;
   
-    if(stringtodate(ORr.PlanShip)>=CurrentDate)then begin testf = false; end;
-    if(blank(ORr.PlanShip))then begin testf = false; end;
+    if(ORr.ReservToDate>=CurrentDate)then begin testf = false; end;
+    if(blank(ORr.ReservToDate))then begin testf = false; end;
     if(ORr.Closed>0)then begin testf = false; end;
     
     if(testf)then begin
@@ -74,7 +74,7 @@ begin
         startformat(15);
           outString(0,0,ORr.SerNr,false);
           outString(0,0,ORr.OrdDate,false);
-          outString(0,0,ORr.PlanShip,false);
+          outString(0,0,ORr.ReservToDate,false);
           outString(0,0,ORr.CustCode,false);
           outString(0,0,ORr.Addr0,false);
           outString(0,0,ORr.SalesMan,false);

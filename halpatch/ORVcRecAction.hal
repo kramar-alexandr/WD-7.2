@@ -1186,9 +1186,9 @@ begin
 						end;
           end;
           
-          if(currentcompany==7 or currentcompany==5)then begin	
-						if ((ORr.Reserved!=0) and (blank(ORr.PlanShip))) then begin
-							RecordCheckError(31025,"",-1,"PlanShip");      
+          if(currentcompany==2 or currentcompany==7 or currentcompany==5)then begin	
+						if ((ORr.Reserved!=0) and (blank(ORr.ReservToDate))) then begin
+							RecordCheckError(31025,"",-1,"ReservToDate");      
 							res = -1;
 							goto LORVcRecordCheck;
 						end;
@@ -2197,6 +2197,7 @@ begin
   GetCurUser(USr);
   ORr.OurContact = USr.CurOurContact;
   ORr.PlanShip = "";
+  ORr.ReservToDate = "";// Edit ************************** Wednesday, 24 September 2014 09:43:03
   ORr.CustOrdNr = "";
   ORr.OrdDate = CurrentDate;
   ORr.DownPaySent = blankval;
