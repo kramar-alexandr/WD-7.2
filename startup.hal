@@ -18,7 +18,7 @@ begin
 	Setting("Рахунки продавців",LocalMachineAccTClass,modPOS); //Edit***************************Sasha2,17:26 11.09.2014
 	Setting("Local OffLine No.",LocalOffLineNrTClass,modPOSOffLine); //Edit***************************Sasha2,10:51 24.09.2014
 	Setting("Настройки Zebra",ZebraPrinterTClass,modUserSet); //Edit***************************Sasha2,16:35 25.09.2014
-	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
+	Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
     //Document("Етикетки партій (надходження)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
     //Document("Етикетки партій (переміщення)",GigieneTextRClass,StockMovLabPartForm,LabelPartStockMovFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
