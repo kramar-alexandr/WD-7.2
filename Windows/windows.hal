@@ -294,3 +294,87 @@ begin
    /* v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,8,"H");*/
   EndWindow;
  end; //Edit***************************Sasha2,17:28 11.09.2014 }
+ 
+//------------------------------------------All windows for Zebra ---------------------------------------------------------------------
+ 
+window GigieneTextDClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+ WindowBegin("Товар",GigieneTextDClass,CGview,-);
+  SetWRect(20,80,800,400);
+  Sizeable(-1,-1,-1,0);
+  UseView(GigieneTextVc);
+  FormName(GigieneTextForm);
+  EditField(100,20, 150,"Код товару",Normal,ArtCode,false,INSClass);
+  MatrixBegin(5,80,-21,-20,-,40);
+    MatCol(1,34,"Текст",0,Str1,false,0);
+  EndMatrix;
+  SpecialMenu("Друк Zebra",' ',0,"GigieneTextZebraPrintDsm");
+  EndWindow;
+end; //Edit***************************Sasha2,16:12 25.09.2014 }
+  
+window GigieneTextLClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Опис товару",GigieneTextLClass,CGmlist,-);
+  SpawnClass(GigieneTextDClass);
+  SetWRect(64,80,600,298);
+  Sizeable(-1,-1,0,0);
+  UseView(GigieneTextVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Товар",ArtCode,false,ArtCode);
+  SearchField("Пошук");
+  EndWindow;
+end; //Edit***************************Sasha2,16:12 25.09.2014 }
+
+window MyPrintLabelDialogTClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,f;
+	WindowBegin("Надрукуваті наклейки",MyPrintLabelDialogTClass,CGother,RcType);
+    UseView(RcVc);
+    SetWRect(90,80,450,400);
+    h=50;
+    v = 20;
+    ButtonFrame(h,v,80,2,"Наклейки");                   
+    HalPushButton(h+150,10,350,66,"ZebraFont","Завантажити шрифт");
+    RadioButton(h,v,0,0,"ZEBRA",flags[3]);
+    RadioButton(h,v+=16,1,0,"ZEBRA BIG",flags[3]);
+    v=v+32;
+    ButtonFrame(h,v,80,2,"Друк");
+    RadioButton(h,v,0,0,"Всі наклейки",flags[0]);
+    RadioButton(h,v+=16,1,0,"Наклейки",flags[0]);EditField(h+120,v,45,"з",Normal,flags[1],false,0);EditField(h+200,v,45,"по",Normal,flags[2],false,0);
+    HalPushButton(h,v+=20,190,66,"PrintPUZebra","Друкувати");
+	EndWindow;
+end; //Edit***************************Sasha2,16:12 25.09.2014 }
+  
+window GigieneLabelDialogTClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,f;
+  	WindowBegin("Надрукуваті наклейки",GigieneLabelDialogTClass,CGother,RcType);
+    UseView(RcVc);
+    SetWRect(90,80,450,400);
+    h=50;
+    v = 20;	  
+    HalPushButton(h,10,350,66,"ZebraFont","Завантажити шрифт");
+    v=v+32;
+    EditField(h,v,45,"Кількість",Normal,flags[1],false,0);
+    HalPushButton(h,v+=20,190,66,"GigieneTextZebraPrint","Друкувати");
+  	EndWindow;
+end; //Edit***************************Sasha2,16:12 25.09.2014 }
+
+window ZebraPrinterTClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,f;
+  WindowBegin("Настройка принтера Zebra",ZebraPrinterTClass,CGSbl,-);
+  SetBlid(ZebraPrinterBlock);
+  SetWRect(64,80,380,150);
+  h=100;f=200;
+  v=6;
+    EditField(h,v+=vs,f,"Назва принтера",Normal,PrinterName,false,0); 
+  EndWindow;
+end; //Edit***************************Sasha2,16:12 25.09.2014 }
+
+//------------------------------------------All windows for Zebra ---------------------------------------------------------------------

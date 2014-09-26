@@ -3643,6 +3643,7 @@ begin
   SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixPUDsm"); 
   end;
   SpecialMenu("Надрукувати етикетки",'e',0,"PrintPULabPUDsm");
+  SpecialMenu("Етикетки ZEBRA",'',0,"PrintPUZebraDsm"); //Edit***************************Sasha2,15:56 25.09.2014
   if (HasApprovals) then begin
     if (StandardHansa==false) then begin
 			SpecialMenu("Відправити для затвердження",' ',14,"PUSendforAcceptancePUDsm");
@@ -5922,5 +5923,44 @@ begin
   SpecialMenu("Відкрити запис операцій",'t',1,"OpenTRFromSR");
   end;
   SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
+  EndWindow;
+end;
+
+window SeqNrTClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("Порядкові номери",SeqNrTClass,CGSbl,-);
+  SetWRect(64,80,509,400);
+  SetBlid(SeqNrBlock);
+  vs = 20; h=130;
+  EditField(h,vm=(v=6),65,"IVCashVcSeqNr",Normal,IVCashVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"AccVcSeqNr",Normal,AccVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"OTVcSeqNr",Normal,OTVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"ObjVcSeqNr",Normal,ObjVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"LocationVcSeqNr",Normal,LocationVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"AccessVcSeqNr",Normal,AccessVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"StyleVcSeqNr",Normal,AccessVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"UnitVcSeqNr",Normal,UnitVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"DocVcSeqNr",Normal,UnitVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"ArtUpdStockVcSeqNr",Normal,ArtUpdStockVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"RecVcSeqNr",Normal,RecVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"VGVcSeqNr",Normal,VGVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"ItemStatusVcSeqNr",Normal,ItemStatusVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"SerBalVcSeqNr",Normal,SerBalVcSeqNr,false,0); //Edit***************************Sasha2,16:05 22.09.2014
+  EditField(h=330,v=vm,65,"PLQVcSeqNr",Normal,PLQVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"RebVcSeqNr",Normal,RebVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"ITVcSeqNr",Normal,ITVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"PLVcSeqNr",Normal,PLVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"INVcSeqNr",Normal,INVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"CUVcSeqNr",Normal,CUVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"PLDefVcSeqNr",Normal,PLDefVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"UserVcSeqNr",Normal,UserVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"DIVcSeqNr",Normal,DIVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"CTypeVcSeqNr",Normal,CTypeVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"POSSalesVcSeqNr",Normal,POSSalesVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"CCatVcSeqNr",Normal,CCatVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"CurncyCodeVcSeqNr",Normal,CurncyCodeVcSeqNr,false,0);
+  EditField(h,v+=vs,65,"ModifiersVcSeqNr",Normal,ModifiersVcSeqNr,false,0);
   EndWindow;
 end;

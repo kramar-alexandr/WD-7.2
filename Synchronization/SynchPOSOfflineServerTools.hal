@@ -109,7 +109,7 @@ begin
   PDVcSeqNr = SynchroniseRegister("PDVc",servcomp,offlinecomp,PDVcSeqNr,"");
   CCatVcSeqNr = SynchroniseRegister("CCatVc",servcomp,offlinecomp,CCatVcSeqNr,"");
   VEVcSeqNr = SynchroniseRegister("VEVc",servcomp,offlinecomp,VEVcSeqNr,"");
-  ModifiersVcSeqNr = SynchroniseRegister("ModifiersVc",servcomp,offlinecomp,ModifiersVcSeqNr,"");  
+  ModifiersVcSeqNr = SynchroniseRegister("ModifiersVc",servcomp,offlinecomp,ModifiersVcSeqNr,"");
 
   return;
 end;
@@ -123,8 +123,11 @@ updating procedure POSServToOffLine_SynchRegisters(Integer servcomp,Integer offl
    var LongInt ItemStatusVcSeqNr,var LongInt Custom1VcSeqNr,var LongInt Custom2VcSeqNr,
    var LongInt Custom3VcSeqNr,var LongInt Custom4VcSeqNr,var LongInt Custom5VcSeqNr,
    var LongInt Custom6VcSeqNr,var LongInt Custom7VcSeqNr,var LongInt Custom8VcSeqNr,
-   var LongInt Custom9VcSeqNr,var LongInt Custom10VcSeqNr)
+   var LongInt Custom9VcSeqNr,var LongInt Custom10VcSeqNr,
+   var LongInt SerBalVcSeqNr,string location,string machinecode)  //Edit***************************Sasha2,16:07 22.09.2014
 begin
+  LongInt SynkAutoSerSeqNr; //Edit***************************Sasha2,14:29 25.09.2014
+
   UnitVcSeqNr = SynchroniseRegister("UnitVc",servcomp,offlinecomp,UnitVcSeqNr,"");    
   PLQVcSeqNr = SynchroniseRegister("PLQVc",servcomp,offlinecomp,PLQVcSeqNr,"");    
   RebVcSeqNr = SynchroniseRegister("RebVc",servcomp,offlinecomp,RebVcSeqNr,"");    
@@ -141,6 +144,9 @@ begin
   ArtUpdStockVcSeqNr = SynchroniseRegister("ArtUpdStockVc",servcomp,offlinecomp,ArtUpdStockVcSeqNr,"");    
   DrawerVcSeqNr = SynchroniseRegister("DrawerVc",servcomp,offlinecomp,DrawerVcSeqNr,"");
   ItemStatusVcSeqNr = SynchroniseRegister("ItemStatusVc",servcomp,offlinecomp,ItemStatusVcSeqNr,"");  
+  SerBalVcSeqNr = SynchroniseRegister("SerBalVc",servcomp,offlinecomp,SerBalVcSeqNr,location); //Edit***************************Sasha2,16:08 22.09.2014
+  SynkAutoSerSeqNr = SynchroniseRegister("SynkAutoSerVc",servcomp,offlinecomp,-1,machinecode); //Edit***************************Sasha2,16:08 22.09.2014
+  
   return;
 end;
 
@@ -852,14 +858,30 @@ begin
 end;
 
 global
-procedure POSOffLineToServ_SynchRegisters_AreIVCashsStored(Array LongInt delinvarr,var Array Boolean delinvarrf,var Integer dinvacnt)
+procedure POSOffLineToServ_SynchRegisters_AreIVCashsStored(Array string delinvarr,var Array Boolean delinvarrf,var Integer dinvacnt) //Edit***************************Sasha2,14:42 24.09.2014
 begin
   record IVCashVc IVCashr;
   Integer di;
 
   for (di=0;di<dinvacnt;di=di+1) begin 
-    IVCashr.SerNr = delinvarr[di];
-    delinvarrf[di] = ReadFirstMain(IVCashr,1,true);
+    //IVCashr.SerNr = delinvarr[di]; //Edit***************************Sasha2,13:49 24.09.2014
+    //delinvarrf[di] = ReadFirstMain(IVCashr,1,true); //Edit***************************Sasha2,13:49 24.09.2014
+    IVCashr.MachineTimeStamp = delinvarr[di]; //Edit***************************Sasha2,13:49 24.09.2014
+    delinvarrf[di] = ReadLastKey("MachineTimeStamp",IVCashr,1,true); //Edit***************************Sasha2,13:50 24.09.2014
   end;
   return;
 end;
+
+global  //Edit***************************Sasha2,14:42 24.09.2014 {
+function Boolean  POSOffLineToServ_SynchRegisters_ShouldBeSynchronised(string TimeStamp)
+begin
+  record IVCashVc IVCashr;
+  boolean res;
+
+	IVCashr.MachineTimeStamp = TimeStamp;
+    res = !ReadLastKey("MachineTimeStamp",IVCashr,1,true);
+    
+    POSOffLineToServ_SynchRegisters_ShouldBeSynchronised = res;
+
+  return;
+end; //Edit***************************Sasha2,18:04 24.09.2014 }

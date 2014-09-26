@@ -3,7 +3,7 @@ external updating procedure SynkGlobalMachineRegister(string,var record SynkDBID
 external function Integer OpenMasterWClass();
 remote updating procedure CreateInvoiceFromPOSSales_OnServer(record POSSalesVc,record POSSalesVc,string,string,Integer,Integer);
 external function Integer GetPOSOffLineCompNo();
-remote procedure POSOffLineToServ_SynchRegisters_AreIVCashsStored(Array LongInt,var Array Boolean,var Integer);
+remote procedure POSOffLineToServ_SynchRegisters_AreIVCashsStored(Array string,var Array Boolean,var Integer); //Edit***************************Sasha2,14:42 24.09.2014
 remote procedure POSServToOffLine_ReadLocalMachineSettings(string,var record LocalMachineIBVc,var record LocalMachineITLVc,var record LocalMachineLoginVc,var record LocalMachineSetVc,var record LocalMachineSPVc,var record LocalMachineVc);
 remote function Boolean POSOffline_ShouldItemUpdateStock(string,string);
 remote updating procedure POSServToOffLine_SynchRegisters(Integer,Integer,
@@ -13,7 +13,7 @@ remote updating procedure POSServToOffLine_SynchRegisters(Integer,Integer,
                         var LongInt,var LongInt,var LongInt,var LongInt,
                         var LongInt,var LongInt,var LongInt,var LongInt,
                         var LongInt,var LongInt,var LongInt,var LongInt,
-                        var LongInt,var LongInt);
+                        var LongInt,var LongInt,var LongInt,string,string); //Edit***************************Sasha2,16:13 22.09.2014
 remote updating procedure POSServToOffLine_SynchBefSettings(Integer,Integer,
                         var LongInt,var LongInt,var LongInt,var LongInt,var LongInt,
                         var LongInt,var LongInt,var LongInt,var LongInt,var LongInt,
@@ -275,6 +275,33 @@ begin
   RETURN;
 END;
 
+function record FilterIVCashSerBlock(record IVCashSerBlock IVCSB,string locmachine)
+begin
+  record IVCashSerBlock newIVCSB;
+  row IVCashSerBlock newIVCSBw;
+  row IVCashSerBlock IVCSBw;
+  integer i,rwcnt;
+  
+    RECORDNEW(newIVCSB);
+  	rwcnt = MatRowCnt(IVCSB);
+  	for (i=0;i<rwcnt;i=i+1) begin
+  		MatRowGet(IVCSB,i,IVCSBw);
+  		if (NonBlank(IVCSBw.TSerCom) and IVCSBw.TSerCom==locmachine) then begin
+  			newIVCSBw.TSerStart = IVCSBw.TSerStart;
+  			newIVCSBw.TSerEnd = IVCSBw.TSerEnd;
+			newIVCSBw.StartDate = IVCSBw.StartDate;
+			newIVCSBw.EndDate = IVCSBw.EndDate;
+			newIVCSBw.TSerCom = IVCSBw.TSerCom;
+			newIVCSBw.DonotGenTrans = IVCSBw.DonotGenTrans;
+			MatRowPut(newIVCSB,0,newIVCSBw);
+			i = rwcnt;
+  		end;
+  	end;
+  	
+    FilterIVCashSerBlock = newIVCSB;
+  return;
+end;
+
 global
 updating procedure SynchServToOfflineSettingsm()
 BEGIN
@@ -287,6 +314,7 @@ BEGIN
   LongInt RecVcSeqNr,CCatVcSeqNr,VGVcSeqNr,CurncyCodeVcSeqNr,DrawerVcSeqNr,ItemStatusVcSeqNr;  
   LongInt Custom1VcSeqNr,Custom2VcSeqNr,Custom3VcSeqNr,Custom4VcSeqNr,Custom5VcSeqNr,Custom6VcSeqNr;
   LongInt Custom7VcSeqNr,Custom8VcSeqNr,Custom9VcSeqNr,Custom10VcSeqNr;
+  LongInt SerBalVcSeqNr; //Edit***************************Sasha2,16:06 22.09.2014
   record SeqNrBlock SeqnrRec;
   record LocalMachineBlock LMb;
   record LastSerNrBlock LastSerNrRec;
@@ -300,7 +328,7 @@ BEGIN
   record CYBlock CYRec;
   record LangBlock LangRec;
   record IVCashDefBlock IVCashDefRec;
-//  record IVCashSerBlock IVCashSerRec;
+  record IVCashSerBlock IVCashSerRec;
   record CashierDefBlock CDb;
   record CashPrintBlock CashPrintRec;
   record CostAccBlock CAb;
@@ -314,6 +342,7 @@ BEGIN
   record LocalMachineVc LMr;
   record ModuleBlock MBb;
   record RoundBlock Rb;
+  record POSCurncyBlock PCB; //Edit***************************Sasha2,15:57 22.09.2014
   Boolean setupsf;
   transaction Boolean gSynchServToOfflineSettingsm;
   
@@ -339,7 +368,7 @@ BEGIN
   BlockLoad(CYRec);  
   BlockLoad(LangRec);
   BlockLoad(IVCashDefRec);
-//  BlockLoad(IVCashSerRec);
+  BlockLoad(IVCashSerRec);
   BlockLoad(CDb);
   BlockLoad(CashPrintRec);
   BlockLoad(CAb);
@@ -351,6 +380,7 @@ BEGIN
   BlockLoad(MBb);
   BlockLoad(LastSerNrRec);
   BlockLoad(Rb);
+  BlockLoad(PCB); //Edit***************************Sasha2,16:02 22.09.2014
 
   AccVcSeqNr = SeqnrRec.AccVcSeqNr;
   OTVcSeqNr = SeqnrRec.OTVcSeqNr;
@@ -394,7 +424,7 @@ BEGIN
   BlockStore(CYRec);
   BlockStore(LangRec);
   BlockStore(IVCashDefRec);
-//  BlockStore(IVCashSerRec);
+  BlockStore(IVCashSerRec);
   BlockStore(CDb);
   BlockStore(CashPrintRec);
   BlockStore(CAb);
@@ -406,6 +436,7 @@ BEGIN
   BlockStore(MBb);
   BlockLoad(SeqnrRec);
   BlockStore(Rb);
+  BlockStore(PCB); //Edit***************************Sasha2,16:02 22.09.2014
   
   SynkDBIDRegr.DBIDCode = DatabaseID;
   if (ReadFirstMain(SynkDBIDRegr,1,true)==false) then begin
@@ -443,13 +474,15 @@ BEGIN
   Custom8VcSeqNr = SeqnrRec.Custom8VcSeqNr;
   Custom9VcSeqNr = SeqnrRec.Custom9VcSeqNr;
   Custom10VcSeqNr = SeqnrRec.Custom10VcSeqNr;
+  SerBalVcSeqNr = SeqnrRec.SerBalVcSeqNr; //Edit***************************Sasha2,16:07 22.09.2014
   
   POSServToOffLine_SynchRegisters(curcomp,offlinecomp,DIVcSeqNr,UnitVcSeqNr,PLQVcSeqNr,RebVcSeqNr,
                                   ITVcSeqNr,PLVcSeqNr,INVcSeqNr,CUVcSeqNr,PLDefVcSeqNr,UserVcSeqNr,
                                   CTypeVcSeqNr,StyleVcSeqNr,ArtUpdStockVcSeqNr,RecVcSeqNr,DrawerVcSeqNr,
                                   ItemStatusVcSeqNr,Custom1VcSeqNr,Custom2VcSeqNr,Custom3VcSeqNr,
                                   Custom4VcSeqNr,Custom5VcSeqNr,Custom6VcSeqNr,Custom7VcSeqNr,
-                                  Custom8VcSeqNr,Custom9VcSeqNr,Custom10VcSeqNr);
+                                  Custom8VcSeqNr,Custom9VcSeqNr,Custom10VcSeqNr,
+                                  SerBalVcSeqNr,LMb.DefLocation,LMb.LocalMachineCode); //Edit***************************Sasha2,16:07 22.09.2014
   SeqnrRec.DIVcSeqNr = DIVcSeqNr;
   SeqnrRec.UnitVcSeqNr = UnitVcSeqNr;
   SeqnrRec.PLQVcSeqNr = PLQVcSeqNr;
@@ -476,6 +509,7 @@ BEGIN
   SeqnrRec.Custom8VcSeqNr = Custom8VcSeqNr;
   SeqnrRec.Custom9VcSeqNr = Custom9VcSeqNr;
   SeqnrRec.Custom10VcSeqNr = Custom10VcSeqNr;
+  SeqnrRec.SerBalVcSeqNr = SerBalVcSeqNr; //Edit***************************Sasha2,16:08 22.09.2014
   
   POSServToOffLine_ReadLocalMachineSettings(LMb.LocalMachineCode,LMIBr,LMITLr,LMLr,LMSr,LMSPr,LMr); //Sasha2: Just template no actual realization
   
@@ -485,9 +519,10 @@ BEGIN
   
   SetServerCompany(offlinecomp);
   
-  if (setupsf) then begin
-    SetupSynkMachine(SynkDBIDRegr);
-  end;
+// Sasha2 "setupsf" flag won't be used
+  /*if (setupsf) then begin
+    SetupSynkMachine(SynkDBIDRegr); //Edit***************************Sasha2,14:07 25.09.2014
+  end;*/
   
   BlockLoad(LastRecNr);
   if (LastRecNr.LastIVCashNr<=0) then begin
@@ -506,7 +541,7 @@ LSynchServToOfflineSettingsm:;
   RETURN;
 END;
 
-procedure AddIVCashRowToPOSSales(row IVCashVc IVCashrw,string location,record POSSalesVc POSSalesr) //Sasha2: maybe last argument should be "var"
+procedure AddIVCashRowToPOSSales(row IVCashVc IVCashrw,string location,var record POSSalesVc POSSalesr) //Sasha2: maybe last argument should be "var"
 begin
   Integer i,rwcnt;
   row POSSalesVc POSSalesrw;
@@ -674,13 +709,14 @@ begin
   LongInt seqnr;
   Integer curcomp;
   Boolean TrHs;
-  record IVCashVc IVCashr;
+  record IVCashVc IVCashr,oldIVCashr; //Edit***************************Sasha2,15:40 24.09.2014
   record POSSalesVc POSSalesr;
   record POSSalesVc POSReturnr;
   record SeqNrBlock Seqnrb;
   record LocalMachineBlock LMb;
   Integer di,dinvacnt;
-  Array LongInt delinvarr;
+  //Array LongInt delinvarr; //Edit***************************Sasha2,14:39 24.09.2014
+  Array string 50 delinvarr; //Edit***************************Sasha2,14:42 24.09.2014
   Array Boolean delinvarrf;
   
   curcomp = CurrentCompany;
@@ -692,7 +728,8 @@ begin
         dinvacnt = 0;
         TrHs = true;
         while (LoopMain(IVCashr,1,TrHs)) begin
-          delinvarr[dinvacnt] = IVCashr.SerNr; 
+          //delinvarr[dinvacnt] = IVCashr.SerNr; //Edit***************************Sasha2,13:48 24.09.2014
+          delinvarr[dinvacnt] = IVCashr.MachineTimeStamp; //Edit***************************Sasha2,13:48 24.09.2014 {
           delinvarrf[dinvacnt] = false; 
           dinvacnt = dinvacnt + 1;
         end;
@@ -703,9 +740,12 @@ begin
 
         for (di=0;di<dinvacnt;di=di+1) begin 
           if (delinvarrf[di]) then begin
-            IVCashr.SerNr = delinvarr[di];
-            ReadFirstMain(IVCashr,1,true);
-            RecordDelete(IVCashr);
+            //IVCashr.SerNr = delinvarr[di]; //Edit***************************Sasha2,14:09 24.09.2014
+            //ReadFirstMain(IVCashr,1,true); //Edit***************************Sasha2,14:09 24.09.2014
+            IVCashr.MachineTimeStamp = delinvarr[di]; //Edit***************************Sasha2,14:09 24.09.2014
+            if (ReadFirstKey("MachineTimeStamp",IVCashr,1,true)) then begin //Edit***************************Sasha2,14:09 24.09.2014
+            	RecordDelete(IVCashr);
+            end;	
           end;
         end;
 
@@ -725,6 +765,7 @@ begin
   return;
 end;
 
+global
 updating procedure SynchOfflineToServsm()
 BEGIN
   Integer offlinecomp,curcomp;
@@ -733,7 +774,6 @@ BEGIN
   BlockLoad(OffLb);
   offlinecomp = StringToInt(OffLb.OffLineComp);
   curcomp = CurrentCompany;
-  LogText(0,"offlinecomp = " & offlinecomp);
   if (offlinecomp<=0) then begin goto LSynchOfflineToServsm; end;  
   BeginSync;
   POSOffLineToServ_SynchRegisters(curcomp,offlinecomp,OffLb.SyncSumPOS);
@@ -868,7 +908,7 @@ BEGIN
   RETURN;
 END;
 
-global updating
+global updating //Sasha2 this function is not used anywhere
 procedure AutosyncUpdateSerialNumbers()
 begin
   record SynkDBIDRegVc SynkDBIDRegr;
@@ -922,7 +962,8 @@ begin
     SetupSynkMachine(SynkDBIDRegr);
   end;
   
-  SyncLocalMachineSettings(LMb,LMSr,LMLr);
+//Sasha2  I think that "SyncLocalMachineSettings" is not necessary because of "POSServToOffLine_SaveLocalMachineSettings" function
+  //SyncLocalMachineSettings(LMb,LMSr,LMLr); //Edit***************************Sasha2,14:02 25.09.2014
 end;
 
 global updating
