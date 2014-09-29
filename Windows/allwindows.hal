@@ -5964,3 +5964,311 @@ begin
   EditField(h,v+=vs,65,"ModifiersVcSeqNr",Normal,ModifiersVcSeqNr,false,0);
   EndWindow;
 end;
+
+window IVCashDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  WindowBegin("Накладна ЕККА",IVCashDClass,CGview,-);
+  SetWRect(20,80,700,400);
+  Sizeable(-1,-1,0,0);
+  UseView(IVCashVc);
+  vs=20;
+  if (CheckOffLineRecords(false)) then begin
+  StaticText(50,20,"Є несинхронізовані накладні",false);
+  StaticText(50,40,"Щоб створювати нові накладні ЕККА, виберіть",false);
+  StaticText(50,60,"Синхронізацію офлайн-накладних з вікна накладних, меню Операції",false);
+  end else begin
+  ActiveFieldOnOK("CashValue");
+  Tile(0,48+24,false,"",CustCode);
+  EditField(75,vm=(v=6), 82,"Номер",Normal,SerNr,false,TSerSClass);
+  EditField(75,v+=20,95, "Клієнт",Normal,CustCode,false,CUSClass);
+  EnterSkip(Math);
+  EditField(h=256,v=vm,-40,"Назва",Normal,Addr0,false,0);
+  if (StandardHansa==false) then begin
+  EditField(h,v+=vs,100,"Накопичув. картка",Normal,LoyaltyCardNr,false,LoyaltyCardSClass);
+  EditField(h=456,v,-40,"Офіц. сер. №",Normal,OfficialSerNr,false,LegalInvNrSClass);
+  end;
+  TileButton(1,"Платіж");
+  TileButton(2,"Товари");
+  TileButton(3,"Дата");
+  TileButton(4,"Склад");
+  TileButton(5,"Валюта");
+//  CheckBox(230,v,0,"OK",OKFlag);
+//  CheckBox(330,v,0,"Cust. Info on Trans.",ARonTR);
+  Tile(1,90,false,"1",CashValue);//PayDeal
+  vs = 20;h=75;h2=160;h3=310;h4=540;
+  EditField(h2,v=6,70,"Готівкою",Normal,CashValue,true,0);
+//  EditField(h3,v,70,"POSSalesNo",Normal,POSSalesNo,false,0);
+  EnterSkip(PayDeal);
+  EditField(h3 + 20,v,70,"Продавець",Normal,SalesMan,false,UserSClass);
+  EditField(h3 + 20,v+vs,30,"Сп.",Normal,PayDeal3,false,RestPMSClass); //Edit***************************Sasha2,15:56 26.09.2014
+  EditField(h4,v,70,"Здача",ViewOnly,RetValue,true,0); //Edit***************************Sasha2,16:02 26.09.2014
+  //EditField(h4+150,v,70,"Продавець",Normal,SalesMan,false,UserSClass); //Edit***************************Sasha2,16:02 26.09.2014
+  EditField(h,v+=vs,30,"Спосіб спл.",Normal,PayDeal,false,RestPMSClass);
+  EditField(h2,v,80,"Сплач.",Normal,RecValue,true,0);
+  //EditField(h3,v,100,"Кр. картка",Normal,CreditCard,false,CreditCardSClass); //Edit***************************Sasha2,15:56 26.09.2014
+  //EditField(h4,v,70,"Авториз.",Normal,AuthorizationCode,false,0); //Edit***************************Sasha2,15:56 26.09.2014
+  EditField(h,v+=vs, -20,"Коментар",Normal,InvComment,false,0);
+  //EditField(h,v+=vs,30,"Спосіб спл.",Normal,PayDeal2,false,RestPMSClass); //Edit***************************Sasha2,15:56 26.09.2014
+  
+  EditField(h+470,v-20,80,"Приват",Normal,RecValue3,true,0); //Edit***************************Sasha2,15:56 26.09.2014
+  
+  EditField(h2,v,80,"Сплач.",Normal,RecValue2,true,0);
+  EditField(h3,v,100,"Кр. картка",Normal,CreditCard2,false,CreditCardSClass);
+  EditField(h4,v,70,"Авториз.",Normal,AuthorizationCode2,false,0);
+  if (StandardHansa==false) then begin
+  EditField(h3,v+=vs,100,"Накопичувалні бали",ViewOnly,Points,true,0);
+  EditField(h4,v,70,"Програма лояльності",ViewOnly,LCMLevel,false,LCMemberLevelSClass);
+  end;
+/* We don't have currency, why do we need Base??? */
+//  EditField(330,-26,95,"Осн.1",ViewOnly,BaseSum4,true,0);
+  EnterSkip(Math); 
+  Tile(2,120,true,"2",Math);
+  CheckBox(30,-21,0,"OK",OKFlag);
+  EditField(-433,-21,80,"ПДВ",ViewOnly ,Sum3,true,0);
+  EditField(-283,-21,95,"Разом",ViewOnly ,Sum1,true,0);
+  EditField(-133,-21,95,"Всього",ViewOnly ,Sum4,true,0);
+  v = 24;
+  MatrixBegin(4,v,-50,-29,-,200);
+  MatTypedRow(stp);
+  MatOverStrike(ovst);
+  Flip(0);
+  MatCol(t=1,32,"Товар",0,ArtCode,false,ForSaleINSClass);
+  if (HasVarieties) then begin
+  MatCol(t,144,"Кіл.",0,Quant,true,MATVARINSClass);
+  end else begin
+    MatCol(t,144,"Кіл.",0,Quant,true,0); 
+  end;
+  EnterSkip(ArtCode);
+  MatText(t=kInvoiceRowTypeHeader,32,"Заголовок",true); 
+  MatCol(t,100,"",0,Spec,false,0);
+  MatCol(t=kInvoiceRowTypeStructuredItemComponent,32,"Товар",0,ArtCode,false,ForSaleINSClass);
+  if (HasVarieties) then begin
+  MatCol(t,144,"Кіл.",0,Quant,true,MATVARINSClass);
+  end else begin
+    MatCol(t,144,"Кіл.",0,Quant,true,0); 
+  end;
+  EnterSkip(ArtCode);
+  MatText(t=kInvoiceRowTypeVoid,28,"Відмін.",false);
+  MatColTL(t,65,"Підпис",0,-1,ViewOnly,0,VoidedSign,false,0);
+  MatCol(t,100,"Товар",0,ArtCode,false,INSClass);
+  if (HasVarieties) then begin
+  MatCol(t,150,"К-ть",0,Quant,true,MATVARINSClass);
+  end else begin
+    MatCol(t,150,"К-ть",0,Quant,true,0); 
+  end;
+  MatCol(t,190,"Ціна",0,Price,true,0);
+  MatCol(t,250,"Опис",0,Spec,false,0);
+  MatCol(t,-195,"Сер. №",0,SerialNr,false,SerialNrSClass);
+  MatCol(t,-110,"%",0,vRebate,true,0);
+  MatCol(t,-80,"Сума",0,Sum,true,0);
+  MatText(t=kInvoiceRowTypeUpdateMark,28,"Підпис",false);
+  MatColTL(t,85,"Підпис",0,-1,ViewOnly,0,VoidedSign,false,0);
+  MatCol(t,150,"Опис",0,Spec,false,0);  
+  MatText(t=kInvoiceRowTypeGiftVoucherPayment,32,"ПСТ",true);
+  MatCol(t,68,"",0,GCNr,false,GCSSClass);
+  MatCol(t,108,"Сп. опл.",0,PayMode,true,PMSClass);
+  MatCol(t,148,"",0,Spec,false,0);
+  MatCol(t,-84,"Сума",0,Sum,true,0);
+//  MatCol(t,-24,"",0,VATCode,false,VATCodeSClass);  
+  if (StandardHansa==false) then begin
+  MatText(t=kInvoiceRowTypeGiftVoucherSold,32,"ПС",true);
+  end;
+  MatCol(t,68,"",0,GCNr,false,GCSClass);
+  MatCol(t,141,"",0,Spec,false,0);
+  MatCol(t,-84,"Сума",0,Sum,true,0);
+  MatCol(t,-24,"",0,VATCode,false,VATCodeSClass);  
+  MatText(t=kInvoiceRowTypeCashPayment,32,"Готівка",true);
+  MatCol(t,68,"Сума",0,Sum,true,0);
+  MatCol(t,141,"Змінити",0,BasePrice,true,0);
+  MatCol(t,201,"Тип оплати",0,PayMode,true,PMSClass);
+  MatCol(t,231,"Spec",0,Spec,false,0);
+  MatCol(t,355,"",0,FrRate,true,0);
+  MatCol(t,400,"",0,ToRateB1,true,0);
+  MatCol(t,445,"",0,ToRateB2,true,0); 
+  MatCol(t,490,"",0,BaseRate1,true,0);
+  MatCol(t,535,"",0,BaseRate2,true,0);
+  MatCol(t,580,"",0,CurncyCode,false,0); 
+  MatText(t=kInvoiceRowTypeCreditCardPayment,32,"CC",true);
+  MatCol(t,68,"Сума",0,Sum,true,0);
+  MatCol(t,141,"Сп. опл.",0,PayMode,true,PMSClass);
+  MatCol(t,181,"",0,CreditCard,false,CreditCardSClass);
+  MatCol(t,308,"Авторизація",0,AuthorizationCode,false,0);
+  MatCol(t,378,"Опис",0,Spec,false,0);
+  MatText(t=kInvoiceRowTypeChequePayment,32,"Чек",true);
+  MatCol(t,68,"Сума",0,Sum,true,0);
+  MatCol(t,141,"Сп. опл.",0,PayMode,true,PMSClass);
+  MatCol(t,181,"№ чека",0,CheckNr,false,0);
+  MatCol(t,308,"Опис",0,Spec,false,0);
+  MatText(t=kInvoiceRowTypeOnAccountPayment,32,"OnACC",true);
+  MatCol(t,68,"Сума",0,Sum,true,0);
+  MatCol(t,141,"Сп. опл.",0,PayMode,true,PMSClass);
+  MatCol(t,201,"Опис",0,Spec,false,0);
+  MatCol(t,358,"",0,FrRate,true,0);
+  MatCol(t,403,"",0,ToRateB1,true,0); 
+  MatCol(t,448,"",0,ToRateB2,true,0);
+  MatCol(t,493,"",0,BaseRate1,true,0);
+  MatCol(t,538,"",0,BaseRate2,true,0);
+  MatCol(t,583,"",0,CurncyCode,false,0);
+
+  MatText(t=kInvoiceRowTypeSplitItem,32,"РОЗДІЛИТИ",true);
+  MatCol(t,68,"Товар",0,ArtCode,true,0);
+  MatCol(t,141,"К-ть",0,Quant,true,0);
+  MatCol(t,181,"Опис",0,Spec,false,0);
+  MatCol(t,288,"На товар",0,SplitArtCode,false,0);
+  MatCol(t,348,"На к-ть",0,SplitQuant,true,0);
+  MatCol(t,388,"Опис",0,SplitArtName,false,0);
+  MatCol(t,-60,"Фактор",0,SplitFactor,true,0);
+  if (StandardHansa==false) then begin
+  MatText(t=kInvoiceRowTypeMultiBuyDiscount,32,"Кампанія",true);
+  end;
+  MatCol(t,152,"",0,MBRCode,false,0);
+  MatCol(t,192,"",0,ArtCode,false,INSClass);
+  MatCol(t,-400,"",0,Spec,false,0);
+  MatCol(t,-270,"",0,Quant,true,0);
+  MatCol(t,-235,"",0,Price,true,0);
+  MatCol(t,-135,"",0,vRebate,true,0);
+  MatCol(t,-100,"",0,Sum,true,0);
+
+  MatText(t=kInvoiceRowTypeReturnIVNr,32,"№ накладної",true);
+  MatCol(t,108,"№ накладної",0,OrgIVNr,true,0);
+  MatCol(t,184,"Станд. проблема",0,StandProblemCode,false,0); 
+  if (StandardHansa==false) then begin
+  MatCol(t,254,"Опис",0,Spec,false,0); 
+
+  MatText(t=kInvoiceRowTypeLoyaltyPointsPayment,32,"НАК.БАЛИ",true);
+  MatCol(t,68,"Сума",0,Sum,true,0);
+  MatCol(t,141,"Бали",0,Points,false,0);
+  MatCol(t,181,"Сп. опл.",0,PayMode,true,PMSClass);
+  MatCol(t,221,"Опис",0,Spec,false,0);
+  MatCol(t,348,"",0,FrRate,false,0);
+  MatCol(t,388,"",0,ToRateB1,false,0);
+  MatCol(t,428,"",0,ToRateB2,false,0);
+  MatCol(t,468,"",0,BaseRate1,false,0);
+  MatCol(t,508,"",0,BaseRate2,false,0);
+  MatCol(t,548,"",0,CurncyCode,false,0);
+  MatText(t=kInvoiceRowTypeLoyaltyPointsBonus,28,"LOYBO",true);
+  MatCol(t,68,"Бали",0,Points,true,0);
+  MatCol(t,141,"Опис",0,Spec,false,0);
+  end;
+  
+  Flip(1);
+  MatCol(t=1,184,"Найменування",0,Spec,false,0);
+  if (UserCanAction("ShowSerialNronPOSInvoices",false)) then begin
+  MatCol(t,-270,"Серійний №",0,SerialNr,false,SerialNrSClass);
+  end;
+  MatCol(t,-175,"Ціна",0,Price,true,0);
+  MatCol(t,-105,"%",0,vRebate,true,0);
+  MatCol(t,-70,"Сума",0,Sum,true,0);
+  if (UseTaxTemplatesforTaxCalc) then begin
+    MatCol(t,-70,"Ш-н",0,TaxTemplateCode,false,TaxTemplateSClass);
+  end else begin
+    MatCol(t,-24,"",0,VATCode,false,VATCodeSClass);  
+  end;
+  MatCol(t=kInvoiceRowTypeStructuredItemComponent,184,"Найменування",0,Spec,false,0);
+  if (UserCanAction("ShowSerialNronPOSInvoices",false)) then begin
+    MatCol(t,-270,"Сер. №",0,SerialNr,false,SerialNrSClass);
+  end;
+  MatCol(t,-175,"Ціна",0,Price,true,0);
+  MatCol(t,-105,"%",0,vRebate,true,0);
+  MatCol(t,-70,"Сума",0,Sum,true,0);
+  MatCol(t,-24,"",0,VATCode,false,VATCodeSClass);  
+  Flip(2);
+  MatCol(t=1,184,"Найменування",0,Spec,false,0);
+  MatCol(t,-200,"Серійн. №",0,SerialNr,false,SerialNrSClass);
+  if (HasObjects) then begin
+  MatCol(t,-100,"Об'єкти",0,Objects,false,ObjSClass);
+  end;
+  MatCol(t=kInvoiceRowTypeStructuredItemComponent,184,"Найменування",0,Spec,false,0);
+  MatCol(t,-200,"Сер. №",0,SerialNr,false,SerialNrSClass);
+  MatCol(t,-100,"Об'єкти",0,Objects,false,ObjSClass);
+  Flip(3);
+  MatCol(t=1,184,"Опис",0,Spec,false,0);
+  MatCol(t,-200,"Відвантаження",0,OrdQuant,false,0);
+  MatCol(t,-100,"Сплачено",0,DownPaidSum,false,0);
+  MatCol(t=kInvoiceRowTypeStructuredItemComponent,184,"Найменування",0,Spec,false,0);
+  MatCol(t,-200,"Затрим. доставка",0,OrdQuant,false,0);
+  MatCol(t,-100,"Аванс",0,DownPaidSum,false,0);
+  Flip(4);
+  MatCol(t=1,184,"Опис",0,Spec,false,0);
+  MatCol(t,-100,"Продавець",0,Salesmen,false,0);
+  InsertRowTest;
+  DeleteRowTest;
+  EndMatrix;
+  v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+  v=v+ vs; VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+  v=v+ vs; VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+  v=v+ vs; VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
+  Tile(3,110,false,"3",InvDate);
+  vs = 20; h1 = 95; h2 = 256; h3 = 486;
+  EditField(h1,vm=(v=6),82,"Дата накл.",Normal,InvDate,false,PasteCurDate);
+  EditField(h1,v+=vs,82,"Термін сплати",Normal,PayDate,false,PasteCurDate);
+  EditField(h1,v+=vs,82,"Дата операції",Normal,TransDate,false,PasteCurDate);
+  EditField(h1,v+=vs,82,"Продавець",Normal,SalesMan,false,UserSClass);
+  EditField(h1,v+=vs,82,"Посилання",Normal,RefStr,false,0); 
+  EditField(h2,v=vm,135,"Відповідальний",Normal,OurContact,false,0);
+  EditField(h2,v+=vs, 135,"Конт. особа",Normal,ClientContact,false,ContactSClass);
+  EditField(h2,v+=vs, 50,"Час опер.",Normal,TransTime,false,PasteCurTime);
+  if (StandardHansa==false) then begin
+  EditField(h2,v+=vs,82,"Контролер",Normal,Supervisor,false,SupervisorSClass);
+  end;
+//  EditField(h3,v=vm,50,"POS No.",Normal,POSNr,true,0);
+  EditField(h3,v=vm,50,"Лок.машина",Normal,LocalMachineCode,false,0);
+  EditField(h3+110,v=vm,50,"Скринька",Normal,DrawerCode,false,0);
+  if (StandardHansa==false) then begin
+    EditField(h3,v+=vs,-5,"Офіц.No. 2",Normal,OfficialSerNr2,false,LegalInvNrSClass); 
+    EditField(h3,v+=vs,50,"Філія",ViewOnly,BranchID,false,0);
+    CheckBox(h3+60,v,0,"Фіск. чек",FiscalFlag); 
+  EditField(h3,v+=vs,82,"Пакувальник",Normal,Bagger,false,BaggerSClass);
+  end;
+  vs = 22;
+  Tile(4,110,false,"4",Location);
+  vs = 20; h1 = 95; h2 = 256; h3 = 456;
+  EditField(h1,v=6,50,"Склад",Normal,Location,false,LocationSClass);
+  EditField(h2,v,80,"Дата друку",ViewOnly,PrintDate,false,0);
+//  EditField(200,v,60,"IVNr",Normal,IVNr,false,0);
+//  CheckBox(230,v,0,"Понов. склад",UpdStockFlag);//not supported any more
+  EditField(h3,v,-20,"Об'єкти",Normal,Objects,false,ObjSClass);
+  EditField(h1,v+=vs,  50,"Прейскурант",Normal,PriceList,false,PLDefSClass);
+  EditField(h3,v,-20,"№ замовлення клієнта",Normal,CustOrdNr,false,0);
+  EditField(h1,v+=vs,  50,"Матриця знижок",Normal,RebCode,false,0);
+  EditField(h3,v,  50,"Мова",Normal,LangCode,false,LangSClass); 
+  EditField(h1,v+=vs, -20,"Коментар",Normal,InvComment,false,0); 
+  EditField(h1,v+=vs,80,"Кіль-сть всьго",ViewOnly,TotQty,true,0);
+  EditField(h2,v,80,"Вага всього",ViewOnly,TotWeight,true,0);
+  EditField(h3,v,80,"Об'єм всього",ViewOnly,TotVolume,true,0);
+  Tile(5,70,false,"5",CashValue);
+  vs = 20; h = 75; h2 = 150; h3 = 310; h4 = 480;
+  EditField(h2,v=6,70,"Готівка  ",Normal,CashValue,true,0);
+  EditField(h4,v,70,"Здача",ViewOnly,RetValue,true,0);
+  EditField(h2,v+=vs,70,"Готівка в осн.вал.2",Normal,CashValueB2,true,0);
+  EditField(h4,v,70,"Здача в осн.вал.2",ViewOnly,RetValueB2,true,0);
+  EditField(h2,v+=vs,30,"У валюті",Normal,POSCurncyCode,true,CurncyCodeSClass);
+  EditField(h3,v,70,"Валюта запису",Normal,CashValueCur,true,0);
+//  EditField(h4,v,70,"Change Cur",ViewOnly,RetValueCur,true,0);
+
+  SpecialMenu("Статус товару",'I',0,"ItemStatusIVCashDsm");
+  SpecialMenu("Звіт по готівці",' ',1,"IVCashCashupRnsm");
+  SpecialMenu("Попередні ціни продажу",' ',2,"IVCashLastSPrsm");
+
+  SpecialMenu("Знижка менеджера",' ',24,"MgrsDiscOverrideIVCashDsm"); 
+  SpecialMenu("Сплата кредитною карткою",' ',11,"CCPayIVCashDsm");
+  SpecialMenu("Відкрити сесію",' ',8,"OpenPOSSessionsm");
+  SpecialMenu("Закрити сесію",' ',9,"ClosePOSSessionsm");
+  SpecialMenu("Відпр. на фіск. обладн.",' ',19,"PrintToFiscPrntIVCashDsm");
+  SpecialMenu("Поповнення готівки",' ',11,"POSMoneyInsm");
+  SpecialMenu("Вилучення готівки",' ',12,"POSMoneyOutsm");
+  SpecialMenu("Кредит",' ',2,"IVCashToCredit");
+  SpecialMenu("Створити E-Mail",'m',23,"CreateMailFromIVCashDsm");
+  SpecialMenu("Створити рахунок з простроченою доставкою",' ',5,"IVCashToLateDelivORsm");
+  SpecialMenu("Перенести в накладну",' ',3,"IVCashToIVDsm");
+  SpecialMenu("Перенести в рахунок клієнту",' ',1,"IVCashToORsm");
+  SpecialMenu("Звіт сесії ЕККА",' ',1,"POSEventIVCashDsm");
+//  SpecialMenu("Pay",' ',11,"PayIVCashDsm");
+    if (HasTaxMatrix) then begin
+  SpecialMenu("Відкрити податкову матрицю",' ',25,"OpenVatMatrixIVCashDsm"); 
+  end;
+  end;
+  EndWindow;
+end;

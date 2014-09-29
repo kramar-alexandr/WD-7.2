@@ -75,6 +75,7 @@ external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,va
 external procedure GetBaseCurncy(Integer,var string);
 external function Boolean PasteCustInCashInv(var record IVCashVc,string,string,var string);
 remote function Boolean POSOffLineToServ_SynchRegisters_ShouldBeSynchronised(string); //Edit***************************Sasha2,18:08 24.09.2014
+external updating procedure PrintFiscalReceipt(record IVCashVc); //Edit***************************Sasha2,14:18 26.09.2014
 
 
 //Edit***************************Sasha2,13:57 24.09.2014 {
@@ -662,6 +663,9 @@ BEGIN
   Date td;
   Integer programmode;
   record ACPVc ACPr;
+  integer chi;// Edit ************************** Friday, 22 February 2013 14:56:47
+  row IVCashVc chIVrw;// Edit ************************** Friday, 22 February 2013 15:01:26
+  
   programmode = CompanyProgramMode;
   if (long4>0) then begin
     check = true;
@@ -925,6 +929,11 @@ u might want to put loyalty card or bagger 1st
     res = -1; 
     goto LIVCashVcRecordCheck;
   end;
+  if (blank(IVCashr.CustOrdNr) and IVCashr.RecValue3!=0) then begin //Edit***************************Sasha 2,16:37 26.09.2014{
+	RecordCheckError(31033,"",-1,"CustOrdNr");      
+	res = -1; 
+	goto LIVCashVcRecordCheck;
+  end; //Edit***************************Sasha2,16:38 26.09.2014 }
   CUr.Code = IVCashr.CustCode;
   if (ReadFirstMain(CUr,1,true)==false) then begin
     RecordCheckError(1120,IVCashr.CustCode,-1,"CustCode");      
@@ -1190,6 +1199,21 @@ u might want to put loyalty card or bagger 1st
   cash = blankval;
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(IVCashr,i,IVCashrw);
+    For(chi=0;chi<rwcnt;chi=chi+1) begin //Edit***************************Sasha2,16:24 26.09.2014 {
+		matrowget(IVCashr,chi,chIVrw);
+		if(left(chIVrw.Spec,50)==left(IVCashrw.Spec,50) and chIVrw.Sum!=IVCashrw.Sum)then begin
+			RecordCheckError(31030,"",i,"Spec");      
+		res = -1; 
+		goto LIVCashVcRecordCheck;
+		end;
+	end;  //Edit***************************Sasha2,16:24 26.09.2014 }
+	
+	if(IVCashrw.Quant==0)then begin //Edit***************************Sasha2,16:32 26.09.2014 {
+      RecordCheckError(1058,"",i,"Quant");      
+      res = -1; 
+      goto LIVCashVcRecordCheck;
+    end; //Edit***************************Sasha2,16:33 26.09.2014 }
+	
     if (UserCanAction("AllowAddingINtoRetPOSIV",true)==false) then begin
       testf = true;
       if (IVCashrw.ovst!=0) then begin testf = false; end;
@@ -1426,6 +1450,11 @@ u might want to put loyalty card or bagger 1st
                 goto LIVCashVcRecordCheck;
               end;
             end;
+            if (nonblank(IVCashrw.vRebate) and IVCashrw.Quant<0) then begin //Edit***************************Sasha2 ,16:29 26.09.2014{
+                RecordCheckError(31026,"",i,"vRebate");      
+                res = -1; 
+                goto LIVCashVcRecordCheck;
+            end; //Edit***************************Sasha2,16:30 26.09.2014 }
             location = IVCashr.Location;
             if (blank(location)) then begin
               location = MSb.MainStock;

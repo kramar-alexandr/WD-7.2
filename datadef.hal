@@ -9,6 +9,7 @@ SourceFile("halcust\\Print",0);
 SourceFile("halcust\\Tools",0);
 SourceFile("halcust\\RActions",0);
 SourceFile("halcust\\Synchronization",0);
+SourceFile("halcust\\FPrinter",0);
 
 begin
     	 
@@ -1101,6 +1102,10 @@ begin
   RecordField(OfficialSerNrSerie,M4Str,30,0);
   RecordField(OfficialSerNr2Serie,M4Str,30,0);
   RecordField(MachineTimeStamp,M4Str,50,0); //Edit***************************Sasha2,11:11 24.09.2014
+  RecordField(PayDeal3,M4Code,2,0);// Edit ************************** Monday, 15 April 2013 16:51:49
+  RecordField(RecValue3,M4Val,0,0);// Edit ************************** Monday, 15 April 2013 16:51:49
+  RecordField(CreditCard3,M4UStr,20,CreditCardVc);// Edit ************************** Monday, 15 April 2013 16:51:48
+  RecordField(AuthorizationCode3,M4UStr,10,0);// Edit ************************** Monday, 15 April 2013 16:51:47
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
   ArrayField(ArtCode,M4Code,20,INVc);
@@ -1326,6 +1331,22 @@ begin
   RecordField(ParamVal1,M4Val,0,0);
   RecordField(ParamVal2,M4Val,0,0);
   EndBlock;
+  
+  RecordBegin(IOSUPALL1Vc,-,"");
+  ImpExpLevel(0);
+	RegisterForAllCompanies(true);
+	RecordField(Art,M4Int,0,0);
+	RecordField(VATCOD,M4Str,10,0);
+	RecordField(ItemName,M4Str,100,0);
+	RecordField(ItemNo,M4Str,20,0);
+	
+	MainKeyBegin(Art,0);
+	KeySegment(Art);
+	KeyBegin(ItemNo);
+	KeySegment(ItemNo);
+	KeySegment(ItemName);
+	KeySegment(Art);
+  EndRecord;
   
 return;
 end;
