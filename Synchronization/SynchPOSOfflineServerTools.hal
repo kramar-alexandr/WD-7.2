@@ -127,18 +127,18 @@ updating procedure POSServToOffLine_SynchRegisters(Integer servcomp,Integer offl
    var LongInt SerBalVcSeqNr,string location,string machinecode)  //Edit***************************Sasha2,16:07 22.09.2014
 begin
 
+  UserVcSeqNr = SynchroniseRegister("UserVc",servcomp,offlinecomp,UserVcSeqNr,"");
   UnitVcSeqNr = SynchroniseRegister("UnitVc",servcomp,offlinecomp,UnitVcSeqNr,"");    
   PLQVcSeqNr = SynchroniseRegister("PLQVc",servcomp,offlinecomp,PLQVcSeqNr,"");    
   RebVcSeqNr = SynchroniseRegister("RebVc",servcomp,offlinecomp,RebVcSeqNr,"");    
   ITVcSeqNr = SynchroniseRegister("ITVc",servcomp,offlinecomp,ITVcSeqNr,"");
-  INVcSeqNr = SynchroniseRegister("INVc",servcomp,offlinecomp,INVcSeqNr,"");
   RecVcSeqNr = SynchroniseRegister("RecVc",servcomp,offlinecomp,RecVcSeqNr,"");
   CUVcSeqNr = SynchroniseRegister("CUVc",servcomp,offlinecomp,CUVcSeqNr,"");
+  CTypeVcSeqNr = SynchroniseRegister("CTypeVc",servcomp,offlinecomp,CTypeVcSeqNr,"");
   DIVcSeqNr = SynchroniseRegister("DIVc",servcomp,offlinecomp,DIVcSeqNr,"");
   PLDefVcSeqNr = SynchroniseRegister("PLDefVc",servcomp,offlinecomp,PLDefVcSeqNr,"");
-  PLVcSeqNr = SynchroniseRegister("PLVc",servcomp,offlinecomp,PLVcSeqNr,"");
-  UserVcSeqNr = SynchroniseRegister("UserVc",servcomp,offlinecomp,UserVcSeqNr,"");
-  CTypeVcSeqNr = SynchroniseRegister("CTypeVc",servcomp,offlinecomp,CTypeVcSeqNr,"");  
+  INVcSeqNr = SynchroniseRegister("INVc",servcomp,offlinecomp,INVcSeqNr,"");
+  PLVcSeqNr = SynchroniseRegister("PLVc",servcomp,offlinecomp,PLVcSeqNr,"");  
   StyleVcSeqNr = SynchroniseRegister("StyleVc",servcomp,offlinecomp,StyleVcSeqNr,"");    
   ArtUpdStockVcSeqNr = SynchroniseRegister("ArtUpdStockVc",servcomp,offlinecomp,ArtUpdStockVcSeqNr,"");    
   DrawerVcSeqNr = SynchroniseRegister("DrawerVc",servcomp,offlinecomp,DrawerVcSeqNr,"");

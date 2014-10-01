@@ -1,8 +1,6 @@
 remote procedure ReadSer(var integer,string,var array val,var array string,var array string,var array string,var array real,var array date,date);
-remote procedure ReadCurRates(var integer,var array string,var array Date,var array val,var array val,var array val,date);
 external procedure DellSUPP();
 remote procedure DellINMn();
-external procedure CrSUPP();
 external procedure SynchServToOfflineSettingsm();
 external procedure PrintFiscalReceipt(record IVCashVc);
 remote function MyServLog(string);

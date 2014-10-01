@@ -619,6 +619,26 @@ LIVCashVc_CheckRowTypeGiftVoucherPayment:;
   return;
 end;
 
+function boolean Checkprice(string artcode,string pricelist, val price)
+begin
+  record PLVc PLr;
+  boolean res;
+  res = true;
+  
+  PLr.PLCode = pricelist;
+  PLr.ArtCode = artcode;
+  if(readfirstmain(PLr,2,true))then begin
+    if(PLr.PLCode==pricelist and PLr.ArtCode==artcode)then begin
+      if(price<PLr.ExVatPrice)then begin// Edit ************************** среда, 25 июня 2014 г., 16:06:29 != -> <
+        res = false;
+      end;
+    end;
+  end;
+  
+  Checkprice = res;
+return;
+end;
+
 global
 updating function LongInt IVCashVcRecordCheck(var record IVCashVc IVCashr,record IVCashVc IVCash2r,LongInt stat,LongInt long4)
 BEGIN
@@ -664,7 +684,7 @@ BEGIN
   Integer programmode;
   record ACPVc ACPr;
   integer chi;// Edit ************************** Friday, 22 February 2013 14:56:47
-  row IVCashVc chIVrw;// Edit ************************** Friday, 22 February 2013 15:01:26
+  row IVCashVc chIVrw; // Edit ************************** Friday, 22 February 2013 15:01:26
   
   programmode = CompanyProgramMode;
   if (long4>0) then begin
@@ -775,6 +795,10 @@ u might want to put loyalty card or bagger 1st
       end;
     end;
   end;
+  if (blank(IVCashr.SalesMan)) then begin //Edit***************************Sasha2,16:29 29.09.2014 {
+	RecordCheckError(1058,IVCashr.SalesMan,-1,"SalesMan");      
+	goto LIVCashVcRecordCheck;
+  end; //Edit***************************Sasha2,16:29 29.09.2014 }
   if (RequireOpenSession(IVCashr.LocalMachineCode)) then begin
     if (IVCashr.OKFlag==0) then begin
       IVCashr.TransDate = CurrentDate;
@@ -807,7 +831,7 @@ u might want to put loyalty card or bagger 1st
     if (newnr==-1) then begin
       newnr = SRb.LastIVCashNr;
     end;
-    if (ServingClient) then begin//online only
+    if (ServingClient) then begin //online only
       if (programmode!=kProgramModeLiveSync) then begin
         if (GetPOSOffLineCompNo>0) then begin
           if (blank(IVCashr.LocalMachineCode)) then begin
@@ -983,6 +1007,7 @@ u might want to put loyalty card or bagger 1st
     res = -1;
     goto LIVCashVcRecordCheck;
   end;
+  
   rwcnt = MatRowCnt(IVCashr);
   if ((IVCashr.OKFlag==1) and (rwcnt==0)) then begin
     RecordCheckError(1030,"",0,"ArtCode");      
@@ -1199,16 +1224,26 @@ u might want to put loyalty card or bagger 1st
   cash = blankval;
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(IVCashr,i,IVCashrw);
-    For(chi=0;chi<rwcnt;chi=chi+1) begin //Edit***************************Sasha2,16:24 26.09.2014 {
+    //Edit***************************Sasha2,16:24 26.09.2014 {
+    if(not(Checkprice(IVCashrw.ArtCode,IVCashr.PriceList,IVCashrw.Price)) and IVCashrw.Sum>0)then begin
+	  RecordCheckError(20767,"",i,"Price");      
+	  res = -1; 
+	  goto LIVCashVcRecordCheck;
+	end;   
+	if(IVCashrw.Price<=0)then begin
+	  RecordCheckError(1058,"",i,"Price");      
+	  res = -1; 
+	  goto LIVCashVcRecordCheck;
+	end;
+    For(chi=0;chi<rwcnt;chi=chi+1) begin 
 		matrowget(IVCashr,chi,chIVrw);
 		if(left(chIVrw.Spec,50)==left(IVCashrw.Spec,50) and chIVrw.Sum!=IVCashrw.Sum)then begin
 			RecordCheckError(31030,"",i,"Spec");      
 		res = -1; 
 		goto LIVCashVcRecordCheck;
 		end;
-	end;  //Edit***************************Sasha2,16:24 26.09.2014 }
-	
-	if(IVCashrw.Quant==0)then begin //Edit***************************Sasha2,16:32 26.09.2014 {
+	end;  
+	if(IVCashrw.Quant==0)then begin 
       RecordCheckError(1058,"",i,"Quant");      
       res = -1; 
       goto LIVCashVcRecordCheck;
@@ -1463,6 +1498,11 @@ u might want to put loyalty card or bagger 1st
             if (quant>0) then begin            
               if (INr.SerNrf==1) then begin
                 if (SerialNrAvail(IVCashrw.ArtCode,IVCashrw.SerialNr,location,quant)==false) then begin
+                  if (blank(IVCashrw.Price) or (IVCashrw.Price==0)) then begin //Edit***************************Sasha2,16:50 29.09.2014 {
+                      RecordCheckError(1210,"",i,"Price");      
+                     res = -1; 
+                     goto LIVCashVcRecordCheck;
+                  end; //Edit***************************Sasha2,16:50 29.09.2014 }
                   RecordCheckError(1240,"",i,"SerialNr");      
                   res = -1; 
                   goto LIVCashVcRecordCheck;
@@ -1484,13 +1524,13 @@ u might want to put loyalty card or bagger 1st
               end;
             end else begin
               quant = -quant;
-              if (INr.SerNrf==1) then begin
+              /*if (INr.SerNrf==1) then begin //Edit***************************Sasha2,16:51 29.09.2014
                 if (SerialNrAvail(IVCashrw.ArtCode,IVCashrw.SerialNr,location,quant)==true) then begin
                   RecordCheckError(1241,"",i,"SerialNr");      
                   res = -1; 
                   goto LIVCashVcRecordCheck;
                 end;
-              end;
+              end;*/
             end;
             if (INr.SerNrf==1) then begin            
               if (IVCashrw.Quant>1) then begin
@@ -1505,6 +1545,11 @@ u might want to put loyalty card or bagger 1st
                   res = -1; 
                   goto LIVCashVcRecordCheck;
                 end;
+                if ((IVCashrw.ArtCode==IVCash2rw.ArtCode) and (IVCashrw.Sum!=IVCash2rw.Sum)) then begin //Edit***************************Sasha2,16:52 29.09.2014 {
+	              RecordCheckError(5,"",i,"SerialNr");      
+	              res = -1; 
+	              goto LIVCashVcRecordCheck;
+	            end; //Edit***************************Sasha2,16:52 29.09.2014 }
               end;
             end;
           end;
@@ -1628,6 +1673,43 @@ u might want to put loyalty card or bagger 1st
     end;
   end;
   if (transf) then begin
+  	  //Edit***************************Sasha2,16:42 29.09.2014 {
+   	  if (blank(IVCashr.RetValue)) then begin
+        RecordCheckError(1210,"",-1,"CashValue");      
+        res = -1; 
+        goto LIVCashVcRecordCheck;   
+      end;
+     
+      if ((IVCashr.Sum4>0) and ((IVCashr.RecValue + IVCashr.RecValue3)>IVCashr.Sum4)) or ((IVCashr.Sum4<0) and ((IVCashr.RecValue+IVCashr.CashValue + IVCashr.RecValue3)<IVCashr.Sum4)) then begin
+        RecordCheckError(1210,"",-1,"RecValue");      
+        res = -1; 
+        goto LIVCashVcRecordCheck;   
+      end;
+      
+      if (IVCashr.RecValue>0 and IVCashr.RetValue>0) then begin
+        RecordCheckError(1210,"",-1,"RecValue");      
+        res = -1; 
+        goto LIVCashVcRecordCheck;   
+      end;
+      
+      if (IVCashr.RecValue2>0 and IVCashr.RetValue>0) then begin
+        RecordCheckError(1210,"",-1,"RecValue2");      
+        res = -1; 
+        goto LIVCashVcRecordCheck;   
+      end;
+      
+      if (IVCashr.RecValue3>0 and IVCashr.RetValue>0) then begin
+        RecordCheckError(1210,"",-1,"RecValue3");      
+        res = -1; 
+        goto LIVCashVcRecordCheck;   
+      end;
+
+      if ((IVCashr.Sum4>0) and (IVCashr.RetValue<0)) or ((IVCashr.Sum4<0) and (IVCashr.RetValue>0)) then begin
+        RecordCheckError(1210,"",-1,"CashValue");      
+        res = -1; 
+        goto LIVCashVcRecordCheck;   
+      end;
+ 	  //Edit***************************Sasha 2,16:42 29.09.2014 }
     if (IVCashr.Sum4>=0) then begin
       if (IVCashr.RetValue<0) then begin
         RecordCheckError(24177,"",-1,"CashValue");      
@@ -2261,10 +2343,10 @@ global
 function Boolean IVCashVcRecordSync(record IVCashVc IVCashr,string tagstr)
 begin
   Boolean res;
-  record SRBlock SRb; //Edit***************************Sasha2,11:37 25.09.2014
-  Boolean gentrans; //Edit***************************Sasha2,11:37 25.09.2014
-  LongInt newnr; //Edit***************************Sasha2,11:37 25.09.2014
-  record LocalOffLineNrBlock LastRecNr; //Edit***************************Sasha2,11:40 25.09.2014
+  record SRBlock SRb; //Edit***************************Sasha2,11:37 25.09.2014 {
+  Boolean gentrans;
+  LongInt newnr; 
+  record LocalOffLineNrBlock LastRecNr;
   
   
   BlockLoad(LastRecNr);
@@ -2280,7 +2362,7 @@ begin
       newnr = SRb.LastIVCashNr;
     end;
     IVCashr.SerNr = NextSerNr("IVCashVc",IVCashr.TransDate,newnr,false,IVCashr.LangCode);
-  end;
+  end; //Edit***************************Sasha2,11:40 25.09.2014 }
   
   //IVCashr.SerNr = NextSerNr("IVCashVc",IVCashr.TransDate,-1,false,""); //Edit***************************Sasha2,14:55 24.09.2014
   res = true;
