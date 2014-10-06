@@ -20,13 +20,16 @@ end;
 global
 updating procedure DellSUPP()
 begin
-  Record IOSUPALL1Vc INSUP1r;
+  boolean TrHs;
+  Record INNnum1Vc INSUPr;
   
-  while (LoopMain(INSUP1r,0,true)) begin
-		RecordDelete(INSUP1r);
-		StepBack(INSUP1r);
+  TrHs = true;
+  while (LoopMain(INSUPr,0,TrHs)) begin
+    if (TrHs) then begin
+      RecordDelete(INSUPr);
+      StepBack(INSUPr);
+    end;
   end;
-  
 RETURN;
 END;
 

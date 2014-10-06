@@ -704,7 +704,7 @@ BEGIN
   		goto LIVCashVcRecordCheck;
   	end;
   end; //Edit***************************Sasha2,11:06 25.09.2014 }
-  
+
   if (IVCashr.OKFlag==0) then begin
     if (stat==updatemode) then begin
       if (IVCash2r.OKFlag==1) then begin unokf = true; end;

@@ -1332,21 +1332,18 @@ begin
   RecordField(ParamVal2,M4Val,0,0);
   EndBlock;
   
-  RecordBegin(IOSUPALL1Vc,-,"");
+  RecordBegin(INNnum1Vc,-,"");
   ImpExpLevel(0);
 	RegisterForAllCompanies(true);
-	RecordField(Art,M4Int,0,0);
-	RecordField(VATCOD,M4Str,10,0);
-	RecordField(ItemName,M4Str,100,0);
-	RecordField(ItemNo,M4Str,20,0);
-	
-	MainKeyBegin(Art,0);
-	KeySegment(Art);
+	RecordField(ArtCode,M4Str,20,0);
+	RecordField(ItemNo,M4Int,0,0);
+	MainKeyBegin(ArtCode,0);
+	KeySegment(ArtCode);
+	KeySegment(ItemNo);
 	KeyBegin(ItemNo);
 	KeySegment(ItemNo);
-	KeySegment(ItemName);
-	KeySegment(Art);
-  EndRecord;
+	KeySegment(ArtCode);
+EndRecord;
   
    RecordBegin(SVOVc,-,"");
   RecordField(SerNr,M4Long,0,0);

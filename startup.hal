@@ -16,12 +16,14 @@ begin
 	Report("Bonus",MyBonusRClass,MyBonusRn,0,modSL); //Edit***************************Sasha2,11:54 10.09.2014
 	Setting("Валюта ЕККА",POSCurncyTClass,modPOS); //Edit***************************Sasha2,17:25 11.09.2014
 	Setting("Рахунки продавців",LocalMachineAccTClass,modPOS); //Edit***************************Sasha2,17:26 11.09.2014
+	Setting("Налаштування фіскального принтера",SerPrintCustomTClass,modPOS); //Edit***************************Sasha2,9:35 03.10.2014
 	Setting("Local OffLine No.",LocalOffLineNrTClass,modPOSOffLine); //Edit***************************Sasha2,10:51 24.09.2014
 	Setting("Настройки Zebra",ZebraPrinterTClass,modUserSet); //Edit***************************Sasha2,16:35 25.09.2014
 	Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
     //Document("Етикетки партій (надходження)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
     //Document("Етикетки партій (переміщення)",GigieneTextRClass,StockMovLabPartForm,LabelPartStockMovFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
+	Import("Імпорт цін",ImportPLClass,ImportPLIn,modDI); //Edit***************************Sasha2,10:01 02.10.2014
 	 
   SString(31000,"грн.");
   SString(31001,"Підготовлено у системі HansaWorld");

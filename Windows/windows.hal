@@ -378,3 +378,29 @@ begin
 end; //Edit***************************Sasha2,16:12 25.09.2014 }
 
 //------------------------------------------All windows for Zebra ---------------------------------------------------------------------
+
+window ImportPLClass:1 //Edit***************************Sasha2,9:58 02.10.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real vs;
+  WindowBegin("Імпорт цін",ImportPLClass,CGIcW,RcType);
+  SetWRect(80,80,530,190);    
+  StaticText(10,vs=25,"Опис формату файла для імпорту",false);
+  StaticText(10,vs=vs+10,"",false);
+  StaticText(10,vs=vs+20,"1 стовпчик: Прейскурант",false);
+  StaticText(10,vs=vs+20,"2 стовпчик: Товар",false);
+  StaticText(10,vs=vs+20,"3 стовпчик: Ціна (Роздільник десяткових і тисячних \".\", але без роздільника тисяч)",false);
+  EndWindow;
+end;
+
+window SerPrintCustomTClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+  WindowBegin("Фіскальний принтер",SerPrintCustomTClass,CGSbl,-);
+  SetWRect(64,80,400,250);
+  SetBlid(SerPrintBlock);
+  v = 6; vs = 20;
+  EditField(h=140,v,70,"Назва СОМ-порта",Normal,Port,false,0);  
+  EndWindow;
+end;

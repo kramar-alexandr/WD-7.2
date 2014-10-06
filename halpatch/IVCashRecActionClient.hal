@@ -234,12 +234,21 @@ begin
   string 255 errstr;
   Integer err;
   record CashierDefBlock CDb;
+  record SerPrintBlock SPb; //Edit***************************Sasha2,17:35 02.10.2014 
   
 //no client-server calls pls
   res = 0;
   checkf = errorcheck>0;
   BlockLoad(LMb); 
-  BlockLoad(CDb); 
+  BlockLoad(CDb);
+    
+  blockload(SPb); //Edit***************************Sasha2,17:35 02.10.2014 {
+  if (Blank(SPb.Port)) then begin
+  	res = -1;
+  	OpenWindow("SerPrintCustomTClass",1,0,"","",SPb);
+  	goto LIVCashVcRecordCheckClient;
+  end; //Edit***************************Sasha2,16:32 03.10.2014 }
+  
   if (HasLocalization("SWE")) then begin
     if (FindLocalSerialPortDevice(kSerialPortDeviceClassFiscalControlUnit,kSerialPortDeviceModelFiscPrinterCLEANCASHTypeA,LMb.LocalMachineCode,LSPDr)) then begin  
       testfcleancashf = false;
