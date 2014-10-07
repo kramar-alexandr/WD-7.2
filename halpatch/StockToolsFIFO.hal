@@ -1482,7 +1482,6 @@ begin
 									curncy = INr.LastPurchCurncyCode;
   								totcostpricecurncy = INr.LastPurchPrice2 * IHr.Qty;
   	case	"StockMovVc":	if(IHr.Qty>=0)then begin
-  	
   												sourceIHr.FileName = "StockMovVc";
   												sourceIHr.TransNr = IHr.TransNr;
   												sourceIHr.Row = IHr.Row;
@@ -1494,7 +1493,7 @@ begin
 													srow = sourceIHr.InRow;
   											end;
   	case	"RetVc":	if(IHr.Qty>=0)then begin
-  												Retr.SerNr = IHr.TransNr;
+  												/*Retr.SerNr = IHr.TransNr;
   												readfirstmain(Retr,1,true);
 													matrowget(Retr,IHr.Row,Retrw);
 													//sourceIHr.ArtCode = IHr.ArtCode;
@@ -1503,6 +1502,16 @@ begin
 													sourceIHr.TransNr = Retr.SHNr;
 													readfirstkey("FNTransNr",sourceIHr,3,true);
 													curncy = sourceIHr.PUCurncyCode;
+													totcostpricecurncy = sourceIHr.TotCostPriceCurncy/-sourceIHr.Qty*IHr.Qty;
+													sfilename = sourceIHr.InFileName;
+													ssernr = sourceIHr.InSerNr;
+													srow = sourceIHr.InRow;*/
+													
+													//sourceIHr.FileName = "SHVc";
+  												sourceIHr.SerNr = IHr.Source;
+  												logtext(0,sourceIHr.SerNr);
+  												readfirstmain(sourceIHr,1,true);
+  												curncy = sourceIHr.PUCurncyCode;
 													totcostpricecurncy = sourceIHr.TotCostPriceCurncy/-sourceIHr.Qty*IHr.Qty;
 													sfilename = sourceIHr.InFileName;
 													ssernr = sourceIHr.InSerNr;

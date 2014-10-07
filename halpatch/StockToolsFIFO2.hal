@@ -1131,7 +1131,7 @@ global
 updating procedure StoreItemHistory_In_RetGoods_InQue(record MainStockBlock MSb,string artcode,string serialnr,string location,string filename,Date td,Date fifod,val qty,val coeff,val totalcost,LongInt transnr,Integer rownr,Integer stockaffectf,string position,
                                                       LongInt source,Boolean setremqtyf,record TempStockVc TSr,Boolean usetmpstkf)
 begin
-  record ItemHistVc IHr;
+  record ItemHistVc IHr,sourceIHr;// Edit ************************** Monday, 6 October 2014 14:25:23
   record INVc INr;
   record ITVc ITr;
   record CostAccBlock CAb;
@@ -1139,7 +1139,12 @@ begin
   Integer primary,queuecostmodel;
   Date blankd;
   row TempStockVc TSrw;
-
+	string 20 sfilename;// Edit ************************** Monday, 6 October 2014 13:54:10
+	longint ssernr;// Edit ************************** Monday, 6 October 2014 13:54:11
+	integer srow;// Edit ************************** Monday, 6 October 2014 13:54:12
+  val totcostpricecurncy,remcostpricecurncy;// Edit ************************** Monday, 6 October 2014 13:54:26
+  string 5 curncy;// Edit ************************** Monday, 6 October 2014 13:55:09
+    
   if (blank(artcode)) then begin 
     goto LStoreItemHistory_In_RetGoods_InQue;
   end;
@@ -1183,7 +1188,35 @@ begin
     IHr.RemQty = blankval;
     IHr.RemCostPrice = blankval; 
   end;
+  
+  
+  
   IHr.Source = source;
+  // Edit Start ---------------------------------------------- Edit Start
+	//Monday, 6 October 2014 14:23:50
+	logtext(0,filename);
+  switch(filename)begin
+  	case	"RetVc":	if(IHr.Qty>=0)then begin
+											sourceIHr.SerNr = IHr.Source;
+											readfirstmain(sourceIHr,1,true);
+											curncy = sourceIHr.PUCurncyCode;
+											totcostpricecurncy = sourceIHr.TotCostPriceCurncy/-sourceIHr.Qty*IHr.Qty;
+											sfilename = sourceIHr.InFileName;
+											ssernr = sourceIHr.InSerNr;
+											srow = sourceIHr.InRow;
+										end;
+  end;
+  
+  IHr.PUCurncyCode = curncy;
+  IHr.TotCostPriceCurncy = totcostpricecurncy;
+  IHr.RemCostPriceCurncy = totcostpricecurncy; 
+  IHr.InFileName = sfilename;
+  IHr.InSerNr =	ssernr;
+  IHr.InRow =	srow;
+  	// Edit End ---------------------------------------------- Edit End
+  
+  
+  
   IHr.TotCostPrice = totalcost;
   if (ConsigmentStock(IHr.ArtCode,IHr.SerialNr,blankd)) then begin
     IHr.ConsigStock = 1;

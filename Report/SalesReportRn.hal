@@ -5,7 +5,7 @@ external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode);
 SetLangMode(LangUkrainian,"UKR",0);
 
 
-procedure CollectCostMyInvoice(record IVVc IVr, integer rownr,var array val cost,var array val curcost,var array string curncy,var array val rate,var array date indate,var array string vecode,var array string serial,var array val qty,var integer ressize)
+procedure CollectCostMyInvoice(record IVVc IVr, integer rownr,var array val cost,var array val curcost,var array string curncy,var array val rate,var array date indate,var array string vecode,var array string serial,var array val qty,var integer ressize,integer cred,longint credinv)
 begin
 	row IVVc IVrw;
 	record ORVc ORr;
@@ -80,14 +80,14 @@ begin
 							if(IHr.InFileName=="PUVc")then begin
 								PUr.SerNr = IHr.InSerNr;
 								if(readfirstmain(PUr,1,true))then begin
-									cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
-									curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+									cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred;
+									curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
 									curncy[ressize] = IHr.PUCurncyCode;
 									rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 									indate[ressize] =	PUr.TransDate;
 									vecode[ressize] = PUr.VECode;
 									serial[ressize] = IHr.SerialNr;
-									qty[ressize] = -IHr.Qty; 
+									qty[ressize] = -IHr.Qty*cred; 
 									ressize = ressize + 1;
 								end;
 							end;
@@ -120,8 +120,8 @@ begin
 									if(IHr.InFileName=="PUVc")then begin
 										PUr.SerNr = IHr.InSerNr;
 										if(readfirstmain(PUr,1,true))then begin
-											cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
-											curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+											cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred;
+											curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
 											curncy[ressize] = IHr.PUCurncyCode;
 											if(PUr.CurncyCode!="USD")then begin
 												rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
@@ -131,9 +131,37 @@ begin
 											indate[ressize] =	PUr.TransDate;
 											vecode[ressize] = PUr.VECode;
 											serial[ressize] = IHr.SerialNr;
-											qty[ressize] = -IHr.Qty; 
+											qty[ressize] = -IHr.Qty*cred; 
+											ressize = ressize + 1;
+										end else begin
+											cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred*cred;
+											curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
+											curncy[ressize] = IHr.PUCurncyCode;
+											if(PUr.CurncyCode!="USD")then begin
+												rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+											end else begin
+												rate[ressize] = blankval;
+											end;
+											indate[ressize] =	PUr.TransDate;
+											vecode[ressize] = PUr.VECode;
+											serial[ressize] = IHr.SerialNr;
+											qty[ressize] = -IHr.Qty*cred; 
 											ressize = ressize + 1;
 										end;
+									end else begin
+										cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
+										curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+										curncy[ressize] = IHr.PUCurncyCode;
+										if(PUr.CurncyCode!="USD")then begin
+											rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+										end else begin
+											rate[ressize] = blankval;
+										end;
+										indate[ressize] =	PUr.TransDate;
+										vecode[ressize] = PUr.VECode;
+										serial[ressize] = IHr.SerialNr;
+										qty[ressize] = -IHr.Qty; 
+										ressize = ressize + 1;
 									end;
 								end;
 							end;
@@ -198,6 +226,8 @@ begin
 	array string 100 vecode,serial,curncy;
 	integer ressize;
 	val t,sumcur,sumusd,sumcostcur,sumcostusd;
+	integer cred;
+	longint CredInvNo;
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
@@ -247,8 +277,19 @@ begin
 		if(IVr.InvDate>ed)then begin TrHs = false; testf = false; end;
 		if(IVr.Invalid==1)then begin testf = false; end;
 		if(IVr.OKFlag==0)then begin testf = false; end;
-				
+		
+		cred = 1;
+		if(IVr.InvType==3) then begin 
+      cred=-1;
+      matRowGet(IVr,0,IVrw);
+      if(IVrw.stp==3) then begin
+        CredInvNo = IVrw.OrdRow;
+      end;
+    end;
+		
+		
 		If(testf) then begin
+
 			CUr.Code = IVr.CustCode;
 			readfirstmain(CUr,1,true);
 			
@@ -263,7 +304,6 @@ begin
 			For(i=0;i<mtrw;i=i+1) begin
 				matrowget(IVr,i,IVrw);
 				if(IVrw.stp==kInvoiceRowTypeNormal and nonblank(IVrw.ArtCode))then begin
-					
 					INr.Code = IVrw.ArtCode;
 					readfirstmain(INr,1,true);
 					ITr.Comment = "";
@@ -292,9 +332,9 @@ begin
 					end else begin
 						location = IVr.Location;
 					end;
-					
-					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize);			
+					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo);			
 					For(j=0;j<ressize;j=j+1) begin
+						
 						startformat(15);		
 							outstring(i0,0,ITr.Comment,false);
 							outstring(i2,0,INr.Code,false);
@@ -348,9 +388,9 @@ begin
 							end;
 							
 							
-							sumcostcur = -curcost[j] * qty[j];
+							sumcostcur = -curcost[j] * qty[j]*cred;
 							outstring(i17,0,ValToMyString(sumcostcur,3),false);
-							sumcostusd = -cost[j] * qty[j];
+							sumcostusd = -cost[j] * qty[j]*cred;
 							outstring(i18,0,ValToMyString(sumcostusd,3),false);
 							
 							
@@ -360,7 +400,7 @@ begin
 								outstring(i19,0,"",false);
 							end;
 							outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
-							outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100,3),false);
+							outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
 							outstring(i22,0,IVr.ShipMode,false);
 							outstring(i23,0,indate[j],false);
 							outstring(i24,0,vecode[j],false);
@@ -412,6 +452,8 @@ begin
 	record ORVc ORr;
 	record UserVc User;
 	string 20 usercode;
+	integer cred;
+	longint CredInvNo;
 	
 	
 	usercode = currentuser;
@@ -478,7 +520,16 @@ begin
 		if(IVr.Invalid==1)then begin testf = false; end;
 		if(IVr.OKFlag==0)then begin testf = false; end;
 		if(nonblank(salesgroup) and IVr.SalesGroup!=salesgroup)then begin testf = false;  end;
-				
+		
+		cred = 1;
+		if(IVr.InvType==3) then begin 
+      cred=-1;
+      matRowGet(IVr,0,IVrw);
+      if(IVrw.stp==3) then begin
+        CredInvNo = IVrw.OrdRow;
+      end;
+    end;
+    
 		If(testf) then begin
 			CUr.Code = IVr.CustCode;
 			readfirstmain(CUr,1,true);
@@ -524,7 +575,7 @@ begin
 						location = IVr.Location;
 					end;
 					
-					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize);			
+					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo);			
 					For(j=0;j<ressize;j=j+1) begin
 						startformat(15);		
 							outstring(i0,0,ITr.Comment,false);
@@ -579,9 +630,9 @@ begin
 							end;
 							
 							
-							sumcostcur = -curcost[j] * qty[j];
+							sumcostcur = -curcost[j] * qty[j]*cred;
 							//outstring(i17,0,ValToMyString(sumcostcur,3),false);
-							sumcostusd = -cost[j] * qty[j];
+							sumcostusd = -cost[j] * qty[j]*cred;
 							//outstring(i18,0,ValToMyString(sumcostusd,3),false);
 							
 							
@@ -592,7 +643,7 @@ begin
 							end;
 							//outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
 							if(currentcompany==2)then begin
-								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100,3),false);
+								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
 							end;
 							outstring(i22,0,IVr.ShipMode,false);
 							//outstring(i23,0,indate[j],false);
