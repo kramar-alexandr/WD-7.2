@@ -24,7 +24,10 @@ begin
     //Document("Етикетки партій (надходження)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
     //Document("Етикетки партій (переміщення)",GigieneTextRClass,StockMovLabPartForm,LabelPartStockMovFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
 	Import("Імпорт цін",ImportPLClass,ImportPLIn,modDI); //Edit***************************Sasha2,10:01 02.10.2014
-	 
+	
+	Maintenance("Gigient to IN",MyVClass,FillINFromGigieneMn,modDBMain);
+	
+		 
   SString(31000,"грн.");
   SString(31001,"Підготовлено у системі HansaWorld");
 	SString(31002,"to invoice "); 
