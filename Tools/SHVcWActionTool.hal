@@ -722,10 +722,9 @@ begin
     end;
   end;
 
-
   retfound = true;
   IVr.OrderNr = ornr;
-  while (LoopKey("OrderNr",IVr,1,retfound)) begin
+  /*while (LoopKey("OrderNr",IVr,1,retfound)) begin
     if (IVr.OrderNr!=ornr) then begin retfound = false; end;
     if (retfound) then begin
 //      if (IVr.UpdStockFlag!=0) and (IVr.InvType==kInvoiceTypeCredit or IVr.InvType==kInvoiceTypeCreditSpecialSales) and (IVr.OKFlag==0) then begin
@@ -738,9 +737,9 @@ begin
           end;
         end;
       end;
-    end;
+    end;// Edit ************************** Wednesday, 15 October 2014 10:59:09
     
-  end;
+  end;*/
   NotOKedReturnForOR = res;
   return;
 end;
@@ -950,13 +949,15 @@ BEGIN
     if (ReadFirstItem(ORrw.ArtCode,INr,false,false)) then begin end;
     switch (INr.SerNrf) begin
       case 1:
-        //remn = SHrw.Ship; //Edit***************************Sasha2,11:15 22.09.2014
-        remn = ORrw.Shipd2 - NotOKedSerialPerUnitReturnForOR(SHr.OrderNr,SHrw.OrdRow,SHrw.SerialNr); //Edit***************************Sasha2,11:10 22.09.2014
+        remn = SHrw.Ship; //Edit***************************Sasha2,11:15 22.09.2014
+        //remn = ORrw.Shipd2 - NotOKedSerialPerUnitReturnForOR(SHr.OrderNr,SHrw.OrdRow,SHrw.SerialNr); //Edit***************************Sasha2,11:10 22.09.2014
       case 2:
 //        remn = SHrw.Ship - BatchReturnForOR(SHr.OrderNr,SHrw.OrdRow,SHrw.SerialNr);
         remn = BatchDeliveredForOR(SHr.OrderNr,SHrw.OrdRow,SHrw.SerialNr) - BatchReturnForOR(SHr.OrderNr,SHrw.OrdRow,SHrw.SerialNr);
       otherwise
         remn = ORrw.Shipd2 - NotOKedReturnForOR(SHr.OrderNr,SHrw.OrdRow);
+        logtext(0,ORrw.Shipd2);
+        logtext(0,NotOKedReturnForOR(SHr.OrderNr,SHrw.OrdRow));
 //    remn = remn - AlreadyReturnedforOR(SHr.OrderNr,SHrw.OrdRow);
     end;
     if (remn>SHrw.Ship) then begin remn = SHrw.Ship; end;

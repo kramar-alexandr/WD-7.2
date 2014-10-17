@@ -1194,7 +1194,6 @@ begin
   IHr.Source = source;
   // Edit Start ---------------------------------------------- Edit Start
 	//Monday, 6 October 2014 14:23:50
-	logtext(0,filename);
   switch(filename)begin
   	case	"RetVc":	if(IHr.Qty>=0)then begin
 											sourceIHr.SerNr = IHr.Source;

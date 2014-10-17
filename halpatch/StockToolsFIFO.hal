@@ -1432,9 +1432,6 @@ begin
 									srow = IHr.Row;
 									totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
 									curncy = PUr.CurncyCode;
-									if(IHr.ArtCode=="9500097010")then begin
-										logtext(0,totcostpricecurncy);
-									end;
   								if(nonblank(PUr.VECode))then begin
 										matrowget(PUr,IHr.Row,PUrw);
 										curncy = PUr.CurncyCode;
@@ -1445,9 +1442,6 @@ begin
 										ssernr = transnr;
 										srow = IHr.Row;
 										totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
-										if(IHr.ArtCode=="9500097010")then begin
-											logtext(0,totcostpricecurncy);
-										end;
   								end else begin
   									INr.Code = IHr.ArtCode;
   									if(readfirstmain(INr,1,true))then begin
@@ -1509,7 +1503,6 @@ begin
 													
 													//sourceIHr.FileName = "SHVc";
   												sourceIHr.SerNr = IHr.Source;
-  												logtext(0,sourceIHr.SerNr);
   												readfirstmain(sourceIHr,1,true);
   												curncy = sourceIHr.PUCurncyCode;
 													totcostpricecurncy = sourceIHr.TotCostPriceCurncy/-sourceIHr.Qty*IHr.Qty;

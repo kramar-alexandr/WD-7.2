@@ -6264,11 +6264,57 @@ begin
   SpecialMenu("Створити рахунок з простроченою доставкою",' ',5,"IVCashToLateDelivORsm");
   SpecialMenu("Перенести в накладну",' ',3,"IVCashToIVDsm");
   SpecialMenu("Перенести в рахунок клієнту",' ',1,"IVCashToORsm");
-  SpecialMenu("Звіт сесії ЕККА",' ',1,"POSEventIVCashDsm");                                                       SpecialMenu("Тест принтера",' ',1,"PRtestDsm"); 
+  SpecialMenu("Звіт сесії ЕККА",' ',1,"POSEventIVCashDsm");                                                       
+  SpecialMenu("Тест принтера",' ',1,"PRtestDsm"); 
 //  SpecialMenu("Pay",' ',11,"PayIVCashDsm");
     if (HasTaxMatrix) then begin
   SpecialMenu("Відкрити податкову матрицю",' ',25,"OpenVatMatrixIVCashDsm"); 
   end;
+  end;
+  EndWindow;
+end;
+
+
+window DocWClass:3
+  wtag("language","ukr"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,android,android_tab")
+begin
+  real h,v,vs;
+  WindowBegin("Форма",DocWClass,CGDocW,DocView);
+  UseView(DocVc);
+  SetWRect(20,80,620,340);
+  BrowseButtons(false);
+  Sizeable(0,150,0,0);
+  WhiteBackground;
+  if (GuiType==kGuiCocoa) then begin
+    ScrollBar(-17,0,-1,-14);
+  end else begin
+    ScrollBar(-17,0,-1,-1);
+  end;
+  v = 5;  vs = 20;
+  h = 45; PushButton(h,v,h+65,v+vs,0,"Текст");
+  h=h+72;  PushButton(h,v,h+65,v+vs,0,"Лінія");
+  h=h+72;  PushButton(h,v,h+65,v+vs,0,"Рамка");
+  h=h+72;  PushButton(h,v,h+65,v+vs,0,"Поле");
+  h=h+72;  PushButton(h,v,h+65,v+vs,0,"Малюнок");
+  if (BuildProductCode!="StandardCRM") and (BuildProductCode!="StandardOrganizer") and (BuildProductCode!="StandardCommunicator") then begin 
+  h=h+72;  PushButton(h,v,h+65,v+vs,0,"Сума стор.");
+  h=h+72;  CheckBox(h,v+2,0,"Решітка",ShowGrid);
+  h=h+60;  DropDownMenu(h,v+2,h+65,"EditScale",497);
+end;
+
+  SpecMenuItem("Властивості",' ',mDocProperties); 
+  SpecMenuItem("Матр. принтер",' ',mDocPCPrinter); 
+  SpecMenuItem("Копії",' ',mDocCopies); 
+  SpecMenuItem("На задній план",'b',mDocSendToBack); 
+  SpecMenuItem("Перегляд усіх",' ',mDocViewAll); 
+  SpecMenuItem("Лише перша",' ',mDocFirstOnly); 
+  SpecMenuItem("Лише в середині",' ',mDocMiddleOnly); 
+  SpecMenuItem("Лише остання",' ',mDocLastOnly); 
+  SpecMenuItem("Лише на одній стор.",' ',mDocSinglePageOnly); 
+  if (StandardHansa==false) then begin
+    SpecMenuItem("Стиль рядка",' ',mDocRowStyles); 
+  SpecialMenu("Export",'',10,"ExportDocToFileDsm");
+	SpecialMenu("Import",'',10,"ImportDocFromFileDsm");
   end;
   EndWindow;
 end;
