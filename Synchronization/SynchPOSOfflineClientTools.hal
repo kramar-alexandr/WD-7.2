@@ -250,7 +250,7 @@ begin
     LMb.AccClassPasteSpecial = LMSr.AccClassPasteSpecial;
   end;
 
-  BlockLoad(SPb);
+  /*BlockLoad(SPb); //Edit***************************Sasha2,10:30 15.10.2014
   SPb.BaudRate = LMSPr.BaudRate;
   SPb.ByteSize = LMSPr.ByteSize;
   SPb.Parity = LMSPr.Parity;
@@ -262,7 +262,7 @@ begin
   SPb.OutXOff = LMSPr.OutXOff;
   SPb.Printer = LMSPr.Printer;
   SPb.Port = LMSPr.Port;
-  SPb.Codepage = LMSPr.Codepage;
+  SPb.Codepage = LMSPr.Codepage;*/
 
   
   BlockStore(IBb);
@@ -271,7 +271,7 @@ begin
   if (nonblank(LMSr.LocalMachine)) then begin
     BlockStore(LMb);
   end;
-  BlockStore(SPb);
+  //BlockStore(SPb); //Edit***************************Sasha2,10:30 15.10.2014
   RETURN;
 END;
 
@@ -551,6 +551,8 @@ BEGIN
   SetServerCompany(curcomp);
 
   EndSync;
+  
+  gSynchServToOfflineSettingsm = false; //Edit***************************Sasha2,16:24 14.10.2014
 LSynchServToOfflineSettingsm:;
   RETURN;
 END;

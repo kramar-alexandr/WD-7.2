@@ -124,7 +124,7 @@ begin
   record CashierDefBlock CDb;
   record LocalMachineBlock LMb;
   Integer oldprogmode;
-  
+
   if ((IVCash2p.OKFlag==0) and (IVCashp.OKFlag==1)) then begin
     BlockLoad(AutoActionRec);
     if (AutoActionRec.CashInvoicePrinting!=0) then begin
@@ -149,8 +149,8 @@ if we don't close the window soon we will have more then 100 windows open
   BlockStore(LMb);
   //IVCashVc_SendToSerialPortDevices(kSerialPortDeviceClassFiscalPrinter,stat,IVCashp,IVCash2p); //Edit***************************Sasha2,14:59 26.09.2014
   //IVCashVc_SendToSerialPortDevices(kSerialPortDeviceClassFiscalControlUnit,stat,IVCashp,IVCash2p); //Edit***************************Sasha2,14:59 26.09.2014
-  
-  if ((IVCashp.FiscalFlag!=0) and (IVCashp.OKFlag!=0) /*and (IVCashp.Prntdf==0)*/) then begin
+    
+  if (true /*(IVCashp.FiscalFlag!=0) and (IVCashp.OKFlag!=0)*/ /*and (IVCashp.Prntdf==0)*/) then begin
   	PrintFiscalReceipt(IVCashp); //Edit***************************Sasha2,15:00 26.09.2014
   end;
   ResetDisplayDsm;
@@ -180,7 +180,6 @@ BEGIN
   record CashierDefBlock CDb;
   record LocalMachineBlock LMb;
   Integer oldprogmode;
-  
   DBHold;
   
   if (IVCashp.OKFlag!=0) then begin
@@ -201,7 +200,7 @@ BEGIN
   BlockStore(LMb);
   //IVCashVc_SendToSerialPortDevices(kSerialPortDeviceClassFiscalPrinter,Rs_insert,IVCashp,IVCash2p); //Edit***************************Sasha2,15:06 26.09.2014
   //IVCashVc_SendToSerialPortDevices(kSerialPortDeviceClassFiscalControlUnit,Rs_insert,IVCashp,IVCash2p); //Edit***************************Sasha2,15:06 26.09.2014
-  if ((IVCashp.FiscalFlag!=0) and (IVCashp.OKFlag!=0) /*and (IVCashp.Prntdf==0)*/) then begin
+  if (true /*(IVCashp.FiscalFlag!=0) and (IVCashp.OKFlag!=0)*/ /*and (IVCashp.Prntdf==0)*/) then begin
   	PrintFiscalReceipt(IVCashp); //Edit***************************Sasha2,15:00 26.09.2014
   	SetPOSWindowDisplayChange(IVCashp.RetValue);
   end; 
@@ -214,7 +213,7 @@ BEGIN
     if (oldprogmode==kProgramModeLiveSync) then begin
       SetCompanyProgramMode(oldprogmode);
     end;
-  end;   
+  end;  
   res = 1;
   
   DBFlush;

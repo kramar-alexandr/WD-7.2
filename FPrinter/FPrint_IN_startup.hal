@@ -32,7 +32,6 @@ begin
 	Setting("Добавить подпись к чеку",AddDownStringTClass,modPOS);
 	Setting("Внесение наличных",CashINOUTTClass,modPOS);
 	Setting("Время на принтере",My1NullRecieptTClass,modPOS);
-
 	
  RETURN;
 END;  

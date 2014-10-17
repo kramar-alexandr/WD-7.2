@@ -685,6 +685,7 @@ BEGIN
   record ACPVc ACPr;
   integer chi;// Edit ************************** Friday, 22 February 2013 14:56:47
   row IVCashVc chIVrw; // Edit ************************** Friday, 22 February 2013 15:01:26
+  record SerBalVc SerBalr; //Edit***************************Sasha2,17:24 14.10.2014 
   
   programmode = CompanyProgramMode;
   if (long4>0) then begin
@@ -1471,7 +1472,7 @@ u might want to put loyalty card or bagger 1st
         end;
       end;
       if ((check==true) and (testf==true)) then begin
-        if (IVCashr.UpdStockFlag!=0 or (MSb.ChkSerNumOnNonStockIVCash!=0 and IVCashr.AllowIncorrectSerial==0)) then begin
+        if (IVCashr.UpdStockFlag==0/*IVCashr.UpdStockFlag!=0 or (MSb.ChkSerNumOnNonStockIVCash!=0 and IVCashr.AllowIncorrectSerial==0)*/) then begin //Edit***************************Sasha2,10:22 15.10.2014
           if (INr.SerNrf>0) then begin
             if (IsSerialNrCorrect(IVCashrw.SerialNr)==false) then begin
               RecordCheckError(24154,IVCashrw.SerialNr,i,"SerialNr");      
@@ -1969,7 +1970,6 @@ updating function LongInt IVCashVcRecordSave(var record IVCashVc IVCashp,record 
 BEGIN
   LongInt res;
   record UserVc USr;
-
   if (blankdate(IVCashp.RegDate)) then begin
     IVCashp.RegDate = CurrentDate;
   end;
