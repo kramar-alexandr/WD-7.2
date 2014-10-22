@@ -91,6 +91,21 @@ begin
 return;
 end;
 
+window MyFullStockManRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+
+	WindowBegin("Ћтчет по стоку",MyFullStockManRClass,CGRcW,RcType);
+    UseView(RcVc);
+    SetWRect(20,120,350,300);
+    h=100; v=20;
+    EditField(h,20,70,"‘клад",Normal,f1,false,LocationSClass); //Edit***************************Sasha2,11:31 22.09.2014
+  EndWindow;
+return;
+end;
+
 window ShopsReportRClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin

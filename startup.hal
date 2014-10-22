@@ -9,6 +9,7 @@ begin
 	Report("Звiт по продажах для менеджерів",SalesReportForManagersRClass,SalesReportForManagersRn,0,modSL);
 	Report("Звіт по складу для менеджерів",SalesReportRClass,SalesReportRn,0,modSO);
 	Report("FullStock Manual",MyFullStockRClass,MyItemReportRn,0,modIN);
+	Report("Full Stock",MyFullStockManRClass,MyItemReportRn,0,modSO);
 	Report("Звіт по Shops",ShopsReportRClass,ShopsReportRn,0,modSO); //Edit***************************Sasha2,9:29 01.09.2014
 	Report("Звіт по складу (модифікований)",NewINRClass,NewInvValRn,0,modIN); //Edit***************************Sasha2,11:25 03.09.2014
 	Report("Відомість розрахунків з клієнтами (новий)",CuPer2RClass,MyCuPerRn,0,modSL); //Edit***************************Sasha2,11:25 09.09.2014 
@@ -19,7 +20,7 @@ begin
 	Setting("Налаштування фіскального принтера",SerPrintCustomTClass,modPOS); //Edit***************************Sasha2,9:35 03.10.2014
 	Setting("Local OffLine No.",LocalOffLineNrTClass,modPOSOffLine); //Edit***************************Sasha2,10:51 24.09.2014
 	Setting("Настройки Zebra",ZebraPrinterTClass,modUserSet); //Edit***************************Sasha2,16:35 25.09.2014
-	Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
+	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
     //Document("Етикетки партій (надходження)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
     //Document("Етикетки партій (переміщення)",GigieneTextRClass,StockMovLabPartForm,LabelPartStockMovFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014

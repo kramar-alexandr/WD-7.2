@@ -5584,26 +5584,26 @@ begin
   TextField(60,v-5,-20,370,Math2,0);
   Tile(tilenr,400,false,tilenr,-); tilenr = tilenr + 1;// Edit ************************** Friday, 17 October 2014 10:48:33
   h=70;
-  EditFieldTL(h,v=vs,400,"Рядок1",M4Str,Normal,80,GigieneText1,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок2",M4Str,Normal,80,GigieneText2,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок3",M4Str,Normal,80,GigieneText3,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок4",M4Str,Normal,80,GigieneText4,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок5",M4Str,Normal,80,GigieneText5,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок6",M4Str,Normal,80,GigieneText6,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок7",M4Str,Normal,80,GigieneText7,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок8",M4Str,Normal,80,GigieneText8,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок9",M4Str,Normal,80,GigieneText9,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок10",M4Str,Normal,80,GigieneText10,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок11",M4Str,Normal,80,GigieneText11,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок12",M4Str,Normal,80,GigieneText12,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок13",M4Str,Normal,80,GigieneText13,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок14",M4Str,Normal,80,GigieneText14,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок15",M4Str,Normal,80,GigieneText15,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок16",M4Str,Normal,80,GigieneText16,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок17",M4Str,Normal,80,GigieneText17,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок18",M4Str,Normal,80,GigieneText18,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок19",M4Str,Normal,80,GigieneText19,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"Рядок20",M4Str,Normal,80,GigieneText20,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v=vs,400,"Рядок1",M4Str,Normal,50,GigieneText1,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок2",M4Str,Normal,50,GigieneText2,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок3",M4Str,Normal,50,GigieneText3,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок4",M4Str,Normal,50,GigieneText4,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок5",M4Str,Normal,50,GigieneText5,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок6",M4Str,Normal,50,GigieneText6,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок7",M4Str,Normal,50,GigieneText7,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок8",M4Str,Normal,50,GigieneText8,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок9",M4Str,Normal,50,GigieneText9,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок10",M4Str,Normal,50,GigieneText10,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок11",M4Str,Normal,50,GigieneText11,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок12",M4Str,Normal,50,GigieneText12,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок13",M4Str,Normal,50,GigieneText13,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок14",M4Str,Normal,50,GigieneText14,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок15",M4Str,Normal,50,GigieneText15,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок16",M4Str,Normal,50,GigieneText16,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок17",M4Str,Normal,50,GigieneText17,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок18",M4Str,Normal,50,GigieneText18,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок19",M4Str,Normal,50,GigieneText19,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок20",M4Str,Normal,50,GigieneText20,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
   
   
   if (HasCharts) then begin
