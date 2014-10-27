@@ -129,7 +129,7 @@ BEGIN
     	end;
     end;
     
-    previewf = false;
+    previewf = true;
     for (i=0;i<7;i=i+1) begin
     	if (rownr[i]>0) then begin
     		PrintDocument(PU2r[i],"ItemLabForm" & (i+1),previewf);
