@@ -3642,7 +3642,8 @@ begin
   if (HasTaxMatrix) then begin
   SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixPUDsm"); 
   end;
-  SpecialMenu("Надрукувати етикетки",'e',0,"PrintPULabPUDsm");
+  //SpecialMenu("Надрукувати етикетки",'e',0,"PrintPULabPUDsm"); //Edit***************************Sasha2,17:48 24.10.2014
+  SpecialMenu("Надрукувати етикетки",'e',0,"PUVcLabelItemPrint");
   SpecialMenu("Етикетки ZEBRA",'',0,"PrintPUZebraDsm"); //Edit***************************Sasha2,15:56 25.09.2014
   if (HasApprovals) then begin
     if (StandardHansa==false) then begin
@@ -5267,7 +5268,8 @@ begin
     TileButton(tilenr,"Малюнок"); tilenr = tilenr + 1;
   end;
   TileButton(tilenr,"Варіанти"); tilenr = tilenr + 1;
-  TileButton(tilenr,"Тексти"); tilenr = tilenr + 1;
+  TileButton(tilenr,"Друк етикеток"); tilenr = tilenr + 1; //Edit***************************Sasha2,13:43 22.10.2014
+  TileButton(tilenr,"Опис"); tilenr = tilenr + 1; //Edit***************************Sasha2,13:38 22.10.2014
   TileButton(tilenr,"Модель вартості"); tilenr = tilenr + 1;
   if (StandardHansa==false) then begin
     TileButton(tilenr,"Дод. поля"); tilenr = tilenr + 1;
@@ -5493,12 +5495,49 @@ begin
   EditField(h,v=6,-40,"Маска різновиду",Normal,VARMask,false,VARMasksSClass);
   EditField(h,v+=vs,-40,"Порядок переліку",Normal,VARRepOrder,false,VARMasksSClass);
   EditField(h,v+=vs,-40,"Підмаски",Normal,VARSubsets,false,VARSubsetsSClass);
+  Tile(tilenr,70,false,tilenr,LName);  tilenr = tilenr + 1; //Edit***************************Sasha2, 15:57 22.10.2014 {
+  v=20; 
+  //h=120;
+  EditField(h,v,400, "Найменування товару",Normal,LName,false,0);
+  EditField(h,v+=20,400, "Коментар",Normal,LComment,false,0);
+  v=v+20;
+  EditField(h,v+=20,100, "Прайс",Normal,LPriceList,false,PLDefSClass);
+  EditField(h,v+=20,100, "Форма документа",Normal,LDefFormCode,false,DocSClass);
+  EditField(h,v+=20,100, "Валюта",Normal,LCurncyCode,false,CurncyCodeSClass);
+  v=20;
+  ButtonFrame(h+=450,v,60,5,"Розмір");
+  RadioButton(h,v,0,0,USetStr(31034),LSize);
+  RadioButton(h,v+=16,1,0,USetStr(31035),LSize);
+  RadioButton(h,v+=16,2,0,USetStr(31036),LSize);
+  RadioButton(h,v+=16,3,0,USetStr(31037),LSize);
+  RadioButton(h,v+=16,4,0,USetStr(31038),LSize);
+  RadioButton(h,v+=16,5,0,USetStr(31039),LSize);
+  RadioButton(h,v+=16,6,0,USetStr(31040),LSize); //Edit***************************Sasha2,15:57 22.10.2014 }
   Tile(tilenr,120,true,tilenr,Math);  tilenr = tilenr + 1;
   v = 24;
-  MatrixBegin(4,v,-32,-40,-,99);
+  MatrixBegin(4,v,-50,-40,-,99);
+  Flip(1); //Edit***************************Sasha2,16:04 22.10.2014 {
+  MatCol(1,24,"Товар - Тип",0,LParam,false,0);
+  MatCol(1,-350,"Товар - Варіанти",0,LName,false,0);
+  Flip(2);
+  MatCol(1,24,"Опис",0,LComment1,false,0);
+  Flip(3);
+  MatCol(1,24,"Підпис",0,LComment2,false,0);
+  Flip(4);
+  MatCol(1,24,"Додатковий текст",0,LComment3,false,0);
+  MatCol(1,150,"Країна походження",0,LComment4,false,0); 
+  Flip(5); //Edit***************************Sasha2,16:05 22.10.2014 }
   MatCol(1,24,"Мова",0,LangCode,false,LangSClass);
   MatCol(1,94,"Текст",0,Text,false,0);
+  InsertRowTest;
+  DeleteRowTest;
   EndMatrix;
+  vs = 20;
+  v = 18;  VTab(-35,v,-16,v+vs,ToolFlip,1,"A"); //Edit***************************Sasha2,16:07 22.10.2014 {
+  v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+  v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+  v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
+  v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,5,"E"); //Edit***************************Sasha2,16:07 22.10.2014 }
   Tile(tilenr,220,false,tilenr,CostPerc);  tilenr = tilenr + 1;
   ButtonFrame(h=100,vm=(v=20),230,6,"Основна модель вартості");
   RadioButton(h,v,0,0,"за визначенням",PrimaryCostModel);

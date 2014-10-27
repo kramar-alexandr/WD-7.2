@@ -10,6 +10,7 @@ external function Boolean HasSerialNumbers();
 external function Boolean HasSecondQuantity();
 external function Boolean HasVarieties();
 external function Boolean HasMultiCurrency();
+external procedure FORMDEF3_UKR(); //Edit***************************Sasha2,12:11 23.10.2014
 
 //##ii
 procedure dummy() //##ii
@@ -420,8 +421,6 @@ begin
   EndWindow;
 end;
 
-
-
 window MyVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
@@ -429,3 +428,128 @@ WindowBegin("Maintenance",MyVClass,CGMnt,RcType);
   SetWRect(20,120,360,220);
   EndWindow;
 end;
+
+window MyLabelItemLClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	WindowBegin("Етикетки товару",MyLabelItemLClass,CGmlist,-);
+    SpawnClass(MyLabelItemDClass);
+    SetWRect(20,80,900,298);
+    Sizeable(-1,-1,0,0);
+    UseView(MyLabelItemVc);
+    RecordList(4,17,-21,-39);
+    RlColKey(4,2,"Товар",ArtCode,false,ArtCode);
+    RlCol(120,120,"Прайс",PriceList,false);
+    RlCol(170,170,"Форма",DefFormCode,false);
+    RlCol(270,270,"Назва",Name,false);
+    RlCol(-270,-270,"Коментар",Comment,false); 
+    SearchField("Пошук");
+    //BrowseSubsetButton(-40,-15);
+  EndWindow;
+end; //Edit***************************Sasha2,13:02 22.10.2014 }
+
+window MyLabelItemDClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	real h,h1,h2,h3,h4,v,vs,t;
+	WindowBegin("Етикетка товару",MyLabelItemDClass,CGview,-);
+    SetWRect(20,80,700,298);
+    Sizeable(-1,-1,0,0);
+    UseView(MyLabelItemVc);
+    //FormName(ItemLabForm);
+    v=20;
+    h=120;
+    EditField(h,v, 100,"Товар",Normal,ArtCode,false,INSClass);
+    EditField(h,v+=20,400, "Найменування товару",Normal,Name,false,0);
+    EditField(h,v+=20,400, "Коментар",Normal,Comment,false,0);
+    v=v+20;
+    EditField(h,v+=20,100, "Прайс",Normal,PriceList,false,PLDefSClass);
+    EditField(h,v+=20,100, "Форма документа",Normal,DefFormCode,false,DocSClass);
+    EditField(h,v+=20,100, "Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
+    vs=v;
+    v=20;
+    ButtonFrame(h+=450,v,60,5,"Розмір");
+    RadioButton(h,v,0,0,USetStr(31034),Size);
+    RadioButton(h,v+=16,1,0,USetStr(31035),Size);
+    RadioButton(h,v+=16,2,0,USetStr(31036),Size);
+    RadioButton(h,v+=16,3,0,USetStr(31037),Size);
+    RadioButton(h,v+=16,4,0,USetStr(31038),Size);
+    RadioButton(h,v+=16,5,0,USetStr(31039),Size);
+    RadioButton(h,v+=16,6,0,USetStr(31040),Size);
+    v=vs;
+    Tile(0,v+=40,false,"",ArtCode);
+    TileButton(1,"Опис");    
+    Tile(1,v,true,"1",Math);
+    v = 24;
+    MatrixBegin(3,v,-50,-44,-,199);
+      t=1;
+      Flip(1);
+      //MatTypedRow(0);
+      MatCol(t,24,"Товар - Тип",0,Param,false,0);
+      MatCol(t,-350,"Товар - Варіанти",0,Name,false,0);
+      Flip(2);
+      MatCol(t,24,"Опис",0,Comment1,false,0);
+      Flip(3);
+      MatCol(t,24,"Підпис",0,Comment2,false,0);
+      Flip(4);
+      MatCol(t,24,"Додатковий текст",0,Comment3,false,0);
+      MatCol(t,150,"Країна походження",0,Comment4,false,0);
+      InsertRowTest;
+      DeleteRowTest;
+    EndMatrix;
+    vs = 20;
+    v = 18;  VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+    v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+    v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+    v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
+  	EndWindow;
+end; //Edit***************************Sasha2,13:02 22.10.2014 }
+
+
+window MyLabelItemSClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	WindowBegin("Вставити етикетку",MyLabelItemSClass,CGslist,-);
+  	SetWRect(210,80,750,298);
+  	Sizeable(-1,-1,0,0);
+  	UseView(MyLabelItemVc);
+  	SpawnClass(MyLabelItemDClass);
+  	RecordList(4,17,-21,-39);
+  	RlColKey(4,20,"Товар",ArtCode,false,ArtCode);
+  	RlCol(120,120,"Назва",Name,false);
+ 	 RlCol(-130,-130,"Прайс",PriceList,false);
+ 	 RlCol(-40,-40,"Форма",DefFormCode,false);
+ 	 SearchField("Search");
+ 	 EndWindow;
+end; //Edit***************************Sasha2,13:02 22.10.2014 }
+
+window CopyFrINToMyLabelItemVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Перенесення етикеток в регістр товарів",CopyFrINToMyLabelItemVClass,CGMnt,RcType);
+  SetWRect(20,120,360,220);
+  EndWindow;
+end;
+
+/*window MyLabelItemFClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Определите формы документов для етикеток",MyLabelItemFClass,CGHbl,HBlRecType);
+  SetBlid(ItemLabFormBlock);
+  FORMDEF3_UKR;
+  EndWindow;
+end; //Edit***************************Sasha2,12:11 23.10.2014 }*/
+
+window LabelItemRClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h;
+	
+  WindowBegin("Друк етикетов товарів",LabelItemRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    /*h=100;
+    PeriodField(h,20,"Період");
+    EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
+    EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
+  EndWindow;
+end; //Edit***************************Sasha2,16:07 24.10.2014 }

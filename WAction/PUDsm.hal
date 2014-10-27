@@ -70,3 +70,72 @@ begin
 	end;
 return;
 end;
+
+
+//Edit***************************Sasha2,17:22 24.10.2014 {
+procedure PopulateAndSavePURow(var array record PUVc PU2r,row PUVc PUrw,var array Integer rownr,integer index)
+begin
+  record PUVc PU3r;
+  row PUVc PU3rw;
+  integer temprownr;
+  
+  	temprownr = rownr[index];
+	if (temprownr<1) then begin
+		RECORDNEW(PU3r);
+	end else begin
+		PU3r = PU2r[index];
+	end;
+	PU3rw.ArtCode = PUrw.ArtCode;
+    PU3rw.UPrice = PUrw.UPrice;
+    MatRowPut(PU3r,temprownr,PU3rw);
+    temprownr = temprownr + 1;
+    rownr[index] = temprownr;
+    PU2r[index] = PU3r;
+
+  return;
+end; //Edit***************************Sasha2,17:22 24.10.2014 }
+
+
+global //Edit***************************Sasha2,17:38 13.10.2014 {
+updating procedure PUVcLabelItemPrint()
+BEGIN
+  record PUVc PUr;
+  row PUVc PUrw;
+  array record PUVc PU2r;
+  record INVc INr;
+  Integer i,rwcnt,wn;
+  array integer rownr;
+  boolean previewf;
+ 
+  
+  wn = CurWindow;
+  if (WindowState(wn)==0) then begin //Rs_normal
+    DeselectWindow(wn,false);
+    GetWindowRecord(wn,PUr);
+    rwcnt = MatRowCnt(PUr);
+    for (i=0;i<rwcnt;i=i+1) begin
+    	MatRowGet(PUr,i,PUrw);
+    	INr.Code = PUrw.ArtCode;
+    	if (nonblank(PUrw.ArtCode) and ReadFirstMain(INr,1,true)) then begin
+    		switch (INr.LSize) begin
+    			case 0: PopulateAndSavePURow(PU2r,PUrw,rownr,0);
+    			case 1: PopulateAndSavePURow(PU2r,PUrw,rownr,1);
+    			case 2: PopulateAndSavePURow(PU2r,PUrw,rownr,2);
+    			case 3: PopulateAndSavePURow(PU2r,PUrw,rownr,3);
+    			case 4: PopulateAndSavePURow(PU2r,PUrw,rownr,4);
+    			case 5: PopulateAndSavePURow(PU2r,PUrw,rownr,5);
+    			case 6: PopulateAndSavePURow(PU2r,PUrw,rownr,6);
+    		end;	
+    	end;
+    end;
+    
+    previewf = false;
+    for (i=0;i<7;i=i+1) begin
+    	if (rownr[i]>0) then begin
+    		PrintDocument(PU2r[i],"ItemLabForm" & (i+1),previewf);
+    	end;
+    end;
+  end;
+    
+  RETURN;
+END; //Edit***************************Sasha2,17:38 13.10.2014 }

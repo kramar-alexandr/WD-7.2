@@ -10,6 +10,8 @@ SourceFile("halcust\\Tools",0);
 SourceFile("halcust\\RActions",0);
 SourceFile("halcust\\Synchronization",0);
 SourceFile("halcust\\FPrinter",0);
+SourceFile("halcust\\LabelPrint",0);
+
 
 procedure INVcDefinition()
 begin
@@ -200,9 +202,39 @@ begin
   RecordField(GigieneText18,M4Str,200,0);// Edit ************************** Friday, 17 October 2014 10:22:17
   RecordField(GigieneText19,M4Str,200,0);// Edit ************************** Friday, 17 October 2014 10:22:17
   RecordField(GigieneText20,M4Str,200,0);// Edit ************************** Friday, 17 October 2014 10:22:17
+  RecordField(LPriceList,M4Code,5,0); //Edit***************************Sasha2,13:15 22.10.2014 { etiketka 
+  RecordField(LName,M4Str,200,0);
+  RecordField(LDefFormCode,M4Code,20,0);
+  RecordField(LComment,M4Str,200,0);
+  RecordField(LCurncyCode,M4Code,5,CurncyCodeVc);
+  RecordField(LSize,M4Int,0,0);
+  RecordField(LCust1,M4Str,200,0);//custcode
+  RecordField(LCust2,M4Str,200,0);
+  RecordField(LCust3,M4Str,200,0);
+  RecordField(LCust4,M4Str,200,0);
+  RecordField(LCust5,M4Str,200,0);
+  RecordField(LCustInt1,M4Int,0,0);
+  RecordField(LCustInt2,M4Int,0,0);
+  RecordField(LCustInt3,M4Int,0,0);
+  RecordField(LCustInt4,M4Int,0,0);
+  RecordField(LCustInt5,M4Int,0,0); //Edit***************************Sasha2,13:15 22.10.2014 }
   ArrayBegin(Math,-,1);
   ArrayField(LangCode,M4Code,5,0);
   ArrayField(Text,M4Str,100,0);
+  ArrayField(LParam,M4Str,200,0); //Edit***************************Sasha2,13:19 22.10.2014 {
+  ArrayField(LName,M4Str,200,0);
+  ArrayField(LComment1,M4Str,200,0);
+  ArrayField(LComment2,M4Str,200,0);
+  ArrayField(LComment3,M4Str,200,0);
+  ArrayField(LComment4,M4Str,200,0);
+  ArrayField(LComment5,M4Str,200,0);
+  ArrayField(LComment6,M4Str,200,0);
+  ArrayField(LComment7,M4Str,200,0);
+  ArrayField(LComment8,M4Str,200,0);
+  ArrayField(LArInt1,M4int,0,0);
+  ArrayField(LArInt2,M4int,0,0);
+  ArrayField(LArInt3,M4int,0,0);
+  ArrayField(LArInt4,M4int,0,0); //Edit***************************Sasha2,13:19 22.10.2014 }
   EndArray;
   return;
 end;
@@ -1843,6 +1875,48 @@ EndRecord;
   KeySegment(Group);
   KeySegment(Code);
   EndRecord;
-	  
+	
+  ////------------------------------------------------PRICE ETICETKA
+  RecordBegin(MyLabelItemVc,-,""); //Edit***************************Sasha2,12:57 22.10.2014 {
+	RecordField(ArtCode,M4Code,20,INVc);
+	RecordField(PriceList,M4Code,5,0);
+	RecordField(Name,M4Str,200,0);
+	RecordField(DefFormCode,M4Code,20,0);
+	RecordField(Comment,M4Str,200,0);
+	RecordField(CurncyCode,M4Code,5,CurncyCodeVc);
+	RecordField(Size,M4Int,0,0);
+	RecordField(Cust1,M4Str,200,0);//custcode
+	RecordField(Cust2,M4Str,200,0);
+	RecordField(Cust3,M4Str,200,0);
+	RecordField(Cust4,M4Str,200,0);
+	RecordField(Cust5,M4Str,200,0);
+	RecordField(CustInt1,M4Int,0,0);
+	RecordField(CustInt2,M4Int,0,0);
+	RecordField(CustInt3,M4Int,0,0);
+	RecordField(CustInt4,M4Int,0,0);
+	RecordField(CustInt5,M4Int,0,0);
+	RecordField(Math,M4Matrix,0,0);
+	ArrayBegin(Math,-,1);
+	ArrayField(Param,M4Str,200,0);
+	ArrayField(Name,M4Str,200,0);
+	ArrayField(Comment1,M4Str,200,0);
+	ArrayField(Comment2,M4Str,200,0);
+	ArrayField(Comment3,M4Str,200,0);
+	ArrayField(Comment4,M4Str,200,0);
+	ArrayField(Comment5,M4Str,200,0);
+	ArrayField(Comment6,M4Str,200,0);
+	ArrayField(Comment7,M4Str,200,0);
+	ArrayField(Comment8,M4Str,200,0);
+	ArrayField(ArInt1,M4int,0,0);
+	ArrayField(ArInt2,M4int,0,0);
+	ArrayField(ArInt3,M4int,0,0);
+	ArrayField(ArInt4,M4int,0,0);
+	EndArray;
+	MainKeyBegin(ArtCode,0);
+	KeySegment(ArtCode);
+	KeySegment(PriceList);
+	KeySegment(DefFormCode);
+  EndRecord; //Edit***************************Sasha2,12:57 22.10.2014 }
+
 return;
 end;
