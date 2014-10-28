@@ -6329,7 +6329,6 @@ begin
   SpecialMenu("Перенести в накладну",' ',3,"IVCashToIVDsm");
   SpecialMenu("Перенести в рахунок клієнту",' ',1,"IVCashToORsm");
   SpecialMenu("Звіт сесії ЕККА",' ',1,"POSEventIVCashDsm");                                                       
-  SpecialMenu("Тест принтера",' ',1,"PRtestDsm"); 
 //  SpecialMenu("Pay",' ',11,"PayIVCashDsm");
     if (HasTaxMatrix) then begin
   SpecialMenu("Відкрити податкову матрицю",' ',25,"OpenVatMatrixIVCashDsm"); 

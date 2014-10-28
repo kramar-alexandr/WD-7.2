@@ -1675,11 +1675,17 @@ u might want to put loyalty card or bagger 1st
   end;
   if (transf) then begin
   	  //Edit***************************Sasha2,16:42 29.09.2014 {
-   	  if (blank(IVCashr.RetValue)) then begin
+   	  if (IVCashr.CashValue==0) then begin
         RecordCheckError(1210,"",-1,"CashValue");      
         res = -1; 
         goto LIVCashVcRecordCheck;   
       end;
+      
+      if (IVCashr.Sum4>0 and IVCashr.CashValue<IVCashr.Sum4) then begin //Edit***************************Sasha2,17:08 27.10.2014 {
+        RecordCheckError(1210,"",-1,"CashValue");      
+        res = -1; 
+        goto LIVCashVcRecordCheck;    
+      end; //Edit***************************Sasha2,17:08 27.10.2014 }
      
       if ((IVCashr.Sum4>0) and ((IVCashr.RecValue + IVCashr.RecValue3)>IVCashr.Sum4)) or ((IVCashr.Sum4<0) and ((IVCashr.RecValue+IVCashr.CashValue + IVCashr.RecValue3)<IVCashr.Sum4)) then begin
         RecordCheckError(1210,"",-1,"RecValue");      
