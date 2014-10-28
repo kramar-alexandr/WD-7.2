@@ -75,7 +75,7 @@ begin
   return;
 end;
 
-procedure PrintItemLabel(record RcVc RepSpec,record INVc INr,val exprice,string pricecode,string mycurcode,date setdate,record DocVc Docr)
+procedure PrintItemLabel(record RcVc RepSpec,record INVc INr,val exprice,string pricecode,string mycurcode,date setdate/*,record DocVc Docr*/)
 BEGIN
   Integer i,rwcnt;
   row INVc INrw;
@@ -89,11 +89,12 @@ BEGIN
   val fr,to1,to2,br1,br2;
   val lfr,lto1,lto2,lbr1,lbr2;
   record BaseCurBlock BCr;
-  row DocVc Docrw;
+  //row DocVc Docrw;
   record LocalMachineBlock LMb;
   record CUVc CUr;
   string 10 priceA,priceB;
   
+  logtext(0,2);
   
   blockload(BCr);
     
@@ -208,7 +209,7 @@ BEGIN
   OUTFORMFIELD("F_DATUM",setdate);
   OUTFORMFIELD("F_PRINTDATE",currentdate);
   
-  rwcnt = MatRowCnt(Docr);
+  /*rwcnt = MatRowCnt(Docr);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(Docr,i,Docrw);
     if (Docrw.fieldSetNr==0) then begin
@@ -217,10 +218,10 @@ BEGIN
         OUTFORMFIELD(Docrw.unitText,tstr);
       end;
     end;
-  end;
+  end;*/
   
   rwcnt = MatRowCnt(INr);
-  for (i=0;i<rwcnt;i=i+1) begin
+  /*for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(INr,i,INrw);
       OUTFORMFIELD("F_ITEMTYPE",INrw.LParam);
       OUTFORMFIELD("F_ARTCODEVARIETIES",INrw.LName);
@@ -232,8 +233,10 @@ BEGIN
       OUTFORMFIELD("F_Comment6MY",INrw.LComment6);
       OUTFORMFIELD("F_Comment7MY",INrw.LComment7);
       OUTFORMFIELD("F_Comment8MY",INrw.LComment8);
-      EndFormRow;
-  end;    
+  end;    */
+  
+  
+  EndFormRow;
   RETURN;
 END;
 
@@ -293,8 +296,8 @@ LBREAK:;
 		            RepSpec.f5 = INr.LDefFormCode;
 		            Docr.Code = formcode;
 		            price = PUrw.UPrice;
-		            ReadFirstMain(Docr,1,true);
-		            PrintItemLabel(RepSpec,INr,price,INr.LPriceList,INr.LCurncyCode,currentdate,Docr); 
+		            //ReadFirstMain(Docr,1,true);
+		            PrintItemLabel(RepSpec,INr,price,INr.LPriceList,INr.LCurncyCode,currentdate/*,Docr*/); 
         		end;	
         	end; 
             CloseForm;  

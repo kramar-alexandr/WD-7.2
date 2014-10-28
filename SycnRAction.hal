@@ -1,0 +1,14 @@
+global
+function LongInt INVcRecordCheck(var record INVc INr,record INVc IN2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+	transaction Boolean gSynchServToOfflineSettingsm;
+	
+	res = 0; 
+  if(gSynchServToOfflineSettingsm==false)then begin
+		res = inner.INVcRecordCheck(INr,IN2r,stat,long4);
+  end;
+  
+  INVcRecordCheck = res;
+  return;
+end;

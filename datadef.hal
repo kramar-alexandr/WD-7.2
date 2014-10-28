@@ -12,6 +12,7 @@ SourceFile("halcust\\Synchronization",0);
 SourceFile("halcust\\FPrinter",0);
 SourceFile("halcust\\LabelPrint",0);
 
+SourceFile("halcust\\SetComp",0);
 
 procedure INVcDefinition()
 begin

@@ -355,204 +355,290 @@ BEGIN
   record RoundBlock Rb;
   record POSCurncyBlock PCB; //Edit***************************Sasha2,15:57 22.09.2014
   Boolean setupsf;
+  record LocalMachineBlock LocalMachineRec;// Edit ************************** Monday, 27 October 2014 14:21:29
+	record CompaniesBlock CRr;// Edit ************************** Monday, 27 October 2014 14:21:29
+	row CompaniesBlock comprw;// Edit ************************** Monday, 27 October 2014 14:21:30
+	record LocalMachineAccBlock LMAb;// Edit ************************** Monday, 27 October 2014 14:21:31
+	row LocalMachineAccBlock LMArw;// Edit ************************** Monday, 27 October 2014 14:21:31
+	record OffLineSetBlock OSb;// Edit ************************** Monday, 27 October 2014 14:21:32
+	Boolean res;// Edit ************************** Monday, 27 October 2014 14:21:32
+	Integer i,rwcnt,k;// Edit ************************** Monday, 27 October 2014 14:21:28
+	string 10 compcode;// Edit ************************** Monday, 27 October 2014 15:00:55
+  
+  
   transaction Boolean gSynchServToOfflineSettingsm;
   
   offlinecomp = GetPOSOffLineCompNo;
   curcomp = CurrentCompany;
   if (offlinecomp<=0) then begin goto LSynchServToOfflineSettingsm; end;
-  if (CheckIfOfflineCompanyExists(offlinecomp)==false) then begin goto LSynchServToOfflineSettingsm; end;
+  if (CheckIfOfflineCompanyExists(offlinecomp)==false) then begin 
+  	// Edit Start ---------------------------------------------- Edit Start
+	//Monday, 27 October 2014 16:18:23
+		
+		if (blank(LMb.LocalMachineCode)) then begin /*goto LSynchServToOfflineSettingsm; end;*/
+			// Edit Start ---------------------------------------------- Edit Start
+			//Monday, 27 October 2014 14:25:56
+			blockLoad(LMAb);
+      rwcnt = matrowcnt(LMAb);
+      for (i=0;i<rwcnt;i=i+1) begin
+        MatRowGet(LMAb,i,LMArw);
+        if(LMArw.UserCode==CurrentUser)then begin
+          LocalMachineRec.LocalMachineCode = LMArw.LocalMachine;
+          LocalMachineRec.DefLocation = LMArw.DefLoc;
+          LocalMachineRec.DefCustCode = LMArw.CustCode;
+          LocalMachineRec.DefReturnLocation = LMArw.DefLoc;
+          LocalMachineRec.NoServerModeIdle = 1;
+          res = true;
+        end;
+      end;
+      blockstore(LocalMachineRec);
+			// Edit End ---------------------------------------------- Edit End
+		end;
+  	
+  	blockload(CRr);
+  	blockload(OSb);
+    matrowget(CRr,currentcompany-1,comprw);
+    compcode = comprw.CompCode;
+    rwcnt = matrowcnt(CRr);
+    k=0;
+    for(i=0;i<rwcnt;i=i+1)begin
+    	matrowget(CRr,i,comprw);
+      if(comprw.CompCode!=compcode)then begin
+        comprw.ActiveStatus=1;
+      end;
+      matrowput(CRr,i,comprw);
+    end;
+    
+		ClearRow(CRr,comprw,1);
+		comprw.CompCode = OSb.OffLineComp;
+		comprw.CompName = "Offline";
+		comprw.ShortName = "Offline";
+		comprw.TCPIP = "";
+		comprw.Port = "";
+		matrowput(CRr,rwcnt,comprw);
+    
+    blockstore(CRr);
+    
+	// Edit End ---------------------------------------------- Edit End
+	
+    goto LSynchServToOfflineSettingsm;  
+    
+	// Edit End ---------------------------------------------- Edit End
+	
+  end else begin// Edit ************************** Monday, 27 October 2014 14:19:43
+		//goto LSynchServToOfflineSettingsm; end;// Edit ************************** Monday, 27 October 2014 14:19:44
 
-  gSynchServToOfflineSettingsm = true;
-  SetServerCompany(offlinecomp);
-  BlockLoad(LMb);  
-  BlockLoad(SeqnrRec);
-  BlockLoad(IVCashSerRecClient); //Edit***************************Sasha2,11:21 26.09.2014
-  SetServerCompany(curcomp);
+		gSynchServToOfflineSettingsm = true;
+		SetServerCompany(offlinecomp);
+		BlockLoad(LMb);  
+		BlockLoad(SeqnrRec);
+		BlockLoad(IVCashSerRecClient); //Edit***************************Sasha2,11:21 26.09.2014
+		SetServerCompany(curcomp);
 
-  BlockLoad(OffLb);  
+		BlockLoad(OffLb);  
 
-  if (blank(LMb.LocalMachineCode)) then begin goto LSynchServToOfflineSettingsm; end;
+		if (blank(LMb.LocalMachineCode)) then begin /*goto LSynchServToOfflineSettingsm; end;*/
+			// Edit Start ---------------------------------------------- Edit Start
+			//Monday, 27 October 2014 14:25:56
+			blockLoad(LMAb);
+      rwcnt = matrowcnt(LMAb);
+      for (i=0;i<rwcnt;i=i+1) begin
+        MatRowGet(LMAb,i,LMArw);
+        if(LMArw.UserCode==CurrentUser)then begin
+          LocalMachineRec.LocalMachineCode = LMArw.LocalMachine;
+          LocalMachineRec.DefLocation = LMArw.DefLoc;
+          LocalMachineRec.DefCustCode = LMArw.CustCode;
+          LocalMachineRec.DefReturnLocation = LMArw.DefLoc;
+          LocalMachineRec.NoServerModeIdle = 1;
+          res = true;
+        end;
+      end;
+      blockstore(LocalMachineRec);
+			// Edit End ---------------------------------------------- Edit End
+		end else begin
+		
+			BeginSync;
 
-  BeginSync;
+		//when SynchroniseBlock working coment out
+			BlockLoad(VATCodeRec);
+			BlockLoad(CYRec);  
+			BlockLoad(LangRec);
+			BlockLoad(IVCashDefRec);
+			BlockLoad(IVCashSerRec);
+			BlockLoad(CDb);
+			BlockLoad(CashPrintRec);
+			BlockLoad(CAb);
+			BlockLoad(DCb);
+			BlockLoad(PMRec);
+			BlockLoad(MainStockRec);
+			BlockLoad(POScb);
+			BlockLoad(SFb);
+			BlockLoad(MBb);
+			BlockLoad(LastSerNrRec);
+			BlockLoad(Rb);
+			BlockLoad(PCB); //Edit***************************Sasha2,16:02 22.09.2014
 
-//when SynchroniseBlock working coment out
-  BlockLoad(VATCodeRec);
-  BlockLoad(CYRec);  
-  BlockLoad(LangRec);
-  BlockLoad(IVCashDefRec);
-  BlockLoad(IVCashSerRec);
-  BlockLoad(CDb);
-  BlockLoad(CashPrintRec);
-  BlockLoad(CAb);
-  BlockLoad(DCb);
-  BlockLoad(PMRec);
-  BlockLoad(MainStockRec);
-  BlockLoad(POScb);
-  BlockLoad(SFb);
-  BlockLoad(MBb);
-  BlockLoad(LastSerNrRec);
-  BlockLoad(Rb);
-  BlockLoad(PCB); //Edit***************************Sasha2,16:02 22.09.2014
+			AccVcSeqNr = SeqnrRec.AccVcSeqNr;
+			OTVcSeqNr = SeqnrRec.OTVcSeqNr;
+			ObjVcSeqNr = SeqnrRec.ObjVcSeqNr;
+			LocationVcSeqNr = SeqnrRec.LocationVcSeqNr;
+			AccessVcSeqNr = SeqnrRec.AccessVcSeqNr;
+			DocVcSeqNr = SeqnrRec.DocVcSeqNr;
+			CCatVcSeqNr = SeqnrRec.CCatVcSeqNr;
+			VGVcSeqNr = SeqnrRec.VGVcSeqNr;
+			CurncyCodeVcSeqNr = SeqnrRec.CurncyCodeVcSeqNr;
+			ModifiersVcSeqNr = SeqnrRec.ModifiersVcSeqNr;
+			PDVcSeqNr = SeqnrRec.PDVcSeqNr;
 
-  AccVcSeqNr = SeqnrRec.AccVcSeqNr;
-  OTVcSeqNr = SeqnrRec.OTVcSeqNr;
-  ObjVcSeqNr = SeqnrRec.ObjVcSeqNr;
-  LocationVcSeqNr = SeqnrRec.LocationVcSeqNr;
-  AccessVcSeqNr = SeqnrRec.AccessVcSeqNr;
-  DocVcSeqNr = SeqnrRec.DocVcSeqNr;
-  CCatVcSeqNr = SeqnrRec.CCatVcSeqNr;
-  VGVcSeqNr = SeqnrRec.VGVcSeqNr;
-  CurncyCodeVcSeqNr = SeqnrRec.CurncyCodeVcSeqNr;
-  ModifiersVcSeqNr = SeqnrRec.ModifiersVcSeqNr;
-  PDVcSeqNr = SeqnrRec.PDVcSeqNr;
+			SetServerCompany(offlinecomp);
+			BlockStore(VATCodeRec);
+			BlockStore(MainStockRec);
 
-  SetServerCompany(offlinecomp);
-  BlockStore(VATCodeRec);
-  BlockStore(MainStockRec);
+			SetServerCompany(curcomp);
+			POSServToOffLine_SynchBefSettings(curcomp,offlinecomp,AccVcSeqNr,OTVcSeqNr,ObjVcSeqNr,LocationVcSeqNr,AccessVcSeqNr,DocVcSeqNr,
+																				CCatVcSeqNr,VGVcSeqNr,CurncyCodeVcSeqNr,ModifiersVcSeqNr,PDVcSeqNr);
+			SeqnrRec.AccVcSeqNr = AccVcSeqNr;
+			SeqnrRec.OTVcSeqNr = OTVcSeqNr;
+			SeqnrRec.ObjVcSeqNr = ObjVcSeqNr;
+			SeqnrRec.LocationVcSeqNr = LocationVcSeqNr;
+			SeqnrRec.AccessVcSeqNr = AccessVcSeqNr;
+			SeqnrRec.DocVcSeqNr = DocVcSeqNr;
+			SeqnrRec.CCatVcSeqNr = CCatVcSeqNr;
+			SeqnrRec.VGVcSeqNr = VGVcSeqNr;
+			SeqnrRec.CurncyCodeVcSeqNr = CurncyCodeVcSeqNr;
+			SeqnrRec.ModifiersVcSeqNr = ModifiersVcSeqNr;
+			SeqnrRec.PDVcSeqNr = PDVcSeqNr;
 
-  SetServerCompany(curcomp);
-  POSServToOffLine_SynchBefSettings(curcomp,offlinecomp,AccVcSeqNr,OTVcSeqNr,ObjVcSeqNr,LocationVcSeqNr,AccessVcSeqNr,DocVcSeqNr,
-                                    CCatVcSeqNr,VGVcSeqNr,CurncyCodeVcSeqNr,ModifiersVcSeqNr,PDVcSeqNr);
-  SeqnrRec.AccVcSeqNr = AccVcSeqNr;
-  SeqnrRec.OTVcSeqNr = OTVcSeqNr;
-  SeqnrRec.ObjVcSeqNr = ObjVcSeqNr;
-  SeqnrRec.LocationVcSeqNr = LocationVcSeqNr;
-  SeqnrRec.AccessVcSeqNr = AccessVcSeqNr;
-  SeqnrRec.DocVcSeqNr = DocVcSeqNr;
-  SeqnrRec.CCatVcSeqNr = CCatVcSeqNr;
-  SeqnrRec.VGVcSeqNr = VGVcSeqNr;
-  SeqnrRec.CurncyCodeVcSeqNr = CurncyCodeVcSeqNr;
-  SeqnrRec.ModifiersVcSeqNr = ModifiersVcSeqNr;
-  SeqnrRec.PDVcSeqNr = PDVcSeqNr;
+			SetServerCompany(offlinecomp);
+	
+			BlockStore(SeqnrRec);
+			OffLb.OffLineComp = "";
+			BlockStore(OffLb);
 
-  SetServerCompany(offlinecomp);
-  
-  BlockStore(SeqnrRec);
-  OffLb.OffLineComp = "";
-  BlockStore(OffLb);
+		//when SynchroniseBlock working coment out
+		//  BlockStore(VATCodeRec); moved before accounts
+			BlockStore(CYRec);
+			BlockStore(LangRec);
+			BlockStore(IVCashDefRec);
+			FilterIVCashSerBlock(IVCashSerRec,LMb.LocalMachineCode,IVCashSerRecClient); //Edit***************************Sasha2,10:12 26.09.2014
+			//BlockStore(IVCashSerRec); //Edit***************************Sasha2,11:22 26.09.2014
+			BlockStore(IVCashSerRecClient); //Edit***************************Sasha2,11:22 26.09.2014
+			BlockStore(CDb);
+			BlockStore(CashPrintRec);
+			BlockStore(CAb);
+			BlockStore(DCb);
+			BlockStore(PMRec);
+		//  BlockStore(MainStockRec);//moved before accounts
+			BlockStore(POScb);
+			BlockStore(SFb);
+			BlockStore(MBb);
+			BlockLoad(SeqnrRec);
+			BlockStore(Rb);
+			BlockStore(PCB); //Edit***************************Sasha2,16:02 22.09.2014
+	
+			SynkDBIDRegr.DBIDCode = DatabaseID;
+			if (ReadFirstMain(SynkDBIDRegr,1,true)==false) then begin
+				RecordNew(SynkDBIDRegr);
+				SynkDBIDRegr.DBIDCode = DatabaseID;
+			end;
+			SetupSynkLastNumber(SynkDBIDRegr);
+	
+			SetServerCompany(curcomp);
+	
+			DIVcSeqNr = SeqnrRec.DIVcSeqNr;
+			UnitVcSeqNr = SeqnrRec.UnitVcSeqNr;
+			PLQVcSeqNr = SeqnrRec.PLQVcSeqNr;
+			RebVcSeqNr = SeqnrRec.RebVcSeqNr;
+			ITVcSeqNr = SeqnrRec.ITVcSeqNr;
+			PLVcSeqNr = SeqnrRec.PLVcSeqNr;
+			INVcSeqNr = SeqnrRec.INVcSeqNr;
+			CUVcSeqNr = SeqnrRec.CUVcSeqNr;
+			PLDefVcSeqNr = SeqnrRec.PLDefVcSeqNr;
+			UserVcSeqNr = SeqnrRec.UserVcSeqNr;
+			CTypeVcSeqNr = SeqnrRec.CTypeVcSeqNr;
+			StyleVcSeqNr = SeqnrRec.StyleVcSeqNr;
+			ArtUpdStockVcSeqNr = SeqnrRec.ArtUpdStockVcSeqNr;
+			RecVcSeqNr = SeqnrRec.RecVcSeqNr;
+			DrawerVcSeqNr = SeqnrRec.DrawerVcSeqNr;
+			ItemStatusVcSeqNr = SeqnrRec.ItemStatusVcSeqNr;
+		// Custom is for customised purpouse, use it.
+			Custom1VcSeqNr = SeqnrRec.Custom1VcSeqNr;
+			Custom2VcSeqNr = SeqnrRec.Custom2VcSeqNr;
+			Custom3VcSeqNr = SeqnrRec.Custom3VcSeqNr;
+			Custom4VcSeqNr = SeqnrRec.Custom4VcSeqNr;
+			Custom5VcSeqNr = SeqnrRec.Custom5VcSeqNr;
+			Custom6VcSeqNr = SeqnrRec.Custom6VcSeqNr;
+			Custom7VcSeqNr = SeqnrRec.Custom7VcSeqNr;
+			Custom8VcSeqNr = SeqnrRec.Custom8VcSeqNr;
+			Custom9VcSeqNr = SeqnrRec.Custom9VcSeqNr;
+			Custom10VcSeqNr = SeqnrRec.Custom10VcSeqNr;
+			SerBalVcSeqNr = SeqnrRec.SerBalVcSeqNr; //Edit***************************Sasha2,16:07 22.09.2014
+	
+			POSServToOffLine_SynchRegisters(curcomp,offlinecomp,DIVcSeqNr,UnitVcSeqNr,PLQVcSeqNr,RebVcSeqNr,
+																			ITVcSeqNr,PLVcSeqNr,INVcSeqNr,CUVcSeqNr,PLDefVcSeqNr,UserVcSeqNr,
+																			CTypeVcSeqNr,StyleVcSeqNr,ArtUpdStockVcSeqNr,RecVcSeqNr,DrawerVcSeqNr,
+																			ItemStatusVcSeqNr,Custom1VcSeqNr,Custom2VcSeqNr,Custom3VcSeqNr,
+																			Custom4VcSeqNr,Custom5VcSeqNr,Custom6VcSeqNr,Custom7VcSeqNr,
+																			Custom8VcSeqNr,Custom9VcSeqNr,Custom10VcSeqNr,
+																			SerBalVcSeqNr,LMb.DefLocation,LMb.LocalMachineCode); //Edit***************************Sasha2,16:07 22.09.2014
+			SeqnrRec.DIVcSeqNr = DIVcSeqNr;
+			SeqnrRec.UnitVcSeqNr = UnitVcSeqNr;
+			SeqnrRec.PLQVcSeqNr = PLQVcSeqNr;
+			SeqnrRec.RebVcSeqNr = RebVcSeqNr;
+			SeqnrRec.ITVcSeqNr = ITVcSeqNr;
+			SeqnrRec.PLVcSeqNr = PLVcSeqNr;
+			SeqnrRec.INVcSeqNr = INVcSeqNr;
+			SeqnrRec.CUVcSeqNr = CUVcSeqNr;
+			SeqnrRec.PLDefVcSeqNr = PLDefVcSeqNr;
+			SeqnrRec.UserVcSeqNr = UserVcSeqNr;
+			SeqnrRec.CTypeVcSeqNr = CTypeVcSeqNr;
+			SeqnrRec.StyleVcSeqNr = StyleVcSeqNr;
+			SeqnrRec.ArtUpdStockVcSeqNr = ArtUpdStockVcSeqNr;
+			SeqnrRec.RecVcSeqNr = RecVcSeqNr;
+			SeqnrRec.DrawerVcSeqNr = DrawerVcSeqNr;
+			SeqnrRec.ItemStatusVcSeqNr = ItemStatusVcSeqNr;
+			SeqnrRec.Custom1VcSeqNr = Custom1VcSeqNr;
+			SeqnrRec.Custom2VcSeqNr = Custom2VcSeqNr;
+			SeqnrRec.Custom3VcSeqNr = Custom3VcSeqNr;
+			SeqnrRec.Custom4VcSeqNr = Custom4VcSeqNr;
+			SeqnrRec.Custom5VcSeqNr = Custom5VcSeqNr;
+			SeqnrRec.Custom6VcSeqNr = Custom6VcSeqNr;
+			SeqnrRec.Custom7VcSeqNr = Custom7VcSeqNr;
+			SeqnrRec.Custom8VcSeqNr = Custom8VcSeqNr;
+			SeqnrRec.Custom9VcSeqNr = Custom9VcSeqNr;
+			SeqnrRec.Custom10VcSeqNr = Custom10VcSeqNr;
+			SeqnrRec.SerBalVcSeqNr = SerBalVcSeqNr; //Edit***************************Sasha2,16:08 22.09.2014
+	
+			POSServToOffLine_ReadLocalMachineSettings(LMb.LocalMachineCode,LMIBr,LMITLr,LMLr,LMSr,LMSPr,LMr); //Sasha2: Just template no actual realization
+	
+			//setupsf = SynkMachineRegister(CurrentUser,SynkDBIDRegr,LMb.LocalMachineCode,LMSr,LMLr);
+			//asyncremote.SynkMachineRegister(CurrentUser,SynkDBIDRegr,LMb.LocalMachineCode);
+			//would need global as well
+	
+			SetServerCompany(offlinecomp);
+	
+		// Sasha2 "setupsf" flag won't be used
+			/*if (setupsf) then begin
+				SetupSynkMachine(SynkDBIDRegr); //Edit***************************Sasha2,14:07 25.09.2014
+			end;*/
+	
+			BlockLoad(LastRecNr);
+			if (LastRecNr.LastIVCashNr<=0) then begin
+				LastRecNr.LastIVCashNr = ThisMachineLastIVCashNr(LastSerNrRec,LMb.LocalMachineCode);
+				BlockStore(LastRecNr);
+			end;
+			BlockStore(SeqnrRec);
 
-//when SynchroniseBlock working coment out
-//  BlockStore(VATCodeRec); moved before accounts
-  BlockStore(CYRec);
-  BlockStore(LangRec);
-  BlockStore(IVCashDefRec);
-  FilterIVCashSerBlock(IVCashSerRec,LMb.LocalMachineCode,IVCashSerRecClient); //Edit***************************Sasha2,10:12 26.09.2014
-  //BlockStore(IVCashSerRec); //Edit***************************Sasha2,11:22 26.09.2014
-  BlockStore(IVCashSerRecClient); //Edit***************************Sasha2,11:22 26.09.2014
-  BlockStore(CDb);
-  BlockStore(CashPrintRec);
-  BlockStore(CAb);
-  BlockStore(DCb);
-  BlockStore(PMRec);
-//  BlockStore(MainStockRec);//moved before accounts
-  BlockStore(POScb);
-  BlockStore(SFb);
-  BlockStore(MBb);
-  BlockLoad(SeqnrRec);
-  BlockStore(Rb);
-  BlockStore(PCB); //Edit***************************Sasha2,16:02 22.09.2014
-  
-  SynkDBIDRegr.DBIDCode = DatabaseID;
-  if (ReadFirstMain(SynkDBIDRegr,1,true)==false) then begin
-    RecordNew(SynkDBIDRegr);
-    SynkDBIDRegr.DBIDCode = DatabaseID;
-  end;
-  SetupSynkLastNumber(SynkDBIDRegr);
-  
-  SetServerCompany(curcomp);
-  
-  DIVcSeqNr = SeqnrRec.DIVcSeqNr;
-  UnitVcSeqNr = SeqnrRec.UnitVcSeqNr;
-  PLQVcSeqNr = SeqnrRec.PLQVcSeqNr;
-  RebVcSeqNr = SeqnrRec.RebVcSeqNr;
-  ITVcSeqNr = SeqnrRec.ITVcSeqNr;
-  PLVcSeqNr = SeqnrRec.PLVcSeqNr;
-  INVcSeqNr = SeqnrRec.INVcSeqNr;
-  CUVcSeqNr = SeqnrRec.CUVcSeqNr;
-  PLDefVcSeqNr = SeqnrRec.PLDefVcSeqNr;
-  UserVcSeqNr = SeqnrRec.UserVcSeqNr;
-  CTypeVcSeqNr = SeqnrRec.CTypeVcSeqNr;
-  StyleVcSeqNr = SeqnrRec.StyleVcSeqNr;
-  ArtUpdStockVcSeqNr = SeqnrRec.ArtUpdStockVcSeqNr;
-  RecVcSeqNr = SeqnrRec.RecVcSeqNr;
-  DrawerVcSeqNr = SeqnrRec.DrawerVcSeqNr;
-  ItemStatusVcSeqNr = SeqnrRec.ItemStatusVcSeqNr;
-// Custom is for customised purpouse, use it.
-  Custom1VcSeqNr = SeqnrRec.Custom1VcSeqNr;
-  Custom2VcSeqNr = SeqnrRec.Custom2VcSeqNr;
-  Custom3VcSeqNr = SeqnrRec.Custom3VcSeqNr;
-  Custom4VcSeqNr = SeqnrRec.Custom4VcSeqNr;
-  Custom5VcSeqNr = SeqnrRec.Custom5VcSeqNr;
-  Custom6VcSeqNr = SeqnrRec.Custom6VcSeqNr;
-  Custom7VcSeqNr = SeqnrRec.Custom7VcSeqNr;
-  Custom8VcSeqNr = SeqnrRec.Custom8VcSeqNr;
-  Custom9VcSeqNr = SeqnrRec.Custom9VcSeqNr;
-  Custom10VcSeqNr = SeqnrRec.Custom10VcSeqNr;
-  SerBalVcSeqNr = SeqnrRec.SerBalVcSeqNr; //Edit***************************Sasha2,16:07 22.09.2014
-  
-  POSServToOffLine_SynchRegisters(curcomp,offlinecomp,DIVcSeqNr,UnitVcSeqNr,PLQVcSeqNr,RebVcSeqNr,
-                                  ITVcSeqNr,PLVcSeqNr,INVcSeqNr,CUVcSeqNr,PLDefVcSeqNr,UserVcSeqNr,
-                                  CTypeVcSeqNr,StyleVcSeqNr,ArtUpdStockVcSeqNr,RecVcSeqNr,DrawerVcSeqNr,
-                                  ItemStatusVcSeqNr,Custom1VcSeqNr,Custom2VcSeqNr,Custom3VcSeqNr,
-                                  Custom4VcSeqNr,Custom5VcSeqNr,Custom6VcSeqNr,Custom7VcSeqNr,
-                                  Custom8VcSeqNr,Custom9VcSeqNr,Custom10VcSeqNr,
-                                  SerBalVcSeqNr,LMb.DefLocation,LMb.LocalMachineCode); //Edit***************************Sasha2,16:07 22.09.2014
-  SeqnrRec.DIVcSeqNr = DIVcSeqNr;
-  SeqnrRec.UnitVcSeqNr = UnitVcSeqNr;
-  SeqnrRec.PLQVcSeqNr = PLQVcSeqNr;
-  SeqnrRec.RebVcSeqNr = RebVcSeqNr;
-  SeqnrRec.ITVcSeqNr = ITVcSeqNr;
-  SeqnrRec.PLVcSeqNr = PLVcSeqNr;
-  SeqnrRec.INVcSeqNr = INVcSeqNr;
-  SeqnrRec.CUVcSeqNr = CUVcSeqNr;
-  SeqnrRec.PLDefVcSeqNr = PLDefVcSeqNr;
-  SeqnrRec.UserVcSeqNr = UserVcSeqNr;
-  SeqnrRec.CTypeVcSeqNr = CTypeVcSeqNr;
-  SeqnrRec.StyleVcSeqNr = StyleVcSeqNr;
-  SeqnrRec.ArtUpdStockVcSeqNr = ArtUpdStockVcSeqNr;
-  SeqnrRec.RecVcSeqNr = RecVcSeqNr;
-  SeqnrRec.DrawerVcSeqNr = DrawerVcSeqNr;
-  SeqnrRec.ItemStatusVcSeqNr = ItemStatusVcSeqNr;
-  SeqnrRec.Custom1VcSeqNr = Custom1VcSeqNr;
-  SeqnrRec.Custom2VcSeqNr = Custom2VcSeqNr;
-  SeqnrRec.Custom3VcSeqNr = Custom3VcSeqNr;
-  SeqnrRec.Custom4VcSeqNr = Custom4VcSeqNr;
-  SeqnrRec.Custom5VcSeqNr = Custom5VcSeqNr;
-  SeqnrRec.Custom6VcSeqNr = Custom6VcSeqNr;
-  SeqnrRec.Custom7VcSeqNr = Custom7VcSeqNr;
-  SeqnrRec.Custom8VcSeqNr = Custom8VcSeqNr;
-  SeqnrRec.Custom9VcSeqNr = Custom9VcSeqNr;
-  SeqnrRec.Custom10VcSeqNr = Custom10VcSeqNr;
-  SeqnrRec.SerBalVcSeqNr = SerBalVcSeqNr; //Edit***************************Sasha2,16:08 22.09.2014
-  
-  POSServToOffLine_ReadLocalMachineSettings(LMb.LocalMachineCode,LMIBr,LMITLr,LMLr,LMSr,LMSPr,LMr); //Sasha2: Just template no actual realization
-  
-  //setupsf = SynkMachineRegister(CurrentUser,SynkDBIDRegr,LMb.LocalMachineCode,LMSr,LMLr);
-  //asyncremote.SynkMachineRegister(CurrentUser,SynkDBIDRegr,LMb.LocalMachineCode);
-  //would need global as well
-  
-  SetServerCompany(offlinecomp);
-  
-// Sasha2 "setupsf" flag won't be used
-  /*if (setupsf) then begin
-    SetupSynkMachine(SynkDBIDRegr); //Edit***************************Sasha2,14:07 25.09.2014
-  end;*/
-  
-  BlockLoad(LastRecNr);
-  if (LastRecNr.LastIVCashNr<=0) then begin
-    LastRecNr.LastIVCashNr = ThisMachineLastIVCashNr(LastSerNrRec,LMb.LocalMachineCode);
-    BlockStore(LastRecNr);
-  end;
-  BlockStore(SeqnrRec);
-
-  POSServToOffLine_SaveLocalMachineSettings(LMb.LocalMachineCode,LMIBr,LMITLr,LMLr,LMSr,LMSPr);
+			POSServToOffLine_SaveLocalMachineSettings(LMb.LocalMachineCode,LMIBr,LMITLr,LMLr,LMSr,LMSPr);
 
 
-  SetServerCompany(curcomp);
+			SetServerCompany(curcomp);
 
-  EndSync;
-  
-  gSynchServToOfflineSettingsm = false; //Edit***************************Sasha2,16:24 14.10.2014
+			EndSync;
+	
+			gSynchServToOfflineSettingsm = false; //Edit***************************Sasha2,16:24 14.10.2014
+		end;// Edit ************************** Monday, 27 October 2014 14:25:15
+  end;// Edit ************************** Monday, 27 October 2014 14:25:16
 LSynchServToOfflineSettingsm:;
   RETURN;
 END;

@@ -76,8 +76,12 @@ end;
 procedure PopulateAndSavePURow(var array record PUVc PU2r,row PUVc PUrw,var array Integer rownr,integer index)
 begin
   record PUVc PU3r;
-  row PUVc PU3rw;
+  row PUVc PU3rw,PU2rw;
   integer temprownr;
+  boolean found;
+  integer mtrw,i;
+  
+  found = true;
   
   	temprownr = rownr[index];
 	if (temprownr<1) then begin
@@ -86,11 +90,20 @@ begin
 		PU3r = PU2r[index];
 	end;
 	PU3rw.ArtCode = PUrw.ArtCode;
-    PU3rw.UPrice = PUrw.UPrice;
-    MatRowPut(PU3r,temprownr,PU3rw);
-    temprownr = temprownr + 1;
-    rownr[index] = temprownr;
-    PU2r[index] = PU3r;
+	PU3rw.UPrice = PUrw.UPrice;
+	mtrw = matrowcnt(PU3r);
+	For(i=0;i<mtrw;i=i+1) begin
+	  matrowget(PU3r,i,PU2rw);
+	  if(PU2rw.ArtCode==PUrw.ArtCode)then begin
+	  	found = false;
+	  end;
+	end; 
+	if(found)then begin
+		MatRowPut(PU3r,temprownr,PU3rw);
+	end;
+	temprownr = temprownr + 1;
+	rownr[index] = temprownr;
+	PU2r[index] = PU3r;
 
   return;
 end; //Edit***************************Sasha2,17:22 24.10.2014 }
@@ -129,7 +142,7 @@ BEGIN
     	end;
     end;
     
-    previewf = true;
+    previewf = false;
     for (i=0;i<7;i=i+1) begin
     	if (rownr[i]>0) then begin
     		PrintDocument(PU2r[i],"ItemLabForm" & (i+1),previewf);
