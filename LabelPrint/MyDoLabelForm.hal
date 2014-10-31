@@ -254,7 +254,8 @@ BEGIN
   string 30 formcode,langcode;
   val price;
   record DocVc Docr;
-    
+  boolean formisopen;
+  integer curcp,maxcps;
     
   pucnt = MatRowCnt(PUr);
   if (pucnt==0) then begin
@@ -268,6 +269,8 @@ BEGIN
   
   intdocnr = 1;
   printf = true;
+  formisopen = false;
+  curcp = 1;
   
   rwcnt = MatRowCnt(FDr);
   while (printf) begin  
@@ -286,25 +289,47 @@ LBREAK:;
       testf = true;
       //if(nonblank(INr.DefFormCode)and(INr.DefFormCode!=formcode))then begin testf = false; end;
       if(testf)then begin
-        if (OpenForm(formcode)) then begin 
+        //if (OpenForm(formcode)) then begin 
         	for (j=0;j<pucnt;j=j+1) begin
-        		matrowget(Pur,j,PUrw);
-        		INr.Code = PUrw.ArtCode;
-        		if (NonBlank(PUrw.ArtCode) and ReadFirstMain(INr,1,true)) then begin
-        			RepSpec.f3 = INr.Code;
-		            RepSpec.f4 = INr.LPriceList;
-		            RepSpec.f5 = INr.LDefFormCode;
-		            Docr.Code = formcode;
-		            price = PUrw.UPrice;
-		            //ReadFirstMain(Docr,1,true);
-		            PrintItemLabel(RepSpec,INr,price,INr.LPriceList,INr.LCurncyCode,currentdate/*,Docr*/); 
-        		end;	
+        		if(formisopen==false)then begin
+							if (OpenForm(formcode)) then begin 
+								formisopen = true;
+								maxcps = LabelSetup(3,0);
+							end else begin
+								printf = false;
+								MessageBox(1546,formcode);
+								goto lEnd;
+							end;
+						end;
+        		if(formisopen)then begin
+							matrowget(Pur,j,PUrw);
+							INr.Code = PUrw.ArtCode;
+							if (NonBlank(PUrw.ArtCode) and ReadFirstMain(INr,1,true)) then begin
+								RepSpec.f3 = INr.Code;
+								RepSpec.f4 = INr.LPriceList;
+								RepSpec.f5 = INr.LDefFormCode;
+								Docr.Code = formcode;
+								price = PUrw.UPrice;
+								//ReadFirstMain(Docr,1,true);
+								PrintItemLabel(RepSpec,INr,price,INr.LPriceList,INr.LCurncyCode,currentdate/*,Docr*/); 
+								EndFormLabel;
+								if (curcp>=maxcps) then begin
+									CloseForm;
+									formisopen = false;
+									curcp = 1;
+								end else begin
+									curcp = curcp+1;
+								end;
+							end;	
+        		end;
         	end; 
-            CloseForm;  
-        end else begin
+					if(formisopen)then begin
+						CloseForm;  
+					end;
+        /*end else begin
           printf = false;
           MessageBox(1546,formcode);
-        end;
+        end;*/
       end;
     end else begin
       printf = false;
@@ -314,6 +339,7 @@ LBREAK:;
     end;
     intdocnr = intdocnr + 1;
   end;
+lEnd:;
   RETURN;
 END;
 
