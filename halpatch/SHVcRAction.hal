@@ -203,58 +203,74 @@ begin
   	StockMovexists = ReadFirstKey("OrderNr",StockMovr,1,true);
 	if (StockMovexists) then begin
 		
+		TrHs = true;
 		while (LoopKey("OrderNr",StockMovr,1,true)) begin
-			if (StockMovr.OrdFlag==1 and StockMovr.OKFlag==1 and StockMovr.OrderNr==ORr.SerNr) then begin
-				rwcnt=MatRowCnt(StockMovr);
-				for (i=0;i<rwcnt;i=i+1) begin
-					MatRowGet(StockMovr,i,StockMovrw);
-					testf = true;
-					if (StockMovrw.ArtCode!=SHrw.ArtCode or StockMovrw.ORRow!=SHrw.OrdRow) then begin testf = false; end;
-					if (NonBlank(SHrw.SerialNr) and SHrw.SerialNr!=StockMovrw.SerialNr) then begin  testf = false; end;
-					if (testf) then begin
-						if (StockMovr.ToLocation==ORr.Location) then begin
-  							itemqty = itemqty + StockMovrw.Quant;
-  						end;
-  						if (StockMovr.FrLocation==ORr.Location) then begin
-  							itemqty = itemqty - StockMovrw.Quant;
-  						end;
+			testf = true;
+			if(StockMovr.OrderNr!=ORr.SerNr) then begin testf = false; TrHs = false; end;
+			if (testf) then begin
+				if (StockMovr.OrdFlag==1 and StockMovr.OKFlag==1) then begin
+					rwcnt=MatRowCnt(StockMovr);
+					for (i=0;i<rwcnt;i=i+1) begin
+						MatRowGet(StockMovr,i,StockMovrw);
+						testf = true;
+						if (StockMovrw.ArtCode!=SHrw.ArtCode or StockMovrw.ORRow!=SHrw.OrdRow) then begin testf = false; end;
+						if (NonBlank(SHrw.SerialNr) and SHrw.SerialNr!=StockMovrw.SerialNr) then begin  testf = false; end;
+						if (testf) then begin
+							if (StockMovr.ToLocation==ORr.Location) then begin
+	  							itemqty = itemqty + StockMovrw.Quant;
+	  						end;
+	  						if (StockMovr.FrLocation==ORr.Location) then begin
+	  							itemqty = itemqty - StockMovrw.Quant;
+	  						end;
+						end;
 					end;
 				end;
 			end;
+			
 		end; RESETLOOP(StockMovr);
 		
 		SH2r.OrderNr = ORr.SerNr;
 		TrHs = true;
 		while (LoopKey("OrderKey",SH2r,1,TrHs)) begin
-			if (SH2r.OKFlag==1 and SH2r.OrderNr==ORr.SerNr) then begin
-				rwcnt=MatRowCnt(SH2r);
-				for (i=0;i<rwcnt;i=i+1) begin
-					MatRowGet(SH2r,i,SH2rw);
-					testf = true;
-					if (SH2rw.ArtCode!=SHrw.ArtCode or SH2rw.OrdRow!=SHrw.OrdRow) then begin testf = false; end;
-					if (NonBlank(SHrw.SerialNr) and SHrw.SerialNr!=SH2rw.SerialNr) then begin  testf = false; end;
-					if (testf) then begin
-  						itemqty = itemqty - SH2rw.Ship;
+			testf = true;
+			if(SH2r.OrderNr!=ORr.SerNr) then begin testf = false; TrHs = false; end;
+			if (testf) then begin
+				if (SH2r.OKFlag==1) then begin
+					rwcnt=MatRowCnt(SH2r);
+					for (i=0;i<rwcnt;i=i+1) begin
+						MatRowGet(SH2r,i,SH2rw);
+						testf = true;
+						if (SH2rw.ArtCode!=SHrw.ArtCode or SH2rw.OrdRow!=SHrw.OrdRow) then begin testf = false; end;
+						if (NonBlank(SHrw.SerialNr) and SHrw.SerialNr!=SH2rw.SerialNr) then begin  testf = false; end;
+						if (testf) then begin
+	  						itemqty = itemqty - SH2rw.Ship;
+						end;
 					end;
 				end;
 			end;
+			
 		end; RESETLOOP(SH2r);
 		
 		Retr.OrdNr = ORr.SerNr;
 		TrHs = true;
 		while (LoopKey("OrdNr",Retr,1,TrHs)) begin
-			if (Retr.OKFlag==1 and Retr.OrdNr==ORr.SerNr and Retr.Location==SHp.Location) then begin
-				rwcnt=MatRowCnt(Retr);
-				for (i=0;i<rwcnt;i=i+1) begin
-					MatRowGet(Retr,i,Retrw);
-					testf = true;
-					if (Retrw.ArtCode!=SHrw.ArtCode or Retrw.OrdRow!=SHrw.OrdRow) then begin testf = false; end;
-					if (NonBlank(Retrw.SerialNr) and SHrw.SerialNr!=Retrw.SerialNr) then begin  testf = false; end;
-					if (testf) then begin
-  						itemqty = itemqty + Retrw.Quant;
+			testf = true;
+			if(Retr.OrdNr!=ORr.SerNr) then begin testf = false; TrHs = false; end;
+			if (testf) then begin
+				if (Retr.OKFlag==1 and Retr.Location==SHp.Location) then begin
+					rwcnt=MatRowCnt(Retr);
+					for (i=0;i<rwcnt;i=i+1) begin
+						MatRowGet(Retr,i,Retrw);
+						testf = true;
+						if (Retrw.ArtCode!=SHrw.ArtCode or Retrw.OrdRow!=SHrw.OrdRow) then begin testf = false; end;
+						if (NonBlank(Retrw.SerialNr) and SHrw.SerialNr!=Retrw.SerialNr) then begin  testf = false; end;
+						if (testf) then begin
+	  						itemqty = itemqty + Retrw.Quant;
+						end;
 					end;
 				end;
 			end;
+			
 		end; RESETLOOP(Retr);
 		
 	end else begin
