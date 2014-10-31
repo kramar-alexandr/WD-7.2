@@ -801,6 +801,7 @@ begin
   RecordField(DelRecipientGLN,M4Str,20,0);
   RecordField(IntrastatTransCode,M4Code,20,0);
   RecordField(ReservToDate,M4Date,0,0);// Edit ************************** Tuesday, 23 September 2014 21:46:08
+  RecordField(ShopsMark,M4Mark,0,0);// Edit ************************** Friday, 31 October 2014 15:51:47
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
   ArrayField(ArtCode,M4Code,20,INVc);
@@ -861,6 +862,7 @@ begin
   ArrayField(Salesmen,M4UStr,60,UserVc);
   ArrayField(OrderType,M4Set,433,0);
   ArrayField(UnitComment,M4Str,200,0);
+  ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28
   EndArray;
   MainKeyBegin(SerNr,1);
   StoreInBaseKey;
@@ -1098,6 +1100,13 @@ begin
   AppendListFieldToKeyName(SalesMan);
   AppendListFieldToKeyName(SalesGroup);
   KeySegment(Location);
+  KeySegment(SerNr);
+  
+  SubsetKeyBegin2(ShopsMark);// Edit ************************** Friday, 31 October 2014 15:54:02
+  StoreInBaseKey;
+  AppendListFieldToKeyName(SalesMan);
+  AppendListFieldToKeyName(SalesGroup);
+  KeySegment(ShopsMark);
   KeySegment(SerNr);
     
   EndRecord;

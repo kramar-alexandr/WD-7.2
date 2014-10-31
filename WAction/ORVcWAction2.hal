@@ -1022,7 +1022,7 @@ begin
     if ((INr.ItemType==kItemTypePlain) or (INr.ItemType==kItemTypeService)) then begin
       testf = (ORrw.Invd>0)==true;
     end else begin
-      testf = (ORrw.Shipd1>0)==true or (ORrw.Invd>0)==true;
+      testf = (ORrw.Shipd1>0)==true or (ORrw.Invd>0)==true  or (ORrw.Shopd>0)==true;// Edit ************************** Friday, 31 October 2014 16:09:22
     end;
     if (testf) then begin
       res = true;

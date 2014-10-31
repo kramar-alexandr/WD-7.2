@@ -1419,6 +1419,19 @@ begin
         notfullyshpf = true;
       end;
     end;
+    // Edit Start ---------------------------------------------- Edit Start
+	//Friday, 31 October 2014 15:58:00
+	
+    if (ORrw.Shipd>0) then begin
+      shipf = true;
+      if ((ORrw.Shipd2!=ORrw.Quant) or
+          (ORrw.Invd!=ORrw.Quant)) then begin
+        notfullyshpf = true;
+      end;
+    end;
+    
+	// Edit End ---------------------------------------------- Edit End
+	
   end;
   Retr.OrdNr = ORp.SerNr;
   if (ReadFirstKey("OrdNr",Retr,1,true)) then begin
