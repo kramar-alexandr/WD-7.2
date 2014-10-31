@@ -65,6 +65,7 @@ external function Integer CheckSerialStatus(string,string,var string);
 external function Boolean Date2Test(string,Date,string,Integer);
 external function Boolean SerNrTestSHVc(LongInt,Date,var Boolean);
 external function val FindPUBaseRate2forSerialNr(string,string);
+external updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
 
 function Boolean StockMovOKedForSH(LongInt shnr,var LongInt stmovnr)
 begin
@@ -1593,6 +1594,7 @@ global
 updating function LongInt SHVcRecordSaveAfter(var record SHVc SHr,record SHVc SH2r,LongInt stat,LongInt long4)
 begin
   LongInt res;
+  record ORVc ORr; //Edit***************************Sasha2,17:48 31.10.2014
 
   if (SHr.OKFlag!=0) then begin
     SHUpdateItemHist(SHr);
@@ -1611,6 +1613,14 @@ begin
   if (nonblank(SHr.OfficialSerNr)) then begin
     UpdateOffSerNr(SHr.SerNr,"SHVc",0,SHr.OfficialSerNr,false);
   end;
+  
+  if (SHr.OKFlag!=0 and SHr.OrderNr>-1) then begin //Edit***************************Sasha2,17:48 31.10.2014 {
+  	ORr.SerNr = SHr.OrderNr;
+  	if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops") then begin
+  		RecalcORShops(ORr.SerNr & "");
+  	end;
+  end; //Edit***************************Sasha2,17:48 31.10.2014 }
+  
   SHVcRecordSaveAfter = res; 
   return;
 end;
@@ -1702,6 +1712,7 @@ begin
   Integer errcode;
   record OrdSettBlock OSb;
   record AutoActionBlock AAb;
+  record ORVc ORr; //Edit***************************Sasha2,17:48 31.10.2014
 
   
   ihef = ItemHistExists("SHVc",SHr.SerNr);
@@ -1730,6 +1741,14 @@ begin
         end;
       end;
     end;
+    
+    if (SHr.OrderNr>-1) then begin //Edit***************************Sasha2,17:48 31.10.2014 {
+	  	ORr.SerNr = SHr.OrderNr;
+	  	if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops") then begin
+	  		RecalcORShops(ORr.SerNr & "");
+		end;
+	end; //Edit***************************Sasha2,17:48 31.10.2014 }
+	
   end;
   if ((SH2r.OKFlag==0) and (SHr.OKFlag==0)) then begin
 //    UpdateSerialNumberQuantity(SH2r,false);//Not Used
