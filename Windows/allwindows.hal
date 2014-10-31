@@ -2133,7 +2133,7 @@ begin
   MatCol(t,-236,"Відв. 1",0,Shipd1,true,0); 
   MatCol(t,-184,"Відв. 2",0,Shipd2,true,0); 
   MatCol(t,-132,"Накладна",0,Invd,true,0); 
-  MatCol(t,-80,"Шопс",0,Shopd,true,0); 
+  MatCol(t,-80,"Шопс",0,Shopd,true,0); // Edit ************************** Friday, 31 October 2014 16:18:27
   //MatCol(t,-80,"Структура",0,Recepy,false,RecSClass);// Edit ************************** Friday, 31 October 2014 16:17:44
   MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменув.",0,Spec,false,0);
   MatCol(t,-290,"Відв. 1",0,Shipd1,true,0);
@@ -5707,7 +5707,8 @@ begin
     RlColKey(-200,-200,"Вид",OrderClass,false,OrderClass);
     RlColKey(-155,-155,"Всього",Sum4,true,Sum4);
     //RlCol(-75,-75,"Попер. сплачено",DownPaySent,true);// Edit ************************** Wednesday, 24 September 2014 09:46:50
-    RlColKey(-75,-75,"Резерв",Reserved,true,Reserved);// Edit ************************** Wednesday, 24 September 2014 09:46:50
+    RlColKey(-80,-80,"Шопс",ShopsMark,true,ShopsMark);// Edit ************************** Wednesday, 24 September 2014 09:46:50
+    RlColKey(-40,-40,"Резерв",Reserved,true,Reserved);// Edit ************************** Wednesday, 24 September 2014 09:46:50
   end else begin
     RlColKey(-55,-55,"Всього",Sum4,true,Sum4); 
   end;

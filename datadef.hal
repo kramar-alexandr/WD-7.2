@@ -715,7 +715,7 @@ begin
   RecordField(Sum2,M4Val,0,0);
   RecordField(Sum3,M4Val,0,0);
   RecordField(Sum4,M4Val,0,0);
-  RecordField(Reserved,M4Int,0,0);
+  RecordField(Reserved,M4Mark,0,0);// Edit ************************** Friday, 31 October 2014 16:31:30
   RecordField(OSFlag,M4Int,0,0);
   RecordField(Location,M4Code,10,LocationVc);
   FieldIsLocation(Location);
