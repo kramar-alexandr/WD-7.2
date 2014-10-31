@@ -2,9 +2,9 @@ remote procedure ReadSer(var integer,string,var array val,var array string,var a
 external procedure DellSUPP();
 remote procedure DellINMn();
 external procedure SynchServToOfflineSettingsm();
-external procedure PrintFiscalReceipt(record IVCashVc);
+external function boolean PrintFiscalReceipt(record IVCashVc);
 remote function MyServLog(string);
-external procedure prt(string,string);
+external procedure prt(string,string,boolean);
 remote procedure MyConvertCur(var record CashVc);
 external procedure MyCashInOutClient(val);
 remote procedure SavingCash(var record CashVc);
@@ -161,9 +161,10 @@ END;
 global
 procedure MyCancelMn()
 begin
+  boolean successf;
 	
 	//RunProgram("Datecs/prt.exe","cancel");
-	prt("cancel","")
+	prt("cancel","",successf);
 	RETURN;
 END;
 
@@ -172,9 +173,9 @@ END;
 global
 procedure MyBigReportMn()
 begin
-	
+	boolean successf;
 	//RunProgram("Datecs/prt.exe","bigreport");
-	prt("bigreport","");
+	prt("bigreport","",successf);
 	RETURN;
 END;
 
@@ -186,6 +187,7 @@ function ZreportSt()
 begin
 	integer wn;
 	record RcVc RecSpec;
+	boolean successf;
 	
 	wn=CurWindow;
 	GetWindowRecord(wn,RecSpec);
@@ -193,12 +195,12 @@ begin
 	if ((RecSpec.flags[1]==1)and (RecSpec.flags[2]==1) and (RecSpec.flags[3]==1)) then begin
 		if(RecSpec.flags[4]!=1) then begin
 			//RunProgram("Datecs/prt.exe","nullcheck");
-			prt("nullcheck","");
+			prt("nullcheck","",successf);
 			Sleep(3);
 		end;
 		
 		//RunProgram("Datecs/prt.exe","zreport");
-		prt("zreport","");
+		prt("zreport","",successf);
 		DellSUPP;
 	end;
 	
@@ -214,6 +216,7 @@ begin
 	record RcVc RecSpec;
 	string 4 ds,de,ms,me,ys,ye;
 	string 20 command;
+	boolean successf;
 	
 	wn=CurWindow;
 	deselectwindow(wn,true);
@@ -241,7 +244,7 @@ begin
 		
 		//command = "periodreportshort " & ds & ms & ys & " " & de & me & ye;
 		//StopAlert(ds & ms & ys & " " & de & me & ye);
-		prt("periodreportshort",ds & ms & ys & " " & de & me & ye);
+		prt("periodreportshort",ds & ms & ys & " " & de & me & ye,successf);
 		//RunProgram("Datecs/prt.exe",command);
 		
 	end;
@@ -279,8 +282,9 @@ begin
 area command;
 string 255 com;
 integer sq;
+boolean successf;
 
-  prt("xreport","");
+  prt("xreport","",successf);
 	
 	
 	RETURN;
@@ -291,9 +295,10 @@ END;
 global
 function NullReciept()
 begin
+  boolean successf;
 	
 	//RunProgram("Datecs/prt.exe","nullcheck");
-	prt("nullcheck","");
+	prt("nullcheck","",successf);
 	RETURN;
 END;	
 
@@ -301,9 +306,10 @@ END;
 global
 function errorfix()
 begin
+  boolean successf;
 	
 	//RunProgram("Datecs/prt.exe","nullcheck");
-	prt("errorfix","");
+	prt("errorfix","",successf);
 	RETURN;
 END; 
 
@@ -312,8 +318,9 @@ END;
 global
 updating function SetTimePrinter()
 begin
+  boolean successf;
 
-	prt("settimeprinter","");
+	prt("settimeprinter","",successf);
 	
 	RETURN;
 END;	 
@@ -322,6 +329,7 @@ END;
 global
 updating function DelNul()
 begin
+  boolean successf;
 	record POSEventVc PEr;
 	Boolean TrHs;
 	PEr.Drawer="";
@@ -345,9 +353,10 @@ END;
 global
 function SetPrinterUPString()
 begin
+  boolean successf;
 
 	
-	prt("UPString",USetStr(31001));
+	prt("UPString",USetStr(31001),successf);
 	
 	RETURN;
 END;	 
@@ -356,9 +365,10 @@ END;
 global
 function SetPrinterDOWNString()
 begin
+  boolean successf;
 
 	
-	prt("DOWNString",USetStr(31001));
+	prt("DOWNString",USetStr(31001),successf);
 	
 	RETURN;
 END;

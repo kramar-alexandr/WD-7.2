@@ -275,6 +275,25 @@ begin
   RETURN;
 END;
 
+//Edit***************************Sasha2,14:57 28.10.2014 {
+procedure PopulateClientDefCashBlock(var record DefCashBlock DCb,string locmachine,record LocalMachineAccBlock LMAb)
+begin
+  row LocalMachineAccBlock LMArw;
+  integer i,rwcnt;
+  
+      rwcnt = matrowcnt(LMAb);
+      for (i=0;i<rwcnt;i=i+1) begin
+        MatRowGet(LMAb,i,LMArw);
+        if(LMArw.LocalMachine==locmachine)then begin
+          DCb.DefCashPayMode = LMArw.CashID;
+          DCb.DefCCPayMode = LMArw.TermID;
+          i = rwcnt;
+        end;
+      end;
+
+  return;
+end; //Edit***************************Sasha2,14:57 28.10.2014 }
+
 procedure FilterIVCashSerBlock(record IVCashSerBlock IVCSBServer,string locmachine,var record IVCashSerBlock IVCSBClient)
 begin
   row IVCashSerBlock IVCSBServerw;
@@ -375,10 +394,10 @@ BEGIN
   	// Edit Start ---------------------------------------------- Edit Start
 	//Monday, 27 October 2014 16:18:23
 		
-		if (blank(LMb.LocalMachineCode)) then begin /*goto LSynchServToOfflineSettingsm; end;*/
-			// Edit Start ---------------------------------------------- Edit Start
-			//Monday, 27 October 2014 14:25:56
-			blockLoad(LMAb);
+	if (blank(LMb.LocalMachineCode)) then begin /*goto LSynchServToOfflineSettingsm; end;*/
+	  // Edit Start ---------------------------------------------- Edit Start
+	  //Monday, 27 October 2014 14:25:56
+	  blockLoad(LMAb);
       rwcnt = matrowcnt(LMAb);
       for (i=0;i<rwcnt;i=i+1) begin
         MatRowGet(LMAb,i,LMArw);
@@ -393,7 +412,7 @@ BEGIN
       end;
       blockstore(LocalMachineRec);
 			// Edit End ---------------------------------------------- Edit End
-		end;
+	end;
   	
   	blockload(CRr);
   	blockload(OSb);
@@ -401,7 +420,7 @@ BEGIN
     compcode = comprw.CompCode;
     rwcnt = matrowcnt(CRr);
     k=0;
-    for(i=0;i<rwcnt;i=i+1)begin
+    for (i=0;i<rwcnt;i=i+1) begin
     	matrowget(CRr,i,comprw);
       if(comprw.CompCode!=compcode)then begin
         comprw.ActiveStatus=1;
@@ -425,7 +444,7 @@ BEGIN
     
 	// Edit End ---------------------------------------------- Edit End
 	
-  end else begin// Edit ************************** Monday, 27 October 2014 14:19:43
+  end else begin // Edit ************************** Monday, 27 October 2014 14:19:43
 		//goto LSynchServToOfflineSettingsm; end;// Edit ************************** Monday, 27 October 2014 14:19:44
 
 		gSynchServToOfflineSettingsm = true;
@@ -433,6 +452,7 @@ BEGIN
 		BlockLoad(LMb);  
 		BlockLoad(SeqnrRec);
 		BlockLoad(IVCashSerRecClient); //Edit***************************Sasha2,11:21 26.09.2014
+		BlockLoad(DCb); //Edit***************************Sasha2,14:30 28.10.2014
 		SetServerCompany(curcomp);
 
 		BlockLoad(OffLb);  
@@ -441,19 +461,19 @@ BEGIN
 			// Edit Start ---------------------------------------------- Edit Start
 			//Monday, 27 October 2014 14:25:56
 			blockLoad(LMAb);
-      rwcnt = matrowcnt(LMAb);
-      for (i=0;i<rwcnt;i=i+1) begin
-        MatRowGet(LMAb,i,LMArw);
-        if(LMArw.UserCode==CurrentUser)then begin
-          LocalMachineRec.LocalMachineCode = LMArw.LocalMachine;
-          LocalMachineRec.DefLocation = LMArw.DefLoc;
-          LocalMachineRec.DefCustCode = LMArw.CustCode;
-          LocalMachineRec.DefReturnLocation = LMArw.DefLoc;
-          LocalMachineRec.NoServerModeIdle = 1;
-          res = true;
-        end;
-      end;
-      blockstore(LocalMachineRec);
+		      rwcnt = matrowcnt(LMAb);
+		      for (i=0;i<rwcnt;i=i+1) begin
+		        MatRowGet(LMAb,i,LMArw);
+		        if(LMArw.UserCode==CurrentUser)then begin
+		          LocalMachineRec.LocalMachineCode = LMArw.LocalMachine;
+		          LocalMachineRec.DefLocation = LMArw.DefLoc;
+		          LocalMachineRec.DefCustCode = LMArw.CustCode;
+		          LocalMachineRec.DefReturnLocation = LMArw.DefLoc;
+		          LocalMachineRec.NoServerModeIdle = 1;
+		          res = true;
+		        end;
+		      end;
+		      blockstore(LocalMachineRec);
 			// Edit End ---------------------------------------------- Edit End
 		end else begin
 		
@@ -468,7 +488,7 @@ BEGIN
 			BlockLoad(CDb);
 			BlockLoad(CashPrintRec);
 			BlockLoad(CAb);
-			BlockLoad(DCb);
+			//BlockLoad(DCb); //Edit***************************Sasha2,14:25 28.10.2014
 			BlockLoad(PMRec);
 			BlockLoad(MainStockRec);
 			BlockLoad(POScb);
@@ -477,6 +497,7 @@ BEGIN
 			BlockLoad(LastSerNrRec);
 			BlockLoad(Rb);
 			BlockLoad(PCB); //Edit***************************Sasha2,16:02 22.09.2014
+			BlockLoad(LMAb); //Edit***************************Sasha2,14:41 28.10.2014
 
 			AccVcSeqNr = SeqnrRec.AccVcSeqNr;
 			OTVcSeqNr = SeqnrRec.OTVcSeqNr;
@@ -526,6 +547,7 @@ BEGIN
 			BlockStore(CDb);
 			BlockStore(CashPrintRec);
 			BlockStore(CAb);
+			PopulateClientDefCashBlock(DCb,LMb.LocalMachineCode,LMAb); //Edit***************************Sasha2,14:49 28.10.2014
 			BlockStore(DCb);
 			BlockStore(PMRec);
 		//  BlockStore(MainStockRec);//moved before accounts

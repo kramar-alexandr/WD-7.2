@@ -9,7 +9,7 @@ external function Integer TestCleanCashIdentity(Boolean,record LSerialPortDevice
 external updating procedure IVCashVc_SendToSerialPortDevices(Integer,LongInt,record IVCashVc,record IVCashVc);
 remote updating procedure RecordActionIVCash_Print(var record IVCashVc,string,Boolean);
 external procedure RemoveOldCustObjects(string,var string);
-external updating procedure PrintFiscalReceipt(record IVCashVc); //Edit***************************Sasha2,14:59 26.09.2014
+external updating function boolean PrintFiscalReceipt(record IVCashVc); //Edit***************************Sasha2,14:59 26.09.2014
 
 updating procedure SaveOffLineLastIVCashNr(LongInt sernr)
 begin
@@ -150,8 +150,10 @@ if we don't close the window soon we will have more then 100 windows open
   //IVCashVc_SendToSerialPortDevices(kSerialPortDeviceClassFiscalPrinter,stat,IVCashp,IVCash2p); //Edit***************************Sasha2,14:59 26.09.2014
   //IVCashVc_SendToSerialPortDevices(kSerialPortDeviceClassFiscalControlUnit,stat,IVCashp,IVCash2p); //Edit***************************Sasha2,14:59 26.09.2014
     
-  if (true /*(IVCashp.FiscalFlag!=0) and (IVCashp.OKFlag!=0)*/ /*and (IVCashp.Prntdf==0)*/) then begin
-  	PrintFiscalReceipt(IVCashp); //Edit***************************Sasha2,15:00 26.09.2014
+  if ((IVCash2p.OKFlag==0) and (IVCashp.OKFlag==1)/*(IVCashp.FiscalFlag!=0) and (IVCashp.OKFlag!=0)*/ /*and (IVCashp.Prntdf==0)*/) then begin
+  	if (PrintFiscalReceipt(IVCashp)) then begin //Edit***************************Sasha2,15:00 26.09.2014
+  		//IVCashp.Prntdf = 1; //Edit***************************Sasha2,16:52 28.10.2014
+  	end; 
   end;
   ResetDisplayDsm;
   if (HasLocalization("MEX")) then begin
@@ -200,8 +202,10 @@ BEGIN
   BlockStore(LMb);
   //IVCashVc_SendToSerialPortDevices(kSerialPortDeviceClassFiscalPrinter,Rs_insert,IVCashp,IVCash2p); //Edit***************************Sasha2,15:06 26.09.2014
   //IVCashVc_SendToSerialPortDevices(kSerialPortDeviceClassFiscalControlUnit,Rs_insert,IVCashp,IVCash2p); //Edit***************************Sasha2,15:06 26.09.2014
-  if (true /*(IVCashp.FiscalFlag!=0) and (IVCashp.OKFlag!=0)*/ /*and (IVCashp.Prntdf==0)*/) then begin
-  	PrintFiscalReceipt(IVCashp); //Edit***************************Sasha2,15:00 26.09.2014
+  if ((IVCashp.OKFlag==1) /*(IVCashp.FiscalFlag!=0) and (IVCashp.OKFlag!=0)*/ /*and (IVCashp.Prntdf==0)*/) then begin
+  	if (PrintFiscalReceipt(IVCashp)) then begin //Edit***************************Sasha2,15:00 26.09.2014
+  		//IVCashp.Prntdf = 1; //Edit***************************Sasha2,16:53 28.10.2014
+  	end;
   	SetPOSWindowDisplayChange(IVCashp.RetValue);
   end; 
   if (HasLocalization("MEX")) then begin

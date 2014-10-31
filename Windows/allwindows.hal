@@ -6066,25 +6066,23 @@ begin
 //  EditField(h3,v,70,"POSSalesNo",Normal,POSSalesNo,false,0);
   EnterSkip(PayDeal);
   EditField(h3 + 20,v,70,"Продавець",Normal,SalesMan,false,UserSClass);
-  EditField(h3 + 20,v+vs,30,"Сп.",Normal,PayDeal3,false,RestPMSClass); //Edit***************************Sasha2,15:56 26.09.2014
   EditField(h4,v,70,"Здача",ViewOnly,RetValue,true,0); //Edit***************************Sasha2,16:02 26.09.2014
-  //EditField(h4+150,v,70,"Продавець",Normal,SalesMan,false,UserSClass); //Edit***************************Sasha2,16:02 26.09.2014
-  EditField(h,v+=vs,30,"Спосіб спл.",Normal,PayDeal,false,RestPMSClass);
+  EditField(h,v+=vs,30,/*"Спосіб спл."*/"Термінал",Normal,PayDeal,false,RestPMSClass);
   EditField(h2,v,80,"Сплач.",Normal,RecValue,true,0);
+  EditField(h3+15,v,80,"Подар. серт.",Normal,RecValue2,true,0); //Edit***************************Sasha2,
+  EditField(h3+150,v,80,"Приват",Normal,RecValue3,true,0); //Edit***************************Sasha2,15:56 26.09.2014
+  EditField(h3+275,v,30,"Сп.",Normal,PayDeal3,false,RestPMSClass); //Edit***************************Sasha2,15:56 26.09.2014
   //EditField(h3,v,100,"Кр. картка",Normal,CreditCard,false,CreditCardSClass); //Edit***************************Sasha2,15:56 26.09.2014
   //EditField(h4,v,70,"Авториз.",Normal,AuthorizationCode,false,0); //Edit***************************Sasha2,15:56 26.09.2014
-  EditField(h,v+=vs, -20,"Коментар",Normal,InvComment,false,0);
+  EditField(h,v+=vs,-20,"Коментар",Normal,InvComment,false,0);
   //EditField(h,v+=vs,30,"Спосіб спл.",Normal,PayDeal2,false,RestPMSClass); //Edit***************************Sasha2,15:56 26.09.2014
-  
-  EditField(h+470,v-20,80,"Приват",Normal,RecValue3,true,0); //Edit***************************Sasha2,15:56 26.09.2014
-  
-  EditField(h2,v,80,"Сплач.",Normal,RecValue2,true,0);
-  EditField(h3,v,100,"Кр. картка",Normal,CreditCard2,false,CreditCardSClass);
-  EditField(h4,v,70,"Авториз.",Normal,AuthorizationCode2,false,0);
-  if (StandardHansa==false) then begin
-  EditField(h3,v+=vs,100,"Накопичувалні бали",ViewOnly,Points,true,0);
+    
+  //EditField(h3,v,100,"Кр. картка",Normal,CreditCard2,false,CreditCardSClass); //Edit***************************Sasha2,16:19 28.10.2014
+  //EditField(h4,v,70,"Авториз.",Normal,AuthorizationCode2,false,0); //Edit***************************Sasha2,15:25 28.10.2014
+  /*if (StandardHansa==false) then begin //Edit***************************Sasha2,16:19 28.10.2014 {
+  EditField(h3,v+=vs,100,"Накопичувальні бали",ViewOnly,Points,true,0);
   EditField(h4,v,70,"Програма лояльності",ViewOnly,LCMLevel,false,LCMemberLevelSClass);
-  end;
+  end;*/ //Edit***************************Sasha2,16:19 28.10.2014 }
 /* We don't have currency, why do we need Base??? */
 //  EditField(330,-26,95,"Осн.1",ViewOnly,BaseSum4,true,0);
   EnterSkip(Math); 
@@ -6379,5 +6377,31 @@ end;
   SpecialMenu("Export",'',10,"ExportDocToFileDsm");
 	SpecialMenu("Import",'',10,"ImportDocFromFileDsm");
   end;
+  EndWindow;
+end;
+
+window IVCashSerTClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,h5,v;
+    
+  h = 8; v = 60;
+  h1=24; h2=h1+80; h3=h2+80; h4=h3+80; h5=h4+80;
+  WindowBegin("Серії номерів - Накладні ЕККА",IVCashSerTClass,CGHbl,HBlRecType);
+  SetBlid(IVCashSerBlock);
+  SetWRect(20,80,532,357);
+    Sizeable(-1,-1,0,0);
+    StaticText(h+h1+5,v-23,"Номер",false);
+    StaticText(h+h3+5,v-23,"Дата",false);
+    MatrixBegin(h,v,-31,-20,IVSerRowType,199);
+    MatCol(1,h1,"З",0,TSerStart,false,0);
+    MatCol(1,h2,"По",0,TSerEnd,false,0);
+    MatCol(1,h3,"З дати",0,StartDate,false,0);
+    MatCol(1,h4,"По дату",0,EndDate,false,0);
+    MatCol(1,h5,/*"Коментар"*/"Лок.маш.",0,TSerCom,false,0); //Edit***************************Sasha2,13:41 28.10.2014
+    if (HasModNL and Left(BuildProductCode,5)!="Books") then begin
+      MatCol(1,-70,"Журнал опер.",0,DonotGenTrans,false,SetSClass);
+    end;
+    EndMatrix;
   EndWindow;
 end;

@@ -75,7 +75,6 @@ external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,va
 external procedure GetBaseCurncy(Integer,var string);
 external function Boolean PasteCustInCashInv(var record IVCashVc,string,string,var string);
 remote function Boolean POSOffLineToServ_SynchRegisters_ShouldBeSynchronised(string); //Edit***************************Sasha2,18:08 24.09.2014
-external updating procedure PrintFiscalReceipt(record IVCashVc); //Edit***************************Sasha2,14:18 26.09.2014
 
 
 //Edit***************************Sasha2,13:57 24.09.2014 {
@@ -140,6 +139,7 @@ begin
   string 255 tstr,warning;
   record SRBlock SRb;  
   Boolean gentrans;
+  record DefCashBlock DCb;// Edit ************************** Wednesday, 6 June 2012 15:07:34 
   
   curdate = CurrentDate;
   BlockLoad(ARAccRec);  
@@ -163,6 +163,12 @@ begin
   IVCashr.ARAcc = ARAccRec.ARAcc;
   IVCashr.PriceList = "";
   IVCashr.PayDeal = "";
+  
+  IVCashr.LocalMachineCode = CurMachineName;// Edited Tuesday, 27 July 2010 10:14:48
+  BlockLoad(DCb);
+  IVCashr.PayDeal2 = DCb.DefGCSPayMode;
+  //IVCashr.PayDeal3 = DCb.DefGCRPayMode;// Edit ************************** Monday, 15 April 2013 17:19:56
+  
   IVCashr.Objects = "";
   GetCurUser(USr);
   IVCashr.Objects = USr.PersObjx;
@@ -225,7 +231,8 @@ begin
   IVCashr.TotQty = blankval;
   IVCashr.TotWeight = blankval;
   IVCashr.TotVolume = blankval;    
-  IVCashr.RecValue2 = blankval;    
+  IVCashr.RecValue2 = blankval;
+  IVCashr.RecValue3 = blankval;   // Edit ************************** Monday, 15 April 2013 17:00:38     
   IVCashr.CashValueB2 = blankval;    
   IVCashr.RetValueB2 = blankval;    
   IVCashr.CashValueCur = blankval;    
@@ -313,6 +320,7 @@ begin
   string 255 tstr;
   record SRBlock SRb;  
   Boolean gentrans;
+  record DefCashBlock DCb;// Edit ************************** Wednesday, 6 June 2012 15:07:34 
   
   BlockLoad(ARAccRec);  
   BlockLoad(CashDefRec);  
@@ -378,8 +386,15 @@ begin
     IVCashr.UpdStockFlag = 0;
 //    IVCashr.UpdStockFlag = ARAccRec.InvUpdStock; not supported any more
   end;
+  
+  IVCashr.LocalMachineCode = CurMachineName;// Edited Tuesday, 27 July 2010 10:14:48
+  
+  BlockLoad(DCb); //Edit***************************Sasha2,17:33 28.10.2014
+  IVCashr.PayDeal2 = DCb.DefGCSPayMode;   //Edit***************************Sasha2,17:34 28.10.2014
+  //IVCashr.PayDeal3 = DCb.DefGCRPayMode;  //Edit***************************Sasha2,17:34 28.10.2014
   IVCashr.RecValue = blankval;    
-  IVCashr.RecValue2 = blankval;    
+  IVCashr.RecValue2 = blankval;
+  IVCashr.RecValue3 = blankval;  //Edit***************************Sasha2,9:49 29.10.2014   
   IVCashr.CashValueB2 = blankval;    
   IVCashr.RetValueB2 = blankval;    
   IVCashr.CashValueCur = blankval;    
@@ -2375,3 +2390,18 @@ begin
   IVCashVcRecordSync = res;
   return;
 end;
+
+global
+function LongInt IVCashVcRecordRemoveTest(var record IVCashVc IVCashr,record IVCashVc IVCash2r,LongInt long3,LongInt long4)
+BEGIN
+  LongInt res;
+  record DBLockBlock DBLockRec;
+  record DefCCTransVc DefCCTransr;
+  row IVCashVc IVCashrw;
+  integer i,rwcnt;
+
+  res = 1;
+
+  IVCashVcRecordRemoveTest = res; 
+  RETURN;
+END;
