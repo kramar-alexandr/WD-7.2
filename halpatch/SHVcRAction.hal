@@ -65,7 +65,7 @@ external function Integer CheckSerialStatus(string,string,var string);
 external function Boolean Date2Test(string,Date,string,Integer);
 external function Boolean SerNrTestSHVc(LongInt,Date,var Boolean);
 external function val FindPUBaseRate2forSerialNr(string,string);
-external updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
+remote updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
 
 function Boolean StockMovOKedForSH(LongInt shnr,var LongInt stmovnr)
 begin

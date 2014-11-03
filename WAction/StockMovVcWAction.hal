@@ -107,7 +107,9 @@ BEGIN
   array string 255 aWarning;
   
   res = true;
+  
   GetWindowRecord(wn,StockMovr);
+  
   if (StockMovVc_PasteArtCode(StockMovr,rownr,changed,aWarning)) then begin
     PutWindowRecord(wn,StockMovr);
   end;
@@ -118,7 +120,8 @@ BEGIN
     SetWindowNameArg(wn,StockMovrw.ArtCode & ":" & StockMovr.FrLocation);
   end;
 */  
-  if (StockMovDClassSwitchRow(wn,rownr)) then begin end;    
+  if (StockMovDClassSwitchRow(wn,rownr)) then begin end;
+     
   StockMovDClassArtCodeEFAfter = res;
   RETURN;
 END;
@@ -697,7 +700,7 @@ begin
   row StockMovVc StockMovrw;
 
   res = true;
-  if (WindowState(wn)==2) then begin//Rs_update
+  if (WindowState(wn)==2) then begin //Rs_update
     GetWindowRecord(wn,StockMovr);    
     MatRowGet(StockMovr,rownr,StockMovrw);
     if (StockMovr.OKFlag!=0) or (StockMovr.SentOKFlag!=0) or (StockMovr.OrdFlag!=0) then begin 
@@ -810,6 +813,7 @@ BEGIN
       if (StockMovr.OKFlag!=0) then begin res = false; end;
       if (StockMovr.SentOKFlag!=0) then begin res = false; end;
       if (StockMovr.OrdFlag!=0) then begin res = false; end;
+      if (StockMovr.OrderNr!=-1) then begin res = false; end; //Edit***************************Sasha2,11:25 03.11.2014
       MatRowGet(StockMovr,rownr,StockMovrw);
       if (StockMovrw.IntORRow>=0) then begin
         res = false;

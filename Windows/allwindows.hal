@@ -4121,6 +4121,7 @@ begin
   MatCol(1,-220,"Тип",0,PackageType,false,PackTypeSClass);
   MatCol(1,-170,"Опис",0,PackageDesc,false,0);
   MatCol(1,-70,"Акциз",0,ExciseNr,false,0);
+  MatColTL(1,-30,"ORRow",0,M4AppCode,ViewOnly,0,OrdRow,false,0); //Edit***************************Sasha2,17:51 03.11.2014
   MatCol(t=kInvoiceRowTypeStructuredItemComponent,-300,"Пакунків",0,RowPackages,false,0);
   MatCol(t,-220,"Тип",0,PackageType,false,PackTypeSClass);
   MatCol(t,-170,"Опис",0,PackageDesc,false,0);
@@ -4406,7 +4407,7 @@ begin
   Sizeable(-1,-1,0,0);
   UseView(StockMovVc);
   ActiveFieldOnNew("SentTransDate");      
-  Tile(0,90,false,"",TransDate);
+  Tile(0,100,false,"",TransDate);
   v = 6; vs = 20; h = 110; h2 = 300; h3 = 500; h4 = 620;
   EditField(h,v,80, "Номер",Normal,SerNr,false,TSerSClass);
   CheckBox(h2,v,0,"Замовлено",Reserved);
@@ -4424,6 +4425,7 @@ begin
   EditField(h2,v,80,"через",Normal,ThrouLocation,false,LocationSClass);
     end;
   EditField(h3,v,80,"на склад",Normal,ToLocation,false,LocationSClass);
+  EditField(h3,v+VS,80,"Order No.",ViewOnly,OrderNr,false,0); //Edit***************************Sasha2,18:13 03.11.2014
   end;
   tilenr = 1;
   if (HasPositions or HasModWHM or HasLocalization("PRT")) then begin 
@@ -4544,7 +4546,8 @@ begin
     Flip(flipnr); flipnr = flipnr + 1;
   MatCol(1,86,"Опис",0,Spec,false,0);
   MatCol(1,-180,"З місця",0,FrPosCode,false,UsedPosSClass);
-  MatCol(1,-90,"На місце",0,ToPosCode,false,FreePosSClass);
+  MatCol(1,-90,"На місце",0,ToPosCode,false,FreePosSClass); 
+  MatColTL(1,-90,"ORRow",0,M4AppCode,ViewOnly,0,ORRow,false,0); //Edit***************************Sasha2,17:52 03.11.2014
   end;
   DeleteRowTest;
   EndMatrix;
@@ -4767,6 +4770,7 @@ begin
   MatCol(1,-150,"Main Serial No.",0,MotherNr,false,SerialNrSClass); //!!PRODTRANSLATE
     end;
   end;
+  MatColTL(1,-40,"ORRow",0,M4AppCode,ViewOnly,0,OrdRow,false,0); //Edit***************************Sasha2,17:56 03.11.2014
   InsertRowTest;
   DeleteRowTest;
   EndMatrix;

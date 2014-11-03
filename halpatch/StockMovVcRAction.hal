@@ -695,7 +695,7 @@ BEGIN
       if (Date2Test("StockMovVc",SMp.SentTransDate,"SentTransDate",-1)==false) then begin
         res = -1;
         goto LCheckStockMovRecord;
-      end;  
+      end; 
       if (DisallowFutureDateCheck(disperrf,SMp.SentTransDate,"SentTransDate",-1)) then begin
         res = -1;
         goto LCheckStockMovRecord;
