@@ -15,6 +15,7 @@ begin
 	Report("FullStock Manual",MyFullStockRClass,MyItemReportRn,0,modIN);
 	Report("Full Stock",MyFullStockManRClass,MyItemReportRn,0,modSO);
 	Report("Звіт по Shops",ShopsReportRClass,ShopsReportRn,0,modSO); //Edit***************************Sasha2,9:29 01.09.2014
+	Report("Звіт по загубленим товарам Shops",CheckInvalidShopsItemsRClass,CheckInvalidShopsItemsRn,0,modSO); //Edit***************************Sasha2,18:00 04.11.2014
 	Report("Звіт по складу (модифікований)",NewINRClass,NewInvValRn,0,modIN); //Edit***************************Sasha2,11:25 03.09.2014
 	Report("Відомість розрахунків з клієнтами (новий)",CuPer2RClass,MyCuPerRn,0,modSL); //Edit***************************Sasha2,11:25 09.09.2014 
 	Report("Відомість розрахунків з клієнтами (новий)",CuPer2RClass,MyCuPerRn,0,modSO); //Edit***************************Sasha2,11:25 09.09.2014
