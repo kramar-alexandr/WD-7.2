@@ -3856,8 +3856,68 @@ begin
   EndWindow;
 end;
 
+window ForSaleINSClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real v;
+  record LocalMachineBlock LMb;
+
+  BlockLoad(LMb);
+  WindowBegin("Вставити товар",ForSaleINSClass,CGslist,-);
+  Sizeable(-1,-1,0,0);
+  UseView(INVc);
+  SpawnClass(INDClass);
+    v = 0;
+    /*if (GuiType==kGuiCocoa) then begin// Edit ************************** Wednesday, 5 November 2014 14:24:15
+      SetWRect(210,80,850,498);
+      FlowView(0,0,-1,200);
+      v = v+200;
+    end else begin
+      SetWRect(210,80,850,298);
+    end;*/// Edit ************************** Wednesday, 5 November 2014 14:24:14
+    SetWRect(210,80,850,298);// Edit ************************** Wednesday, 5 November 2014 14:24:13
+    RecordList(4,v+17,-21,-39);
+    RlColKey(4,4,"Номер",Code,false,ActCodeForSale);
+  if (HasItemGroups) then begin
+      RlColKey(105,105,"Група",Group,false,ActGroupForSale);
+      RlColKey(160,160,"Опис",Name,false,ActNameForSale);
+    end else begin
+      RlColKey(105,105,"Опис",Name,false,ActNameForSale);
+    end;
+    if (IsEnterprise) then begin
+      if (StandardHansa==false) then begin
+        RlColKey(-250,-250,"Альт. код",AlternativeCode,false,ActAlternativeCodeForSale);
+      end else begin
+        RlCol(-250,-250,"Barcode",BarCode,false);
+      end;
+    end;
+    if (HasModIN) then begin
+      RlCol(-120,-120,"Базова ціна",UPrice1,true);
+    end else begin
+      RlCol(-120,-120,"Ціна",UPrice1,true);
+    end;
+    if (HasModIN) then begin
+      CalculatedColumn(-50,-50,"На складі","INSClassInStock",true);
+    end;
+    SearchField("Пошук");
+    if (HasModIN) then begin
+      if (UserCanReport("INInfoRn","",true)) then begin
+        SpecialMenu("Звіт статусу товару",'I',0,"INStatusINSsm");
+      end;
+    end;
+    if (IsEnterprise) then begin
+      SpecialMenu("Пошук",'F',1,"INSearchSsm");
+      if (StandardHansa==false) then begin
+        SpecialMenu("Альтернативний товар",'l',2,"AltItemINSsm");
+        SpecialMenu("Супутні товари",'r',2,"CrossItemINSsm");
+			end;
+		end;
+//  SearchField("Search");
+  EndWindow;
+end;
+
 window INSClass:4
-  wtag("language","ukr"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real v;
 
@@ -5764,7 +5824,7 @@ end;
 end;
 
 window StockTakeDClass:5
-  wtag("language","ukr"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,android,iPhone")
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,android,iPhone")
 begin
   real h,h2,v,vm,vs;
   Integer f,flipnr,t;
@@ -6343,7 +6403,7 @@ end;
 
 
 window DocWClass:3
-  wtag("language","ukr"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,android,android_tab")
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,android,android_tab")
 begin
   real h,v,vs;
   WindowBegin("Форма",DocWClass,CGDocW,DocView);
