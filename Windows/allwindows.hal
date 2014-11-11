@@ -5568,7 +5568,7 @@ begin
   v=v+20;
   EditField(h,v+=20,100, "Прайс",Normal,LPriceList,false,PLDefSClass);
   //EditField(h,v+=20,100, "Форма документа",Normal,LDefFormCode,false,DocSClass);
-  EditField(h,v+=20,100, "Валюта",Normal,LCurncyCode,false,CurncyCodeSClass);
+  //EditField(h,v+=20,100, "Валюта",Normal,LCurncyCode,false,CurncyCodeSClass);
   v=20;
   ButtonFrame(h+=450,v,60,5,"Розмір");
   RadioButton(h,v,0,0,USetStr(31034),LSize);
