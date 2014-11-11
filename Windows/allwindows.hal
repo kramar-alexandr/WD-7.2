@@ -4607,7 +4607,7 @@ begin
   MatCol(1,86,"Опис",0,Spec,false,0);
   MatCol(1,-180,"З місця",0,FrPosCode,false,UsedPosSClass);
   MatCol(1,-90,"На місце",0,ToPosCode,false,FreePosSClass); 
-  MatColTL(1,-90,"ORRow",0,M4AppCode,ViewOnly,0,ORRow,false,0); //Edit***************************Sasha2,17:52 03.11.2014
+  MatColTL(1,-90,"ORRow",0,M4Long,Normal,0,ORRow,false,0); //Edit***************************Sasha2,17:52 03.11.2014
   end;
   DeleteRowTest;
   EndMatrix;
@@ -6469,5 +6469,39 @@ begin
       MatCol(1,-70,"Журнал опер.",0,DonotGenTrans,false,SetSClass);
     end;
     EndMatrix;
+  EndWindow;
+end;
+
+
+window StockMovLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Переміщення товарів по складах",StockMovLClass,CGmlist,-);
+  SpawnClass(StockMovDClass);
+  SetWRect(64,80,800,298);
+  Sizeable(-1,-1,0,0);
+  UseView(StockMovVc);
+  FormName(PrintStockMovL);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,  "Номер",SerNr,false,SerNr);
+  RlColKey(71,71,"Відп.",SentOKFlag,false,SentOKFlag);
+  RlColKey(111,111,"Отрим.",OKFlag,false,OKFlag);
+  RlColKey(151,151,"Дата відпр.",SentTransDate,false,SentTransDate);
+  RlColKey(223,223,"Дата отрим.",TransDate,false,TransDate);
+  if (HasMultiLocations) then begin
+  RlColKey(295,295,"Fr. Location",FrLocation,false,FrLocOK); //!!PRODTRANSLATE
+    if (StandardHansa==false) then begin
+  RlColKey(370,370,"Через",ThrouLocation,false,ToThrouLocOK);
+    end;
+  RlColKey(450,450,"На склад",ToLocation,false,ToLocOK);
+  end;
+  if (HasModProd) then begin
+  RlColKey(530,530, "Рахунок",OrderNr,false,OrderNr);
+  RlColKey(590,590, "Коментар",Comment,false,Comment);
+  end else begin
+    RlColKey(530,530, "Коментар",Comment,false,Comment); //!!PRODTRANSLATE
+  end;
+  SpecialMenu("Отримано",'G',0,"OKStockMovLsm");
+  SearchField("Пошук");
   EndWindow;
 end;

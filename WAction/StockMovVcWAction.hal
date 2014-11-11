@@ -863,8 +863,19 @@ BEGIN
         case Rs_update:
           GetPrevWindowRecord(wn,StockMovr);
           if (StockMovr.OKFlag!=0) then begin res = false; end;
+          
+         
       end;
   end;
+  if (UserCanAction("UnOKAll",false)) then begin
+		if(fieldname=="ORRow")then begin
+			res = true;// Edit ************************** Thursday, 6 November 2014 15:11:35  	
+		end;
+		if(fieldname=="OrderNr")then begin
+			res = true;// Edit ************************** Thursday, 6 November 2014 15:11:35  	
+		end;
+  end;
+  
   StockMovDClassActiveEditField = res;
   RETURN;
 END;
