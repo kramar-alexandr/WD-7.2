@@ -1,6 +1,7 @@
 remote updating procedure CreateTransFromPU(record PUVc);
 remote function boolean CreateSMfromPU(record PUVc, var record StockMovVc);
 remote function boolean CreateSDfromPU(record PUVc, var record SDVc);
+remote procedure PrepareSingleQtyPUVcLabelItems(record PUVc,var array record PUVc,var array Integer); //Edit***************************Sasha2,15:10 11.11.2014
 
 global updating procedure CreateTransFromPUDsm()
 begin
@@ -72,51 +73,13 @@ return;
 end;
 
 
-//Edit***************************Sasha2,17:22 24.10.2014 {
-procedure PopulateAndSavePURow(var array record PUVc PU2r,row PUVc PUrw,var array Integer rownr,integer index)
-begin
-  record PUVc PU3r;
-  row PUVc PU3rw,PU2rw;
-  integer temprownr;
-  boolean found;
-  integer mtrw,i;
-  
-  found = true;
-  
-  	temprownr = rownr[index];
-	if (temprownr<1) then begin
-		RECORDNEW(PU3r);
-	end else begin
-		PU3r = PU2r[index];
-	end;
-	PU3rw.ArtCode = PUrw.ArtCode;
-	PU3rw.UPrice = PUrw.UPrice;
-	mtrw = matrowcnt(PU3r);
-	For(i=0;i<mtrw;i=i+1) begin
-	  matrowget(PU3r,i,PU2rw);
-	  if(PU2rw.ArtCode==PUrw.ArtCode)then begin
-	  	found = false;
-	  end;
-	end; 
-	if(found)then begin
-		MatRowPut(PU3r,temprownr,PU3rw);
-	end;
-	temprownr = temprownr + 1;
-	rownr[index] = temprownr;
-	PU2r[index] = PU3r;
-
-  return;
-end; //Edit***************************Sasha2,17:22 24.10.2014 }
-
 
 global //Edit***************************Sasha2,17:38 13.10.2014 {
-updating procedure PUVcLabelItemPrint()
+procedure PUVcLabelItemPrint()
 BEGIN
   record PUVc PUr;
-  row PUVc PUrw;
   array record PUVc PU2r;
-  record INVc INr;
-  Integer i,rwcnt,wn;
+  Integer i,wn;
   array integer rownr;
   boolean previewf;
  
@@ -125,22 +88,7 @@ BEGIN
   if (WindowState(wn)==0) then begin //Rs_normal
     DeselectWindow(wn,false);
     GetWindowRecord(wn,PUr);
-    rwcnt = MatRowCnt(PUr);
-    for (i=0;i<rwcnt;i=i+1) begin
-    	MatRowGet(PUr,i,PUrw);
-    	INr.Code = PUrw.ArtCode;
-    	if (nonblank(PUrw.ArtCode) and ReadFirstMain(INr,1,true)) then begin
-    		switch (INr.LSize) begin
-    			case 0: PopulateAndSavePURow(PU2r,PUrw,rownr,0);
-    			case 1: PopulateAndSavePURow(PU2r,PUrw,rownr,1);
-    			case 2: PopulateAndSavePURow(PU2r,PUrw,rownr,2);
-    			case 3: PopulateAndSavePURow(PU2r,PUrw,rownr,3);
-    			case 4: PopulateAndSavePURow(PU2r,PUrw,rownr,4);
-    			case 5: PopulateAndSavePURow(PU2r,PUrw,rownr,5);
-    			case 6: PopulateAndSavePURow(PU2r,PUrw,rownr,6);
-    		end;	
-    	end;
-    end;
+    PrepareSingleQtyPUVcLabelItems(PUr,PU2r,rownr)
     
     previewf = false;
     for (i=0;i<7;i=i+1) begin

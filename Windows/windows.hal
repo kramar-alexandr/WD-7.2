@@ -568,3 +568,22 @@ begin
     EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
   EndWindow;
 end; //Edit***************************Sasha2,16:07 24.10.2014 }
+
+window LabelStockItemsRClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h;
+	
+  WindowBegin("Друк етикетов товарів",LabelStockItemsRClass,CGRcW,RcType);
+    SetWRect(20,120,350,200);
+    h=100;
+    //PeriodField(h,20,"Період");
+    EditField(h,20,150,"Склад",Normal,f1,false,LocationSClass);
+    EditField(h,40,150,"Прейскурант",Normal,f2,false,PLdefSClass);
+    
+    ButtonFrame(h,80,130,2,"Опція");
+  	RadioButton(h,85,0,0,"Друк",ArtMode);
+  	RadioButton(h,105,1,0,"Перегляд",ArtMode);
+  	EndFrame;
+  EndWindow;
+end; //Edit***************************Sasha2,16:07 24.10.2014 }
