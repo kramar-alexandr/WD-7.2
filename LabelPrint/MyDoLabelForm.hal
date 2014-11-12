@@ -254,7 +254,7 @@ BEGIN
   record LangNrVc LangNrr;
   Boolean printf,langf,testf,formisopen;
   Integer intdocnr,curcp,maxcps;
-  string 30 formcode,langcode;
+  string 30 formcode,langcode,prlist;
   val price;
   record DocVc Docr;
     
@@ -267,7 +267,7 @@ BEGIN
 
   //RepSpec.f1 = MLIr.Cust1;  MLIr.Cust1 --> INr.Cust1
   //GetLangNr("",LangNrr);  
-  
+  prlist = PUr.LangCode; //price list
   intdocnr = 1;
   printf = true;
   formisopen = false;
@@ -306,7 +306,7 @@ LBREAK:;
 			            RepSpec.f4 = INr.LPriceList;
 			            RepSpec.f5 = INr.LDefFormCode;
 			            price = PUrw.UPrice;
-			            PrintItemLabel(RepSpec,INr,price,INr.LPriceList,INr.LCurncyCode,currentdate,Docr);
+			            PrintItemLabel(RepSpec,INr,price,prlist,INr.LCurncyCode,currentdate,Docr);
 			            /*if (curcp>=maxcps) then begin
 			            	//EndFormLabel;
 							formisopen = false;
