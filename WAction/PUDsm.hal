@@ -1,7 +1,6 @@
 remote updating procedure CreateTransFromPU(record PUVc);
 remote function boolean CreateSMfromPU(record PUVc, var record StockMovVc);
 remote function boolean CreateSDfromPU(record PUVc, var record SDVc);
-remote procedure PrepareSingleQtyPUVcLabelItems(record PUVc,var array record PUVc,var array Integer); //Edit***************************Sasha2,15:10 11.11.2014
 
 global updating procedure CreateTransFromPUDsm()
 begin
@@ -73,29 +72,38 @@ return;
 end;
 
 
+procedure OpenIntermediateRClassForPUVc(LongInt sernr,string location)
+begin 
+  Integer wn;
+  Record RcVc RepSpec;
+  
+  wn = OpenWindow("LabelStockItemsRClass",1,0,"","",RepSpec);
+  DeselectWindow(wn,false); 
+  RepSpec.Media = mtScreen; 
+  RepSpec.critname = "LabelStockItemsRClass";
+  RepSpec.repname = "LabelPUVcItemsRn";
+  RepSpec.long1 = sernr;
+  RepSpec.f1 = location;
+  PutWindowRecord(wn,RepSpec);
+  WindowFieldGoto(wn,RepSpec,-1,"f2",true);
+  return; 
+end;
 
 global //Edit***************************Sasha2,17:38 13.10.2014 {
 procedure PUVcLabelItemPrint()
 BEGIN
   record PUVc PUr;
-  array record PUVc PU2r;
-  Integer i,wn;
-  array integer rownr;
-  boolean previewf;
+  Integer wn;
  
   
   wn = CurWindow;
   if (WindowState(wn)==0) then begin //Rs_normal
     DeselectWindow(wn,false);
     GetWindowRecord(wn,PUr);
-    PrepareSingleQtyPUVcLabelItems(PUr,PU2r,rownr)
-    
-    previewf = false;
-    for (i=0;i<7;i=i+1) begin
-    	if (rownr[i]>0) then begin
-    		PrintDocument(PU2r[i],"ItemLabForm" & (i+1),previewf);
-    	end;
+    if (PUr.SerNr>-1) then begin
+    	OpenIntermediateRClassForPUVc(PUr.SerNr,PUr.Location);
     end;
+   
   end;
     
   RETURN;
