@@ -177,6 +177,7 @@ begin
   EditFieldTL(h,v+=vs,150,"Постачальник",M4UStr,Normal,20,LastAcc,false,VESClass);
   end;
   EditFieldTL(h,v+=vs,80,"Дата",M4Date,Normal,0,d1,false,PasteCurDate);
+  CheckBox(temp,v+=vs,0,"Показ. сер. номер",flags[10]); v = v + 16;
   if (StandardHansa==true) then begin
     v = v + vs;
   end;
@@ -234,9 +235,7 @@ begin
   end;
   v = vm - 30; //Edit***************************Sasha2,17:35 03.09.2014
   temp = h3; //Edit***************************Sasha2,17:47 03.09.2014
-  if (HasSerialNumbers) then begin
-    CheckBox(temp,v+=16,0,"Показ. сер. номер",flags[10]); v = v + 16;
-  end;
+  
   if (IsEnterprise) then begin
     //CheckBox(temp,v,0,"Value - Two Decimals",flags[16]); v = v + 16; // Who wanted this? Decimals per report....nahh.., I haven't added this one, JJ 
     CheckBox(temp,v,0,"Вкл. закритий товар",flags[18]); v = v + 16;
