@@ -228,6 +228,7 @@ begin
 	val t,sumcur,sumusd,sumcostcur,sumcostusd;
 	integer cred;
 	longint CredInvNo;
+	val foundqty;
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
@@ -332,9 +333,14 @@ begin
 					end else begin
 						location = IVr.Location;
 					end;
-					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo);			
+					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo);		
+					
+					foundqty = 0;
 					For(j=0;j<ressize;j=j+1) begin
-						
+						foundqty = foundqty + qty[j];
+					end;
+					
+					For(j=0;j<ressize;j=j+1) begin
 						startformat(15);		
 							outstring(i0,0,ITr.Comment,false);
 							outstring(i2,0,INr.Code,false);
@@ -413,6 +419,50 @@ begin
 							end;
 						endformat;
 					end;
+					
+					if(foundqty<IVrw.Quant)then begin
+						startformat(15);		
+							outstring(i0,0,ITr.Comment,false);
+							outstring(i2,0,INr.Code,false);
+							outstring(i3,0,INr.Name,false);
+							outstring(i4,0,IVr.InvDate,false);
+							outstring(i1,0,IVr.SerNr,false);
+							outstring(i5,0,IVr.CustCode,false);
+							outstring(i6,0,IVr.Location,false);
+							outstring(i7,0,qty[j],false);
+							outstring(i8,0,IVr.CurncyCode,false);
+							outstring(i81,0,curncy[j],false);
+							outstring(i9,0,ValToMyString(rate[j],4),false);
+							outstring(i10,0,IVrw.Price,false);
+							outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
+							outstring(i12,0,IVrw.vRebate,false);
+							sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant - foundqty);
+							outstring(i13,0,ValToMyString(sumcur,3),false);
+							sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant - foundqty) / invfr * invto1;
+							outstring(i14,0,ValToMyString(sumusd,3),false);
+							t = blankval;
+							outval(i15,0,-curcost[j],m4UVal,false);
+							outval(i16,0,-cost[j],m4UVal,false);
+							sumcostcur = -curcost[j] * qty[j]*cred;
+							outstring(i17,0,ValToMyString(sumcostcur,3),false);
+							sumcostusd = -cost[j] * qty[j]*cred;
+							outstring(i18,0,ValToMyString(sumcostusd,3),false);
+							outstring(i19,0,"",false);
+							outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
+							outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
+							outstring(i22,0,IVr.ShipMode,false);
+							outstring(i23,0,indate[j],false);
+							outstring(i24,0,vecode[j],false);
+							outstring(i25,0,serial[j],false);
+							outstring(i26,0,CUr.SalesMan,false);
+							outstring(i27,0,IVr.SalesMan,false);
+							outstring(i28,0,"",false);
+							for(l=0;l<k;l=l+1)begin
+								outstring(i29,0,class[l],false);
+							end;
+							outstring(i29,0,"Џродажа без истории по товарам",false);
+						endformat;
+					end;
 				end;	  
 			end; 
 		end; 
@@ -454,7 +504,7 @@ begin
 	string 20 usercode;
 	integer cred;
 	longint CredInvNo;
-	
+	val foundqty;
 	
 	usercode = currentuser;
 	if(nonblank(usercode))then begin
@@ -576,6 +626,10 @@ begin
 					end;
 					
 					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo);			
+					foundqty = 0;
+					For(j=0;j<ressize;j=j+1) begin
+						foundqty = foundqty + qty[j];
+					end;
 					For(j=0;j<ressize;j=j+1) begin
 						startformat(15);		
 							outstring(i0,0,ITr.Comment,false);
@@ -657,6 +711,50 @@ begin
 							end;
 						endformat;
 					end;
+					if(foundqty<IVrw.Quant)then begin
+						startformat(15);		
+							outstring(i0,0,ITr.Comment,false);
+							outstring(i2,0,INr.Code,false);
+							outstring(i3,0,INr.Name,false);
+							outstring(i4,0,IVr.InvDate,false);
+							outstring(i1,0,IVr.SerNr,false);
+							outstring(i5,0,IVr.CustCode,false);
+							outstring(i6,0,IVr.Location,false);
+							outstring(i7,0,qty[j],false);
+							outstring(i8,0,IVr.CurncyCode,false);
+							outstring(i81,0,curncy[j],false);
+							outstring(i9,0,ValToMyString(rate[j],4),false);
+							outstring(i10,0,IVrw.Price,false);
+							outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
+							outstring(i12,0,IVrw.vRebate,false);
+							sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant - foundqty);
+							outstring(i13,0,ValToMyString(sumcur,3),false);
+							sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant - foundqty) / invfr * invto1;
+							outstring(i14,0,ValToMyString(sumusd,3),false);
+							t = blankval;
+							outval(i15,0,-curcost[j],m4UVal,false);
+							outval(i16,0,-cost[j],m4UVal,false);
+							sumcostcur = -curcost[j] * qty[j]*cred;
+							outstring(i17,0,ValToMyString(sumcostcur,3),false);
+							sumcostusd = -cost[j] * qty[j]*cred;
+							outstring(i18,0,ValToMyString(sumcostusd,3),false);
+							outstring(i19,0,"",false);
+							outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
+							outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
+							outstring(i22,0,IVr.ShipMode,false);
+							outstring(i23,0,indate[j],false);
+							outstring(i24,0,vecode[j],false);
+							outstring(i25,0,serial[j],false);
+							outstring(i26,0,CUr.SalesMan,false);
+							outstring(i27,0,IVr.SalesMan,false);
+							outstring(i28,0,"",false);
+							for(l=0;l<k;l=l+1)begin
+								outstring(i29,0,class[l],false);
+							end;
+							outstring(i29,0,"Џродажа без истории по товарам",false);
+						endformat;
+					end;
+					
 				end;	  
 			end; 
 		end; 
