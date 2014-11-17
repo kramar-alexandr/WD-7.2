@@ -243,7 +243,7 @@ BEGIN
   RETURN;
 END;
 
-procedure HandleItemLabForm(record RcVc RepSpec,record PUVc PUr,record FormDefVc FDr)
+procedure HandleItemLabForm(record RcVc RepSpec,record PUVc PUr,record FormDefVc FDr,boolean labelgridf)
 BEGIN
   row PUVc PUrw;
   row FormDefVc FDrw;
@@ -252,7 +252,7 @@ BEGIN
   Integer i,rwcnt,j,pucnt;
   string 255 tstr,t1,t2;
   record LangNrVc LangNrr;
-  Boolean printf,langf,testf,formisopen;
+  Boolean printf,langf,testf,formisopen,openfailedf;
   Integer intdocnr,curcp,maxcps;
   string 30 formcode,langcode,prlist;
   val price;
@@ -271,6 +271,7 @@ BEGIN
   intdocnr = 1;
   printf = true;
   formisopen = false;
+  openfailedf = false;
   curcp = 1;
   
   rwcnt = MatRowCnt(FDr);
@@ -287,38 +288,49 @@ BEGIN
     end;
 LBREAK:;
     if (nonblank(formcode)) then begin
-    	Docr.Code = formcode;
-    	ReadFirstMain(Docr,1,true);
+      Docr.Code = formcode;
+      ReadFirstMain(Docr,1,true);
       testf = true;
       //if(nonblank(INr.DefFormCode)and(INr.DefFormCode!=formcode))then begin testf = false; end;
-      if(testf)then begin
-        if (OpenForm(formcode)) then begin 
-        	for (j=0;j<pucnt;j=j+1) begin
-        		if(formisopen==false)then begin
-					formisopen = true;
-					//maxcps = LabelSetup(0,0);
+      if(testf)then begin 
+    	for (j=0;j<pucnt;j=j+1) begin
+    		if(formisopen==false)then begin
+    			formisopen = OpenForm(formcode);
+    			if (formisopen==false) then begin
+    				openfailedf = true;
+    				goto LNotOpened;
+    			end;
+				if (labelgridf) then begin LogText(0,"LabelSetup"); 
+					maxcps = LabelSetup(6,0);
 				end;
-				if(formisopen)then begin
-	        		matrowget(Pur,j,PUrw);
-	        		INr.Code = PUrw.ArtCode;
-	        		if (NonBlank(PUrw.ArtCode) and ReadFirstMain(INr,1,true)) then begin
-	        			RepSpec.f3 = INr.Code;
-			            RepSpec.f4 = INr.LPriceList;
-			            RepSpec.f5 = INr.LDefFormCode;
-			            price = PUrw.UPrice;
-			            PrintItemLabel(RepSpec,INr,price,prlist,INr.LCurncyCode,currentdate,Docr);
-			            /*if (curcp>=maxcps) then begin
-			            	//EndFormLabel;
+			end;
+			if(formisopen)then begin
+        		matrowget(Pur,j,PUrw);
+        		INr.Code = PUrw.ArtCode;
+        		if (NonBlank(PUrw.ArtCode) and ReadFirstMain(INr,1,true)) then begin
+        			RepSpec.f3 = INr.Code;
+		            RepSpec.f4 = INr.LPriceList;
+		            RepSpec.f5 = INr.LDefFormCode;
+		            price = PUrw.UPrice;
+		            PrintItemLabel(RepSpec,INr,price,prlist,INr.LCurncyCode,currentdate,Docr);
+		            if (labelgridf) then begin
+		            	if (curcp>=maxcps) then begin
 							formisopen = false;
 							curcp = 1;
+							CloseForm;
 						end else begin
-							curcp = curcp+1;
-						end;*/
-	        		end;
-	        	end;	
-        	end; 
-            CloseForm;  
-        end else begin
+							EndFormLabel;
+							curcp = curcp + 1; 
+						end;
+		            end;
+        		end;
+        	end;	
+    	end;
+    	if (formisopen) then begin
+    		CloseForm;  
+    	end;
+ LNotOpened:;       	
+        if (openfailedf) then begin
           printf = false;
           MessageBox(1546,formcode);
         end;
@@ -342,7 +354,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr);
+    HandleItemLabForm(RepSpec,PUr,FDr,false);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm1(...)");
   end;
@@ -358,7 +370,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr);
+    HandleItemLabForm(RepSpec,PUr,FDr,false);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm2(...)");
   end;
@@ -374,7 +386,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr);
+    HandleItemLabForm(RepSpec,PUr,FDr,false);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm3(...)");
   end;
@@ -390,7 +402,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr);
+    HandleItemLabForm(RepSpec,PUr,FDr,false);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm4(...)");
   end;
@@ -406,7 +418,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr);
+    HandleItemLabForm(RepSpec,PUr,FDr,false);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm5(...)");
   end;
@@ -422,7 +434,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr);
+    HandleItemLabForm(RepSpec,PUr,FDr,false);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm6(...)");
   end;
@@ -438,9 +450,25 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr);
+    HandleItemLabForm(RepSpec,PUr,FDr,false);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm7(...)");
+  end;
+
+ RETURN;
+END;
+
+global
+procedure DoItemLabForm8(record RcVc RepSpec,record PUVc PUr)
+BEGIN 
+  record FormDefVc FDr;
+  
+  FDr.repname = RepSpec.repname;
+  FDr.shortname = RepSpec.shortname;
+  if (ReadFirstMain(FDr,1,true)) then begin
+    HandleItemLabForm(RepSpec,PUr,FDr,true);
+  end else begin
+  	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm8(...)");
   end;
 
  RETURN;

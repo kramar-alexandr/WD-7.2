@@ -447,7 +447,7 @@ end;
 window MyLabelItemLClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
-	WindowBegin("Етикетки товару",MyLabelItemLClass,CGmlist,-);
+	WindowBegin("Цінники товарів",MyLabelItemLClass,CGmlist,-);
     SpawnClass(MyLabelItemDClass);
     SetWRect(20,80,900,298);
     Sizeable(-1,-1,0,0);
@@ -467,7 +467,7 @@ window MyLabelItemDClass:1 //Edit***************************Sasha2,13:00 22.10.2
  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 	real h,h1,h2,h3,h4,v,vs,t;
-	WindowBegin("Етикетка товару",MyLabelItemDClass,CGview,-);
+	WindowBegin("Цінник товару",MyLabelItemDClass,CGview,-);
     SetWRect(20,80,700,298);
     Sizeable(-1,-1,0,0);
     UseView(MyLabelItemVc);
@@ -524,7 +524,7 @@ end; //Edit***************************Sasha2,13:02 22.10.2014 }
 window MyLabelItemSClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
-	WindowBegin("Вставити етикетку",MyLabelItemSClass,CGslist,-);
+	WindowBegin("Вставити цінник",MyLabelItemSClass,CGslist,-);
   	SetWRect(210,80,750,298);
   	Sizeable(-1,-1,0,0);
   	UseView(MyLabelItemVc);
@@ -541,7 +541,7 @@ end; //Edit***************************Sasha2,13:02 22.10.2014 }
 window CopyFrINToMyLabelItemVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
-  WindowBegin("Перенесення етикеток в регістр товарів",CopyFrINToMyLabelItemVClass,CGMnt,RcType);
+  WindowBegin("Перенесення цінників в регістр товарів",CopyFrINToMyLabelItemVClass,CGMnt,RcType);
   SetWRect(20,120,360,220);
   EndWindow;
 end;
@@ -549,7 +549,7 @@ end;
 /*window MyLabelItemFClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
-  WindowBegin("Определите формы документов для етикеток",MyLabelItemFClass,CGHbl,HBlRecType);
+  WindowBegin("Определите формы документов для цінників",MyLabelItemFClass,CGHbl,HBlRecType);
   SetBlid(ItemLabFormBlock);
   FORMDEF3_UKR;
   EndWindow;
@@ -560,7 +560,7 @@ window LabelItemRClass:1 //Edit***************************Sasha2,16:07 24.10.201
 begin
   real h;
 	
-  WindowBegin("Друк етикетов товарів",LabelItemRClass,CGRcW,RcType);
+  WindowBegin("Друк цінників товарів",LabelItemRClass,CGRcW,RcType);
     SetWRect(20,120,350,300);
     /*h=100;
     PeriodField(h,20,"Період");
@@ -574,16 +574,23 @@ window LabelStockItemsRClass:1 //Edit***************************Sasha2,16:07 24.
 begin
   real h;
 	
-  WindowBegin("Друк етикетов товарів",LabelStockItemsRClass,CGRcW,RcType);
-    SetWRect(20,120,350,200);
+  WindowBegin("Друк етикеток товарів",LabelStockItemsRClass,CGRcW,RcType);
+    SetWRect(20,120,370,600);
     h=100;
     //PeriodField(h,20,"Період");
     EditField(h,20,150,"Склад",Normal,f1,false,LocationSClass);
     EditField(h,40,150,"Прейскурант",Normal,f2,false,PLdefSClass);
     
-    ButtonFrame(h,80,130,2,"Опція");
+    h = 70;
+    ButtonFrame(h,80,60,2,"Опція");
   	RadioButton(h,85,0,0,"Друк",ArtMode);
   	RadioButton(h,105,1,0,"Перегляд",ArtMode);
+  	EndFrame;
+  	
+  	h = 180;
+    ButtonFrame(h,80,100,2,"Тип");
+  	RadioButton(h,85,0,0,"Цінники",OnlyUnprntd);
+  	RadioButton(h,105,1,0,"Етикетки цінників",OnlyUnprntd);
   	EndFrame;
   EndWindow;
 end; //Edit***************************Sasha2,16:07 24.10.2014 }

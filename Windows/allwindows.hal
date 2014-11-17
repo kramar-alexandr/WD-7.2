@@ -5333,7 +5333,7 @@ begin
     TileButton(tilenr,"Малюнок"); tilenr = tilenr + 1;
   end;
   TileButton(tilenr,"Варіанти"); tilenr = tilenr + 1;
-  TileButton(tilenr,"Друк етикеток"); tilenr = tilenr + 1; //Edit***************************Sasha2,13:43 22.10.2014
+  TileButton(tilenr,"Друк цінників"); tilenr = tilenr + 1; //Edit***************************Sasha2,13:43 22.10.2014
   TileButton(tilenr,"Опис"); tilenr = tilenr + 1; //Edit***************************Sasha2,13:38 22.10.2014
   TileButton(tilenr,"Модель вартості"); tilenr = tilenr + 1;
   if (StandardHansa==false) then begin
