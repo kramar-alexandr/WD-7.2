@@ -300,7 +300,7 @@ LBREAK:;
     				openfailedf = true;
     				goto LNotOpened;
     			end;
-				if (labelgridf) then begin LogText(0,"LabelSetup"); 
+				if (labelgridf) then begin
 					maxcps = LabelSetup(6,0);
 				end;
 			end;
