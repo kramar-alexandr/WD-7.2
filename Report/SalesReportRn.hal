@@ -349,7 +349,7 @@ begin
 							outstring(i9,0,ValToMyString(rate[j],4),false);
 							outstring(i10,0,IVrw.Price,false);
 							if(curncy[j]=="USD")then begin
-								outstring(i11,0,ValToMyString(IVrw.Price * invfr / invto1,3),false);
+								outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 							end else begin
 								if(IVr.CurncyCode=="USD")then begin
 									outstring(i11,0,IVrw.Price,false);
@@ -364,7 +364,7 @@ begin
 							outstring(i13,0,ValToMyString(sumcur,3),false);
 							
 							if(curncy[j]=="USD")then begin
-								sumusd = IVrw.Sum/IVrw.Quant * qty[j] * invfr / invto1;
+								sumusd = IVrw.Sum/IVrw.Quant * qty[j] / invfr * invto1;
 								outstring(i14,0,ValToMyString(sumusd,3),false);
 							end else begin
 								if(IVr.CurncyCode=="USD")then begin
@@ -591,7 +591,7 @@ begin
 							//outstring(i9,0,ValToMyString(rate[j],4),false);
 							outstring(i10,0,IVrw.Price,false);
 							if(curncy[j]=="USD")then begin
-								outstring(i11,0,ValToMyString(IVrw.Price * invfr / invto1,3),false);
+								outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 							end else begin
 								if(IVr.CurncyCode=="USD")then begin
 									outstring(i11,0,IVrw.Price,false);
@@ -606,7 +606,7 @@ begin
 							outstring(i13,0,ValToMyString(sumcur,3),false);
 							
 							if(curncy[j]=="USD")then begin
-								sumusd = IVrw.Sum/IVrw.Quant * qty[j] * invfr / invto1;
+								sumusd = IVrw.Sum/IVrw.Quant * qty[j] / invfr * invto1;
 								outstring(i14,0,ValToMyString(sumusd,3),false);
 							end else begin
 								if(IVr.CurncyCode=="USD")then begin
