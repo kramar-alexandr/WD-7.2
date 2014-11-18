@@ -46,20 +46,20 @@ begin
 			if(IHr.Row!=rownr)then begin TrHs = false; testf = false; end;
 			
 			if(testf)then begin
+				cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
+				serial[ressize] = IHr.SerialNr;
+				qty[ressize] = -IHr.Qty; 
 				if(IHr.InFileName=="PUVc")then begin
 					PUr.SerNr = IHr.InSerNr;
 					if(readfirstmain(PUr,1,true))then begin
 						curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
-						cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
 						curncy[ressize] = IHr.PUCurncyCode;
 						rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 						indate[ressize] =	PUr.TransDate;
 						vecode[ressize] = PUr.VECode;
-						serial[ressize] = IHr.SerialNr;
-						qty[ressize] = -IHr.Qty; 
-						ressize = ressize + 1;
 					end;
 				end;
+				ressize = ressize + 1;
 			end;
 		end;
 	end else begin
@@ -77,20 +77,20 @@ begin
 						if(IHr.Row!=IVrw.SHRow)then begin TrHs = false; testf = false; end;
 			
 						if(testf)then begin
+							cost[ressize] = IHr.TotCostPrice / IHr.Qty*cred;
+							serial[ressize] = IHr.SerialNr;
+							qty[ressize] = -IHr.Qty*cred; 
 							if(IHr.InFileName=="PUVc")then begin
 								PUr.SerNr = IHr.InSerNr;
 								if(readfirstmain(PUr,1,true))then begin
-									cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred;
 									curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
 									curncy[ressize] = IHr.PUCurncyCode;
 									rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 									indate[ressize] =	PUr.TransDate;
 									vecode[ressize] = PUr.VECode;
-									serial[ressize] = IHr.SerialNr;
-									qty[ressize] = -IHr.Qty*cred; 
-									ressize = ressize + 1;
 								end;
 							end;
+							ressize = ressize + 1;
 						end;
 					end;
 					resetloop(IHr);
@@ -99,6 +99,7 @@ begin
 		end else begin
 			SHr.OrderNr = IVr.OrderNr;
 			trhs1=true;
+			resetloop(SHr);
 			while(LoopBackKey("OrderKey",SHr,1,trhs1)) begin// loopkey -> loopbackkey
 				if(SHr.OrderNr!=IVr.OrderNr)then begin trhs1=false; end;
 				
@@ -420,7 +421,7 @@ begin
 						endformat;
 					end;
 					
-					if(foundqty<IVrw.Quant)then begin
+					if(foundqty*cred<IVrw.Quant)then begin
 						startformat(15);		
 							outstring(i0,0,ITr.Comment,false);
 							outstring(i2,0,INr.Code,false);
@@ -429,31 +430,31 @@ begin
 							outstring(i1,0,IVr.SerNr,false);
 							outstring(i5,0,IVr.CustCode,false);
 							outstring(i6,0,IVr.Location,false);
-							outstring(i7,0,qty[j],false);
+							outstring(i7,0,IVrw.Quant*cred - foundqty,false);
 							outstring(i8,0,IVr.CurncyCode,false);
-							outstring(i81,0,curncy[j],false);
-							outstring(i9,0,ValToMyString(rate[j],4),false);
+							outstring(i81,0,"",false);
+							outstring(i9,0,"",false);
 							outstring(i10,0,IVrw.Price,false);
 							outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 							outstring(i12,0,IVrw.vRebate,false);
-							sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant - foundqty);
+							sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty);
 							outstring(i13,0,ValToMyString(sumcur,3),false);
-							sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant - foundqty) / invfr * invto1;
+							sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty) / invfr * invto1;
 							outstring(i14,0,ValToMyString(sumusd,3),false);
 							t = blankval;
-							outval(i15,0,-curcost[j],m4UVal,false);
-							outval(i16,0,-cost[j],m4UVal,false);
-							sumcostcur = -curcost[j] * qty[j]*cred;
-							outstring(i17,0,ValToMyString(sumcostcur,3),false);
-							sumcostusd = -cost[j] * qty[j]*cred;
+							outval(i15,0,0,m4UVal,false);
+							outval(i16,0,IVrw.FIFORowVal/IVrw.Quant,m4UVal,false);
+							sumcostcur = -curcost[j] * (IVrw.Quant*cred - foundqty);
+							outstring(i17,0,"",false);
+							sumcostusd = IVrw.FIFORowVal/IVrw.Quant * (IVrw.Quant*cred - foundqty);
 							outstring(i18,0,ValToMyString(sumcostusd,3),false);
 							outstring(i19,0,"",false);
-							outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
+							outstring(i20,0,"",false);
 							outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
 							outstring(i22,0,IVr.ShipMode,false);
-							outstring(i23,0,indate[j],false);
-							outstring(i24,0,vecode[j],false);
-							outstring(i25,0,serial[j],false);
+							outstring(i23,0,"",false);
+							outstring(i24,0,"",false);
+							outstring(i25,0,"",false);
 							outstring(i26,0,CUr.SalesMan,false);
 							outstring(i27,0,IVr.SalesMan,false);
 							outstring(i28,0,"",false);
@@ -711,7 +712,7 @@ begin
 							end;
 						endformat;
 					end;
-					if(foundqty<IVrw.Quant)then begin
+					if(foundqty*cred<IVrw.Quant)then begin
 						startformat(15);		
 							outstring(i0,0,ITr.Comment,false);
 							outstring(i2,0,INr.Code,false);
@@ -720,31 +721,31 @@ begin
 							outstring(i1,0,IVr.SerNr,false);
 							outstring(i5,0,IVr.CustCode,false);
 							outstring(i6,0,IVr.Location,false);
-							outstring(i7,0,qty[j],false);
+							outstring(i7,0,(IVrw.Quant*cred - foundqty),false);
 							outstring(i8,0,IVr.CurncyCode,false);
-							outstring(i81,0,curncy[j],false);
-							outstring(i9,0,ValToMyString(rate[j],4),false);
+							//outstring(i81,0,curncy[j],false);
+							//outstring(i9,0,ValToMyString(rate[j],4),false);
 							outstring(i10,0,IVrw.Price,false);
 							outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 							outstring(i12,0,IVrw.vRebate,false);
-							sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant - foundqty);
+							sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty);
 							outstring(i13,0,ValToMyString(sumcur,3),false);
-							sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant - foundqty) / invfr * invto1;
+							sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty) / invfr * invto1;
 							outstring(i14,0,ValToMyString(sumusd,3),false);
 							t = blankval;
-							outval(i15,0,-curcost[j],m4UVal,false);
-							outval(i16,0,-cost[j],m4UVal,false);
-							sumcostcur = -curcost[j] * qty[j]*cred;
-							outstring(i17,0,ValToMyString(sumcostcur,3),false);
-							sumcostusd = -cost[j] * qty[j]*cred;
-							outstring(i18,0,ValToMyString(sumcostusd,3),false);
-							outstring(i19,0,"",false);
-							outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
+							//outval(i15,0,-curcost[j],m4UVal,false);
+							//outval(i16,0,-cost[j],m4UVal,false);
+							sumcostcur = -curcost[j] * (IVrw.Quant*cred - foundqty)*cred;
+							//outstring(i17,0,ValToMyString(sumcostcur,3),false);
+							sumcostusd = IVrw.FIFORowVal / IVrw.Quant * (IVrw.Quant*cred - foundqty);
+							//outstring(i18,0,ValToMyString(sumcostusd,3),false);
+							//outstring(i19,0,"",false);
+							//outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
 							outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
 							outstring(i22,0,IVr.ShipMode,false);
-							outstring(i23,0,indate[j],false);
-							outstring(i24,0,vecode[j],false);
-							outstring(i25,0,serial[j],false);
+							//outstring(i23,0,indate[j],false);
+							//outstring(i24,0,vecode[j],false);
+							outstring(i25,0,"",false);
 							outstring(i26,0,CUr.SalesMan,false);
 							outstring(i27,0,IVr.SalesMan,false);
 							outstring(i28,0,"",false);

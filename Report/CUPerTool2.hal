@@ -675,7 +675,7 @@ begin
   return;
 end;
 
-procedure CUPerIPLine(record RcVc RepSpec,Integer pos1,Integer pos2,string curncy,Date d,record IPVc IPr,string InvoiceOfficialSerNr,record IPrsVc IPrsr,
+procedure CUPerIPLineMy(record RcVc RepSpec,Integer pos1,Integer pos2,string curncy,Date d,record IPVc IPr,string InvoiceOfficialSerNr,record IPrsVc IPrsr,
                       LongInt prepayno,val v,var val lossv,val balp,Boolean onaccf)
 begin
   string 255 tstr,t2;
@@ -695,7 +695,7 @@ OutString(0,0,IPrsr.CustCode,false); //Edit***************************Sasha2,14:
       tstr = USetStr(2486);
     end;
   end;
-  cur = IPr.PayCurCode; //Edit***************************Sasha2,14:33 09.09.2014
+  cur = curncy; //Edit***************************Sasha2,14:33 09.09.2014
   
   StartFormat(15);
   OutDate(50,0,d,false);
@@ -772,6 +772,63 @@ OutString(0,0,IPrsr.CustCode,false); //Edit***************************Sasha2,14:
   return;
 end;
 
+procedure CUPerIPLine(record RcVc RepSpec,Integer pos1,Integer pos2,string curncy,Date d,record IPVc IPr,string InvoiceOfficialSerNr,record IPrsVc IPrsr,
+                      LongInt prepayno,val v,var val lossv,val balp,Boolean onaccf)
+begin
+  string 255 tstr,t2;
+  string 255 cur; //Edit***************************Sasha2,14:32 09.09.2014
+
+
+   
+  StartFormat(15); //Edit***************************Sasha2,14:34 09.09.2014 { Original code
+  OutDate(0,0,d,false);
+  OutString(pos1,0,tstr,false);
+  tstr = IPr.SerNr;
+
+  if (RepSpec.flags[8]==0) then begin
+    if (prepayno!=-1) or (IPrsr.IVNr!=-1) then begin
+      tstr = tstr & " (";
+      if (IPrsr.IVNr==-1) then begin
+        t2 = prepayno;
+      end else begin
+        if (HasLocalization("POL") and (IsEnterprise==false)) then begin
+          t2 = InvoiceOfficialSerNr;
+        end else begin        
+          t2 = IPrsr.IVNr;
+        end;
+      end;  
+      if (prepayno==-1) and (IPrsr.IVNr==-1) then begin t2 = ""; end;
+      tstr = tstr & t2;
+      tstr = tstr & " )";
+    end;
+  end;
+
+  OutString(pos2,"DblCuPerIP",tstr,false);
+  if (v>=0) then begin
+    OutString(3,0,"",true);
+    OutString(5,0,"",false);
+    OutVal(4,0,v,M4Val,true);
+  end else begin
+    OutVal(3,0,-v,M4Val,true);
+  end;
+  if (RepSpec.flags[2]==1) then begin
+    if (v>=0) then begin
+      OutString(8,0,curncy,false);
+    end else begin
+      OutString(5,0,curncy,false);
+      OutString(4,0,"",true);
+      OutString(8,0,"",false);
+    end;
+  end else begin
+    if (lossv==0) then begin lossv = blankval; end;
+    OutVal(420,0,lossv,M4Val,true);
+  end;
+  OutVal(1,0,balp,M4Val,true);
+  EndFormat;
+  
+  return;
+end;
+
 global
 procedure MyCUPer_PrintReceipt(record RcVc RepSpec,record IPVc IPr,record CUVc CUp,record BaseCurBlock bascur,
                              record IPrsVc IPrsr,Array LongInt aipnr,var Integer acnt,
@@ -780,7 +837,7 @@ procedure MyCUPer_PrintReceipt(record RcVc RepSpec,record IPVc IPr,record CUVc C
                              var string statmentcurrency,var string remainingcurrencies,vector Boolean vreportedcurncy)
 begin
   val v,v2,woff,fee,cdisc,lossv,t,cuscurval,basecurval,basecurval2;
-  Integer ipcurcnt;
+  Integer ipcurcnt,ipcurcnt1;
   Integer i,rwcnt;
   Integer ai; 
   row IPVc IPrw;
@@ -790,7 +847,7 @@ begin
   Boolean testf;
   string 255 tstr,t2;
   array val ipav1,ipav2;
-  array string 20 ipacur;
+  array string 20 ipacur,ipacur1;
   Integer curi;
   Integer loop;
   val opensum,bv;
@@ -811,6 +868,7 @@ LCUPer_PrintReceiptLoop:;
   cdisc = blankval;
   prepayno = -1;
   InitCurncyTotals(ipacur,ipav1,ipcurcnt);
+  InitCurncyTotals(ipacur1,ipav1,ipcurcnt);
   InitCurncyTotals(ipacur,ipav2,ipcurcnt);
   BeginCurncyTotals(ipcurcnt);
   for (i=0; i<rwcnt;i=i+1) begin
@@ -1006,7 +1064,7 @@ CURRENCIES-TODO
                 end;
                 if (IPrw.stp==1) then begin//other row types are in another place
                   if (IPrw.CUPNr<=0) then begin  
-                    AddCurncyTotals(ipacur,ipav1,ipcurcnt,IPrw.InvCurncy,IPrw.InvVal);
+                    AddCurncyTotals(ipacur1,ipav1,ipcurcnt1,IPrw.BankCurncy,IPrw.BankVal);
                     AddCurncyTotals(ipacur,ipav2,ipcurcnt,IPrw.InvCurncy,basecurval);
                   end;
                 end;
@@ -1067,9 +1125,9 @@ CURRENCIES-TODO
                     end;
                     lossv = -lossv;
                     if (RepSpec.flags[2]!=0) then begin
-                      CUPerIPLine(RepSpec,pos1,pos2,curncy,IPrsr.TransDate,IPr,IPrw.InvoiceOfficialSerNr,IPrsr,prepayno,t,lossv,balp,loop!=0);
+                      CUPerIPLineMy(RepSpec,pos1,pos2,curncy,IPrsr.TransDate,IPr,IPrw.InvoiceOfficialSerNr,IPrsr,prepayno,t,lossv,balp,loop!=0);
                     end else begin
-                      CUPerIPLine(RepSpec,pos1,pos2,curncy,IPrsr.TransDate,IPr,IPrw.InvoiceOfficialSerNr,IPrsr,prepayno,t,lossv,balp,loop!=0);
+                      CUPerIPLineMy(RepSpec,pos1,pos2,curncy,IPrsr.TransDate,IPr,IPrw.InvoiceOfficialSerNr,IPrsr,prepayno,t,lossv,balp,loop!=0);
                     end;
                   end else begin
                     v = v + t;
@@ -1153,12 +1211,12 @@ L11IP:;
           end else begin
             balp = balp - ipav2[curi];
           end;
-          CUPerIPLine(RepSpec,pos1,pos2,ipacur[curi],IPrsr.TransDate,IPr,"",IPrsr,-1,v,lossv,balp,loop!=0);
+          CUPerIPLineMy(RepSpec,pos1,pos2,ipacur[curi],IPrsr.TransDate,IPr,"",IPrsr,-1,v,lossv,balp,loop!=0);
 //          CUPerIPLine(RepSpec,pos1,pos2,ipacur[curi],IPrsr.TransDate,IPr,IPrsr,prepayno,ipav1[curi],lossv,balp);          
         end;
       end else begin
         balp = balp - v;
-        CUPerIPLine(RepSpec,pos1,pos2,curncy,IPrsr.TransDate,IPr,IPrw.InvoiceOfficialSerNr,IPrsr,prepayno,v,lossv,balp,loop!=0);
+        CUPerIPLineMy(RepSpec,pos1,pos2,curncy,IPrsr.TransDate,IPr,IPrw.InvoiceOfficialSerNr,IPrsr,prepayno,v,lossv,balp,loop!=0);
       end;
     end;
   end;
@@ -1234,8 +1292,7 @@ begin
   val opensum,bv;
   val v1,t1;// Edit ************************** Monday, 13 December 2010 12:00:58
   string 5 mycur;
-  
-  
+    
   rwcnt = MatRowCnt(IPr);
   if (RepSpec.flags[8]!=0) then begin
     for (ai=0;ai<acnt;ai=ai+1) begin
