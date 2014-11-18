@@ -6505,3 +6505,374 @@ begin
   SearchField("Пошук");
   EndWindow;
 end;
+
+window IPDClass:2
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer") 
+begin
+  real h,h2,h3,h4,t,v,vm,vs,fl,v2;
+  record CYBlock CYb;
+  Integer f,flipnr;
+
+  BlockLoad(CYb);
+  WindowBegin("Платіж клієнта",IPDClass,CGview,-);
+  SetWRect(20,80,700,380);
+  Sizeable(-1,-1,0,0);
+  UseView(IPVc);
+  ActiveFieldOnNew("TransDate");
+  h = 100; h2 = 262; h3 = 470;v = 6; vs = 20;
+  if (HasNumberSeries) then begin
+  EditField(h,v, 80,"Номер",St_i,SerNr,false,TSerSClass);
+  end else begin
+    EditField(h,v,80,"Номер",St_i,SerNr,false,0); 
+  end;
+  EditField(h2,v,82,"Дата операції",Normal,TransDate,false,PasteCurDate);
+  EnterSkip(PayMode);
+  if (IsEnterprise) then begin
+  EditField(h3,v,-40,"Посилання",Normal,RecNumber,false,0);
+  end else begin
+    CheckBox(h4=-100,v,0,"OK",OKFlag); 
+  end;
+  EditField(h,v+=20,30,"Спосіб сплати",Normal,PayMode,false,PMSClass);
+  EnterSkip(Math);
+  EditField(h2,v,-40,"Коментар",Normal,Comment,false,0);
+  if (IsEnterprise) then begin
+  EditField(h,v+=20,80,"Код авториз.",ViewOnly,AuthorizationCode,false,0);
+    CheckBox(-350,v,0,"Інформація про клієнта в записах операцій",ARonTR); 
+    CheckBox(h4=-100,v,0,"OK",OKFlag); 
+  end else begin
+    if (Left(BuildProductCode,5)=="Books") then begin
+      EditField(h2,v+=vs,-40,"Посилання",Normal,RecNumber,false,0);
+    end;
+  end;
+  if (HasLocalization("PRT")) then begin  v = v + vs; 
+    if (HasOfficialSerNr) then begin
+      EditField(h,v,135,"Official No.",Normal,OfficialSerNr,false,LegalInvNrSClass);
+      if (HasNumberSeries) then begin
+        EditField(h2+104,v,100,"Official Ser No. 2",Normal,OfficialSerNr2,false,0);
+        EditField(h3+90,v,135,"Status",Normal,Status,false,SetSClass);  v = v + vs;
+      end;   
+      v2 = 20; 
+    end;
+  end;
+  EnterSkip(Math);
+  if (HasMultiCurrency) then begin
+    fl = 40;
+//    if (GuiType==kGuiiPhone) then begin fl = 70; end;
+    EditField(-267,-21,fl,"Валюта",Normal,PayCurCode,false,CurncyCodeSClass);
+  end;
+  EditField(-142,-21,-40,"Отримано",Normal,CurPayVal,true,0);
+  h=4; v=91+v2;
+  if (HasMultiCurrency or (HasLocalization("RUS") and HasModSL)) then begin
+  MatrixBegin(h,v,-50,-24,-,299);
+  end else begin
+    MatrixBegin(h,v,-30,-24,-,99);
+  end;
+  vm = v;
+  MatTypedRow(stp);
+  MatOverStrike(ovst);
+  Flip(0);
+  if (HasPreferedOfficialSerNr) then begin
+    if (HasLocalization("POL")) then begin 
+      MatCol(t=kReceiptRowTypeNormal,30,"Акт/накл.",0,InvoiceOfficialSerNr,false,ARSClass); 
+    end else begin
+  MatCol(t=kReceiptRowTypeNormal,30,"Акт/накл.",0,InvoiceNr,false,ARSClass);
+    end;
+  end else begin
+    MatCol(t=kReceiptRowTypeNormal,30,"Акт/накл.",0,InvoiceNr,false,ARSClass); 
+  end;
+  EnterSkip(RecVal);
+  MatCol(t,125,"Клієнт",0,CustCode,false,CUSClass);
+  if (HasPreferedOfficialSerNr) then begin
+      MatCol(t=kReceiptRowTypeSettlementDiscount,30,"",0,InvoiceOfficialSerNr,false,ARSClass); 
+  end else begin
+    MatCol(t=kReceiptRowTypeSettlementDiscount,30,"",0,InvoiceNr,false,ARSClass); 
+  end;
+  MatText(t,125,"Знижка",false);
+  if (HasObjects) then begin
+    MatCol(t,190,"Об'єкт",0,Objects,false,ObjSClass); 
+  end;
+  MatCol(t,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"На р/р",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+  if (HasPreferedOfficialSerNr) then begin
+      EnterSkip(InvoiceOfficialSerNr);
+      MatCol(t=kReceiptRowTypeWriteoff,30,"",0,InvoiceOfficialSerNr,false,ARSClass); 
+  end else begin
+    EnterSkip(InvoiceNr);
+    MatCol(t=kReceiptRowTypeWriteoff,30,"",0,InvoiceNr,false,ARSClass); 
+  end;
+  MatText(t,125,"Списання",false); 
+  MatCol(t,-460,"",0,WriteOffAcc,false,AccSClass);
+  MatCol(t=kReceiptRowTypeBankFee,30,"",0,InvoiceNr,false,ARSClass);  
+  MatText(t,105,"Ком.банку",false);
+  MatCol(t,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"Сума банку",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+  flipnr = 1;
+  Flip(flipnr); flipnr = flipnr + 1;
+  EnterSkip(PayDate);
+  MatCol(t=kReceiptRowTypeNormal,200,"Текст",0,CustName,false,0);
+  if (IsEnterprise) then begin
+  MatCol(t,-350,"Дата сплати",0,PayDate,false,0);
+  end;
+  if (HasObjects and IsEnterprise==false) then begin
+    MatCol(t,190,"Об'єкт",0,Objects,false,ObjSClass); 
+  end;
+  EnterSkip(RecVal);
+  if (HasMultiCurrency) then begin
+  MatCol(t,-260,"Вал. банку",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"Сума банку",0,BankVal,true,0);
+  MatCol(t,-130,"Вал. зап.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+  MatCol(t=kReceiptRowTypeWriteoff,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"На р/р",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+  end else begin
+    MatCol(t,-270,"До сплати",0,InvOutstand,false,0); 
+    MatCol(t,-180,"Сума накл.",0,InvVal,true,0); 
+    MatCol(t,-90,"Отримано",0,RecVal,true,0); 
+    MatCol(t=kReceiptRowTypeWriteoff,-270,"До сплати",0,InvOutstand,false,0); 
+    MatCol(t,-180,"Сума накл.",0,InvVal,true,0); 
+    MatCol(t,-90,"Отримано",0,RecVal,true,0); 
+  end;
+  if (HasMultiCurrency) then begin
+    Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(t=kReceiptRowTypeNormal,190,"Текст",0,CustName,false,0);
+  MatCol(t,-350,"Вал. накл.",0,InvCurncy,true,0);
+    MatCol(t,-310,"Відкр. сума накладної",0,InvOutstand,true,0); 
+  MatCol(t,-220,"Заг. сума накл.",0,InvVal,true,0);
+  MatCol(t,-130,"Вал. зап.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+  MatCol(t=kReceiptRowTypeWriteoff,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"На р/р",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+    if (HasLocalization("POL")) then begin 
+      Flip(flipnr); flipnr = flipnr + 1;
+      MatCol(t=kReceiptRowTypeNormal,190,"Текст",0,CustName,false,0);
+      MatCol(t,-310,"Б. Вал.",0,BankCurncy,true,CurncyCodeSClass); 
+      MatCol(t,-270,"Bank Amount",0,BankVal,true,0);
+      MatCol(t,-200,"To B. 1",0,ToRateB1BankVal,true,0);
+      MatCol(t,-160,"Bank in B. 1",0,B1BankVal,true,0);
+    end;
+  end;
+  if (IsEnterprise) then begin
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(t=kReceiptRowTypeNormal,190,"Текст",0,CustName,false,0);
+  MatCol(t,-270,"Сп. спл.",0,PayMode,false,PMSClass);
+    if (StandardHansa==false) then begin
+  MatCol(t,-220,"№ чека",0,ChequeNr,false,0);
+    end;
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+  MatCol(t=kReceiptRowTypeWriteoff,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"На р/р",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(t=kReceiptRowTypeNormal,190,"Текст",0,CustName,false,0);
+  MatCol(t,-320,"№ рахунка",0,OrderNr,false,ORSClass);
+  MatCol(t,-230,"№ п/плати",0,CUPNr,false,ARPaySClass);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+  MatCol(t=kReceiptRowTypeWriteoff,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"На р/р",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(t=kReceiptRowTypeNormal,190,"Текст",0,CustName,false,0);
+    if (CYb.UseTaxTemplatesforTaxCalc!=0) then begin
+    MatCol(1,-310,"Ш.под.",0,TaxTemplateCode,false,TaxTemplateSClass); 
+    end else begin
+    MatCol(1,-310,"ПДВ",0,VATCode,false,VATCodeSClass); 
+    end;
+  MatCol(t,-270,"Сума ПДВ",0,VATVal,false,0);
+  MatCol(t,-200,"Податок",0,TAX1Sum,false,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+  MatCol(t=kReceiptRowTypeWriteoff,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"На р/р",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(t=kReceiptRowTypeNormal,190,"Текст",0,CustName,false,0);
+  MatCol(t,-260,"Об'єкти",0,Objects,false,ObjSClass);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+  MatCol(t=kReceiptRowTypeWriteoff,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"На р/р",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(t=kReceiptRowTypeNormal,190,"Round Off A/C",0,RoundOffAcc,false,AccSClass);
+  MatCol(t,-360,"Round Off",0,RoundOff,true,0);
+    if (StandardHansa==false) then begin
+  MatCol(t,-300,"Внесок",0,InstNr,false,ARInstallSClass);
+    end;
+  MatCol(t,-170,"Посилання",0,rkRecNumber,false,0);
+  MatCol(t=kReceiptRowTypeWriteoff,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"На р/р",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(t=kReceiptRowTypeNormal,190,"Рахунок дебіторів",0,ARAcc,false,AccSClass);
+    if (StandardHansa==false) then begin
+  MatCol(t,-320,"Cred. Man. No.",0,CredManNr,false,CredManSClass);
+    end;
+  MatCol(t,-220,"Коментар",0,Comment,false,0);
+  MatCol(t=kReceiptRowTypeWriteoff,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"На р/р",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(t=kReceiptRowTypeNormal,200,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-410,"Сума банку",0,BankVal,true,0);
+//  MatCol(t,-340,"Bank Fee",0,BankFeeVal,true,0);
+  MatCol(t,-280,"К б.вал. 1",0,ToRateB1BankVal,true,0);
+  MatCol(t,-210,"Сума б. у вал. 1",0,B1BankVal,true,0);
+  MatCol(t,-105,"Сума б. у вал. 2",0,B2BankVal,true,0);
+//  MatCol(t,-200,"Fee %",0,BankFeePrc,true,0); /* What was this ?? */
+//  MatCol(t,-70,"Coef. Value",0,Coef,true,0);
+  MatCol(t=kReceiptRowTypeWriteoff,-390,"Вал. накл.",0,InvCurncy,true,0);
+  MatCol(t,-350,"Сума накл.",0,InvVal,true,0);
+  MatCol(t,-260,"Вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-220,"На р/р",0,BankVal,true,0);
+  MatCol(t,-130,"Вал.",0,RecCurncy,true,CurncyCodeSClass);
+  MatCol(t,-90,"Отримано",0,RecVal,true,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(t=1,-470,"Б. вал.",0,BankCurncy,true,CurncyCodeSClass);
+  MatCol(t,-430,"Сума банку",0,BankVal,true,0);
+  MatCol(t,-350,"Курс",0,FrRateBankVal,true,0);
+  MatCol(t,-310,"К б.вал. 1",0,ToRateB1BankVal,true,0);
+  MatCol(t,-240,"К б.вал. 2",0,ToRateB2BankVal,true,0);
+  MatCol(t,-170,"Курс б.вал. 1",0,BaseRate1BankVal,true,0);
+    MatCol(t,-90,"Курс б.вал. 2",0,BaseRate2BankVal,true,0);
+//    MatCol(t,-10,"Received Value",0,RecVal,true,0);
+  end else begin
+    if (HasRussianPrepayment) then begin
+        Flip(flipnr); flipnr = flipnr + 1;
+        MatCol(t=kReceiptRowTypeNormal,190,"Text",0,CustName,false,0);
+      MatCol(1,-265,"Код ПДВ",0,VATCode,false,VATCodeSClass);
+      MatCol(t,-230,"Сума ПДВ",0,VATVal,false,0);
+      MatCol(t,-170,"№ замовлення",0,OrderNr,false,ORSClass);
+      MatCol(t,-85,"№ передплати",0,CUPNr,false,ARPaySClass); 
+    end else begin
+      if (Left(BuildProductCode,5)=="Books") then begin
+        Flip(flipnr); flipnr = flipnr + 1;
+        MatCol(t=kReceiptRowTypeNormal,-265,"#V-Cd#",0,VATCode,false,VATCodeSClass); 
+        MatCol(t,-230,"#VAT# Value",0,VATVal,false,0); 
+        MatCol(t,-170,"Pay. Date",0,PayDate,false,0); 
+        MatCol(t,1,"Reference Number",0,rkRecNumber,false,0);
+      end;
+    end;
+  end;
+  InsertRowTest;
+  DeleteRowTest;
+  EndMatrix;
+  vs = 22;
+  v = v + 1; 
+  if (flipnr>2) then begin
+    for (f=1;f<flipnr;f=f+1) begin
+      VTab(-35,v,-16,v+vs,ToolFlip,f,chr(asc("A") + f - 1)); 
+      v = v + vs;
+    end;
+  end;
+  vs = 20;
+
+  if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
+    SpecialMenu("Додати комісію банку",' ',2,"NewFeeIPDsm");
+    SpecialMenu("Додати списання",' ',1,"NewWriteoffIPDsm");
+    SpecialMenu("Перевірити суму платежу",' ',6,"IPInfoIPDsm");
+    if (HasModNL) then begin
+      SpecialMenu("Відкрити запис операції",'t',9,"OpenTRFromIP");
+    end;
+    SpecialMenu("Створити передплату",' ',7,"DownPayFromIPDsm");
+  end else begin
+    if (HasSettlementDiscount) then begin
+  SpecialMenu("Додати знижку",' ',0,"CashDiscountIPDsm");
+  end;
+  SpecialMenu("Додати списання",' ',1,"NewWriteoffIPDsm");
+    if (IsEnterprise or Left(BuildProductCode,5)=="Books") then begin
+  SpecialMenu("Додати комісію банку",' ',2,"NewFeeIPDsm");  
+    end;
+    if (HasWithholdingTax) then begin
+      SpecialMenu("Add Withholdings rows",' ',8,"IPPasteWithholdingIPDsm"); 
+    end;
+    if (IsEnterprise) then begin
+      if (StandardHansa==false) then begin
+        SpecialMenu("Distribute #Cheques#",' ',13,"DistributeChequesIPDsm"); 
+//        SpecialMenu("Print #Cheques#",' ',9,"PrintChequesIPDsm");
+      end;
+    end;
+    if (IsEnterprise or Left(BuildProductCode,5)=="Books") then begin
+  SpecialMenu("Розподілити суму",' ',3,"IPExpandIPDsm");
+    end;
+    if (IsEnterprise) then begin
+  SpecialMenu("Розрахувати суму",'=',4,"CalculateFieldIPDsm");
+  SpecialMenu("Списати аванс",' ',5,"WriteofPrepayIPDsm");
+    end;
+    if (IsEnterprise or Left(BuildProductCode,5)=="Books") then begin
+  SpecialMenu("Перевірити суму платежу",' ',6,"IPInfoIPDsm");  
+  end;
+  if (HasModNL) then begin
+  SpecialMenu("Відкрити запис операції",'t',9,"OpenTRFromIP");
+  end;
+    if (HasTaxMatrix) then begin
+    SpecialMenu("Відкрити подакт. матрицю",' ',25,"OpenVatMatrixIPDsm");  
+    end;
+    if (HasModCRM or HasStandardCRM) then begin
+  SpecialMenu("Створити діяльність",'c',14,"ActFromIPDsm");
+    end;
+    if (IsEnterprise) then begin
+  SpecialMenu("Створити прибутковий ордер",' ',11,"CLInFromIPDsm");
+    if (StandardHansa==false) then begin
+        SpecialMenu("Створити чек",'e',9,"CreateCheckIPDsm");
+    end;
+  SpecialMenu("Створити передплату",' ',7,"DownPayFromIPDsm");
+    end;
+    if (HaseMail) then begin
+  SpecialMenu("Створити E-Mail",'m',18,"CreateMailFromIPDsm");
+    end;
+    if (HasRussianPrepayment) then begin
+  SpecialMenu("Виписати  на передплату",' ',10,"IVFromPrepIPDsm");
+  end;
+  if (IsEnterprise) then begin
+    if (StandardHansa==false) then begin
+        if (HasLocalization("HRV,SRB,SLV,UKR")) then begin
+  SpecialMenu("Створити под. накладну клієнту",' ',17,"VATCorrectionIPDsm");
+        end;
+  SpecialMenu("Сплата кредитною карткою",' ',15,"CCPayIPDsm");
+    end;
+  SpecialMenu("Виписка банку",' ',16,"BankStIPDsm");
+  SpecialMenu("Роздрукувати касову книгу",' ',8,"PrintCashInOutIPDsm");
+    end else begin
+      if (HasLocalization("HRV,SRB,SLV,UKR")) then begin
+        SpecialMenu("Створити когиг.под. накладну клієнту",' ',17,"VATCorrectionIPDsm");
+      end;
+  end;
+end;
+  EndWindow;
+end;

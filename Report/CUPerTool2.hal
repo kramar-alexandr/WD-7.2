@@ -1013,7 +1013,7 @@ CURRENCIES-TODO
                         lossv = -lossv;
                       end;
 //same must be in SL report            
-                      if (lossv<0) then begin//(lossv>0)
+                      if (lossv<0) then begin //(lossv>0)
                         totgain = totgain - lossv;
                       end else begin
                         totloss = totloss + lossv;
@@ -1049,7 +1049,7 @@ CURRENCIES-TODO
                     lossv = basecurval - lossv;
                     if (IPrw.CUPNr!=-1) then begin                   
                       lossv = basecurval - lossv;
-                      if (lossv<0) then begin//(lossv>0)
+                      if (lossv<0) then begin //(lossv>0)
                         totloss = totloss + lossv;
                       end else begin
                         totgain = totgain - lossv;
@@ -1062,7 +1062,7 @@ CURRENCIES-TODO
 //                    AddCurncyTotals(ipacur,ipav3,ipcurcnt,IPrw.InvCurncy,t);
                   end;
                 end;
-                if (IPrw.stp==1) then begin//other row types are in another place
+                if (IPrw.stp==1) then begin //other row types are in another place
                   if (IPrw.CUPNr<=0) then begin  
                     AddCurncyTotals(ipacur1,ipav1,ipcurcnt1,IPrw.BankCurncy,IPrw.BankVal);
                     AddCurncyTotals(ipacur,ipav2,ipcurcnt,IPrw.InvCurncy,basecurval);
@@ -1108,7 +1108,7 @@ CURRENCIES-TODO
                 end;
               end;
               prepayno = IPrw.CUPNr;
-              if (IPrw.stp==1) then begin  // { 5.4 has no this part
+              if (IPrw.stp==1) then begin  // { 5.4 has no this part 
                 if (IPrw.CUPNr>0) then begin
                   if (RepSpec.ArtMode==1) then begin                
                     tstr = USetStr(2486);
@@ -1211,7 +1211,7 @@ L11IP:;
           end else begin
             balp = balp - ipav2[curi];
           end;
-          CUPerIPLineMy(RepSpec,pos1,pos2,ipacur[curi],IPrsr.TransDate,IPr,"",IPrsr,-1,v,lossv,balp,loop!=0);
+          CUPerIPLineMy(RepSpec,pos1,pos2,ipacur1[curi],IPrsr.TransDate,IPr,"",IPrsr,-1,v,lossv,balp,loop!=0);
 //          CUPerIPLine(RepSpec,pos1,pos2,ipacur[curi],IPrsr.TransDate,IPr,IPrsr,prepayno,ipav1[curi],lossv,balp);          
         end;
       end else begin
