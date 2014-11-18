@@ -17,33 +17,24 @@ external function val MulRateToBase1(var string,val,val,val,val,val,val,roundmod
 
 
 global //Edit***************************Sasha2,15:52 18.11.2014 {
-procedure AddCurncyTotalsMy(var array string cur,var array val v1,var Integer curcnt,string curncy,val a)
+procedure AddCurncyTotalsMy(var array string cur,var array val v1,var array val v2,var Integer curcnt,string curncy,val a1,val a2)
 begin
   record BaseCurBlock bascur;
   Integer i,pos;
   string 20 code;
-  Boolean foundf;
   
-  foundf = false;
   code = curncy;
   if (blank(code)) then begin
     BlockLoad(bascur);
     code = bascur.BaseCur1;
   end;
-  /*for (i=0;i<curcnt;i=i+1) begin
-    if (code==cur[i]) then begin
-      pos = i;
-      foundf = true;
-      i = curcnt;
-    end;
-  end;*/
-  if (foundf==false) then begin
-    pos = curcnt;
-    curcnt = curcnt + 1;
-    cur[pos] = code;
-    v1[pos] = BlankVal;
-  end;
-  v1[pos] = v1[pos] + a;
+
+  pos = curcnt;
+  curcnt = curcnt + 1;
+  
+  cur[pos] = code;
+  v1[pos] = v1[pos] + a1;
+  v2[pos] = v2[pos] + a2;
   return;
 end; //Edit***************************Sasha2 ,15:52 18.11.2014}
 
@@ -878,6 +869,7 @@ begin
   Boolean testf;
   string 255 tstr,t2;
   array val ipav1,ipav2;
+  array val ipav3my; //Edit***************************Sasha2,17:04 18.11.2014
   array string 20 ipacur,ipacur1;
   Integer curi;
   Integer loop;
@@ -900,6 +892,7 @@ LCUPer_PrintReceiptLoop:;
   prepayno = -1;
   InitCurncyTotals(ipacur,ipav1,ipcurcnt);
   InitCurncyTotals(ipacur1,ipav1,ipcurcnt);
+  InitCurncyTotals(ipacur1,ipav3my,ipcurcnt); //Edit***************************Sasha2,17:05 18.11.2014
   InitCurncyTotals(ipacur,ipav2,ipcurcnt);
   BeginCurncyTotals(ipcurcnt);
   for (i=0; i<rwcnt;i=i+1) begin
@@ -1095,7 +1088,7 @@ CURRENCIES-TODO
                 end;
                 if (IPrw.stp==1) then begin //other row types are in another place
                   if (IPrw.CUPNr<=0) then begin  
-                    AddCurncyTotalsMy(ipacur1,ipav1,ipcurcnt1,IPrw.BankCurncy,IPrw.BankVal); //Edit***************************Sasha2,15:53 18.11.2014
+                    AddCurncyTotalsMy(ipacur1,ipav1,ipav3my,ipcurcnt1,IPrw.BankCurncy,IPrw.BankVal,basecurval/*IPrw.InvVal*/); //Edit***************************Sasha2,15:53 18.11.2014
                     AddCurncyTotals(ipacur,ipav2,ipcurcnt,IPrw.InvCurncy,basecurval);
                   end;
                 end;
@@ -1240,9 +1233,10 @@ L11IP:;
           if (nonblank(CUp.CurncyCode)) and (CUp.CurncyCode!=bascur.BaseCur1) then begin
             balp = balp - ipav1[curi];
           end else begin
-            balp = balp - ipav2[curi];
+            //balp = balp - ipav2[curi]; //Edit***************************Sasha2,17:19 18.11.2014
+            balp = balp - ipav3my[curi]; //Edit***************************Sasha2,17:19 18.11.2014
           end;
-          CUPerIPLineMy(RepSpec,pos1,pos2,ipacur1[curi],IPrsr.TransDate,IPr,"",IPrsr,-1,/*v*/ipav1[curi],lossv,balp,loop!=0);
+          CUPerIPLineMy(RepSpec,pos1,pos2,ipacur1[curi],IPrsr.TransDate,IPr,"",IPrsr,-1,ipav3my[curi]/*v*/,lossv,balp,loop!=0); //Edit***************************Sasha2,17:18 18.11.2014
 //          CUPerIPLine(RepSpec,pos1,pos2,ipacur[curi],IPrsr.TransDate,IPr,IPrsr,prepayno,ipav1[curi],lossv,balp);          
         end;
       end else begin
