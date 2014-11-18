@@ -16,6 +16,37 @@ external procedure BeginCurncyTotals(var Integer);
 external function val MulRateToBase1(var string,val,val,val,val,val,val,roundmode);
 
 
+global //Edit***************************Sasha2,15:52 18.11.2014 {
+procedure AddCurncyTotalsMy(var array string cur,var array val v1,var Integer curcnt,string curncy,val a)
+begin
+  record BaseCurBlock bascur;
+  Integer i,pos;
+  string 20 code;
+  Boolean foundf;
+  
+  foundf = false;
+  code = curncy;
+  if (blank(code)) then begin
+    BlockLoad(bascur);
+    code = bascur.BaseCur1;
+  end;
+  /*for (i=0;i<curcnt;i=i+1) begin
+    if (code==cur[i]) then begin
+      pos = i;
+      foundf = true;
+      i = curcnt;
+    end;
+  end;*/
+  if (foundf==false) then begin
+    pos = curcnt;
+    curcnt = curcnt + 1;
+    cur[pos] = code;
+    v1[pos] = BlankVal;
+  end;
+  v1[pos] = v1[pos] + a;
+  return;
+end; //Edit***************************Sasha2 ,15:52 18.11.2014}
+
 global function val conv1(date curdate,string cur)
 begin
 val frrate,to1,to2,br1,br2;
@@ -1064,7 +1095,7 @@ CURRENCIES-TODO
                 end;
                 if (IPrw.stp==1) then begin //other row types are in another place
                   if (IPrw.CUPNr<=0) then begin  
-                    AddCurncyTotals(ipacur1,ipav1,ipcurcnt1,IPrw.BankCurncy,IPrw.BankVal);
+                    AddCurncyTotalsMy(ipacur1,ipav1,ipcurcnt1,IPrw.BankCurncy,IPrw.BankVal); //Edit***************************Sasha2,15:53 18.11.2014
                     AddCurncyTotals(ipacur,ipav2,ipcurcnt,IPrw.InvCurncy,basecurval);
                   end;
                 end;
@@ -1205,13 +1236,13 @@ L11IP:;
         end;
       end;
       if (RepSpec.flags[2]!=0) then begin
-        for (curi=0;curi<ipcurcnt;curi=curi+1) begin
+        for (curi=0;curi<ipcurcnt1;curi=curi+1) begin
           if (nonblank(CUp.CurncyCode)) and (CUp.CurncyCode!=bascur.BaseCur1) then begin
             balp = balp - ipav1[curi];
           end else begin
             balp = balp - ipav2[curi];
           end;
-          CUPerIPLineMy(RepSpec,pos1,pos2,ipacur1[curi],IPrsr.TransDate,IPr,"",IPrsr,-1,v,lossv,balp,loop!=0);
+          CUPerIPLineMy(RepSpec,pos1,pos2,ipacur1[curi],IPrsr.TransDate,IPr,"",IPrsr,-1,/*v*/ipav1[curi],lossv,balp,loop!=0);
 //          CUPerIPLine(RepSpec,pos1,pos2,ipacur[curi],IPrsr.TransDate,IPr,IPrsr,prepayno,ipav1[curi],lossv,balp);          
         end;
       end else begin
