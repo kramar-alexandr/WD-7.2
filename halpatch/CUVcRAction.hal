@@ -1112,8 +1112,7 @@ BEGIN
   res = 0; 
   
   if (gSynchServToOfflineSettingsm) then begin //Edit***************************Sasha2,16:25 14.10.2014 {
-  	CUVcRecordCheck = res;
-  	RETURN;
+  	goto LCUVcRecordCheck;
   end; //Edit***************************Sasha2,16:25 14.10.2014 } 
    
   insertmode = 1;
