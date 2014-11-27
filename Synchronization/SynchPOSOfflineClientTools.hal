@@ -374,7 +374,6 @@ BEGIN
   record RoundBlock Rb;
   record POSCurncyBlock PCB; //Edit***************************Sasha2,15:57 22.09.2014
   Boolean setupsf;
-  record LocalMachineBlock LocalMachineRec;// Edit ************************** Monday, 27 October 2014 14:21:29
 	record CompaniesBlock CRr;// Edit ************************** Monday, 27 October 2014 14:21:29
 	row CompaniesBlock comprw;// Edit ************************** Monday, 27 October 2014 14:21:30
 	record LocalMachineAccBlock LMAb;// Edit ************************** Monday, 27 October 2014 14:21:31
@@ -393,7 +392,8 @@ BEGIN
   if (CheckIfOfflineCompanyExists(offlinecomp)==false) then begin 
   	// Edit Start ---------------------------------------------- Edit Start
 	//Monday, 27 October 2014 16:18:23
-		
+	blockLoad(LMb); //Edit***************************Sasha2,13:36 26.11.2014
+	
 	if (blank(LMb.LocalMachineCode)) then begin /*goto LSynchServToOfflineSettingsm; end;*/
 	  // Edit Start ---------------------------------------------- Edit Start
 	  //Monday, 27 October 2014 14:25:56
@@ -402,15 +402,15 @@ BEGIN
       for (i=0;i<rwcnt;i=i+1) begin
         MatRowGet(LMAb,i,LMArw);
         if(LMArw.UserCode==CurrentUser)then begin
-          LocalMachineRec.LocalMachineCode = LMArw.LocalMachine;
-          LocalMachineRec.DefLocation = LMArw.DefLoc;
-          LocalMachineRec.DefCustCode = LMArw.CustCode;
-          LocalMachineRec.DefReturnLocation = LMArw.DefLoc;
-          LocalMachineRec.NoServerModeIdle = 1;
+          LMb.LocalMachineCode = LMArw.LocalMachine;
+          LMb.DefLocation = LMArw.DefLoc;
+          LMb.DefCustCode = LMArw.CustCode;
+          LMb.DefReturnLocation = LMArw.DefLoc;
+          LMb.NoServerModeIdle = 1;
           res = true;
         end;
       end;
-      blockstore(LocalMachineRec);
+      blockstore(LMb);
 			// Edit End ---------------------------------------------- Edit End
 	end;
   	
@@ -456,24 +456,25 @@ BEGIN
 		SetServerCompany(curcomp);
 
 		BlockLoad(OffLb);  
-
+		blockLoad(LMb); //Edit***************************Sasha2,13:36 26.11.2014
 		if (blank(LMb.LocalMachineCode)) then begin /*goto LSynchServToOfflineSettingsm; end;*/
 			// Edit Start ---------------------------------------------- Edit Start
 			//Monday, 27 October 2014 14:25:56
 			blockLoad(LMAb);
+			
 		      rwcnt = matrowcnt(LMAb);
 		      for (i=0;i<rwcnt;i=i+1) begin
 		        MatRowGet(LMAb,i,LMArw);
 		        if(LMArw.UserCode==CurrentUser)then begin
-		          LocalMachineRec.LocalMachineCode = LMArw.LocalMachine;
-		          LocalMachineRec.DefLocation = LMArw.DefLoc;
-		          LocalMachineRec.DefCustCode = LMArw.CustCode;
-		          LocalMachineRec.DefReturnLocation = LMArw.DefLoc;
-		          LocalMachineRec.NoServerModeIdle = 1;
+		          LMb.LocalMachineCode = LMArw.LocalMachine;
+		          LMb.DefLocation = LMArw.DefLoc;
+		          LMb.DefCustCode = LMArw.CustCode;
+		          LMb.DefReturnLocation = LMArw.DefLoc;
+		          LMb.NoServerModeIdle = 1;
 		          res = true;
 		        end;
 		      end;
-		      blockstore(LocalMachineRec);
+		      blockstore(LMb);
 			// Edit End ---------------------------------------------- Edit End
 		end else begin
 		
