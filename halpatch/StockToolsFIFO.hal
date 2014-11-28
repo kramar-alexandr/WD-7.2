@@ -1360,6 +1360,7 @@ begin
 	string 20 sfilename;
 	longint ssernr;
 	integer srow;
+	val frrate,torateb1;
 	
   if (blank(artcode)) then begin 
     goto LStoreItemHistory_In;
@@ -1426,11 +1427,19 @@ begin
   switch(filename)begin
   	case "PUVc":	PUr.SerNr = transnr;
   								readfirstmain(PUr,1,true);
+  								if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
+  									frrate = 1;
+  									torateb1 = 1;
+  								end else begin
+  									frrate = PUr.FrRate;
+  									torateb1 = PUr.ToRateB1;
+  								end;
+  								
   								matrowget(PUr,IHr.Row,PUrw);
   								sfilename = "PUVc";
 									ssernr = transnr;
 									srow = IHr.Row;
-									totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
+									totcostpricecurncy = PUrw.CostPrice * PUrw.Quant * frrate / torateb1;
 									curncy = PUr.CurncyCode;
   								if(nonblank(PUr.VECode))then begin
 										matrowget(PUr,IHr.Row,PUrw);
@@ -1441,7 +1450,7 @@ begin
 										sfilename = "PUVc";
 										ssernr = transnr;
 										srow = IHr.Row;
-										totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
+										totcostpricecurncy = PUrw.CostPrice * PUrw.Quant * frrate / torateb1;
   								end else begin
   									INr.Code = IHr.ArtCode;
   									if(readfirstmain(INr,1,true))then begin
@@ -1458,14 +1467,14 @@ begin
   												sfilename = "PUVc";
 													ssernr = transnr;
 													srow = IHr.Row;
-													totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
+													totcostpricecurncy = PUrw.CostPrice * PUrw.Quant * frrate / torateb1;
 													curncy = PUr.CurncyCode;
   											end;
   										end else begin
   											sfilename = "PUVc";
 												ssernr = transnr;
 												srow = IHr.Row;
-												totcostpricecurncy = PUrw.UPrice * PUrw.Quant;
+												totcostpricecurncy = PUrw.CostPrice * PUrw.Quant * frrate / torateb1;
 												curncy = PUr.CurncyCode;
   										end;
   									end;
