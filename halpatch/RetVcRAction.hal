@@ -1204,7 +1204,7 @@ BEGIN
 	  		RecalcORShops(ORr.SerNr & "");
 	  	end;
 	  	if (ORr.Reserved==1) then begin
-	  		oldORr = ORr;
+	  		RecordCopy(oldORr,ORr);
 	  		ORr.Reserved = 0;
 	  		RecordUpdate(oldORr,ORr,true);
 	  	end;
@@ -1372,7 +1372,7 @@ BEGIN
     if (Retr.OrdNr>-1) then begin //Edit***************************Sasha2,14:28 04.12.2014 {
     	ORr.SerNr = Retr.OrdNr;
     	if (ReadFirstMain(ORr,1,true) and ORr.Reserved==1) then begin
-    		oldORr = ORr;
+    		RecordCopy(oldORr,ORr);
   			ORr.Reserved = 0;
   			RecordUpdate(oldORr,ORr,true);
     	end;
