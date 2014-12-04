@@ -5687,16 +5687,16 @@ begin
   StaticText(50,v=20,"îòàòêè",true);
   TextField(60,v-5,-20,370,Math2,0);
   Tile(tilenr,400,false,tilenr,-); tilenr = tilenr + 1;// Edit ************************** Friday, 17 October 2014 10:48:33
-  h=70;
-  EditFieldTL(h,v=vs,400,"ßäîê1",M4Str,Normal,50,GigieneText1,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"ßäîê2",M4Str,Normal,50,GigieneText2,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"ßäîê3",M4Str,Normal,50,GigieneText3,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"ßäîê4",M4Str,Normal,50,GigieneText4,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"ßäîê5",M4Str,Normal,50,GigieneText5,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"ßäîê6",M4Str,Normal,50,GigieneText6,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"ßäîê7",M4Str,Normal,50,GigieneText7,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"ßäîê8",M4Str,Normal,50,GigieneText8,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
-  EditFieldTL(h,v+=vs,400,"ßäîê9",M4Str,Normal,50,GigieneText9,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  h=170;
+  EditFieldTL(h,v=vs,400,"€‡‚€:",M4Str,Normal,50,GigieneText1,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"ˆ‘:",M4Str,Normal,50,GigieneText2,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"‚ˆˆŠ:",M4Str,Normal,50,GigieneText3,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Š€º€ ‚ˆˆŠ:",M4Str,Normal,50,GigieneText4,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"„ˆ‘’ˆ'’:",M4Str,Normal,50,GigieneText5,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"‘…’ˆ”§Š€–§Ÿ:",M4Str,Normal,50,GigieneText6,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"ƒ€€’§Ÿ:",M4Str,Normal,50,GigieneText7,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"’…Œ§ …Š‘‹“€’€–§º:",M4Str,Normal,50,GigieneText8,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"“Œ‚ˆ ‡…§ƒ€Ÿ:",M4Str,Normal,50,GigieneText9,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
   EditFieldTL(h,v+=vs,400,"ßäîê10",M4Str,Normal,50,GigieneText10,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
   EditFieldTL(h,v+=vs,400,"ßäîê11",M4Str,Normal,50,GigieneText11,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
   EditFieldTL(h,v+=vs,400,"ßäîê12",M4Str,Normal,50,GigieneText12,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
