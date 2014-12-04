@@ -1186,7 +1186,7 @@ global
 updating function LongInt RetVcRecordSaveAfter(var record RetVc Retr,record RetVc Ret2r,LongInt stat,LongInt long4)
 BEGIN 
   LongInt res;
-  record ORVc ORr; //Edit***************************Sasha2,17:48 31.10.2014
+  record ORVc ORr,oldORr; //Edit***************************Sasha2,17:48 31.10.2014
 
   if (Retr.OrdNr!=-1) then begin
 //    UpdateOrderFromRet(Retr,Ret2r,false); done in SaveReturn
@@ -1199,8 +1199,15 @@ BEGIN
   
   if (Retr.OKFlag!=0 and Retr.OrdNr>-1) then begin //Edit***************************Sasha2,17:48 31.10.2014 {
   	ORr.SerNr = Retr.OrdNr;
-  	if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops") then begin
-  		RecalcORShops(ORr.SerNr & "");
+  	if (ReadFirstMain(ORr,1,true)) then begin
+  		if (ORr.OrderClass=="Shops") then begin
+	  		RecalcORShops(ORr.SerNr & "");
+	  	end;
+	  	if (ORr.Reserved==1) then begin
+	  		oldORr = ORr;
+	  		ORr.Reserved = 0;
+	  		RecordUpdate(oldORr,ORr,true);
+	  	end;
   	end;
   end; //Edit***************************Sasha2,17:48 31.10.2014 }
   
@@ -1354,6 +1361,7 @@ global
 updating function LongInt RetVcRecordUpdate(var record RetVc Retr,record RetVc Ret2r,LongInt stat,LongInt long4)
 BEGIN 
   LongInt res;
+  record ORVc ORr,oldORr; //Edit***************************Sasha2,17:48 31.10.2014
 
   if ((Retr.OKFlag!=0) and (Ret2r.OKFlag==0)) then begin  
     if (Retr.UpdStockFlag!=0) then begin
@@ -1361,6 +1369,14 @@ BEGIN
         Retr.LocOKNr = NextLocOKNr(Retr.Location);
       end;
     end;
+    if (Retr.OrdNr>-1) then begin //Edit***************************Sasha2,14:28 04.12.2014 {
+    	ORr.SerNr = Retr.OrdNr;
+    	if (ReadFirstMain(ORr,1,true) and ORr.Reserved==1) then begin
+    		oldORr = ORr;
+  			ORr.Reserved = 0;
+  			RecordUpdate(oldORr,ORr,true);
+    	end;
+    end; //Edit***************************Sasha2,14:28 04.12.2014 }
   end;
   RetVcRecordUpdate = res;
   RETURN;
