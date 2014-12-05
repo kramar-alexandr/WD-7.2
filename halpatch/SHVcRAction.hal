@@ -348,6 +348,8 @@ begin
   record AccVc Accr;
   string 15 ordclass; //Edit***************************Sasha2,18:22 28.08.2014
   
+  res = 0;
+  error = 0;
   ordclass = "Shops"; //Edit***************************Sasha2,18:23 28.08.2014
   BlockLoad(SRRec);
   BlockLoad(MSb);
@@ -1065,6 +1067,7 @@ begin
         goto LSHVcRecordCheck;
       end;  
       if (check!=0) then begin
+      
       if (MSb.dontAllowOvership==1) then begin
       if ((INr.ItemType==kItemTypeStocked) or (nonblank(SHrw.Recepy))) then begin
         if (nonblank(SHrw.Recepy)) then begin
@@ -1192,7 +1195,6 @@ begin
           end;
           if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
           	if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin 
-          		
 	          	error = 1247;
 	            errorstr = "";
 	            rownr = i;
@@ -1448,7 +1450,6 @@ begin
   
   UnOKedCheckSerialf = false;
   res = DoSHVcRecordCheck(SHp,SH2p,stat,check,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
-
   if (res!=0) then begin
     RecordCheckError(error,errorstr,rownr,fieldstr);   
   end;
