@@ -205,7 +205,7 @@ begin
 	if (StockMovexists) then begin
 		
 		TrHs = true;
-		while (LoopKey("OrderNr",StockMovr,1,true)) begin
+		while (LoopKey("OrderNr",StockMovr,1,TrHs)) begin
 			testf = true;
 			if(StockMovr.OrderNr!=ORr.SerNr) then begin testf = false; TrHs = false; end;
 			if (testf) then begin
@@ -349,7 +349,6 @@ begin
   string 15 ordclass; //Edit***************************Sasha2,18:22 28.08.2014
   
   ordclass = "Shops"; //Edit***************************Sasha2,18:23 28.08.2014
-  res = 0;
   BlockLoad(SRRec);
   BlockLoad(MSb);
   BlockLoad(CAb);
@@ -1064,7 +1063,7 @@ begin
         fieldstr = "Objects";             
         res = -1;
         goto LSHVcRecordCheck;
-      end;      
+      end;  
       if (check!=0) then begin
       if (MSb.dontAllowOvership==1) then begin
       if ((INr.ItemType==kItemTypeStocked) or (nonblank(SHrw.Recepy))) then begin
@@ -1193,6 +1192,7 @@ begin
           end;
           if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
           	if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin 
+          		
 	          	error = 1247;
 	            errorstr = "";
 	            rownr = i;
