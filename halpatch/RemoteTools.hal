@@ -548,7 +548,7 @@ BEGIN
           testf = false;
           if (SHIncludesAllORRows!=0) then begin testf = true; end;
           if ((remnv>0) and (remnv!=0)) then begin testf = true; end;
-          if ((remnv<0) and (remnv!=0)) then begin testf = true; end;//and (CompM4ZeroVal(&ORrw.Shipd2)<0)
+          if ((remnv<0) and (remnv!=0)) then begin testf = true; end; //and (CompM4ZeroVal(&ORrw.Shipd2)<0)
           if ((ORrw.Sum==0) and (ORrw.Shipd2==blankval)) then begin testf = true; end;
           if (AllowInvBeforeShip!=0) then begin
             if (ORp.ShipFlag==0) then begin 
@@ -561,25 +561,25 @@ BEGIN
           end;
           if (testf) then begin                    
             if (lastshnr!=SHr.SerNr) then begin
-              if (lastshnr>0 and totshv>0) then begin// Edit ************************** Thursday, 30 October 2014 17:05:46
+              if (lastshnr>0 and totshv>0) then begin // Edit ************************** Thursday, 30 October 2014 17:05:46
                 ClearRow(IVp,IVrw,1);
                 IVrw.Spec = USetStr(20526);
                 IVrw.Spec = IVrw.Spec & " ";                
-                IVrw.Spec = IVrw.Spec & USetStr(1817);
+                IVrw.Spec = IVrw.Spec & USetStr(1817); //total
                 IVrw.Spec = IVrw.Spec & lastshnr;
                 IVrw.Spec = IVrw.Spec & ",  ";
                 IVrw.Spec = IVrw.Spec & totshv;
                 MatRowPut(IVp,ivcnt,IVrw);
                 ivcnt = ivcnt + 1;
                 totshv = blankval;
-              end else begin// Edit ************************** Thursday, 30 October 2014 17:09:31
-              	if (lastshnr>0 and totshv==0) then begin// Edit ************************** Thursday, 30 October 2014 17:08:21
-									matrowdelete(IVp,ivcnt);// Edit ************************** Thursday, 30 October 2014 17:09:09
-									ivcnt = ivcnt - 1;// Edit ************************** Thursday, 30 October 2014 17:09:09
-								end;
+              end else begin // Edit ************************** Thursday, 30 October 2014 17:09:31
+              	if (lastshnr>0 and totshv==0) then begin // Edit ************************** Thursday, 30 October 2014 17:08:21
+					matrowdelete(IVp,ivcnt); // Edit ************************** Thursday, 30 October 2014 17:09:09
+					ivcnt = ivcnt - 1; // Edit ************************** Thursday, 30 October 2014 17:09:09
+				end;
               end;
               ClearRow(IVp,IVrw,1);
-              IVrw.Spec = USetStr(1817);
+              IVrw.Spec = USetStr(1817); //nakladna
               IVrw.Spec = IVrw.Spec & SHr.SerNr;
               MatRowPut(IVp,ivcnt,IVrw);
               ivcnt = ivcnt + 1;

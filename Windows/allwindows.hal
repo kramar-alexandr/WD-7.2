@@ -4830,7 +4830,7 @@ begin
   MatCol(1,-150,"Main Serial No.",0,MotherNr,false,SerialNrSClass); //!!PRODTRANSLATE
     end;
   end;
-  MatColTL(1,-40,"ORRow",0,M4AppCode,ViewOnly,0,OrdRow,false,0); //Edit***************************Sasha2,17:56 03.11.2014
+  MatColTL(1,-40,"ORRow",0,M4Long,ViewOnly,0,OrdRow,false,0); //Edit***************************Sasha2,17:56 03.11.2014
   InsertRowTest;
   DeleteRowTest;
   EndMatrix;
