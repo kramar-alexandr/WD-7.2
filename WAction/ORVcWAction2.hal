@@ -951,7 +951,36 @@ begin
   RETURN;
 END;
 
+
+
+// Edit Start ---------------------------------------------- Edit Start
+	//Friday, 5 December 2014 15:07:49
+	
 global
+function Boolean ORDClassUpdateTest(Integer wn)
+BEGIN
+  Boolean res;
+  record ORVc ORr;
+  
+  
+  res = true;
+  GetWindowRecord(wn,ORr);
+  if (ORr.Closed!=0 and (UserCanAction("UnCloseAll",false)==false)) then begin
+    res = false;
+  end;
+  
+  if (ORAcceptanceStarted(ORr) and UserCanAction("ChangeRecordHeaderWhenPending",false)==false and UserCanAction("ChangeRecordMatrixWhenPending",false)==false) then begin
+    res = false;
+  end;
+  
+  ORDClassUpdateTest = res;
+  RETURN;
+END;
+
+	// Edit End ---------------------------------------------- Edit End
+	
+
+/*global
 function Boolean ORDClassUpdateTest(Integer wn)
 BEGIN
   Boolean res;
@@ -967,7 +996,7 @@ BEGIN
   end;
   ORDClassUpdateTest = res;
   RETURN;
-END;
+END;*/
 
 global
 function Boolean ORDClassExportFlagButtonAfter(Integer wn,Boolean changedf)

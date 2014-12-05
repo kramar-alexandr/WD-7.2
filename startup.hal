@@ -89,6 +89,11 @@ begin
   SString(31038,"2*4");
   SString(31039,"4*4");
   SString(31040,"7*3 стик.");
+  
+  StrSetAdd(3);
+    StrSetText(DisallowExtraCUDClass,"Заборонити повну карточку клієнта");
+    StrSetText(UnCloseAll,"Відкрити записи");
+  EndStrSet;
 
 	return;
 end;
