@@ -93,6 +93,8 @@ BEGIN
   record LocalMachineBlock LMb;
   record CUVc CUr;
   string 10 priceA,priceB;
+  array String 255 ar; //Edit***************************Sasha2,10:25 25.12.2014
+  Boolean rowsf; //Edit***************************Sasha2,10:25 25.12.2014
   
   
   blockload(BCr);
@@ -222,6 +224,41 @@ BEGIN
   rwcnt = MatRowCnt(INr);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(INr,i,INrw);
+      ar[0] = ar[0] & INrw.LParam;
+      ar[1] = ar[1] & INrw.LName;
+      ar[2] = ar[2] & INrw.LComment1;
+      ar[3] = ar[3] & INrw.LComment2;
+      ar[4] = ar[4] & INrw.LComment3;
+      ar[5] = ar[5] & INrw.LComment4;
+      ar[6] = ar[6] & INrw.LComment5;
+      ar[7] = ar[7] & INrw.LComment6;
+      ar[8] = ar[8] & INrw.LComment7;
+      ar[9] = ar[9] & INrw.LComment8;  
+  end;
+  
+  if (rwcnt>0) then begin
+  	rowsf = true;
+  end else begin
+  	rowsf = false;
+  end;
+  
+  if (rowsf) then begin
+  	OUTFORMFIELD("F_ITEMTYPE",ar[0]);
+    OUTFORMFIELD("F_ARTCODEVARIETIES",ar[1]);
+    OUTFORMFIELD("F_BESKRIVNING",ar[2]);
+    OUTFORMFIELD("F_SIGNATURE",ar[3]);
+    OUTFORMFIELD("F_TEXT",ar[4]);
+    OUTFORMFIELD("F_COUNTRYOFORIGIN",ar[5]);
+    OUTFORMFIELD("F_Comment5MY",ar[6]);
+    OUTFORMFIELD("F_Comment6MY",ar[7]);
+    OUTFORMFIELD("F_Comment7MY",ar[8]);
+    OUTFORMFIELD("F_Comment8MY",ar[9]);
+  end;
+
+  
+  /*rwcnt = MatRowCnt(INr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(INr,i,INrw);
       OUTFORMFIELD("F_ITEMTYPE",INrw.LParam);
       OUTFORMFIELD("F_ARTCODEVARIETIES",INrw.LName);
       OUTFORMFIELD("F_BESKRIVNING",INrw.LComment1);
@@ -232,8 +269,8 @@ BEGIN
       OUTFORMFIELD("F_Comment6MY",INrw.LComment6);
       OUTFORMFIELD("F_Comment7MY",INrw.LComment7);
       OUTFORMFIELD("F_Comment8MY",INrw.LComment8);
-      EndFormRow;
-  end;
+      //EndFormRow;
+  end;*/
   
   EndFormRow;
 

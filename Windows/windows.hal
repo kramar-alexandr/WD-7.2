@@ -582,12 +582,12 @@ begin
     EditField(h,40,150,"Прейскурант",Normal,f2,false,PLdefSClass);
     
     h = 70;
-    ButtonFrame(h,80,60,2,"Опція");
+    /*ButtonFrame(h,80,60,2,"Опція");
   	RadioButton(h,85,0,0,"Друк",ArtMode);
   	RadioButton(h,105,1,0,"Перегляд",ArtMode);
-  	EndFrame;
+  	EndFrame;*/
   	
-  	h = 180;
+  	//h = 180;
     ButtonFrame(h,80,100,2,"Тип");
   	RadioButton(h,85,0,0,"Цінники",OnlyUnprntd);
   	RadioButton(h,105,1,0,"Етикетки цінників",OnlyUnprntd);

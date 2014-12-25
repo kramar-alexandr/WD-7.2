@@ -79,7 +79,8 @@ begin
   
   wn = OpenWindow("LabelStockItemsRClass",1,0,"","",RepSpec);
   DeselectWindow(wn,false); 
-  RepSpec.Media = mtScreen; 
+  RepSpec.Media = mtScreen;
+  //RepSpec.Media = mtPrinter;  
   RepSpec.critname = "LabelStockItemsRClass";
   RepSpec.repname = "LabelPUVcItemsRn";
   RepSpec.long1 = sernr;
