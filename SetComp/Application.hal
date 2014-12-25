@@ -176,11 +176,11 @@ begin
   DBHold;
   
   BlockLoad(Compb);
-  rwcnt = MatRowCnt(Compb); messagebox(0,1);
+  rwcnt = MatRowCnt(Compb);
   for (i = 0; i<rwcnt; i = i + 1) begin
     MatRowGet(Compb,i,Comprw);
     if (blank(Comprw.TCPIP)) then begin
-      if (SetCompanyCode(Comprw.CompCode,false)) then begin
+      /*if (SetCompanyCode(Comprw.CompCode,false)) then begin
         while (LoopMain(KPIDefr,1,true)) begin
           switch (KPIDefr.Status) begin
             case kKPIStatusInvalid:
@@ -195,7 +195,7 @@ begin
               RecordUpdate(KPIDefr,newKPIDefr,false);
           end;
         end;
-      end;
+      end;*/
     end;
   end;  
   ResetCompany(oldcomp);
@@ -513,7 +513,7 @@ begin
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(CompaniesRec,i,comprw);
     if (blank(comprw.TCPIP)) then begin
-      if (SetCompanyCode(comprw.CompCode,false)) then begin
+      /*if (SetCompanyCode(comprw.CompCode,false)) then begin
         ResetLoop(Accessr);
         foundf = true;
         Accessr.Code = "";
@@ -533,14 +533,14 @@ begin
             end;
           end;
         end;
-      end;
+      end;*/
     end;
   end;
 // This loops sets the GlobalUserVc records as well as the actual Access Groups properly
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(CompaniesRec,i,comprw);
     if (blank(comprw.TCPIP)) then begin
-      if (SetCompanyCode(comprw.CompCode,false)) then begin
+      /*if (SetCompanyCode(comprw.CompCode,false)) then begin
         ResetLoop(Accessr);
         foundf = true;
         Accessr.Code = "";
@@ -577,7 +577,7 @@ begin
           if (RecordUpdate(oldAccessr,Accessr,false)==0) then begin
           end;
         end;
-      end;
+      end;*/
     end;
   end;
 LAlreadyConverted:;

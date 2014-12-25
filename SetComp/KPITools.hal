@@ -753,12 +753,11 @@ begin
   Integer howoften;
   LongInt starttick;
   
-  oldcomp = CurrentCompany;
+  /*oldcomp = CurrentCompany;
   starttick = GetCurTick;
   BlockLoad(Compb);
-  rwcnt = MatRowCnt(Compb); messagebox(0,1);
-  
-  /*for (i = 0; i<rwcnt; i = i + 1) begin// Edit ************************** Monday, 27 October 2014 17:56:07
+  rwcnt = MatRowCnt(Compb);   
+  for (i = 0; i<rwcnt; i = i + 1) begin// Edit ************************** Monday, 27 October 2014 17:56:07
     MatRowGet(Compb,i,Comprw);
     if (blank(Comprw.TCPIP)) then begin
       if (SetCompanyCode(Comprw.CompCode,false)) then begin
@@ -766,7 +765,7 @@ begin
       end;
     end;
   end;
-  ResetCompany(oldcomp);*/
+  ResetCompany(oldcomp);
   switch (arg) begin
     case "startup":
       //stopalert("startup");
@@ -788,7 +787,7 @@ begin
 //        MasterWClassMetroKPIsUpdate(FindWindow("MasterWClass"));
       end;
     end;
-  end;
+  end;*/
   return;  
 end;
 
