@@ -1,5 +1,5 @@
 global
-function LongInt UserVcRecordCheck(var record UserVc USr,record CUUserVcVc US2r,LongInt stat,LongInt long4)
+function LongInt UserVcRecordCheck(var record UserVc USr,record UserVc US2r,LongInt stat,LongInt long4)
 begin
   LongInt res;
 	transaction Boolean gSynchServToOfflineSettingsm;
