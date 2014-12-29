@@ -877,8 +877,8 @@ begin
   boolean res;
 
 	IVCashr.MachineTimeStamp = TimeStamp;
+		logtext(0,TimeStamp);
     res = !ReadLastKey("MachineTimeStamp",IVCashr,1,true);
-    
     POSOffLineToServ_SynchRegisters_ShouldBeSynchronised = res;
 
   return;

@@ -2356,6 +2356,7 @@ begin
   //res = true; //Edit***************************Sasha2,18:09 24.09.2014
   
   res = POSOffLineToServ_SynchRegisters_ShouldBeSynchronised(IVCashr.MachineTimeStamp); //Edit***************************Sasha2,18:09 24.09.2014
+  //res = true;
   IVCashVcRecordShouldBeSynchronised = res;
   return;
 end;
