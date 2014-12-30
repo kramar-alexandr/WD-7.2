@@ -17,7 +17,7 @@ begin
 	Setting("Внесення готівки",CashINOUTTClass,modPOS);
 	Setting("Час на принтері",My1NullRecieptTClass,modPOS);
 	
-	SetLangMode(LangRussian,"RUS",0);
+	/*SetLangMode(LangRussian,"RUS",0);
   
 	Setting("Добавить товары в принтер",InsArtTClass,modPOS);
 	Setting("Z-Отчет",ZRepTClass,modPOS);
@@ -31,7 +31,7 @@ begin
 	Setting("Отчет по кассе за период",MyPeriodReportTClass,modPOS);
 	Setting("Добавить подпись к чеку",AddDownStringTClass,modPOS);
 	Setting("Внесение наличных",CashINOUTTClass,modPOS);
-	Setting("Время на принтере",My1NullRecieptTClass,modPOS);
+	Setting("Время на принтере",My1NullRecieptTClass,modPOS);*/
 	
  RETURN;
 END;  

@@ -183,7 +183,7 @@ BEGIN
   record LocalMachineBlock LMb;
   Integer oldprogmode;
   DBHold;
-  
+    
   if (IVCashp.OKFlag!=0) then begin
     BlockLoad(AutoActionRec);
     if (AutoActionRec.CashInvoicePrinting!=0) then begin
