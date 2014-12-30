@@ -159,7 +159,7 @@ begin
   record LocalLoginBlock LLb;
   record LocalMachineBlock LMb;
   record SerPrintBlock SPb;
-  
+    
   rwcnt = MatRowCnt(LMIBr);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(LMIBr,i,LMIBrw);
@@ -381,11 +381,9 @@ BEGIN
 	record OffLineSetBlock OSb;// Edit ************************** Monday, 27 October 2014 14:21:32
 	Boolean res;// Edit ************************** Monday, 27 October 2014 14:21:32
 	Integer i,rwcnt,k;// Edit ************************** Monday, 27 October 2014 14:21:28
-	string 10 compcode;// Edit ************************** Monday, 27 October 2014 15:00:55
-  
-  
+	string 10 compcode;// Edit ************************** Monday, 27 October 2014 15:00:55  
   transaction Boolean gSynchServToOfflineSettingsm;
-  
+    
   offlinecomp = GetPOSOffLineCompNo;
   curcomp = CurrentCompany;
   if (offlinecomp<=0) then begin goto LSynchServToOfflineSettingsm; end;
@@ -949,7 +947,7 @@ begin
   record LocalLoginBlock LLb;
   row LocalLoginBlock LLbrw;
   Integer i,rwcnt;
-
+		
   if (nonblank(LMSr.LocalMachine)) then begin
     LMb.LocalMachineCode = LMSr.LocalMachine;
     LMb.DefLocation = LMSr.DefLocation;
@@ -1044,7 +1042,7 @@ begin
   record LocalMachineSetVc LMSr;
   record LocalMachineLoginVc LMLr;
   record LocalMachineBlock LMb;
-  
+    
   oldprogmode = CompanyDefaultProgramMode;
   SetCompanyProgramMode(kProgramModeLiveSync);
   
@@ -1074,9 +1072,38 @@ begin
   return;
 end;
 
+// Edit Start ---------------------------------------------- Edit Start
+	//Tuesday, 30 December 2014 13:55:06
+	
+global updating procedure PastePayDeal(record LocalMachineBlock LMb,record LocalMachineAccBlock LMAb)
+begin
+	record DefCashBlock DCb;
+	row LocalMachineAccBlock LMArw;
+	integer i,rwcnt;
+	string 20 locmachine;
+	
+	blockload(DCb);
+	locmachine = LMb.LocalMachineCode;
+  
+	rwcnt = matrowcnt(LMAb);
+	for (i=0;i<rwcnt;i=i+1) begin
+		MatRowGet(LMAb,i,LMArw);
+		if(LMArw.LocalMachine==locmachine)then begin
+			DCb.DefCashPayMode = LMArw.CashID;
+			DCb.DefCCPayMode = LMArw.TermID;
+			i = rwcnt;
+		end;
+	end;
+	blockstore(DCb);
+	
+return;
+end;
+
+	// Edit End ---------------------------------------------- Edit End
+	
 global updating
 procedure SynkMachineRegisterCallback(Boolean setupsf,record SynkDBIDRegVc SynkDBIDRegr,record LocalMachineSetVc LMSr,
-                                                     record LocalMachineLoginVc LMLr)
+                                                     record LocalMachineLoginVc LMLr,record LocalMachineAccBlock LMAb)
 begin
   record LocalMachineBlock LMb;
   
@@ -1087,8 +1114,9 @@ begin
     SetupSynkMachine(SynkDBIDRegr);
   end;
   
-//Sasha2  I think that "SyncLocalMachineSettings" is not necessary because of "POSServToOffLine_SaveLocalMachineSettings" function
-  //SyncLocalMachineSettings(LMb,LMSr,LMLr); //Edit***************************Sasha2,14:02 25.09.2014
+  SyncLocalMachineSettings(LMb,LMSr,LMLr); //Edit***************************Sasha2,14:02 25.09.2014
+  //PastePayDeal(LMb,LMAb);// Edit ************************** Tuesday, 30 December 2014 13:54:27
+  
 end;
 
 global updating

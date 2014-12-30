@@ -4,11 +4,39 @@ begin
   LongInt res;
 	transaction Boolean gSynchServToOfflineSettingsm;
 	
+	logtext(0,"INVcREcorSync");
+	
 	res = 0; 
   if(gSynchServToOfflineSettingsm==false)then begin
 		res = inner.INVcRecordCheck(INr,IN2r,stat,long4);
   end;
   
   INVcRecordCheck = res;
+  return;
+end;
+
+
+global 
+function Boolean INVcRecordShouldBeSynchronised(record INVc INr,string tagstr)
+begin
+  Boolean res;
+  
+  logtext(0,"INVcRecordShouldBeSynchronised");
+  
+  res = true;
+  INVcrecordShouldBeSynchronised = res;
+  return;
+end;
+
+global 
+function Boolean INVcRecordSync(record INVc INr,string tagstr)
+begin
+  Boolean res;
+  
+  
+  logtext(0,"INVcRecordSync");
+  
+  res = true;
+  INVcRecordSync = res;
   return;
 end;

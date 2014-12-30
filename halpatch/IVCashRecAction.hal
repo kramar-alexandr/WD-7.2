@@ -140,6 +140,9 @@ begin
   record SRBlock SRb;  
   Boolean gentrans;
   record DefCashBlock DCb;// Edit ************************** Wednesday, 6 June 2012 15:07:34 
+  record RestPMBlock RestPMb;// Edit ************************** Tuesday, 30 December 2014 14:26:55
+  row RestPMBlock RestPMbrw;// Edit ************************** Tuesday, 30 December 2014 14:26:56
+  integer i,mtrw;
   
   curdate = CurrentDate;
   BlockLoad(ARAccRec);  
@@ -165,8 +168,27 @@ begin
   IVCashr.PayDeal = "";
   
   IVCashr.LocalMachineCode = CurMachineName;// Edited Tuesday, 27 July 2010 10:14:48
-  BlockLoad(DCb);
-  IVCashr.PayDeal2 = DCb.DefGCSPayMode;
+  //BlockLoad(DCb);
+  // Edit Start ---------------------------------------------- Edit Start
+	//Tuesday, 30 December 2014 14:28:40
+  BlockLoad(RestPMb);
+  mtrw = matrowcnt(RestPMb);
+  For(i=0;i<mtrw;i=i+1) begin
+	  matrowget(RestPMb,i,RestPMbrw);
+	  if(RestPMbrw.MachineName==CurMachineName)then begin
+	  	if(RestPMbrw.rowstp==kInvoiceRowTypeCreditCardPayment)then begin
+	  		IVCashr.PayDeal = RestPMbrw.PMCode;
+	  	end;
+	  	if(RestPMbrw.rowstp==kInvoiceRowTypeGiftVoucherPayment)then begin
+	  		IVCashr.PayDeal2 = RestPMbrw.PMCode;
+	  	end;
+	  end;
+	end; 	
+  
+	// Edit End ---------------------------------------------- Edit End
+	
+  
+  //IVCashr.PayDeal2 = DCb.DefGCSPayMode;
   //IVCashr.PayDeal3 = DCb.DefGCRPayMode;// Edit ************************** Monday, 15 April 2013 17:19:56
   
   IVCashr.Objects = "";
@@ -266,7 +288,28 @@ procedure IVCashVcRecordDefaultsClientRemote(var record IVCashVc IVCashr,record 
 begin
   string 255 warning,tstr;
   record DefCashBlock DCb;
-
+	record RestPMBlock RestPMb;// Edit ************************** Tuesday, 30 December 2014 14:26:55
+  row RestPMBlock RestPMbrw;// Edit ************************** Tuesday, 30 December 2014 14:26:56
+  integer i,mtrw;// Edit ************************** Tuesday, 30 December 2014 14:49:40
+	
+	// Edit Start ---------------------------------------------- Edit Start
+	//Tuesday, 30 December 2014 14:28:40
+  BlockLoad(RestPMb);
+  mtrw = matrowcnt(RestPMb);
+  For(i=0;i<mtrw;i=i+1) begin
+	  matrowget(RestPMb,i,RestPMbrw);
+	  if(RestPMbrw.MachineName==CurMachineName)then begin
+	  	if(RestPMbrw.rowstp==kInvoiceRowTypeCreditCardPayment)then begin
+	  		IVCashr.PayDeal = RestPMbrw.PMCode;
+	  	end;
+	  	if(RestPMbrw.rowstp==kInvoiceRowTypeGiftVoucherPayment)then begin
+	  		IVCashr.PayDeal2 = RestPMbrw.PMCode;
+	  	end;
+	  end;
+	end; 	
+  
+	// Edit End ---------------------------------------------- Edit End
+	
   BlockLoad(DCb);  
   if (nonblank(LMb.DefCustCode)) then begin
     tstr = IVCashr.Objects;
@@ -295,7 +338,7 @@ begin
   if (blank(IVCashr.PriceList)) then begin
     IVCashr.PriceList = LMb.PLCode;
   end;
-  IVCashr.PayDeal = DCb.DefCCPayMode;
+  //IVCashr.PayDeal = DCb.DefCCPayMode;
   if (LMb.DefaulBaggerSupervisor!=0) then begin
     IVCashr.Bagger = LMb.Bagger;
     IVCashr.Supervisor = LMb.Supervisor;
