@@ -2666,3 +2666,62 @@ begin
   NPTSIVCashDClassAfterEditField = res;
   return;
 end;
+
+// Edit Start ---------------------------------------------- Edit Start      *************** FROM IVCashVcWAction2.hal
+	//Thursday, 8 January 2015 10:52:19
+	
+global
+function Boolean IVCashDClassOKFlagButtonAction(Integer wn,Integer value)
+BEGIN
+  Boolean res;
+  record IVCashVc IVCashr;
+  Integer normalmode,updatemode;
+ 
+  res = true;
+  normalmode = 0;//Rs_normal
+  updatemode = 2;//Rs_update
+  if (WindowState(wn)==normalmode) then begin
+    GetWindowRecord(wn,IVCashr);
+    if (IVCashr.OKFlag!=0) then begin
+      res = false;
+    end;
+    if (IVCashr.Invalid!=0) then begin
+      res = false;
+    end;    
+  end;  
+  if (WindowState(wn)==updatemode) then begin
+    GetPrevWindowRecord(wn,IVCashr);
+    if (IVCashr.OKFlag!=0) then begin
+      res = false;
+    end;
+    if (IVCashr.Invalid!=0) then begin
+      res = false;
+    end;
+  end; 
+	
+  if(currentuser=="POSSRV")then begin// Edit ************************** Thursday, 8 January 2015 10:54:03
+    res = true;// Edit ************************** Thursday, 8 January 2015 10:54:03
+  end;// Edit ************************** Thursday, 8 January 2015 10:54:04
+  
+	
+  IVCashDClassOKFlagButtonAction = res;
+  RETURN;
+END;
+
+global
+function Boolean IVCashDClassUpdateTest(Integer wn)
+begin
+  Boolean res;
+  record IVCashVc IVCashr;
+  
+  GetWindowRecord(wn,IVCashr);
+  res = IVCashr.OKFlag==0;
+  if(currentuser=="POSSRV")then begin
+    res = true;
+  end;
+  IVCashDClassUpdateTest = res;
+  return;
+end;
+
+	// Edit End ---------------------------------------------- Edit End
+	

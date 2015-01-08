@@ -745,6 +745,8 @@ BEGIN
   row IVCashVc chIVrw; // Edit ************************** Friday, 22 February 2013 15:01:26
   record SerBalVc SerBalr; //Edit***************************Sasha2,17:24 14.10.2014 
   
+  if(currentuser!="POSSRV")then begin// Edit ************************** Thursday, 8 January 2015 10:49:02
+  
   programmode = CompanyProgramMode;
   if (long4>0) then begin
     check = true;
@@ -1853,7 +1855,13 @@ LIVCashVcRecordCheck:;
       LogText(0,"Record Check failed for POS Invoice " & IVCashr.SerNr " error " & RecordCheckLastErrorNo);
     end;
   end;
+  
+  end else begin// Edit ************************** Thursday, 8 January 2015 10:49:27
+    res = 0;// Edit ************************** Thursday, 8 January 2015 10:49:27
+  end;// Edit ************************** Thursday, 8 January 2015 10:49:28
+  
   IVCashVcRecordCheck = res;
+
   RETURN;
 END;
 
