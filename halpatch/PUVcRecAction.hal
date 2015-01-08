@@ -1756,7 +1756,7 @@ begin
 				messagebox(errcode,""); 
 				goto LError;     
 			end;
-			logtext(0,errcode);
+			//logtext(0,errcode);
 			if ((gTRp.Number>0) and (gTRp.IntYc==PUYc)) then begin
 				errstr = CheckTrans(gTRp,2,true);
 				if (nonblank(errstr)) then begin

@@ -781,8 +781,14 @@ begin
   end else begin
     res = true;
   end;
+  
+  //logtext(0,"usercode = " & usercode);
+  //logtext(0,"SynkAutoSerr.UserCode = " & SynkAutoSerr.UserCode);
+  //logtext(0,"res = " & res);
+  
   if (res) then begin
     rwcnt = MatRowCnt(SynkDBIDRegr);
+    //logtext(0,"rwcnt = " & rwcnt);
     if (rwcnt>0) then begin
       for (i=0;i<rwcnt;i=i+1) begin
         MatRowGet(SynkDBIDRegr,i,SynkDBIDRegrw);
@@ -808,10 +814,12 @@ begin
             end;
           end;
         end;
-        
+        //logtext(0,"cnt = " & cnt);
+        //logtext(0,"SynkAutoSerrw.NrsMinimum = " & SynkAutoSerrw.NrsMinimum);
         if ((cnt>0) and (cnt<SynkAutoSerrw.NrsMinimum)) then begin
           SynkDBIDRegrw.FileName = SynkAutoSerrw.FileName;
           GetSynkMachineRange(SynkAutoSerrw.FileName,SynkAutoSerrw.NumberSeries,SynkAutoSerrw.NrsRangeQty,fr,to);
+          logtext(0,SynkAutoSerrw.FileName & " - " & SynkAutoSerrw.NumberSeries & " - " & SynkAutoSerrw.NrsRangeQty & " - " & fr & " - " & to);
           SynkDBIDRegrw.From = fr;
           SynkDBIDRegrw.To = to;
           SynkDBIDRegrw.LastNumber = -1;
@@ -821,10 +829,12 @@ begin
       end;
     end else begin
       arwcnt = MatRowCnt(SynkAutoSerr);
+      //logtext(0,"arwcnt =" & arwcnt);
       for (ai=0;ai<arwcnt;ai=ai+1) begin
         MatRowGet(SynkAutoSerr,ai,SynkAutoSerrw);
         SynkDBIDRegrw.FileName = SynkAutoSerrw.FileName;
         GetSynkMachineRange(SynkAutoSerrw.FileName,SynkAutoSerrw.NumberSeries,SynkAutoSerrw.NrsRangeQty,fr,to);
+        logtext(0,SynkAutoSerrw.FileName & " - " & SynkAutoSerrw.NumberSeries & " - " & SynkAutoSerrw.NrsRangeQty & " - " & fr & " - " & to);
         SynkDBIDRegrw.From = fr;
         SynkDBIDRegrw.To = to;
         SynkDBIDRegrw.LastNumber = -1;
@@ -880,7 +890,7 @@ begin
   boolean res;
 
 	IVCashr.MachineTimeStamp = TimeStamp;
-		logtext(0,TimeStamp);
+		//logtext(0,TimeStamp);
     res = !ReadLastKey("MachineTimeStamp",IVCashr,1,true);
     POSOffLineToServ_SynchRegisters_ShouldBeSynchronised = res;
 

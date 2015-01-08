@@ -294,7 +294,7 @@ BEGIN
     
   pucnt = MatRowCnt(PUr);
   if (pucnt==0) then begin
-  	LogText(0,"virtual PUVc has no rows");
+  	//LogText(0,"virtual PUVc has no rows");
   	return;
   end;
   

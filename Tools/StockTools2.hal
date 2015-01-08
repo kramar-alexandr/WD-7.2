@@ -1435,9 +1435,9 @@ begin
             q2 = qty/Retrw.Coefficient;
           end;
           if (Retp.UpdStockFlag!=0) then begin
-          	if(Retrw.ArtCode=="04103101414")then begin
+          	/*if(Retrw.ArtCode=="04103101414")then begin
           		logtext(0,"RetVc 1");
-          	end;
+          	end;*/
             UpdateInstock("RetVc",Retp.SerNr,Retrw.ArtCode,location,Retp.TransDate,qty,t,t,t,t,q2,t,t,t);
           end;
           if (orfound) then begin
@@ -1553,9 +1553,9 @@ SO->SH->Ret full qty and SH->Ret full qty again, code here causes item status be
               q2 = qty/RecSHrw.Coefficient;
             end;
             if (Retp.UpdStockFlag!=0) then begin
-            	if(Retrw.ArtCode=="04103101414")then begin
+            	/*if(Retrw.ArtCode=="04103101414")then begin
 								logtext(0,"RetVc 3");
-							end;
+							end;*/
               UpdateInstock("RetVc",Retp.SerNr,RecSHrw.ArtCode,location,Retp.TransDate,qty,t,t,t,t,q2,t,t,t);
             end;
             if (orfound) then begin
@@ -1578,9 +1578,9 @@ SO->SH->Ret full qty and SH->Ret full qty again, code here causes item status be
                 orq = blankval;
                 ordqty = blankval;
               end;
-              if(Retrw.ArtCode=="04103101414")then begin
+              /*if(Retrw.ArtCode=="04103101414")then begin
 								logtext(0,"RetVc 4");
-							end;
+							end;*/
               UpdateInstock("RetVc",Retp.SerNr,RecSHrw.ArtCode,ordlocation,Retp.TransDate,t,qty,t,t,t,q2,t,t,t);
             end;
           end;

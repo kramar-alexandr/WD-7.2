@@ -4,7 +4,7 @@ begin
   LongInt res;
 	transaction Boolean gSynchServToOfflineSettingsm;
 	
-	logtext(0,"INVcREcorSync");
+	//logtext(0,"INVcREcorSync");
 	
 	res = 0; 
   if(gSynchServToOfflineSettingsm==false)then begin
@@ -21,7 +21,7 @@ function Boolean INVcRecordShouldBeSynchronised(record INVc INr,string tagstr)
 begin
   Boolean res;
   
-  logtext(0,"INVcRecordShouldBeSynchronised");
+  //logtext(0,"INVcRecordShouldBeSynchronised");
   
   res = true;
   INVcrecordShouldBeSynchronised = res;
@@ -34,7 +34,7 @@ begin
   Boolean res;
   
   
-  logtext(0,"INVcRecordSync");
+  //logtext(0,"INVcRecordSync");
   
   res = true;
   INVcRecordSync = res;

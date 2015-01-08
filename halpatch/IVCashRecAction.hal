@@ -756,14 +756,14 @@ BEGIN
   updatemode = 2;//Rs_update
   oldnr = IVCashr.SerNr;
   oldOfficialSerNr = IVCashr.OfficialSerNr;
-  if (blank(IVCashr.MachineTimeStamp)) then begin //Edit***************************Sasha2,11:05 25.09.2014{
+  /*if (blank(IVCashr.MachineTimeStamp)) then begin //Edit***************************Sasha2,11:05 25.09.2014{
   	IVCashr.MachineTimeStamp = GetTimeStampAndUser(IVCashr.LocalMachineCode);
   	if (blank(IVCashr.MachineTimeStamp)) then begin
   		res = -1;
   		goto LIVCashVcRecordCheck;
   	end;
   end; //Edit***************************Sasha2,11:06 25.09.2014 }
-
+*/
   if (IVCashr.OKFlag==0) then begin
     if (stat==updatemode) then begin
       if (IVCash2r.OKFlag==1) then begin unokf = true; end;
@@ -1733,7 +1733,7 @@ u might want to put loyalty card or bagger 1st
   end;
   if (transf) then begin
   	  //Edit***************************Sasha2,16:42 29.09.2014 {
-   	  if (IVCashr.CashValue==0) then begin
+   	  /*if (IVCashr.CashValue==0) then begin
         RecordCheckError(1210,"",-1,"CashValue");      
         res = -1; 
         goto LIVCashVcRecordCheck;   
@@ -1743,7 +1743,7 @@ u might want to put loyalty card or bagger 1st
         RecordCheckError(1210,"",-1,"CashValue");      
         res = -1; 
         goto LIVCashVcRecordCheck;    
-      end; //Edit***************************Sasha2,17:08 27.10.2014 }
+      end; //Edit***************************Sasha2,17:08 27.10.2014 }*/
      
       if ((IVCashr.Sum4>0) and ((IVCashr.RecValue + IVCashr.RecValue3)>IVCashr.Sum4)) or ((IVCashr.Sum4<0) and ((IVCashr.RecValue+IVCashr.CashValue + IVCashr.RecValue3)<IVCashr.Sum4)) then begin
         RecordCheckError(1210,"",-1,"RecValue");      

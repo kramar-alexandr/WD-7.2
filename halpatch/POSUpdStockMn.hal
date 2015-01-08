@@ -72,7 +72,7 @@ begin
     SDr.Comment = SDr.Comment & RepSpec.sStartDate & "-";
     SDr.Comment = SDr.Comment & RepSpec.sEndDate;
     SDSumUp(SDr);
-    logtext(0,"try save SDr " & SDr.SerNr);// Edit ************************** пятница, 25 июня 2010 г. 15:18:04
+    //logtext(0,"try save SDr " & SDr.SerNr);// Edit ************************** пятница, 25 июня 2010 г. 15:18:04
     if (RecordStore(SDr,false)) then begin
       UpdateIVsWithStockRecordNr("SDVc",SDr.SerNr);
       if (RepSpec.flags[1]!=0) then begin
@@ -103,7 +103,7 @@ begin
     PUr.Comment = PUr.Comment & USetStr(17812) & " ";
     PUr.Comment = PUr.Comment & RepSpec.sStartDate & "-";
     PUr.Comment = PUr.Comment & RepSpec.sEndDate;
-    logtext(0,"try save PUr " & PUr.SerNr);// Edit ************************** пятница, 25 июня 2010 г. 15:21:35
+    //logtext(0,"try save PUr " & PUr.SerNr);// Edit ************************** пятница, 25 июня 2010 г. 15:21:35
     if (RecordStore(PUr,false)) then begin
       UpdateIVsWithStockRecordNr("PUVc",PUr.SerNr);
       if (RepSpec.flags[0]!=0) then begin
@@ -736,9 +736,9 @@ begin
       IVCashOneInvoice(RepSpec,IVCashr,SDr,PUr,flushcnt,ARb,CAb,vartcodelastsdserialnr,vartcodelastpuserialnr,vqtylastpuserialnr);
     end;
   end;
-  logtext(0,"items in SDr " & MatRowCnt(SDr));// Edit ************************** пятница, 25 июня 2010 г. 15:22:07
+  //logtext(0,"items in SDr " & MatRowCnt(SDr));// Edit ************************** пятница, 25 июня 2010 г. 15:22:07
   SaveSD(RepSpec,SDr);
-  logtext(0,"items in SDr " & MatRowCnt(PUr));// Edit ************************** пятница, 25 июня 2010 г. 15:22:07
+  //logtext(0,"items in SDr " & MatRowCnt(PUr));// Edit ************************** пятница, 25 июня 2010 г. 15:22:07
   SavePU(RepSpec,PUr);
   
   return;

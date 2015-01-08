@@ -956,8 +956,8 @@ BEGIN
         remn = BatchDeliveredForOR(SHr.OrderNr,SHrw.OrdRow,SHrw.SerialNr) - BatchReturnForOR(SHr.OrderNr,SHrw.OrdRow,SHrw.SerialNr);
       otherwise
         remn = ORrw.Shipd2 - NotOKedReturnForOR(SHr.OrderNr,SHrw.OrdRow);
-        logtext(0,ORrw.Shipd2);
-        logtext(0,NotOKedReturnForOR(SHr.OrderNr,SHrw.OrdRow));
+        //logtext(0,ORrw.Shipd2);
+        //logtext(0,NotOKedReturnForOR(SHr.OrderNr,SHrw.OrdRow));
 //    remn = remn - AlreadyReturnedforOR(SHr.OrderNr,SHrw.OrdRow);
     end;
     if (remn>SHrw.Ship) then begin remn = SHrw.Ship; end;

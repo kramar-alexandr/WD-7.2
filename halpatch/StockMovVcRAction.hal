@@ -298,14 +298,14 @@ BEGIN
             end;
           end;
 //          FindStockValue(StockMovrw.ArtCode,frlocation,ISr);    
-					logtext(0,SNrb.BulkSerialNos);        
+					//logtext(0,SNrb.BulkSerialNos);        
           if (SNrb.BulkSerialNos!=0) then begin
             FindStockValueInclStockReserv(-1,StockMovrw.ArtCode,"",frlocation,ISr,stockreservq);
           end else begin
             FindStockValueInclStockReserv(-1,StockMovrw.ArtCode,StockMovrw.SerialNr,frlocation,ISr,stockreservq);
           end;
           prev = prev + quant;
-          logtext(0,ISr.Instock & "_" & prev & "_" & stockreservq);
+          //logtext(0,ISr.Instock & "_" & prev & "_" & stockreservq);
           if (ISr.Instock<(prev+stockreservq)) then begin
             if (sentquantf) then begin
               error = 1247;

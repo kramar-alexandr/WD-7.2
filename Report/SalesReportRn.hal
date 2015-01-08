@@ -105,18 +105,18 @@ begin
 			if(cred<0)then begin
 				
 				cnt = 1;
-				logtext(0,IVr.SerNr);
+				//logtext(0,IVr.SerNr);
 				while(ReadRecordLink(IVr,cnt,Retr,RLr)) begin
 					cnt = cnt+1;
 					
 					if(Retr.SerNr>-1)then begin
-						logtext(0,"RetVc " & Retr.SerNr);
+						//logtext(0,"RetVc " & Retr.SerNr);
 						retrwnt = matrowcnt(Retr);
-						LOGTEXT(0,"retrwnt" & retrwnt);
+						//LOGTEXT(0,"retrwnt" & retrwnt);
 						For(reti=0;reti<retrwnt;reti=reti+1) begin
 	  					matrowget(Retr,reti,Retrw);
 	  					
-	  					LOGTEXT(0,IVrw.OrdRow & "__" & Retrw.OrdRow);
+	  					//LOGTEXT(0,IVrw.OrdRow & "__" & Retrw.OrdRow);
 	  					if(IVrw.OrdRow>=0 and IVrw.OrdRow==Retrw.OrdRow)then begin
 							IHr.FileName = "RetVc";
 							IHr.TransNr = Retr.SerNr;
@@ -128,7 +128,7 @@ begin
 								if(IHr.Row!=reti)then begin TrHs = false; testf = false; end;
 			
 								if(testf)then begin
-									logtext(0,"RetVc IHR " & IHr.TransNr);
+									//logtext(0,"RetVc IHR " & IHr.TransNr);
 									cost[ressize] = IHr.TotCostPrice / IHr.Qty*cred;
 									serial[ressize] = IHr.SerialNr;
 									qty[ressize] = IHr.Qty*cred; 

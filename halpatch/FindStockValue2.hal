@@ -1201,7 +1201,7 @@ begin
           sourceIHr.SerNr = sourceIHr.SerNr - CntStockMovInLines(sourceIHr);
           if (ReadFirstKey("SerNr",sourceIHr,1,true)) then begin
             if (sourceIHr.Source>=source) then begin
-              LogText(0,"1.FindSourcePU, sourceIHr.Source==source, source: " & source & " Item: " & sourceIHr.ArtCode & " Stock Movement: " & sourceIHr.TransNr & " ,skipping to avoid infinite loop...");
+              //LogText(0,"1.FindSourcePU, sourceIHr.Source==source, source: " & source & " Item: " & sourceIHr.ArtCode & " Stock Movement: " & sourceIHr.TransNr & " ,skipping to avoid infinite loop...");
             end else begin
               FindSourcePU(sourceIHr.Source,PUsourceIHr);
             end;
@@ -1223,7 +1223,7 @@ begin
                   if (sourceIHr.Row!=Retrw.SHRow) then begin found = false; end;
                   if (found) then begin
                     if (sourceIHr.Source>=source) then begin
-                      LogText(0,"2.FindSourcePU, sourceIHr.Source==source, source: " & source & " Item: " & sourceIHr.ArtCode & " Stock Movement: " & sourceIHr.TransNr & " ,skipping to avoid infinite loop...");
+                      //LogText(0,"2.FindSourcePU, sourceIHr.Source==source, source: " & source & " Item: " & sourceIHr.ArtCode & " Stock Movement: " & sourceIHr.TransNr & " ,skipping to avoid infinite loop...");
                     end else begin
                       FindSourcePU(sourceIHr.Source,PUsourceIHr);
                     end;
