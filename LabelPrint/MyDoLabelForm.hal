@@ -98,7 +98,8 @@ BEGIN
   
   
   blockload(BCr);
-    
+     logtext(0,exprice);
+    messagebox(0,exprice);
   if(exprice<=0)then begin
     
     if(blank(pricecode))then begin
@@ -160,6 +161,8 @@ BEGIN
 		priceB = "0" & priceB;
 	end;
   
+      logtext(0,price);
+    messagebox(0,price);
   if (FIELDINFORM("F_PRIS")) then begin
     tstr = price;
     OUTFORMFIELD("F_PRIS",tstr);
@@ -242,21 +245,21 @@ BEGIN
   	rowsf = false;
   end;
   
-  if (rowsf) then begin
+  /*if (rowsf) then begin
   	OUTFORMFIELD("F_ITEMTYPE",ar[0]);
     OUTFORMFIELD("F_ARTCODEVARIETIES",ar[1]);
     OUTFORMFIELD("F_BESKRIVNING",ar[2]);
-    OUTFORMFIELD("F_SIGNATURE",ar[3]);
+    OUTFORMFIELD("F_SIGNATURE",ar[3]);	
     OUTFORMFIELD("F_TEXT",ar[4]);
     OUTFORMFIELD("F_COUNTRYOFORIGIN",ar[5]);
     OUTFORMFIELD("F_Comment5MY",ar[6]);
     OUTFORMFIELD("F_Comment6MY",ar[7]);
     OUTFORMFIELD("F_Comment7MY",ar[8]);
     OUTFORMFIELD("F_Comment8MY",ar[9]);
-  end;
+  end;*/
 
   
-  /*rwcnt = MatRowCnt(INr);
+  rwcnt = MatRowCnt(INr);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(INr,i,INrw);
       OUTFORMFIELD("F_ITEMTYPE",INrw.LParam);
@@ -270,7 +273,7 @@ BEGIN
       OUTFORMFIELD("F_Comment7MY",INrw.LComment7);
       OUTFORMFIELD("F_Comment8MY",INrw.LComment8);
       //EndFormRow;
-  end;*/
+  end;
   
   EndFormRow;
 
@@ -297,10 +300,7 @@ BEGIN
   	//LogText(0,"virtual PUVc has no rows");
   	return;
   end;
-  
-
-  //RepSpec.f1 = MLIr.Cust1;  MLIr.Cust1 --> INr.Cust1
-  //GetLangNr("",LangNrr);  
+ 
   prlist = PUr.LangCode; //price list
   intdocnr = 1;
   printf = true;
@@ -325,7 +325,6 @@ LBREAK:;
       Docr.Code = formcode;
       ReadFirstMain(Docr,1,true);
       testf = true;
-      //if(nonblank(INr.DefFormCode)and(INr.DefFormCode!=formcode))then begin testf = false; end;
       if(testf)then begin 
     	for (j=0;j<pucnt;j=j+1) begin
     		if(formisopen==false)then begin
@@ -334,34 +333,35 @@ LBREAK:;
     				openfailedf = true;
     				goto LNotOpened;
     			end;
-				if (labelgridf) then begin
-					maxcps = LabelSetup(6,0);
+					if (labelgridf) then begin
+						maxcps = LabelSetup(6,0);
+					end;
 				end;
-			end;
-			if(formisopen)then begin
-        		matrowget(Pur,j,PUrw);
-        		INr.Code = PUrw.ArtCode;
-        		if (NonBlank(PUrw.ArtCode) and ReadFirstMain(INr,1,true)) then begin
-        			RepSpec.f3 = INr.Code;
-		            RepSpec.f4 = INr.LPriceList;
-		            RepSpec.f5 = INr.LDefFormCode;
-		            price = PUrw.UPrice;
-		            PrintItemLabel(RepSpec,INr,price,prlist,INr.LCurncyCode,currentdate,Docr);
-		            if (labelgridf) then begin
-		            	if (curcp>=maxcps) then begin
-							formisopen = false;
-							curcp = 1;
-							CloseForm;
-						end else begin
-							EndFormLabel;
-							curcp = curcp + 1; 
+				if(formisopen)then begin
+					matrowget(Pur,j,PUrw);
+					INr.Code = PUrw.ArtCode;
+					if (NonBlank(PUrw.ArtCode) and ReadFirstMain(INr,1,true)) then begin
+						RepSpec.f3 = INr.Code;
+						RepSpec.f4 = INr.LPriceList;
+						RepSpec.f5 = INr.LDefFormCode;
+						price = PUrw.UPrice;
+						PrintItemLabel(RepSpec,INr,price,prlist,INr.LCurncyCode,currentdate,Docr);
+						if (labelgridf) then begin
+							if (curcp>=maxcps) then begin
+								formisopen = false;
+								curcp = 1;
+								CloseForm;
+							end else begin
+								EndFormLabel;
+								curcp = curcp + 1; 
+							end;
 						end;
-		            end;
-        		end;
-        	end;	
+					end;
+				end;
     	end;
     	if (formisopen) then begin
-    		CloseForm;  
+    		CloseForm; 
+    		formisopen = false; 
     	end;
  LNotOpened:;       	
         if (openfailedf) then begin

@@ -594,3 +594,69 @@ begin
   	EndFrame;
   EndWindow;
 end; //Edit***************************Sasha2,16:07 24.10.2014 }
+
+
+window MyRepricingLClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs,t;
+WindowBegin("Друк цінників",MyRepricingLClass,CGmlist,-);
+    SpawnClass(MyRepricingDClass);
+    SetWRect(20,80,900,298);
+    Sizeable(-1,-1,0,0);
+    UseView(MyRepricingVc);
+    RecordList(4,17,-21,-39);
+    RlColKey(4,2,"Номер",SerNr,false,SerNr);
+    //RlCol(120,120,"Дата",TransDate,false);
+    RlCol(170,170,"Коментар",Comment,false);
+    RlCol(270,270,"Продавець",SalesMan,false);
+    //RlCol(-270,-270,"Склад",Location,false); 
+    SearchField("Пошук");
+    //BrowseSubsetButton(-40,-15);
+  EndWindow;
+end;
+  
+window MyRepricingDClass:1 // Edit ************************** Friday, 9 January 2015 10:45:39
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs,t;
+  WindowBegin("Друк цінників",MyRepricingDClass,CGview,-);
+    SetWRect(20,80,700,298);
+    Sizeable(-1,-1,0,0);
+    UseView(MyRepricingVc);
+    v=5;
+    h=80;
+    EditField(h,v, 100,"Номер",Normal,SerNr,false,TSerSClass);
+    EditField(h+180,v,300,"Коментар",Normal,Comment,false,0);
+    EditField(h,v+=20,100, "Редактував",ViewOnly,SalesMan,false,UserSClass);
+    EditField(h,v+=20,100, "Склад",Normal,Location,false,LocationSClass);
+    //EditField(h,v+=20,100, "Дата",Normal,TransDate,false,PasteCurDate);
+    v = 45;
+    EditField(h+380,v,100, "Прайс",Normal,DefPriceCode,false,PLDefSClass);
+    v=20;
+    ButtonFrame(h+=500,v,160,2,"Тип");
+    
+    RadioButton(h,v,0,0,"Цінники великі",Size);
+    RadioButton(h,v+=16,1,0,"Цінники стікери",Size); 
+    vs=v;
+    v=vs;
+
+    Tile(0,v+=80,false,"",SerNr);
+    TileButton(1,"Цінники");    
+    Tile(1,v,true,"1",Math);
+    v = 18;
+    MatrixBegin(3,v,-50,-44,-,199);
+      t=1;
+      Flip(0);
+      MatCol(t,24,"Товар",0,ArtCode,false,INSClass);
+      MatCol(t,150,"Назва",0,Spec,false,0);
+      MatCol(t,-200,"Кіл-ть",0,Quant,false,0);
+      MatCol(t,-100,"Ціна",0,Price,false,0);
+      InsertRowTest;
+      DeleteRowTest;
+    EndMatrix;
+    vs = 20;
+    v = 18;  VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+  EndWindow;
+end;
+

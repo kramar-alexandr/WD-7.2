@@ -203,7 +203,7 @@ BEGIN
   record LocationVc Locr;
   record MainStockBlock MSb;
   Array string 20 apos;
-  Integer acnt;
+  Integer acnt,k;// Edit ************************** Friday, 9 January 2015 10:23:07
 
   BlockLoad(MSb);
   StockMovp.FrLocation = MSb.MainStock;
@@ -241,24 +241,50 @@ BEGIN
   rwcnt = MatRowCnt(ORp);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(ORp,i,ORrw);
-    if ((ORrw.Shipd1==0) and ((ORrw.Location!=RepSpec.Stext) or (blank(RepSpec.Stext)))) then begin
-      if (ReadFirstItem(ORrw.ArtCode,INr,true,true)) then begin
-        ClearRow(StockMovp,StockMovrw,1);   
-        StockMovrw.ArtCode = ORrw.ArtCode;
-        StockMovrw.Quant = ORrw.Quant;
-        StockMovrw.Spec = ORrw.Spec;
-        StockMovrw.SerialNr = ORrw.SerialNr;
-        StockMovrw.NewPrice = ORrw.BasePrice;
-        StockMovrw.ExtraSCost = "";
-        StockMovrw.OldPrice = ORrw.BasePrice;
-        StockMovrw.BasePrice = INr.UPrice1;
-        StockMovrw.BasePrice = blankval;
-        StockMovrw.Coefficient = INr.UnitCoefficient;
-        StockMovrw.Objects = ORrw.Objects;
-        MatRowPut(StockMovp,stcnt,StockMovrw);
-        stcnt = stcnt + 1;
-        ORrw.Shipd1 = ORrw.Quant;
-        MatRowPut(ORp,i,ORrw);
+    if ((ORrw.Quant-ORrw.Shipd2>0) and ((ORrw.Location!=RepSpec.Stext) or (blank(RepSpec.Stext)))) then begin
+      INr.Code = ORrw.ArtCode;
+      if (ReadFirstMain(INr,1,true)) then begin
+        if(INr.SerNrf==0)then begin
+            ClearRow(StockMovp,StockMovrw,1);   
+            StockMovrw.IntORRow = i;
+            StockMovrw.ArtCode = ORrw.ArtCode;
+            StockMovrw.Quant = ORrw.Quant-ORrw.Shipd2;//ORrw.Quant;//-----------------------------------Customixe
+            StockMovrw.OrdQuant = StockMovrw.Quant;// Edit ************************** Friday, 9 January 2015 10:31:55
+            StockMovrw.Spec = ORrw.Spec;
+            StockMovrw.SerialNr = ORrw.SerialNr;
+            StockMovrw.NewPrice = ORrw.BasePrice;
+            StockMovrw.ExtraSCost = "";
+            StockMovrw.OldPrice = ORrw.BasePrice;
+            StockMovrw.BasePrice = INr.UPrice1;
+            StockMovrw.BasePrice = blankval;
+            StockMovrw.Coefficient = INr.UnitCoefficient;
+            StockMovrw.Objects = ORrw.Objects;
+            MatRowPut(StockMovp,stcnt,StockMovrw);
+            stcnt = stcnt + 1;
+            ORrw.Shipd1 = 1;//ORrw.Quant;//-----------------------------------Customixe
+            MatRowPut(ORp,i,ORrw);
+        end else begin
+          for(k=0;k<ORrw.Quant-ORrw.Shipd2;k=k+1) begin//-----------------------------------Customixe
+            ClearRow(StockMovp,StockMovrw,1);   
+            StockMovrw.IntORRow = i;
+            StockMovrw.ArtCode = ORrw.ArtCode;
+            StockMovrw.Quant = 1;//ORrw.Quant;//-----------------------------------Customixe
+            StockMovrw.OrdQuant = StockMovrw.Quant;// Edit ************************** Friday, 9 January 2015 10:31:55
+            StockMovrw.Spec = ORrw.Spec;
+            StockMovrw.SerialNr = ORrw.SerialNr;
+            StockMovrw.NewPrice = ORrw.BasePrice;
+            StockMovrw.ExtraSCost = "";
+            StockMovrw.OldPrice = ORrw.BasePrice;
+            StockMovrw.BasePrice = INr.UPrice1;
+            StockMovrw.BasePrice = blankval;
+            StockMovrw.Coefficient = INr.UnitCoefficient;
+            StockMovrw.Objects = ORrw.Objects;
+            MatRowPut(StockMovp,stcnt,StockMovrw);
+            stcnt = stcnt + 1;
+            ORrw.Shipd1 = 1;//ORrw.Quant;//-----------------------------------Customixe
+            MatRowPut(ORp,i,ORrw);
+          end;
+        end;//-----------------------------------Customixe
       end;  
     end;  
   end;  

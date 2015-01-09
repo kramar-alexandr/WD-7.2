@@ -707,7 +707,7 @@ begin
       res = false;
     end;
     if (StockMovrw.IntORRow>=0) then begin
-      res = false;
+      //res = false;// Edit ************************** Friday, 9 January 2015 14:44:59
     end;
   end;
   StockMovDClassDeleteRowTest = res;
