@@ -11,6 +11,7 @@ remote procedure SavingCash(var record CashVc);
 external updating function Boolean SendServiceRequest(string,Boolean,area,var Area);
 external updating function Boolean ServiceRequestAsync(string,string,Boolean,area,string);
 external procedure ReadTXServiceReply(var record TXServiceReplyVc,var Area,Boolean);
+external procedure prt(string,string,var boolean);
 
 
 //----------------------------------------------------------------------------------------------------
@@ -372,3 +373,64 @@ begin
 	
 	RETURN;
 END;
+
+
+global	
+procedure PrintCashInEvent()		//Edit----------------------Dima--08.01.2015
+begin
+	record RcVc RepSpec;
+	integer wn;
+	string 40 comand;
+	val cash;
+	Boolean res;
+ 	record SysFormatBlock SysFormatRec;
+  
+	BlockLoad(SysFormatRec);  
+	wn = curwindow;
+	deselectwindow(wn,true);
+	GetWindowRecord(wn,RepSpec);
+	cash = RepSpec.vals0;
+	comand=valtostring(cash,M4Val,"",SysFormatRec.decimalPt,0);
+	prt("cashin",comand,res);
+	selectwindow(wn);  
+	closewindow(wn);
+
+return;
+end;
+
+global	
+procedure PrintCashOutEvent()		//Edit----------------------Dima--08.01.2015
+begin
+	record RcVc RepSpec;
+	integer wn;
+	string 40 comand;
+	val cash;
+	Boolean res;
+ 	record SysFormatBlock SysFormatRec;
+  
+	BlockLoad(SysFormatRec);  
+	wn = curwindow;
+	deselectwindow(wn,true);
+	GetWindowRecord(wn,RepSpec);	
+	cash = -RepSpec.vals0;
+	comand=valtostring(cash,M4Val,"",SysFormatRec.decimalPt,0);
+	prt("cashin",comand,res);
+	selectwindow(wn);  
+	closewindow(wn);	
+
+return;
+end;
+
+
+global
+function Boolean CashEventsTClassOnOpenWindow(Integer wn)	//Edit----------------------Dima--09.01.2015
+begin
+  record RcVc RepSpec;
+
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.vals0 = 460;
+  PutWindowRecord(wn,RepSpec);
+  CashEventsTClassOnOpenWindow = false;
+  return;
+end;

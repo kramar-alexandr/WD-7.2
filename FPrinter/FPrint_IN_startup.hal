@@ -14,8 +14,10 @@ begin
 	Setting("Надрукувати нульовий чек",MyNullRecieptTClass,modPOS);
 	Setting("Звіт по касі за період",MyPeriodReportTClass,modPOS);
 	Setting("Додати підпис до чека",AddDownStringTClass,modPOS);
-	Setting("Внесення готівки",CashINOUTTClass,modPOS);
+	//Setting("Внесення готівки",CashINOUTTClass,modPOS);	//Commented out by Dima	09.01.2015
 	Setting("Час на принтері",My1NullRecieptTClass,modPOS);
+	Setting("Внесення готівки",CashEventsTClass,modPOS); //Edit***************************Dima 08.01.2015
+
 	
 	/*SetLangMode(LangRussian,"RUS",0);
   
