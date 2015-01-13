@@ -6283,9 +6283,9 @@ begin
   
   Flip(1);
   MatCol(t=1,184,"Найменування",0,Spec,false,0);
-  if (UserCanAction("ShowSerialNronPOSInvoices",false)) then begin
-  MatCol(t,-270,"Серійний №",0,SerialNr,false,SerialNrSClass);
-  end;
+  //if (UserCanAction("ShowSerialNronPOSInvoices",false)) then begin
+  MatCol(t,-270,"Серійний №",0,SerialNr,false,SerialNrSClass); //Edit***************************Sasha2,12:22 13.01.2015
+  //end;
   MatCol(t,-175,"Ціна",0,Price,true,0);
   MatCol(t,-105,"%",0,vRebate,true,0);
   MatCol(t,-70,"Сума",0,Sum,true,0);
