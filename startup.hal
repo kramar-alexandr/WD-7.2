@@ -11,7 +11,7 @@ begin
 	Register("Друк цінників","Друк цінників",MyRepricingVc,modPOS);
 	
 	Register("Цінники товарів","Цінники товарів",MyLabelItemVc,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
-  Register("Надходження","Надходження",PUVc,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
+  //Register("Надходження","Надходження",PUVc,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
 
 	Report("Історія продажів по клієнтам ",CUSalesRepRClass,CustSalesReportRn,0,modSO);
 	Report("Звiт по продажах",SalesReportRClass,SalesReportRn,0,modSL);

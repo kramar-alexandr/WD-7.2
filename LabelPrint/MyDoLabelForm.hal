@@ -98,8 +98,6 @@ BEGIN
   
   
   blockload(BCr);
-     logtext(0,exprice);
-    messagebox(0,exprice);
   if(exprice<=0)then begin
     
     if(blank(pricecode))then begin
@@ -160,9 +158,7 @@ BEGIN
 	if(len(priceB)==1)then begin
 		priceB = "0" & priceB;
 	end;
-  
-      logtext(0,price);
-    messagebox(0,price);
+
   if (FIELDINFORM("F_PRIS")) then begin
     tstr = price;
     OUTFORMFIELD("F_PRIS",tstr);
@@ -298,7 +294,7 @@ BEGIN
   pucnt = MatRowCnt(PUr);
   if (pucnt==0) then begin
   	//LogText(0,"virtual PUVc has no rows");
-  	return;
+  	goto LHandleItemLabForm;
   end;
  
   prlist = PUr.LangCode; //price list
@@ -377,6 +373,9 @@ LBREAK:;
     end;
     intdocnr = intdocnr + 1;
   end;
+  
+LHandleItemLabForm:; 
+  
   RETURN;
 END;
 
