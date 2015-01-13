@@ -262,16 +262,16 @@ BEGIN
   rwcnt = MatRowCnt(INr);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(INr,i,INrw);
-      OUTFORMFIELD("F_ITEMTYPE",INrw.LParam);
-      OUTFORMFIELD("F_ARTCODEVARIETIES",INrw.LName);
-      OUTFORMFIELD("F_BESKRIVNING",INrw.LComment1);
-      OUTFORMFIELD("F_SIGNATURE",INrw.LComment2);
-      OUTFORMFIELD("F_TEXT",INrw.LComment3);
-      OUTFORMFIELD("F_COUNTRYOFORIGIN",INrw.LComment4);
-      OUTFORMFIELD("F_Comment5MY",INrw.LComment5);
-      OUTFORMFIELD("F_Comment6MY",INrw.LComment6);
-      OUTFORMFIELD("F_Comment7MY",INrw.LComment7);
-      OUTFORMFIELD("F_Comment8MY",INrw.LComment8);
+      OUTFORMFIELD("MYF_ITEMTYPE" & i,INrw.LParam);
+      OUTFORMFIELD("MYF_ARTCODEVARIETIES" & i,INrw.LName);
+      OUTFORMFIELD("MYF_BESKRIVNING" & i,INrw.LComment1);
+      OUTFORMFIELD("MYF_SIGNATURE" & i,INrw.LComment2);
+      OUTFORMFIELD("MYF_TEXT" & i,INrw.LComment3);
+      OUTFORMFIELD("MYF_COUNTRYOFORIGIN" & i,INrw.LComment4);
+      OUTFORMFIELD("MYF_Comment5MY" & i,INrw.LComment5);
+      OUTFORMFIELD("MYF_Comment6MY" & i,INrw.LComment6);
+      OUTFORMFIELD("MYF_Comment7MY" & i,INrw.LComment7);
+      OUTFORMFIELD("MYF_Comment8MY" & i,INrw.LComment8);
       //EndFormRow;
   end;
   

@@ -12,6 +12,7 @@ integer compnr;
       
         switch(compnr)begin
         	case 2: filename = "Reports/2/ITEKUAPayments.xls";
+        	case 4: filename = "Reports/4/ICUAPayments.xls";
           case 5: filename = "Reports/5/TXTPayments.xls";
           case 7: filename = "Reports/7/TNMPayments.xls";
         end;
@@ -45,6 +46,7 @@ integer compnr;
         millisleep(100);
         switch(compnr)begin
         	case 2: RunProgram("Reports/2/ITEKUAPayments.sh","");
+        	case 4: RunProgram("Reports/4/ICPayments.sh","");
           case 5: RunProgram("Reports/5/TXTPayments.sh","");
           case 7: RunProgram("Reports/7/TNMPayments.sh","");
         end;
@@ -150,6 +152,7 @@ integer compnr;
         switch(compnr)begin
           //case 1: filename = "Reports/1/ISTORReserves.xls";
           case 2: filename = "Reports/2/ITEKUAReserves.xls";
+          case 4: filename = "Reports/4/ICReserves.xls";
           //case 3: filename = "Reports/3/WDReserves.xls";
           case 5: filename = "Reports/5/TXTReserves.xls";
           //case 6: filename = "Reports/6/MMRReserves.xls";
@@ -170,6 +173,7 @@ integer compnr;
         switch(compnr)begin
           //case 1: RunProgram("Reports/1/ISTORReserves.sh","");
           case 2: RunProgram("Reports/2/ITEKUAReserves.sh","");
+          case 4: RunProgram("Reports/4/ICReserves.sh","");
           //case 3: RunProgram("Reports/3/WDReserves.sh","");
           case 5: RunProgram("Reports/5/TXTReserves.sh","");
           //case 6: RunProgram("Reports/6/MMRReserves.sh","");

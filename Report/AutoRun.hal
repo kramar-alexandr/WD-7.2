@@ -11,13 +11,13 @@ external procedure SalesReportForManagersEn();
 //------------------------------------------------------------------------------------------------------------------------------
 global updating procedure AutoRun()
 begin
-integer iStore,iTek,Textera,Technomedia,AService,WD,MMR,PPhL;
+integer iStore,iTek,Textera,Technomedia,AService,WD,MMR,iCenter;
 record RcVc RepSpec;
 
 iStore = 1;
 iTek = 2;	//iTek
 WD = 3;
-PPhL = 4;
+iCenter = 4;
 Textera = 5;//Textera
 MMR = 6;
 Technomedia = 7;//Technomedia
@@ -45,6 +45,32 @@ AService = 8;
     AutoUnreservOrderMn;
     logtext(0,currentcompany & " MyReservStstEn");
     MyReservStstEn;
+    
+    ResetCompany(iTek);  
+  end;
+  
+  
+   if (SetCompany(iCenter,false)) then begin//iCenter
+  	logtext(0,currentcompany & " IPEn"); 
+    IPEn; //**
+  	//logtext(0,currentcompany & " SalesReportEn");
+    //SalesReportEn;
+  	logtext(0,currentcompany & " DebitorkaReportEn");
+    DebitorkaReportEn(iCenter);//***
+    logtext(0,currentcompany & " ShopsReportEn");
+    ShopsReportEn;//****
+  	logtext(0,currentcompany & " FullStockEn");
+    FullStockEn;//*
+    logtext(0,currentcompany & " FullStockTRWH2En"); //Edit***************************Sasha2,11:40 22.09.2014
+    FullStockTRWH2En; //Edit***************************Sasha2,11:40 22.09.2014
+    logtext(0,currentcompany & " ManagersFullStockEn");
+    ManagersFullStockEn;//*
+    //logtext(0,currentcompany & " SalesReportForManagersEn");
+    //SalesReportForManagersEn;
+    logtext(0,currentcompany & " AutoUnreservOrderMn");
+    AutoUnreservOrderMn;//***
+    logtext(0,currentcompany & " MyReservStstEn");
+    MyReservStstEn;//***
     
     ResetCompany(iTek);  
   end;

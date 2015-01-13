@@ -19,6 +19,13 @@ begin
               closefile;
               millisleep(100);
               openexportfile(filename & ".xls",true);
+    
+    case  4:  filename = "Stock/AutoreservIC";
+    					delete_file(filename & ".xls");
+    					CreateFile(filename & ".xls");
+              closefile;
+              millisleep(100);
+              openexportfile(filename & ".xls",true);
               
     case  5:  filename = "Stock/AutoreservTXT";
     					delete_file(filename & ".xls");
@@ -84,12 +91,16 @@ begin
   end;
   
   switch(compnr)begin
+  		case 2:   CloseFile;
+  		case 4:   CloseFile;
   		case 5:   CloseFile;
       case 7:   CloseFile;
   end;
   
   if(counter>0)then begin
     switch(compnr)begin
+    	case 2:   RunProgram("Stock/AutoreservIT.sh", "");
+    	case 4:   RunProgram("Stock/AutoreservIC.sh", "");
     	case 5:   RunProgram("Stock/AutoreservTXT.sh", "");
       case 7:   RunProgram("Stock/AutoreservTNM.sh", "");
     end;
@@ -108,7 +119,7 @@ string 50 filename;
           //case 1: filename = "Stock/ISTORDebitorka.xls";
           case 2: filename = "Stock/ITEKUADebitorka.xls";
           //case 3: filename = "Stock/WDDebitorka.xls";
-          //case 4: filename = "Stock/PPhLDebitorka.xls";//PPhL
+          case 4: filename = "Stock/ICDebitorka.xls";//PPhL
           case 5: filename = "Stock/TXTDebitorka.xls";
           //case 6: filename = "Stock/ITEKMDDebitorka.xls";
           case 7: filename = "Stock/TNMDebitorka.xls";
@@ -134,7 +145,7 @@ string 50 filename;
           //case 1: RunProgram("Stock/ISTORDebitorka.sh","");
           case 2: RunProgram("Stock/ITEKUADebitorka.sh","");
           //case 3: RunProgram("Stock/WDDebitorka.sh","");
-          //case 4: RunProgram("Stock/PPhLDebitorka.sh","");//PPhL
+          case 4: RunProgram("Stock/ICDebitorka.sh","");//PPhL
           case 5: RunProgram("Stock/TXTDebitorka.sh","");
           //case 6: RunProgram("Stock/ITEKMDDebitorka.sh","");
           case 7: RunProgram("Stock/TNMDebitorka.sh","");

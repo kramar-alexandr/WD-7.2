@@ -164,6 +164,13 @@ integer compno;
               MyItemReportRn(RepSpec);
               RunProgram("Stock/ITEKUAStockFull.sh", "");
               
+      case 4: delete_file("Stock/ICStockFull.xls");
+      				CreateFile("Stock/ICStockFull.xls");
+              closefile;
+              openexportfile("Stock/ICStockFull.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/ICStockFull.sh", "");
+              
       case 5: delete_file("Stock/TXTStockFull.xls");
       				CreateFile("Stock/TXTStockFull.xls");
               closefile;
@@ -195,6 +202,13 @@ integer compno;
               openexportfile("Stock/ITEKUAStockFullManagers.xls",true);
               MyItemReportRn(RepSpec);
               RunProgram("Stock/ITEKUAStockFullManagers.sh", "");
+              
+      case 4: delete_file("Stock/ICStockFullManagers.xls");
+      				CreateFile("Stock/ICStockFullManagers.xls");
+              closefile;
+              openexportfile("Stock/ICStockFullManagers.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/ICStockFullManagers.sh", "");
               
       case 5: delete_file("Stock/TXTStockFullManagers.xls");
       				CreateFile("Stock/TXTStockFullManagers.xls");
@@ -229,6 +243,13 @@ integer compno;
               openexportfile("Stock/ITEKUAStockTRWH2Full.xls",true);
               MyItemReportRn(RepSpec);
               RunProgram("Stock/ITEKUAStockTRWH2Full.sh", "");
+              
+      case 4: delete_file("Stock/ICStockTRWH2Full.xls");
+      				CreateFile("Stock/ICStockTRWH2Full.xls");
+              closefile;
+              openexportfile("Stock/ICStockTRWH2Full.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/ICStockTRWH2Full.sh", "");
               
       case 5: delete_file("Stock/TXTStockTRWH2Full.xls");
       				CreateFile("Stock/TXTStockTRWH2Full.xls");

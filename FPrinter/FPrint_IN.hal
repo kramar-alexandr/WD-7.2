@@ -381,7 +381,7 @@ begin
 	record RcVc RepSpec;
 	integer wn;
 	string 40 comand;
-	val cash;
+	longint cash;
 	Boolean res;
  	record SysFormatBlock SysFormatRec;
   
@@ -389,9 +389,9 @@ begin
 	wn = curwindow;
 	deselectwindow(wn,true);
 	GetWindowRecord(wn,RepSpec);
-	cash = RepSpec.vals0;
-	comand=valtostring(cash,M4Val,"",SysFormatRec.decimalPt,0);
-	prt("cashin",comand,res);
+	cash = RepSpec.vals0*100;
+	//comand=valtostring(cash,M4Val,"",SysFormatRec.decimalPt,0);
+	prt("cashin",cash,res);
 	selectwindow(wn);  
 	closewindow(wn);
 
@@ -404,7 +404,7 @@ begin
 	record RcVc RepSpec;
 	integer wn;
 	string 40 comand;
-	val cash;
+	longint cash;
 	Boolean res;
  	record SysFormatBlock SysFormatRec;
   
@@ -412,9 +412,9 @@ begin
 	wn = curwindow;
 	deselectwindow(wn,true);
 	GetWindowRecord(wn,RepSpec);	
-	cash = -RepSpec.vals0;
-	comand=valtostring(cash,M4Val,"",SysFormatRec.decimalPt,0);
-	prt("cashin",comand,res);
+	cash = -RepSpec.vals0*100;
+	//comand=valtostring(cash,M4Val,"",SysFormatRec.decimalPt,0);
+	prt("cashin",cash,res);
 	selectwindow(wn);  
 	closewindow(wn);	
 
