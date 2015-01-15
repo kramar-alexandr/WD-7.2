@@ -292,7 +292,7 @@ BEGIN
   RETURN;
 END;
 
-procedure HandleItemLabForm(record RcVc RepSpec,record PUVc PUr,record FormDefVc FDr,boolean labelgridf)
+procedure HandleItemLabForm(record RcVc RepSpec,record PUVc PUr,record FormDefVc FDr,boolean labelgridf,integer formsize)
 BEGIN
   row PUVc PUrw;
   row FormDefVc FDrw;
@@ -346,7 +346,7 @@ LBREAK:;
     				goto LNotOpened;
     			end;
 					if (labelgridf) then begin
-						maxcps = LabelSetup(7,0);
+						maxcps = LabelSetup(formsize,0);
 					end;
 				end;
 				if(formisopen)then begin
@@ -403,7 +403,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr,false);
+    HandleItemLabForm(RepSpec,PUr,FDr,false,0);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm1(...)");
   end;
@@ -419,7 +419,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr,false);
+    HandleItemLabForm(RepSpec,PUr,FDr,false,1);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm2(...)");
   end;
@@ -435,7 +435,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr,false);
+    HandleItemLabForm(RepSpec,PUr,FDr,false,2);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm3(...)");
   end;
@@ -451,7 +451,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr,false);
+    HandleItemLabForm(RepSpec,PUr,FDr,true,3);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm4(...)");
   end;
@@ -467,7 +467,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr,false);
+    HandleItemLabForm(RepSpec,PUr,FDr,false,4);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm5(...)");
   end;
@@ -483,7 +483,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr,false);
+    HandleItemLabForm(RepSpec,PUr,FDr,false,5);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm6(...)");
   end;
@@ -499,7 +499,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr,false);
+    HandleItemLabForm(RepSpec,PUr,FDr,false,6);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm7(...)");
   end;
@@ -515,7 +515,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr,true);
+    HandleItemLabForm(RepSpec,PUr,FDr,true,6);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm8(...)");
   end;
