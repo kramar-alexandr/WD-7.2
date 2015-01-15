@@ -12,7 +12,7 @@ integer compnr;
       
         switch(compnr)begin
         	case 2: filename = "Reports/2/ITEKUAPayments.xls";
-        	case 4: filename = "Reports/4/ICUAPayments.xls";
+        	case 4: filename = "Reports/4/ICPayments.xls";
           case 5: filename = "Reports/5/TXTPayments.xls";
           case 7: filename = "Reports/7/TNMPayments.xls";
         end;
