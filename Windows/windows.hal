@@ -555,19 +555,121 @@ begin
   EndWindow;
 end; //Edit***************************Sasha2,12:11 23.10.2014 }*/
 
-window LabelItemRClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+window LabelItem1RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
-  WindowBegin("Друк цінників товарів",LabelItemRClass,CGRcW,RcType);
+  WindowBegin("Друк цінників товарів",LabelItem1RClass,CGRcW,RcType);
     SetWRect(20,120,350,300);
     /*h=100;
     PeriodField(h,20,"Період");
     EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
     EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
   EndWindow;
-end; //Edit***************************Sasha2,16:07 24.10.2014 }
+end; 
+
+window LabelItem2RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h;
+	
+  WindowBegin("Друк цінників товарів",LabelItem2RClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    /*h=100;
+    PeriodField(h,20,"Період");
+    EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
+    EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
+  EndWindow;
+end; 
+
+window LabelItem3RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h;
+	
+  WindowBegin("Друк цінників товарів",LabelItem3RClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    /*h=100;
+    PeriodField(h,20,"Період");
+    EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
+    EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
+  EndWindow;
+end; 
+
+window LabelItem4RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h;
+	
+  WindowBegin("Друк цінників товарів",LabelItem4RClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    /*h=100;
+    PeriodField(h,20,"Період");
+    EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
+    EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
+  EndWindow;
+end; 
+
+window LabelItem5RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h;
+	
+  WindowBegin("Друк цінників товарів",LabelItem5RClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    /*h=100;
+    PeriodField(h,20,"Період");
+    EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
+    EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
+  EndWindow;
+end; 
+
+window LabelItem6RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h;
+	
+  WindowBegin("Друк цінників товарів",LabelItem6RClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    /*h=100;
+    PeriodField(h,20,"Період");
+    EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
+    EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
+  EndWindow;
+end; 
+
+window LabelItem7RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h;
+	
+  WindowBegin("Друк цінників товарів",LabelItem7RClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    /*h=100;
+    PeriodField(h,20,"Період");
+    EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
+    EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
+  EndWindow;
+end; 
+
+window LabelItem8RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h;
+	
+  WindowBegin("Друк цінників товарів",LabelItem8RClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    /*h=100;
+    PeriodField(h,20,"Період");
+    EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
+    EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
+  EndWindow;
+end; 
+
+
+
+//Edit***************************Sasha2,16:07 24.10.2014 }
 
 window LabelStockItemsRClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")

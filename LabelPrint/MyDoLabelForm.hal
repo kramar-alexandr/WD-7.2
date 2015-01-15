@@ -191,8 +191,10 @@ BEGIN
   end;
   if (FIELDINFORM("F_BARCODE")) then begin
 		tstr = INr.AlternativeCode;
-		CreateEAN128(tstr);
-		OUTFORMFIELD("F_BARCODE",tstr);
+		if(nonblank(tstr))then begin
+			CreateEAN128(tstr);
+			OUTFORMFIELD("F_BARCODE",tstr);
+		end;
   end;
     
   OUTFORMFIELD("F_ITEMCODE",INr.Code);
@@ -209,16 +211,7 @@ BEGIN
   OUTFORMFIELD("F_DATUM",setdate);
   OUTFORMFIELD("F_PRINTDATE",currentdate);
   
-  rwcnt = MatRowCnt(Docr);
-  for (i=0;i<rwcnt;i=i+1) begin
-    MatRowGet(Docr,i,Docrw);
-    if (Docrw.fieldSetNr==0) then begin
-      if(nonblank(Docrw.unitText))then begin
-        tstr = Docrw.unitText;
-        OUTFORMFIELD(Docrw.unitText,tstr);
-      end;
-    end;
-  end;
+  
   
   rwcnt = MatRowCnt(INr);
   for (i=0;i<rwcnt;i=i+1) begin
@@ -269,6 +262,29 @@ BEGIN
       OUTFORMFIELD("MYF_Comment7MY" & i,INrw.LComment7);
       OUTFORMFIELD("MYF_Comment8MY" & i,INrw.LComment8);
       //EndFormRow;
+  end;
+  for(i=rwcnt;i<20;i=i+1)begin
+  	OUTFORMFIELD("MYF_ITEMTYPE" & i,"");
+		OUTFORMFIELD("MYF_ARTCODEVARIETIES" & i,"");
+		OUTFORMFIELD("MYF_BESKRIVNING" & i,"");
+		OUTFORMFIELD("MYF_SIGNATURE" & i,"");
+		OUTFORMFIELD("MYF_TEXT" & i,"");
+		OUTFORMFIELD("MYF_COUNTRYOFORIGIN" & i,"");
+		OUTFORMFIELD("MYF_Comment5MY" & i,"");
+		OUTFORMFIELD("MYF_Comment6MY" & i,"");
+		OUTFORMFIELD("MYF_Comment7MY" & i,"");
+		OUTFORMFIELD("MYF_Comment8MY" & i,"");
+  end;
+  
+  rwcnt = MatRowCnt(Docr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(Docr,i,Docrw);
+    if (Docrw.fieldSetNr==0) then begin
+      if(nonblank(Docrw.unitText))then begin
+        tstr = Docrw.unitText;
+        OUTFORMFIELD(Docrw.unitText,tstr);
+      end;
+    end;
   end;
   
   EndFormRow;
@@ -330,7 +346,7 @@ LBREAK:;
     				goto LNotOpened;
     			end;
 					if (labelgridf) then begin
-						maxcps = LabelSetup(6,0);
+						maxcps = LabelSetup(7,0);
 					end;
 				end;
 				if(formisopen)then begin

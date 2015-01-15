@@ -44,14 +44,14 @@ begin
 	Maintenance("ClearOldINVcPLVc",MyVClass,ClearINPLMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Перенесення етикеток в регістр товарів",CopyFrINToMyLabelItemVClass,CopyFrINToMyLabelItemMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	
-	Document("Форма для цінників " & USetStr(31034),LabelItemRClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
-	Document("Форма для цінників " & USetStr(31035),LabelItemRClass,ItemLabForm2,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
-	Document("Форма для цінників " & USetStr(31036),LabelItemRClass,ItemLabForm3,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
-	Document("Форма для цінників " & USetStr(31037),LabelItemRClass,ItemLabForm4,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
-	Document("Форма для цінників " & USetStr(31038),LabelItemRClass,ItemLabForm5,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
-	Document("Форма для цінників " & USetStr(31039),LabelItemRClass,ItemLabForm6,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
-	Document("Форма для цінників " & USetStr(31040),LabelItemRClass,ItemLabForm7,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
-	Document("Форма для етикеток цінників" ,LabelItemRClass,ItemLabForm8,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
+	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
+	Document("Форма для цінників 2" & USetStr(31035),LabelItem2RClass,ItemLabForm2,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
+	Document("Форма для цінників 3" & USetStr(31036),LabelItem3RClass,ItemLabForm3,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
+	Document("Форма для цінників 4" & USetStr(31037),LabelItem4RClass,ItemLabForm4,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
+	Document("Форма для цінників 5" & USetStr(31038),LabelItem5RClass,ItemLabForm5,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
+	Document("Форма для цінників 6" & USetStr(31039),LabelItem6RClass,ItemLabForm6,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
+	Document("Форма для цінників 7" & USetStr(31040),LabelItem7RClass,ItemLabForm7,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
+	Document("Форма для етикеток цінників" ,LabelItem8RClass,ItemLabForm8,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 		 
   SString(31000,"грн.");
   SString(31001,"Підготовлено у системі HansaWorld");
