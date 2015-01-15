@@ -762,3 +762,19 @@ begin
   EndWindow;
 end;
 
+
+
+window IVCashToIVVClass:1 // Edit ************************** Dima  15.01.2015
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ begin
+	real h,v,vs;
+WindowBegin("Створити акти/накладні із накладних ЕККА",MyVClass,CGMnt,RcType);
+  SetWRect(20,120,450,330);
+	h = 150;
+	v = 30;
+	PeriodField(h,v,"Період");
+	EditField(h,v+30,150,"Локальна машина",Normal,f1,false,LocalMachineSClass);
+EndWindow;
+end;
+
+

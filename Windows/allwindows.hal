@@ -6876,3 +6876,49 @@ begin
 end;
   EndWindow;
 end;
+
+
+
+
+window IVLClass:8
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Акти/накладні",IVLClass,CGmlist,-);
+    SetWRect(20,80,800,298);
+    Sizeable(-1,-1,0,0);
+    SpawnClass(IVDClass);
+    UseView(IVVc);
+    FormName(PrintIVL);
+    RecordList(4,17,-21,-39);
+    RlColKey(4,4,"№",SerNr,false,SerNr);
+    RlColKey(79,79,"OK",OKFlag,false,OKFlag);
+    RlColKey(111,111,"Дата",InvDate,false,InvDate);
+  if (StandardHansa==false) then begin
+    RlColKey(191,191,"Офіційний №",OfficialSerNr,false,OfficialSerNr);    
+  end;
+  RlColKey(301,301,"Номер рах-ку",OrderNr,false,OrderNr);
+  RlColKey(381,381,"Клієнт",CustCode,false,CustCode); 
+  RlColKey(441,441,"Наймен.",Addr0,false,Name); 
+	RlColKey(-230,-230,"Склад",Location,true,Name); 					//Edit -------------------Dima 14.01.2015
+	RlColKey(-160,-160,"Лок. машина",MachineName,true,Name);	//Edit -------------------Dima 14.01.2015
+    RlColKey(-110,-110,"Всього",Sum4,true,Sum4);
+    RlCol(-39,-39,"",CredMark,true);
+  if (HasMultiCurrency or HasBase2) then begin
+    RlCol(-30,-30,"Вал.",CurncyCode,true);
+  end;
+    RlCol(-1,-1,"",Invalid,true);
+    SearchField("Пошук");
+  if (HasLimitedAccess) then begin 
+    BrowseSubsetButton(-40,-15);
+  end;
+    SpecialMenu("OK",'G',0,"OKIVLsm");
+    SpecialMenu("Роздрукувати проформу акту/накл.",' ',1,"PrintIVLsm");
+    SpecialMenu("Статус акту/накл.",'r',2,"IVInfoIVLsm");
+  if (HasLocalization("ARG")) then begin 
+    SpecialMenu("Відправити/відправити повторно Аргентинський ел. акт/накл.",'e',3,"SendArgEInvIVLsm");
+  end;
+  if (HasLocalization("MEX")) then begin 
+    SpecialMenu("Send Mexican E-Invoices",'e',3,"SendMexEInvIVLsm"); 
+  end;
+    EndWindow;
+end;
