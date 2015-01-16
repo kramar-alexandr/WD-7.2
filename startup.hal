@@ -9,10 +9,12 @@ begin
 	Register("Цінники товарів","Цінники товарів",MyLabelItemVc,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
 	Register("Друк цінників","Друк цінників",MyRepricingVc,modLabPrint);
 	Register("Друк цінників","Друк цінників",MyRepricingVc,modPOS);
-	
 	Register("Цінники товарів","Цінники товарів",MyLabelItemVc,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
   //Register("Надходження","Надходження",PUVc,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
-
+	Register("ARVc","ARVc",ARVc,modDBMain);
+  Register("ARPayVc","ARPayVc",ARPayVc,modDBMain);
+  Register("APVc","APVc",APVc,modDBMain);
+	
 	Report("Історія продажів по клієнтам ",CUSalesRepRClass,CustSalesReportRn,0,modSO);
 	Report("Звiт по продажах",SalesReportRClass,SalesReportRn,0,modSL);
 	Report("Звiт по продажах для менеджерів",SalesReportForManagersRClass,SalesReportForManagersRn,0,modSL);

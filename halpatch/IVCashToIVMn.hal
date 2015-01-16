@@ -1,16 +1,17 @@
-remote procedure IVVc_PasteTransDate(var record IVVc,var Integer,var Integer);
-remote procedure IVVc_PasteInvDate(var record IVVc,record LocalMachineBlock,var Integer,var Integer);
-remote function Boolean PasteCust2InInv(var record IVVc,record LocalMachineBlock,string,Boolean,var string,var string,var string,var string,var string);
-remote procedure IVVc_PasteSalesMan(var record IVVc,string);
-remote function Boolean IVVc_PasteArtCode(var record IVVc,Integer,var string,var string,Boolean,var Integer);
+external procedure IVVc_PasteTransDate(var record IVVc,var Integer,var Integer);
+external procedure IVVc_PasteInvDate(var record IVVc,record LocalMachineBlock,var Integer,var Integer);
+external function Boolean PasteCust2InInv(var record IVVc,record LocalMachineBlock,string,Boolean,var string,var string,var string,var string,var string);
+external procedure IVVc_PasteSalesMan(var record IVVc,string);
+external function Boolean IVVc_PasteArtCode(var record IVVc,Integer,var string,var string,Boolean,var Integer);
 external procedure IVDchsum(var record IVVc,Integer);
 external procedure IVVc_PasteQuant(var record IVVc,Integer,Boolean,var Boolean,string);
 external function Boolean TouchScreenLook();
-remote procedure IVSumup(var record IVVc,Boolean);
-remote function Boolean IVVc_PasteSum(var record IVVc,Integer,var Boolean,Integer);
+external procedure IVSumup(var record IVVc,Boolean);
+external function Boolean IVVc_PasteSum(var record IVVc,Integer,var Boolean,Integer);
 external function val CalculateIVCashAmount(record IVVc);
-remote procedure IVVc_PasteCurncyCode(var record IVVc,string,Integer,Boolean,Boolean);
-remote procedure IVVc_PasteLocation(var record IVVc,Integer);
+external procedure IVVc_PasteCurncyCode(var record IVVc,string,Integer,Boolean,Boolean);
+external procedure IVVc_PasteLocation(var record IVVc,Integer);
+external procedure IVVc_PasteCurncyCode(var record IVVc,string,Integer,Boolean,Boolean);
 
 
 
@@ -27,8 +28,10 @@ begin
 	BlockLoad(LMAb);
 	rwcnt = MatRowCnt(LMAb);
 	res = false;
-
-	for(i=0;i<rwcnt; i = i + 1) begin 
+	
+	paymode = "";
+	
+	for(i=0;i<rwcnt; i=i+1) begin 
 		MatRowGet(LMAb,i,LMAbrw);
 		if (LMAbrw.LocalMachine == LocMachine) then begin
 				switch (stp) begin
@@ -90,7 +93,7 @@ return;
 end;
 
 global
-updating procedure IVCash_To_IV(string IVCashSerNr )	//Added-------------------------Dima 14.01.2015 
+updating procedure IVCash_To_IV(longint IVCashSerNr )	//Added-------------------------Dima 14.01.2015 
 begin
 	record IVVc IVr,oldIVr;
 	record IVCashVc IVCashr;
@@ -119,7 +122,7 @@ begin
 			goto LBreak;
 	end;
 
-	if (IVCashr.OKFlag != 1) then begin	
+	if (IVCashr.OKFlag!=1) then begin	
 			goto LBreak;
 	end;
 
@@ -136,16 +139,17 @@ begin
 	BlockLoad(LMb);
 	BlockLoad(DCb);
 
-	curcomp = CurrentCompany;
-
 	IVr.SerNr = NextSerNr("IVVc",IVr.TransDate,startSerNr,false,"");
 	IVr.OfficialSerNr = IVCashSerNr;
+	
+	
+	IVr.CustCode = IVCashr.CustCode;
+	PasteCust2InInv(IVr,LMb,IVCashr.CustCode,true,warning,errstr,prepstr,invdatewarn,transdatewarn);
 	IVr.InvDate = IVCashr.InvDate;
 	IVr.TransDate = IVCashr.TransDate;
 	IVVc_PasteTransDate(IVr,err1,err2);
 	IVVc_PasteInvDate(IVr,LMb,err1,err2);	
-	IVr.CustCode = IVCashr.CustCode;
-	PasteCust2InInv(IVr,LMb,IVCashr.CustCode,true,warning,errstr,prepstr,invdatewarn,transdatewarn);
+	IVVc_PasteCurncyCode(IVp,IVp.CurncyCode,-1,true,true);
 
 	IVr.SalesMan = IVCashr.SalesMan;
 	IVVc_PasteSalesMan(IVr,IVCashr.SalesMan);
@@ -182,7 +186,10 @@ begin
 	if (IVCashr.RecValue != 0) then begin
 		IVrw.stp = kInvoiceRowTypeCreditCardPayment;
 		IVrw.Sum = IVCashr.RecValue;
-		IVrw.PayMode = IVCashr.PayDeal;       
+		//IVrw.PayMode = IVCashr.PayDeal; 
+		if (SearchPayModeForLocMach(IVr.MachineName,kInvoiceRowTypeCreditCardPayment,paymode)) then begin
+				IVrw.PayMode = paymode;
+		end;       
 		IVrw.Spec = UsetStr(20801);
 		IVrw.CurncyCode = IVCashr.CurncyCode;          
 		MatRowPut(IVr,i,IVrw);
@@ -208,12 +215,12 @@ begin
 
 	RecordInsert(IVr,true);
 
-	RecordCopy(oldIVr,IVr);	
+	//RecordCopy(oldIVr,IVr);	
 	//IVr.OKFlag = 1;			//----------!!!!!!!!!!!!!!!!!----------
-	RecordUpdate(oldIVr,IVr,true);
+	//RecordUpdate(oldIVr,IVr,true);
 
-	CreateRecordLink(IVr,curcomp,IVCashr,curcomp);
-	CreateRecordLink(IVCashr,curcomp,IVr,curcomp);
+	CreateRecordLink(IVr,currentcompany,IVCashr,currentcompany);
+	CreateRecordLink(IVCashr,currentcompany,IVr,currentcompany);
 	
 	LBreak:;
 return;
@@ -230,23 +237,16 @@ begin
 
 
 	TrHs=true;
-	While (LoopMain(IVCashr,1,TrHs)) begin
+	IVCashr.InvDate = RepSpec.sStartDate;
+	While (LoopKey("InvDate",IVCashr,1,TrHs)) begin
 		testf=true;
+		if(IVCashr.InvDate < RepSpec.sStartDate) then begin	testf=false;	end;	
+		if(IVCashr.InvDate > RepSpec.sEndDate) then begin	testf=false; TrHs = false;	end;
 
-		if (IVCashr.InvDate < RepSpec.sStartDate) then begin
-			testf=false;
-		end;	
-
-		if  (IVCashr.InvDate > RepSpec.sEndDate) then begin
-			testf=false;
-		end;
-
-		if (nonblank(RepSpec.f1) and (RepSpec.f1 != IVCashr.LocalMachineCode)) then begin	
-			testf=false;
-		end;
+		if (nonblank(RepSpec.f1)and(RepSpec.f1!=IVCashr.LocalMachineCode))then begin	testf=false;	end;
 
 		if (testf) then begin
-				IVCash_To_IV(IVCashr.SerNr);
+			IVCash_To_IV(IVCashr.SerNr);
 		end;
 
 	end;
