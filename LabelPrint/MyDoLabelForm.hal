@@ -515,7 +515,7 @@ BEGIN
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
   if (ReadFirstMain(FDr,1,true)) then begin
-    HandleItemLabForm(RepSpec,PUr,FDr,true,6);
+    HandleItemLabForm(RepSpec,PUr,FDr,true,7);
   end else begin
   	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm8(...)");
   end;

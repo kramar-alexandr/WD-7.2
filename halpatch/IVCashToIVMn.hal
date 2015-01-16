@@ -11,11 +11,7 @@ external function Boolean IVVc_PasteSum(var record IVVc,Integer,var Boolean,Inte
 external function val CalculateIVCashAmount(record IVVc);
 external procedure IVVc_PasteCurncyCode(var record IVVc,string,Integer,Boolean,Boolean);
 external procedure IVVc_PasteLocation(var record IVVc,Integer);
-external procedure IVVc_PasteCurncyCode(var record IVVc,string,Integer,Boolean,Boolean);
-
-
-
-
+external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
 
 
 function Boolean SearchPayModeForLocMach(string LocMachine, integer stp, var string paymode)
@@ -107,7 +103,7 @@ begin
   Boolean chsum,putf;
 	string 10 paymode;
 	LongInt startSerNr;
-
+	val fr,to1,to2,br1,br2;
 
 	recordNew(IVr);
 
@@ -191,7 +187,13 @@ begin
 				IVrw.PayMode = paymode;
 		end;       
 		IVrw.Spec = UsetStr(20801);
-		IVrw.CurncyCode = IVCashr.CurncyCode;          
+		IVrw.CurncyCode = IVCashr.CurncyCode; 
+		GetFullCurncyRate(tstr,IVr.TransDate,fr,to1,to2,br1,br2);    
+		IVrw.FrRate = fr;
+		IVrw.ToRateB1 = to1;     
+		IVrw.ToRateB2 = to2;
+		IVrw.BaseRate1 = br1;
+		IVrw.BaseRate2 = br2;
 		MatRowPut(IVr,i,IVrw);
 		i = i + 1;
 	end;
@@ -200,6 +202,12 @@ begin
 		IVrw.stp = kInvoiceRowTypeCashPayment;
 		IVrw.Sum = IVCashr.CashValue-IVCashr.RetValue;
 		IVrw.CurncyCode = IVCashr.CurncyCode;
+		GetFullCurncyRate(tstr,IVr.TransDate,fr,to1,to2,br1,br2);
+		IVrw.FrRate = fr;
+		IVrw.ToRateB1 = to1;     
+		IVrw.ToRateB2 = to2;
+		IVrw.BaseRate1 = br1;
+		IVrw.BaseRate2 = br2;
 		if (SearchPayModeForLocMach(IVr.MachineName,kInvoiceRowTypeCashPayment,paymode)) then begin
 				IVrw.PayMode = paymode;
 		end;      
