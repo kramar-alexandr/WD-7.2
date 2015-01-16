@@ -1671,7 +1671,35 @@ EndRecord;
   RecordField(CustTaxTemplateCode,M4Code,10,TaxTemplateVc);
   RecordField(RecipientGLN,M4Str,20,0);
   RecordField(DelRecipientGLN,M4Str,20,0);
-  RecordField(Vlastnik,M4Str,255,0); //Edit***************************Sasha2,14:58 29.09.2014
+  //----------Begin Custom
+  RecordField(Vlastnik,M4Str,255,0);
+  RecordField(Priynato,M4Str,255,0);
+  RecordField(Kontinfo1,M4Str,255,0);
+  RecordField(Kontinfo2,M4Str,255,0);
+  RecordField(Kontinfo3,M4Str,255,0);
+  RecordField(Batary,M4Str,255,0);
+  RecordField(Zaryadka,M4Str,255,0);
+  RecordField(Scarga,M4Str,255,0);
+  RecordField(Inshe,M4Str,255,0);
+  RecordField(Defects,M4Str,255,0);
+  RecordField(Garanty,M4Str,255,0);
+  RecordField(GarNo,M4Str,255,0);
+  RecordField(GarDate,M4Str,255,0);
+  RecordField(CustomField1,M4Str,255,0);
+  RecordField(CustomField2,M4Str,255,0);
+  RecordField(CustomField3,M4Str,255,0);
+  RecordField(CustomField4,M4Str,255,0);
+  RecordField(CustomField5,M4Str,255,0);
+  RecordField(CustomField6,M4Str,255,0);
+  RecordField(CustomField7,M4Str,255,0);  
+  RecordField(CustomField8,M4Str,255,0);// Edit ************************** Friday, 27 December 2013 12:21:47
+  RecordField(CustomField9,M4Str,255,0);// Edit ************************** Friday, 27 December 2013 12:21:47
+  RecordField(CustomField10,M4Str,255,0);// Edit ************************** Friday, 27 December 2013 12:21:48
+  RecordField(CustomField11,M4Str,255,0);// Edit ************************** Friday, 27 December 2013 12:21:49
+  RecordField(CustomField12,M4Str,255,0);// Edit ************************** Friday, 27 December 2013 12:21:49
+  RecordField(CustomField13,M4Str,255,0);// Edit ************************** Friday, 27 December 2013 12:21:50
+  RecordField(CustomField14,M4Str,255,0);// Edit ************************** Friday, 27 December 2013 12:21:51
+  //----------End Custom
   
 //  RecordField(TaxMatrix,M4PackedMatrix,0,TaxMatrixVc);
   ArrayBegin(Math,-,1);
