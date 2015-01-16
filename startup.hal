@@ -44,6 +44,7 @@ begin
 	Maintenance("ClearOldINVcPLVc",MyVClass,ClearINPLMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Перенесення етикеток в регістр товарів",CopyFrINToMyLabelItemVClass,CopyFrINToMyLabelItemMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Створення актів/накладних із накладних ЕККА",IVCashToIVVClass,IVCash_To_IVMn,modPOS);	//Edit----------------------Dima 15.01.2015
+	Maintenance("BuhReport",MyFullStockRClass,BuhExportEn,modPOS); //Edit***************************Sasha2,17:26 15.01.2015
 	
 	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 2" & USetStr(31035),LabelItem2RClass,ItemLabForm2,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014

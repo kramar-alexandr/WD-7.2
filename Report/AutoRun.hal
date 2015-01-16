@@ -8,6 +8,7 @@ external procedure ShopsReportEn(); //Edit***************************Sasha2,17:2
 external procedure IPEn(); //Edit***************************Sasha2,15:41 05.09.2014
 external procedure SalesReportEn();
 external procedure SalesReportForManagersEn();
+external procedure BuhExportEn();//Edit***************************Sasha2,17:16 15.01.2015
 //------------------------------------------------------------------------------------------------------------------------------
 global updating procedure AutoRun()
 begin
@@ -71,6 +72,7 @@ AService = 8;
     AutoUnreservOrderMn;//***
     logtext(0,currentcompany & " MyReservStstEn");
     MyReservStstEn;//***
+    BuhExportEn; //Edit***************************Sasha2,9:44 16.01.2015
     
     ResetCompany(iTek);  
   end;
