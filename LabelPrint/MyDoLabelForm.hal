@@ -95,8 +95,7 @@ BEGIN
   string 10 priceA,priceB;
   array String 255 ar; //Edit***************************Sasha2,10:25 25.12.2014
   Boolean rowsf; //Edit***************************Sasha2,10:25 25.12.2014
-  
-  
+    
   blockload(BCr);
   if(exprice<=0)then begin
     
@@ -183,11 +182,12 @@ BEGIN
   end;
   
   if (FIELDINFORM("F_KUNDNAMN")) then begin
-    CUr.Code = RepSpec.f1;
-    if(readfirstmain(CUr,1,true))then begin
+    //CUr.Code = RepSpec.f1;
+    OUTFORMFIELD("F_KUNDNAMN",RepSpec.f1);
+    /*if(readfirstmain(CUr,1,true))then begin
       tstr = CUr.Comment0;
       OUTFORMFIELD("F_KUNDNAMN",tstr);
-    end;
+    end;*/
   end;
   if (FIELDINFORM("F_BARCODE")) then begin
 		tstr = INr.AlternativeCode;
@@ -306,13 +306,18 @@ BEGIN
   string 30 formcode,langcode,prlist;
   val price;
   record DocVc Docr;
-    
+  record LocationVc Locr;
+  
+  Locr.Code = PUr.Location;
+  If(readfirstmain(Locr,1,true))then begin
+  	RepSpec.f1 = Locr.Addr0;
+  end;
   pucnt = MatRowCnt(PUr);
   if (pucnt==0) then begin
-  	//LogText(0,"virtual PUVc has no rows");
   	goto LHandleItemLabForm;
   end;
- 
+ 	
+ 	
   prlist = PUr.LangCode; //price list
   intdocnr = 1;
   printf = true;

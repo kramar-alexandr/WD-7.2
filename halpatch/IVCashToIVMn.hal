@@ -104,6 +104,7 @@ begin
 	string 10 paymode;
 	LongInt startSerNr;
 	val fr,to1,to2,br1,br2;
+	record CUVc CUr;
 
 	recordNew(IVr);
 
@@ -139,25 +140,26 @@ begin
 	IVr.OfficialSerNr = IVCashSerNr;
 	
 	
+	
 	IVr.CustCode = IVCashr.CustCode;
 	PasteCust2InInv(IVr,LMb,IVCashr.CustCode,true,warning,errstr,prepstr,invdatewarn,transdatewarn);
 	IVr.InvDate = IVCashr.InvDate;
 	IVr.TransDate = IVCashr.TransDate;
 	IVVc_PasteTransDate(IVr,err1,err2);
 	IVVc_PasteInvDate(IVr,LMb,err1,err2);	
-	IVVc_PasteCurncyCode(IVp,IVp.CurncyCode,-1,true,true);
 
 	IVr.SalesMan = IVCashr.SalesMan;
 	IVVc_PasteSalesMan(IVr,IVCashr.SalesMan);
 	IVr.Location = IVCashr.Location;
 	IVVc_PasteLocation(IVr,-1);
-  IVr.CurncyCode = IVCashr.CurncyCode;
-	IVVc_PasteCurncyCode(IVr,"",-1,false,true);
+  //IVr.CurncyCode = IVCashr.CurncyCode;
+	//IVVc_PasteCurncyCode(IVr,"",-1,false,true);
 	IVr.MachineName = IVCashr.LocalMachineCode;
 
 	rwcnt = MatRowCnt(IVCashr);
 	for(i=0; i <rwcnt; i = i+1) begin
     	MatRowGet(IVCashr,i,IVCashrw);
+    	ClearRow(IVr,IVrw,kInvoiceRowTypeNormal);
 			IVrw.stp = kInvoiceRowTypeNormal;
 			IVrw.ArtCode = IVCashrw.ArtCode;
 			MatRowPut(IVr,i,IVrw);
@@ -180,6 +182,7 @@ begin
 	
 	//put payments type in the end:
 	if (IVCashr.RecValue != 0) then begin
+		ClearRow(IVr,IVrw,kInvoiceRowTypeCreditCardPayment);
 		IVrw.stp = kInvoiceRowTypeCreditCardPayment;
 		IVrw.Sum = IVCashr.RecValue;
 		//IVrw.PayMode = IVCashr.PayDeal; 
@@ -187,22 +190,26 @@ begin
 				IVrw.PayMode = paymode;
 		end;       
 		IVrw.Spec = UsetStr(20801);
-		IVrw.CurncyCode = IVCashr.CurncyCode; 
-		GetFullCurncyRate(tstr,IVr.TransDate,fr,to1,to2,br1,br2);    
+		IVrw.CurncyCode = IVr.CurncyCode; 
+		GetFullCurncyRate(IVrw.CurncyCode,IVr.TransDate,fr,to1,to2,br1,br2);   
+		IVrw.CurncyCode = IVr.CurncyCode; 
 		IVrw.FrRate = fr;
 		IVrw.ToRateB1 = to1;     
 		IVrw.ToRateB2 = to2;
 		IVrw.BaseRate1 = br1;
 		IVrw.BaseRate2 = br2;
 		MatRowPut(IVr,i,IVrw);
+		IVSumup(IVr,true); 
 		i = i + 1;
 	end;
 
 	if (IVCashr.CashValue != 0) then begin
+		ClearRow(IVr,IVrw,kInvoiceRowTypeCashPayment);
 		IVrw.stp = kInvoiceRowTypeCashPayment;
 		IVrw.Sum = IVCashr.CashValue-IVCashr.RetValue;
-		IVrw.CurncyCode = IVCashr.CurncyCode;
-		GetFullCurncyRate(tstr,IVr.TransDate,fr,to1,to2,br1,br2);
+		IVrw.CurncyCode = IVr.CurncyCode;
+		GetFullCurncyRate(IVrw.CurncyCode,IVr.TransDate,fr,to1,to2,br1,br2);
+		IVrw.CurncyCode = IVr.CurncyCode;
 		IVrw.FrRate = fr;
 		IVrw.ToRateB1 = to1;     
 		IVrw.ToRateB2 = to2;
@@ -213,6 +220,7 @@ begin
 		end;      
 		IVrw.Spec = UsetStr(20800);           
 		MatRowPut(IVr,i,IVrw);
+		IVSumup(IVr,true); 
 		i = i + 1;
 	end;
 
