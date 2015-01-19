@@ -590,13 +590,19 @@ LkInvoiceRowTypeNormal:;
 				sumnopdv = sumnopdv+round(roundprice*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
 			end;
 			if(currentcompany==4)then begin
-				sumnopdv = sumnopdv+roundprice*ORrw.Quant;
+				//sumnopdv = sumnopdv+round(roundprice*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
+				sumnopdv = sumnopdv+round(ORrw.Sum/12*10,SetRoundModeD(2));
 			end;
       if (FIELDINFORM("F_UAHSUMNONPDV")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:27:39
 				r = StringToInt(tstr);
 				t = blankval;
 				If(nonblank(ORrw.Price)) then begin
-					t = round(roundprice*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
+					if(currentcompany!=4)then begin
+						t = round(roundprice*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
+					end;
+					if(currentcompany==4)then begin
+						t = round(ORrw.Sum/12*10,SetRoundModeD(2));
+					end;
 					PrintValueInclZero("F_UAHSUMNONPDV",t,M45Val,LangNrr,SysFormatRec,false);
 				end;
       end;
@@ -1280,6 +1286,7 @@ LkInvoiceRowTypeNormal:;
 		t = pdv;
 		if(currentcompany==4)then begin
      	t = pdv1;
+     	t = ORr.Sum4 - sumnopdv;
     end;
 		PrintValueInclZero("F_UAHPDV",t,M45Val,LangNrr,SysFormatRec,false);
 	end;
