@@ -155,81 +155,123 @@ begin
 				end;
 			end;
 		end else begin
-			SHr.OrderNr = IVr.OrderNr;
-			trhs1=true;
-			resetloop(SHr);
-			while(LoopBackKey("OrderKey",SHr,1,trhs1)) begin// loopkey -> loopbackkey
-				if(SHr.OrderNr!=IVr.OrderNr)then begin trhs1=false; end;
-				
-				if(SHr.OrderNr==IVr.OrderNr) then begin
-					shmtrw = Matrowcnt(SHr);
-					For(shi=0;shi<shmtrw;shi=shi+1) begin
-						matrowget(SHr,shi,SHrw);
-						if(SHrw.ArtCode==IVrw.ArtCode and SHrw.OrdRow==IVrw.OrdRow)then begin
-							IHr.FileName = "SHVc";
-							IHr.TransNr = SHr.SerNr;
-							IHr.Row = shi;
-							TrHs = true;
-							while(loopkey("FNTransNr",IHr,3,TrHs))begin
-								testf = true;
-								if(IHr.TransNr!=SHr.SerNr)then begin TrHs = false; testf = false; end;
-								if(IHr.Row!=shi)then begin TrHs = false; testf = false; end;
-			
-								if(testf)then begin
-									if(IHr.InFileName=="PUVc")then begin
-										PUr.SerNr = IHr.InSerNr;
-										if(readfirstmain(PUr,1,true))then begin
-											cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred;
-											curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
-											curncy[ressize] = IHr.PUCurncyCode;
-											if(PUr.CurncyCode!="USD")then begin
-												rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+
+			if (IVr.OrderNr > -1) then begin
+
+					SHr.OrderNr = IVr.OrderNr;
+					trhs1=true;
+					resetloop(SHr);
+					while(LoopBackKey("OrderKey",SHr,1,trhs1)) begin// loopkey -> loopbackkey
+						if(SHr.OrderNr!=IVr.OrderNr)then begin trhs1=false; end;
+						
+						if(SHr.OrderNr==IVr.OrderNr) then begin
+							shmtrw = Matrowcnt(SHr);
+							For(shi=0;shi<shmtrw;shi=shi+1) begin
+								matrowget(SHr,shi,SHrw);
+								if(SHrw.ArtCode==IVrw.ArtCode and SHrw.OrdRow==IVrw.OrdRow)then begin
+									IHr.FileName = "SHVc";
+									IHr.TransNr = SHr.SerNr;
+									IHr.Row = shi;
+									TrHs = true;
+									while(loopkey("FNTransNr",IHr,3,TrHs))begin
+										testf = true;
+										if(IHr.TransNr!=SHr.SerNr)then begin TrHs = false; testf = false; end;
+										if(IHr.Row!=shi)then begin TrHs = false; testf = false; end;
+					
+										if(testf)then begin
+											if(IHr.InFileName=="PUVc")then begin
+												PUr.SerNr = IHr.InSerNr;
+													if(readfirstmain(PUr,1,true))then begin
+														cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred;
+														curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
+														curncy[ressize] = IHr.PUCurncyCode;
+														if(PUr.CurncyCode!="USD")then begin
+															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+														end else begin
+															rate[ressize] = blankval;
+														end;
+														indate[ressize] =	PUr.TransDate;
+														vecode[ressize] = PUr.VECode;
+														serial[ressize] = IHr.SerialNr;
+														qty[ressize] = -IHr.Qty*cred; 
+														ressize = ressize + 1;
+													end else begin
+														cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred*cred;
+														curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
+														curncy[ressize] = IHr.PUCurncyCode;
+														if(PUr.CurncyCode!="USD")then begin
+															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+														end else begin
+															rate[ressize] = blankval;
+														end;
+														indate[ressize] =	PUr.TransDate;
+														vecode[ressize] = PUr.VECode;
+														serial[ressize] = IHr.SerialNr;
+														qty[ressize] = -IHr.Qty*cred; 
+														ressize = ressize + 1;
+													end;
 											end else begin
-												rate[ressize] = blankval;
+													cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
+													curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+													curncy[ressize] = IHr.PUCurncyCode;
+													if(PUr.CurncyCode!="USD")then begin
+														rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+													end else begin
+														rate[ressize] = blankval;
+													end;
+													indate[ressize] =	PUr.TransDate;
+													vecode[ressize] = PUr.VECode;
+													serial[ressize] = IHr.SerialNr;
+													qty[ressize] = -IHr.Qty; 
+													ressize = ressize + 1;
 											end;
-											indate[ressize] =	PUr.TransDate;
-											vecode[ressize] = PUr.VECode;
-											serial[ressize] = IHr.SerialNr;
-											qty[ressize] = -IHr.Qty*cred; 
-											ressize = ressize + 1;
-										end else begin
-											cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred*cred;
-											curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
-											curncy[ressize] = IHr.PUCurncyCode;
-											if(PUr.CurncyCode!="USD")then begin
-												rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
-											end else begin
-												rate[ressize] = blankval;
-											end;
-											indate[ressize] =	PUr.TransDate;
-											vecode[ressize] = PUr.VECode;
-											serial[ressize] = IHr.SerialNr;
-											qty[ressize] = -IHr.Qty*cred; 
-											ressize = ressize + 1;
 										end;
-									end else begin
-										cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
-										curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
-										curncy[ressize] = IHr.PUCurncyCode;
-										if(PUr.CurncyCode!="USD")then begin
-											rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
-										end else begin
-											rate[ressize] = blankval;
-										end;
-										indate[ressize] =	PUr.TransDate;
-										vecode[ressize] = PUr.VECode;
-										serial[ressize] = IHr.SerialNr;
-										qty[ressize] = -IHr.Qty; 
-										ressize = ressize + 1;
 									end;
+									resetloop(IHr);
 								end;
-							end;
-							resetloop(IHr);
+							end; 
+						end else begin trhs1=false; end;
+					end;	//end - while(LoopBackKey..)
+
+			end		else begin			//  end-if (IVr.OrderNr > -1)		//Edit-------------------------------------Dima 20.01.2015
+					IHr.FileName = "SDVc";
+					IHr.SerialNr = IVrw.SerialNr;
+					IHr.ArtCode = IVrw.ArtCode;
+					TrHs = true;
+					while(loopkey("SerialNr",IHr,3,TrHs))begin
+
+						testf = true;
+						if(IHr.SerialNr!=IVrw.SerialNr)then begin TrHs = false; testf = false; end;
+						
+						if(testf and (IHr.InFileName=="PUVc"))then begin
+								PUr.SerNr = IHr.InSerNr;
+								if(readfirstmain(PUr,1,true))then begin
+          		
+									cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred;
+									curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
+									curncy[ressize] = IHr.PUCurncyCode;
+									if(PUr.CurncyCode!="USD")then begin
+										rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+									end else begin
+										rate[ressize] = blankval;
+									end;
+									indate[ressize] =	IHr.TransDate;
+									vecode[ressize] = PUr.VECode;
+									serial[ressize] = IHr.SerialNr;
+									qty[ressize] = -IHr.Qty*cred; 
+									ressize = ressize + 1;
+								end;
+				  	
 						end;
-					end; 
-				end else begin trhs1=false; end;
-			end;
+					end;
+
+			end;//End-----------------------------edit
+
+
 		end;
+
+
+
 		
 	end;
 		
