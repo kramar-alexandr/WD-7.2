@@ -304,7 +304,7 @@ string 50 filename;
               RunProgram("Buh/BuhExportDream.sh", "");
     
               //SetFileOnServer(false);
-			        RepSpec.d1=addday(CurrentDate,-1);
+			        /*RepSpec.d1=addday(CurrentDate,-1);
       				//SetFileOnServer(true);
       				RepSpec.f1 = "D2";
       				filename = "Buh/" & RepSpec.f1 & ".txt";
@@ -314,7 +314,7 @@ string 50 filename;
       				millisleep(100);
       				//openexportfile(filename,true);
       				ExportCashInvoicesEn(RepSpec);
-              RunProgram("Buh/BuhExportDream2.sh", "");
+              RunProgram("Buh/BuhExportDream2.sh", "");*/
               //SetFileOnServer(false);
             
             	/*RepSpec.d1=addday(CurrentDate,-1);
