@@ -74,6 +74,7 @@ area aBuh;
   
   IVr.TransDate = dat1;
   TrHs = true;
+  
   while(LoopKey("TransDate",IVr,1,TrHs))begin
     testf = true;
     if(IVr.TransDate>dat1)then begin TrHs = false; testf = false; end;
@@ -98,7 +99,7 @@ area aBuh;
       if(perc2!=0)then begin perc2=1-perc1-perc3; end;
       if(perc1!=0)then begin perc1=1-perc3-perc2; end;
       
-      if(perc3+perc2+perc1!=1)then begin messagebox(0,"NOT 1 perc") end;
+      //if(perc3+perc2+perc1!=1)then begin messagebox(0,"NOT 1 perc") end;
       
       For(i=0;i<mtrw;i=i+1) begin
         testf1 = true;
@@ -109,12 +110,12 @@ area aBuh;
           q1 = IVrw.Quant*perc1;
           q2 = IVrw.Quant*perc2;
           q3 = IVrw.Quant*perc3;
-          if(q1+q2+q3!=IVrw.Quant)then begin messagebox(0,"NOT 1 quant") end;
+          //if(q1+q2+q3!=IVrw.Quant)then begin messagebox(0,"NOT 1 quant") end;
           
           pr1 = IVrw.Sum*perc1;
           pr2 = IVrw.Sum*perc2;
           pr3 = IVrw.Sum*perc3;
-          if(pr1+pr2+pr3!=IVrw.Sum)then begin messagebox(0,"NOT 1 Price") end;
+          //if(pr1+pr2+pr3!=IVrw.Sum)then begin messagebox(0,"NOT 1 Price") end;
           
           AddTextToArea(IVrw.ArtCode & chr(9),aBuh);
           value = ValToString(q1,M4Val,"",chr(46),0);
@@ -131,10 +132,7 @@ area aBuh;
           AddTextToArea(value & chr(9) & chr(10),aBuh);
         end;
       end; 
-      
-      
     end;
-  
   end;
   
   WriteAreaToFile(aBuh,RepSpec.f2,0);
@@ -149,7 +147,7 @@ record RcVc RepSpec;
 string 50 filename;
       compno = CurrentCompany;
       switch (compno) begin
-      case 1: RepSpec.d1=addday(CurrentDate,-1);
+      /*case 1: RepSpec.d1=addday(CurrentDate,-1);
               SetFileOnServer(true);
               RepSpec.f1 = "DN_KARAVAN";
               filename = "Buh/1/" & RepSpec.f1 & ".txt";
@@ -209,17 +207,7 @@ string 50 filename;
               closefile;
               millisleep(100);
               openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-            
-              /*	RepSpec.f1 = "OD_SADU_P";
-              filename = "Buh/1/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "OSP";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);*/
+              ExportCashInvoicesEn(RepSpec);          
               
               RepSpec.f1 = "LV_OPERA_PASSAGE";
               filename = "Buh/1/" & RepSpec.f1 & ".txt";
@@ -251,9 +239,9 @@ string 50 filename;
               openexportfile(filename,true);
       
               RunProgram("Buh/1/BuhExport.sh", "");
-              SetFileOnServer(false);
+              SetFileOnServer(false);*/
               
-      case 2: RepSpec.d1=addday(CurrentDate,-1);
+     /* case 2: RepSpec.d1=addday(CurrentDate,-1);
               SetFileOnServer(true);
               RepSpec.f1 = "IPOINT";
               filename = "Buh/2/" & RepSpec.f1 & ".txt";
@@ -283,32 +271,12 @@ string 50 filename;
               closefile;
               millisleep(100);
               openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-              
-            /*RepSpec.f1 = "IPOINT_SM";
-              filename = "Buh/2/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "P2";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-          
-              RepSpec.f1 = "IPOINT_KH_MG";
-              filename = "Buh/2/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "P3";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);*/
+              ExportCashInvoicesEn(RepSpec);              
             
               RunProgram("Buh/2/BuhExport.sh", "");
-              SetFileOnServer(false);
+              SetFileOnServer(false);*/
               
-      case 4: RepSpec.d1=addday(CurrentDate,-1);
+      case 4: /*RepSpec.d1=addday(CurrentDate,-1);
               SetFileOnServer(true);
               RepSpec.f1 = "STORE";
               filename = "Buh/" & RepSpec.f1 & ".txt";
@@ -321,39 +289,35 @@ string 50 filename;
     
               RunProgram("Buh/BuhExport.sh", "");
     
-              SetFileOnServer(false);
+              SetFileOnServer(false);*/
 
 			        RepSpec.d1=addday(CurrentDate,-1);
-              SetFileOnServer(true);
-              RepSpec.f1 = "S_DT";
+              //SetFileOnServer(true);
+              RepSpec.f1 = "D1";
               filename = "Buh/" & RepSpec.f1 & ".txt";
               RepSpec.f2 = filename;
               CreateFile(filename);
               closefile;
               millisleep(100);
-              openexportfile(filename,true);
+              //openexportfile(filename,true);
               ExportCashInvoicesEn(RepSpec);
-    
               RunProgram("Buh/BuhExportDream.sh", "");
     
-              SetFileOnServer(false);
-	
+              //SetFileOnServer(false);
 			        RepSpec.d1=addday(CurrentDate,-1);
-      				SetFileOnServer(true);
-      				RepSpec.f1 = "S_DT_ST";
+      				//SetFileOnServer(true);
+      				RepSpec.f1 = "D2";
       				filename = "Buh/" & RepSpec.f1 & ".txt";
       				RepSpec.f2 = filename;
       				CreateFile(filename);
       				closefile;
       				millisleep(100);
-      				openexportfile(filename,true);
+      				//openexportfile(filename,true);
       				ExportCashInvoicesEn(RepSpec);
-    
               RunProgram("Buh/BuhExportDream2.sh", "");
-    
-              SetFileOnServer(false);
+              //SetFileOnServer(false);
             
-            	RepSpec.d1=addday(CurrentDate,-1);
+            	/*RepSpec.d1=addday(CurrentDate,-1);
       				SetFileOnServer(true);
       				RepSpec.f1 = "S_DT_ST2";
       				filename = "Buh/" & RepSpec.f1 & ".txt";
@@ -366,12 +330,11 @@ string 50 filename;
             
               RunProgram("Buh/BuhExportDream3.sh", "");
     
-              SetFileOnServer(false);         
+              SetFileOnServer(false);   */      
       end;
   closefile;
 return;
 end;
-
 
 global procedure ORtoBuhDsm()
 begin

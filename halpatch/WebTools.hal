@@ -1,5 +1,5 @@
 external updating procedure AutoRun();
-
+external updating procedure BuhExportEn();
 
 global webpublic updating Procedure WebRunAutosendReports() //Edit***************************Sasha2,15:18 04.07.2014
 begin
@@ -8,3 +8,24 @@ begin
 
 return;
 end; 
+
+global webpublic updating procedure WebBuhExportEn()
+begin
+	string 10 compnr;
+	integer comp;
+	
+	compnr = webgetarg("compnr");
+	
+	if(blank(compnr))then begin
+		comp = 0;
+	end else begin
+		comp = stringtoint(compnr);
+	end;
+	
+	SetCompany(comp,false);
+		BuhExportEn;
+	ResetCompany(comp);  
+	
+
+return;
+end;

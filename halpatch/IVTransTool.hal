@@ -870,7 +870,7 @@ BEGIN
   string 10 costacc;
   string 10 stockacc,taccnumber;
   string 255 tstr,lobjstr;
-  
+    
   if (TRGenRec.SHGenTrans==0) then begin goto LCreditCostAccTrans; end;
   if (IVp.UpdStockFlag==0) then begin goto LCreditCostAccTrans; end;
   ivrwcnt = MatRowCnt(IVp);
@@ -1158,7 +1158,7 @@ BEGIN
   string 255 location,pbbvaracc;
   record PLVc PLr;
   record ORVc ORr;
-
+		
   if (IsStandardProduct) then begin
     if (HasModIN==false or (HasModNL==false and HasIncomeAndExpenseBook==false)) then begin
       goto LAddIVCostRow;
@@ -1428,12 +1428,16 @@ L22AddIVCostRow:;
                 end;
               end;
               if (costaccf) then begin
-                negamf = NegativeAmountsOnIVTrans(IVp.InvType,t1);                
+                negamf = NegativeAmountsOnIVTrans(IVp.InvType,t1);   
                 if (bbtrf) then begin
                   if (IVrw.BasePrice!=0) then begin
-                    t1 = IVrw.Quant*IVrw.BasePrice;
+                    t1 = -IVrw.Quant*IVrw.BasePrice;
                   end;
-                end;            
+                end; 
+                if(IVrw.Quant<0)then begin// Edit ************************** Monday, 19 January 2015 18:21:43                	
+									//t1 = - t1;
+									negamf = !negamf;// Edit ************************** Tuesday, 20 January 2015 10:08:33
+								end;      
                 if (CheckTTRPerRow("IVVc",CostAcc,objstr,ldc1,taccnumber,0)) then begin end;    
                 AddEuroTrRowType(gTRp,CostAcc,objstr,"",tstr,t1,baserate1,lbaserate2,laccf,ldc1,TotSum,negamf,taccnumber,"","",kTransactionRowTypeStock);
                 if (bbtrf) then begin
@@ -1449,6 +1453,7 @@ L22AddIVCostRow:;
                 end;
                 
                 t1 = Round(IVrw.FIFORowVal,DefaultRoundMode);
+
                 if (nonblank(ARAccb.StockAcc)) then begin
                   rowstockacc = ARAccb.StockAcc;
                 end;
@@ -1486,6 +1491,9 @@ L22AddIVCostRow:;
                 end else begin
                   lobjstr = AddObjectToObjectList(lobjstr,locobjstr);
                   if (CheckTTRPerRow("IVVc",rowstockacc,lobjstr,ldc2,taccnumber,0)) then begin end;
+                  if(IVrw.Quant<0)then begin// Edit ************************** Monday, 19 January 2015 18:21:43                	
+										//t1 = - t1;
+									end; 
                   AddEuroTrRowType(gTRp,rowstockacc,lobjstr,"",tstr,t1,baserate1,lbaserate2,laccf,ldc2,TotSum,negamf,taccnumber,"","",kTransactionRowTypeStock);
                 end;
               end;

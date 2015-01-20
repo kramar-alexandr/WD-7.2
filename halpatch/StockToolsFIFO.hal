@@ -1361,6 +1361,7 @@ begin
 	longint ssernr;
 	integer srow;
 	val frrate,torateb1;
+	boolean TrHs,testf;
 	
   if (blank(artcode)) then begin 
     goto LStoreItemHistory_In;
@@ -1480,10 +1481,34 @@ begin
   									end;
   								end;
 		case	"IVVc":	IVr.SerNr = transnr;
-  								readfirstmain(IVr,1,true);
-  								matrowget(IVr,IHr.Row,IVrw);
-									curncy = INr.LastPurchCurncyCode;
-  								totcostpricecurncy = INr.LastPurchPrice2 * IHr.Qty;
+									
+									if(INr.SerNrf>0)then begin
+										sourceIHr.SerialNr = serialnr;
+										sourceIHr.ArtCode = INr.Code;
+										sourceIHr.TransDate = IHr.TransDate;
+										TrHs = true;
+										while(loopbackkey("CodeSerialNrArtCode",sourceIHr,3,TrHs))begin
+											testf = true;
+											if(sourceIHr.SerialNr!=serialnr)then begin TrHs = false; testf = false; end;
+											if(sourceIHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
+											
+											if(testf)then begin
+												curncy = sourceIHr.PUCurncyCode;
+												totcostpricecurncy = sourceIHr.TotCostPriceCurncy;
+												sfilename = sourceIHr.InFileName;
+												ssernr = sourceIHr.InSerNr;
+												srow = sourceIHr.InRow;
+												testf = false;
+												TrHs = false;
+											end;
+										end;
+										readfirstmain(IVr,1,true);
+										matrowget(IVr,IHr.Row,IVrw);
+										curncy = INr.LastPurchCurncyCode;
+										totcostpricecurncy = INr.LastPurchPrice2 * IHr.Qty;
+  								end else begin
+  								
+  								end;
   	case	"StockMovVc":	if(IHr.Qty>=0)then begin
   												sourceIHr.FileName = "StockMovVc";
   												sourceIHr.TransNr = IHr.TransNr;
