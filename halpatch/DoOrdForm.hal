@@ -212,6 +212,49 @@ LCountOrderRows:;
   RETURN;
 END;
 
+
+
+
+function val SumRowWithoutVAT(record ORVc ORr, Integer rownr)
+begin
+	row ORVc ORrw;
+	val res;
+	
+	MatRowGet(ORr,rownr,ORrw);
+	//res = (ORrw.Sum * 10/12)*(1-ORrw.vRebate/100);
+	res = (ORrw.Sum * 10/12);
+SumRowWithoutVAT = res;
+return;
+end;
+
+
+
+function val ORTotalSumWithoutVAT(record ORVc ORr)
+begin
+	row ORVc ORrw;
+	val res,tot;
+	integer rwcnt,i;
+
+	rwcnt = MatRowCnt(ORr);
+	res = 0;
+	for(i=0;i<rwcnt;i=i+1) begin
+		tot = SumRowWithoutVAT(ORr,i);
+		res = res + tot;
+	end;
+  ORTotalSumWithoutVAT = res;
+return;
+end;
+
+
+function val ORSumVAT(record ORVc ORr)
+begin
+	val res;
+	res = ORTotalSumWithoutVAT(ORr)*0.2;
+  ORSumVAT = res;
+return;
+end;
+
+
 procedure PrintOrderRows(record RcVc RepSpec,record DocVc Docr,record ORVc ORr,record LangNrVc LangNrr,record SysFormatBlock SysFormatRec,
                          var val totinprice,var val totweight,var val totvolume,var val totcombase2sum,var val totqty, var val totqty2,var val totnodiscount,Integer rwcnt)
 BEGIN
@@ -253,6 +296,7 @@ BEGIN
   nopdvsum = 0;
   sumrebeate = 0;
   sumnorebeate = 0;
+
   
   		if(FIELDINFORM("F_UAH_A"))then begin
 	  		curfor = "UAH_A";
@@ -269,7 +313,7 @@ BEGIN
 			if(FIELDINFORM("F_UAH_IB"))then begin
 					curfor = "UAHIB";
 			end;
-  		
+ /* 		
    		if (FIELDINFORM("F_SUMNOTPDVUAH")) then begin//-------------------------------------------
           t = blankval;
           If(nonblank(ORr.Sum1)) then begin
@@ -484,11 +528,12 @@ BEGIN
 					PrintValueInclZero("F_SUMMORIG",t,M45Val,LangNrr,SysFormatRec,false);
 				end;
 			end;
-  
+*/  
 	// Edit End ---------------------------------------------- Edit End
 	
 	sumnotpdv = 0;
-  SetupVATBase(nodiscVATr,vatcnt);          
+  SetupVATBase(nodiscVATr,vatcnt);  
+
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(ORr,i,ORrw);
     SetRowStyle(Docr,"ORVc",ORrw.stp,ORrw.ArtCode,ORrw.Sum);
@@ -559,9 +604,27 @@ LkInvoiceRowTypeNormal:;
         end else begin
           PrintValueInclZero("F_APRIS",ORrw.Price,M423Val,LangNrr,SysFormatRec,false);
         end;
+      end; 
+
+//Edit----------------------------------------------------Dima 21.01.2015
+
+      if (FIELDINFORM("F_APRISEXCLVAT")) then begin
+
+					t =	SumRowWithoutVAT(ORr,i)/ORrw.Quant;	//Price without VAT
+					t = Round(t,SetRoundModeD(2));
+					PrintValueInclZero("F_APRISEXCLVAT",t,M45Val,LangNrr,SysFormatRec,false);
       end;
-      
-      
+
+      if (FIELDINFORM("F_ROWSUMWITHOUTVAT")) then begin
+
+					t =	SumRowWithoutVAT(ORr,i);
+					t = Round(t,SetRoundModeD(2));
+					PrintValueInclZero("F_ROWSUMWITHOUTVAT",t,M45Val,LangNrr,SysFormatRec,false);
+      end;
+
+// End		Edit----------------------------------------------------Dima 21.01.2015
+
+
       
       roundprice = Round(ORrw.Price*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));// Edit ************************** Wednesday, 10 November 2010 14:22:34
       if (FIELDINFORM("F_UAHPRICENONPDV")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:22:35
@@ -593,6 +656,8 @@ LkInvoiceRowTypeNormal:;
 				//sumnopdv = sumnopdv+round(roundprice*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
 				sumnopdv = sumnopdv+round(ORrw.Sum/12*10,SetRoundModeD(2));
 			end;
+/*
+
       if (FIELDINFORM("F_UAHSUMNONPDV")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:27:39
 				r = StringToInt(tstr);
 				t = blankval;
@@ -906,7 +971,7 @@ LkInvoiceRowTypeNormal:;
           sumrebeate = sumrebeate + t;
           PrintValueInclZero("F_REBEATEORIG",t,M45Val,LangNrr,SysFormatRec,false);
       end;
-      
+*/      
 
       if (FIELDINFORM("F_BASPRIS")) then begin
         if (ORr.InclVAT==0) then begin
@@ -1196,7 +1261,8 @@ LkInvoiceRowTypeNormal:;
   end;
   CalcVATBaseVAT(nodiscVATr,ORr.InclVAT,ORr.NoTAXonVAT,vatcnt,vatval,rowtax);
   totnodiscount = totnodiscount + vatval + rowtax;
-  
+ 
+ 
     
   // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 10 November 2010 14:22:26
@@ -1838,11 +1904,13 @@ BEGIN
   if (FIELDINFORM("F_ATTBETALA")) then begin
     PrintValue("F_ATTBETALA",ORr.Sum4,M4Val,LangNrr,SysFormatRec,false);
   end;
-  if (FIELDINFORM("F_SUMMA")) then begin
-    PrintValue("F_SUMMA",ORr.Sum1,M4Val,LangNrr,SysFormatRec,false);
+  if (FIELDINFORM("F_SUMMA")) then begin		
+		t = ORTotalSumWithoutVAT(ORr);			//Edit ----Dima--------------------21.01.2015
+    PrintValue("F_SUMMA",t,M4Val,LangNrr,SysFormatRec,false);
   end;
   if (FIELDINFORM("F_MOMS")) then begin
-    PrintValue("F_MOMS",ORr.Sum3,M4Val,LangNrr,SysFormatRec,false);
+		t = ORSumVAT(ORr);								//Edit ----Dima--------------------21.01.2015
+    PrintValue("F_MOMS",t,M4Val,LangNrr,SysFormatRec,false);
   end; 
   if (FIELDINFORM("F_TOTALGP")) then begin
     PrintValue("F_TOTALGP",ORr.TotGP,M4Val,LangNrr,SysFormatRec,false);
