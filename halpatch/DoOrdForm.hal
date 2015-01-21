@@ -99,6 +99,26 @@ record BaseCurBlock BCb;
 return;
 end;
 
+
+function val CurChange(string curcode,string curcodefrom,date curdate)		//Edit------------------Dima 21.01.2015
+begin
+val frrate,to1,to2,br1,br2;
+val fromfrrate,fromto1,fromto2,frombr1,frombr2;
+
+	GetFullCurncyRate(curcode,curdate,frrate,to1,to2,br1,br2);
+	if(frrate==0 or to1==0) then begin
+			frrate=1;
+			to1=1;
+	end;
+	GetFullCurncyRate(curcodefrom,curdate,fromfrrate,fromto1,fromto2,frombr1,frombr2);
+	if(fromfrrate==0 or fromto1==0) then begin
+			fromfrrate=1;
+			fromto1=1;
+	end;
+	CurChange=(frrate/to1)/(fromfrrate/fromto1);
+return;
+end;
+
 	
 	// Edit End ---------------------------------------------- Edit End
 	
@@ -215,7 +235,7 @@ END;
 
 
 
-function val SumRowWithoutVAT(record ORVc ORr, Integer rownr)
+function val SumRowWithoutVAT(record ORVc ORr, Integer rownr)	//Edit------------------------Dima 21.01.2015
 begin
 	row ORVc ORrw;
 	val res;
@@ -229,7 +249,7 @@ end;
 
 
 
-function val ORTotalSumWithoutVAT(record ORVc ORr)
+function val ORTotalSumWithoutVAT(record ORVc ORr)			//Edit------------------------Dima 21.01.2015
 begin
 	row ORVc ORrw;
 	val res,tot;
@@ -246,7 +266,7 @@ return;
 end;
 
 
-function val ORSumVAT(record ORVc ORr)
+function val ORSumVAT(record ORVc ORr)					//Edit------------------------Dima 21.01.2015
 begin
 	val res;
 	res = ORTotalSumWithoutVAT(ORr)*0.2;
@@ -296,6 +316,8 @@ BEGIN
   nopdvsum = 0;
   sumrebeate = 0;
   sumnorebeate = 0;
+
+
 
   
   		if(FIELDINFORM("F_UAH_A"))then begin
@@ -1108,7 +1130,7 @@ LkInvoiceRowTypeNormal:;
       totqty = totqty + ORrw.Quant;
 
       totqty2 = totqty2 + ORrw.Quant*INr.UnitCoefficient;
-      PrintValue("F_COEFFICIENT",INr.UnitCoefficient,M45Val,LangNrr,SysFormatRec,false);
+      //PrintValue("F_COEFFICIENT",INr.UnitCoefficient,M45Val,LangNrr,SysFormatRec,false);	//Edit Dima-------------------21.01.2015
       t = MulRateToBase1(ORr.CurncyCode,ORrw.Price,ORr.FrRate,ORr.ToRateB1,ORr.ToRateB2,ORr.BaseRate1,ORr.BaseRate2,DefaultCurRoundOff);
       PrintValue("F_PRICEBASECURNCY1",t,M4Val,LangNrr,SysFormatRec,false);
       t = MulRateToBase2(ORr.CurncyCode,ORrw.Price,ORr.FrRate,ORr.ToRateB1,ORr.ToRateB2,ORr.BaseRate1,ORr.BaseRate2,DefaultCurRoundOff);
@@ -1667,6 +1689,28 @@ BEGIN
   RETURN;        
 END;
 
+
+
+procedure RecordMultiplication(var record ORVc ORr, val factor)
+begin
+integer rwcnt,i;
+row ORVc ORrw;
+
+	rwcnt = MatRowCnt(ORr);
+	for(i=0;i<rwcnt;i=i+1) begin
+			MatRowGet(ORr,i,ORrw);
+			ORrw.Price = ORrw.Price*factor;
+			ORrw.Sum = ORrw.Sum*factor;
+			MatRowPut(ORr,i,ORrw);
+	end;
+	
+	ORr.Sum1 = ORr.Sum1*factor;
+	ORr.Sum3 = ORr.Sum3*factor;
+	ORr.Sum4 = ORr.Sum4*factor;
+		
+return;
+end;
+
 procedure PrintOrder(string formcode,record RcVc RepSpec,record ORVc ORr,record SysFormatBlock SysFormatRec,record LangNrVc LangNrr)
 BEGIN
   record UserVc Userr;
@@ -1686,6 +1730,7 @@ BEGIN
   Date td;
   record BankVc Bankr;  
   longint myint;// Edit ************************** Monday, 28 March 2011 17:20:05
+	val curncyCoef, multFactor,prodCoef;					//Edit------------------------Dima 21.01.2015
 
   
 
@@ -1706,6 +1751,28 @@ BEGIN
   Locr.Code = ORr.Location;
   if (ReadFirstMain(Locr,1,true)) then begin
   end;
+
+			prodCoef=1;
+			curncyCoef = 1;
+			if(FIELDINFORM("F_KUNDVALUTA"))then begin		//Edit--------------------------Dima 21.01.2015
+					GetFieldArgument(Docr,F_KUNDVALUTA,tstr1);
+					if (nonblank(tstr1) or (ORr.CurncyCode != tstr1) ) then begin
+						curncyCoef = CurChange(tstr1,ORr.CurncyCode,ORr.OrdDate);
+					end else begin
+						curncyCoef = 1;
+					end;
+			end;
+
+			if(FIELDINFORM("F_COEFFICIENT"))then begin		//Edit--------------------------Dima 21.01.2015
+					GetFieldArgument(Docr,F_COEFFICIENT,tstr);
+					prodCoef = StringToVal(tstr,M4Val);
+					if (prodCoef == 0) then begin	
+						prodCoef = 1;
+					end;
+			end;
+			multFactor = curncyCoef * prodCoef;					
+			RecordMultiplication(ORr,multFactor);					//Edit--------------------------Dima 21.01.2015
+
   PrintUserDefinedCustomerFields(CUr.UserStr1,CUr.UserStr2,CUr.UserStr3,CUr.UserStr4,CUr.UserStr5,CUr.UserDate1,CUr.UserDate2,CUr.UserDate3,CUr.UserVal1,CUr.UserVal2,CUr.UserVal3);
   PrintValue("F_DISCSUM",ORr.DiscSum,M4Val,LangNrr,SysFormatRec,false);
   switch (ORr.InclVAT) begin
