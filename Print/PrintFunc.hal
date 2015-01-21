@@ -4,41 +4,37 @@ global function string 255 GetTextForPrint(integer i, string rec)
 begin
 record FormDefVc FDr;
 row FormDefVc FDrw;
-record StockMovDefBlock StockMovDefRec;
-row StockMovDefBlock StockMovDefrw;
-record InvDefBlock InvDefRec;
-row InvDefBlock InvDefrw;
 record DocVc Docr;
 integer wn;
 record RcVc RepSpec;
 string 255 res;
+Boolean foundf; //Edit***************************Sasha2,11:43 20.01.2015
+  
+  foundf = false;
   wn = CurWindow;
 //  GetWindowRecord(wn,RepSpec);
   res = "";
-  switch(rec) begin
-    case "ORVc":FDr.repname = "OrdForm";
-    						readfirstmain(FDr,1,true);
-                MatRowGet(FDr,i,FDrw);
-                if(nonblank(FDrw.FPCode))begin
-                  Docr.Code = FDrw.FPCode;
-                  ReadFirstMain(Docr,1,true);
-                  res = FDrw.FPCode & " " & Docr.Comment;
-                end;
-    /*case "StockMovVc":blockload(StockMovDefRec); 
-                MatRowGet(StockMovDefRec,i,StockMovDefrw);
-                if(nonblank(StockMovDefrw.FPCode))begin
-                  Docr.Code = StockMovDefrw.FPCode;
-                  ReadFirstMain(Docr,1,true);
-                  res = StockMovDefrw.FPCode & " " & Docr.Comment;
-                end;
-    case "IVVc":blockload(InvDefRec); 
-                MatRowGet(InvDefRec,i,InvDefrw);
-                if(nonblank(InvDefrw.FPCode))begin
-                  Docr.Code = InvDefrw.FPCode;
-                  ReadFirstMain(Docr,1,true);
-                  res = InvDefrw.FPCode & " " & Docr.Comment;
-                end;*/
+  switch(rec) begin //Edit***************************Sasha2,12:03 20.01.2015 {
+    case "ORVc":
+                FDr.repname = "OrdForm";
+    						foundf = true;
+    case "StockMovVc":
+                FDr.repname = "StockMovForm";
+    						foundf = true;
+    case "IVVc":
+                FDr.repname = "InvForm";
+    						foundf = true;
   end;
+  
+  if (foundf) then begin
+    readfirstmain(FDr,1,true);
+    MatRowGet(FDr,i,FDrw);
+    if(nonblank(FDrw.FPCode)) begin
+      Docr.Code = FDrw.FPCode;
+      ReadFirstMain(Docr,1,true);
+      res = FDrw.FPCode & " " & Docr.Comment;
+    end;
+  end; //Edit***************************Sasha2,12:03 20.01.2015 }
   
   
   GetTextForPrint = res;
@@ -57,7 +53,7 @@ record ORVc ORr;
 		getWindowRecord(wn,ORr);
     RepSpec.long1 = ORr.SerNr;
     RepSpec.f1 = WindowFormName(wn);
-  	nwn = OpenWindow("MyPrintTClass",0,0,"","",RepSpec);
+  	nwn = OpenWindow("MyPrintTClass",0,wn,"","",RepSpec);
 RETURN;
 END;
 
@@ -71,11 +67,11 @@ record StockMovVc SMr;
 		wn = CurWindow;
 		getWindowRecord(wn,SMr);
     RepSpec.long1 = SMr.SerNr;
-  	nwn = OpenWindow("MyPrintSMTClass",0,0,"","",RepSpec);
+  	nwn = OpenWindow("MyPrintTClass",0,wn,"","",RepSpec); //Edit***************************Sasha2,12:03 20.01.2015
 RETURN;
 END;
 
-global
+/*global
 procedure PrintDoInvFormButton()
 BEGIN
 integer wn,nwn;
@@ -85,9 +81,9 @@ record IVVc IVr;
 		wn = CurWindow;
 		getWindowRecord(wn,IVr);
     RepSpec.long1 = IVr.SerNr;
-  	nwn = OpenWindow("MyPrintIVTClass",0,0,"","",RepSpec);
+  	nwn = OpenWindow("MyPrintTClass",0,wn,"","",RepSpec);
 RETURN;
-END;
+END;*/
 
 
 global updating procedure PrintDoOrdForm()
@@ -129,7 +125,7 @@ record RcVc RepSpec;
 return;
 end;
 
-global updating procedure PrintDoIVForm()
+/*global updating procedure PrintDoIVForm()
 begin
 integer wn;
 record RcVc RepSpec; 
@@ -145,4 +141,4 @@ record RcVc RepSpec;
 
   end;
 return;
-end;
+end;*/

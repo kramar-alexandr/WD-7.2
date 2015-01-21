@@ -1957,7 +1957,7 @@ begin
   Sizeable(-1,-1,0,0);
   UseView(ORVc);
   ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
-  HalPushButton(300,5,360,25,"PrintDoOrdFormButton","„рук");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
+    HalPushButton(300,5,360,25,"PrintDoOrdFormButton","„рук");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
   EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
   ActiveFieldOnNew("CustCode");    
   CommunicateButton;
@@ -4466,6 +4466,9 @@ begin
   end;
   Sizeable(-1,-1,0,0);
   UseView(StockMovVc);
+  ToolBar; //Edit***************************Sasha2,18:05 19.01.2015
+    HalPushButton(300,5,360,25,"PrintDoStockMovFormButton","„рук");
+  EndToolBar; //Edit***************************Sasha2,18:05 19.01.2015 
   ActiveFieldOnNew("SentTransDate");      
   Tile(0,100,false,"",TransDate);
   v = 6; vs = 20; h = 110; h2 = 300; h3 = 500; h4 = 620;

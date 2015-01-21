@@ -2215,22 +2215,22 @@ BEGIN
 					end;
 			end;
 	LBREAKOrd:;
-				if (nonblank(formcode)) then begin
-					if (OpenForm(formcode)) then begin
-						PrintOrder(formcode,RepSpec,ORr,SysFormatRec,LangNrr);
-						
-						CloseForm;
-					end else begin
-						printf = false;
-						MessageBox(1546,formcode);
-					end;
+			if (nonblank(formcode)) then begin
+				if (OpenForm(formcode)) then begin
+					PrintOrder(formcode,RepSpec,ORr,SysFormatRec,LangNrr);
+					
+					CloseForm;
 				end else begin
 					printf = false;
-					if (intdocnr==1) then begin
-						MessageBox(1624, " " & USetStr(1623));
-					end;
+					MessageBox(1546,formcode);
 				end;
-		 // messageBox(0,intdocnr);
+			end else begin
+				printf = false;
+				if (intdocnr==1) then begin
+					MessageBox(1624, " " & USetStr(1623));
+				end;
+			end;
+	 // messageBox(0,intdocnr);
 			
 			
 		end;

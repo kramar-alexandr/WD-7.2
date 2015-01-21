@@ -420,3 +420,226 @@ LBREAKStockMov:;
 L99:;
   RETURN;
 END;
+
+global //Edit***************************Sasha2,12:14 20.01.2015 duplicate of orginal DoStockMovForm
+procedure DoStockMovForm1(record RcVc RepSpec)
+BEGIN
+  record UserVc Userr;
+  record FormDefVc FDr;
+  row FormDefVc FDrw;
+  record SysFormatBlock SysFormatRec;
+  record LangNrVc LangNrr;
+  Integer i,rwcnt;
+  record LocationVc FromLocr;
+  record LocationVc ToLocr;
+  record LocationVc ViaLocr;
+  record MainStockBlock MainStockRec;
+  val totbasprice,totinprice,totprice,totqty,totweight,totvolume,totordweight;
+  string 255 tstr;
+  Integer OKFlag;
+  record StockMovVc realStockMovr,StockMovr;
+  record DocVc Docr;
+  Boolean printf;
+  Integer intdocnr;
+  string 30 formcode;
+  record StandProblemVc SPr;
+  record ModuleBlock MBr;
+  record CUVc CUr;
+  record ORVc ORr;
+  record eShipTaxAuthReplyVc eSTARr;
+  
+  StockMovr.SerNr = RepSpec.long1;
+  ReadFirstmain(StockMovr,1,true);
+  realStockMovr.SerNr = StockMovr.SerNr;
+  if (ReadFirstMain(realStockMovr,1,true)) then begin end;//for some reason we change OKFlag status in ivdclassprint
+
+  BlockLoad(MainStockRec);
+  BlockLoad(SysFormatRec);  
+  BlockLoad(MBr);  
+  FDr.repname = "StockMovForm"; //Edit***************************Sasha2,10:11 21.01.2015
+  FDr.shortname = RepSpec.shortname;
+  ReadFirstMain(FDr,1,true);
+  rwcnt = MatRowCnt(FDr);
+  GetLangNr("",LangNrr);
+  OKFlag = realStockMovr.OKFlag;
+  if (OKFlag==0) then begin
+//    OKFlag = realStockMovr.OrdFlag;
+  end;
+  if (OKFlag==0) then begin
+    OKFlag = realStockMovr.SentOKFlag;
+  end;
+  intdocnr = 1;
+  printf = true;
+  while (intdocnr<=RepSpec.flags[0] and printf) begin  //Edit***************************Sasha2,12:13 20.01.2015 
+    formcode = "";
+    if(intdocnr==RepSpec.flags[0]) then begin //Edit***************************Sasha2,12:16 20.01.2015
+      for (i=rwcnt-1;i>=0;i=i-1) begin
+        MatRowGet(FDr,i,FDrw);
+        if (FindFormcode(OKFlag,FDrw.Typ)) then begin 
+          if (Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,StockMovr.SerNr,FDrw.PrintGroupCode,
+                          "",intdocnr,"StockMovVc",formcode)) then
+          begin
+            goto LBREAKStockMov;
+          end;
+        end;
+      end;
+  LBREAKStockMov:;
+      if (nonblank(formcode)) then begin
+        if (OpenForm(formcode)) then begin
+          CommonDocumentFields(RepSpec);
+          NumberofDocumentPages(FDrw.FPCode,MatRowCnt(StockMovr));
+  //        OUTFORMFIELD("F_DOCTYPE",USetStr(23459));        
+          OUTFORMFIELD("F_DOCTYPE",StringFromSet(564,StockMovr.StockMovType));        
+          Docr.Code = formcode;
+          if (ReadFirstMain(Docr,1,true)) then begin
+          end;
+          if (FIELDINFORM("F_RUSPAYNR")) then begin
+            RussianPaymentNr(StockMovr.SerNr,tstr);
+            OUTFORMFIELD("F_RUSPAYNR",tstr);
+          end;  
+          if (blank(StockMovr.FrLocation)) then begin
+            FromLocr.Code = MainStockRec.MainStock;
+          end else begin
+            FromLocr.Code = StockMovr.FrLocation;
+          end;
+          if (blank(StockMovr.ToLocation)) then begin
+            ToLocr.Code = MainStockRec.MainStock;
+          end else begin
+            ToLocr.Code = StockMovr.ToLocation;
+          end;
+          if (ReadFirstMain(FromLocr,1,true)) then begin end;
+          if (ReadFirstMain(ToLocr,1,true)) then begin end;
+          if nonblank(StockMovr.ThrouLocation) then begin
+            ViaLocr.Code = StockMovr.ThrouLocation;
+            if (ReadFirstMain(ViaLocr,1,true)) then begin end;
+            OUTFORMFIELD("F_VIALOCATION",StockMovr.ThrouLocation);
+            OUTFORMFIELD("F_VIANAME",ViaLocr.Name);
+            OUTFORMFIELD("F_VIAPHONE",ViaLocr.Phone);
+            OUTFORMFIELD("F_VIAFAX",ViaLocr.Fax);
+            OUTFORMFIELD("F_VIACONTACT",ViaLocr.Contact);
+            OUTFORMFIELD("F_VIAEMAIL",ViaLocr.Email);  
+            OutAddress("F_VIAADRESS",ViaLocr.Addr0,ViaLocr.Addr1,ViaLocr.Addr2,ViaLocr.Addr3,ViaLocr.Addr4,"");
+          end; 
+                   
+          OUTFORMFIELD("F_LEVDATUM",StockMovr.TransDate);
+          OUTFORMFIELD("F_PLANSENTTIME",StockMovr.PlanSendTime);
+          OUTFORMFIELD("F_PLANSENTDATE",StockMovr.PlanSendDate);
+          OUTFORMFIELD("F_LEVNUMMER",StockMovr.SerNr);
+          OUTFORMFIELD("F_COMMENT",StockMovr.Comment);
+          OUTFORMFIELD("F_FROMLOCATION",StockMovr.FrLocation);
+          OUTFORMFIELD("F_TOLOCATION",StockMovr.ToLocation);
+          
+          OUTFORMFIELD("F_FROMNAME",FromLocr.Name);
+          OUTFORMFIELD("F_FROMPHONE",FromLocr.Phone);
+          OUTFORMFIELD("F_FROMFAX",FromLocr.Fax);
+          OUTFORMFIELD("F_FROMCONTACT",FromLocr.Contact);
+          OutAddress("F_FROMADRESS",FromLocr.Addr0,FromLocr.Addr1,FromLocr.Addr2,FromLocr.Addr3,FromLocr.Addr4,"");
+          OUTFORMFIELD("F_TONAME",ToLocr.Name);
+          OUTFORMFIELD("F_TOPHONE",ToLocr.Phone);
+          OUTFORMFIELD("F_TOFAX",ToLocr.Fax);
+          OUTFORMFIELD("F_TOCONTACT",ToLocr.Contact);
+          OutAddress("F_TOADRESS",ToLocr.Addr0,ToLocr.Addr1,ToLocr.Addr2,ToLocr.Addr3,ToLocr.Addr4,"");
+          OUTFORMFIELD("F_FREIGHTCOMPCODE",StockMovr.FreightCode);
+          OUTFORMFIELD("F_FREIGHTCOMP",StockMovr.FreightCompany); 
+          OUTFORMFIELD("F_FREIGHTCOMPREGNO",StockMovr.FreightCompanyRegNr);
+          OUTFORMFIELD("F_TRUCKINFO",StockMovr.TruckInfo); 
+          OUTFORMFIELD("F_DRIVER",StockMovr.Driver); 
+          OUTFORMFIELD("F_CMRTEXT",StockMovr.CMRText);
+          OUTFORMFIELD("F_REASON",StockMovr.Reason);
+          OutAddress("F_POSTADRESS",StockMovr.FrAddr0,StockMovr.FrAddr1,StockMovr.FrAddr2,StockMovr.FrAddr3,StockMovr.FrAddr4,"");
+          OutAddress("F_ORDLEVADRESS",StockMovr.ThrouAddr0,StockMovr.ThrouAddr1,StockMovr.ThrouAddr2,StockMovr.ThrouAddr3,StockMovr.ThrouAddr4,"");
+          OutAddress("F_LEVADRESS",StockMovr.ToAddr0,StockMovr.ToAddr1,StockMovr.ToAddr2,StockMovr.ToAddr3,StockMovr.ToAddr4,"");
+          if (FIELDINFORM("F_REASONTEXT")) then begin
+            SPr.Code = StockMovr.Reason;
+            if (ReadFirstMain(SPr,1,true)) then begin end;
+            OUTFORMFIELD("F_REASONTEXT",SPr.Comment1);
+            OUTFORMFIELD("F_REASONTEXT",SPr.Comment2);
+            OUTFORMFIELD("F_REASONTEXT",SPr.Comment3);
+          end;  
+          if (FIELDINFORM("F_NOTE")) then begin
+            GetFieldArgument(Docr,F_NOTE,tstr);
+            StockMovPrintNote(StockMovr,tstr);
+          end;
+          PrintStockMovRows2(RepSpec,StockMovr,LangNrr,SysFormatRec,MainStockRec,totbasprice,totinprice,totprice,totqty,totweight,totvolume,totordweight);
+          if (HasLocalization("PRT")==false) then begin
+            PrintValue("F_TOTALINPRICE",totinprice,M45Val,LangNrr,SysFormatRec,false);
+            PrintValue("F_TOTBASPRIS",totbasprice,M45Val,LangNrr,SysFormatRec,false);
+            PrintValue("F_TOTPRIS",totprice,M45Val,LangNrr,SysFormatRec,false);
+          end;
+          PrintValue("F_TOTQTY",totqty,M45Val,LangNrr,SysFormatRec,false);
+          PrintValue("F_TOTVOLUME",totvolume,M4Qty,LangNrr,SysFormatRec,false);
+          PrintValue("F_TOTWEIGHT",totweight,M4Qty,LangNrr,SysFormatRec,false);
+          PrintValue("F_ORDTOTWEIGHT",totordweight,M4Qty,LangNrr,SysFormatRec,false);
+          OUTFORMFIELD("F_FROMPOSITION",StockMovr.FrPos);
+          OUTFORMFIELD("F_TOPOSITION",StockMovr.ToPos);
+          OUTFORMFIELD("F_SENTTRANSDATE",StockMovr.SentTransDate);
+          OUTFORMFIELD("F_DATEDAY",GetDay(StockMovr.TransDate));  
+          OUTFORMFIELD("F_DATEMONTH",GetMonth(StockMovr.TransDate));  
+          GetMonthText("",StockMovr.TransDate,tstr);
+          OUTFORMFIELD("F_DATEMONTHTEXT",tstr);  
+          OUTFORMFIELD("F_DATEYEAR",GetYear(StockMovr.TransDate));  
+          GetCurUser(Userr);
+          OUTFORMFIELD("F_PERSON",Userr.Name);
+          if (FIELDINFORM("F_ATTBETALATEXT")) then begin //jzs
+            ValToText(totprice,M4Val,StockMovr.CurncyCode,"",tstr);
+            OUTFORMFIELD("F_ATTBETALATEXT",tstr);        
+          end;            
+          OUTFORMFIELD("F_SAFTHASHCONTROL",SAFTHashControl(StockMovr.Hash));
+          if (HasLocalization("PRT")) then begin
+            OUTFORMFIELD("F_OFFICIALSERNO",GetOffSerNrIVJournalID(StockMovr.SerNr,"StockMovVc",StockMovr.OfficialSerNr) & " " & StockMovr.OfficialSerNrSerie & "/" & Right(StockMovr.OfficialSerNr,len(StockMovr.OfficialSerNr)-len(StockMovr.OfficialSerNrSerie)));
+          end else begin
+            OUTFORMFIELD("F_OFFICIALSERNO",StockMovr.OfficialSerNr);
+          end;
+          if (StockMovr.Prntdf==0) then begin
+            OUTFORMFIELD("F_COPYTYPE",USetStr(18630));
+          end else begin
+            OUTFORMFIELD("F_COPYTYPE",USetStr(18631));
+          end;
+          OUTFORMFIELD("F_TYPE",StringFromSet(564,StockMovr.StockMovType));
+          if (StockMovr.OrderNr>0) then begin
+            OUTFORMFIELD("F_ORDERNUMMER",StockMovr.OrderNr);
+            ORr.SerNr = StockMovr.OrderNr;
+            ReadFirstMain(ORr,1,true);
+            CUr.Code = ORr.CustCode;
+            ReadFirstMain(CUr,1,true);
+            OUTFORMFIELD("F_KUNDNAMN",ORr.Addr0);
+            OUTFORMFIELD("F_KUNDMOMSNR",ORr.VATNr); 
+            PrintCountryCode("F_CUCOUNTRYCODE",CUr.CountryCode);     
+            if (HasLocalization("PRT")) then begin    
+              if (CUr.CustType==1) then begin
+                OUTFORMFIELD("F_CUSTTYPE",USetStr(23361));
+              end;
+            end;
+            OutAddress("F_INLEVADRESS",ORr.ShipAddr0,ORr.ShipAddr1,ORr.ShipAddr2,ORr.ShipAddr3,ORr.DelAddr3,ORr.DelAddr4);
+          end;
+          if (HasLocalization("PRT")) then begin    
+            eSTARr.FileName = "StockMovVc";
+            eSTARr.TransNr = StockMovr.SerNr;
+            ReadLastKey("FNTransNr",eSTARr,2,true);
+            OUTFORMFIELD("F_ATDocCodeID",eSTARr.TaxAdminServSeal);
+          end;
+          if ((StockMovr.OKFlag!=0) or (StockMovr.SentOKFlag!=0)) then begin
+            if (StockMovr.Prntdf!=0) then begin
+              if (MBr.NoTestprintEnabler==0) then begin
+                FormWaterMark(1118,-1);
+              end;
+            end;
+          end;
+          CloseForm;
+        end else begin
+          printf = false;
+          MessageBox(1546,formcode);
+        end;
+      end else begin
+        printf = false;
+        if (intdocnr==1) then begin
+          MessageBox(1624, " " & USetStr(1623));
+        end;
+      end;
+    end; //Edit***************************Sasha2,12:17 20.01.2015
+    intdocnr = intdocnr + 1;
+  end;
+L99:;
+  RETURN;
+END;
+   
