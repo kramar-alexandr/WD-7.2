@@ -335,7 +335,7 @@ BEGIN
 			if(FIELDINFORM("F_UAH_IB"))then begin
 					curfor = "UAHIB";
 			end;
- /* 		
+ /* */		
    		if (FIELDINFORM("F_SUMNOTPDVUAH")) then begin//-------------------------------------------
           t = blankval;
           If(nonblank(ORr.Sum1)) then begin
@@ -550,7 +550,7 @@ BEGIN
 					PrintValueInclZero("F_SUMMORIG",t,M45Val,LangNrr,SysFormatRec,false);
 				end;
 			end;
-*/  
+/* */  
 	// Edit End ---------------------------------------------- Edit End
 	
 	sumnotpdv = 0;
@@ -678,7 +678,7 @@ LkInvoiceRowTypeNormal:;
 				//sumnopdv = sumnopdv+round(roundprice*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
 				sumnopdv = sumnopdv+round(ORrw.Sum/12*10,SetRoundModeD(2));
 			end;
-/*
+/*	*/
 
       if (FIELDINFORM("F_UAHSUMNONPDV")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:27:39
 				r = StringToInt(tstr);
@@ -993,7 +993,7 @@ LkInvoiceRowTypeNormal:;
           sumrebeate = sumrebeate + t;
           PrintValueInclZero("F_REBEATEORIG",t,M45Val,LangNrr,SysFormatRec,false);
       end;
-*/      
+/* */      
 
       if (FIELDINFORM("F_BASPRIS")) then begin
         if (ORr.InclVAT==0) then begin
@@ -1762,7 +1762,8 @@ BEGIN
 						curncyCoef = 1;
 					end;
 			end;
-
+LogText(0,"---curncyCoef       " & curncyCoef);
+LogText(0,"CurCode  " & ORr.CurncyCode);
 			if(FIELDINFORM("F_COEFFICIENT"))then begin		//Edit--------------------------Dima 21.01.2015
 					GetFieldArgument(Docr,F_COEFFICIENT,tstr);
 					prodCoef = StringToVal(tstr,M4Val);
