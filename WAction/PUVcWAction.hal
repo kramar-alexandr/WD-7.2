@@ -52,6 +52,18 @@ external function Integer GetUnitAllowDim(string);
 remote function Boolean PUDchrsum(record PUVc,Integer);
 remote procedure PUVc_PasteTREO(var record PUVc,Integer);
 remote function Boolean PUVc_PasteVEItemCode(var record PUVc,Integer,var string,var string);
+remote procedure ORVc_PasteCurncyCode(var record ORVc,string); //Edit***************************Sasha2,12:06 22.01.2015
+remote function Boolean ORVc_PasteArtCode(var record ORVc,Integer,var string,var string,Boolean); //Edit***************************Sasha2,12:06 22.01.2015
+remote procedure ORVc_PasteQuant(var record ORVc,Integer,Boolean,var Boolean); //Edit***************************Sasha2,12:06 22.01.2015
+remote function Boolean SerialNrForOneItem(string,var record SerBalVc); //Edit***************************Sasha2,12:07 22.01.2015
+remote function string 255 FindPositionWithSerialNr(string,string,string,string); //Edit***************************Sasha2,12:07 22.01.2015
+remote procedure SerialNrDimensions(string,string,var val,var val,var val); //Edit***************************Sasha2,12:07 22.01.2015
+remote function Integer CheckSerialStatus(string,string,var string); //Edit***************************Sasha2,12:07 22.01.2015
+remote function Boolean CostPriceForGP(string,string,string,string,var val); //Edit***************************Sasha2,12:08 22.01.2015
+remote procedure ORVc_PastePrice(var record ORVc,Integer,var Boolean); //Edit***************************Sasha2,12:08 22.01.2015
+remote function Boolean ORDchrsum(var record ORVc,Integer); //Edit***************************Sasha2,12:07 22.01.2015
+remote procedure ORSumup(var record ORVc); //Edit***************************Sasha2,12:09 22.01.2015
+remote procedure ORDchsum(var record ORVc,Integer); //Edit***************************Sasha2,12:12 22.01.2015
 
 forward function Boolean PUDClassSwitchRow(Integer,Integer);
 
@@ -1095,3 +1107,105 @@ LPUDClassOnEnterKey:;
   PUDClassOnEnterKey = res;
   return;
 end;
+
+updating  //Edit***************************Sasha2,12:00 22.01.2015 {
+procedure HandleMyCreateOrdFromPUD(record PUVc PUr,var record ORVc ORr)
+begin
+  integer mtrw,i;
+	row PUVc PUrw;
+	row ORVc ORrw;
+	string 5 curcode;
+	string 255 inwarning,warning,tstr;
+	Boolean chsum,chsum1,chsum2;
+	record ModuleBlock OptFeature;
+	record SerBalVc SBr;
+	string 30 serial;
+	val UnitXval,UnitYval,UnitZval,oldquant,t;
+	
+	  BlockLoad(OptFeature);
+  	mtrw = matrowcnt(PUr);
+  	curcode = ORr.CurncyCode;
+  	ORr.CurncyCode = PUr.CurncyCode;
+  	ORVc_PasteCurncyCode(ORr,curcode);
+  	for(i=0;i<mtrw;i=i+1) begin
+  		MatRowGet(PUr,i,PUrw);
+  		ORrw.ArtCode = PUrw.ArtCode;
+  		MatRowPut(ORr,i,ORrw);
+  		ORVc_PasteArtCode(ORr,i,inwarning,warning,false);
+  		MatRowGet(ORr,i,ORrw);
+  		ORrw.Quant = PUrw.Quant;
+  		MatRowPut(ORr,i,ORrw);
+  		if (OptFeature.NoQtyDepPrices==0) then begin
+        ORVc_PasteQuant(ORr,i,true,chsum);
+      end else begin
+        chsum = ORDchrsum(ORr,i);
+      end;
+  		if (NonBlank(PUrw.SerialNr)) then begin
+  		  MatRowGet(ORr,i,ORrw);
+  		  ORrw.SerialNr = PUrw.SerialNr;
+  		  MatRowPut(ORr,i,ORrw);
+  		  if (blank(ORrw.ArtCode)) then begin 
+        if (SerialNrForOneItem(ORrw.SerialNr,SBr)) then begin
+          if (nonblank(SBr.Item)) then begin 
+            ORrw.ArtCode = SBr.Item;
+            ORrw.Quant = 1;
+            ORrw.Location = SBr.Location;
+            serial = ORrw.SerialNr;
+            ORrw.Position = FindPositionWithSerialNr(ORr.Location,ORrw.ArtCode,ORrw.SerialNr,ORrw.Location);
+            MatRowPut(ORr,i,ORrw);
+            if (ORVc_PasteArtCode(ORr,i,warning,warning,false)) then begin
+            end;
+            MatRowGet(ORr,i,ORrw);
+            ORrw.SerialNr = serial;
+            MatRowPut(ORr,i,ORrw);
+          end;
+        end;  
+        end;
+        SerialNrDimensions(ORrw.ArtCode,ORrw.SerialNr,UnitXval,UnitYval,UnitZval);
+        ORrw.UnitXval = UnitXval;
+        ORrw.UnitYval = UnitYval;
+        ORrw.UnitZval = UnitZval;
+        if (CheckSerialStatus(ORrw.ArtCode,ORrw.SerialNr,tstr)==1) then begin
+        end;
+        t = ORrw.BasePrice;
+        chsum1 = CostPriceForGP(ORrw.ArtCode,ORrw.SerialNr,ORr.PriceList,ORr.CustCode,t);
+        ORrw.BasePrice = t;
+        oldquant = ORrw.Quant;
+        ORrw.Quant = CalculateSerialNrQuantity(ORrw.ArtCode,"","",false,ORrw.UnitXval,ORrw.UnitYval,ORrw.UnitZval,ORrw.Quant);    
+        if (ORrw.Quant!=oldquant) then begin
+          chsum1 = true;
+        end;
+  		  MatRowPut(ORr,i,ORrw);  
+  		end;	
+  		MatRowGet(ORr,i,ORrw);
+  		ORrw.Price = PUrw.UPrice;
+  		MatRowPut(ORr,i,ORrw);
+  		ORVc_PastePrice(ORr,i,chsum2);
+  		if (chsum or chsum1 or chsum2) then begin
+        ORDchsum(ORr,i);
+      end;
+  	end;
+
+    ORSumup(ORr);
+
+
+  return;
+end; //Edit***************************Sasha2,12:01 22.01.2015 }
+
+global //Edit***************************Sasha2,12:00 22.01.2015 {
+updating procedure MyCreateOrdFromPUDsm()
+begin
+	integer wn,nwn;
+	record PUVc PUr;
+	record ORVc ORr;
+
+	wn = CurWindow;
+	GetWindowRecord(wn,PUr);
+  recordNew(ORr);
+  
+  HandleMyCreateOrdFromPUD(PUr,ORr);
+  
+  nwn = OpenWindow("ORDClass",1,0,"","",ORr); 
+	
+	return;
+end; //Edit***************************Sasha2,12:00 22.01.2015 }

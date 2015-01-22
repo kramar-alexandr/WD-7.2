@@ -3677,6 +3677,7 @@ begin
 	SpecialMenu("Створити запис операції",' ',9,"CreateTransFromPUDsm");// Edit ************************** Friday, July 11, 2014 at 16:30:24
 	SpecialMenu("Створити переміщення",'',14,"CreateSMfromPUDsm");// Edit ************************** Monday, July 14, 2014 at 11:45:06
 	SpecialMenu("Створити списання",'',14,"CreateSDfromPUDsm");// Edit ************************** Monday, July 14, 2014 at 11:45:05
+  SpecialMenu("Створити Ордер",'',14,"MyCreateOrdFromPUDsm"); //Edit***************************Sasha2,10:38 21.01.2015
   EndWindow;
 end;
 
