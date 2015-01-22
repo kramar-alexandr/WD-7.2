@@ -318,7 +318,7 @@ BEGIN
   sumnorebeate = 0;
 
 
-
+ /*
   
   		if(FIELDINFORM("F_UAH_A"))then begin
 	  		curfor = "UAH_A";
@@ -335,7 +335,7 @@ BEGIN
 			if(FIELDINFORM("F_UAH_IB"))then begin
 					curfor = "UAHIB";
 			end;
- /* */		
+	
    		if (FIELDINFORM("F_SUMNOTPDVUAH")) then begin//-------------------------------------------
           t = blankval;
           If(nonblank(ORr.Sum1)) then begin
@@ -550,7 +550,7 @@ BEGIN
 					PrintValueInclZero("F_SUMMORIG",t,M45Val,LangNrr,SysFormatRec,false);
 				end;
 			end;
-/* */  
+ */  
 	// Edit End ---------------------------------------------- Edit End
 	
 	sumnotpdv = 0;
@@ -647,7 +647,7 @@ LkInvoiceRowTypeNormal:;
 // End		Edit----------------------------------------------------Dima 21.01.2015
 
 
-      
+   /*   
       roundprice = Round(ORrw.Price*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));// Edit ************************** Wednesday, 10 November 2010 14:22:34
       if (FIELDINFORM("F_UAHPRICENONPDV")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:22:35
 				r = StringToInt(tstr);
@@ -678,7 +678,7 @@ LkInvoiceRowTypeNormal:;
 				//sumnopdv = sumnopdv+round(roundprice*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
 				sumnopdv = sumnopdv+round(ORrw.Sum/12*10,SetRoundModeD(2));
 			end;
-/*	*/
+
 
       if (FIELDINFORM("F_UAHSUMNONPDV")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:27:39
 				r = StringToInt(tstr);
@@ -993,7 +993,7 @@ LkInvoiceRowTypeNormal:;
           sumrebeate = sumrebeate + t;
           PrintValueInclZero("F_REBEATEORIG",t,M45Val,LangNrr,SysFormatRec,false);
       end;
-/* */      
+ */      
 
       if (FIELDINFORM("F_BASPRIS")) then begin
         if (ORr.InclVAT==0) then begin
@@ -1285,7 +1285,7 @@ LkInvoiceRowTypeNormal:;
   totnodiscount = totnodiscount + vatval + rowtax;
  
  
-    
+  /*  
   // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 10 November 2010 14:22:26
 	
@@ -1455,6 +1455,8 @@ LkInvoiceRowTypeNormal:;
 	  ValToText(t,M4Val,curfor,"UKR",tstr);
 	  OUTFORMFIELD("F_AMOUNTUAHA1",tstr); 
   end;
+
+*/
   
   RETURN;
 END;
@@ -1691,7 +1693,7 @@ END;
 
 
 
-procedure RecordMultiplication(var record ORVc ORr, val factor)
+procedure RecordMultiplication(var record ORVc ORr, val factor)	//Edit------Dima  22.01.2015
 begin
 integer rwcnt,i;
 row ORVc ORrw;
@@ -1762,8 +1764,7 @@ BEGIN
 						curncyCoef = 1;
 					end;
 			end;
-LogText(0,"---curncyCoef       " & curncyCoef);
-LogText(0,"CurCode  " & ORr.CurncyCode);
+
 			if(FIELDINFORM("F_COEFFICIENT"))then begin		//Edit--------------------------Dima 21.01.2015
 					GetFieldArgument(Docr,F_COEFFICIENT,tstr);
 					prodCoef = StringToVal(tstr,M4Val);
@@ -1961,9 +1962,15 @@ LogText(0,"CurCode  " & ORr.CurncyCode);
     OUTFORMFIELD("F_SALJARNAMN",tstr);
   end;  
   if (FIELDINFORM("F_ATTBETALATEXT")) then begin
-    ValToText(ORr.Sum4,M4Val,ORr.CurncyCode,ORr.LangCode,tstr);
+ //   ValToText(ORr.Sum4,M4Val,ORr.CurncyCode,ORr.LangCode,tstr);			//Edit------------Dima -------22.01.2015
+		GetFieldArgument(Docr,F_KUNDVALUTA,tstr1);
+		if (blank(tstr1)) then begin
+			tstr1 = ORr.CurncyCode;
+		end;
+		ValToText(ORr.Sum4,M4Val,tstr1,"UKR",tstr);
     OUTFORMFIELD("F_ATTBETALATEXT",tstr);  
   end;
+
   if (FIELDINFORM("F_FRAKTSEDELNR")) then begin
     GetFieldArgument(Docr,F_FRAKTSEDELNR,t1);
     CalcFraktField(ORr.SerNr,t1,tstr);
