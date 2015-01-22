@@ -1128,6 +1128,9 @@ begin
   	ORr.CurncyCode = PUr.CurncyCode;
   	ORVc_PasteCurncyCode(ORr,curcode);
   	for(i=0;i<mtrw;i=i+1) begin
+  	  chsum = false;
+  	  chsum1 = false;
+  	  chsum2 = false;
   		MatRowGet(PUr,i,PUrw);
   		ORrw.ArtCode = PUrw.ArtCode;
   		MatRowPut(ORr,i,ORrw);
