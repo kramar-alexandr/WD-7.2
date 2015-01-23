@@ -7068,3 +7068,82 @@ begin
   end;
   EndWindow;
 end;
+
+window CCatDClass:2
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,v,vs;
+  WindowBegin("Категорія клієнта",CCatDClass,CGview,-);
+  SetWRect(64,80,600,330);
+  UseView(CCatVc);
+  v = 6; vs = 20; h = 100;
+  if (IsEnterprise) then begin
+  Tile(0,90,false,"",Code);
+  EditField(h,v, 70,"Код",Normal,Code,false,0);
+  EditField(h,v+=vs,-40,"Коментар",Normal,Comment,false,0);
+    if (StandardHansa==false) then begin
+  EditField(h,v+=vs,-40,"Тип класифікації",Normal,ClassType,false,CTypeSClass);
+    end;
+  TileButton(1,"Ціноутворення");
+  TileButton(2,"Рахунки");
+    if (StandardHansa==false) then begin
+  TileButton(3,"Веб");
+    end;
+    if (HasCharts) then begin
+      TileButton(4,"BI");
+    end;
+  Tile(1,110,false,"1",PLCode);  
+  v = 6; h = 200;
+  EditField(h,v,70,"Прейскурант",Normal,PLCode,false,PLDefSClass);
+    if (HasAdvancedPricing) then begin
+  EditField(h,v+=vs,70,"Таблиця знижок",Normal,RebCode,false,RebSClass);
+    end;
+  EditField(h,v+=vs,55,"Відсоток авансу",Normal,DownPayPerc,false,0);
+    if (HasItemClassification) then begin
+  EditField(h,v+=vs,55,"Головна класифікація товарів",Normal,MainDispGroup,false,DISClass);
+    end;
+    if (StandardHansa==false) then begin
+  EditField(h,v+=vs,55,"Вид Web-замовлення",Normal,WebOrderClass,false,OrderClassSClass);
+    end;
+//##  EditField(h,v+=vs ,70, "Таблиця комісйіних",Normal,ComCode,false,ComSClass);
+  Tile(2,130,false,"2",ARAcc);  
+  v = 6; h = 200;
+  EditField(h,v,55,"Рахунок дебіторів",Normal,ARAcc,false,AccSClass);
+  EditField(h,v+=vs,55,"Рахунок безнадійних дебіторів",Normal,BadARAcc,false,AccSClass);
+  EditField(h,v+=vs,55,"Рахунок авансів дебіторів",Normal,OnAccAcc,false,AccSClass);
+  EditField(h,v+=vs,55,"Рахунок кредиторів",Normal,AccAP,false,AccSClass);
+  EditField(h,v+=vs,55,"Рахунок авансів кредиторів",Normal,OnAccAccAP,false,AccSClass);
+  EditField(h,v+=vs,55,"Рахунок утримання",Normal,RetainAcc,false,AccSClass);
+  EditField(h,v+=vs,55,"Рахунок вартості",Normal,CostAcc,false,AccSClass);//Edit***************************Sasha2,15:56 22.01.2015
+  EditField(h,v+=vs,55,"Рахунок повернення",Normal,CostAcc,false,AccSClass); //Edit***************************Sasha2,15:56 22.01.2015
+    if (StandardHansa==false) then begin
+  Tile(3,50,false,"3",WebDisplays);
+  v = 6;
+  EditField(h,v,55,"Відображати на сайті",Normal,WebDisplays,false,WebDisplaySClass);
+    end;
+    if (HasCharts) then begin
+      Tile(4,400,false,"4",-);
+      ChartArea(10,6,-10,390,"$CCATDCLass_BIChart");
+    end;
+  end else begin
+    SetWRect(64,80,509,200);
+    UseView(CCatVc);
+    v = 10; vs = 20; h = 120; h2 = 320;
+    EditField(h,v, 70,"Код",Normal,Code,false,0); 
+    EditField(h,v+=vs ,-40,"Опис",Normal,Comment,false,0); 
+    if (HasContactClassification or HasStandardCRM) then begin
+      EditField(h,v+=vs ,-40,"Тип класифікації",Normal,ClassType,false,CTypeSClass); 
+    end;
+    if (HasCategories or HasStandardCRM or HasPriceLists) then begin
+      EditField(h,v+=vs ,70, "Прейскурант",Normal,PLCode,false,PLDefSClass); 
+    end;
+    if (HasModNL) then begin
+      EditField(h,v+=vs ,70,"Рахунок дебіторів",Normal,ARAcc,false,AccSClass); 
+//      EditField(h2,v,70,"On Account A/C",Normal,OnAccAcc,false,AccSClass);//not in StdAcc
+    end;
+    if (HasAdvancedPricing) then begin
+      EditField(h,v+=vs ,70, "Таблиця знижок",Normal,RebCode,false,RebSClass); 
+    end;
+  end;
+  EndWindow;
+end;

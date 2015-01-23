@@ -1158,7 +1158,7 @@ BEGIN
   string 255 location,pbbvaracc;
   record PLVc PLr;
   record ORVc ORr;
-		
+
   if (IsStandardProduct) then begin
     if (HasModIN==false or (HasModNL==false and HasIncomeAndExpenseBook==false)) then begin
       goto LAddIVCostRow;
@@ -1203,7 +1203,7 @@ BEGIN
   if (IVrw.ovst!=0) then begin
     errstrno = 0;
     goto LAddIVCostRow;
-  end;
+  end; 
   if (IVrw.NotUpdStockFlag!=0) then begin
     if (CAb.NoNLCostOnShip==0) then begin
       errstrno = 0;
@@ -1320,7 +1320,7 @@ what about dont post cost on deliveries ?
         end;
       end;
     end;
-    if (testf) then begin
+    if (testf) then begin 
       switch (IVrw.stp) begin
         case kInvoiceRowTypeNormal: ldc1 = dc1; ldc2 = dc2; laccf = accf;
         case kInvoiceRowTypeStructuredItemComponent: ldc1 = dc1; ldc2 = dc2; laccf = accf;
