@@ -56,6 +56,7 @@ begin
 	Document("Форма для цінників 6" & USetStr(31039),LabelItem6RClass,ItemLabForm6,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 7" & USetStr(31040),LabelItem7RClass,ItemLabForm7,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для етикеток цінників" ,LabelItem8RClass,ItemLabForm8,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
+	Document("Форма для етикеток цінників надходження 5*13" ,LabelItem9RClass,ItemLabForm9,MyLabelItemFClass,modIN); //Edit***************************Sasha2,12:08 23.10.2014
 		 
   SString(31000,"грн.");
   SString(31001,"Підготовлено у системі HansaWorld");

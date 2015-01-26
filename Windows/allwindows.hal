@@ -3382,7 +3382,8 @@ begin
   MatCol(1,-350,"Склад",0,Location,false,LocationSClass);
   MatCol(1,-280,"Серійний №",0,SerialNr,false,SerialNrSClass);
   EnterSkip(SerialNr); //Edit***************************Sasha2,16:09 19.09.2014
-  MatCol(1,-150,"Терм. придат.",0,BestBefore,false,0);
+  //MatCol(1,-150,"Терм. придат.",0,BestBefore,false,0); //Edit***************************Sasha2,14:30 23.01.2015
+  MatCol(1,-160,"Альтерн.код",0,AlternativeCode,false,0); //Edit***************************Sasha2,14:30 23.01.2015
   MatCol(1,-60,"Статус партії",0,BatchStatus,false,BatchStatusSClass);
     Flip(flipnr); flipnr = flipnr + 1;
   MatCol(1,144,"Опис",0,Spec,false,0);
@@ -3678,6 +3679,8 @@ begin
 	SpecialMenu("Створити переміщення",'',14,"CreateSMfromPUDsm");// Edit ************************** Monday, July 14, 2014 at 11:45:06
 	SpecialMenu("Створити списання",'',14,"CreateSDfromPUDsm");// Edit ************************** Monday, July 14, 2014 at 11:45:05
   SpecialMenu("Створити Ордер",'',14,"MyCreateOrdFromPUDsm"); //Edit***************************Sasha2,10:38 21.01.2015
+  SpecialMenu("Просвоїти товарам альтернат.коди",'',14,"SetEAN13PUDsm"); //Edit***************************Sasha2,10:38 21.01.2015
+  SpecialMenu("Роздрукувати EAN13 етикетки 5*13",'',14,"PrintEAN13PUDsm"); //Edit***************************Sasha2,10:38 21.01.2015
   EndWindow;
 end;
 

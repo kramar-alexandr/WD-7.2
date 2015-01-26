@@ -527,3 +527,19 @@ BEGIN
 
  RETURN;
 END;
+
+global
+procedure DoItemLabForm9(record RcVc RepSpec,record PUVc PUr)
+BEGIN 
+  record FormDefVc FDr;
+  
+  FDr.repname = RepSpec.repname;
+  FDr.shortname = RepSpec.shortname;
+  if (ReadFirstMain(FDr,1,true)) then begin
+    HandleItemLabForm(RepSpec,PUr,FDr,true,7);
+  end else begin
+  	LogText(1624, " " & USetStr(1623) & " for DoItemLabForm9(...)");
+  end;
+
+ RETURN;
+END;

@@ -64,6 +64,8 @@ remote procedure ORVc_PastePrice(var record ORVc,Integer,var Boolean); //Edit***
 remote function Boolean ORDchrsum(var record ORVc,Integer); //Edit***************************Sasha2,12:07 22.01.2015
 remote procedure ORSumup(var record ORVc); //Edit***************************Sasha2,12:09 22.01.2015
 remote procedure ORDchsum(var record ORVc,Integer); //Edit***************************Sasha2,12:12 22.01.2015
+remote procedure HandleSetEAN13PU(var record PUVc); //Edit***************************Sasha2,14:33 23.01.2015
+remote procedure HandlePrintEAN13PU(record PUVc); //Edit***************************Sasha2,16:15 26.01.2015
 
 forward function Boolean PUDClassSwitchRow(Integer,Integer);
 
@@ -1210,5 +1212,33 @@ begin
   
   nwn = OpenWindow("ORDClass",1,0,"","",ORr); 
 	
+	return;
+end; //Edit***************************Sasha2,12:00 22.01.2015 }
+
+global //Edit***************************Sasha2,12:00 22.01.2015 {
+updating procedure SetEAN13PUDsm()
+begin 
+	integer wn;
+	record PUVc PUr;
+
+	wn = CurWindow;
+	GetWindowRecord(wn,PUr);
+	HandleSetEAN13PU(PUr);
+	PutWindowrecord(wn,PUr);
+
+	return;
+end; //Edit***************************Sasha2,12:00 22.01.2015 }
+
+global //Edit***************************Sasha2,12:00 22.01.2015 {
+updating procedure PrintEAN13PUDsm()
+begin 
+	integer wn;
+	record PUVc PUr;
+
+	wn = CurWindow;
+	GetWindowRecord(wn,PUr);
+	HandlePrintEAN13PU(PUr);
+	PutWindowrecord(wn,PUr);
+
 	return;
 end; //Edit***************************Sasha2,12:00 22.01.2015 }
