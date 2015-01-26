@@ -3382,8 +3382,8 @@ begin
   MatCol(1,-350,"Склад",0,Location,false,LocationSClass);
   MatCol(1,-280,"Серійний №",0,SerialNr,false,SerialNrSClass);
   EnterSkip(SerialNr); //Edit***************************Sasha2,16:09 19.09.2014
-  //MatCol(1,-150,"Терм. придат.",0,BestBefore,false,0); //Edit***************************Sasha2,14:30 23.01.2015
-  MatCol(1,-160,"Альтерн.код",0,AlternativeCode,false,0); //Edit***************************Sasha2,14:30 23.01.2015
+  MatCol(1,-150,"Терм. придат.",0,BestBefore,false,0); 
+  //MatCol(1,-160,"Альтерн.код",0,AlternativeCode,false,0); //Edit***************************Sasha2,14:30 23.01.2015
   MatCol(1,-60,"Статус партії",0,BatchStatus,false,BatchStatusSClass);
     Flip(flipnr); flipnr = flipnr + 1;
   MatCol(1,144,"Опис",0,Spec,false,0);
