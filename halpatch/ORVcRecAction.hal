@@ -1217,7 +1217,7 @@ begin
               goto LORVcRecordCheck;
             end;  
           end;   
-          if ((ORr.Reserved!=0 or (ORr.OKFlag!=0 and ORr.Reserved==0)) and ORr.OrderClass!="SHOPS") then begin// Edit ************************** Monday, July 7, 2014 at 12:17:45
+          if ((ORr.Reserved!=0 or (ORr.OKFlag!=0 and ORr.Reserved==0))) then begin// Edit ************************** Monday, July 7, 2014 at 12:17:45
             if (true) then begin
               switch (INr.ItemType) begin
                 case 1:

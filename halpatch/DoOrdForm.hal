@@ -1715,6 +1715,7 @@ end;
 
 procedure PrintOrder(string formcode,record RcVc RepSpec,record ORVc ORr,record SysFormatBlock SysFormatRec,record LangNrVc LangNrr)
 BEGIN
+	record ORVc OR2r;
   record UserVc Userr;
   record LocationVc Locr;
   record CUVc CUr;
@@ -1735,7 +1736,7 @@ BEGIN
 	val curncyCoef, multFactor,prodCoef;					//Edit------------------------Dima 21.01.2015
 
   
-
+	recordcopy(OR2r,ORr);
   rwcnt2 = CountOrderRows(ORr);
   CommonDocumentFields(RepSpec);    
   NumberofDocumentPages(formcode,rwcnt2);
@@ -1772,9 +1773,11 @@ BEGIN
 						prodCoef = 1;
 					end;
 			end;
-			multFactor = curncyCoef * prodCoef;					
-			RecordMultiplication(ORr,multFactor);					//Edit--------------------------Dima 21.01.2015
-
+			multFactor = curncyCoef * prodCoef;
+			if(multFactor!=1)then begin					
+				RecordMultiplication(ORr,multFactor);					//Edit--------------------------Dima 21.01.2015
+			end;
+			
   PrintUserDefinedCustomerFields(CUr.UserStr1,CUr.UserStr2,CUr.UserStr3,CUr.UserStr4,CUr.UserStr5,CUr.UserDate1,CUr.UserDate2,CUr.UserDate3,CUr.UserVal1,CUr.UserVal2,CUr.UserVal3);
   PrintValue("F_DISCSUM",ORr.DiscSum,M4Val,LangNrr,SysFormatRec,false);
   switch (ORr.InclVAT) begin
@@ -2237,7 +2240,8 @@ BEGIN
   PrintSalesContract(ORr.ORCONr);
   OutFormImage(ORr);
   ORSetFax(CUr,ORr);
- LPrintOrder:;   
+ LPrintOrder:; 
+ 	recordcopy(ORr,OR2r);  
   RETURN;        
 END;
 
