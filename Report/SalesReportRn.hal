@@ -4,7 +4,22 @@ external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
+global //Edit***************************Sasha2,8:58 02.02.2015 {
+function val CalcSumForSales(val rowsum,val rowquant,val tqty,val invfr,val invto1,integer cred, val foundqty,boolean credf)
+begin
+  val res;
+  
+    if (credf) then begin
+      res = rowsum/rowquant * (rowquant*cred - foundqty) / invfr * invto1;
+    end else begin
+      res = rowsum/rowquant * tqty / invfr * invto1;
+    end;
+    
+    CalcSumForSales = res;
+  return;
+end; //Edit***************************Sasha2,8:58 02.02.2015 }
 
+global
 procedure CollectCostMyInvoice(record IVVc IVr, integer rownr,var array val cost,var array val curcost,var array string curncy,var array val rate,var array date indate,var array string vecode,var array string serial,var array val qty,var integer ressize,integer cred,longint credinv)
 begin
 	row IVVc IVrw;
@@ -468,16 +483,21 @@ begin
 							end;
 							outstring(i12,0,IVrw.vRebate,false);
 							
-							sumcur = IVrw.Sum/IVrw.Quant * qty[j];
+							//sumcur = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
+							sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
 							outstring(i13,0,ValToMyString(sumcur,3),false);
 							
 							if(curncy[j]=="USD")then begin
-								sumusd = IVrw.Sum/IVrw.Quant * qty[j] / invfr * invto1;
+								//sumusd = IVrw.Sum/IVrw.Quant * qty[j] / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
+								sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
 								outstring(i14,0,ValToMyString(sumusd,3),false);
 							end else begin
 								if(IVr.CurncyCode=="USD")then begin
-									sumusd = IVrw.Sum/IVrw.Quant * qty[j];
+									//sumusd = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
+									sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
 								end else begin
+								  //sumusd = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
+								  sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
 									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 									sumusd = t;
 								end;
@@ -538,9 +558,11 @@ begin
 							outstring(i10,0,IVrw.Price,false);
 							outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 							outstring(i12,0,IVrw.vRebate,false);
-							sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty);
+							//sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty); //Edit***************************Sasha2,8:58 02.02.2015
+							sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,1,1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
 							outstring(i13,0,ValToMyString(sumcur,3),false);
-							sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty) / invfr * invto1;
+							//sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty) / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
+							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
 							outstring(i14,0,ValToMyString(sumusd,3),false);
 							t = blankval;
 							outval(i15,0,0,m4UVal,false);
@@ -758,16 +780,17 @@ begin
 							end;
 							outstring(i12,0,IVrw.vRebate,false);
 							
-							sumcur = IVrw.Sum/IVrw.Quant * qty[j];
-							outstring(i13,0,ValToMyString(sumcur,3),false);
+							sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:56 02.02.2015
+							outstring(i13,0,ValToMyString(sumcur,3),false); 
 							
 							if(curncy[j]=="USD")then begin
-								sumusd = IVrw.Sum/IVrw.Quant * qty[j] / invfr * invto1;
+								sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,cred,foundqty,false); //Edit***************************Sasha2,8:56 02.02.2015
 								outstring(i14,0,ValToMyString(sumusd,3),false);
 							end else begin
 								if(IVr.CurncyCode=="USD")then begin
-									sumusd = IVrw.Sum/IVrw.Quant * qty[j];
+									sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:56 02.02.2015
 								end else begin
+								  sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:57 02.02.2015
 									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 									sumusd = t;
 								end;
@@ -829,9 +852,9 @@ begin
 							outstring(i10,0,IVrw.Price,false);
 							outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 							outstring(i12,0,IVrw.vRebate,false);
-							sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty);
+							sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,1,1,cred,foundqty,true); //Edit***************************Sasha2,8:57 02.02.2015
 							outstring(i13,0,ValToMyString(sumcur,3),false);
-							sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty) / invfr * invto1;
+							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
 							outstring(i14,0,ValToMyString(sumusd,3),false);
 							t = blankval;
 							//outval(i15,0,-curcost[j],m4UVal,false);
