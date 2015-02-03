@@ -703,8 +703,8 @@ begin
   	
   	//h = 180;
     ButtonFrame(h,80,100,2,"Тип");
-  	RadioButton(h,85,0,0,"Цінники",OnlyUnprntd);
-  	RadioButton(h,105,1,0,"Етикетки цінників",OnlyUnprntd);
+  	RadioButton(h,85,0,0,"Цінники великі",OnlyUnprntd);
+  	RadioButton(h,105,1,0,"Цінники стікери",OnlyUnprntd);
   	EndFrame;
   EndWindow;
 end; //Edit***************************Sasha2,16:07 24.10.2014 }
