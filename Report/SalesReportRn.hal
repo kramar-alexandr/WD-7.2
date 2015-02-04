@@ -925,6 +925,17 @@ integer compnr;
 									closefile;
 									RunProgram("Reports/2/ManSalesRep.sh","");
 									
+					case 4: filename = "Reports/4/ManSalesRep.xls";
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									RepSpec.f1 = "";
+									SalesReportForManagersRn(RepSpec);
+									closefile;
+									RunProgram("Reports/4/ManSalesRep.sh","");
+									
           case 5: filename = "Reports/5/ManSalesRep.xls";
           				delete_file(filename);
 									CreateFile(filename);
@@ -997,6 +1008,16 @@ integer compnr;
 									SalesReportRn(RepSpec);
 									closefile;
 									RunProgram("Reports/2/FullSalesRep.sh","");
+									
+					case 4: filename = "Reports/4/FullSalesRep.xls";
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									SalesReportRn(RepSpec);
+									closefile;
+									RunProgram("Reports/4/FullSalesRep.sh","");
 									
           case 5: filename = "Reports/5/FullSalesRep.xls";
           				delete_file(filename);

@@ -51,11 +51,19 @@ AService = 8;
   end;
   
   
+  	/*if (SetCompany(WD,false)) then begin//itek
+  	logtext(0,currentcompany & " IPEn"); 
+    IPEn; 
+  	
+    
+    ResetCompany(WD);  
+		end;*/
+  
    if (SetCompany(iCenter,false)) then begin//iCenter
   	logtext(0,currentcompany & " IPEn"); 
     IPEn; //**
-  	//logtext(0,currentcompany & " SalesReportEn");
-    //SalesReportEn;
+  	logtext(0,currentcompany & " SalesReportEn");
+    SalesReportEn;
   	logtext(0,currentcompany & " DebitorkaReportEn");
     DebitorkaReportEn(iCenter);//***
     logtext(0,currentcompany & " ShopsReportEn");
@@ -66,8 +74,8 @@ AService = 8;
     FullStockTRWH2En; //Edit***************************Sasha2,11:40 22.09.2014
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;//*
-    //logtext(0,currentcompany & " SalesReportForManagersEn");
-    //SalesReportForManagersEn;
+    logtext(0,currentcompany & " SalesReportForManagersEn");
+    SalesReportForManagersEn;
     logtext(0,currentcompany & " AutoUnreservOrderMn");
     AutoUnreservOrderMn;//***
     logtext(0,currentcompany & " MyReservStstEn");
