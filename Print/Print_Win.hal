@@ -38,6 +38,10 @@ string 20 winclass,recname,printfunc; //Edit***************************Sasha2,11
 	       FDr.repname = "StockMovForm";
 	       recname  = "StockMovVc";
 	       printfunc = "PrintDoStockMovForm";
+	 case "SVODClass": 
+	       FDr.repname = "SVOForm";
+	       recname  = "SVOVc";			//Edit----------------------Dima  09.02.2015
+	       printfunc = "PrintDoSVOForm";
 	 /*case "IVDClass": 
 	       FDr.repname = "InvForm";
 	       recname  = "IVVc";

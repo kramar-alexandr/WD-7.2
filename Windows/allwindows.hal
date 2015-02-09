@@ -6942,7 +6942,8 @@ begin
   DynamicWindow;
   UseView(SVOVc);
   ToolBar;
-  HalPushButton(300,5,400,25,"WorkSheetSVODsm","Џлан робґт");
+  HalPushButton(260,5,360,25,"WorkSheetSVODsm","Џлан робґт");
+	HalPushButton(380,5,440,25,"PrintDoSVOFormButton","„рук");	//Edit----------------------Dima  09.02.2015
   EndToolBar;
   ActiveFieldOnNew("CustCode");  
   FormName(SVOForm);
