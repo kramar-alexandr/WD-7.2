@@ -162,7 +162,7 @@ return;
 end;
 
 
-global updating procedure PrintDoOrdForm()	  //Edit----------------------Dima  09.02.2015
+global updating procedure PrintDoSVOForm()	  //Edit----------------------Dima  09.02.2015
 begin
 integer wn;
 record RcVc RepSpec; 
