@@ -70,7 +70,7 @@ string 20 winclass,recname,printfunc; //Edit***************************Sasha2,11
 		end;
 	end;
 	v=v+16;
-	HalPushButton(h,v,h+100,v+50,printfunc,"Печать"); //Edit***************************Sasha2,11:21 20.01.2015
+	HalPushButton(h,v,h+100,v+50,printfunc,"Друк"); //Edit***************************Sasha2,11:21 20.01.2015
 L99:;
   EndWindow;
 end;
