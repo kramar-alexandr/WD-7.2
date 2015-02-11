@@ -23,6 +23,83 @@ external procedure ItemBCEAN(string,var string);
 external procedure ItemBCEAN13(string,var string);
 external procedure GetStandardProblemText(string,Integer,var string);
 external procedure PrintBranchData(string);
+external function roundmode SetRoundModeD(Integer);
+external procedure GetFieldArgument(record DocVc,Integer,var string);
+
+
+procedure PrintWorksRows(record SVOVc SVOr)// Edit ************************** Tuesday, 10 February 2015 18:48:46
+begin
+  boolean TrHs,testf;
+  record WSVc WSr;
+  row WSVc WSrw;
+  integer mtrw,i;
+  record INVc INr;
+  
+  WSr.SVONr = SVOr.SerNr;
+  TrHs = true;
+  while(loopkey("SVONr",WSr,1,TrHs))begin
+    testf = true;
+    if(WSr.SVONr!=SVOr.SerNr)then begin testf = false; TrHs = false; end;
+    if(WSr.OKFlag==0)then begin testf = false; end;
+    
+    if(testf)then begin
+      mtrw = matrowcnt(WSr);
+      For(i=0;i<mtrw;i=i+1) begin
+	      matrowget(WSr,i,WSrw);
+	        if (FIELDINFORM("MYF_WSWORKNAME") or FIELDINFORM("MYF_WSWORKCODE")) then begin
+	          if(nonblank(WSrw.ArtCode))then begin
+              INr.Code = WSrw.ArtCode;
+              if(readfirstmain(INr,1,true))begin
+                if(INr.ItemType==3 or INr.ItemType==0)then begin
+                  OUTFORMFIELD("MYF_WSWORKNAME",WSrw.Spec); 
+                  OUTFORMFIELD("MYF_WSWORKCODE",WSrw.ArtCode); 
+                end;
+              end;
+	          end else begin
+              OUTFORMFIELD("MYF_WSWORKNAME",WSrw.Spec); 
+	          end;
+	        end;
+	        
+	        if (FIELDINFORM("MYF_WSITEMNAME") or FIELDINFORM("MYF_WSITEMCODE")) then begin
+	          if(nonblank(WSrw.ArtCode))then begin
+              INr.Code = WSrw.ArtCode;
+              if(readfirstmain(INr,1,true))begin
+                if(INr.ItemType==1 or INr.ItemType==2)then begin
+                  OUTFORMFIELD("MYF_WSITEMNAME",WSrw.Spec); 
+                  OUTFORMFIELD("MYF_WSITEMCODE",WSrw.ArtCode); 
+                end;
+              end;
+	          end;
+	        end;
+      end; 
+    end;
+  end;
+return;
+end;
+
+global
+procedure MyPrintNote(record NotepadVc Noter,integer length)// Edit ************************** Thursday, July 3, 2014 at 10:53:57
+BEGIN
+  Integer i,rwcnt,j;
+  string 255 tstr;
+  
+  rwcnt = LineTextCnt(Noter);
+  for (i=0;i<rwcnt;i=i+1) begin
+    tstr = LineTextGet(Noter,i);
+    if(length>0)then begin
+      while(len(tstr)>=length)begin
+        OUTFORMFIELD("F_STANDARDPROBLEMTEXT",left(tstr,length)); 
+        tstr = right(tstr,len(tstr)-length);
+      end;
+      if(len(tstr)>0)then begin
+        OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr); 
+      end;
+    end else begin
+      OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr);    
+    end;
+  end;  
+  RETURN;
+END;
 
 function
 Boolean CheckDigit(string tstr,Integer i)
@@ -92,14 +169,14 @@ BEGIN
       OUTFORMFIELD("F_WORKORDERNO",SVOrw.WOSerNr);
       OUTFORMFIELD("F_MAXCOST",SVOrw.MaxCost);
       OUTFORMFIELD("F_STANDARDPROBLEM",SVOrw.StandProblem);
-      if ((FIELDINFORM("F_STANDARDPROBLEMTEXT")) and (i==0)) then begin
+      /*if ((FIELDINFORM("F_STANDARDPROBLEMTEXT")) and (i==0)) then begin// Edit ************************** Thursday, July 3, 2014 at 10:46:55
         GetStandardProblemText(SVOrw.StandProblem,1,tstr);      
         OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr);
         GetStandardProblemText(SVOrw.StandProblem,2,tstr);      
         OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr);
         GetStandardProblemText(SVOrw.StandProblem,3,tstr);      
         OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr);
-      end;  
+      end;  */
       t = t + SVOrw.Quant*SVOrw.Price;
       t = t + FindVAT(SVOrw.VATCode,SVOrw.Quant*SVOrw.Price,0,0);
       OUTFORMFIELD("F_BELOPP",t);
@@ -130,7 +207,112 @@ Boolean printf,langf;
 Integer intdocnr;
 string 30 formcode,langcode;
 record SVOSerVc SVOSerr;
+// Edit Start ---------------------------------------------- Edit Start
+	//Monday, 26 July 2010 11:12:22
+record NotepadVc NPr;
+record RLinkVc RLr;
+integer cnt;
+string 255 enginer;
+record DocVc Docr;
+string 200 argument;
+integer length;
+			
+	// Edit End ---------------------------------------------- Edit End
 
+    PrintWorksRows(SVOr);
+
+		enginer = "";
+		if (FIELDINFORM("F_STANDARDPROBLEMTEXT")) then begin
+			cnt=1;
+			while(ReadRecordLink(SVOr,cnt,NPr,RLr)) begin
+				If(NPr.Classification=="1") then begin
+				enginer = RLr.Comment;
+					argument = "";
+					GetFieldArgument(Docr,F_STANDARDPROBLEMTEXT,argument);
+					if(nonblank(argument))then begin
+						length = stringtoint(argument);
+					end;
+					MyPrintNote(NPr,length);
+					goto L1;
+				end; 
+			 cnt = cnt+1;
+			end;
+		end;
+L1:;
+		if (FIELDINFORM("MY_Enginer")) then begin
+			cnt=1;
+			while(ReadRecordLink(SVOr,cnt,NPr,RLr)) begin
+				If(NPr.Classification=="1") then begin
+				enginer = RLr.Comment;
+				OUTFORMFIELD("MY_Enginer",enginer);
+				goto LActPrintNote1;
+			end; 
+			cnt = cnt+1;
+			end;
+		end;
+LActPrintNote1:;
+		
+		OUTFORMFIELD("MY_Vlastnik",SVOr.Vlastnik);
+		OUTFORMFIELD("MY_Priynato",SVOr.Priynato);
+		OUTFORMFIELD("MY_Kontinfo1",SVOr.Kontinfo1);
+		OUTFORMFIELD("MY_Kontinfo2",SVOr.Kontinfo2);
+		OUTFORMFIELD("MY_Kontinfo3",SVOr.Kontinfo3);
+		OUTFORMFIELD("MY_RegTime",SVOr.RegTime);
+		
+		if (FIELDINFORM("MY_Batary")) then begin
+			tstr = SVOr.Batary;
+			If(blank(tstr)) then begin
+				tstr = USetStr(5449);	
+			end; 
+			OUTFORMFIELD("MY_Batary",tstr);
+		end;
+		if (FIELDINFORM("MY_Zaryadka")) then begin
+			tstr = SVOr.Zaryadka;
+			If(blank(tstr)) then begin
+				tstr = USetStr(5449);	
+			end;
+			OUTFORMFIELD("MY_Zaryadka",tstr);
+		end;
+		if (FIELDINFORM("MY_Inshe")) then begin
+			tstr = SVOr.Inshe;
+			If(blank(tstr)) then begin
+				tstr = USetStr(5449);	
+			end;
+			OUTFORMFIELD("MY_Inshe",tstr);
+		end;
+		
+		 if (FIELDINFORM("MY_Garanty")) then begin
+			tstr = SVOr.Garanty;
+			If(blank(tstr)) then begin
+				tstr = USetStr(5449);	
+			end;
+			OUTFORMFIELD("MY_Garanty",tstr);
+		end;
+		
+		
+		OUTFORMFIELD("MY_Scarga",SVOr.Scarga);
+		OUTFORMFIELD("MY_Defects",SVOr.Defects);
+		OUTFORMFIELD("MY_GarNo",SVOr.GarNo);
+		OUTFORMFIELD("MY_GarDate",SVOr.GarDate);
+		OUTFORMFIELD("MY_CustomField1",SVOr.CustomField1);
+		OUTFORMFIELD("MY_CustomField2",SVOr.CustomField2);
+		OUTFORMFIELD("MY_CustomField3",SVOr.CustomField3);
+		OUTFORMFIELD("MY_CustomField4",SVOr.CustomField4);
+		OUTFORMFIELD("MY_CustomField5",SVOr.CustomField5);
+		OUTFORMFIELD("MY_CustomField6",SVOr.CustomField6);
+		if (FIELDINFORM("MY_CustomField7")) then begin
+			GetUserName(SVOr.CustomField7,tstr);
+			OUTFORMFIELD("MY_CustomField7",tstr);
+		end;
+		OUTFORMFIELD("MY_Region",SVOr.Region);
+		
+		if (FIELDINFORM("F_TEXTFIELD5")) then begin
+			ValToText(round(evaltoval(SVOr.CustomField5),SetRoundModeD(2)),M4Val,"UAH","UKR",tstr);
+			OUTFORMFIELD("F_TEXTFIELD5",tstr);
+		end;
+          
+	// Edit End ---------------------------------------------- Edit End
+		
 		OUTFORMFIELD("F_SERNR",SVOr.SerNr);
 		OUTFORMFIELD("F_KUNDNR",SVOr.CustCode);
 		OUTFORMFIELD("F_KUNDNAMN",SVOr.Addr0);
@@ -231,6 +413,16 @@ record SVOSerVc SVOSerr;
 		OUTFORMFIELD("F_KOMMENTAR",SVOr.Comment2);
 		OUTFORMFIELD("F_KOMMENTAR",SVOr.Comment3);
 		OUTFORMFIELD("F_KOMMENTAR",SVOr.Comment4);
+		logtext(0,SVOr.Comment1);
+		          // Edit Start ---------------------------------------------- Edit Start
+	//Wednesday, 7 April 2010 1:09:35 PM
+		OUTFORMFIELD("MY_KOMMENTAR1",SVOr.Comment1);
+		OUTFORMFIELD("MY_KOMMENTAR2",SVOr.Comment2);
+		OUTFORMFIELD("MY_KOMMENTAR3",SVOr.Comment3);
+		OUTFORMFIELD("MY_KOMMENTAR4",SVOr.Comment4);
+	// Edit End ---------------------------------------------- Edit End
+	
+		
 		OUTFORMFIELD("F_SHIPTERM",SVOr.ShipDeal);
 		if (FIELDINFORM("F_SHIPTERMTEXT")) then begin
 			GetShipDealText(SVOr.ShipDeal,SVOr.LangCode,tstr);
@@ -369,7 +561,7 @@ LBREAK:;
           if (ReadFirstMain(CUr,1,true)) then begin
             SetFaxInfo(CUr.Person,CUr.Name,CUr.Fax,USetStr(1790));
           end;        
-           
+          printSVO(SVOr,RepSpec); 
           PrintSVOrows(RepSpec,SVOr,SysFormatRec,LangNrr);
           CloseForm;        
       end else begin
@@ -436,7 +628,6 @@ BEGIN
   printf = true;
   while (intdocnr<=RepSpec.flags[0] and printf) begin  // Edit ************************** Tuesday, 10 February 2015 11:27:54
     formcode = "";
-    logtext(0,intdocnr);
     if(intdocnr==RepSpec.flags[0]) then begin// Edit ************************** Tuesday, 10 February 2015 10:34:50
 			for (i=rwcnt-1;i>=0;i=i-1) begin
 				MatRowGet(FDr,i,FDrw);
@@ -457,7 +648,7 @@ LBREAK:;
 						if (ReadFirstMain(CUr,1,true)) then begin
 							SetFaxInfo(CUr.Person,CUr.Name,CUr.Fax,USetStr(1790));
 						end;        
-					 
+					 	printSVO(SVOr,RepSpec); 
 						PrintSVOrows(RepSpec,SVOr,SysFormatRec,LangNrr);
 						CloseForm;        
 				end else begin

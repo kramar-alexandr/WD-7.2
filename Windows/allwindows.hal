@@ -5356,7 +5356,7 @@ begin
   CheckBox(h2,v,0,"Не для продажу",NotForSales);
   Tile(tilenr,209,false,tilenr,Unittext); tilenr = tilenr + 1;
   EditField(h,v=6 ,100,"Одиниця виміру",Normal,Unittext,false,UnitSClass);
-  if (HasJewelleryInterface) and (UserCanAction("ViewCostPrice",true)) then begin
+  if (HasJewelleryInterface) and (UserCanAction("ViewCostPrice",false)) then begin
     EditField(h,v+=vs,100,"Собівартість",Normal,InPrice,true,0);
   end;
    EditField(h,v+=vs,100,"Базова ціна",Normal,UPrice1,true,0);
@@ -5465,7 +5465,7 @@ begin
   EditField(h5,v ,50,"Нетто",Normal,NetWeight,true,0);
   EditField(h5,v+=vs ,50,"Вага",Normal,Weight,true,0);
   end;
-  if (UserCanAction("ViewCostPrice",true)) then begin
+  if (UserCanAction("ViewCostPrice",false)) then begin
   Tile(tilenr,190,false,tilenr,InPrice);  tilenr = tilenr + 1;
   EditField(h,vm=(v=6),100,"Вартість",Normal,InPrice,true,0);
   if (StandardHansa==false) then begin
@@ -7179,7 +7179,7 @@ begin
   Tile(2,79,true,"2",Math);
   CheckBox(20,-20,0,"OK",OKFlag);
   EditField(150,-21,70,"Разом кіл.",ViewOnly,SumQuant,true,0);
-  if(usercanaction("ViewCostPrice",true))then begin// Edit ************************** Tuesday, 10 February 2015 15:14:27
+  if(usercanaction("ViewCostPrice",false))then begin// Edit ************************** Tuesday, 10 February 2015 15:14:27
 		EditField(-120,-21,82,"Разом",ViewOnly ,TotCost,true,0);
   end;
   v = 24;
@@ -7189,7 +7189,7 @@ begin
   MatCol(1,94,"Кіл-ть",0,Quant,true,0);
   MatCol(1,144,"Сер. №",0,SerialNr,false,SerialNrSClass);
   MatCol(1,250,"Найменування",0,Spec,false,0);
-  if(usercanaction("ViewCostPrice",true))then begin// Edit ************************** Tuesday, 10 February 2015 15:14:27
+  if(usercanaction("ViewCostPrice",false))then begin// Edit ************************** Tuesday, 10 February 2015 15:14:27
 		MatCol(1,-100,"Вар-ть переміщ.",0,Cost,true,0);
   end;
   DeleteRowTest;
@@ -7227,7 +7227,9 @@ begin
   EditField(h1,v+=vs,82,"Short Code",Normal,ACShort,false,ACShortSClass); //!!PRODTRANSLATE
   EditField(h2,v=vm,135,"Employee Name",Normal,EMName,false,0); //!!PRODTRANSLATE
   EditField(h2,v+=vs,135,"Attention",Normal,CustContact,false,ContactSClass); //!!PRODTRANSLATE
-  EditField(h2,v+=vs,135,"Cost A/C",Normal,CostAcc,false,AccSClass); //!!PRODTRANSLATE
+  if(usercanaction("ViewCostPrice",false))then begin// Edit ************************** Tuesday, 10 February 2015 15:14:27
+		EditField(h2,v+=vs,135,"Cost A/C",Normal,CostAcc,false,AccSClass); //!!PRODTRANSLATE
+  end;
   EditField(h2,v+=vs,135,"Об'єкти",Normal,Objects,false,ObjSClass); 
   EditField(h3,v=vm,82,"Serv. Order No.",Normal,SVONr,false,0); //!!PRODTRANSLATE
   EditField(h3,v+=vs,82,"Work Order No.",Normal,WONr,false,0); //!!PRODTRANSLATE
@@ -7273,16 +7275,18 @@ begin
   MatCol(t=1,144,"Наймен.",0,Spec,false,0);
   MatCol(t,-345,"Returned",0,Returned,true,0); //!!PRODTRANSLATE
   MatCol(t,-285,"Invoiced",0,Invd,true,0); //!!PRODTRANSLATE
-  if(usercanaction("ViewCostPrice",true))then begin// Edit ************************** Tuesday, 10 February 2015 15:14:27
+  if(usercanaction("ViewCostPrice",false))then begin// Edit ************************** Tuesday, 10 February 2015 15:14:27
 		MatCol(t,-225,"FIFO",0,FIFO,false,0);
 		MatCol(t,-125,"FIFO ряд.",0,FIFORowVal,false,0);
   end;
   Flip(5);
   MatCol(t=1,144,"Наймен.",0,Spec,false,0);
-  MatCol(t,-340,"Short Code",0,ACShort,false,ACShortSClass); //!!PRODTRANSLATE
-  MatCol(t,-270,"Sales A/C",0,SalesAcc,false,AccSClass); //!!PRODTRANSLATE
-  MatCol(t,-200,"Cost A/C",0,CostAcc,false,AccSClass); //!!PRODTRANSLATE
-  MatCol(t,-130,"Об'єкти",0,Objects,false,ObjSClass); 
+  if(usercanaction("ViewCostPrice",false))then begin// Edit ************************** Tuesday, 10 February 2015 15:14:27
+		MatCol(t,-340,"Short Code",0,ACShort,false,ACShortSClass); //!!PRODTRANSLATE
+		MatCol(t,-270,"Sales A/C",0,SalesAcc,false,AccSClass); //!!PRODTRANSLATE
+		MatCol(t,-200,"Cost A/C",0,CostAcc,false,AccSClass); //!!PRODTRANSLATE
+		MatCol(t,-130,"Об'єкти",0,Objects,false,ObjSClass); 
+  end;
   InsertRowTest;
   DeleteRowTest;
   EndMatrix;

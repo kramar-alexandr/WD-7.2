@@ -4,6 +4,11 @@ begin
 
 	SetLangMode(LangUkrainian,"UKR",0);
 	
+  Document("Замовлення на обслуговування(друк)",SVORClass,SVOForm1,SVOFClass,modSVO);
+  Document("Рахунки клієнтам(друк)",ORRClass,OrdForm1,OrdFClass,modSO);
+  Document("Переміщення товарів(друк)",StockMovRClass,StockMovForm1,StockMovFClass,modIN);
+	//Document("Акти/накладні(друк)",IVRClass,InvForm,InvFClass,modSL); 
+
 	Module("Друк етикеток","",730,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
 	
 	Register("Друк цінників","Друк цінників",MyRepricingVc,modLabPrint);
