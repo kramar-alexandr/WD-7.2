@@ -75,7 +75,7 @@ Boolean doctypef; //Edit***************************Sasha2,11:33 16.02.2015
   AddTextToArea(p2 & chr(9) & chr(10),aBuh);
   AddTextToArea(p3 & chr(9) & chr(10),aBuh);
   
-  doctypef = true; //Edit***************************Sasha2,11:36 16.02.2015 {
+  doctypef = false; //Edit***************************Sasha2,11:36 16.02.2015 {
   if (doctypef) then begin
   
     IVr.TransDate = dat1;
