@@ -718,10 +718,18 @@ BEGIN
     if (disperrf) then begin
       if (SMp.OKFlag==1) then begin
         if (Date2Test("StockMovVc",SMp.TransDate,"TransDate",-1)==false) then begin
+          error = 1142;
+          errorstr = "";
+          rownr = -1;
+          fieldstr = "TransDate"; 
           res = -1;
           goto LCheckStockMovRecord;
         end;
         if (DisallowFutureDateCheck(disperrf,SMp.TransDate,"TransDate",-1)) then begin
+          error = 1142;
+          errorstr = "";
+          rownr = -1;
+          fieldstr = "TransDate";
           res = -1;
           goto LCheckStockMovRecord;
         end;
