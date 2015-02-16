@@ -353,9 +353,15 @@ begin
 	integer cred;
 	longint CredInvNo;
 	val foundqty;
+	roundmode rnd; //Edit***************************Sasha2,10:44 16.02.2015
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
+	
+	rnd = DefaultValRoundoff; //Edit***************************Sasha2,17:40 10.02.2015
+  rnd.decimals = 3; //Edit***************************Sasha2,17:40 10.02.2015
+  rnd.step = kRoundingStepNone; //Edit***************************Sasha2,17:40 10.02.2015
+  rnd.mode = kRoundingModeHalfUp; //Edit***************************Sasha2,17:40 10.02.2015
 	
 	startreportnoheaderjob("‡вґт по продажам");
 		startformat(15);		
@@ -498,6 +504,7 @@ begin
 							if(curncy[j]=="USD")then begin
 								//sumusd = IVrw.Sum/IVrw.Quant * qty[j] / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
 								sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
+								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:45 16.02.2015
 								outstring(i14,0,ValToMyString(sumusd,3),false);
 							end else begin
 								if(IVr.CurncyCode=="USD")then begin
@@ -509,6 +516,7 @@ begin
 									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 									sumusd = t;
 								end;
+								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:46 16.02.2015
 								outstring(i14,0,ValToMyString(sumusd,3),false);
 							end;
 							
@@ -571,6 +579,7 @@ begin
 							outstring(i13,0,ValToMyString(sumcur,3),false);
 							//sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty) / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
 							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
+							sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:56 16.02.2015
 							outstring(i14,0,ValToMyString(sumusd,3),false);
 							t = blankval;
 							outval(i15,0,0,m4UVal,false);
@@ -637,6 +646,7 @@ begin
 	integer cred;
 	longint CredInvNo;
 	val foundqty;
+	roundmode rnd; //Edit***************************Sasha2,10:44 16.02.2015
 	
 	usercode = currentuser;
 	if(nonblank(usercode))then begin
@@ -647,6 +657,11 @@ begin
 			end;
 		end;
 	end;
+	
+	rnd = DefaultValRoundoff; //Edit***************************Sasha2,17:40 10.02.2015
+  rnd.decimals = 3; //Edit***************************Sasha2,17:40 10.02.2015
+  rnd.step = kRoundingStepNone; //Edit***************************Sasha2,17:40 10.02.2015
+  rnd.mode = kRoundingModeHalfUp; //Edit***************************Sasha2,17:40 10.02.2015
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
@@ -793,6 +808,7 @@ begin
 							
 							if(curncy[j]=="USD")then begin
 								sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,cred,foundqty,false); //Edit***************************Sasha2,8:56 02.02.2015
+								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:47 16.02.2015
 								outstring(i14,0,ValToMyString(sumusd,3),false);
 							end else begin
 								if(IVr.CurncyCode=="USD")then begin
@@ -802,6 +818,7 @@ begin
 									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 									sumusd = t;
 								end;
+								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:47 16.02.2015
 								outstring(i14,0,ValToMyString(sumusd,3),false);
 							end;
 							
@@ -863,6 +880,7 @@ begin
 							sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,1,1,cred,foundqty,true); //Edit***************************Sasha2,8:57 02.02.2015
 							outstring(i13,0,ValToMyString(sumcur,3),false);
 							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
+							sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:55 16.02.2015
 							outstring(i14,0,ValToMyString(sumusd,3),false);
 							t = blankval;
 							//outval(i15,0,-curcost[j],m4UVal,false);
