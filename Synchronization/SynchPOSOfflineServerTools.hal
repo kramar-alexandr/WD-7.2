@@ -782,10 +782,6 @@ begin
     res = true;
   end;
   
-  //logtext(0,"usercode = " & usercode);
-  //logtext(0,"SynkAutoSerr.UserCode = " & SynkAutoSerr.UserCode);
-  //logtext(0,"res = " & res);
-  
   if (res) then begin
     rwcnt = MatRowCnt(SynkDBIDRegr);
     //logtext(0,"rwcnt = " & rwcnt);
@@ -829,7 +825,6 @@ begin
       end;
     end else begin
       arwcnt = MatRowCnt(SynkAutoSerr);
-      //logtext(0,"arwcnt =" & arwcnt);
       for (ai=0;ai<arwcnt;ai=ai+1) begin
         MatRowGet(SynkAutoSerr,ai,SynkAutoSerrw);
         SynkDBIDRegrw.FileName = SynkAutoSerrw.FileName;

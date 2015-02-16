@@ -77,6 +77,8 @@ external procedure PrintBranchData(string);
 external procedure ValToText(val,Integer,string,string,var string);// Edit ************************** Wednesday, July 9, 2014 at 13:25:32
 external procedure GetFullCurncyRate(var string,Date,var val,var val,var val,var val,var val);// Edit ************************** Wednesday, July 9, 2014 at 13:25:34
 
+
+
 // Edit Start ---------------------------------------------- Edit Start
 	//Monday, 5 January 2015 16:14:08
 	
@@ -1706,9 +1708,9 @@ row ORVc ORrw;
 			MatRowPut(ORr,i,ORrw);
 	end;
 	
-	ORr.Sum1 = ORr.Sum1*factor;
-	ORr.Sum3 = ORr.Sum3*factor;
-	ORr.Sum4 = ORr.Sum4*factor;
+	ORr.Sum1 = round(ORr.Sum1*factor,SetRoundModeD(2));
+	ORr.Sum3 = round(ORr.Sum3*factor,SetRoundModeD(2));
+	ORr.Sum4 = ORr.Sum1 + ORr.Sum3;//ORr.Sum4*factor;
 		
 return;
 end;
@@ -1734,7 +1736,10 @@ BEGIN
   record BankVc Bankr;  
   longint myint;// Edit ************************** Monday, 28 March 2011 17:20:05
 	val curncyCoef, multFactor,prodCoef;					//Edit------------------------Dima 21.01.2015
-
+	val sumvat, sumnovat;
+	
+	sumvat = 0;
+	sumnovat = 0;
   
 	recordcopy(OR2r,ORr);
   rwcnt2 = CountOrderRows(ORr);
@@ -1793,6 +1798,20 @@ BEGIN
   if (FIELDINFORM("F_RUSPAYNR")) then begin
   
   	
+  
+  t = round(ORTotalSumWithoutVAT(ORr),SetRoundModeD(2));			
+	sumnovat = round(t,SetRoundModeD(2));// Edit ************************** Friday, 13 February 2015 17:04:24
+  if (FIELDINFORM("F_SUMMA")) then begin		
+    PrintValue("F_SUMMA",t,M4Val,LangNrr,SysFormatRec,false);
+  end;
+  t = round(ORSumVAT(ORr),SetRoundModeD(2));
+  sumvat = round(t,SetRoundModeD(2));// Edit ************************** Friday, 13 February 2015 17:04:50
+  
+  ORr.Sum4 = sumnovat + sumvat;
+  if (FIELDINFORM("F_MOMS")) then begin
+    PrintValue("F_MOMS",t,M4Val,LangNrr,SysFormatRec,false);// Edit ************************** Friday, 13 February 2015 17:04:51
+  end; 
+  
     //RussianPaymentNr(ORr.SerNr,tstr);
     // Edit Start ---------------------------------------------- Edit Start
 	//Monday, 28 March 2011 17:22:36
@@ -1982,14 +2001,21 @@ BEGIN
   if (FIELDINFORM("F_ATTBETALA")) then begin
     PrintValue("F_ATTBETALA",ORr.Sum4,M4Val,LangNrr,SysFormatRec,false);
   end;
+  /*t = round(ORTotalSumWithoutVAT(ORr),SetRoundModeD(2));			//Edit ----Dima--------------------21.01.2015     MOVE UP
+  logtext(0,t);
+	sumnovat = round(t,SetRoundModeD(2));// Edit ************************** Friday, 13 February 2015 17:04:24
   if (FIELDINFORM("F_SUMMA")) then begin		
-		t = ORTotalSumWithoutVAT(ORr);			//Edit ----Dima--------------------21.01.2015
     PrintValue("F_SUMMA",t,M4Val,LangNrr,SysFormatRec,false);
   end;
+  t = round(ORSumVAT(ORr),SetRoundModeD(2));
+  logtext(0,t);
+  sumvat = round(t,SetRoundModeD(2));// Edit ************************** Friday, 13 February 2015 17:04:50
+  
+  ORr.Sum4 = sumnovat + sumvat;
+  logtext(0,ORr.Sum4);
   if (FIELDINFORM("F_MOMS")) then begin
-		t = ORSumVAT(ORr);								//Edit ----Dima--------------------21.01.2015
-    PrintValue("F_MOMS",t,M4Val,LangNrr,SysFormatRec,false);
-  end; 
+    PrintValue("F_MOMS",t,M4Val,LangNrr,SysFormatRec,false);// Edit ************************** Friday, 13 February 2015 17:04:51
+  end; */
   if (FIELDINFORM("F_TOTALGP")) then begin
     PrintValue("F_TOTALGP",ORr.TotGP,M4Val,LangNrr,SysFormatRec,false);
   end; 
