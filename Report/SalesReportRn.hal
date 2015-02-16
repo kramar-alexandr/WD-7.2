@@ -300,6 +300,7 @@ begin
 string 200 res,tempres;
 val tempval;
 integer i,templen;
+integer difflen; //Edit***************************Sasha2,10:14 16.02.2015
 
 	res = "";
 	tempval = value;
@@ -308,6 +309,13 @@ integer i,templen;
 	end; 
 	tempres = ValToString(tempval,M4Val,"",DecimalSeparator,1);
 	templen = len(tempres);
+	difflen = dec - templen; //Edit***************************Sasha2,10:15 16.02.2015 {
+	if (difflen>0) then begin 
+	 templen = dec;
+	 For(i=0;i<difflen;i=i+1) begin
+	  tempres = "0" & tempres;
+	 end; 
+	end; //Edit***************************Sasha2,10:14 16.02.2015 ]
 	if(left(tempres,templen-dec)=="")then begin
 		res = "0" & DecimalSeparator & right(tempres,dec);
 	end else begin
