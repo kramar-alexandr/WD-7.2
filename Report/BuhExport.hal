@@ -6,6 +6,8 @@ procedure ExportCashInvoicesEn(record RcVc RepSpec)
 begin
 record IVVc IVr;
 row IVVc IVrw;
+record IVCashVc IVCashr; //Edit***************************Sasha2,11:35 16.02.2015
+row IVCashVc IVCashrw; //Edit***************************Sasha2,11:35 16.02.2015
 date dat1;
 string 50 LocalMachine,Mnemocode;
 boolean TrHs,testf,testf1;
@@ -13,6 +15,7 @@ string 50 p1,p2,p3,value;
 val q1,q2,q3,pr1,pr2,pr3,sum,perc1,perc2,perc3;
 integer mtrw,i;
 area aBuh;
+Boolean doctypef; //Edit***************************Sasha2,11:33 16.02.2015
 
   SetExportCodepage("CP1251");
   
@@ -72,68 +75,136 @@ area aBuh;
   AddTextToArea(p2 & chr(9) & chr(10),aBuh);
   AddTextToArea(p3 & chr(9) & chr(10),aBuh);
   
-  IVr.TransDate = dat1;
-  TrHs = true;
+  doctypef = true; //Edit***************************Sasha2,11:36 16.02.2015 {
+  if (doctypef) then begin
   
-  while(LoopKey("TransDate",IVr,1,TrHs))begin
-    testf = true;
-    if(IVr.TransDate>dat1)then begin TrHs = false; testf = false; end;
-    if(IVr.MachineName!=LocalMachine)then begin testf = false; end;// Edit ************************** Wednesday, 19 October 2011 10:21:13
-    if(IVr.OKFlag!=1)then begin testf = false; end;
+    IVr.TransDate = dat1;
+    TrHs = true;
     
-    if(testf)then begin
-      mtrw = matrowcnt(IVr);
-      sum = IVr.Sum4;
-      For(i=0;i<mtrw;i=i+1) begin
-        MatRowGet(IVr,i,IVrw);
-        switch (IVrw.stp) begin
-          case kInvoiceRowTypeCashPayment:
-            perc1 = round(IVrw.Sum/sum,SetRoundModeD(2));
-          case kInvoiceRowTypeCreditCardPayment:
-            perc2 = round(IVrw.Sum/sum,SetRoundModeD(2));
+    while (LoopKey("TransDate",IVr,1,TrHs)) begin
+      testf = true;
+      if(IVr.TransDate>dat1)then begin TrHs = false; testf = false; end;
+      if(IVr.MachineName!=LocalMachine)then begin testf = false; end; // Edit ************************** Wednesday, 19 October 2011 10:21:13
+      if(IVr.OKFlag!=1)then begin testf = false; end;
+      
+      if(testf)then begin
+        mtrw = matrowcnt(IVr);
+        sum = IVr.Sum4;
+        For(i=0;i<mtrw;i=i+1) begin
+          MatRowGet(IVr,i,IVrw);
+          switch (IVrw.stp) begin
+            case kInvoiceRowTypeCashPayment:
+              perc1 = round(IVrw.Sum/sum,SetRoundModeD(2));
+            case kInvoiceRowTypeCreditCardPayment:
+              perc2 = round(IVrw.Sum/sum,SetRoundModeD(2));
+          end;
         end;
+        perc3 = 0;
+        
+        if(perc3!=0)then begin perc3=1-perc1-perc2; end;
+        if(perc2!=0)then begin perc2=1-perc1-perc3; end;
+        if(perc1!=0)then begin perc1=1-perc3-perc2; end;
+        
+        //if(perc3+perc2+perc1!=1)then begin messagebox(0,"NOT 1 perc") end;
+        
+        For(i=0;i<mtrw;i=i+1) begin
+          testf1 = true;
+          MatRowGet(IVr,i,IVrw);
+          if(blank(IVrw.ArtCode)) then begin testf1 = false; end;
+          if(IVrw.stp==kInvoiceRowTypeCashPayment or IVrw.stp==kInvoiceRowTypeCreditCardPayment) then begin testf1 = false; end;
+          if (testf1) then begin 
+            q1 = IVrw.Quant*perc1;
+            q2 = IVrw.Quant*perc2;
+            q3 = IVrw.Quant*perc3;
+            //if(q1+q2+q3!=IVrw.Quant)then begin messagebox(0,"NOT 1 quant") end;
+            
+            pr1 = IVrw.Sum*perc1;
+            pr2 = IVrw.Sum*perc2;
+            pr3 = IVrw.Sum*perc3;
+            //if(pr1+pr2+pr3!=IVrw.Sum)then begin messagebox(0,"NOT 1 Price") end;
+            
+            AddTextToArea(IVrw.ArtCode & chr(9),aBuh);
+            value = ValToString(q1,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9),aBuh);
+            value = ValToString(q2,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9),aBuh);
+            value = ValToString(q3,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9),aBuh);
+            value = ValToString(pr1,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9),aBuh);
+            value = ValToString(pr2,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9),aBuh);
+            value = ValToString(pr3,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9) & chr(10),aBuh);
+          end;
+        end; 
       end;
-      perc3 = 0;
-      
-      if(perc3!=0)then begin perc3=1-perc1-perc2; end;
-      if(perc2!=0)then begin perc2=1-perc1-perc3; end;
-      if(perc1!=0)then begin perc1=1-perc3-perc2; end;
-      
-      //if(perc3+perc2+perc1!=1)then begin messagebox(0,"NOT 1 perc") end;
-      
-      For(i=0;i<mtrw;i=i+1) begin
-        testf1 = true;
-        MatRowGet(IVr,i,IVrw);
-        if(blank(IVrw.ArtCode)) then begin testf1 = false; end;
-        if(IVrw.stp==kInvoiceRowTypeCashPayment or IVrw.stp==kInvoiceRowTypeCreditCardPayment) then begin testf1 = false; end;
-        if (testf1) then begin 
-          q1 = IVrw.Quant*perc1;
-          q2 = IVrw.Quant*perc2;
-          q3 = IVrw.Quant*perc3;
-          //if(q1+q2+q3!=IVrw.Quant)then begin messagebox(0,"NOT 1 quant") end;
-          
-          pr1 = IVrw.Sum*perc1;
-          pr2 = IVrw.Sum*perc2;
-          pr3 = IVrw.Sum*perc3;
-          //if(pr1+pr2+pr3!=IVrw.Sum)then begin messagebox(0,"NOT 1 Price") end;
-          
-          AddTextToArea(IVrw.ArtCode & chr(9),aBuh);
-          value = ValToString(q1,M4Val,"",chr(46),0);
-          AddTextToArea(value & chr(9),aBuh);
-          value = ValToString(q2,M4Val,"",chr(46),0);
-          AddTextToArea(value & chr(9),aBuh);
-          value = ValToString(q3,M4Val,"",chr(46),0);
-          AddTextToArea(value & chr(9),aBuh);
-          value = ValToString(pr1,M4Val,"",chr(46),0);
-          AddTextToArea(value & chr(9),aBuh);
-          value = ValToString(pr2,M4Val,"",chr(46),0);
-          AddTextToArea(value & chr(9),aBuh);
-          value = ValToString(pr3,M4Val,"",chr(46),0);
-          AddTextToArea(value & chr(9) & chr(10),aBuh);
-        end;
-      end; 
     end;
-  end;
+  end else begin //Edit***************************Sasha2,11:36 16.02.2015 }
+    IVCashr.TransDate = dat1;
+    TrHs = true;
+    
+    while (LoopKey("TransDate",IVCashr,1,TrHs)) begin
+      testf = true;
+      if(IVCashr.TransDate>dat1)then begin TrHs = false; testf = false; end;
+      if(IVCashr.LocalMachineCode!=LocalMachine)then begin testf = false; end; // Edit ************************** Wednesday, 19 October 2011 10:21:13
+      if(IVCashr.OKFlag!=1)then begin testf = false; end;
+      
+      if(testf)then begin
+        mtrw = matrowcnt(IVCashr);
+        sum = IVCashr.Sum4;
+        For(i=0;i<mtrw;i=i+1) begin
+          MatRowGet(IVCashr,i,IVCashrw);
+          switch (IVCashrw.stp) begin
+            case kInvoiceRowTypeCashPayment:
+              perc1 = round(IVCashrw.Sum/sum,SetRoundModeD(2));
+            case kInvoiceRowTypeCreditCardPayment:
+              perc2 = round(IVCashrw.Sum/sum,SetRoundModeD(2));
+          end;
+        end;
+        perc3 = 0;
+        
+        if(perc3!=0)then begin perc3=1-perc1-perc2; end;
+        if(perc2!=0)then begin perc2=1-perc1-perc3; end;
+        if(perc1!=0)then begin perc1=1-perc3-perc2; end;
+        
+        //if(perc3+perc2+perc1!=1)then begin messagebox(0,"NOT 1 perc") end;
+        
+        For(i=0;i<mtrw;i=i+1) begin
+          testf1 = true;
+          MatRowGet(IVCashr,i,IVCashrw);
+          if(blank(IVCashrw.ArtCode)) then begin testf1 = false; end;
+          if(IVCashrw.stp==kInvoiceRowTypeCashPayment or IVCashrw.stp==kInvoiceRowTypeCreditCardPayment) then begin testf1 = false; end;
+          if (testf1) then begin 
+            q1 = IVCashrw.Quant*perc1;
+            q2 = IVCashrw.Quant*perc2;
+            q3 = IVCashrw.Quant*perc3;
+            //if(q1+q2+q3!=IVCashrw.Quant)then begin messagebox(0,"NOT 1 quant") end;
+            
+            pr1 = IVCashrw.Sum*perc1;
+            pr2 = IVCashrw.Sum*perc2;
+            pr3 = IVCashrw.Sum*perc3;
+            //if(pr1+pr2+pr3!=IVCashrw.Sum)then begin messagebox(0,"NOT 1 Price") end;
+            
+            AddTextToArea(IVCashrw.ArtCode & chr(9),aBuh);
+            value = ValToString(q1,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9),aBuh);
+            value = ValToString(q2,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9),aBuh);
+            value = ValToString(q3,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9),aBuh);
+            value = ValToString(pr1,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9),aBuh);
+            value = ValToString(pr2,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9),aBuh);
+            value = ValToString(pr3,M4Val,"",chr(46),0);
+            AddTextToArea(value & chr(9) & chr(10),aBuh);
+          end;
+        end; 
+      end;
+    end;
+  end; 
+  
   
   WriteAreaToFile(aBuh,RepSpec.f2,0);
 
