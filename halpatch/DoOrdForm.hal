@@ -244,7 +244,7 @@ begin
 	
 	MatRowGet(ORr,rownr,ORrw);
 	//res = (ORrw.Sum * 10/12)*(1-ORrw.vRebate/100);
-	res = (ORrw.Sum * 10/12);
+	res = round((ORrw.Sum * 10/12),SetRoundModeD(2));
 SumRowWithoutVAT = res;
 return;
 end;
@@ -317,244 +317,7 @@ BEGIN
   sumnopdv2 = 0;
   nopdvsum = 0;
   sumrebeate = 0;
-  sumnorebeate = 0;
-
-
- /*
-  
-  		if(FIELDINFORM("F_UAH_A"))then begin
-	  		curfor = "UAH_A";
-			end;
-		
-			if(FIELDINFORM("F_UAH_B"))then begin
-					curfor = "UAH_B";
-			end;
-		
-			if(FIELDINFORM("F_UAH_E"))then begin
-					curfor = "UAH_E";
-			end;
-		
-			if(FIELDINFORM("F_UAH_IB"))then begin
-					curfor = "UAHIB";
-			end;
-	
-   		if (FIELDINFORM("F_SUMNOTPDVUAH")) then begin//-------------------------------------------
-          t = blankval;
-          If(nonblank(ORr.Sum1)) then begin
-          t = Round(ORr.Sum1*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          PrintValueInclZero("F_SUMNOTPDVUAH",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_SUMNOTPDVUAH_IB")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum1)) then begin
-          t = Round(ORr.Sum1*conv("UAHIB",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          PrintValueInclZero("F_SUMNOTPDVUAH_IB",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMNOTPDVUAH_A")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum1)) then begin
-          t = Round(ORr.Sum1*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          PrintValueInclZero("F_SUMNOTPDVUAH_A",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_PDVUAH")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-          t = Round(ORr.Sum4/6*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          if(currentcompany==4)then begin
-          	t = Round(ORr.Sum4/6*conv("UAHIB",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          end;
-          PrintValueInclZero("F_PDVUAH",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_PDVUAH_B")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-          t = Round(ORr.Sum4/6*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          PrintValueInclZero("F_PDVUAH_B",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_PDVUAH_A")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-          t = Round(ORr.Sum4/6*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          PrintValueInclZero("F_PDVUAH_A",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_PDVUAH_IB")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-          t = Round(ORr.Sum4/6*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          PrintValueInclZero("F_PDVUAH_IB",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMMUAH")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-          t = Round(ORr.Sum4*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          if(currentcompany==4)then begin
-          	t = Round(ORr.Sum4*conv("UAHIB",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          end;
-          PrintValueInclZero("F_SUMMUAH",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMNOTPDVUAHA")) then begin//-------------------------------------------
-          
-          t = blankval;
-          If(nonblank(ORr.Sum1)) then begin
-          t = Round(ORr.Sum1*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          PrintValueInclZero("F_SUMNOTPDVUAHA",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_PDVUAHA")) then begin//-------------------------------------------
-          t = blankval;
-          If(nonblank(ORr.Sum4)) then begin
-          t = Round(ORr.Sum4/6*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          PrintValueInclZero("F_PDVUAHA",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-       if (FIELDINFORM("F_SUMMUAHA")) then begin//-------------------------------------------
-           t = blankval;
-          If(nonblank(ORr.Sum4)) then begin
-          t = Round(ORr.Sum4*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          PrintValueInclZero("F_SUMMUAHA",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_SUMMUAH_A")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-					t = Round(ORr.Sum4*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-					PrintValueInclZero("F_SUMMUAH_A",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMMUAH_B")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-					t = Round(ORr.Sum4*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-					PrintValueInclZero("F_SUMMUAH_B",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMNOTPDVUAHU")) then begin//-------------------------------------------
-          t = blankval;
-          If(nonblank(ORr.Sum1)) then begin
-          t = Round(ORr.Sum1*conv("UAH",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          PrintValueInclZero("F_SUMNOTPDVUAHU",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_SUMMUAH_IB")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-					t = Round(ORr.Sum4*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-					PrintValueInclZero("F_SUMMUAH_IB",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMNOTPDVUAHNAL")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum1)) then begin
-					t = Round(ORr.Sum1*conv("UAH",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-					PrintValueInclZero("F_SUMNOTPDVUAHNAL",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_PDVUAHNAL")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-					t = Round(ORr.Sum4/6*conv("UAH",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-					PrintValueInclZero("F_PDVUAHNAL",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMMUAHNAL")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-					t = Round(ORr.Sum4*conv("UAH",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-					PrintValueInclZero("F_SUMMUAHNAL",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMNOTPDVUAHANAL")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum1)) then begin
-					t = Round(ORr.Sum1*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-					PrintValueInclZero("F_SUMNOTPDVUAHANAL",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_PDVUAHU")) then begin//-------------------------------------------
-          t = blankval;
-          If(nonblank(ORr.Sum4)) then begin
-          t = Round(ORr.Sum4/6*conv("UAH",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          PrintValueInclZero("F_PDVUAHU",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_PDVUAHANAL")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-					t = Round(ORr.Sum4/6*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-					PrintValueInclZero("F_PDVUAHANAL",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMMUAHANAL")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-					t = Round(ORr.Sum4*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-					PrintValueInclZero("F_SUMMUAHANAL",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMMUAHU")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-          t = Round(ORr.Sum4*conv("UAH",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          PrintValueInclZero("F_SUMMUAHU",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMNOTPDVORIG")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum1)) then begin
-					t = Round(ORr.Sum4-ORr.Sum4/6,SetRoundModeD(2));
-					PrintValueInclZero("F_SUMNOTPDVORIG",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_PDVORIG")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-					t = Round(ORr.Sum4/6,SetRoundModeD(2));
-				end;
-				PrintValueInclZero("F_PDVORIG",t,M45Val,LangNrr,SysFormatRec,false);
-      end;
-      
-			if (FIELDINFORM("F_SUMMORIG")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORr.Sum4)) then begin
-					t = Round(ORr.Sum4,SetRoundModeD(2));
-					PrintValueInclZero("F_SUMMORIG",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-			end;
- */  
-	// Edit End ---------------------------------------------- Edit End
-	
+  sumnorebeate = 0;	
 	sumnotpdv = 0;
   SetupVATBase(nodiscVATr,vatcnt);  
 
@@ -646,356 +409,7 @@ LkInvoiceRowTypeNormal:;
 					PrintValueInclZero("F_ROWSUMWITHOUTVAT",t,M45Val,LangNrr,SysFormatRec,false);
       end;
 
-// End		Edit----------------------------------------------------Dima 21.01.2015
 
-
-   /*   
-      roundprice = Round(ORrw.Price*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));// Edit ************************** Wednesday, 10 November 2010 14:22:34
-      if (FIELDINFORM("F_UAHPRICENONPDV")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:22:35
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = roundprice;
-					PrintValueInclZero("F_UAHPRICENONPDV",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      roundprice2 = Round(ORrw.Price*conv("UAH_J",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));// Edit ************************** Wednesday, 10 November 2010 14:22:34
-      if (FIELDINFORM("F_UAHPRICENONPDV2")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:22:35
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = roundprice2;
-					PrintValueInclZero("F_UAHPRICENONPDV2",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_BUHPRICE")) then begin//-------------------------------------------// // Edit ************************** Tuesday, 23 October 2012 15:34:38  
-				PrintValueInclZero("F_BUHPRICE",ORrw.UnitZval,M45Val,LangNrr,SysFormatRec,false);
-      end;
-      if(currentcompany!=4)then begin
-				sumnopdv = sumnopdv+round(roundprice*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
-			end;
-			if(currentcompany==4)then begin
-				//sumnopdv = sumnopdv+round(roundprice*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
-				sumnopdv = sumnopdv+round(ORrw.Sum/12*10,SetRoundModeD(2));
-			end;
-
-
-      if (FIELDINFORM("F_UAHSUMNONPDV")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:27:39
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					if(currentcompany!=4)then begin
-						t = round(roundprice*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
-					end;
-					if(currentcompany==4)then begin
-						t = round(ORrw.Sum/12*10,SetRoundModeD(2));
-					end;
-					PrintValueInclZero("F_UAHSUMNONPDV",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      sumnopdv2 = sumnopdv2+round(roundprice2*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
-      if (FIELDINFORM("F_UAHSUMNONPDV2")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:27:39
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = round(roundprice2*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
-					PrintValueInclZero("F_UAHSUMNONPDV2",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_BUHSUM")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:27:39
-				t = ORrw.UnitZval*ORrw.Quant;
-				buhsum = buhsum + t;
-				PrintValueInclZero("F_BUHSUM",t,M45Val,LangNrr,SysFormatRec,false);
-      end;
-      
-      
-      roundpriceA = Round(ORrw.Price*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));// Edit ************************** Wednesday, 10 November 2010 14:22:34
-      if (FIELDINFORM("F_UAHPRICENONPDVA")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:22:35
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = roundpriceA;
-					PrintValueInclZero("F_UAHPRICENONPDVA",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      if(currentcompany!=4)then begin
-				sumnopdvA = sumnopdvA+round(roundpriceA*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
-			end;
-			if(currentcompany==4)then begin
-				sumnopdvA = sumnopdvA+roundpriceA*ORrw.Quant;
-			end;
-      if (FIELDINFORM("F_UAHSUMNONPDVA")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:27:39
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = round(roundpriceA*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
-					PrintValueInclZero("F_UAHSUMNONPDVA",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      roundpriceU = Round(ORrw.Price*conv("UAH",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));// Edit ************************** Wednesday, 10 November 2010 14:22:34
-      if (FIELDINFORM("F_UAHPRICENONPDVU")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:22:35
-          r = StringToInt(tstr);
-          t = blankval;
-          If(nonblank(ORrw.Price)) then begin
-          t = roundpriceU;
-          PrintValueInclZero("F_UAHPRICENONPDVU",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      		sumnopdvU = sumnopdvU+round(roundpriceU*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
-      if (FIELDINFORM("F_UAHSUMNONPDVU")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:27:39
-          r = StringToInt(tstr);
-          t = blankval;
-          If(nonblank(ORrw.Price)) then begin
-          t =   round(roundpriceU*ORrw.Quant*(1-ORrw.vRebate/100),SetRoundModeD(2));
-          PrintValueInclZero("F_UAHSUMNONPDVU",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      if (FIELDINFORM("F_UAHREBATEPDVU")) then begin//-------------------------------------------// Edit ************************** Wednesday, 10 November 2010 14:27:39
-          t = t-roundpriceU;
-          PrintValueInclZero("F_UAHREBATEPDVU",t,M45Val,LangNrr,SysFormatRec,false);
-      end;
-      
-      if (FIELDINFORM("F_APRISUAH")) then begin//-------------------------------------------
-          r = StringToInt(tstr);
-          t = blankval;
-          If(nonblank(ORrw.Price)) then begin
-          t = Round(ORrw.Price*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          if(currentcompany==4)then begin
-          	t = Round(ORrw.Price*conv("UAHIB",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          end;
-          PrintValueInclZero("F_APRISUAH",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_APRISUAH_B")) then begin//-------------------------------------------
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = Round(ORrw.Price*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-					PrintValueInclZero("F_APRISUAH_B",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_APRISUAH_A")) then begin//-------------------------------------------
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = Round(ORrw.Price*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-					PrintValueInclZero("F_APRISUAH_A",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_APRISUAH_IB")) then begin//-------------------------------------------
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = Round(ORrw.Price*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-					PrintValueInclZero("F_APRISUAH_IB",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_APRISUAHWITHPDV")) then begin//-------------------------------------------
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = Round(ORrw.Price*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));//no changed find there
-					PrintValueInclZero("F_APRISUAHWITHPDV",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_APRISUAHWITHPDV_IB")) then begin//-------------------------------------------
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = Round(ORrw.Price*conv("UAHIB",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));//no changed find there
-					PrintValueInclZero("F_APRISUAHWITHPDV_IB",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMROWUAH")) then begin//-------------------------------------------
-          t = blankval;
-          If(nonblank(ORrw.Sum)) then begin
-          t = Round(ORrw.Sum*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          if(currentcompany==4)then begin
-          	t = Round(ORrw.Sum*conv("UAHIB",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          end;
-          PrintValueInclZero("F_SUMROWUAH",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_APRISUAHA")) then begin//-------------------------------------------
-          r = StringToInt(tstr);
-          t = blankval;
-          If(nonblank(ORrw.Price)) then begin
-          t = Round(ORrw.Price*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          PrintValueInclZero("F_APRISUAHA",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_SUMROWUAHA")) then begin//-------------------------------------------
-          t = blankval;
-          If(nonblank(ORrw.Sum)) then begin
-          t = Round(ORrw.Sum*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          PrintValueInclZero("F_SUMROWUAHA",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_APRISUAHU")) then begin//-------------------------------------------
-          r = StringToInt(tstr);
-          t = blankval;
-          If(nonblank(ORrw.Price)) then begin
-          t = Round(ORrw.Price*conv("UAH",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          PrintValueInclZero("F_APRISUAHU",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_SUMROWUAHU")) then begin//-------------------------------------------
-          t = blankval;
-          If(nonblank(ORrw.Sum)) then begin
-          t = Round(ORrw.Sum*conv("UAH",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-          PrintValueInclZero("F_SUMROWUAHU",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_SUMROWUAH_B")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORrw.Sum)) then begin
-					t = Round(ORrw.Sum*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-					PrintValueInclZero("F_SUMROWUAH_B",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMROWUAH_IB")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORrw.Sum)) then begin
-					t = Round(ORrw.Sum*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-					PrintValueInclZero("F_SUMROWUAH_IB",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMROWUAHWITHPDV")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORrw.Sum)) then begin
-					t = Round(ORrw.Sum*conv("UAH_B",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2)); //changed find
-					PrintValueInclZero("F_SUMROWUAHWITHPDV",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMROWUAHWITHPDV_IB")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORrw.Sum)) then begin
-					t = Round(ORrw.Sum*conv("UAHIB",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2)); //changed find
-					PrintValueInclZero("F_SUMROWUAHWITHPDV_IB",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMROWUAHWITHPDV_A")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORrw.Sum)) then begin
-					t = Round(ORrw.Sum*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2)); //changed find
-					PrintValueInclZero("F_SUMROWUAHWITHPDV_A",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_APRISUAHNAL")) then begin//-------------------------------------------
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = Round(ORrw.Price*conv("UAH",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-					PrintValueInclZero("F_APRISUAHNAL",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMROWUAHNAL")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORrw.Sum)) then begin
-					t = Round(ORrw.Sum*conv("UAH",ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2));
-					PrintValueInclZero("F_SUMROWUAHNAL",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_APRISUAHANAL")) then begin//-------------------------------------------
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t = Round(ORrw.Price*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-					PrintValueInclZero("F_APRISUAHANAL",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_SUMROWUAHANAL")) then begin//-------------------------------------------
-          t = blankval;
-          If(nonblank(ORrw.Sum)) then begin
-          t = Round(ORrw.Sum*conv("UAH_A",ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-          PrintValueInclZero("F_SUMROWUAHANAL",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      sumrownotpdv = Round(ORrw.Price*1.01*conv(curfor,ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-      if (FIELDINFORM("F_SUMROWUAHANAL1")) then begin//-------------------------------------------
-				t = blankval;
-				If(nonblank(ORrw.Sum)) then begin
-					t=sumrownotpdv*ORrw.Quant;// Edit ************************** Friday, 9 September 2011 09:48:53// Edit ************************** Friday, 9 September 2011 09:48:53
-					PrintValueInclZero("F_SUMROWUAHANAL1",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      if (FIELDINFORM("F_APRISUAHANAL1")) then begin//-------------------------------------------
-				r = StringToInt(tstr);
-				t = blankval;
-				If(nonblank(ORrw.Price)) then begin
-					t=sumrownotpdv;
-					PrintValueInclZero("F_APRISUAHANAL1",t,M45Val,LangNrr,SysFormatRec,false);
-				end;
-      end;
-      
-      nopdvsumrow = round(ORrw.Sum*5/6,SetRoundModeD(2));
-      sumnotpdv = sumnotpdv+sumrownotpdv*ORrw.Quant;
-      nopdvprice = Round(nopdvsumrow/(1-ORrw.vRebate/100)/ORrw.Quant,SetRoundModeD(2));
-      if (FIELDINFORM("F_APRISORIG")) then begin//-------------------------------------------
-          r = StringToInt(tstr);
-          t = blankval;
-          If(nonblank(ORrw.Price)) then begin
-          t = nopdvprice;
-          if(currentcompany==4)then begin
-          	t = Round(ORrw.Price*10/12,SetRoundModeD(2));
-          end;
-          PrintValueInclZero("F_APRISORIG",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      
-      if (FIELDINFORM("F_SUMROWNOREBEATEORIG")) then begin//-------------------------------------------
-          t = blankval;
-          t = nopdvprice*ORrw.Quant;
-          sumnorebeate = sumnorebeate + t;
-          PrintValueInclZero("F_SUMROWNOREBEATEORIG",t,M45Val,LangNrr,SysFormatRec,false);
-      end;
-      
-      nopdvsum = nopdvsum + nopdvsumrow;
-      if (FIELDINFORM("F_SUMROWORIG")) then begin//-------------------------------------------
-          t = blankval;
-          If(nonblank(ORrw.Sum)) then begin
-          t = nopdvsumrow;
-          if(currentcompany==4)then begin
-          	t = Round(ORrw.Sum*10/12,SetRoundModeD(2));
-          end;
-          PrintValueInclZero("F_SUMROWORIG",t,M45Val,LangNrr,SysFormatRec,false);
-          end;
-      end;
-      
-      if (FIELDINFORM("F_REBEATEORIG")) then begin//-------------------------------------------
-          t = nopdvprice*ORrw.Quant-nopdvsumrow;
-          sumrebeate = sumrebeate + t;
-          PrintValueInclZero("F_REBEATEORIG",t,M45Val,LangNrr,SysFormatRec,false);
-      end;
- */      
 
       if (FIELDINFORM("F_BASPRIS")) then begin
         if (ORr.InclVAT==0) then begin
@@ -1285,181 +699,7 @@ LkInvoiceRowTypeNormal:;
   end;
   CalcVATBaseVAT(nodiscVATr,ORr.InclVAT,ORr.NoTAXonVAT,vatcnt,vatval,rowtax);
   totnodiscount = totnodiscount + vatval + rowtax;
- 
- 
-  /*  
-  // Edit Start ---------------------------------------------- Edit Start
-	//Wednesday, 10 November 2010 14:22:26
-	
-	if (FIELDINFORM("F_SUMNOTPDVORIG")) then begin//-------------------------------------------
-		t = blankval;
-		t = nopdvsum;
-		PrintValueInclZero("F_SUMNOTPDVORIG",t,M45Val,LangNrr,SysFormatRec,false);
-  end;
-  
-  if (FIELDINFORM("F_PDVORIG")) then begin//-------------------------------------------
-		t = blankval;
-		t = ORr.Sum4 - nopdvsum;
-		PrintValueInclZero("F_PDVORIG",t,M45Val,LangNrr,SysFormatRec,false);
-  end;
-  if (FIELDINFORM("F_PDVORIGTOSTR")) then begin//-------------------------------------------
-		t = blankval;
-		t = ORr.Sum4 - nopdvsum;
-		ValToText(t,M4Val,"UAH","UKR",tstr);
-		OUTFORMFIELD("F_PDVORIGTOSTR",tstr);  
-  end;
-	
-	if (FIELDINFORM("F_UAHSUM4NONPDV")) then begin//------- thereare
-		t = blankval;
-		t =   sumnopdv;
-		PrintValueInclZero("F_UAHSUM4NONPDV",t,M45Val,LangNrr,SysFormatRec,false);
-	end;
-	
-	if(currentcompany==4)then begin
-		pdv = round(sumnotpdv/5,SetRoundModeD(2));
-	end;
-	if (FIELDINFORM("F_SUMNOTPDVUAHANAL1")) then begin//-------------------------------------------
-		t = blankval;
-		If(nonblank(ORr.Sum1)) then begin
-			t = Round(ORr.Sum1*1.01*conv(curfor,ORr.CurncyCode,ORr.OrdDate)*10/12,SetRoundModeD(2));
-			t=sumnotpdv;
-			PrintValueInclZero("F_SUMNOTPDVUAHANAL1",t,M45Val,LangNrr,SysFormatRec,false);
-		end;
-	end;
-	
-	if (FIELDINFORM("F_PDVUAHANAL1")) then begin//-------------------------------------------
-		t = blankval;
-		If(nonblank(ORr.Sum4)) then begin
-			t=round(sumnotpdv/5,SetRoundModeD(2));
-			PrintValueInclZero("F_PDVUAHANAL1",t,M45Val,LangNrr,SysFormatRec,false);
-		end;
-	end;
-	sumall = sumnotpdv+pdv;
-	if (FIELDINFORM("F_SUMMUAHANAL1")) then begin//-------------------------------------------
-		t = blankval;
-		If(nonblank(ORr.Sum4)) then begin
-			t=sumnotpdv+pdv;
-			PrintValueInclZero("F_SUMMUAHANAL1",t,M45Val,LangNrr,SysFormatRec,false);
-		end;
-	end;
-	if (FIELDINFORM("F_UAHSUM4NONPDV2")) then begin//------- thereare
-		t = blankval;
-		t = sumnopdv2;//*ORrw.Quant;
-		if(currentcompany==4)then begin
-			t =   sumnopdv;
-		end;
-		PrintValueInclZero("F_UAHSUM4NONPDV2",t,M45Val,LangNrr,SysFormatRec,false);
-	end;
-	
-	if (FIELDINFORM("F_BUHSUM3")) then begin//-------------------------------------------
-		t = blankval;
-		t = buhsum;//*ORrw.Quant;
-		PrintValueInclZero("F_BUHSUM3",t,M45Val,LangNrr,SysFormatRec,false);
-	end;
-	
-	if (FIELDINFORM("F_BUHPDV")) then begin//-------------------------------------------
-		t = blankval;
-		t = buhsum/5;//*ORrw.Quant;
-		PrintValueInclZero("F_BUHPDV",t,M45Val,LangNrr,SysFormatRec,false);
-	end;
-	if (FIELDINFORM("F_BUHSUM4")) then begin//-------------------------------------------
-		t = blankval;
-		t = buhsum/5+buhsum;//*ORrw.Quant;
-		PrintValueInclZero("F_BUHSUM4",t,M45Val,LangNrr,SysFormatRec,false);
-	end;
-	
-	pdv = round(sumnopdv*12/10/6,SetRoundModeD(2));
-	pdv1 = round(sumnopdv*12/10/6,SetRoundModeD(2));
-	pdv2 = round(sumnopdv2*12/10/6,SetRoundModeD(2));
-	if (FIELDINFORM("F_UAHPDV")) then begin//-------------------------------------------
-		t = blankval;
-		t = pdv;
-		if(currentcompany==4)then begin
-     	t = pdv1;
-     	t = ORr.Sum4 - sumnopdv;
-    end;
-		PrintValueInclZero("F_UAHPDV",t,M45Val,LangNrr,SysFormatRec,false);
-	end;
-	
-	if (FIELDINFORM("F_UAHSUM5")) then begin//-------------------------------------------
-		t = blankval;
-		t = sumnopdv+pdv;
-		if(currentcompany==4)then begin
-     	t = sumnopdv+pdv1;
-    end;
-
-		PrintValueInclZero("F_UAHSUM5",t,M45Val,LangNrr,SysFormatRec,false);
-	end;	
-	if (FIELDINFORM("F_UAHSUM6")) then begin//-------------------------------------------
-		t = blankval;
-		t = sumnopdv2 + pdv2;
-		PrintValueInclZero("F_UAHSUM6",t,M45Val,LangNrr,SysFormatRec,false);
-	end;
-	
-	if (FIELDINFORM("F_UAHSUM5TEXT")) then begin
-    t = sumnopdv+pdv;
-    if(currentcompany==4)then begin
-     	t = sumnopdv+pdv1;
-     	logtext(0,sumnopdv & "__" & pdv1);
-    end;
-    ValToText(t,M4Val,"UAH","UKR",tstr);
-    OUTFORMFIELD("F_UAHSUM5TEXT",tstr);  
-  end; 
-  
-  if (FIELDINFORM("F_UAHSUM5TEXT2")) then begin
-    t = sumnopdv2+pdv;
-    ValToText(t,M4Val,"UAH_J","UKR",tstr);
-    OUTFORMFIELD("F_UAHSUM5TEXT2",tstr);  
-  end;
-  
-  if (FIELDINFORM("F_BUHSUM4TEXT")) then begin
-    t = buhsum/5+buhsum;
-    ValToText(t,M4Val,"UAH","UKR",tstr);
-    OUTFORMFIELD("F_BUHSUM4TEXT",tstr);  
-  end; 
-  
-	if (FIELDINFORM("F_UAHASUM4NONPDV")) then begin//-------------------------------------------
-		t = blankval;
-		t =   sumnopdvA;
-		PrintValueInclZero("F_UAHASUM4NONPDV",t,M45Val,LangNrr,SysFormatRec,false);
-	end;
-	pdvA = round(sumnopdvA*12/10/6,SetRoundModeD(2));
-	if (FIELDINFORM("F_UAHAPDV")) then begin//-------------------------------------------
-		t = blankval;
-		t =   pdvA;//*ORrw.Quant;//  Round(ORrw.Price*conv("UAH_B",ORr.OrdDate)*10/12,2);
-		PrintValueInclZero("F_UAHAPDV",t,M45Val,LangNrr,SysFormatRec,false);
-	end;
-	if (FIELDINFORM("F_UAHASUM5")) then begin//-------------------------------------------
-		t = blankval;
-		t =   sumnopdvA+pdvA;
-		PrintValueInclZero("F_UAHASUM5",t,M45Val,LangNrr,SysFormatRec,false);
-	end;
-    
-  if (FIELDINFORM("F_SUMREBEATEORIG")) then begin
-    t = sumrebeate;
-    PrintValueInclZero("F_SUMREBEATEORIG",t,M45Val,LangNrr,SysFormatRec,false);
-  end; 
-  if (FIELDINFORM("F_SUMNOREBEATEORIG")) then begin
-    t = sumnorebeate;
-    PrintValueInclZero("F_SUMNOREBEATEORIG",t,M45Val,LangNrr,SysFormatRec,false);
-  end; 
-  
-  
-	// Edit End ---------------------------------------------- Edit End
-	if (FIELDINFORM("F_UAHASUM5TEXT")) then begin
-    t = sumnopdvA+pdvA;
-    ValToText(t,M4Val,"UAH","UKR",tstr);
-    OUTFORMFIELD("F_UAHASUM5TEXT",tstr);  
-  end; 
-	if (FIELDINFORM("F_AMOUNTUAHA1")) then begin
-	  t = Round(ORr.Sum4*1.01*conv(curfor,ORr.CurncyCode,ORr.OrdDate),SetRoundModeD(2)); 
-	  t = sumall;
-	  ValToText(t,M4Val,curfor,"UKR",tstr);
-	  OUTFORMFIELD("F_AMOUNTUAHA1",tstr); 
-  end;
-
-*/
-  
+   
   RETURN;
 END;
 
@@ -1740,7 +980,7 @@ BEGIN
 	
 	sumvat = 0;
 	sumnovat = 0;
-  
+  logtext(0,"PRINTORDER");
 	recordcopy(OR2r,ORr);
   rwcnt2 = CountOrderRows(ORr);
   CommonDocumentFields(RepSpec);    
@@ -1760,28 +1000,28 @@ BEGIN
   if (ReadFirstMain(Locr,1,true)) then begin
   end;
 
-			prodCoef=1;
+	prodCoef=1;
+	curncyCoef = 1;
+	if(FIELDINFORM("F_KUNDVALUTA"))then begin		//Edit--------------------------Dima 21.01.2015
+		GetFieldArgument(Docr,F_KUNDVALUTA,tstr1);
+		if (nonblank(tstr1) or (ORr.CurncyCode != tstr1) ) then begin
+			curncyCoef = CurChange(tstr1,ORr.CurncyCode,ORr.OrdDate);
+		end else begin
 			curncyCoef = 1;
-			if(FIELDINFORM("F_KUNDVALUTA"))then begin		//Edit--------------------------Dima 21.01.2015
-					GetFieldArgument(Docr,F_KUNDVALUTA,tstr1);
-					if (nonblank(tstr1) or (ORr.CurncyCode != tstr1) ) then begin
-						curncyCoef = CurChange(tstr1,ORr.CurncyCode,ORr.OrdDate);
-					end else begin
-						curncyCoef = 1;
-					end;
-			end;
+		end;
+	end;
 
-			if(FIELDINFORM("F_COEFFICIENT"))then begin		//Edit--------------------------Dima 21.01.2015
-					GetFieldArgument(Docr,F_COEFFICIENT,tstr);
-					prodCoef = StringToVal(tstr,M4Val);
-					if (prodCoef == 0) then begin	
-						prodCoef = 1;
-					end;
-			end;
-			multFactor = curncyCoef * prodCoef;
-			if(multFactor!=1)then begin					
-				RecordMultiplication(ORr,multFactor);					//Edit--------------------------Dima 21.01.2015
-			end;
+	if(FIELDINFORM("F_COEFFICIENT"))then begin		//Edit--------------------------Dima 21.01.2015
+		GetFieldArgument(Docr,F_COEFFICIENT,tstr);
+		prodCoef = StringToVal(tstr,M4Val);
+		if (prodCoef == 0) then begin	
+			prodCoef = 1;
+		end;
+	end;
+	multFactor = curncyCoef * prodCoef;
+	if(multFactor!=1)then begin					
+		RecordMultiplication(ORr,multFactor);					//Edit--------------------------Dima 21.01.2015
+	end;
 			
   PrintUserDefinedCustomerFields(CUr.UserStr1,CUr.UserStr2,CUr.UserStr3,CUr.UserStr4,CUr.UserStr5,CUr.UserDate1,CUr.UserDate2,CUr.UserDate3,CUr.UserVal1,CUr.UserVal2,CUr.UserVal3);
   PrintValue("F_DISCSUM",ORr.DiscSum,M4Val,LangNrr,SysFormatRec,false);
@@ -1795,37 +1035,28 @@ BEGIN
   end;
   PrintValue("F_SUBTOTALWITHVAT",t,M4Val,LangNrr,SysFormatRec,false);
   PrintValue("F_TAXSUM",ORr.TAX1Sum,M4Val,LangNrr,SysFormatRec,false);
-  if (FIELDINFORM("F_RUSPAYNR")) then begin
-  
-  	
-  
-  t = round(ORTotalSumWithoutVAT(ORr),SetRoundModeD(2));			
+ 
+	t = round(ORTotalSumWithoutVAT(ORr),SetRoundModeD(2));			
 	sumnovat = round(t,SetRoundModeD(2));// Edit ************************** Friday, 13 February 2015 17:04:24
   if (FIELDINFORM("F_SUMMA")) then begin		
     PrintValue("F_SUMMA",t,M4Val,LangNrr,SysFormatRec,false);
   end;
+  
   t = round(ORSumVAT(ORr),SetRoundModeD(2));
   sumvat = round(t,SetRoundModeD(2));// Edit ************************** Friday, 13 February 2015 17:04:50
-  
   ORr.Sum4 = sumnovat + sumvat;
   if (FIELDINFORM("F_MOMS")) then begin
     PrintValue("F_MOMS",t,M4Val,LangNrr,SysFormatRec,false);// Edit ************************** Friday, 13 February 2015 17:04:51
   end; 
   
-    //RussianPaymentNr(ORr.SerNr,tstr);
-    // Edit Start ---------------------------------------------- Edit Start
-	//Monday, 28 March 2011 17:22:36
+  
+  if (FIELDINFORM("F_RUSPAYNR")) then begin
 		tstr = ORr.SerNr;
 		res = Right(tstr,len(tstr)-1);
-	
 		
 		myint = FirstInRange(res,10);
 		res = myint;
-		//res = Left(tstr,1) & res;
     tstr = res;
-	// Edit End ---------------------------------------------- Edit End
-	
-    
     OUTFORMFIELD("F_RUSPAYNR",tstr);
   end;  
   CalcORTotals(ORr,Docr,SysFormatRec,LangNrr);
