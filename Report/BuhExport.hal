@@ -152,16 +152,9 @@ Boolean doctypef; //Edit***************************Sasha2,11:33 16.02.2015
       
       if(testf)then begin
         mtrw = matrowcnt(IVCashr);
-        sum = IVCashr.Sum4;
-        For(i=0;i<mtrw;i=i+1) begin
-          MatRowGet(IVCashr,i,IVCashrw);
-          switch (IVCashrw.stp) begin
-            case kInvoiceRowTypeCashPayment:
-              perc1 = round(IVCashrw.Sum/sum,SetRoundModeD(2));
-            case kInvoiceRowTypeCreditCardPayment:
-              perc2 = round(IVCashrw.Sum/sum,SetRoundModeD(2));
-          end;
-        end;
+        sum = (IVCashr.CashValue - IVCashr.RetValue) + IVCashr.RecValue;
+        perc1 = round((IVCashr.CashValue - IVCashr.RetValue)/sum,SetRoundModeD(2));
+        perc2 = round(IVCashr.RecValue/sum,SetRoundModeD(2));
         perc3 = 0;
         
         if(perc3!=0)then begin perc3=1-perc1-perc2; end;
@@ -174,7 +167,7 @@ Boolean doctypef; //Edit***************************Sasha2,11:33 16.02.2015
           testf1 = true;
           MatRowGet(IVCashr,i,IVCashrw);
           if(blank(IVCashrw.ArtCode)) then begin testf1 = false; end;
-          if(IVCashrw.stp==kInvoiceRowTypeCashPayment or IVCashrw.stp==kInvoiceRowTypeCreditCardPayment) then begin testf1 = false; end;
+          //if(IVCashrw.stp==kInvoiceRowTypeCashPayment or IVCashrw.stp==kInvoiceRowTypeCreditCardPayment) then begin testf1 = false; end;
           if (testf1) then begin 
             q1 = IVCashrw.Quant*perc1;
             q2 = IVCashrw.Quant*perc2;
