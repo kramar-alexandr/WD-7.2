@@ -301,7 +301,7 @@ BEGIN
 	val sumnopdvA,roundpriceA,pdvA;// Edit ************************** Wednesday, July 9, 2014 at 13:26:28
 	val sumnopdvU,roundpriceU,pdvU;// Edit ************************** Wednesday, July 9, 2014 at 13:26:29
 	val nopdvprice,nopdvsumrow,nopdvsum,buhsum;// Edit ************************** Wednesday, July 9, 2014 at 13:26:30
-
+	val rowsum;
 	
   BlockLoad(MainStockRec);
   BlockLoad(GenOptRec);
@@ -397,15 +397,19 @@ LkInvoiceRowTypeNormal:;
 
       if (FIELDINFORM("F_APRISEXCLVAT")) then begin
 
-					t =	SumRowWithoutVAT(ORr,i)/ORrw.Quant;	//Price without VAT
+					//t =	SumRowWithoutVAT(ORr,i)/ORrw.Quant;	//Price without VAT
+					rowsum = 0;
+					t = (ORrw.Price*100/(100-ORrw.vRebate) / 12 * 10);
+					
 					t = Round(t,SetRoundModeD(2));
 					PrintValueInclZero("F_APRISEXCLVAT",t,M45Val,LangNrr,SysFormatRec,false);
       end;
 
       if (FIELDINFORM("F_ROWSUMWITHOUTVAT")) then begin
 
-					t =	SumRowWithoutVAT(ORr,i);
-					t = Round(t,SetRoundModeD(2));
+					//t =	SumRowWithoutVAT(ORr,i);
+					t = round(ORrw.Price*100/(100-ORrw.vRebate)/12*10,SetRoundModeD(2));
+					t = Round(t*ORrw.Quant,SetRoundModeD(2));// Edit ************************** Monday, 23 February 2015 16:44:31
 					PrintValueInclZero("F_ROWSUMWITHOUTVAT",t,M45Val,LangNrr,SysFormatRec,false);
       end;
 
@@ -780,7 +784,7 @@ BEGIN
         end;
         PrintValueInclZero("F_VATBASE",vatbase,valtyp,LangNrr,SysFormatRec,false);
       end;    
-      PrintValueInclZero("F_SUMMAMEDMOMS",VATrw.DebVal,valtyp,LangNrr,SysFormatRec,false);
+      //PrintValueInclZero("F_SUMMAMEDMOMS",VATrw.DebVal,valtyp,LangNrr,SysFormatRec,false);// Edit ************************** Monday, 23 February 2015 17:08:58
       if (FIELDINFORM("F_VATVAL")) then begin
         valtyp = M4Val;
         GetFieldArgument(Docr,F_VATVAL,tstr);
@@ -976,11 +980,10 @@ BEGIN
   record BankVc Bankr;  
   longint myint;// Edit ************************** Monday, 28 March 2011 17:20:05
 	val curncyCoef, multFactor,prodCoef;					//Edit------------------------Dima 21.01.2015
-	val sumvat, sumnovat;
+	val sumvat, sumnovat,sumwitjvat;
 	
 	sumvat = 0;
 	sumnovat = 0;
-  logtext(0,"PRINTORDER");
 	recordcopy(OR2r,ORr);
   rwcnt2 = CountOrderRows(ORr);
   CommonDocumentFields(RepSpec);    
@@ -1004,8 +1007,12 @@ BEGIN
 	curncyCoef = 1;
 	if(FIELDINFORM("F_KUNDVALUTA"))then begin		//Edit--------------------------Dima 21.01.2015
 		GetFieldArgument(Docr,F_KUNDVALUTA,tstr1);
-		if (nonblank(tstr1) or (ORr.CurncyCode != tstr1) ) then begin
-			curncyCoef = CurChange(tstr1,ORr.CurncyCode,ORr.OrdDate);
+		if (nonblank(tstr1)) then begin
+			if(ORr.CurncyCode!=tstr1) then begin
+				curncyCoef = CurChange(tstr1,ORr.CurncyCode,ORr.OrdDate);
+			end else begin
+				curncyCoef = 1;// Edit ************************** Monday, 23 February 2015 18:40:23
+			end;
 		end else begin
 			curncyCoef = 1;
 		end;
@@ -1037,14 +1044,27 @@ BEGIN
   PrintValue("F_TAXSUM",ORr.TAX1Sum,M4Val,LangNrr,SysFormatRec,false);
  
 	t = round(ORTotalSumWithoutVAT(ORr),SetRoundModeD(2));			
+	
+	rwcnt = matrowcnt(ORr);
+	t = 0;
+	For(i=0;i<rwcnt;i=i+1) begin
+	  matrowget(ORr,i,ORrw);
+	  t = t + round((ORrw.Price * 100/(100-ORrw.vRebate)/12*10),SetRoundModeD(2))*ORrw.Quant;// Edit ************************** Monday, 23 February 2015 16:42:06
+	end; 
 	sumnovat = round(t,SetRoundModeD(2));// Edit ************************** Friday, 13 February 2015 17:04:24
   if (FIELDINFORM("F_SUMMA")) then begin		
     PrintValue("F_SUMMA",t,M4Val,LangNrr,SysFormatRec,false);
   end;
   
-  t = round(ORSumVAT(ORr),SetRoundModeD(2));
+  t = round(t*0.2,SetRoundModeD(2));// Edit ************************** Monday, 23 February 2015 16:43:04
+  //t = round(ORSumVAT(ORr),SetRoundModeD(2));
   sumvat = round(t,SetRoundModeD(2));// Edit ************************** Friday, 13 February 2015 17:04:50
-  ORr.Sum4 = sumnovat + sumvat;
+  sumwitjvat = ORr.Sum4;
+  if (FIELDINFORM("F_SUMMAMEDMOMS")) then begin
+  	sumwitjvat = sumnovat + sumvat;
+    PrintValue("F_SUMMAMEDMOMS",sumnovat + sumvat,M4Val,LangNrr,SysFormatRec,false);// Edit ************************** Friday, 13 February 2015 17:04:51
+  end;  
+  
   if (FIELDINFORM("F_MOMS")) then begin
     PrintValue("F_MOMS",t,M4Val,LangNrr,SysFormatRec,false);// Edit ************************** Friday, 13 February 2015 17:04:51
   end; 
@@ -1220,7 +1240,7 @@ BEGIN
 		if (blank(tstr1)) then begin
 			tstr1 = ORr.CurncyCode;
 		end;
-		ValToText(ORr.Sum4,M4Val,tstr1,"UKR",tstr);
+		ValToText(sumwitjvat,M4Val,tstr1,"UKR",tstr);// Edit ************************** Monday, 23 February 2015 17:26:10
     OUTFORMFIELD("F_ATTBETALATEXT",tstr);  
   end;
 
