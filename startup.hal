@@ -35,6 +35,8 @@ begin
 	Report("‡вiт по продажах Retail Sales",RetailSalesRClass,RetailSalesRn,0,modSL); //Edit***************************Sasha2,12:10 29.01.2015
 	
 	Report("CHECK",RetailSalesRClass,InvShpdRn,0,modSO); //Edit***************************Sasha2,12:10 29.01.2015
+	Report("ђезерв по рахункам",MyReservStatRClass,MyReservStstRn,0,modSO);
+	
 	
 	Setting("‚алюта …ЉЉЂ",POSCurncyTClass,modPOS); //Edit***************************Sasha2,17:25 11.09.2014
 	Setting("ђахунки продавцґв",LocalMachineAccTClass,modPOS); //Edit***************************Sasha2,17:26 11.09.2014
@@ -46,6 +48,7 @@ begin
   //Document("…тикетки партґй (надходженнЯ)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
   //Document("…тикетки партґй (перемґщеннЯ)",GigieneTextRClass,StockMovLabPartForm,LabelPartStockMovFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
 	Import("§мпорт цґн",ImportPLClass,ImportPLIn,modDI); //Edit***************************Sasha2,10:01 02.10.2014
+	Import("§мпорт цґн UID",ImportPLClass,ImportPLInUUID,modDI); //Edit***************************Sasha2,10:01 02.10.2014
 	
   Export("Register Export",ExpRegEClass,ExpRegEn,modPOS);
 

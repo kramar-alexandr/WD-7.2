@@ -920,3 +920,19 @@ begin
 	EndWindow;
 return;
 end;
+
+
+
+window MyReservStatRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+	WindowBegin("ђезер по рахункам",MyReservStatRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);  
+    h = 100;
+    EditField(h,20,150,"Љлиент",Normal,f1,false,CUSClass);
+  EndWindow;
+  
+  return;
+end;

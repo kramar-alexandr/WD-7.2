@@ -1,6 +1,7 @@
 external function LongInt DateDiff(Date,Date);
 external procedure ExtractObj(string,var Integer,var string);
 external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode);
+external function val AbsoluteVal(val);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -38,6 +39,7 @@ begin
 	record RetVc Retr;
 	row RetVc Retrw;
 	integer cnt,reti,retrwnt;
+	record INVc INr;
 	
 	ressize = 0;
 	
@@ -49,7 +51,22 @@ begin
 		end;
 	end;
 	
-	
+	matrowget(IVr,rownr,IVrw);
+	INr.Code = IVrw.ArtCode;
+	readfirstmain(INr,1,true);
+	if(INr.ItemType!=kItemTypeStocked)then begin
+		cost[ressize] = 0;
+		serial[ressize] = IVrw.SerialNr;
+		qty[ressize] = IVrw.Quant; 
+		curcost[ressize] = 0;
+		curncy[ressize] = IVr.CurncyCode;
+		rate[ressize] =	0;
+		indate[ressize] =	IVr.InvDate;
+		vecode[ressize] = "";
+
+		ressize = ressize + 1;
+		goto lCollect;
+	end;
 	
 	
 	if(updstock)then begin
@@ -65,13 +82,13 @@ begin
 			if(IHr.Row!=rownr)then begin TrHs = false; testf = false; end;
 			
 			if(testf)then begin
-				cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
+				cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty);
 				serial[ressize] = IHr.SerialNr;
 				qty[ressize] = -IHr.Qty; 
 				if(IHr.InFileName=="PUVc")then begin
 					PUr.SerNr = IHr.InSerNr;
 					if(readfirstmain(PUr,1,true))then begin
-						curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+						curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty);
 						curncy[ressize] = IHr.PUCurncyCode;
 						rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 						indate[ressize] =	PUr.TransDate;
@@ -97,13 +114,13 @@ begin
 							if(IHr.Row!=IVrw.SHRow)then begin TrHs = false; testf = false; end;
 			
 							if(testf)then begin
-								cost[ressize] = IHr.TotCostPrice / IHr.Qty*cred;
+								cost[ressize] = AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
 								serial[ressize] = IHr.SerialNr;
 								qty[ressize] = -IHr.Qty*cred; 
 								if(IHr.InFileName=="PUVc")then begin
 									PUr.SerNr = IHr.InSerNr;
 									if(readfirstmain(PUr,1,true))then begin
-										curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
+										curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 										curncy[ressize] = IHr.PUCurncyCode;
 										rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 										indate[ressize] =	PUr.TransDate;
@@ -120,18 +137,14 @@ begin
 			if(cred<0)then begin
 				
 				cnt = 1;
-				//logtext(0,IVr.SerNr);
 				while(ReadRecordLink(IVr,cnt,Retr,RLr)) begin
 					cnt = cnt+1;
 					
 					if(Retr.SerNr>-1)then begin
-						//logtext(0,"RetVc " & Retr.SerNr);
 						retrwnt = matrowcnt(Retr);
-						//LOGTEXT(0,"retrwnt" & retrwnt);
 						For(reti=0;reti<retrwnt;reti=reti+1) begin
 	  					matrowget(Retr,reti,Retrw);
-	  					
-	  					//LOGTEXT(0,IVrw.OrdRow & "__" & Retrw.OrdRow);
+
 	  					if(IVrw.OrdRow>=0 and IVrw.OrdRow==Retrw.OrdRow)then begin
 							IHr.FileName = "RetVc";
 							IHr.TransNr = Retr.SerNr;
@@ -143,14 +156,13 @@ begin
 								if(IHr.Row!=reti)then begin TrHs = false; testf = false; end;
 			
 								if(testf)then begin
-									//logtext(0,"RetVc IHR " & IHr.TransNr);
-									cost[ressize] = IHr.TotCostPrice / IHr.Qty*cred;
+									cost[ressize] = AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
 									serial[ressize] = IHr.SerialNr;
 									qty[ressize] = IHr.Qty*cred; 
 									if(IHr.InFileName=="PUVc")then begin
 										PUr.SerNr = IHr.InSerNr;
 										if(readfirstmain(PUr,1,true))then begin
-											curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
+											curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 											curncy[ressize] = IHr.PUCurncyCode;
 											rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 											indate[ressize] =	PUr.TransDate;
@@ -197,8 +209,8 @@ begin
 											if(IHr.InFileName=="PUVc")then begin
 												PUr.SerNr = IHr.InSerNr;
 													if(readfirstmain(PUr,1,true))then begin
-														cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred;
-														curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
+														cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
+														curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 														curncy[ressize] = IHr.PUCurncyCode;
 														if(PUr.CurncyCode!="USD")then begin
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
@@ -211,8 +223,8 @@ begin
 														qty[ressize] = -IHr.Qty*cred; 
 														ressize = ressize + 1;
 													end else begin
-														cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred*cred;
-														curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
+														cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred*cred);
+														curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 														curncy[ressize] = IHr.PUCurncyCode;
 														if(PUr.CurncyCode!="USD")then begin
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
@@ -226,8 +238,8 @@ begin
 														ressize = ressize + 1;
 													end;
 											end else begin
-													cost[ressize] = 	IHr.TotCostPrice / IHr.Qty;
-													curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty;
+													cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty);
+													curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty);
 													curncy[ressize] = IHr.PUCurncyCode;
 													if(PUr.CurncyCode!="USD")then begin
 														rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
@@ -259,37 +271,31 @@ begin
 						if(IHr.SerialNr!=IVrw.SerialNr)then begin TrHs = false; testf = false; end;
 						
 						if(testf and (IHr.InFileName=="PUVc"))then begin
-								PUr.SerNr = IHr.InSerNr;
-								if(readfirstmain(PUr,1,true))then begin
-          		
-									cost[ressize] = 	IHr.TotCostPrice / IHr.Qty*cred;
-									curcost[ressize] = 	IHr.TotCostPriceCurncy / IHr.Qty*cred;
-									curncy[ressize] = IHr.PUCurncyCode;
-									if(PUr.CurncyCode!="USD")then begin
-										rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
-									end else begin
-										rate[ressize] = blankval;
-									end;
-									indate[ressize] =	IHr.TransDate;
-									vecode[ressize] = PUr.VECode;
-									serial[ressize] = IHr.SerialNr;
-									qty[ressize] = -IHr.Qty*cred; 
-									ressize = ressize + 1;
+							PUr.SerNr = IHr.InSerNr;
+							if(readfirstmain(PUr,1,true))then begin
+								cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
+								curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
+								curncy[ressize] = IHr.PUCurncyCode;
+								if(PUr.CurncyCode!="USD")then begin
+									rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+								end else begin
+									rate[ressize] = blankval;
 								end;
-				  	
+								indate[ressize] =	IHr.TransDate;
+								vecode[ressize] = PUr.VECode;
+								serial[ressize] = IHr.SerialNr;
+								qty[ressize] = -IHr.Qty*cred; 
+								ressize = ressize + 1;
+							end;
 						end;
 					end;
-
 			end;//End-----------------------------edit
-
-
 		end;
-
-
-
-		
 	end;
 		
+		
+lCollect:;
+
 return;
 end;
 
@@ -522,19 +528,19 @@ begin
 							
 							t = blankval;
 							if(curncy[j]=="USD")then begin
-								outval(i15,0,-curcost[j],m4UVal,false);
-								outval(i16,0,-cost[j],m4UVal,false);
+								outval(i15,0,curcost[j],m4UVal,false);
+								outval(i16,0,cost[j],m4UVal,false);
 							end else begin
-								outval(i15,0,-curcost[j],m4UVal,false);
-								CurValToOtherCur(indate[j],"USD",-cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
+								outval(i15,0,curcost[j],m4UVal,false);
+								CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
 								t = t / invfr * invto1;
 								outval(i16,0,t,m4UVal,false);
 							end;
 							
 							
-							sumcostcur = -curcost[j] * qty[j]*cred;
+							sumcostcur = curcost[j] * qty[j];
 							outstring(i17,0,ValToMyString(sumcostcur,3),false);
-							sumcostusd = -cost[j] * qty[j]*cred;
+							sumcostusd = cost[j] * qty[j];
 							outstring(i18,0,ValToMyString(sumcostusd,3),false);
 							
 							
@@ -584,7 +590,7 @@ begin
 							t = blankval;
 							outval(i15,0,0,m4UVal,false);
 							outval(i16,0,IVrw.FIFORowVal/IVrw.Quant,m4UVal,false);
-							sumcostcur = -curcost[j] * (IVrw.Quant*cred - foundqty);
+							sumcostcur = curcost[j] * (IVrw.Quant*cred - foundqty);
 							outstring(i17,0,"",false);
 							sumcostusd = IVrw.FIFORowVal/IVrw.Quant * (IVrw.Quant*cred - foundqty);
 							outstring(i18,0,ValToMyString(sumcostusd,3),false);
@@ -828,15 +834,15 @@ begin
 								//outval(i16,0,-cost[j],m4UVal,false);
 							end else begin
 								//outval(i15,0,-curcost[j],m4UVal,false);
-								CurValToOtherCur(indate[j],"USD",-cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
+								CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
 								t = t / invfr * invto1;
 								//outval(i16,0,t,m4UVal,false);
 							end;
 							
 							
-							sumcostcur = -curcost[j] * qty[j]*cred;
+							sumcostcur = curcost[j] * qty[j]*cred;
 							//outstring(i17,0,ValToMyString(sumcostcur,3),false);
-							sumcostusd = -cost[j] * qty[j]*cred;
+							sumcostusd = cost[j] * qty[j]*cred;
 							//outstring(i18,0,ValToMyString(sumcostusd,3),false);
 							
 							
@@ -885,7 +891,7 @@ begin
 							t = blankval;
 							//outval(i15,0,-curcost[j],m4UVal,false);
 							//outval(i16,0,-cost[j],m4UVal,false);
-							sumcostcur = -curcost[j] * (IVrw.Quant*cred - foundqty)*cred;
+							sumcostcur = curcost[j] * (IVrw.Quant*cred - foundqty)*cred;
 							//outstring(i17,0,ValToMyString(sumcostcur,3),false);
 							sumcostusd = IVrw.FIFORowVal / IVrw.Quant * (IVrw.Quant*cred - foundqty);
 							//outstring(i18,0,ValToMyString(sumcostusd,3),false);

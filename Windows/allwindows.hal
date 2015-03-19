@@ -5177,7 +5177,7 @@ begin
   if (blank(label)) then begin label = "Extra Cost 5";end;
   EditField(h,v+=vs,70,label,Normal,Cost5,false,0);
 */  
-  SpecialMenu("Create #Credit Note#",'F',0,"CredVIFromRetPUDsm"); //!!PRODTRANSLATE
+  SpecialMenu("Створити кредитову акт/накладну",'F',0,"CredVIFromRetPUDsm");
   if (HasModNL) then begin
   SpecialMenu("Відкрити запис операції",'t',1,"OpenTRFromRetPU");
   end;
@@ -6967,7 +6967,10 @@ begin
   //TileButton(3,"Коментар");
   TileButton(3,"Валюта");
   Tile(1,70,false,"1",PayDeal);
-  EditField(h=90,vm=(v=6), 20,"Умов.спл.",Normal,PayDeal,false,PDSClass);
+  EditField(h=60,vm=(v=6), 20,"Умов.спл.",Normal,PayDeal,false,PDSClass);
+  
+  EditField(h+130,vm,60,"Класс замовлення",Normal,OrderClass,false,OrderClassSClass);// Edit ************************** Wednesday, 4 March 2015 15:52:13
+
   //EditField(h,v+=vs,130,"Відповід.",Normal,OurContact,false,0);// Edit ************************** Tuesday, 1 June 2010 10:58:05 AM
   EditField(h,v+=2*vs,130,"Конт. особа",Normal,CustContact,false,ContactSClass);
   EditField(h2=350,v=vm,100,"Дата замовлення",Normal,TransDate,false,PasteCurDate);
