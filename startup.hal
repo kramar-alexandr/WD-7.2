@@ -111,6 +111,7 @@ begin
   SString(31038,"2*4");
   SString(31039,"4*4");
   SString(31040,"7*3 стик.");
+  SString(31041,"Цей номер вже зареєстровано на одному зі складів");
   
   StrSetAdd(3);
     StrSetText(DisallowExtraCUDClass,"Заборонити повну карточку клієнта");
