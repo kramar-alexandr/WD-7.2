@@ -228,6 +228,42 @@ integer compno;
 return;
 end;
 
+
+global procedure InvUpdStoRn(record RcVc RepSpec)
+begin
+	record ItemHistVc IHr;
+	record IVVc IVr;
+	boolean TrHs,testf;
+	
+  startreportnoheaderjob("CHECK");
+
+	
+	TrHs = true; 
+	IHr.FileName = "IVVc";
+	while(loopkey("FNArtCode",IHr,1,TrHs))begin
+		testf = true;
+		if(IHr.FileName!="IVVc")then begin TrHs = false; testf = false; end;
+		if(IHr.StockAffectf==1)then begin testf = false; end;
+		
+		if(testf)then begin
+			IVr.SerNr = IHr.TransNr;
+			if(readfirstmain(IVr,1,true))then begin
+				if(IVr.UpdStockFlag==1)then begin
+					STARTFORMAT(15);
+						outstring(0,"DblIVVc",IHr.TransNr,false);
+						outstring(100,0,IHr.ArtCode,false);
+						outstring(200,0,IHr.SerNr,false);
+					endformat;
+				end;
+			end;
+		end;
+	end;
+	
+	endjob;
+	
+return;
+end; 
+
 global procedure FullStockTRWH2En() //Edit***************************Sasha2,11:42 22.09.2014 {
 begin
 record RcVc RepSpec;

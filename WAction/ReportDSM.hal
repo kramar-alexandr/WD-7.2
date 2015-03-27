@@ -1,0 +1,17 @@
+global 
+procedure DblWebSyncReg(string dblstr,string l,Integer currepwn)
+begin
+   Integer wn;
+   record WebSyncRegVc WSr;
+   
+   WSr.ArtCode = dblstr;
+   if (ReadFirstMain(WSr,1,true)) then begin 
+     wn = OpenWindow("WebSyncRegDClass",1,0,"","",WSr);
+   end;
+   
+   return;
+end;
+
+
+
+

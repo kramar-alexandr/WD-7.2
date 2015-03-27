@@ -11,7 +11,7 @@ SourceFile("halcust\\RActions",0);
 SourceFile("halcust\\Synchronization",0);
 SourceFile("halcust\\FPrinter",0);
 SourceFile("halcust\\LabelPrint",0);
-
+SourceFile("halcust\\WebShop",0);// Edit ************************** Thursday, 26 March 2015 10:36:06
 SourceFile("halcust\\SetComp",0);
 
 procedure INVcDefinition()
@@ -2246,7 +2246,57 @@ EndRecord;
   KeySegment(TransDate);
   KeySegment(SerNr);
   EndRecord;
+	
+	RecordBegin(WebSyncRegVc,-,"");
+		RecordField(ArtCode,M4Code,20,INVc);
+		RecordField(Price,M4Val,0,0);
+		RecordField(Available,M4Str,100,0);
+		RecordField(DateChange,M4Date,0,0);
+		RecordField(ParamInt1,M4Int,0,0);
+		RecordField(ParamInt2,M4Int,0,0);
+		RecordField(ParamStr1,M4Str,200,0);
+		RecordField(ParamStr2,M4Str,200,0);
+		RecordField(ParamVal1,M4Val,0,0);
+		RecordField(ParamVal2,M4Val,0,0);
+		RecordField(Math,M4Matrix,0,0);
+		ArrayBegin(Math,-,1);
+			ArrayField(Location,M4Str,200,0);
+			ArrayField(Qty,M4Int,0,0);
+			ArrayField(ID,M4Int,0,0);
+			ArrayField(Price,M4Val,0,0);
+			ArrayField(MyVal,M4Val,0,0);
+			ArrayField(MyInt,M4Int,0,0);
+			ArrayField(MyStr,M4Str,200,0);
+		EndArray;
+		MainKeyBegin(ArtCode,0);
+		KeySegment(ArtCode);
+		KeyBegin(DateChange);
+		KeySegment(DateChange);
+		KeySegment(ArtCode);
+	EndRecord;
 
+	BlockBegin(WebSyncBlock,-,"");
+		RecordField(DateLastTime,M4Date,0,0);
+		RecordField(DefPriceList,M4Str,10,0);
+		RecordField(ParamIn1,M4Int,0,0);
+		RecordField(ParamIn2,M4Int,0,0);
+		RecordField(ParamStr1,M4Str,200,0);
+		RecordField(ParamStr2,M4Str,200,0);
+		RecordField(ParamVal1,M4Val,0,0);
+		RecordField(ParamVal2,M4Val,0,0);
+	EndBlock;
+
+	BlockBegin(WebSyncMatBlock,-,"");
+		RecordField(Math,M4Matrix,0,0);
+		ArrayBegin(Math,-,1);
+			ArrayField(Location,M4Str,200,0);
+			ArrayField(ID,M4INt,0,0);
+			ArrayField(LocPrice,M4Val,0,0);
+			ArrayField(MyVal,M4Val,0,0);
+			ArrayField(MyInt,M4Int,0,0);
+			ArrayField(MyStr,M4Str,200,0);
+		EndArray;
+	EndBlock;
 	
 return;
 end;

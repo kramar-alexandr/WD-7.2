@@ -183,3 +183,73 @@ integer compnr;
       end;
 return;
 end;
+
+global updating procedure DellZerroWebSyncRegMn(record RcVc repspec)
+begin
+integer lenth,k,i;
+string 200 available,aval,newaval;
+string 5 achar,char;
+record WebSyncRegVc WSr;
+	
+	
+	
+	WSr.ArtCode = "";
+	aval = "0";
+	while(loopmain(WSr,1,true)) begin
+		if(setinset(aval,WSr.Available))then begin
+			lenth = len(WSr.Available);
+			achar = "";
+			char = "";
+			newaval = "";
+			
+			for(i=0;i<lenth;i=i+1)begin
+				char = mid(WSr.Available,i,1);
+				if(char!=",")then begin
+					achar = achar & char;
+				end else begin
+					if(achar!=aval)then begin
+						if(nonblank(newaval))then begin
+							newaval = newaval & "," & achar;
+						end else begin
+							newaval = achar;
+						end;
+					end;
+					achar = "";
+				end;
+			end;
+			if(achar!=aval)then begin
+				if(nonblank(newaval))then begin
+					newaval = newaval & "," & achar;
+				end else begin
+					newaval = achar;
+				end;
+			end;
+		WSr.Available = newaval;
+		recordstore(WSr,true);
+		end;
+	end;
+	
+return;
+end;
+
+global procedure WebSyncRegRn(record RcVc RepSpec)
+begin
+	record WebSyncRegVc WSr;
+	
+	
+	startreportnoheaderjob("‡вґт по вґртуальнґм товарам на веб-магазинґ");
+	
+	WSr.ArtCode = "";
+	while(loopmain(WSr,1,true)) begin
+		
+		if(setinset(0,WSr.Available))then begin
+			startformat(15);
+				outstring(0,"DblWebSyncReg",WSr.ArtCode,false);
+			endformat;
+		end;
+	end;
+	
+	endjob;
+	
+return;
+end;

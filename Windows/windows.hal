@@ -936,3 +936,86 @@ real h,h1,h2,h3,h4,t,v,vm,vs;
   
   return;
 end;
+
+
+window WebSyncTClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,f,v,vs;
+WindowBegin("Настройка синхронизации WEB",WebSyncTClass,CGSbl,-);
+  SetBlid(WebSyncBlock);
+  SetWRect(64,80,380,300);
+  h=100; f=200; v=6; vs=16;
+    EditField(h,v+=vs,f,"LastDateSync",Normal,DateLastTime,false,PasteCurDate); 
+    EditField(h,v+=vs,f,"Def PriceList",Normal,DefPriceList,false,PLDefSClass);
+  EndWindow;
+  return;
+end;
+
+window WebSyncMatTClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,f,v;
+  WindowBegin("Настройка WEB matrix",WebSyncMatTClass,CGHbl,-);
+    SetBlid(WebSyncMatBlock);
+    SetWRect(64,80,380,300);
+    h=100;f=200;v=6;
+      MatrixBegin(5,16,-20,-20,-,99);
+        MatCol(1,24,"Location",0,Location,false,LocationSClass);
+        MatCol(1,150,"ID",0,ID,false,0);
+      EndMatrix;
+  EndWindow;
+  return;
+end;
+
+window MyCrWebSyncVClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Create WebSynReg",MyCrWebSyncVClass,CGMnt,-);
+  SetWRect(20,80,400,300);
+  
+  EndWindow;
+	return;
+end;
+
+window WebSyncRegDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real v,vm;
+  WindowBegin("Web Sync Register",WebSyncRegDClass,CGview,-);
+  SetWRect(20,80,620,420);
+  Sizeable(-1,-1,0,0);
+  UseView(WebSyncRegVc);
+  EditField(75,vm=(v=6), 95,"ArtCode",Normal,ArtCode,false,INSClass);
+  EditField(75,v+=20,95, "DateChange",Normal,DateChange,false,PasteCurDate);
+  EditField(75,v+=20,95, "Price",Normal,Price,false,0);
+  EditField(75,v+=20,95, "Available",Normal,Available,false,0);
+  EndWindow;
+	return;
+end;
+
+window WebSyncRegLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Web Sync Registers",WebSyncRegLClass,CGmlist,-);
+  SpawnClass(WebSyncRegDClass);
+  SetWRect(20,80,580,298);
+  Sizeable(-1,-1,0,0);
+  UseView(WebSyncRegVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Code",ArtCode,false,ArtCode);
+  RlColKey(121,121, "Change date",DateChange,false,DateChange);
+  SearchField("Пошук");
+  EndWindow;
+  return;
+end;
+
+window DellZerroWebSyncRegVClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	WindowBegin("Знищити віртуальні товари з переліку синхронізації",DellZerroWebSyncRegVClass,CGMnt,-);
+  SetWRect(20,80,400,300);
+  
+  EndWindow;
+  return;
+end;
