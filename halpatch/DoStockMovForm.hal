@@ -300,6 +300,54 @@ LBREAKStockMov:;
           OUTFORMFIELD("F_VIAEMAIL",ViaLocr.Email);  
           OutAddress("F_VIAADRESS",ViaLocr.Addr0,ViaLocr.Addr1,ViaLocr.Addr2,ViaLocr.Addr3,ViaLocr.Addr4,"");
         end;  
+        
+        
+        
+				if (FIELDINFORM("MY_TOLOCKNAME")) then begin//jzs// Edit ************************** Monday, 11 March 2013 16:08:57
+					OUTFORMFIELD("MY_TOLOCKNAME",ToLocr.Name);        
+				end; 
+				if (FIELDINFORM("MY_TOLOCKADDR0")) then begin//jzs
+					OUTFORMFIELD("MY_TOLOCKADDR0",ToLocr.Addr0);        
+				end;
+				if (FIELDINFORM("MY_TOLOCKADDR1")) then begin//jzs
+					OUTFORMFIELD("MY_TOLOCKADDR1",ToLocr.Addr1);        
+				end;
+				if (FIELDINFORM("MY_TOLOCKADDR2")) then begin//jzs
+					OUTFORMFIELD("MY_TOLOCKADDR2",ToLocr.Addr2);        
+				end;
+				if (FIELDINFORM("MY_TOLOCKADDR3")) then begin//jzs
+					OUTFORMFIELD("MY_TOLOCKADDR3",ToLocr.Addr3);        
+				end;
+				if (FIELDINFORM("MY_TOLOCKADDR4")) then begin//jzs
+					OUTFORMFIELD("MY_TOLOCKADDR4",ToLocr.Addr4);        
+				end;
+				if (FIELDINFORM("MY_TOLOCKCONTACT")) then begin//jzs
+					OUTFORMFIELD("MY_TOLOCKCONTACT",ToLocr.Contact);        
+				end;
+				
+				if (FIELDINFORM("MY_FROMLOCKNAME")) then begin//jzs
+					OUTFORMFIELD("MY_FROMLOCKNAME",FromLocr.Name);        
+				end; 
+				if (FIELDINFORM("MY_FROMLOCKADDR0")) then begin//jzs
+					OUTFORMFIELD("MY_FROMLOCKADDR0",FromLocr.Addr0);        
+				end;
+				if (FIELDINFORM("MY_FROMLOCKADDR1")) then begin//jzs
+					OUTFORMFIELD("MY_FROMLOCKADDR1",FromLocr.Addr1);        
+				end;
+				if (FIELDINFORM("MY_FROMLOCKADDR2")) then begin//jzs
+					OUTFORMFIELD("MY_FROMLOCKADDR2",FromLocr.Addr2);        
+				end;
+				if (FIELDINFORM("MY_FROMLOCKADDR3")) then begin//jzs
+					OUTFORMFIELD("MY_FROMLOCKADDR3",FromLocr.Addr3);        
+				end;
+				if (FIELDINFORM("MY_FROMLOCKADDR4")) then begin//jzs
+					OUTFORMFIELD("MY_FROMLOCKADDR4",FromLocr.Addr4);        
+				end;
+				if (FIELDINFORM("MY_FROMLOCKCONTACT")) then begin//jzs
+					OUTFORMFIELD("MY_FROMLOCKCONTACT",FromLocr.Contact);        
+				end;// Edit ************************** Monday, 11 March 2013 16:08:56// Edit ************************** Monday, 11 March 2013 16:09:02
+          
+        
         OUTFORMFIELD("F_LEVDATUM",StockMovr.TransDate);
         OUTFORMFIELD("F_PLANSENTTIME",StockMovr.PlanSendTime);
         OUTFORMFIELD("F_PLANSENTDATE",StockMovr.PlanSendDate);
@@ -521,6 +569,53 @@ BEGIN
             OutAddress("F_VIAADRESS",ViaLocr.Addr0,ViaLocr.Addr1,ViaLocr.Addr2,ViaLocr.Addr3,ViaLocr.Addr4,"");
           end; 
                    
+          
+        
+					if (FIELDINFORM("MY_TOLOCKNAME")) then begin//jzs// Edit ************************** Monday, 11 March 2013 16:08:57
+						OUTFORMFIELD("MY_TOLOCKNAME",ToLocr.Name);        
+					end; 
+					if (FIELDINFORM("MY_TOLOCKADDR0")) then begin//jzs
+						OUTFORMFIELD("MY_TOLOCKADDR0",ToLocr.Addr0);        
+					end;
+					if (FIELDINFORM("MY_TOLOCKADDR1")) then begin//jzs
+						OUTFORMFIELD("MY_TOLOCKADDR1",ToLocr.Addr1);        
+					end;
+					if (FIELDINFORM("MY_TOLOCKADDR2")) then begin//jzs
+						OUTFORMFIELD("MY_TOLOCKADDR2",ToLocr.Addr2);        
+					end;
+					if (FIELDINFORM("MY_TOLOCKADDR3")) then begin//jzs
+						OUTFORMFIELD("MY_TOLOCKADDR3",ToLocr.Addr3);        
+					end;
+					if (FIELDINFORM("MY_TOLOCKADDR4")) then begin//jzs
+						OUTFORMFIELD("MY_TOLOCKADDR4",ToLocr.Addr4);        
+					end;
+					if (FIELDINFORM("MY_TOLOCKCONTACT")) then begin//jzs
+						OUTFORMFIELD("MY_TOLOCKCONTACT",ToLocr.Contact);        
+					end;
+				
+					if (FIELDINFORM("MY_FROMLOCKNAME")) then begin//jzs
+						OUTFORMFIELD("MY_FROMLOCKNAME",FromLocr.Name);        
+					end; 
+					if (FIELDINFORM("MY_FROMLOCKADDR0")) then begin//jzs
+						OUTFORMFIELD("MY_FROMLOCKADDR0",FromLocr.Addr0);        
+					end;
+					if (FIELDINFORM("MY_FROMLOCKADDR1")) then begin//jzs
+						OUTFORMFIELD("MY_FROMLOCKADDR1",FromLocr.Addr1);        
+					end;
+					if (FIELDINFORM("MY_FROMLOCKADDR2")) then begin//jzs
+						OUTFORMFIELD("MY_FROMLOCKADDR2",FromLocr.Addr2);        
+					end;
+					if (FIELDINFORM("MY_FROMLOCKADDR3")) then begin//jzs
+						OUTFORMFIELD("MY_FROMLOCKADDR3",FromLocr.Addr3);        
+					end;
+					if (FIELDINFORM("MY_FROMLOCKADDR4")) then begin//jzs
+						OUTFORMFIELD("MY_FROMLOCKADDR4",FromLocr.Addr4);        
+					end;
+					if (FIELDINFORM("MY_FROMLOCKCONTACT")) then begin//jzs
+						OUTFORMFIELD("MY_FROMLOCKCONTACT",FromLocr.Contact);        
+					end;// Edit ************************** Monday, 11 March 2013 16:08:56// Edit ************************** Monday, 11 March 2013 16:09:02
+          
+          
           OUTFORMFIELD("F_LEVDATUM",StockMovr.TransDate);
           OUTFORMFIELD("F_PLANSENTTIME",StockMovr.PlanSendTime);
           OUTFORMFIELD("F_PLANSENTDATE",StockMovr.PlanSendDate);

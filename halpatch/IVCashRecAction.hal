@@ -1465,7 +1465,7 @@ u might want to put loyalty card or bagger 1st
 */        
         switch (INr.SerNrf) begin
           case 1:
-            if (blank(IVCashrw.SerialNr)) then begin
+            if (blank(IVCashrw.SerialNr) and IVCashr.OKFlag==1) then begin// Edit ************************** Wednesday, 1 April 2015 09:49:33
               RecordCheckError(1239,"  " & IVCashrw.ArtCode,i,"SerialNr");      
               res = -1; 
               goto LIVCashVcRecordCheck;
@@ -1532,7 +1532,7 @@ u might want to put loyalty card or bagger 1st
         end;
       end;
       if ((check==true) and (testf==true)) then begin
-        if (IVCashr.UpdStockFlag==0/*IVCashr.UpdStockFlag!=0 or (MSb.ChkSerNumOnNonStockIVCash!=0 and IVCashr.AllowIncorrectSerial==0)*/) then begin //Edit***************************Sasha2,10:22 15.10.2014
+        if (IVCashr.UpdStockFlag==0/*IVCashr.UpdStockFlag!=0 or (MSb.ChkSerNumOnNonStockIVCash!=0 and IVCashr.AllowIncorrectSerial==0)*/ and IVCashr.OKFlag==1) then begin //Edit***************************Sasha2,10:22 15.10.2014
           if (INr.SerNrf>0) then begin
             if (IsSerialNrCorrect(IVCashrw.SerialNr)==false) then begin
               RecordCheckError(24154,IVCashrw.SerialNr,i,"SerialNr");      
