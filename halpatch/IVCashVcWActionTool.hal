@@ -114,7 +114,7 @@ begin
       end;
       lrwcnt = MatRowCnt(LLPr);
       if (lrwcnt==0) then begin
-        IVCashr.Points = (LLPr.Points/LLPr.Amount) * Round(t,rnd);
+        IVCashr.Points = (LLPr.Points/LLPr.Amount) * Round(IVCashr.Sum4,rnd); //Edit***************************Sasha2,18:00 07.04.2015
       end else begin
         for (i=0;i<rwcnt;i=i+1) begin
           MatRowGet(IVCashr,i,IVCashrw);
@@ -144,14 +144,14 @@ begin
               end;
               if (testf) then begin
                 t = MulRateToBase1(IVCashr.CurncyCode,sum,IVCashr.FrRate,IVCashr.ToRateB1,IVCashr.ToRateB2,IVCashr.BaseRate1,IVCashr.BaseRate2,DefaultCurRoundOff);
-                IVCashr.Points = IVCashr.Points + (LLPrw.Points/LLPrw.Amount) * Round(t,rnd);
+                IVCashr.Points = IVCashr.Points + (LLPrw.Points/LLPrw.Amount) * Round(sum,rnd); //Edit***************************Sasha2,18:01 07.04.2015
                 li = lrwcnt;
                 calculatedf = true;
               end;
             end;
             if (calculatedf==false) then begin
               t = MulRateToBase1(IVCashr.CurncyCode,sum,IVCashr.FrRate,IVCashr.ToRateB1,IVCashr.ToRateB2,IVCashr.BaseRate1,IVCashr.BaseRate2,DefaultCurRoundOff);
-              IVCashr.Points = IVCashr.Points + (LLPr.Points/LLPr.Amount) * Round(t,rnd);
+              IVCashr.Points = IVCashr.Points + (LLPr.Points/LLPr.Amount) * Round(sum,rnd); //Edit***************************Sasha2,18:01 07.04.2015
             end;
           end;
         end;
@@ -171,7 +171,7 @@ begin
         end;
         lrwcnt = MatRowCnt(LPr);
         if (lrwcnt==0) then begin    
-          IVCashr.Points = (LPr.Points/LPr.Amount) * Round(t,rnd);
+          IVCashr.Points = (LPr.Points/LPr.Amount) * Round(IVCashr.Sum4,rnd); //Edit***************************Sasha2,18:02 07.04.2015
         end else begin
           for (i=0;i<rwcnt;i=i+1) begin
             MatRowGet(IVCashr,i,IVCashrw);
@@ -201,14 +201,14 @@ begin
                 end;
                 if (testf) then begin
                   t = MulRateToBase1(IVCashr.CurncyCode,sum,IVCashr.FrRate,IVCashr.ToRateB1,IVCashr.ToRateB2,IVCashr.BaseRate1,IVCashr.BaseRate2,DefaultCurRoundOff);
-                  IVCashr.Points = IVCashr.Points + (LPrw.Points/LPrw.Amount) * Round(t,rnd);
+                  IVCashr.Points = IVCashr.Points + (LPrw.Points/LPrw.Amount) * Round(sum,rnd); //Edit***************************Sasha2,18:02 07.04.2015
                   calculatedf = true;
                   li = lrwcnt;
                 end;
               end;
               if (calculatedf==false) then begin
                 t = MulRateToBase1(IVCashr.CurncyCode,sum,IVCashr.FrRate,IVCashr.ToRateB1,IVCashr.ToRateB2,IVCashr.BaseRate1,IVCashr.BaseRate2,DefaultCurRoundOff);
-                IVCashr.Points = IVCashr.Points + (LPr.Points/LPr.Amount) * Round(t,rnd);
+                IVCashr.Points = IVCashr.Points + (LPr.Points/LPr.Amount) * Round(sum,rnd); //Edit***************************Sasha2,18:02 07.04.2015
               end;
             end;
           end;        
