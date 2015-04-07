@@ -1253,9 +1253,13 @@ begin
                     ISr.RsrvQty = 0;// Edit ************************** Monday, July 7, 2014 at 12:18:22
                   end;// Edit ************************** Monday, July 7, 2014 at 12:18:24
                   if ((orsrv)>(ISr.Instock-ISr.RsrvQty+orsrved)) then begin // StockRsrvQty ?
-                    RecordCheckError(20011,"",i,"Quant");      
-                    res = -1;
-                    goto LORVcRecordCheck;
+                    if(ORr.OrderClass!="SHOPS")then begin
+											RecordCheckError(20011,"",i,"Quant");      
+											res = -1;
+											goto LORVcRecordCheck;
+                    end else begin
+                    	Messagebox(20011," " & ORrw.ArtCode & " " & USetStr(6716) & " " & i);// Edit ************************** Monday, 6 April 2015 10:25:33
+                    end;
                   end;
                 case 2:
 //                  checkit

@@ -1031,6 +1031,16 @@ integer compnr;
 				end;
 				      	
         switch(compnr)begin
+        	case 1: filename = "Reports/1/FullSalesRep.xls";
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									SalesReportRn(RepSpec);
+									closefile;
+									RunProgram("Reports/1/FullSalesRep.sh","");
+									
         	case 2: filename = "Reports/2/FullSalesRep.xls";
           				delete_file(filename);
 									CreateFile(filename);

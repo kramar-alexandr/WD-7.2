@@ -496,6 +496,9 @@ BEGIN
   if ((MatRowCnt(SHp)>0) and (SHp.SerNr!=-1)) then begin
     SHSumUp(SHp);
     if (RecordInsert(SHp,false)) then begin
+    	CreateRecordLink(ORr,CurrentCompany,SHp,CurrentCompany);// Edit ************************** Friday, 17 March 2015 12:47:23
+      CreateRecordLink(SHp,CurrentCompany,ORr,CurrentCompany);// Edit ************************** Friday, 17 March 2015 12:47:23
+      
       res = StoreShipmentStockMovements(SHp,aStockMovr,asmcnt,false);
       if (res==false) then begin goto LSaveShipment; end;
       srw = 0;

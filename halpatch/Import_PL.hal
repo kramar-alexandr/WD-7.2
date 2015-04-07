@@ -78,3 +78,21 @@ begin
  return;
 end;
 	 
+	 
+global
+updating procedure ImpDocVc()
+BEGIN
+
+    RegisterImport("doc3");
+
+  RETURN;
+END;
+
+global
+updating procedure ImpStylesVc()
+BEGIN
+
+    RegisterImport("styles2");
+
+  RETURN;
+END;

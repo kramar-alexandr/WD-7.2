@@ -188,7 +188,7 @@ begin
 	// Edit End ---------------------------------------------- Edit End
 	
   
-  //IVCashr.PayDeal2 = DCb.DefGCSPayMode;
+  IVCashr.PayDeal2 = DCb.DefGCSPayMode;
   //IVCashr.PayDeal3 = DCb.DefGCRPayMode;// Edit ************************** Monday, 15 April 2013 17:19:56
   
   IVCashr.Objects = "";
@@ -1465,7 +1465,7 @@ u might want to put loyalty card or bagger 1st
 */        
         switch (INr.SerNrf) begin
           case 1:
-            if (blank(IVCashrw.SerialNr) and IVCashr.OKFlag==1) then begin// Edit ************************** Wednesday, 1 April 2015 09:49:33
+            if (blank(IVCashrw.SerialNr)) then begin
               RecordCheckError(1239,"  " & IVCashrw.ArtCode,i,"SerialNr");      
               res = -1; 
               goto LIVCashVcRecordCheck;

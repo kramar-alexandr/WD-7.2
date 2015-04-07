@@ -74,7 +74,7 @@ BEGIN
 	//Monday, 5 January 2015 16:10:44
 	
     if (FIELDINFORM("MY_PRICE")) then begin
-      PLr.PLCode = "RRP_U";
+      PLr.PLCode = "RRP";
       if(currentcompany==2)then begin
       	switch(StockMovr.ToLocation)begin
       		case "STORE": PLr.PLCode = "IM-1";

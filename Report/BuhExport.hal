@@ -56,11 +56,14 @@ Boolean doctypef; //Edit***************************Sasha2,11:33 16.02.2015
     case "KK" :       p1 = "Готівка Караван";
                       p2 = "Термінал Караван";
                         
-    case "O1" :       p1 = "Готівка Олимп";
+    case "OL" :       p1 = "Готівка Олимп";
                       p2 = "Термінал Олимп";
 
-    case "LOP" :      p1 = "Готівка Львів";
+    case "LV" :      p1 = "Готівка Львів";
                       p2 = "Термінал Львів";
+                      
+    case "GL" :      p1 = "Готівка Гулівер";
+                      p2 = "Термінал Гулівер";
     
     case "KOP" :      p1 = "Готівка Океан Плаза";
                       p2 = "Термінал Океан Плаза";
@@ -214,152 +217,32 @@ record RcVc RepSpec;
 string 50 filename;
       compno = CurrentCompany;
       switch (compno) begin
-      /*case 1: RepSpec.d1=addday(CurrentDate,-1);
-              SetFileOnServer(true);
-              RepSpec.f1 = "DN_KARAVAN";
-              filename = "Buh/1/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "KDN";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-            
-              RepSpec.f1 = "DREAM_TOWN";
-              filename = "Buh/1/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "KDT";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-
-              RepSpec.f1 = "D_DEKOR_D";
-              filename = "Buh/1/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "DD";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-
-              RepSpec.f1 = "KH_KARAVAN";
-              filename = "Buh/1/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "KHK";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-
-              RepSpec.f1 = "KIEV_KARAVAN";
-              filename = "Buh/1/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "KK";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-
-              RepSpec.f1 = "NONAME";
-              filename = "Buh/1/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "O1";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);          
-              
-              RepSpec.f1 = "LV_OPERA_PASSAGE";
-              filename = "Buh/1/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "LOP";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-            
-              RepSpec.f1 = "OCEAN_PLAZA";
-              filename = "Buh/1/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "KOP";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);  
-              
-              RepSpec.f1 = "GULLIVER";
-              filename = "Buh/1/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "KG";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-      
-              RunProgram("Buh/1/BuhExport.sh", "");
-              SetFileOnServer(false);*/
-              
-     /* case 2: RepSpec.d1=addday(CurrentDate,-1);
-              SetFileOnServer(true);
-              RepSpec.f1 = "IPOINT";
-              filename = "Buh/2/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "P1";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-              
-              RepSpec.f1 = "SAMSUNG_OLYMP";
-              filename = "Buh/2/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "S1";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);
-              
-              RepSpec.f1 = "SAMSUNG_OLYMP2";
-              filename = "Buh/2/" & RepSpec.f1 & ".txt";
-              RepSpec.f1 = "S2";
-              RepSpec.f2 = filename;
-              CreateFile(filename);
-              closefile;
-              millisleep(100);
-              openexportfile(filename,true);
-              ExportCashInvoicesEn(RepSpec);              
-            
-              RunProgram("Buh/2/BuhExport.sh", "");
-              SetFileOnServer(false);*/
-              
-      case 4: /*RepSpec.d1=addday(CurrentDate,-1);
-              SetFileOnServer(true);
-              RepSpec.f1 = "STORE";
+      case 1: RepSpec.d1=addday(CurrentDate,-1);
+              RepSpec.f1 = "OL";
               filename = "Buh/" & RepSpec.f1 & ".txt";
               RepSpec.f2 = filename;
               CreateFile(filename);
               closefile;
               millisleep(100);
-              openexportfile(filename,true);
               ExportCashInvoicesEn(RepSpec);
-    
-              RunProgram("Buh/BuhExport.sh", "");
-    
-              SetFileOnServer(false);*/
-
-			        RepSpec.d1=addday(CurrentDate,-1);
-              //SetFileOnServer(true);
+              RepSpec.f1 = "LV";
+              filename = "Buh/" & RepSpec.f1 & ".txt";
+              RepSpec.f2 = filename;
+              CreateFile(filename);
+              closefile;
+              millisleep(100);
+              ExportCashInvoicesEn(RepSpec);
+              RepSpec.f1 = "GL";
+              filename = "Buh/" & RepSpec.f1 & ".txt";
+              RepSpec.f2 = filename;
+              CreateFile(filename);
+              closefile;
+              millisleep(100);
+              ExportCashInvoicesEn(RepSpec);
+              
+              RunProgram("Buh/BuhExportiStore.sh", "");  
+              
+      case 4: RepSpec.d1=addday(CurrentDate,-1);
               RepSpec.f1 = "D1";
               filename = "Buh/" & RepSpec.f1 & ".txt";
               RepSpec.f2 = filename;
@@ -368,36 +251,7 @@ string 50 filename;
               millisleep(100);
               //openexportfile(filename,true);
               ExportCashInvoicesEn(RepSpec);
-              RunProgram("Buh/BuhExportDream.sh", "");
-    
-              //SetFileOnServer(false);
-			        /*RepSpec.d1=addday(CurrentDate,-1);
-      				//SetFileOnServer(true);
-      				RepSpec.f1 = "D2";
-      				filename = "Buh/" & RepSpec.f1 & ".txt";
-      				RepSpec.f2 = filename;
-      				CreateFile(filename);
-      				closefile;
-      				millisleep(100);
-      				//openexportfile(filename,true);
-      				ExportCashInvoicesEn(RepSpec);
-              RunProgram("Buh/BuhExportDream2.sh", "");*/
-              //SetFileOnServer(false);
-            
-            	/*RepSpec.d1=addday(CurrentDate,-1);
-      				SetFileOnServer(true);
-      				RepSpec.f1 = "S_DT_ST2";
-      				filename = "Buh/" & RepSpec.f1 & ".txt";
-      				RepSpec.f2 = filename;
-      				CreateFile(filename);
-      				closefile;
-      				millisleep(100);
-      				openexportfile(filename,true);
-      				ExportCashInvoicesEn(RepSpec);
-            
-              RunProgram("Buh/BuhExportDream3.sh", "");
-    
-              SetFileOnServer(false);   */      
+              RunProgram("Buh/BuhExportDream.sh", "");    
       end;
   closefile;
 return;

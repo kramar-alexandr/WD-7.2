@@ -4,10 +4,13 @@ external procedure RetailSalesEn();
 
 global webpublic updating Procedure WebRunRetailSalesEn() //Edit***************************Sasha2,15:18 04.07.2014
 begin
+	integer compnr;
 	
-	SetCompany(4,false);
+	compnr = stringtoint(webgetarg(compnr));
+	
+	SetCompany(compnr,false);
 		RetailSalesEn;
-	ResetCompany(4);  
+	ResetCompany(compnr);  
 	
 return;
 end; 

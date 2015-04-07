@@ -80,7 +80,8 @@ begin
     UseView(RcVc);
     SetWRect(20,120,350,300);
     h=100; v=20;
-    EditField(h,20,70,"Склад",Normal,f1,false,LocationSClass); //Edit***************************Sasha2,11:31 22.09.2014
+    EditField(h,v,70,"Склад",Normal,f1,false,LocationSClass); //Edit***************************Sasha2,11:31 22.09.2014
+    EditField(h,v=v+16,70,"Прайс",Normal,f2,false,PLDefSClass); //Edit***************************Sasha2,11:31 22.09.2014
     ButtonFrame(h,v=vm+60,140,2,"Режим");
 		RadioButton(h,v,0,0,"Зведено",ArtMode);
 		RadioButton(h,v+=16,1,0,"Детально",ArtMode);
@@ -421,6 +422,16 @@ begin
   StaticText(10,vs=vs+20,"1 стовпчик: Прейскурант",false);
   StaticText(10,vs=vs+20,"2 стовпчик: Товар",false);
   StaticText(10,vs=vs+20,"3 стовпчик: Ціна (Роздільник десяткових і тисячних \".\", але без роздільника тисяч)",false);
+  EndWindow;
+end;
+
+window ImportUniversalLClass:1 //Edit***************************Sasha2,9:58 02.10.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real vs;
+  WindowBegin("Импорт",ImportUniversalLClass,CGIcW,RcType);
+  SetWRect(80,80,530,190);    
+
   EndWindow;
 end;
 

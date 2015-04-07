@@ -116,7 +116,7 @@ string 50 filename;
       
       if(GetDateID(currentdate)==1 or GetDateID(currentdate)==3)then begin
         switch(compnr)begin
-          //case 1: filename = "Stock/ISTORDebitorka.xls";
+          case 1: filename = "Stock/ISTORDebitorka.xls";
           case 2: filename = "Stock/ITEKUADebitorka.xls";
           //case 3: filename = "Stock/WDDebitorka.xls";
           case 4: filename = "Stock/ICDebitorka.xls";//PPhL
@@ -142,7 +142,7 @@ string 50 filename;
         closefile;
         
         switch(compnr)begin
-          //case 1: RunProgram("Stock/ISTORDebitorka.sh","");
+          case 1: RunProgram("Stock/ISTORDebitorka.sh","");
           case 2: RunProgram("Stock/ITEKUADebitorka.sh","");
           //case 3: RunProgram("Stock/WDDebitorka.sh","");
           case 4: RunProgram("Stock/ICDebitorka.sh","");//PPhL

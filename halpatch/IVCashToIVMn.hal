@@ -39,6 +39,10 @@ begin
 																			paymode = LMAbrw.TermID;
 																			res = true;
 																			goto LSearchPayMode;
+						case kInvoiceRowTypeGiftVoucherPayment:// Edit ************************** Thursday, 2 April 2015 14:19:30
+																			paymode = LMAbrw.SertID;// Edit ************************** Thursday, 2 April 2015 14:19:31
+																			res = true;
+																			goto LSearchPayMode;
 
 				end;
 		end;
@@ -105,9 +109,12 @@ begin
 	LongInt startSerNr;
 	val fr,to1,to2,br1,br2;
 	record CUVc CUr;
-
+	record LocalMachineAccBlock LMAb;
+	row LocalMachineAccBlock LMAbrw;
+	
 	recordNew(IVr);
-
+	
+	blockload(LMAb);
 
 	IVCashr.SerNr = IVCashSerNr;
 	if (ReadFirstMain(IVCashr,1,true)==false)then begin	
@@ -143,6 +150,15 @@ begin
 	
 	IVr.CustCode = IVCashr.CustCode;
 	PasteCust2InInv(IVr,LMb,IVCashr.CustCode,true,warning,errstr,prepstr,invdatewarn,transdatewarn);
+	IVr.Objects = "";// Edit ************************** Tuesday, 7 April 2015 10:34:05
+	rwcnt = matrowcnt(LMAb);
+	For(i=0;i<rwcnt;i=i+1) begin
+		matrowget(LMAb,i,LMAbrw); 
+		if(IVCashr.LocalMachineCode==LMAbrw.LocalMachine)then begin
+			IVr.Objects = LMAbrw.Objects;
+		end; 
+	end; 
+	
 	IVr.InvDate = IVCashr.InvDate;
 	IVr.TransDate = IVCashr.TransDate;
 	IVVc_PasteTransDate(IVr,err1,err2);
@@ -190,6 +206,28 @@ begin
 				IVrw.PayMode = paymode;
 		end;       
 		IVrw.Spec = UsetStr(20801);
+		IVrw.CurncyCode = IVr.CurncyCode; 
+		GetFullCurncyRate(IVrw.CurncyCode,IVr.TransDate,fr,to1,to2,br1,br2);   
+		IVrw.CurncyCode = IVr.CurncyCode; 
+		IVrw.FrRate = fr;
+		IVrw.ToRateB1 = to1;     
+		IVrw.ToRateB2 = to2;
+		IVrw.BaseRate1 = br1;
+		IVrw.BaseRate2 = br2;
+		MatRowPut(IVr,i,IVrw);
+		IVSumup(IVr,true); 
+		i = i + 1;
+	end;
+	
+	if (IVCashr.RecValue2 != 0) then begin
+		ClearRow(IVr,IVrw,kInvoiceRowTypeCreditCardPayment);
+		IVrw.stp = kInvoiceRowTypeCreditCardPayment;
+		IVrw.Sum = IVCashr.RecValue2;
+		//IVrw.PayMode = IVCashr.PayDeal; 
+		if (SearchPayModeForLocMach(IVr.MachineName,kInvoiceRowTypeGiftVoucherPayment,paymode)) then begin
+				IVrw.PayMode = paymode;
+		end;       
+		IVrw.Spec = UsetStr(24601);
 		IVrw.CurncyCode = IVr.CurncyCode; 
 		GetFullCurncyRate(IVrw.CurncyCode,IVr.TransDate,fr,to1,to2,br1,br2);   
 		IVrw.CurncyCode = IVr.CurncyCode; 

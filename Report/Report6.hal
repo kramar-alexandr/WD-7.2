@@ -1,3 +1,6 @@
+external procedure ExtractObj(string,var Integer,var string);
+
+
 SetLangMode(LangUkrainian,"UKR",0);
 
 function val GetItemPrice(string artcode, string PLCode)
@@ -31,13 +34,29 @@ begin
   integer plcnt,i;
   record ItemHistVc IHr;
   record PUVc PUr;
+  integer pos;
+  string 20 pricelist;
   
   PLDefr.Code = "";
-  while(loopmain(PLDefr,1,true))begin
-  	if(PLDefr.Code!="C+9%")then begin
-			plcode[plcnt] = PLDefr.Code;
-			price[plcnt] = 0;
-			plcnt = plcnt + 1;
+  if(blank(RepSpec.f2))then begin
+		while(loopmain(PLDefr,1,true))begin
+			if(PLDefr.Code!="C+9%")then begin
+				plcode[plcnt] = PLDefr.Code;
+				price[plcnt] = 0;
+				plcnt = plcnt + 1;
+			end;
+		end;
+  end else begin
+  	pos = 0;
+  	pricelist = "";
+  	ExtractObj(RepSpec.f2,pos,pricelist);
+  	while(nonblank(pricelist))begin
+  		if(nonblank(pricelist))then begin
+  			plcode[plcnt] = pricelist;
+				price[plcnt] = 0;
+				plcnt = plcnt + 1;
+  		end;
+  		ExtractObj(RepSpec.f2,pos,pricelist);
   	end;
   end;
   
@@ -73,16 +92,16 @@ begin
   while (loopmain(ISr,1,TrHs)) begin
   	testf = true;
     if(ISr.Instock==0 or ISr.Location==";;;") then begin testf = false; end;
-    if(NonBlank(RepSpec.f1) and ISr.Location!=RepSpec.f1) then begin testf = false; end; //Edit***************************Sasha2,11:35 22.09.2014
+    if(NonBlank(RepSpec.f1) and !setinset(ISr.Location,RepSpec.f1)) then begin testf = false; end; //Edit***************************Sasha2,11:35 22.09.2014
     
     if(testf)then begin
       INr.Code = ISr.Code;
       If(readfirstmain(INr,1,True)) then begin
       	ITr.Code = INr.Group;
-		readfirstmain(ITr,1,true);
-		For(i=0;i<plcnt;i=i+1) begin
-			price[i] = GetItemPrice(INr.Code,plcode[i]);
-		end; 
+			readfirstmain(ITr,1,true);
+			For(i=0;i<plcnt;i=i+1) begin
+				price[i] = GetItemPrice(INr.Code,plcode[i]);
+			end; 
 		
 		if(RepSpec.ArtMode==0)then begin
 			StartFormat(15)
@@ -196,6 +215,13 @@ record RcVc RepSpec;
 integer compno;
   compno = CurrentCompany;
       switch (compno) begin
+      case 1: delete_file("Stock/iStoreStockFullManagers.xls");
+      				CreateFile("Stock/iStoreStockFullManagers.xls");
+              closefile;
+              openexportfile("Stock/iStoreStockFullManagers.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/iStoreStockFullManagers.sh", "");
+      
       case 2: delete_file("Stock/ITEKUAStockFullManagers.xls");
       				CreateFile("Stock/ITEKUAStockFullManagers.xls");
               closefile;
@@ -209,6 +235,16 @@ integer compno;
               openexportfile("Stock/ICStockFullManagers.xls",true);
               MyItemReportRn(RepSpec);
               RunProgram("Stock/ICStockFullManagers.sh", "");
+              
+              delete_file("Stock/D1ICStockFullManagers.xls");
+      				CreateFile("Stock/D1ICStockFullManagers.xls");
+              closefile;
+              openexportfile("Stock/D1ICStockFullManagers.xls",true);
+              
+              RepSpec.f1 = "INV#1_DT,INV#1_DTST";
+              RepSpec.f2 = "RRPD,RRPD1";
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/D1ICStockFullManagers.sh", "");
               
       case 5: delete_file("Stock/TXTStockFullManagers.xls");
       				CreateFile("Stock/TXTStockFullManagers.xls");
