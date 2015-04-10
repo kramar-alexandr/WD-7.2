@@ -966,6 +966,16 @@ u might want to put loyalty card or bagger 1st
       end;
     end;
   end;
+  // Edit Start ---------------------------------------------- Edit Start
+	//Friday, 10 April 2015 11:24:01
+	
+  if(blank(IVCashr.LocalMachineCode))then begin
+  	RecordCheckError(1058,IVCashr.LocalMachineCode,-1,"LocalMachineCode");      
+		goto LIVCashVcRecordCheck;
+  end;
+  
+	// Edit End ---------------------------------------------- Edit End
+	
   if (Date2Test("IVCashVc",IVCashr.TransDate,"TransDate",-1)==false) then begin
     res = -1;
     goto LIVCashVcRecordCheck;
