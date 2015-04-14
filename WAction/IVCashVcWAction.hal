@@ -906,8 +906,9 @@ begin
         end;
         if (IVCashDchrsum(IVCashr,rownr,GenOptRec.UseDiscount)) then begin
           IVCashDchsum(IVCashr,rownr);
-          IVCashSumup(IVCashr,true);
+          //IVCashSumup(IVCashr,true); //Edit***************************Sasha2,17:43 14.04.2015
         end;
+        IVCashSumup(IVCashr,true); //Edit***************************Sasha2,17:43 14.04.2015
     end;
     PutWindowRecord(wn,IVCashr);
   end;
