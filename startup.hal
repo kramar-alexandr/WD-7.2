@@ -125,13 +125,10 @@ begin
   SString(31039,"4*4");
   SString(31040,"7*3 стик.");
   SString(31041,"Цей номер вже зареєстровано на одному зі складів");
-  
-  StrSetAdd(3);
-    StrSetText(DisallowExtraCUDClass,"Заборонити повну карточку клієнта");
-    StrSetText(UnCloseAll,"Відкрити записи");
-  EndStrSet;
+
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */
+  StrSetText(UnCloseAll,"Відкрити записи");// Edit ************************** Wednesday, 15 April 2015 17:21:45
   StrSetText(AllowAddingINtoRet,"Додавання товарів до Повернення Товарів");
   StrSetText(AllowAddingINtoRetPOSIV,"Дозволяти додавання товарів до повернених накладних ЕККА");
   StrSetText(AllowAddingOrderDiscount,"Додати знижку до панелі вкладок");
@@ -147,6 +144,7 @@ begin
   StrSetText(AuthExp,"Підписати авансовий звіт");
   StrSetText(BUQTToIV,"Пропозиція бюджету в акт/накл.");
   StrSetText(AllowNPTSIVCancel,"Дозволяти скасування накладної (сенсорн. екран)");
+  StrSetText(DisallowExtraCUDClass,"Заборонити повну карточку клієнта");// Edit ************************** Wednesday, 15 April 2015 17:21:22
   StrSetText(AllowRestAccTransDateChange,"Зміна дати в замовленні ресторану");
   StrSetText(AllowRestAccSerNrChange,"Зміна нумерацію панелі вкладок");
   StrSetText(AllowIVBranchIDChange,"Зміна код філії на акт/накл.");
