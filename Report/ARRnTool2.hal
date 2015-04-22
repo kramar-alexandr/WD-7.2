@@ -1427,11 +1427,13 @@ BEGIN
               prepbal = prepbal - ARPayHistr.BookVal;
             end else begin
               prepbal = prepbal - ARPayHistr.Val;
-            end;
-            SetTotals(ARPayHistr.Val,ARPayHistr.BookVal,1,ARPayHistr.CurncyCode,valClientTot,valTotSum,cur,curcnt);
+            end; 
+            SetTotals(-ARPayHistr.Val,-ARPayHistr.BookVal,1,ARPayHistr.CurncyCode,valClientTot,valTotSum,cur,curcnt);
           end else begin
-            prepbalbase = 0; //Edit***************************Sasha2,17:33 22.04.2015
-            prepbalcur = 0; //Edit***************************Sasha2,17:33 22.04.2015
+            prepbalbase = 0; 
+            prepbalcur = 0; 
+            koef = 1;
+            ipcurncy = ARPayHistr.CurncyCode;
             if (GetARPayRate(-1,ARPayHistr.CUPNr,frrate,torate1,torate2,baserate1,baserate2,ARPayHistr.CurncyCode,ARPayHistr.TransDate)) then begin
               t = MulRateToBase1(ARPayHistr.CurncyCode,ARPayHistr.Val,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
             end else begin            
@@ -1447,6 +1449,9 @@ BEGIN
                 for (i=0;i<rwcnt;i=i+1) begin
                   MatRowGet(IPr,i,IPrw);
                   if (IPrw.CUPNr==ARPayHistr.CUPNr) then begin
+                    custname = IPrw.CustName; //Edit***************************Sasha2,16:11 22.04.2015
+                    koef = IPrw.BankVal/IPrw.RecVal; //Edit***************************Sasha2,16:11 22.04.2015
+                    ipcurncy = IPrw.BankCurncy; //Edit***************************Sasha2,16:11 22.04.2015
                     if (nonblank(IPrw.B1BankVal)) then begin
                       prepbalbase = prepbalbase - t;
                       prepbalbase = prepbalbase + IPrw.B1BankVal;
@@ -1460,12 +1465,12 @@ BEGIN
               end;
             end;
             prepbalcur = ARPayHistr.Val;
-            SetTotals(prepbalcur,prepbalbase,1,ARPayHistr.CurncyCode,valClientTot,valTotSum,cur,curcnt);
+            SetTotals(prepbalcur,prepbalbase,koef,ipcurncy,valClientTot,valTotSum,cur,curcnt);
             if (amntincurncy==0) then begin
               prepbal = prepbal + prepbalbase;
             end else begin
               prepbal = prepbal + prepbalcur;
-            end;
+            end; 
           end;
         end else begin //Edit***************************Sasha2,16:54 22.04.2015 }
           if ((ARPayHistr.FileName=="IVVc") or (ARPayHistr.FileName=="CLOutVc")) then begin
