@@ -19,6 +19,7 @@ external function Integer GetVATLaw();
 external procedure FindSalesExVat(record TaxMatrixVc,string,val,Integer,Integer,var val);
 external function Integer DateGetIntMonth(Date);
 external function string 255 CreateInternationalCreditorReference(string);
+external function val AbsoluteVal(val); //Edit***************************Sasha2,10:54 22.04.2015
 
 procedure GetIVPrepaidInBase(record IVVc IVp,Integer rownr,var val totsump,var val prepaybasevp)
 BEGIN
@@ -1170,6 +1171,7 @@ BEGIN
   Integer i,rwcnt;
   Boolean cashf;
   Integer sign;
+  val basepayment;
   
   sign = 1;
   if (IVp.InvType==kInvoiceTypeCredit or IVp.InvType==kInvoiceTypeCreditSpecialSales 
@@ -1180,13 +1182,14 @@ BEGIN
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(IVp,i,IVrw);
     if ((IVrw.stp==kInvoiceRowTypeGiftVoucherPayment) or (IVrw.stp==kInvoiceRowTypeCashPayment) or (IVrw.stp==kInvoiceRowTypeCreditCardPayment) or (IVrw.stp==kInvoiceRowTypeLoyaltyPointsPayment) or (IVrw.stp==kInvoiceRowTypeChequePayment)) then begin
-      ARp.RVal = ARp.RVal - sign*IVrw.Sum;
-      ARp.BookRVal = ARp.BookRVal - sign*IVrw.Sum;
+      ARp.RVal = ARp.RVal - sign*AbsoluteVal(IVrw.Sum); //Edit***************************Sasha2,10:57 22.04.2015
+      basepayment = MulRateToBase1(IVp.CurncyCode,AbsoluteVal(IVrw.Sum),IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff); //Edit***************************Sasha2,10:53 22.04.2015
+      ARp.BookRVal = ARp.BookRVal - sign*basepayment; //Edit***************************Sasha2,10:57 22.04.2015
       cashf = true;
     end;
   end;
   if ((IVp.RetnValue>0 and IVp.Sum4>0) or (IVp.RetnValue<0 and IVp.Sum4<0)) then begin
-    ARp.RVal = ARp.RVal + sign*IVp.RetnValue;
+    ARp.RVal = ARp.RVal + sign*AbsoluteVal(IVp.RetnValue); //Edit***************************Sasha2,11:06 22.04.2015
   end;
   if (cashf) then begin
 /*
