@@ -1173,9 +1173,42 @@ begin
   return;
 end;
 
+//Edit***************************Sasha2,18:16 20.08.2014 {
+procedure SetTotals(val sum,val basesum,val koef,string doccurrency,var array val valClientTot,var array val valTotSum,var array string cur,var Integer curcnt)
+begin
+  Integer j,pos; 
+  string 20 code; 
+  Boolean foundf; 
+  
+    foundf = false;
+		valClientTot[0] = valClientTot[0] - basesum;
+		valTotSum[0] = valTotSum[0] - basesum;
+		code = doccurrency;
+		for (j=0;j<curcnt;j=j+1) begin
+			if (code==cur[j]) then begin
+				pos = j;
+				foundf = true;
+				j = curcnt;
+			end;
+		end;
+		if (foundf==false) then begin
+			pos = curcnt;
+			curcnt = curcnt + 1;
+			cur[pos] = code;
+			valClientTot[pos] = BlankVal;
+			valTotSum[pos] = BlankVal;
+		end;
+		if (pos>0) then begin
+			valClientTot[pos] = valClientTot[pos] - sum * koef;
+			valTotSum[pos] = valTotSum[pos] - sum * koef;
+		end;
+
+  return;
+end; //Edit***************************Sasha2,18:16 20.08.2014 }
+
 
 global
-procedure PrintPrepaymentsNrsIPCustom(Integer amntincurncy,record RcVc RepSpec,string custcode,Boolean backdate,Integer pos1,Integer pos2, var array val valClientTot, var array val valTotSum, var array string cur,var Integer curcnt)
+procedure PrintPrepaymentsNrsIPCustom(Integer amntincurncy,record RcVc RepSpec,string custcode,Boolean backdate,Integer pos1,Integer pos2,var array val valClientTot,var array val valTotSum,var array string cur,var Integer curcnt)
 BEGIN
   record ARPayHistVc ARPayHistr;
   record ARPayVc ARPayr;
@@ -1189,18 +1222,14 @@ BEGIN
   row CLOutVc CLOutrw;
   Integer i,rwcnt;
   LongInt prepno;
-  val prepbal,t,lossv;
+  val prepbal,t,lossv,prepbalbase,prepbalcur; //Edit***************************Sasha2,17:24 22.04.2015
   val frrate,torate1,torate2,baserate1,baserate2;
   record BaseCurBlock BCb;  
   record IVVc IVr;
-  Integer j,pos; //Edit***************************Sasha2,18:16 20.08.2014
-  string 20 code; //Edit***************************Sasha2,18:16 20.08.2014
-  Boolean foundf; //Edit***************************Sasha2,18:17 20.08.2014
   String 255 custname; //Edit***************************Sasha2,17:58 21.08.2014
   val koef; //Edit***************************Sasha2,17:58 21.08.2014
   String 20 ipcurncy;//Edit***************************Sasha2,18:05 21.08.2014
 	
-	logtext(0,backdate);
 	
   if (backdate==false) then begin 
     found = true;
@@ -1225,7 +1254,7 @@ BEGIN
           end;
         end;
         if (testf) then begin
-          if (RepSpec .ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,10:31 20.08.2014 {
+          if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,10:31 20.08.2014 {
           	ARPayHistr.CUPNr = ARPayr.CUPNr;
           	if (ReadFirstMain(ARPayHistr,1,true)) then begin
           	  IPr.SerNr = ARPayHistr.SerNr;
@@ -1260,28 +1289,7 @@ BEGIN
 	            OutVal(410,0,-ARPayr.BookRVal,M4Val,true);
 	          end;
 						EndFormat;
-						foundf = false;
-						valClientTot[0] = valClientTot[0] - ARPayr.BookRVal;
-						valTotSum[0] = valTotSum[0] - ARPayr.BookRVal;
-						code = ipcurncy/*ARPayr.CurncyCode*/;
-						for (j=0;j<curcnt;j=j+1) begin
-							if (code==cur[j]) then begin
-								pos = j;
-								foundf = true;
-								j = curcnt;
-							end;
-						end;
-						if (foundf==false) then begin
-							pos = curcnt;
-							curcnt = curcnt + 1;
-							cur[pos] = code;
-							valClientTot[pos] = BlankVal;
-							valTotSum[pos] = BlankVal;
-						end;
-						if (pos>0) then begin
-							valClientTot[pos] = valClientTot[pos] - ARPayr.RVal * koef;
-							valTotSum[pos] = valTotSum[pos] - ARPayr.RVal * koef;
-						end;
+						SetTotals(ARPayr.RVal,ARPayr.BookRVal,koef,ipcurncy,valClientTot,valTotSum,cur,curcnt); //Edit***************************Sasha2,17:10 22.04.2015
           end else begin
           	StartFormat(15); 
 	          tstr = ARPayr.CUPNr;
@@ -1413,20 +1421,23 @@ BEGIN
         end;
         prepno = ARPayHistr.CUPNr;
         curncycode = ARPayHistr.CurncyCode;
-        if ((ARPayHistr.FileName=="IVVc") or (ARPayHistr.FileName=="CLOutVc")) then begin
-          if (amntincurncy==0) then begin
-            prepbal = prepbal - ARPayHistr.BookVal;
+        if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,16:54 22.04.2015 {
+          if ((ARPayHistr.FileName=="IVVc") or (ARPayHistr.FileName=="CLOutVc")) then begin
+            if (amntincurncy==0) then begin
+              prepbal = prepbal - ARPayHistr.BookVal;
+            end else begin
+              prepbal = prepbal - ARPayHistr.Val;
+            end;
+            SetTotals(ARPayHistr.Val,ARPayHistr.BookVal,1,ARPayHistr.CurncyCode,valClientTot,valTotSum,cur,curcnt);
           end else begin
-            prepbal = prepbal - ARPayHistr.Val;
-          end;
-        end else begin
-          if (amntincurncy==0) then begin
+            prepbalbase = 0; //Edit***************************Sasha2,17:33 22.04.2015
+            prepbalcur = 0; //Edit***************************Sasha2,17:33 22.04.2015
             if (GetARPayRate(-1,ARPayHistr.CUPNr,frrate,torate1,torate2,baserate1,baserate2,ARPayHistr.CurncyCode,ARPayHistr.TransDate)) then begin
               t = MulRateToBase1(ARPayHistr.CurncyCode,ARPayHistr.Val,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
             end else begin            
               t = MulWithRateToBase1(ARPayHistr.CurncyCode,ARPayHistr.TransDate,ARPayHistr.Val,DefaultCurRoundOff);
             end;
-            prepbal = prepbal + t;
+            prepbalbase = prepbalbase + t;
             lossv = blankval;
             if (ARPayHistr.CurncyCode==BCb.BaseCur1) then begin
             end else begin
@@ -1437,21 +1448,67 @@ BEGIN
                   MatRowGet(IPr,i,IPrw);
                   if (IPrw.CUPNr==ARPayHistr.CUPNr) then begin
                     if (nonblank(IPrw.B1BankVal)) then begin
-                      prepbal = prepbal - t;
-                      prepbal = prepbal + IPrw.B1BankVal;
+                      prepbalbase = prepbalbase - t;
+                      prepbalbase = prepbalbase + IPrw.B1BankVal;
                     end;
                     FindAllPrepayLosses(IPrw.InvCurncy,IPr.TransDate,IPrw.InvVal,IPrw.CUPNr,IPrw.InvVal,lossv,IVr,IPrw.InvoiceNr,-1,false,BCb,IPrw.B1BankVal,IPrw.BankCurncy);
                     if (lossv!=t) then begin
-                      prepbal = prepbal - lossv;
+                      prepbalbase = prepbalbase - lossv;
                     end;
                   end;
                 end;
               end;
             end;
-          end else begin
-            prepbal = prepbal + ARPayHistr.Val;
+            prepbalcur = ARPayHistr.Val;
+            SetTotals(prepbalcur,prepbalbase,1,ARPayHistr.CurncyCode,valClientTot,valTotSum,cur,curcnt);
+            if (amntincurncy==0) then begin
+              prepbal = prepbal + prepbalbase;
+            end else begin
+              prepbal = prepbal + prepbalcur;
+            end;
           end;
-        end;  
+        end else begin //Edit***************************Sasha2,16:54 22.04.2015 }
+          if ((ARPayHistr.FileName=="IVVc") or (ARPayHistr.FileName=="CLOutVc")) then begin
+            if (amntincurncy==0) then begin
+              prepbal = prepbal - ARPayHistr.BookVal;
+            end else begin
+              prepbal = prepbal - ARPayHistr.Val;
+            end;
+          end else begin
+            if (amntincurncy==0) then begin
+              if (GetARPayRate(-1,ARPayHistr.CUPNr,frrate,torate1,torate2,baserate1,baserate2,ARPayHistr.CurncyCode,ARPayHistr.TransDate)) then begin
+                t = MulRateToBase1(ARPayHistr.CurncyCode,ARPayHistr.Val,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
+              end else begin            
+                t = MulWithRateToBase1(ARPayHistr.CurncyCode,ARPayHistr.TransDate,ARPayHistr.Val,DefaultCurRoundOff);
+              end;
+              prepbal = prepbal + t;
+              lossv = blankval;
+              if (ARPayHistr.CurncyCode==BCb.BaseCur1) then begin
+              end else begin
+                IPr.SerNr = ARPayHistr.SerNr;
+                if (ReadFirstMain(IPr,1,true)) then begin
+                  rwcnt = MatRowCnt(IPr);
+                  for (i=0;i<rwcnt;i=i+1) begin
+                    MatRowGet(IPr,i,IPrw);
+                    if (IPrw.CUPNr==ARPayHistr.CUPNr) then begin
+                      if (nonblank(IPrw.B1BankVal)) then begin
+                        prepbal = prepbal - t;
+                        prepbal = prepbal + IPrw.B1BankVal;
+                      end;
+                      FindAllPrepayLosses(IPrw.InvCurncy,IPr.TransDate,IPrw.InvVal,IPrw.CUPNr,IPrw.InvVal,lossv,IVr,IPrw.InvoiceNr,-1,false,BCb,IPrw.B1BankVal,IPrw.BankCurncy);
+                      if (lossv!=t) then begin
+                        prepbal = prepbal - lossv;
+                      end;
+                    end;
+                  end;
+                end;
+              end;
+            end else begin
+              prepbal = prepbal + ARPayHistr.Val;
+            end;
+          end;
+        end;
+          
       end;
     end; 
     if ((prepno<>-1) and (prepbal<>0)) then begin 
