@@ -111,6 +111,11 @@ BEGIN
   GetWindowRecord(wn,StockMovr);
   
   if (StockMovVc_PasteArtCode(StockMovr,rownr,changed,aWarning)) then begin
+  	MatRowGet(StockMovr,rownr,StockMovrw);// Edit ************************** Tuesday, 21 April 2015 14:56:37
+    if(blank(StockMovrw.Quant)) then begin StockMovrw.Quant = 1; end;// Edit ************************** Tuesday, 21 April 2015 14:56:38
+    if(blank(StockMovrw.SentQuant)) then begin StockMovrw.SentQuant = StockMovrw.Quant; end;// Edit ************************** Tuesday, 21 April 2015 14:56:39
+    if(blank(StockMovrw.OrdQuant)) then begin StockMovrw.OrdQuant = 1; end;// Edit ************************** Tuesday, 21 April 2015 14:56:40
+    MatRowPut(StockMovr,rownr,StockMovrw);// Edit ************************** Tuesday, 21 April 2015 14:56:36
     PutWindowRecord(wn,StockMovr);
   end;
   DisplayStrArray(aWarning);
@@ -601,6 +606,7 @@ BEGIN
     case "SentTransDate": res = StockMovDClassSentTransDateEFAfter(wn,changed);
     case "CurncyCode": res = StockMovDClassCurncyCodeEFAfter(wn,changed);
     case "ArtCode": res = StockMovDClassArtCodeEFAfter(wn,rownr,changed);
+    								//res = StockMovDClassQuantEFAfter(wn,rownr,changed);// Edit ************************** Monday, 20 April 2015 17:36:05
     case "Quant": res = StockMovDClassQuantEFAfter(wn,rownr,changed);
     case "SentQuant": res = StockMovDClassSentQuantEFAfter(wn,rownr,changed);
     case "OldPrice": res = StockMovDClassOldPriceEFAfter(wn,rownr,changed);
@@ -1198,11 +1204,11 @@ begin
       MatRowGet(SMr,rownr,SMrw);            
       switch (fieldname) begin
         case "ArtCode": 
-          if (nonblank(SMr.ThrouLocation)) then begin
+          /*if (nonblank(SMr.ThrouLocation)) then begin// Edit ************************** Wednesday, 22 April 2015 13:21:38
             gotofieldname = "OrdQuant";
           end else begin
             gotofieldname = "Quant";
-          end;
+          end;*/
         case "Quant": 
           gotofieldname = "ArtCode";
           gotorownr = gotorownr + 1;
