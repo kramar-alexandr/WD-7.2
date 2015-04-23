@@ -559,8 +559,7 @@ begin
 								end;
 								outval(i16,0,t,m4UVal,false);
 							end;
-							
-							
+
 							sumcostcur = curcost[j] * qty[j];
 							outstring(i17,0,ValToMyString(sumcostcur,3),false);
 							sumcostusd = cost[j] * qty[j];
@@ -581,7 +580,7 @@ begin
 							outstring(i26,0,CUr.SalesMan,false);
 							outstring(i27,0,IVr.SalesMan,false);
 							outstring(i28,0,"",false);
-							for(l=0;l<k;l=l+1)begin
+							for(l=0;l<k;l=l+1) begin
 							outstring(i29,0,class[l],false);
 							end;
 						endformat;
@@ -627,7 +626,7 @@ begin
 							outstring(i26,0,CUr.SalesMan,false);
 							outstring(i27,0,IVr.SalesMan,false);
 							outstring(i28,0,"",false);
-							for(l=0;l<k;l=l+1)begin
+							for(l=0;l<k;l=l+1) begin
 								outstring(i29,0,class[l],false);
 							end;
 							outstring(i29,0,"Џродажа без истории по товарам",false);
