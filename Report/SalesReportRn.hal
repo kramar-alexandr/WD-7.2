@@ -334,7 +334,7 @@ end;
 
 global procedure SalesReportRn(record RcVc RepSpec)
 begin
-	integer i0,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
+	integer i0,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i91,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
 	integer i,mtrw;
 	record IVVc IVr;
 	row IVVc IVrw;
@@ -360,6 +360,7 @@ begin
 	longint CredInvNo;
 	val foundqty;
 	roundmode rnd; //Edit***************************Sasha2,10:44 16.02.2015
+	string 20 itemrate,ivrate;
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
@@ -381,7 +382,8 @@ begin
 			outstring(i7,0,"Кіл-ть",false);
 			outstring(i8,0,"Валюта",false);
 			outstring(i81,0,"Валюта надх.",false);
-			outstring(i9,0,"Курс",false);
+			outstring(i9,0,"Курс выписки",false);
+			outstring(i91,0,"Курс текущий",false);
 			outstring(i10,0,"Ціна за од., валюта",false);
 			outstring(i11,0,"Ціна за од., $",false);
 			outstring(i12,0,"Знижка",false);
@@ -489,7 +491,18 @@ begin
 							outstring(i7,0,qty[j],false);
 							outstring(i8,0,IVr.CurncyCode,false);
 							outstring(i81,0,curncy[j],false);
-							outstring(i9,0,ValToMyString(rate[j],4),false);
+							
+							if(curncy[j]=="USD")then begin
+								outstring(i9,0,ValToMyString(invfr * invto1,4),false);
+							end else begin
+								if(rate[j]!=0)then begin
+									outstring(i9,0,ValToMyString(rate[j],4),false);
+								end else begin
+									outstring(i9,0,ValToMyString(invfr * invto1,4),false);
+								end;
+							end;
+							outstring(i91,0,ValToMyString(invfr * invto1,4),false);
+							
 							outstring(i10,0,IVrw.Price,false);
 							if(curncy[j]=="USD")then begin
 								outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);

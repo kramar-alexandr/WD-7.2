@@ -657,13 +657,11 @@ l1:;
                       OutVal(60,0,-(salessum-(MyCost*newIVrw.Quant)),M4Val,false);
                       gporig = sumorig - sumcostorig;
                       OutVal(60,0,-gporig,M4Val,false);
-                      
                       /*
                         if(currentuser=="SA" or currentuser=="LADA" or currentuser=="BUTKEVICH")then begin
                           PrintSalesmanBonus(newIVr.CustCode,newIVrw.ArtCode,-(salessum-(MyCost*newIVrw.Quant)),newIVr.SalesMan,newIVr.TransDate);
                         end;
                         */
-                        
                       CUr.Code = newIVr.CustCode;
                       If(readFirstmain(CUr,1,true)) then begin
                         OutString(70,0,CUr.SalesMan,false);
@@ -702,8 +700,6 @@ l1:;
         end; 
         resetloop(IPrs2r);
       end;
-      
-    
     end; 
   end;
 

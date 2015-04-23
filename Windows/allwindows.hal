@@ -2000,7 +2000,8 @@ begin
   EditField(h3,v+=vs,80,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
   if (StandardHansa==false) then begin
   EditField(h3,v+=vs,80,"Вид рахунка",Normal,OrderType,false,SetSClass);
-  EditField(h3,v+=vs,80,"Контракт",Normal,ORCONr,false,ORCOSClass);
+  //EditField(h3,v+=vs,80,"Контракт",Normal,ORCONr,false,ORCOSClass);
+  EditField(h3,v+=vs,80,"Фрахт",Normal,FrPrice,true,0);// Edit ************************** Wednesday, 22 April 2015 15:43:08
   end;
   CheckBox(h4,v=6,0,"Закрито",Closed);
   CheckBox(h4,v+=16,0,"Зарезервовано",Reserved);
