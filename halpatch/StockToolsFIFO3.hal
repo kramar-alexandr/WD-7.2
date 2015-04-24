@@ -992,8 +992,10 @@ BEGIN
   OutDate(160,0,IHr.TransDate,false);
   OutString(210,0,disp,false);
   OutVal(3,0,IHr.RemQty,M4Qty,true);
-  OutVal(4,0,totcostprice/IHr.RemQty,M45Val,true);
-  OutValBiDi(1,0,totcostprice,M45Val,true,505);
+  if (UserCanAction("ViewCostPrice",false)) then begin //Edit***************************Sasha2,16:27 24.04.2015
+    OutVal(4,0,totcostprice/IHr.RemQty,M45Val,true);
+    OutValBiDi(1,0,totcostprice,M45Val,true,505);
+  end; //Edit***************************Sasha2,16:27 24.04.2015
   EndFormat;
   return;
 end;
