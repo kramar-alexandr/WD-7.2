@@ -68,14 +68,13 @@ begin
 		goto lCollect;
 	end;
 	
-	
 	if(updstock)then begin
 		TrHs = true;
 		//IHr.ArtCode = IVrw.ArtCode;
 		IHr.FileName = "IVVc";
 		IHr.TransNr = IVr.SerNr;
 		IHr.Row = rownr;
-		while(loopkey("FNTransNr",IHr,3,TrHs))begin
+		while(loopkey("FNTransNr",IHr,3,TrHs)) begin
 			testf = true;
 			if(IHr.FileName!="IVVc")then begin TrHs = false; testf = false; end;
 			if(IHr.TransNr!=IVr.SerNr)then begin TrHs = false; testf = false; end;
@@ -99,7 +98,7 @@ begin
 			end;
 		end;
 	end else begin
-		if(IVrw.SHNr>-1)then begin
+		if(IVrw.SHNr>-1)then begin 
 			if(cred>0)then begin
 				SHr.SerNr = IVrw.SHNr;
 				if(readfirstmain(SHr,1,true))then begin
@@ -108,7 +107,7 @@ begin
 						IHr.TransNr = SHr.SerNr;
 						IHr.Row = IVrw.SHRow;
 						TrHs = true;
-						while(loopkey("FNTransNr",IHr,3,TrHs))begin
+						while(loopkey("FNTransNr",IHr,3,TrHs)) begin
 							testf = true;
 							if(IHr.TransNr!=SHr.SerNr)then begin TrHs = false; testf = false; end;
 							if(IHr.Row!=IVrw.SHRow)then begin TrHs = false; testf = false; end;
@@ -150,7 +149,7 @@ begin
 							IHr.TransNr = Retr.SerNr;
 							IHr.Row = reti;
 							TrHs = true;
-							while(loopkey("FNTransNr",IHr,3,TrHs))begin
+							while(loopkey("FNTransNr",IHr,3,TrHs)) begin
 								testf = true;
 								if(IHr.TransNr!=Retr.SerNr)then begin TrHs = false; testf = false; end;
 								if(IHr.Row!=reti)then begin TrHs = false; testf = false; end;
@@ -183,12 +182,12 @@ begin
 			end;
 		end else begin
 
-			if (IVr.OrderNr > -1) then begin
+			if (IVr.OrderNr > -1) then begin 
 
-					SHr.OrderNr = IVr.OrderNr;
+					SHr.OrderNr = IVr.OrderNr; 
 					trhs1=true;
 					resetloop(SHr);
-					while(LoopBackKey("OrderKey",SHr,1,trhs1)) begin// loopkey -> loopbackkey
+					while(LoopBackKey("OrderKey",SHr,1,trhs1)) begin // loopkey -> loopbackkey
 						if(SHr.OrderNr!=IVr.OrderNr)then begin trhs1=false; end;
 						
 						if(SHr.OrderNr==IVr.OrderNr) then begin
@@ -200,7 +199,7 @@ begin
 									IHr.TransNr = SHr.SerNr;
 									IHr.Row = shi;
 									TrHs = true;
-									while(loopkey("FNTransNr",IHr,3,TrHs))begin
+									while(loopkey("FNTransNr",IHr,3,TrHs)) begin
 										testf = true;
 										if(IHr.TransNr!=SHr.SerNr)then begin TrHs = false; testf = false; end;
 										if(IHr.Row!=shi)then begin TrHs = false; testf = false; end;
@@ -268,11 +267,13 @@ begin
 					while(loopkey("SerialNr",IHr,3,TrHs))begin
 
 						testf = true;
+						if(IHr.FileName!="SDVc") then begin TrHs = false; testf = false; end; //Edit***************************Sasha2,13:43 24.04.2015
+						if(IHr.ArtCode!=IVrw.ArtCode) then begin TrHs = false; testf = false; end; //Edit***************************Sasha2,13:32 24.04.2015
 						if(IHr.SerialNr!=IVrw.SerialNr)then begin TrHs = false; testf = false; end;
 						
 						if(testf and (IHr.InFileName=="PUVc"))then begin
-							PUr.SerNr = IHr.InSerNr;
-							if(readfirstmain(PUr,1,true))then begin
+							PUr.SerNr = IHr.InSerNr; 
+							if(readfirstmain(PUr,1,true))then begin 
 								cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
 								curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 								curncy[ressize] = IHr.PUCurncyCode;
