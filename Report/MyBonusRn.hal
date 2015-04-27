@@ -7,6 +7,7 @@ external procedure GetItemGroupDescription(string,var string);
 external procedure CollectCostMyInvoice(record IVVc, integer,var array val,var array val,var array string,var array val,var array date,var array string,var array string,var array val,var integer,integer,longint); //Edit***************************Sasha2,15:24 23.04.2015
 external function val CalcSumForSales(val,val,val,val,val,integer, val,boolean); //Edit***************************Sasha2,15:24 23.04.2015
 external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode); //Edit***************************Sasha2,17:48 23.04.2015
+external function string 200 ValToMyString(val,integer); //Edit***************************Sasha2,11:32 27.04.2015
 
 global //Edit***************************Sasha2,14:29 10.09.2014 {
 procedure GetItemName(string Item, var string Name,var string Groupe)
@@ -316,37 +317,62 @@ begin
 	array string 100 vecode,serial,curncyarr; //Edit***************************Sasha2,15:29 23.04.2015
 	integer ressize,foundqty; //Edit***************************Sasha2,15:29 23.04.2015
   val t,invfr,invto1,quant,sumcur,sumusd; //Edit***************************Sasha2,15:48 23.04.2015
+  array integer pos; //Edit***************************Sasha2,11:15 27.04.2015
   
   startreportnoheaderjob("Bonus")
   IPrsr.TransDate = RepSpec.sStartDate;
   TrHs = true;
   //paydatenew = "";
+  pos[0] = 0;
+  pos[1] = 1;
+  pos[2] = 2;
+  pos[3] = 3;
+  pos[4] = 4;
+  pos[5] = 5;
+  pos[6] = 6;
+  pos[7] = 10;
+  pos[8] = 20;
+  pos[9] = 30;
+  pos[10] = 40;
+  pos[11] = 50;
+  pos[12] = 60;
+  pos[13] = 70;
+  pos[14] = 80;
+  pos[15] = 90;
+  pos[16] = 100;
+  pos[17] = 110;
+  pos[18] = 120;
+  pos[19] = 130;
+  pos[20] = 140;
   
   StartFormat(15);
-    OutString(0,0,"Customer",false);
-    OutString(1,0,"Cust. Name",false);
-    OutString(2,0,"Inv. Date",false);
-    OutString(3,0,"Paym. term.",false);
-    OutString(4,0,"Paym. date",false);
-    OutString(5,0,"Inv. #",false);
-    OutString(6,0,"Group",false);
-    OutString(6,0,"ArtCode",false);
-    OutString(10,0,"Name",false);
-    OutString(20,0,"Q-ty",false);
-    OutString(30,0,"Price",false);
-    OutString(30,0,"Price Orig.",false);
-    OutString(40,0,"Cost",false);
-    OutString(40,0,"Cost Orig.",false);
-    OutString(50,0,"Sum",false);
-    OutString(50,0,"Sum Orig.",false);
-    OutString(60,0,"SumCost",false);
-    OutString(60,0,"SumCost Orig.",false);
-    OutString(70,0,"GP",false);
-    OutString(70,0,"GP Orig.",false);
-   
-    OutString(80,0,"SalesMan",false);
-    OutString(90,0,"Inv. SalesMan",false);
-    OutString(100,0,"ServiceMan",false);
+    OutString(pos[0],0,"Customer",false);
+    OutString(pos[1],0,"Cust. Name",false);
+    OutString(pos[2],0,"Inv. Date",false);
+    OutString(pos[3],0,"Paym. term.",false);
+    OutString(pos[4],0,"Paym. date",false);
+    OutString(pos[5],0,"Inv. #",false);
+    OutString(pos[6],0,"Group",false);
+    OutString(pos[6],0,"ArtCode",false);
+    OutString(pos[7],0,"Name",false);
+    OutString(pos[8],0,"Q-ty",false);
+    OutString(pos[9],0,"Price",false);
+    OutString(pos[9],0,"Price Orig.",false);
+    OutString(pos[10],0,"Cost",false);
+    OutString(pos[10],0,"Cost Orig.",false);
+    OutString(pos[11],0,"Sum",false);
+    OutString(pos[11],0,"Sum Orig.",false);
+    OutString(pos[12],0,"SumCost",false);
+    OutString(pos[12],0,"SumCost Orig.",false);
+    OutString(pos[13],0,"GP",false);
+    OutString(pos[13],0,"GP Orig.",false);
+    OutString(pos[14],0,"Rec.rate",false); //Edit***************************Sasha2,11:06 27.04.2015
+    OutString(pos[15],0,"Rec.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
+    OutString(pos[16],0,"Inv.rate",false); //Edit***************************Sasha2,11:06 27.04.2015
+    OutString(pos[17],0,"Inv.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
+    OutString(pos[18],0,"SalesMan",false);
+    OutString(pos[19],0,"Inv. SalesMan",false);
+    OutString(pos[20],0,"ServiceMan",false);
   EndFormat;
   
   while (LoopKey("TransDate",IPrsr,1,TrHs)) begin
@@ -497,63 +523,73 @@ begin
     								end;
     							end;
                   StartFormat(15);
-                    OutString(0,0,IVr.CustCode,false);
-                    OutString(1,0,IVr.Addr0,false);
-                    OutString(2,0,IVr.InvDate,false);
-                    OutString(3,0,IVr.PayDate,false);
+                    OutString(pos[0],0,IVr.CustCode,false);
+                    OutString(pos[1],0,IVr.Addr0,false);
+                    OutString(pos[2],0,IVr.InvDate,false);
+                    OutString(pos[3],0,IVr.PayDate,false);
                     //OutString(3,0,IPrsr.TransNr,false);
                     //OutString(3,0,paid,false);
                     if (blankdate(enddate)) then begin
-                      OutDate(4,0,IVr.PayDate,false);
+                      OutDate(pos[4],0,IVr.PayDate,false);
                     end else begin
-                      OutDate(4,0,enddate,false);
+                      OutDate(pos[4],0,enddate,false);
                     end;
-                    OutString(5,0,IVr.SerNr,false);
-                    //OutString(5,0,TransNo,false);
-                    //OutString(5,0,paydatenew,false);
-                    //OutString(5,0,"",false);
-                    OutString(6,0,group,false);
-                    OutString(6,0,IVrw.ArtCode,false);
-                    OutString(10,0,IVrw.Spec,false);
+                    OutString(pos[5],0,IVr.SerNr,false);
+                    //OutString(pos[5],0,TransNo,false);
+                    //OutString(pos[5],0,paydatenew,false);
+                    //OutString(pos[5],0,"",false);
+                    OutString(pos[6],0,group,false);
+                    OutString(pos[6],0,IVrw.ArtCode,false);
+                    OutString(pos[7],0,IVrw.Spec,false);
                     //quant = IVrw.Quant; //Edit***************************Sasha2,11:39 24.04.2015
                     quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
-                    OutString(20,0,quant,false);
+                    OutString(pos[8],0,quant,false);
                     //salesprice = MulRateToBase1(IVr.CurncyCode,IVrw.Price,IVr.FrRate,IVr.ToRateB1,IVr.ToRateB2,IVr.BaseRate1,IVr.BaseRate2,DefaultCurRoundOff); //Edit***************************Sasha2,11:37 24.04.2015 {
                     //priceorig = IVrw.Price;
                     salesprice = sumusd/quant;
                     priceorig = sumcur/quant; //Edit***************************Sasha2,11:37 24.04.2015 }
-                    OutVal(30,0,salesprice,M4Val,false);
-                    OutVal(30,0,priceorig,M4Val,false);
+                    OutVal(pos[9],0,salesprice,M4Val,false);
+                    OutVal(pos[9],0,priceorig,M4Val,false);
           // Edit End ---------------------------------------------- Edit End
-                    OutVal(40,0,MyCost,M4Val,false);
+                    OutVal(pos[10],0,MyCost,M4Val,false);
                     curorig = round(IVr.FrRate/IVr.ToRateB1,defaultcurroundoff);
                     if(curorig==0)then begin
                       curorig = 1;
                     end;
                     costorig = MyCost*curorig;
                     sumcostorig = costorig*quant;
-                    OutVal(40,0,costorig,M4Val,false);
+                    OutVal(pos[10],0,costorig,M4Val,false);
                     //salessum = MulRateToBase1(IVr.CurncyCode,IVrw.Sum,IVr.FrRate,IVr.ToRateB1,IVr.ToRateB2,IVr.BaseRate1,IVr.BaseRate2,DefaultCurRoundOff); //Edit***************************Sasha2,11:48 24.04.2015 {
                     //sumorig = IVrw.Sum;
                     salessum = sumusd;
                     sumorig = sumcur; //Edit***************************Sasha2,11:48 24.04.2015 }
-                    OutVal(50,0,salessum,M4Val,false);
-                    OutVal(50,0,sumorig,M4Val,false);
-                    OutVal(60,0,MyCost*quant,M4Val,false);
-                    OutVal(60,0,sumcostorig,M4Val,false);
-                    OutVal(70,0,salessum-(MyCost*quant),M4Val,false);
+                    OutVal(pos[11],0,salessum,M4Val,false);
+                    OutVal(pos[11],0,sumorig,M4Val,false);
+                    OutVal(pos[12],0,MyCost*quant,M4Val,false);
+                    OutVal(pos[12],0,sumcostorig,M4Val,false);
+                    OutVal(pos[13],0,salessum-(MyCost*quant),M4Val,false);
                     gporig = sumorig - sumcostorig;
-                    OutVal(70,0,gporig,M4Val,false);
+                    OutVal(pos[13],0,gporig,M4Val,false);
+                    
+                    if (rate[j]!=0) then begin //Edit***************************Sasha2,11:34 27.04.2015 {
+                      OutString(pos[14],0,ValToMyString(rate[j],3),false); 
+                      OutString(pos[15],0,curncyarr[j],false); 
+                    end else begin
+                      OutString(pos[14],0,"",false); 
+                      OutString(pos[15],0,"",false); 
+                    end;
+                    OutString(pos[16],0,ValToMyString(invfr/invto1,3),false); 
+                    OutString(pos[17],0,IVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015 }
                     
                     /*if(currentuser=="SA" or currentuser=="LADA" or currentuser=="BUTKEVICH")then begin
                        PrintSalesmanBonus(IVr.CustCode,IVrw.ArtCode,salessum-(MyCost*quant),IVr.SalesMan,IVr.TransDate);
                     end;*/
                    
                     If(NonBlank(CUr.Code)) then begin
-                      OutString(80,0,CUr.SalesMan,false);
+                      OutString(pos[18,0,CUr.SalesMan,false);
                     end; 
-                    OutString(90,0,IVr.SalesMan,false);
-                    OutString(90,0,enginer,false);
+                    OutString(pos[19],0,IVr.SalesMan,false);
+                    OutString(pos[20],0,enginer,false);
                     /*if(IVr.OrderNr<0) then begin//------------------------------- S E R V I C E!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       trhs2=true;
                       notenr = 1;
@@ -595,63 +631,68 @@ begin
     							end;
     							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,1,foundqty,true);
 						      startformat(15);
-						        OutString(0,0,IVr.CustCode,false);
-                    OutString(1,0,IVr.Addr0,false);
-                    OutString(2,0,IVr.InvDate,false);
-                    OutString(3,0,IVr.PayDate,false);
+						        OutString(pos[0],0,IVr.CustCode,false);
+                    OutString(pos[1],0,IVr.Addr0,false);
+                    OutString(pos[2],0,IVr.InvDate,false);
+                    OutString(pos[3],0,IVr.PayDate,false);
                     //OutString(3,0,IPrsr.TransNr,false);
                     //OutString(3,0,paid,false);
                     if (blankdate(enddate)) then begin
-                      OutDate(4,0,IVr.PayDate,false);
+                      OutDate(pos[4],0,IVr.PayDate,false);
                     end else begin
-                      OutDate(4,0,enddate,false);
+                      OutDate(pos[4],0,enddate,false);
                     end;
-                    OutString(5,0,IVr.SerNr,false);
-                    //OutString(5,0,TransNo,false);
-                    //OutString(5,0,paydatenew,false);
-                    //OutString(5,0,"",false);
-                    OutString(6,0,group,false);
-                    OutString(6,0,IVrw.ArtCode,false);
-                    OutString(10,0,IVrw.Spec,false);
+                    OutString(pos[5],0,IVr.SerNr,false);
+                    //OutString(pos[5],0,TransNo,false);
+                    //OutString(pos[5],0,paydatenew,false);
+                    //OutString(pos[5],0,"",false);
+                    OutString(pos[6],0,group,false);
+                    OutString(pos[6],0,IVrw.ArtCode,false);
+                    OutString(pos[7],0,IVrw.Spec,false);
                     //quant = IVrw.Quant; //Edit***************************Sasha2,11:39 24.04.2015
                     quant = IVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
-                    OutString(20,0,quant,false);
+                    OutString(pos[8],0,quant,false);
                     //salesprice = MulRateToBase1(IVr.CurncyCode,IVrw.Price,IVr.FrRate,IVr.ToRateB1,IVr.ToRateB2,IVr.BaseRate1,IVr.BaseRate2,DefaultCurRoundOff); //Edit***************************Sasha2,11:37 24.04.2015 {
                     //priceorig = IVrw.Price;
                     salesprice = sumusd/quant;
                     priceorig = sumcur/quant; //Edit***************************Sasha2,11:37 24.04.2015 }
-                    OutVal(30,0,salesprice,M4Val,false);
-                    OutVal(30,0,priceorig,M4Val,false);
+                    OutVal(pos[9],0,salesprice,M4Val,false);
+                    OutVal(pos[9],0,priceorig,M4Val,false);
           // Edit End ---------------------------------------------- Edit End
-                    OutVal(40,0,MyCost,M4Val,false);
+                    OutVal(pos[10],0,MyCost,M4Val,false);
                     curorig = round(IVr.FrRate/IVr.ToRateB1,defaultcurroundoff);
                     if(curorig==0)then begin
                       curorig = 1;
                     end;
                     costorig = MyCost* curorig;
                     sumcostorig = costorig * quant;
-                    OutVal(40,0,costorig,M4Val,false);
+                    OutVal(pos[10],0,costorig,M4Val,false);
                     //salessum = MulRateToBase1(IVr.CurncyCode,IVrw.Sum,IVr.FrRate,IVr.ToRateB1,IVr.ToRateB2,IVr.BaseRate1,IVr.BaseRate2,DefaultCurRoundOff); //Edit***************************Sasha2,11:48 24.04.2015 {
                     //sumorig = IVrw.Sum;
                     salessum = sumusd;
                     sumorig = sumcur; //Edit***************************Sasha2,11:48 24.04.2015 }
-                    OutVal(50,0,salessum,M4Val,false);
-                    OutVal(50,0,sumorig,M4Val,false);
-                    OutVal(60,0,MyCost*quant,M4Val,false);
-                    OutVal(60,0,sumcostorig,M4Val,false);
-                    OutVal(70,0,salessum-(MyCost*quant),M4Val,false);
+                    OutVal(pos[11],0,salessum,M4Val,false);
+                    OutVal(pos[11],0,sumorig,M4Val,false);
+                    OutVal(pos[12],0,MyCost*quant,M4Val,false);
+                    OutVal(pos[12],0,sumcostorig,M4Val,false);
+                    OutVal(pos[13],0,salessum-(MyCost*quant),M4Val,false);
                     gporig = sumorig - sumcostorig;
-                    OutVal(70,0,gporig,M4Val,false);
+                    OutVal(pos[13],0,gporig,M4Val,false);
+                    
+                    OutString(pos[14],0,"",false); //Edit***************************Sasha2,11:34 27.04.2015
+                    OutString(pos[15],0,"",false); //Edit***************************Sasha2,11:34 27.04.2015
+                    OutString(pos[16],0,ValToMyString(invfr/invto1,3),false); //Edit***************************Sasha2,11:34 27.04.2015
+                    OutString(pos[17],0,IVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015
                     
                     /*if(currentuser=="SA" or currentuser=="LADA" or currentuser=="BUTKEVICH")then begin
                        PrintSalesmanBonus(IVr.CustCode,IVrw.ArtCode,salessum-(MyCost*quant),IVr.SalesMan,IVr.TransDate);
                     end;*/
                    
                     If(NonBlank(CUr.Code)) then begin
-                      OutString(80,0,CUr.SalesMan,false);
+                      OutString(pos[18],0,CUr.SalesMan,false);
                     end; 
-                    OutString(90,0,IVr.SalesMan,false);
-                    OutString(90,0,enginer,false);
+                    OutString(pos[19],0,IVr.SalesMan,false);
+                    OutString(pos[20],0,enginer,false);
 						      endformat;
 					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
               end;
@@ -806,59 +847,70 @@ l1:;
           								end;
     							      end;
                         StartFormat(15);
-                          OutString(0,0,newIVr.CustCode,false);
-                          OutString(1,0,newIVr.Addr0,false);
-                          OutString(2,0,newIVr.InvDate,false);
-                          OutString(3,0,newIVr.PayDate,false);
+                          OutString(pos[0],0,newIVr.CustCode,false);
+                          OutString(pos[1],0,newIVr.Addr0,false);
+                          OutString(pos[2],0,newIVr.InvDate,false);
+                          OutString(pos[3],0,newIVr.PayDate,false);
                           if (blankdate(enddate)) then begin
-                            OutDate(4,0,newIVr.PayDate,false);
+                            OutDate(pos[4],0,newIVr.PayDate,false);
                           end else begin
-                            OutDate(4,0,enddate,false);
+                            OutDate(pos[4],0,enddate,false);
                           end;
-                          OutString(5,0,newIVr.SerNr,false);
-                          OutString(6,0,group,false);
-                          OutString(6,0,newIVrw.ArtCode,false);
-                          OutString(10,0,newIVrw.Spec,false);
+                          OutString(pos[5],0,newIVr.SerNr,false);
+                          OutString(pos[6],0,group,false);
+                          OutString(pos[6],0,newIVrw.ArtCode,false);
+                          OutString(pos[7],0,newIVrw.Spec,false);
                           //quant = newIVrw.Quant; //Edit***************************Sasha2,11:39 24.04.2015
                           quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
-                          OutString(20,0,-quant,false);
+                          OutString(pos[8],0,-quant,false);
                           //salesprice = MulRateToBase1(newIVr.CurncyCode,newIVrw.Price,newIVr.FrRate,newIVr.ToRateB1,newIVr.ToRateB2,newIVr.BaseRate1,newIVr.BaseRate2,DefaultCurRoundOff);
                           //priceorig = -newIVrw.Price;
                           salesprice = sumusd/quant;
                           priceorig = sumcur/quant;
-                          OutVal(30,0,-salesprice,M4Val,false);
-                          OutVal(30,0,-priceorig,M4Val,false);
+                          OutVal(pos[9],0,-salesprice,M4Val,false);
+                          OutVal(pos[9],0,-priceorig,M4Val,false);
                 // Edit End ---------------------------------------------- Edit End
                 
-                          OutVal(40,0,-MyCost,M4Val,false);
+                          OutVal(pos[10],0,-MyCost,M4Val,false);
                           curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
                           if(curorig==0)then begin
                             curorig = 1;
                           end;
                           costorig = MyCost*curorig;
-                          OutVal(40,0,-costorig,M4Val,false);
+                          OutVal(pos[10],0,-costorig,M4Val,false);
                           //salessum = MulRateToBase1(newIVr.CurncyCode,newIVrw.Sum,newIVr.FrRate,newIVr.ToRateB1,newIVr.ToRateB2,newIVr.BaseRate1,newIVr.BaseRate2,DefaultCurRoundOff);
                           //sumorig = newIVrw.Sum;
                           salessum = sumusd;
                           sumorig = sumcur;
-                          OutVal(50,0,-salessum,M4Val,false);
-                          OutVal(50,0,-sumorig,M4Val,false);
-                          OutVal(60,0,-MyCost*quant,M4Val,false);
+                          OutVal(pos[11],0,-salessum,M4Val,false);
+                          OutVal(pos[11],0,-sumorig,M4Val,false);
+                          OutVal(pos[12],0,-MyCost*quant,M4Val,false);
                           sumcostorig = costorig*quant;
-                          OutVal(60,0,-sumcostorig,M4Val,false);
-                          OutVal(70,0,-(salessum-(MyCost*quant)),M4Val,false);
+                          OutVal(pos[12],0,-sumcostorig,M4Val,false);
+                          OutVal(pos[13],0,-(salessum-(MyCost*quant)),M4Val,false);
                           gporig = sumorig - sumcostorig;
-                          OutVal(70,0,-gporig,M4Val,false);
+                          OutVal(pos[13],0,-gporig,M4Val,false);
+                          
+                          if (rate[j]!=0) then begin  //Edit***************************Sasha2,11:34 27.04.2015 {
+                            OutString(pos[14],0,ValToMyString(rate[j],3),false);
+                            OutString(pos[15],0,curncyarr[j],false); 
+                          end else begin
+                            OutString(pos[14],0,"",false);
+                            OutString(pos[15],0,"",false); 
+                          end;
+                          OutString(pos[16],0,ValToMyString(invfr/invto1,3),false); 
+                          OutString(pos[17],0,IVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015 }
+                    
                           /*
                             if(currentuser=="SA" or currentuser=="LADA" or currentuser=="BUTKEVICH")then begin
                               PrintSalesmanBonus(newIVr.CustCode,newIVrw.ArtCode,-(salessum-(MyCost*quant)),newIVr.SalesMan,newIVr.TransDate);
                             end;
                             */
                           If(NonBlank(CUr.Code)) then begin
-                            OutString(80,0,CUr.SalesMan,false);
+                            OutString(pos[18],0,CUr.SalesMan,false);
                           end; 
-                          OutString(90,0,newIVr.SalesMan,false);
-                          OutString(90,0,enginer,false);
+                          OutString(pos[19],0,newIVr.SalesMan,false);
+                          OutString(pos[20],0,enginer,false);
                           /*if(IVr.OrderNr<0) then begin//------------------------------- S E R V I C E!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                             trhs2=true;
                             notenr = 1;
@@ -900,59 +952,65 @@ l1:;
           							end;
           							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,1,foundqty,true);
       						      startformat(15);
-      						        OutString(0,0,newIVr.CustCode,false);
-                          OutString(1,0,newIVr.Addr0,false);
-                          OutString(2,0,newIVr.InvDate,false);
-                          OutString(3,0,newIVr.PayDate,false);
+      						        OutString(pos[0],0,newIVr.CustCode,false);
+                          OutString(pos[1],0,newIVr.Addr0,false);
+                          OutString(pos[2],0,newIVr.InvDate,false);
+                          OutString(pos[3],0,newIVr.PayDate,false);
                           if (blankdate(enddate)) then begin
-                            OutDate(4,0,newIVr.PayDate,false);
+                            OutDate(pos[4],0,newIVr.PayDate,false);
                           end else begin
-                            OutDate(4,0,enddate,false);
+                            OutDate(pos[4],0,enddate,false);
                           end;
-                          OutString(5,0,newIVr.SerNr,false);
-                          OutString(6,0,group,false);
-                          OutString(6,0,newIVrw.ArtCode,false);
-                          OutString(10,0,newIVrw.Spec,false);
+                          OutString(pos[5],0,newIVr.SerNr,false);
+                          OutString(pos[6],0,group,false);
+                          OutString(pos[6],0,newIVrw.ArtCode,false);
+                          OutString(pos[7],0,newIVrw.Spec,false);
                           //quant = newIVrw.Quant; //Edit***************************Sasha2,11:39 24.04.2015
                           quant = newIVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
-                          OutString(20,0,-quant,false);
+                          OutString(pos[8],0,-quant,false);
                           //salesprice = MulRateToBase1(newIVr.CurncyCode,newIVrw.Price,newIVr.FrRate,newIVr.ToRateB1,newIVr.ToRateB2,newIVr.BaseRate1,newIVr.BaseRate2,DefaultCurRoundOff);
                           //priceorig = -newIVrw.Price;
                           salesprice = sumusd/quant;
                           priceorig = sumcur/quant;
-                          OutVal(30,0,-salesprice,M4Val,false);
-                          OutVal(30,0,-priceorig,M4Val,false);
+                          OutVal(pos[9],0,-salesprice,M4Val,false);
+                          OutVal(pos[9],0,-priceorig,M4Val,false);
                 // Edit End ---------------------------------------------- Edit End
                 
-                          OutVal(40,0,-MyCost,M4Val,false);
+                          OutVal(pos[10],0,-MyCost,M4Val,false);
                           curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
                           if(curorig==0)then begin
                             curorig = 1;
                           end;
                           costorig = MyCost*curorig;
-                          OutVal(40,0,-costorig,M4Val,false);
+                          OutVal(pos[10],0,-costorig,M4Val,false);
                           //salessum = MulRateToBase1(newIVr.CurncyCode,newIVrw.Sum,newIVr.FrRate,newIVr.ToRateB1,newIVr.ToRateB2,newIVr.BaseRate1,newIVr.BaseRate2,DefaultCurRoundOff);
                           //sumorig = newIVrw.Sum;
                           salessum = sumusd;
                           sumorig = sumcur;
-                          OutVal(50,0,-salessum,M4Val,false);
-                          OutVal(50,0,-sumorig,M4Val,false);
-                          OutVal(60,0,-MyCost*quant,M4Val,false);
+                          OutVal(pos[11],0,-salessum,M4Val,false);
+                          OutVal(pos[11],0,-sumorig,M4Val,false);
+                          OutVal(pos[12],0,-MyCost*quant,M4Val,false);
                           sumcostorig = costorig*quant;
-                          OutVal(60,0,-sumcostorig,M4Val,false);
-                          OutVal(70,0,-(salessum-(MyCost*quant)),M4Val,false);
+                          OutVal(pos[12],0,-sumcostorig,M4Val,false);
+                          OutVal(pos[13],0,-(salessum-(MyCost*quant)),M4Val,false);
                           gporig = sumorig - sumcostorig;
-                          OutVal(70,0,-gporig,M4Val,false);
+                          OutVal(pos[13],0,-gporig,M4Val,false);
+                          
+                          OutString(pos[14],0,"",false); //Edit***************************Sasha2,11:34 27.04.2015
+                          OutString(pos[15],0,"",false); //Edit***************************Sasha2,11:34 27.04.2015
+                          OutString(pos[16],0,ValToMyString(invfr/invto1,3),false); //Edit***************************Sasha2,11:34 27.04.2015
+                          OutString(pos[17],0,newIVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015
+                    
                           /*
                             if(currentuser=="SA" or currentuser=="LADA" or currentuser=="BUTKEVICH")then begin
                               PrintSalesmanBonus(newIVr.CustCode,newIVrw.ArtCode,-(salessum-(MyCost*quant)),newIVr.SalesMan,newIVr.TransDate);
                             end;
                             */
                           If(NonBlank(CUr.Code)) then begin
-                            OutString(80,0,CUr.SalesMan,false);
+                            OutString(pos[18],0,CUr.SalesMan,false);
                           end; 
-                          OutString(90,0,newIVr.SalesMan,false);
-                          OutString(90,0,enginer,false);
+                          OutString(pos[19],0,newIVr.SalesMan,false);
+                          OutString(pos[20],0,enginer,false);
       						      endformat;
       					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
 	                 end;
