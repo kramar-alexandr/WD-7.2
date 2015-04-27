@@ -253,7 +253,6 @@ global
 updating function LongInt ItemStatusVcRecordSaveAfter(var record ItemStatusVc ISr,record ItemStatusVc IS2r,LongInt stat,LongInt long4)
 BEGIN
   LongInt res;
-  
   SyncWebRegUpdateFromIS(ISr);
   ItemStatusVcRecordSaveAfter = res;
   RETURN;

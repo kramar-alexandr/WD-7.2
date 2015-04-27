@@ -2,6 +2,7 @@ external updating procedure AutoRun();
 external updating procedure BuhExportEn();
 external procedure RetailSalesEn();
 
+
 global webpublic updating Procedure WebRunRetailSalesEn() //Edit***************************Sasha2,15:18 04.07.2014
 begin
 	integer compnr;
