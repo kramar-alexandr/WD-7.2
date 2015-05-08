@@ -1510,15 +1510,26 @@ begin
   								
   								end;
   	case	"StockMovVc":	if(IHr.Qty>=0)then begin
-  												sourceIHr.FileName = "StockMovVc";
-  												sourceIHr.TransNr = IHr.TransNr;
-  												sourceIHr.Row = IHr.Row;
-  												readlastkey("FNTransNr",sourceIHr,3,false);
-													curncy = sourceIHr.PUCurncyCode;
-													totcostpricecurncy = sourceIHr.TotCostPriceCurncy;
-													sfilename = sourceIHr.InFileName;
-													ssernr = sourceIHr.InSerNr;
-													srow = sourceIHr.InRow;
+  												if(usetmpstkf)then begin
+														sourceIHr.FileName = "StockMovVc";
+														sourceIHr.TransNr = IHr.TransNr;
+														sourceIHr.Row = IHr.Row;
+														readlastkey("FNTransNr",sourceIHr,3,false);
+														curncy = sourceIHr.PUCurncyCode;
+														totcostpricecurncy = sourceIHr.TotCostPriceCurncy;
+														sfilename = sourceIHr.InFileName;
+														ssernr = sourceIHr.InSerNr;
+														srow = sourceIHr.InRow;
+													end else begin
+														sourceIHr.SerNr = TSr.TransNr;
+														readfirstmain(sourceIHr,1,true);
+														curncy = sourceIHr.PUCurncyCode;
+														totcostpricecurncy = sourceIHr.TotCostPriceCurncy;
+														sfilename = sourceIHr.InFileName;
+														ssernr = sourceIHr.InSerNr;
+														srow = sourceIHr.InRow;
+														IHr.Source = sourceIHr.SerNr;
+													end;
   											end;
   	case	"RetVc":	if(IHr.Qty>=0)then begin
   												/*Retr.SerNr = IHr.TransNr;

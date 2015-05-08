@@ -1061,7 +1061,13 @@ begin
           fifod = IHr.TransDate;
         end;
 //        StoreItemHistory_In(MSb,artcode,IHr.SerialNr,location,filename,IHr.TransDate,fifod,-IHr.Qty,coeff,IHr.TotCostPrice,transnr,rownr,stockaffectf,topos,"");
-        StoreItemHistory_In(MSb,artcode,IHr.SerialNr,location,filename,IHr.TransDate,fifod,-IHr.Qty,coeff,-IHr.Qty*unitcost,transnr,rownr,stockaffectf,topos,"",TSr,usetmpstkf);
+        if(!usetmpstkf and TSr.TransNr==-1)then begin// Edit ************************** Wednesday, 29 April 2015 18:23:58
+        	TSr.TransNr = IHr.SerNr;// Edit ************************** Wednesday, 29 April 2015 18:23:59
+        	StoreItemHistory_In(MSb,artcode,IHr.SerialNr,location,filename,IHr.TransDate,fifod,-IHr.Qty,coeff,-IHr.Qty*unitcost,transnr,rownr,stockaffectf,topos,"",TSr,usetmpstkf);
+					TSr.TransNr = -1;
+        end else begin
+         	StoreItemHistory_In(MSb,artcode,IHr.SerialNr,location,filename,IHr.TransDate,fifod,-IHr.Qty,coeff,-IHr.Qty*unitcost,transnr,rownr,stockaffectf,topos,"",TSr,usetmpstkf);
+        end;// Edit ************************** Wednesday, 29 April 2015 18:23:59
         ihf = true;
       end;
     end;

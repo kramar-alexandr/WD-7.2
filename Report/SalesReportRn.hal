@@ -2,6 +2,8 @@ external function LongInt DateDiff(Date,Date);
 external procedure ExtractObj(string,var Integer,var string);
 external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode);
 external function val AbsoluteVal(val);
+external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
+
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -362,6 +364,7 @@ begin
 	val foundqty;
 	roundmode rnd; //Edit***************************Sasha2,10:44 16.02.2015
 	string 20 itemrate,ivrate;
+	string 20 invcurncy;
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
@@ -490,7 +493,20 @@ begin
 							outstring(i5,0,IVr.CustCode,false);
 							outstring(i6,0,IVr.Location,false);
 							outstring(i7,0,qty[j],false);
-							outstring(i8,0,IVr.CurncyCode,false);
+							invcurncy = IVr.CurncyCode;
+							invfr = IVr.FrRate;
+							invto1 = IVr.ToRateB1;
+							if(invfr==0 or invto1==0)then begin
+								invfr = 1;
+								invto1 = 1;
+							end;
+							if(left(IVr.CurncyCode,3)=="UAH")then begin
+								If(vecode[j]=="ERC")then begin
+									invcurncy = "UAH_E";
+									GetFullCurncyRate(invcurncy,IVr.InvDate,invfr,invto1,invto2,invbr1,invbr2);
+								end;
+							end;
+							outstring(i8,0,invcurncy,false);
 							outstring(i81,0,curncy[j],false);
 							
 							if(curncy[j]=="USD")then begin
@@ -513,7 +529,7 @@ begin
 								end else begin
 									CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
 									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-										CurValToOtherCur(currentdate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+										CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 									end;
 									outstring(i11,0,t,false);
 								end;
@@ -539,7 +555,7 @@ begin
 									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 									sumusd = t;
 									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-										CurValToOtherCur(currentdate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+										CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 										sumusd = t;
 									end;
 								end;
@@ -556,7 +572,7 @@ begin
 								CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
 								t = t / invfr * invto1;
 								If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-									CurValToOtherCur(currentdate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+									CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 								end;
 								outval(i16,0,t,m4UVal,false);
 							end;
@@ -676,6 +692,7 @@ begin
 	longint CredInvNo;
 	val foundqty;
 	roundmode rnd; //Edit***************************Sasha2,10:44 16.02.2015
+	string 5 invcurncy;
 	
 	usercode = currentuser;
 	if(nonblank(usercode))then begin
@@ -816,7 +833,13 @@ begin
 							outstring(i5,0,IVr.CustCode,false);
 							outstring(i6,0,IVr.Location,false);
 							outstring(i7,0,qty[j],false);
-							outstring(i8,0,IVr.CurncyCode,false);
+							invcurncy = IVr.CurncyCode;
+							if(left(IVr.CurncyCode,3)=="UAH")then begin
+								If(vecode[j]=="ERC")then begin
+									invcurncy = "UAH_E";
+								end;
+							end;
+							outstring(i8,0,invcurncy,false);
 							//outstring(i81,0,curncy[j],false);
 							//outstring(i9,0,ValToMyString(rate[j],4),false);
 							outstring(i10,0,IVrw.Price,false);
@@ -828,7 +851,7 @@ begin
 								end else begin
 									CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
 									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-										CurValToOtherCur(currentdate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+										CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 									end;
 									outstring(i11,0,t,false);
 								end;
@@ -850,7 +873,7 @@ begin
 									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 									sumusd = t;
 									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-										CurValToOtherCur(currentdate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+										CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 										sumusd = t;
 									end;
 								end;
@@ -867,7 +890,7 @@ begin
 								CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
 								t = t / invfr * invto1;
 								If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-									CurValToOtherCur(currentdate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+									CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 								end;
 								//outval(i16,0,t,m4UVal,false);
 							end;

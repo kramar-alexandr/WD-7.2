@@ -308,6 +308,11 @@ LkInvoiceRowTypeNormal:;
         PrintValueInclZero("F_BELOPP",IVCashrw.Sum,M4Val,LangNrr,SFb,false);
         OUTFORMFIELD("F_MOMSKOD",IVCashrw.VATCode);
         PrintValue("F_RABATT",IVCashrw.vRebate,M4Val,LangNrr,SFb,false);
+        
+        OUTFORMFIELD("MYF_RABATTABS",Round((IVCashrw.Quant * IVCashrw.Price) - IVCashrw.Sum,SetRoundModeD(2)));// Edit ************************** Thursday, 30 April 2015 17:27:11
+        
+        
+        
         OUTFORMFIELD("F_SERIENR",IVCashrw.SerialNr);
         if (FIELDINFORM("F_ENHET")) then begin
           SelectUnitText(IVCashr.LangCode,INr.Unittext,tstr);
