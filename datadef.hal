@@ -2353,5 +2353,14 @@ EndRecord;
 		EndArray;
 	EndBlock;
 	
+  BlockBegin(ObjectsAccBlock,-,"");
+		RecordField(Math,M4Matrix,0,0);
+		ArrayBegin(Math,-,1);
+		ArrayField(Objects,M4UStr,60,ObjVc);
+		ArrayField(AccCode,M4Code,10,AccVc);
+		ArrayField(SaleAccCode,M4Code,10,AccVc);
+		EndArray;
+	EndBlock;	
+	
 return;
 end;

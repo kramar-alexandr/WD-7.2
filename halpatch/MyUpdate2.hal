@@ -97,7 +97,11 @@ begin
 			if(SVOr.SerNr>=9000000)then begin
 				body = "[SENDER]A-SERVICE[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-4515451.[/SMS]";
 			end else begin
-				body = "[SENDER]A-SERVICE[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2227709.[/SMS]";
+				if(SVOr.SerNr>=8000000)then begin
+					body = "[SENDER]A-SERVICE[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2229293.[/SMS]";
+				end else begin
+					body = "[SENDER]A-SERVICE[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2227709.[/SMS]";
+				end;
 			end;
 			//body = convertstringfromcodepage("WINDOWS-1251",body);
 			addtexttoarea(body,a_body);
