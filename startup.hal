@@ -39,6 +39,11 @@ begin
 	Report("Резерв по рахункам",MyReservStatRClass,MyReservStstRn,0,modSO);
 	Report("Віртуальні товари у Веб магазині",WebSyncRegRClass,WebSyncRegRn,0,modDBMain);
 	
+	Report("История серийных номеров 2",MySerhistRClass,MySerHistRn,0,modSVO);
+	Report("Пошук замовлень на обслуговування",MySearchSVORClass,MySearchSVORn,0,modSVO);
+	Report("Пошук по нотаткам в замовленнях",MyNotSearchSVORClass,MyNotSearchSVORn,0,modSVO);
+	Report("Проведенные таблицы работ",WSVcOKReportRClass,WSVcOKReportRn,0,modSVO);	
+	
 	Setting("Валюта ЕККА",POSCurncyTClass,modPOS); //Edit***************************Sasha2,17:25 11.09.2014
 	Setting("Рахунки продавців",LocalMachineAccTClass,modPOS); //Edit***************************Sasha2,17:26 11.09.2014
 	Setting("Налаштування фіскального принтера",SerPrintCustomTClass,modPOS); //Edit***************************Sasha2,9:35 03.10.2014
