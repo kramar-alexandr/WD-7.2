@@ -176,6 +176,13 @@ integer compno;
 	RepSpec.ArtMode = 1;
 	RepSpec.flags[0] = 1;
       switch (compno) begin  
+      case 1: delete_file("Stock/ISStockFull.xls");
+      				CreateFile("Stock/ISStockFull.xls");
+              closefile;
+              openexportfile("Stock/ISStockFull.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/ISStockFull.sh", "");
+              
       case 2: delete_file("Stock/ITEKUAStockFull.xls");
       				CreateFile("Stock/ITEKUAStockFull.xls");
               closefile;

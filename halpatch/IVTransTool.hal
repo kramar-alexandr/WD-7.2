@@ -1210,6 +1210,7 @@ BEGIN
       goto LAddIVCostRow;
     end;
   end;
+  messagebox(0,IVrw.ArtCode);
   if (nonblank(IVrw.ArtCode)) then begin
   if ((IVrw.stp==kInvoiceRowTypeNormal) or (IVrw.stp==kInvoiceRowTypeStructuredItemComponent) or (IVrw.stp==kInvoiceRowTypeCorrection) or (IVrw.stp==kInvoiceRowTypeInterest) or (IVrw.stp==kInvoiceRowTypeDownpayment)) then begin
     if (IVrw.stp==kInvoiceRowTypeNormal) or (IVrw.stp==kInvoiceRowTypeStructuredItemComponent) or (IVrw.stp==kInvoiceRowTypeCorrection) then begin
@@ -1240,6 +1241,7 @@ what about dont post cost on deliveries ?
               end;
             end;
         end;
+        messagebox(0,"rowstockacc" & rowstockacc);
         if (CAb.ItemGroupAccounts!=0) then begin   // Delivery works one way and Invoice another Many people is not happy except one man I guess         
           ITr.Code = INr.Group;
           if (ReadFirstMain(ITr,1,true)) then begin end;
@@ -1255,6 +1257,7 @@ what about dont post cost on deliveries ?
         if (blank(location)) then begin
           location = IVp.Location;
         end;
+        messagebox(0,"location" & location);
         if (nonblank(location)) then begin
           LocRec.Code = location;
           if (ReadFirstMain(LocRec,1,true)) then begin
@@ -1268,6 +1271,7 @@ what about dont post cost on deliveries ?
             locobjstr = LocRec.Objects;
           end;
         end;
+        messagebox(0,"rowstockacc" & rowstockacc);
         switch (ordertype) begin
           case kOrderTypeDropShip:
           otherwise
@@ -1457,6 +1461,7 @@ L22AddIVCostRow:;
                 if (nonblank(ARAccb.StockAcc)) then begin
                   rowstockacc = ARAccb.StockAcc;
                 end;
+                messagebox(0,"rowstockacc1" & rowstockacc);
                 if (CAb.NoNLCostOnShip==2) then begin
                   if ((IVrw.OrdRow!=-1) and (IVp.OrderNr!=-1)) or
                      (IVp.SVONr!=-1) or (nonblank(IVp.PRCode) and IVrw.SHNr>0) then begin

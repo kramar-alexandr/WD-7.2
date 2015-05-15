@@ -26,6 +26,8 @@ Technomedia = 7;//Technomedia
 AService = 8;
 
   if (SetCompany(iStore,false)) then begin
+  	logtext(0,currentcompany & " FullStockEn");
+    FullStockEn;
 		logtext(0,currentcompany & " SalesReportEn");
     SalesReportEn;
     logtext(0,currentcompany & " ManagersFullStockEn");

@@ -337,7 +337,7 @@ end;
 
 global procedure SalesReportRn(record RcVc RepSpec)
 begin
-	integer i0,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i91,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
+	integer i0,i01,i02,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i91,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
 	integer i,mtrw;
 	record IVVc IVr;
 	row IVVc IVrw;
@@ -377,6 +377,8 @@ begin
 	startreportnoheaderjob("Звіт по продажам");
 		startformat(15);		
 			outstring(i0,0,"Група",false);
+			outstring(i01,0,"Постачальник",false);
+			outstring(i02,0,"Класифікація",false);
 			outstring(i2,0,"Код товару",false);
 			outstring(i3,0,"Найменування",false);
 			outstring(i4,0,"Дата продажу",false);
@@ -420,6 +422,7 @@ begin
 		if(IVr.InvDate>ed)then begin TrHs = false; testf = false; end;
 		if(IVr.Invalid==1)then begin testf = false; end;
 		if(IVr.OKFlag==0)then begin testf = false; end;
+		if(nonblank(RepSpec.f6) and IVr.CustCode!=RepSpec.f6)then begin testf = false; end;// Edit ************************** Thursday, 14 May 2015 16:17:55
 		
 		cred = 1;
 		if(IVr.InvType==3) then begin 
@@ -486,6 +489,8 @@ begin
 					For(j=0;j<ressize;j=j+1) begin
 						startformat(15);		
 							outstring(i0,0,ITr.Comment,false);
+							outstring(i01,0,vecode[j],false);
+							outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
 							outstring(i2,0,INr.Code,false);
 							outstring(i3,0,INr.Name,false);
 							outstring(i4,0,IVr.InvDate,false);
@@ -606,6 +611,8 @@ begin
 					if(foundqty*cred<IVrw.Quant)then begin
 						startformat(15);		
 							outstring(i0,0,ITr.Comment,false);
+							outstring(i01,0,"",false);
+							outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
 							outstring(i2,0,INr.Code,false);
 							outstring(i3,0,INr.Name,false);
 							outstring(i4,0,IVr.InvDate,false);
@@ -662,7 +669,7 @@ end;
 
 global procedure SalesReportForManagersRn(record RcVc RepSpec)
 begin
-	integer i0,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
+	integer i0,i01,i02,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
 	integer i,mtrw;
 	record IVVc IVr;
 	row IVVc IVrw;
@@ -718,6 +725,8 @@ begin
 	startreportnoheaderjob("Звіт по продажам");
 		startformat(15);		
 			outstring(i0,0,"Група",false);
+			outstring(i01,0,"Постачальник",false);
+			outstring(i02,0,"Класифікація",false);
 			outstring(i2,0,"Код товару",false);
 			outstring(i3,0,"Найменування",false);
 			outstring(i4,0,"Дата продажу",false);
@@ -763,6 +772,7 @@ begin
 		if(IVr.Invalid==1)then begin testf = false; end;
 		if(IVr.OKFlag==0)then begin testf = false; end;
 		if(nonblank(salesgroup) and IVr.SalesGroup!=salesgroup)then begin testf = false;  end;
+		if(nonblank(RepSpec.f6) and IVr.CustCode!=RepSpec.f6)then begin testf = false; end;// Edit ************************** Thursday, 14 May 2015 16:17:55
 		
 		cred = 1;
 		if(IVr.InvType==3) then begin 
@@ -826,6 +836,8 @@ begin
 					For(j=0;j<ressize;j=j+1) begin
 						startformat(15);		
 							outstring(i0,0,ITr.Comment,false);
+							outstring(i01,0,vecode[j],false);
+							outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
 							outstring(i2,0,INr.Code,false);
 							outstring(i3,0,INr.Name,false);
 							outstring(i4,0,IVr.InvDate,false);
@@ -926,6 +938,8 @@ begin
 					if(foundqty*cred<IVrw.Quant)then begin
 						startformat(15);		
 							outstring(i0,0,ITr.Comment,false);
+							outstring(i01,0,"",false);
+							outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
 							outstring(i2,0,INr.Code,false);
 							outstring(i3,0,INr.Name,false);
 							outstring(i4,0,IVr.InvDate,false);

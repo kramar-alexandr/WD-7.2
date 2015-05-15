@@ -38,6 +38,9 @@ begin
 	Report("CHECK UpdItemHist",RetailSalesRClass,InvUpdStoRn,0,modSO); //Edit***************************Sasha2,12:10 29.01.2015
 	Report("Резерв по рахункам",MyReservStatRClass,MyReservStstRn,0,modSO);
 	Report("Віртуальні товари у Веб магазині",WebSyncRegRClass,WebSyncRegRn,0,modDBMain);
+	Report("Інвентаризація (нова)",InventMyRClass,InventMyRn,0,modIN);// Edit ************************** Friday, 8 May 2015 11:48:41
+
+	
 	
 	Report("История серийных номеров 2",MySerhistRClass,MySerHistRn,0,modSVO);
 	Report("Пошук замовлень на обслуговування",MySearchSVORClass,MySearchSVORn,0,modSVO);

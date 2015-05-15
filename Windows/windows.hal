@@ -46,11 +46,11 @@ begin
 		SetWRect(20,120,350,300);
 		h=100; v=10;
 		PeriodField(h,v,"Період");
-		/*EditField(h,v+=20,150,"Клієнт",Normal,f1,false,CUSClass);
+		EditField(h,v+=20,150,"Клієнт",Normal,f6,false,CUSClass);
 		EditField(h,v+=20,150,"Група",Normal,f2,false,ITSClass);
 		EditField(h,v+=20,150,"Товар",Normal,f3,false,INSClass);
 		EditField(h,v+=20,150,"Постачальник",Normal,f4,false,VESClass);
-		EditField(h,v+=20,150,"Класифікація",Normal,f5,false,DISClass);*/
+		EditField(h,v+=20,150,"Класифікація",Normal,f5,false,DISClass);
 	
 	EndWindow;
 return;
@@ -1028,5 +1028,17 @@ begin
   SetWRect(20,80,400,300);
   
   EndWindow;
+  return;
+end;
+
+
+window InventMyRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin  
+   WindowBegin("Інвентаризація",InventMyRClass,CGRcW,RcType);
+    SetWRect(20,120,360,280);
+    EditFieldTL(150,25,100,"Склад",M4Code,Normal,50,f1,false,LocationSClass);
+    PeriodField(150,45,"Період інвентаризації");
+  EndWindow; 
   return;
 end;
