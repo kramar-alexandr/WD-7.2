@@ -1042,3 +1042,67 @@ begin
   EndWindow; 
   return;
 end;
+
+
+window SalesGroupDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,v,vs;
+  WindowBegin("Група продажу",SalesGroupDClass,CGview,-);
+  SetWRect(20,80,440,150);
+  UseView(SalesGroupVc);
+  vs=20;v=6;
+  EditField(h=50,v,70,"Код",Normal,SGroupCode,false,0); 
+  EditField(h,v+=vs,-40,"Найм.",Normal,SGroupName,false,0); 
+  EditField(h+100,v+=vs,70,"Серія номерів документів",Normal,SGroupSeries,false,0); 
+  EndWindow;
+end; 
+ 
+ 
+window SalesGroupLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+  WindowBegin("Групи продажу",SalesGroupLClass,CGmlist,-);
+  SetWRect(20,80,400,298);
+  SpawnClass(SalesGroupDClass);
+  Sizeable(-1,-1,0,0);
+  UseView(SalesGroupVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Група",SGroupCode,false,SGroupCode);
+  RlColKey(150,150,"Найменування",SGroupName,false,SGroupName);
+  RlCol(-70,-70,"Серія",SGroupSeries,false);
+  SearchField("Пошук");
+  EndWindow;
+end;  
+
+window SalesGroupSClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin   
+  WindowBegin("Визначте групу продажу",SalesGroupSClass,CGslist,-);
+  SetWRect(20,80,400,298);
+  SpawnClass(SalesGroupDClass);
+  Sizeable(-1,-1,0,0);
+  UseView(SalesGroupVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Група продажу",SGroupCode,false,SGroupCode);
+  RlColKey(150,150,"Найменування",SGroupName,false,SGroupName);
+  RlCol(-70,-70,"Серія",SGroupSeries,false);
+  SearchField("Пошук");
+  EndWindow;
+end; 
+
+window ObjectsAccTClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+  WindowBegin("Рахунки об'єктів",ObjectsAccTClass,CGHbl,-);
+  SetBlid(ObjectsAccBlock);
+  SetWRect(64,80,600,200);
+    MatrixBegin(5,27,-21,-20,-,99);
+    MatCol(1,24,"Об'єкт",0,Objects,false,ObjSClass);
+    MatCol(1,-260,"Рахунок собівартості",0,AccCode,false,AccSClass);
+    MatCol(1,-130,"Рахунок продажу",0,SaleAccCode,false,AccSClass);
+
+    EndMatrix;
+  EndWindow; 
+ end;  
+
