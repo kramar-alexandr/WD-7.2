@@ -67,7 +67,9 @@ AService = 8;
   
   	/*if (SetCompany(WD,false)) then begin//itek
   	logtext(0,currentcompany & " IPEn"); 
-    IPEn; 
+    IPEn;
+  	logtext(0,currentcompany & " KreditorkaReportEn"); 
+    KreditorkaReportEn(WD);     
   	
     
     ResetCompany(WD);  
