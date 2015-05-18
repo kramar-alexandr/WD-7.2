@@ -1,4 +1,3 @@
-external procedure APRn(record RcVc);
 external procedure ARRn(record RcVc);
 
 SetLangMode(LangUkrainian,"UKR",0);
@@ -238,53 +237,5 @@ begin
       end;
     end;
   endjob;
-return;
-end;
-
-
-
-global procedure KreditorkaReportEn(integer compnr)
-begin
-record RcVc RepSpec;
-string 50 filename;
-      
-      if(GetDateID(currentdate)==1)then begin
-        switch(compnr)begin
-          case 1: filename = "Stock/ISTORCreditorka.xls";
-          case 2: filename = "Stock/ITEKUACreditorka.xls";
-          case 3: filename = "Stock/WDCreditorka.xls";
-          case 4: filename = "Stock/PPhLCreditorka.xls";//PPHl
-          case 5: filename = "Stock/TXTCreditorka.xls";
-          //case 6: filename = "Stock/ITEKMDCreditorka.xls";
-          case 7: filename = "Stock/TNMCreditorka.xls";
-          case 8: filename = "Stock/A-SRVCreditorka.xls";
-        end;
-        
-        CreateFile(filename);
-        closefile;
-        millisleep(100);
-        openexportfile(filename,true);
-        ReportDefaults(RepSpec,"APRClass");
-        RepSpec.ArtMode = 1;
-        RepSpec.flags[2] = 1;
-        RepSpec.flags[13] = 1;
-        RepSpec.Media = 20;
-        
-        RepSpec.flags[29] = 1;// Edit ************************** Friday, 25 May 2012 12:58:08
-        
-        APRn(RepSpec);
-        closefile;
-        
-        switch(compnr)begin
-          case 1: RunProgram("Stock/ISTORCreditorka.sh","");
-          case 2: RunProgram("Stock/ITEKUACreditorka.sh","");
-          case 3: RunProgram("Stock/WDCreditorka.sh","");
-          case 4: RunProgram("Stock/PPhLCreditorka.sh","");//PPHl
-          case 5: RunProgram("Stock/TXTCreditorka.sh","");
-          //case 6: RunProgram("Stock/ITEKMDCreditorka.sh","");
-          case 7: RunProgram("Stock/TNMCreditorka.sh","");
-          case 8: RunProgram("Stock/A-SRVCreditorka.sh","");
-        end;
-      end;
 return;
 end;
