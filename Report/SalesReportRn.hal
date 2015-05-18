@@ -365,6 +365,7 @@ begin
 	roundmode rnd; //Edit***************************Sasha2,10:44 16.02.2015
 	string 20 itemrate,ivrate;
 	string 20 invcurncy;
+	boolean filter;// Edit ************************** Thursday, 14 May 2015 16:20:54
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
@@ -473,6 +474,7 @@ begin
 						end;
 					end;
 					
+					
 					location = "";
 					if(nonblank(IVrw.Location))then begin
 						location = IVrw.Location;
@@ -480,181 +482,197 @@ begin
 						location = IVr.Location;
 					end;
 					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo);		
-					
+				
 					foundqty = 0;
 					For(j=0;j<ressize;j=j+1) begin
 						foundqty = foundqty + qty[j];
 					end;
-					
+				
 					For(j=0;j<ressize;j=j+1) begin
-						startformat(15);		
-							outstring(i0,0,ITr.Comment,false);
-							outstring(i01,0,vecode[j],false);
-							outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
-							outstring(i2,0,INr.Code,false);
-							outstring(i3,0,INr.Name,false);
-							outstring(i4,0,IVr.InvDate,false);
-							outstring(i1,0,IVr.SerNr,false);
-							outstring(i5,0,IVr.CustCode,false);
-							outstring(i6,0,IVr.Location,false);
-							outstring(i7,0,qty[j],false);
-							invcurncy = IVr.CurncyCode;
-							invfr = IVr.FrRate;
-							invto1 = IVr.ToRateB1;
-							if(invfr==0 or invto1==0)then begin
-								invfr = 1;
-								invto1 = 1;
-							end;
-							if(left(IVr.CurncyCode,3)=="UAH")then begin
-								If(vecode[j]=="ERC")then begin
-									invcurncy = "UAH_E";
-									GetFullCurncyRate(invcurncy,IVr.InvDate,invfr,invto1,invto2,invbr1,invbr2);
+						filter = true;// Edit ************************** Thursday, 14 May 2015 16:21:10
+						if(nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f3) and RepSpec.f3!=INr.Code)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f4) and RepSpec.f4!=vecode[j])then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f5) and !SetInSet(RepSpec.f5,INr.DispGroups))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+				
+						if(filter)then begin// Edit ************************** Thursday, 14 May 2015 16:21:33
+							startformat(15);		
+								outstring(i0,0,ITr.Comment,false);
+								outstring(i01,0,vecode[j],false);
+								outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
+								outstring(i2,0,INr.Code,false);
+								outstring(i3,0,INr.Name,false);
+								outstring(i4,0,IVr.InvDate,false);
+								outstring(i1,0,IVr.SerNr,false);
+								outstring(i5,0,IVr.CustCode,false);
+								outstring(i6,0,IVr.Location,false);
+								outstring(i7,0,qty[j],false);
+								invcurncy = IVr.CurncyCode;
+								invfr = IVr.FrRate;
+								invto1 = IVr.ToRateB1;
+								if(invfr==0 or invto1==0)then begin
+									invfr = 1;
+									invto1 = 1;
 								end;
-							end;
-							outstring(i8,0,invcurncy,false);
-							outstring(i81,0,curncy[j],false);
-							
-							if(curncy[j]=="USD")then begin
-								outstring(i9,0,ValToMyString(invfr * invto1,4),false);
-							end else begin
-								if(rate[j]!=0)then begin
-									outstring(i9,0,ValToMyString(rate[j],4),false);
-								end else begin
+								if(left(IVr.CurncyCode,3)=="UAH")then begin
+									If(vecode[j]=="ERC")then begin
+										invcurncy = "UAH_E";
+										GetFullCurncyRate(invcurncy,IVr.InvDate,invfr,invto1,invto2,invbr1,invbr2);
+									end;
+								end;
+								outstring(i8,0,invcurncy,false);
+								outstring(i81,0,curncy[j],false);
+						
+								if(curncy[j]=="USD")then begin
 									outstring(i9,0,ValToMyString(invfr * invto1,4),false);
-								end;
-							end;
-							outstring(i91,0,ValToMyString(invfr * invto1,4),false);
-							
-							outstring(i10,0,IVrw.Price,false);
-							if(curncy[j]=="USD")then begin
-								outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
-							end else begin
-								if(IVr.CurncyCode=="USD")then begin
-									outstring(i11,0,IVrw.Price,false);
 								end else begin
-									CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
-									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-										CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+									if(rate[j]!=0)then begin
+										outstring(i9,0,ValToMyString(rate[j],4),false);
+									end else begin
+										outstring(i9,0,ValToMyString(invfr * invto1,4),false);
 									end;
-									outstring(i11,0,t,false);
 								end;
-							end;
-							outstring(i12,0,IVrw.vRebate,false);
-							
-							//sumcur = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
-							sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
-							outstring(i13,0,ValToMyString(sumcur,3),false);
-							
-							if(curncy[j]=="USD")then begin
-								//sumusd = IVrw.Sum/IVrw.Quant * qty[j] / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
-								sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
-								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:45 16.02.2015
-								outstring(i14,0,ValToMyString(sumusd,3),false);
-							end else begin
-								if(IVr.CurncyCode=="USD")then begin
-									//sumusd = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
-									sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
+								outstring(i91,0,ValToMyString(invfr * invto1,4),false);
+						
+								outstring(i10,0,IVrw.Price,false);
+								if(curncy[j]=="USD")then begin
+									outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 								end else begin
-								  //sumusd = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
-								  sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
-									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
-									sumusd = t;
-									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-										CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+									if(IVr.CurncyCode=="USD")then begin
+										outstring(i11,0,IVrw.Price,false);
+									end else begin
+										CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
+										If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+											CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+										end;
+										outstring(i11,0,t,false);
+									end;
+								end;
+								outstring(i12,0,IVrw.vRebate,false);
+						
+								//sumcur = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
+								sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
+								outstring(i13,0,ValToMyString(sumcur,3),false);
+						
+								if(curncy[j]=="USD")then begin
+									//sumusd = IVrw.Sum/IVrw.Quant * qty[j] / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
+									sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
+									sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:45 16.02.2015
+									outstring(i14,0,ValToMyString(sumusd,3),false);
+								end else begin
+									if(IVr.CurncyCode=="USD")then begin
+										//sumusd = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
+										sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
+									end else begin
+										//sumusd = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
+										sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
+										CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 										sumusd = t;
+										If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+											CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+											sumusd = t;
+										end;
 									end;
+									sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:46 16.02.2015
+									outstring(i14,0,ValToMyString(sumusd,3),false);
 								end;
-								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:46 16.02.2015
-								outstring(i14,0,ValToMyString(sumusd,3),false);
-							end;
-							
-							t = blankval;
-							if(curncy[j]=="USD")then begin
-								outval(i15,0,curcost[j],m4UVal,false);
-								outval(i16,0,cost[j],m4UVal,false);
-							end else begin
-								outval(i15,0,curcost[j],m4UVal,false);
-								CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
-								t = t / invfr * invto1;
-								If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-									CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+						
+								t = blankval;
+								if(curncy[j]=="USD")then begin
+									outval(i15,0,curcost[j],m4UVal,false);
+									outval(i16,0,cost[j],m4UVal,false);
+								end else begin
+									outval(i15,0,curcost[j],m4UVal,false);
+									CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
+									t = t / invfr * invto1;
+									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+										CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+									end;
+									outval(i16,0,t,m4UVal,false);
 								end;
-								outval(i16,0,t,m4UVal,false);
-							end;
 
-							sumcostcur = curcost[j] * qty[j];
-							outstring(i17,0,ValToMyString(sumcostcur,3),false);
-							sumcostusd = cost[j] * qty[j];
-							outstring(i18,0,ValToMyString(sumcostusd,3),false);
-							
-							
-							if(IVr.CurncyCode==curncy[j])then begin
-								outstring(i19,0,ValToMyString((sumcur - sumcostcur),3),false);
-							end else begin
-								outstring(i19,0,"",false);
-							end;
-							outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
-							outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
-							outstring(i22,0,IVr.ShipMode,false);
-							outstring(i23,0,indate[j],false);
-							outstring(i24,0,vecode[j],false);
-							outstring(i25,0,serial[j],false);
-							outstring(i26,0,CUr.SalesMan,false);
-							outstring(i27,0,IVr.SalesMan,false);
-							outstring(i28,0,"",false);
-							for(l=0;l<k;l=l+1) begin
-							outstring(i29,0,class[l],false);
-							end;
-						endformat;
-					end;
-					
-					if(foundqty*cred<IVrw.Quant)then begin
-						startformat(15);		
-							outstring(i0,0,ITr.Comment,false);
-							outstring(i01,0,"",false);
-							outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
-							outstring(i2,0,INr.Code,false);
-							outstring(i3,0,INr.Name,false);
-							outstring(i4,0,IVr.InvDate,false);
-							outstring(i1,0,IVr.SerNr,false);
-							outstring(i5,0,IVr.CustCode,false);
-							outstring(i6,0,IVr.Location,false);
-							outstring(i7,0,IVrw.Quant*cred - foundqty,false);
-							outstring(i8,0,IVr.CurncyCode,false);
-							outstring(i81,0,"",false);
-							outstring(i9,0,"",false);
-							outstring(i10,0,IVrw.Price,false);
-							outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
-							outstring(i12,0,IVrw.vRebate,false);
-							//sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty); //Edit***************************Sasha2,8:58 02.02.2015
-							sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,1,1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
-							outstring(i13,0,ValToMyString(sumcur,3),false);
-							//sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty) / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
-							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
-							sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:56 16.02.2015
-							outstring(i14,0,ValToMyString(sumusd,3),false);
-							t = blankval;
-							outval(i15,0,0,m4UVal,false);
-							outval(i16,0,IVrw.FIFORowVal/IVrw.Quant,m4UVal,false);
-							sumcostcur = curcost[j] * (IVrw.Quant*cred - foundqty);
-							outstring(i17,0,"",false);
-							sumcostusd = IVrw.FIFORowVal/IVrw.Quant * (IVrw.Quant*cred - foundqty);
-							outstring(i18,0,ValToMyString(sumcostusd,3),false);
-							outstring(i19,0,"",false);
-							outstring(i20,0,"",false);
-							outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
-							outstring(i22,0,IVr.ShipMode,false);
-							outstring(i23,0,"",false);
-							outstring(i24,0,"",false);
-							outstring(i25,0,"",false);
-							outstring(i26,0,CUr.SalesMan,false);
-							outstring(i27,0,IVr.SalesMan,false);
-							outstring(i28,0,"",false);
-							for(l=0;l<k;l=l+1) begin
+								sumcostcur = curcost[j] * qty[j];
+								outstring(i17,0,ValToMyString(sumcostcur,3),false);
+								sumcostusd = cost[j] * qty[j];
+								outstring(i18,0,ValToMyString(sumcostusd,3),false);
+						
+						
+								if(IVr.CurncyCode==curncy[j])then begin
+									outstring(i19,0,ValToMyString((sumcur - sumcostcur),3),false);
+								end else begin
+									outstring(i19,0,"",false);
+								end;
+								outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
+								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
+								outstring(i22,0,IVr.ShipMode,false);
+								outstring(i23,0,indate[j],false);
+								outstring(i24,0,vecode[j],false);
+								outstring(i25,0,serial[j],false);
+								outstring(i26,0,CUr.SalesMan,false);
+								outstring(i27,0,IVr.SalesMan,false);
+								outstring(i28,0,"",false);
+								for(l=0;l<k;l=l+1) begin
 								outstring(i29,0,class[l],false);
-							end;
-							outstring(i29,0,"Џродажа без истории по товарам",false);
-						endformat;
+								end;
+							endformat;
+						end;
+					end;
+				
+					if(foundqty*cred<IVrw.Quant)then begin
+						filter = true;// Edit ************************** Thursday, 14 May 2015 16:21:10
+						if(nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f3) and RepSpec.f3!=INr.Code)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f4))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f5) and !SetInSet(RepSpec.f5,INr.DispGroups))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+				
+						if(filter)then begin// Edit ************************** Thursday, 14 May 2015 16:21:33
+							startformat(15);		
+								outstring(i0,0,ITr.Comment,false);
+								outstring(i01,0,"",false);
+								outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
+								outstring(i2,0,INr.Code,false);
+								outstring(i3,0,INr.Name,false);
+								outstring(i4,0,IVr.InvDate,false);
+								outstring(i1,0,IVr.SerNr,false);
+								outstring(i5,0,IVr.CustCode,false);
+								outstring(i6,0,IVr.Location,false);
+								outstring(i7,0,IVrw.Quant*cred - foundqty,false);
+								outstring(i8,0,IVr.CurncyCode,false);
+								outstring(i81,0,"",false);
+								outstring(i9,0,"",false);
+								outstring(i10,0,IVrw.Price,false);
+								outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
+								outstring(i12,0,IVrw.vRebate,false);
+								//sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty); //Edit***************************Sasha2,8:58 02.02.2015
+								sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,1,1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
+								outstring(i13,0,ValToMyString(sumcur,3),false);
+								//sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty) / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
+								sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
+								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:56 16.02.2015
+								outstring(i14,0,ValToMyString(sumusd,3),false);
+								t = blankval;
+								outval(i15,0,0,m4UVal,false);
+								outval(i16,0,IVrw.FIFORowVal/IVrw.Quant,m4UVal,false);
+								sumcostcur = curcost[j] * (IVrw.Quant*cred - foundqty);
+								outstring(i17,0,"",false);
+								sumcostusd = IVrw.FIFORowVal/IVrw.Quant * (IVrw.Quant*cred - foundqty);
+								outstring(i18,0,ValToMyString(sumcostusd,3),false);
+								outstring(i19,0,"",false);
+								outstring(i20,0,"",false);
+								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
+								outstring(i22,0,IVr.ShipMode,false);
+								outstring(i23,0,"",false);
+								outstring(i24,0,"",false);
+								outstring(i25,0,"",false);
+								outstring(i26,0,CUr.SalesMan,false);
+								outstring(i27,0,IVr.SalesMan,false);
+								outstring(i28,0,"",false);
+								for(l=0;l<k;l=l+1) begin
+									outstring(i29,0,class[l],false);
+								end;
+								outstring(i29,0,"Џродажа без истории по товарам",false);
+							endformat;
+						end;
 					end;
 				end;	  
 			end; 
@@ -700,6 +718,7 @@ begin
 	val foundqty;
 	roundmode rnd; //Edit***************************Sasha2,10:44 16.02.2015
 	string 5 invcurncy;
+	boolean filter;
 	
 	usercode = currentuser;
 	if(nonblank(usercode))then begin
@@ -834,152 +853,168 @@ begin
 						foundqty = foundqty + qty[j];
 					end;
 					For(j=0;j<ressize;j=j+1) begin
-						startformat(15);		
-							outstring(i0,0,ITr.Comment,false);
-							outstring(i01,0,vecode[j],false);
-							outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
-							outstring(i2,0,INr.Code,false);
-							outstring(i3,0,INr.Name,false);
-							outstring(i4,0,IVr.InvDate,false);
-							outstring(i1,0,IVr.SerNr,false);
-							outstring(i5,0,IVr.CustCode,false);
-							outstring(i6,0,IVr.Location,false);
-							outstring(i7,0,qty[j],false);
-							invcurncy = IVr.CurncyCode;
-							if(left(IVr.CurncyCode,3)=="UAH")then begin
-								If(vecode[j]=="ERC")then begin
-									invcurncy = "UAH_E";
-								end;
-							end;
-							outstring(i8,0,invcurncy,false);
-							//outstring(i81,0,curncy[j],false);
-							//outstring(i9,0,ValToMyString(rate[j],4),false);
-							outstring(i10,0,IVrw.Price,false);
-							if(curncy[j]=="USD")then begin
-								outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
-							end else begin
-								if(IVr.CurncyCode=="USD")then begin
-									outstring(i11,0,IVrw.Price,false);
-								end else begin
-									CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
-									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-										CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+						filter = true;// Edit ************************** Thursday, 14 May 2015 16:21:10
+						if(nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f3) and RepSpec.f3!=INr.Code)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f4) and RepSpec.f4!=vecode[j])then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f5) and !SetInSet(RepSpec.f5,INr.DispGroups))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+				
+						if(filter)then begin// Edit ************************** Thursday, 14 May 2015 16:21:33
+							startformat(15);		
+								outstring(i0,0,ITr.Comment,false);
+								outstring(i01,0,vecode[j],false);
+								outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
+								outstring(i2,0,INr.Code,false);
+								outstring(i3,0,INr.Name,false);
+								outstring(i4,0,IVr.InvDate,false);
+								outstring(i1,0,IVr.SerNr,false);
+								outstring(i5,0,IVr.CustCode,false);
+								outstring(i6,0,IVr.Location,false);
+								outstring(i7,0,qty[j],false);
+								invcurncy = IVr.CurncyCode;
+								if(left(IVr.CurncyCode,3)=="UAH")then begin
+									If(vecode[j]=="ERC")then begin
+										invcurncy = "UAH_E";
 									end;
-									outstring(i11,0,t,false);
 								end;
-							end;
-							outstring(i12,0,IVrw.vRebate,false);
-							
-							sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:56 02.02.2015
-							outstring(i13,0,ValToMyString(sumcur,3),false); 
-							
-							if(curncy[j]=="USD")then begin
-								sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,cred,foundqty,false); //Edit***************************Sasha2,8:56 02.02.2015
-								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:47 16.02.2015
-								outstring(i14,0,ValToMyString(sumusd,3),false);
-							end else begin
-								if(IVr.CurncyCode=="USD")then begin
-									sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:56 02.02.2015
+								outstring(i8,0,invcurncy,false);
+								//outstring(i81,0,curncy[j],false);
+								//outstring(i9,0,ValToMyString(rate[j],4),false);
+								outstring(i10,0,IVrw.Price,false);
+								if(curncy[j]=="USD")then begin
+									outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 								end else begin
-								  sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:57 02.02.2015
-									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
-									sumusd = t;
-									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-										CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+									if(IVr.CurncyCode=="USD")then begin
+										outstring(i11,0,IVrw.Price,false);
+									end else begin
+										CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
+										If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+											CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+										end;
+										outstring(i11,0,t,false);
+									end;
+								end;
+								outstring(i12,0,IVrw.vRebate,false);
+							
+								sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:56 02.02.2015
+								outstring(i13,0,ValToMyString(sumcur,3),false); 
+							
+								if(curncy[j]=="USD")then begin
+									sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,cred,foundqty,false); //Edit***************************Sasha2,8:56 02.02.2015
+									sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:47 16.02.2015
+									outstring(i14,0,ValToMyString(sumusd,3),false);
+								end else begin
+									if(IVr.CurncyCode=="USD")then begin
+										sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:56 02.02.2015
+									end else begin
+										sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:57 02.02.2015
+										CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 										sumusd = t;
+										If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+											CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+											sumusd = t;
+										end;
 									end;
+									sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:47 16.02.2015
+									outstring(i14,0,ValToMyString(sumusd,3),false);
 								end;
-								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:47 16.02.2015
-								outstring(i14,0,ValToMyString(sumusd,3),false);
-							end;
 							
-							t = blankval;
-							if(curncy[j]=="USD")then begin
-								//outval(i15,0,-curcost[j],m4UVal,false);
-								//outval(i16,0,-cost[j],m4UVal,false);
-							end else begin
-								//outval(i15,0,-curcost[j],m4UVal,false);
-								CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
-								t = t / invfr * invto1;
-								If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-									CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+								t = blankval;
+								if(curncy[j]=="USD")then begin
+									//outval(i15,0,-curcost[j],m4UVal,false);
+									//outval(i16,0,-cost[j],m4UVal,false);
+								end else begin
+									//outval(i15,0,-curcost[j],m4UVal,false);
+									CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
+									t = t / invfr * invto1;
+									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+										CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+									end;
+									//outval(i16,0,t,m4UVal,false);
 								end;
-								//outval(i16,0,t,m4UVal,false);
-							end;
 							
 							
-							sumcostcur = curcost[j] * qty[j]*cred;
-							//outstring(i17,0,ValToMyString(sumcostcur,3),false);
-							sumcostusd = cost[j] * qty[j]*cred;
-							//outstring(i18,0,ValToMyString(sumcostusd,3),false);
+								sumcostcur = curcost[j] * qty[j]*cred;
+								//outstring(i17,0,ValToMyString(sumcostcur,3),false);
+								sumcostusd = cost[j] * qty[j]*cred;
+								//outstring(i18,0,ValToMyString(sumcostusd,3),false);
 							
 							
-							if(IVr.CurncyCode==curncy[j])then begin
-								//outstring(i19,0,ValToMyString((sumcur - sumcostcur),3),false);
-							end else begin
-								//outstring(i19,0,"",false);
-							end;
-							//outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
-							if(currentcompany==2)then begin
-								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
-							end;
-							outstring(i22,0,IVr.ShipMode,false);
-							//outstring(i23,0,indate[j],false);
-							//outstring(i24,0,vecode[j],false);
-							outstring(i25,0,serial[j],false);
-							outstring(i26,0,CUr.SalesMan,false);
-							outstring(i27,0,IVr.SalesMan,false);
-							outstring(i28,0,"",false);
-							for(l=0;l<k;l=l+1)begin
-							outstring(i29,0,class[l],false);
-							end;
-						endformat;
+								if(IVr.CurncyCode==curncy[j])then begin
+									//outstring(i19,0,ValToMyString((sumcur - sumcostcur),3),false);
+								end else begin
+									//outstring(i19,0,"",false);
+								end;
+								//outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
+								if(currentcompany==2)then begin
+									outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
+								end;
+								outstring(i22,0,IVr.ShipMode,false);
+								//outstring(i23,0,indate[j],false);
+								//outstring(i24,0,vecode[j],false);
+								outstring(i25,0,serial[j],false);
+								outstring(i26,0,CUr.SalesMan,false);
+								outstring(i27,0,IVr.SalesMan,false);
+								outstring(i28,0,"",false);
+								for(l=0;l<k;l=l+1)begin
+								outstring(i29,0,class[l],false);
+								end;
+							endformat;
+						end;
 					end;
 					if(foundqty*cred<IVrw.Quant)then begin
-						startformat(15);		
-							outstring(i0,0,ITr.Comment,false);
-							outstring(i01,0,"",false);
-							outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
-							outstring(i2,0,INr.Code,false);
-							outstring(i3,0,INr.Name,false);
-							outstring(i4,0,IVr.InvDate,false);
-							outstring(i1,0,IVr.SerNr,false);
-							outstring(i5,0,IVr.CustCode,false);
-							outstring(i6,0,IVr.Location,false);
-							outstring(i7,0,(IVrw.Quant*cred - foundqty),false);
-							outstring(i8,0,IVr.CurncyCode,false);
-							//outstring(i81,0,curncy[j],false);
-							//outstring(i9,0,ValToMyString(rate[j],4),false);
-							outstring(i10,0,IVrw.Price,false);
-							outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
-							outstring(i12,0,IVrw.vRebate,false);
-							sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,1,1,cred,foundqty,true); //Edit***************************Sasha2,8:57 02.02.2015
-							outstring(i13,0,ValToMyString(sumcur,3),false);
-							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
-							sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:55 16.02.2015
-							outstring(i14,0,ValToMyString(sumusd,3),false);
-							t = blankval;
-							//outval(i15,0,-curcost[j],m4UVal,false);
-							//outval(i16,0,-cost[j],m4UVal,false);
-							sumcostcur = curcost[j] * (IVrw.Quant*cred - foundqty)*cred;
-							//outstring(i17,0,ValToMyString(sumcostcur,3),false);
-							sumcostusd = IVrw.FIFORowVal / IVrw.Quant * (IVrw.Quant*cred - foundqty);
-							//outstring(i18,0,ValToMyString(sumcostusd,3),false);
-							//outstring(i19,0,"",false);
-							//outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
-							outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
-							outstring(i22,0,IVr.ShipMode,false);
-							//outstring(i23,0,indate[j],false);
-							//outstring(i24,0,vecode[j],false);
-							outstring(i25,0,"",false);
-							outstring(i26,0,CUr.SalesMan,false);
-							outstring(i27,0,IVr.SalesMan,false);
-							outstring(i28,0,"",false);
-							for(l=0;l<k;l=l+1)begin
-								outstring(i29,0,class[l],false);
-							end;
-							outstring(i29,0,"Џродажа без истории по товарам",false);
-						endformat;
+						filter = true;// Edit ************************** Thursday, 14 May 2015 16:21:10
+						if(nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f3) and RepSpec.f3!=INr.Code)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f4) and RepSpec.f4!=vecode[j])then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+						if(nonblank(RepSpec.f5) and !SetInSet(RepSpec.f5,INr.DispGroups))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
+				
+						if(filter)then begin// Edit ************************** Thursday, 14 May 2015 16:21:33
+							startformat(15);		
+								outstring(i0,0,ITr.Comment,false);
+								outstring(i01,0,"",false);
+								outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
+								outstring(i2,0,INr.Code,false);
+								outstring(i3,0,INr.Name,false);
+								outstring(i4,0,IVr.InvDate,false);
+								outstring(i1,0,IVr.SerNr,false);
+								outstring(i5,0,IVr.CustCode,false);
+								outstring(i6,0,IVr.Location,false);
+								outstring(i7,0,(IVrw.Quant*cred - foundqty),false);
+								outstring(i8,0,IVr.CurncyCode,false);
+								//outstring(i81,0,curncy[j],false);
+								//outstring(i9,0,ValToMyString(rate[j],4),false);
+								outstring(i10,0,IVrw.Price,false);
+								outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
+								outstring(i12,0,IVrw.vRebate,false);
+								sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,1,1,cred,foundqty,true); //Edit***************************Sasha2,8:57 02.02.2015
+								outstring(i13,0,ValToMyString(sumcur,3),false);
+								sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
+								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:55 16.02.2015
+								outstring(i14,0,ValToMyString(sumusd,3),false);
+								t = blankval;
+								//outval(i15,0,-curcost[j],m4UVal,false);
+								//outval(i16,0,-cost[j],m4UVal,false);
+								sumcostcur = curcost[j] * (IVrw.Quant*cred - foundqty)*cred;
+								//outstring(i17,0,ValToMyString(sumcostcur,3),false);
+								sumcostusd = IVrw.FIFORowVal / IVrw.Quant * (IVrw.Quant*cred - foundqty);
+								//outstring(i18,0,ValToMyString(sumcostusd,3),false);
+								//outstring(i19,0,"",false);
+								//outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
+								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
+								outstring(i22,0,IVr.ShipMode,false);
+								//outstring(i23,0,indate[j],false);
+								//outstring(i24,0,vecode[j],false);
+								outstring(i25,0,"",false);
+								outstring(i26,0,CUr.SalesMan,false);
+								outstring(i27,0,IVr.SalesMan,false);
+								outstring(i28,0,"",false);
+								for(l=0;l<k;l=l+1)begin
+									outstring(i29,0,class[l],false);
+								end;
+								outstring(i29,0,"Џродажа без истории по товарам",false);
+							endformat;
+						end;
 					end;
 					
 				end;	  
