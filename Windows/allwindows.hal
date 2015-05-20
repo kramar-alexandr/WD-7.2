@@ -2396,6 +2396,9 @@ begin
   WindowBegin("Акт/накладна",IVDClass,CGview,-);
   Sizeable(-1,-1,0,0);
   UseView(IVVc);
+  ToolBar; //Edit***************************Sasha2,11:16 20.05.2015{
+    HalPushButton(300,5,360,25,"PrintDoInvFormButton","Друк");
+  EndToolBar; //Edit***************************Sasha2,11:16 20.05.2015 }
 if (HasTouchScreenLook==false) then begin
   ActiveFieldOnNew("CustCode");  
   SetWRect(20,80,750,460);

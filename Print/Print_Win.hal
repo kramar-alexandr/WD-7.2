@@ -42,10 +42,10 @@ string 20 winclass,recname,printfunc; //Edit***************************Sasha2,11
 	       FDr.repname = "SVOForm";
 	       recname  = "SVOVc";			//Edit----------------------Dima  09.02.2015
 	       printfunc = "PrintDoSVOForm";
-	 /*case "IVDClass": 
+	 case "IVDClass": 
 	       FDr.repname = "InvForm";
 	       recname  = "IVVc";
-	       printfunc = "PrintDoInvFormButton";*/  
+	       printfunc = "PrintDoInvForm"; 
 	 otherwise 
 	       MessageBox(0,"Undefined window class");
 	       goto L99;
@@ -60,10 +60,10 @@ string 20 winclass,recname,printfunc; //Edit***************************Sasha2,11
 	SetWRect(90,80,500,heiz);
 	v=10;
 	ButtonFrame(20,20,350,mtrw,"”орми документґв");
-	h=20;v=20;
+	h=20;v=20; 
 	for(i=0;i<mtrw;i=i+1)begin
 		matrowget(FDr,i,FDrw);
-		formcode = "";
+		formcode = ""; 
 		if(Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,-1,FDrw.PrintGroupCode,"",i+1,recname,formcode))then begin
 			RadioButton(h,v,FDrw.intdocnr,0,GetTextForPrint(i,recname),flags[0]); //Edit***************************Sasha2,11:21 20.01.2015
 			v=v+16;

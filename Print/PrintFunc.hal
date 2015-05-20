@@ -74,7 +74,23 @@ record StockMovVc SMr;
 RETURN;
 END;
 
-/*global
+
+
+global procedure PrintDoSVOFormButton()	//Edit----------------------Dima  09.02.2015
+begin
+integer wn,nwn;
+record RcVc RepSpec; 
+record SVOVc SVOr;
+
+		wn = CurWindow;
+		getWindowRecord(wn,SVOr);
+    RepSpec.long1 = SVOr.SerNr;
+    RepSpec.f1 = WindowFormName(wn);
+  	nwn = OpenWindow("MyPrintTClass",0,wn,"","",RepSpec);
+return;
+end;
+
+global
 procedure PrintDoInvFormButton()
 BEGIN
 integer wn,nwn;
@@ -86,7 +102,7 @@ record IVVc IVr;
     RepSpec.long1 = IVr.SerNr;
   	nwn = OpenWindow("MyPrintTClass",0,wn,"","",RepSpec);
 RETURN;
-END;*/
+END;
 
 
 global updating procedure PrintDoOrdForm()
@@ -128,7 +144,7 @@ record RcVc RepSpec;
 return;
 end;
 
-/*global updating procedure PrintDoIVForm()
+global updating procedure PrintDoInVForm()
 begin
 integer wn;
 record RcVc RepSpec; 
@@ -143,21 +159,6 @@ record RcVc RepSpec;
   if (PrintDocument(RepSpec,"InvForm1",false)) then begin  
 
   end;
-return;
-end;*/
-
-
-global procedure PrintDoSVOFormButton()	//Edit----------------------Dima  09.02.2015
-begin
-integer wn,nwn;
-record RcVc RepSpec; 
-record SVOVc SVOr;
-
-		wn = CurWindow;
-		getWindowRecord(wn,SVOr);
-    RepSpec.long1 = SVOr.SerNr;
-    RepSpec.f1 = WindowFormName(wn);
-  	nwn = OpenWindow("MyPrintTClass",0,wn,"","",RepSpec);
 return;
 end;
 
