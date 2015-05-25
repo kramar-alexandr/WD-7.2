@@ -346,3 +346,62 @@ BEGIN
 END;
 
 
+updating procedure AddTextToNote(var record NotepadVc Noter,string tstr)
+BEGIN
+    AddToText(tstr,Noter);
+    AddToText(Chr(13) & Chr(10),Noter);
+    
+  RETURN;
+END;
+
+global updating procedure CreateSVOSerNoter(record SVOVc SVOr,string tstr)
+begin
+record NotepadVc Noter,OldNoter;
+record RLinkVc RLinkr;
+Integer notenr;
+boolean findf;
+
+
+    notenr = 1;
+    findf = false;
+    while (ReadRecordLink(SVOr,notenr,Noter,RLinkr)) begin
+       if(RLinkr.Comment==USetStr(1243))then begin 
+         findf = true;
+         goto Lfindnoter; 
+       end;
+       notenr = notenr + 1;
+    end;
+Lfindnoter:;
+    if(findf)then begin
+      OldNoter.SerNr = Noter.SerNr;
+      OldNoter.LangCode = Noter.LangCode;
+      OldNoter.Classification = Noter.Classification;
+      OldNoter.FromRecidStr = Noter.FromRecidStr;
+      OldNoter.CompanyNr = Noter.CompanyNr;
+      RecordClear(Noter);
+      if (RecordStore(Noter,true)) then begin  end;
+      recordCopy(Noter,OldNoter);
+      
+      AddTextToNote(Noter,tstr);// Edit ************************** Wednesday, 8 June 2011 11:45:42
+      if (RecordStore(Noter,true)) then begin  end;
+    end else begin
+      recordNew(Noter);
+      AddTextToNote(Noter,tstr);// Edit ************************** Wednesday, 8 June 2011 11:45:46
+      Noter.SerNr = NextSerNr("NotepadVc",CurrentDate,-1,false,"");
+      if (RecordStore(Noter,false)) then begin
+        CreateRecordLink(SVOr,CurrentCompany,Noter,CurrentCompany);  
+        notenr = 1;
+        while (ReadRecordLink(SVOr,notenr,Noter,RLinkr)) begin
+          notenr = notenr + 1;
+        end;
+        if (ReadRecordLink(SVOr,notenr-1,Noter,RLinkr)) then begin
+          RLinkr.Comment = USetStr(1243);//"Printed Docs";   
+          if (RecordStore(RLinkr,true)) then begin  end;
+        end;
+      end;
+    end;
+  
+return;
+end;
+
+
