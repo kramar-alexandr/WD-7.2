@@ -243,48 +243,54 @@ end;
 
 
 
-global procedure KreditorkaReportEn(integer compnr)
+global procedure KreditorkaReportEn()
 begin
 record RcVc RepSpec;
 string 50 filename;
       
-      if(GetDateID(currentdate)==1)then begin
-        switch(compnr)begin
-          case 1: filename = "Stock/ISTORCreditorka.xls";
-          case 2: filename = "Stock/ITEKUACreditorka.xls";
-          case 3: filename = "Stock/WDCreditorka.xls";
-          case 4: filename = "Stock/PPhLCreditorka.xls";//PPHl
-          case 5: filename = "Stock/TXTCreditorka.xls";
-          //case 6: filename = "Stock/ITEKMDCreditorka.xls";
-          case 7: filename = "Stock/TNMCreditorka.xls";
-          case 8: filename = "Stock/A-SRVCreditorka.xls";
-        end;
-        
-        CreateFile(filename);
+		ReportDefaults(RepSpec,"APRClass");
+		RepSpec.ArtMode = 1;
+		RepSpec.flags[2] = 1;
+		RepSpec.flags[13] = 1;
+		RepSpec.Media = 20;
+		RepSpec.flags[29] = 1;
+		
+    if(GetDateID(currentdate)==2)then begin  
+      if(currentcompany==3)then begin
+      
+        CreateFile("Stock/WDCreditorkaOFI.xls");
         closefile;
-        millisleep(100);
         openexportfile(filename,true);
-        ReportDefaults(RepSpec,"APRClass");
-        RepSpec.ArtMode = 1;
-        RepSpec.flags[2] = 1;
-        RepSpec.flags[13] = 1;
-        RepSpec.Media = 20;
-        
-        RepSpec.flags[29] = 1;// Edit ************************** Friday, 25 May 2012 12:58:08
-        
+        RepSpec.ObjStr = "OFI";
         APRn(RepSpec);
         closefile;
+        RunProgram("Stock/WDCreditorkaOFI.sh","");
         
-        switch(compnr)begin
-          case 1: RunProgram("Stock/ISTORCreditorka.sh","");
-          case 2: RunProgram("Stock/ITEKUACreditorka.sh","");
-          case 3: RunProgram("Stock/WDCreditorka.sh","");
-          case 4: RunProgram("Stock/PPhLCreditorka.sh","");//PPHl
-          case 5: RunProgram("Stock/TXTCreditorka.sh","");
-          //case 6: RunProgram("Stock/ITEKMDCreditorka.sh","");
-          case 7: RunProgram("Stock/TNMCreditorka.sh","");
-          case 8: RunProgram("Stock/A-SRVCreditorka.sh","");
-        end;
+        CreateFile("Stock/WDCreditorkaOII.xls");
+        closefile;
+        openexportfile(filename,true);
+        RepSpec.ObjStr = "OII";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/WDCreditorkaOII.sh","");
+        
+        CreateFile("Stock/WDCreditorkaGII.xls");
+        closefile;
+        openexportfile(filename,true);
+        RepSpec.ObjStr = "GII";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/WDCreditorkaGII.sh","");
+        
+        CreateFile("Stock/WDCreditorkaICC.xls");
+        closefile;
+        openexportfile(filename,true);
+        RepSpec.ObjStr = "ICC";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/WDCreditorkaICC.sh","");
+                
       end;
+    end;
 return;
 end;
