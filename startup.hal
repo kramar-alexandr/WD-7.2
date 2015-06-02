@@ -57,7 +57,8 @@ begin
 	Setting("Ќастройка складґв синхронґзацґ» WEB",WebSyncMatTClass,modSO);// Edit ************************** Thursday, 26 March 2015 12:09:00
 	Setting("„оступ до функций через Web",FunctionsOnWebTClass,modSO);// Edit ************************** Thursday, 26 March 2015 12:08:59
 	Setting("ђахунки об'№ктґв",ObjectsAccTClass,modSVO);	
-
+	Setting("‘карги",IssueLClass,modSVO);
+  Setting("„ефекти",DefectLClass,modSVO);
 	//Setting("Ћпис товарґв",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("„рук товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
   //Document("…тикетки партґй (надходженнЯ)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014

@@ -73,7 +73,7 @@ AService = 8;
   	logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
     
-    //ResetCompany(WD);  
+    	ResetCompany(WD);  
 		end;
   
    if (SetCompany(iCenter,false)) then begin//iCenter

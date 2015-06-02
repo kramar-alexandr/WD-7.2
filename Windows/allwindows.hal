@@ -7037,11 +7037,11 @@ begin
 	EditField(h,v+=vs,-20,"e-mail",Normal,Kontinfo2,false,0);	
 	EditField(h,v+=vs,-20,"Адреса клієнта",Normal,Kontinfo3,false,0);
   v=v+10;
-  EditField(h,v+=vs,-100,"Скарги власн.",Normal,Comment1,false,0);
-  EditField(h,v+=vs,-100,"",Normal,Comment2,false,0);
+  EditField(h,v+=vs,-100,"Скарги власн.",Normal,Comment1,false,IssueSClass);
+  EditField(h,v+=vs,-100,"",Normal,Comment2,false,IssueSClass);
   v=v+10;
-  EditField(h,v+=vs,-100,"Наявні деф.",Normal,Comment3,false,0);
-  EditField(h,v+=vs,-100,"",Normal,Comment4,false,0);
+  EditField(h,v+=vs,-100,"Наявні деф.",Normal,Comment3,false,DefectSClass);// Edit ************************** Friday, 29 May 2015 17:19:51
+  EditField(h,v+=vs,-100,"",Normal,Comment4,false,DefectSClass);
   v=v+10;
   StaticText(h,v+=vs,"Комплектність",true);
   EditField(h,v+=vs-10,-20,"Батарея:",Normal,Batary,false,0);
@@ -7345,3 +7345,43 @@ begin
 //  SpecMenuItem("Статус таблиці робіт",'r',4);
   EndWindow;
 end;
+
+window CompaniesSClass:10
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Виберіть компанію",CompaniesSClass,CGother,RcType);
+//  Modality(1);
+  SetWRect(240,80,620,300);
+  DynamicWindow;
+  ToolBar;
+//  if (GuiType==kGuiCocoa) then begin
+    Sizeable(-1,-1,360,0);
+    if (IsLoggedIn) then begin
+      //HalPushButton(-120,5,-20,22,"OpenWebClientCompanies","Secondary Servers");
+      if (GuiType==kGuiWPF) then begin
+        HalPushButton(-315,5,-205,22,"OpenSatServers","Вторинні сервери");
+      end else begin
+        HalPushButton(-130,5,-20,22,"OpenSatServers","Вторинні сервери");
+      end;
+    end;
+    SearchField("Пошук");
+//  end else begin
+//    PushButton(-70,5,-10,22,ToolOK,"OK");
+//  end;
+  EndToolBar;
+//  StringList(9,9,250,209);
+  StringList(20,20,-40,-20);
+  if (IsWebClient==false) then begin
+  SpecMenuItem("Відкрити настройки компаній",' ',mOpenCompanyRegister);
+  SpecialMenu("Export Settings",' ',0,"ExportMySettingsDsm"); 
+    if (IsStandardProduct) then begin
+      SpecialMenu("Додати компанію",' ',0,"AddCompanyCompaniesTsm"); 
+    end;
+  end;
+  BottomBar;
+  CheckBox(7,-20,0,"Не в мережі",flags[0]);
+  EndWindow;
+end;
+
+
+

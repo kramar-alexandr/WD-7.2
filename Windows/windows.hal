@@ -1106,3 +1106,102 @@ begin
   EndWindow; 
  end;  
 
+
+
+
+  //******** Issues windows begin *********
+ window IssueSClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin  
+real vs,v,h,h1,h2,h3;
+   WindowBegin("Скарги",IssueSClass,CGslist,-);	// S
+  SetWRect(240,80,600,298);
+  Sizeable(-1,-1,0,0);
+  UseView(IssueVc);
+  //SpawnClass(IssueDClass);
+  RecordList(4,17,-21,-39);
+  //RlColKey(4,2,"Код",IssueCode,false,IssueCode);
+  RlColkey(100,100, "Скарга",IssueName,false,IssueName);
+  SearchField("Пошук");
+  EndWindow;
+ end;    
+  
+  window IssueLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+real vs,v,h,h1,h2,h3;
+  WindowBegin("Скарги",IssueLClass,CGmlist,-);	// L
+  SetWRect(240,80,600,298);
+  Sizeable(-1,-1,0,0);
+  UseView(IssueVc);
+  SpawnClass(IssueDClass);
+  RecordList(4,17,-21,-39);
+  //RlColKey(4,2,"Код",IssueCode,false,IssueCode);
+  RlColkey(10,100, "Скарга",IssueName,false,IssueName);
+  SearchField("Пошук");
+  EndWindow;
+ end;      
+    
+    window IssueDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+real vs,v,h,h1,h2,h3;
+  WindowBegin("Скарги",IssueDClass,CGview,-);	//D
+  SetWRect(240,80,400,298);
+  Sizeable(-1,-1,0,0);
+  UseView(IssueVc);
+  vs = 20; h3 = 550;
+  //EditField(h=90,v=6, 82,"Код",Normal,IssueCode,false,0);
+  EditField(90,30,-40,"Назва скарги",Normal,IssueName,false,0);
+  EndWindow;
+ end;    
+    //******** Issues windows end *********
+  
+  //********* Defects windows begin ***********
+  
+  
+  window DefectSClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+real vs,v,h,h1,h2,h3;
+  WindowBegin("Дефекти",DefectSClass,CGslist,-);	// S
+  SetWRect(240,80,600,298);
+  Sizeable(-1,-1,0,0);
+  UseView(DefectVc);
+  //SpawnClass(IssueDClass);
+  RecordList(4,17,-21,-39);
+  //RlColKey(4,2,"Код",IssueCode,false,IssueCode);
+  RlColkey(8,100, "Дефект",DefectName,false,DefectName);
+  SearchField("Пошук");
+  EndWindow;
+  end;   
+  
+  window DefectLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+real vs,v,h,h1,h2,h3;
+  WindowBegin("Дефект",DefectLClass,CGmlist,-);	// L
+  SetWRect(240,80,600,298);
+  Sizeable(-1,-1,0,0);
+  UseView(DefectVc);
+  SpawnClass(DefectDClass);
+  RecordList(4,17,-21,-39);
+  //RlColKey(4,2,"Код",IssueCode,false,IssueCode);
+  RlColkey(8,100, "Дефект",DefectName,false,DefectName);
+  SearchField("Пошук");
+  EndWindow;
+  end;     
+    
+    window DefectDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+real vs,v,h,h1,h2,h3;
+  WindowBegin("Дефект",DefectDClass,CGview,-);	//D
+  SetWRect(240,80,400,298);
+  Sizeable(-1,-1,0,0);
+  UseView(DefectVc);
+  vs = 20; h3 = 550;
+  //EditField(h=90,v=6, 82,"Код",Normal,IssueCode,false,0);
+  EditField(90,30,-40,"Назва дефекту",Normal,DefectName,false,0);
+  EndWindow;
+ end;  

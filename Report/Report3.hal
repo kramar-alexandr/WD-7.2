@@ -255,12 +255,12 @@ string 50 filename;
 		RepSpec.Media = 20;
 		RepSpec.flags[29] = 1;
 		
-    if(GetDateID(currentdate)==2)then begin  
+    if(GetDateID(currentdate)==1)then begin  
       if(currentcompany==3)then begin
       
         CreateFile("Stock/WDCreditorkaOFI.xls");
         closefile;
-        openexportfile(filename,true);
+        openexportfile("Stock/WDCreditorkaOFI.xls",true);
         RepSpec.ObjStr = "OFI";
         APRn(RepSpec);
         closefile;
@@ -268,7 +268,7 @@ string 50 filename;
         
         CreateFile("Stock/WDCreditorkaOII.xls");
         closefile;
-        openexportfile(filename,true);
+        openexportfile("Stock/WDCreditorkaOII.xls",true);
         RepSpec.ObjStr = "OII";
         APRn(RepSpec);
         closefile;
@@ -276,7 +276,7 @@ string 50 filename;
         
         CreateFile("Stock/WDCreditorkaGII.xls");
         closefile;
-        openexportfile(filename,true);
+        openexportfile("Stock/WDCreditorkaGII.xls",true);
         RepSpec.ObjStr = "GII";
         APRn(RepSpec);
         closefile;
@@ -284,7 +284,7 @@ string 50 filename;
         
         CreateFile("Stock/WDCreditorkaICC.xls");
         closefile;
-        openexportfile(filename,true);
+        openexportfile("Stock/WDCreditorkaICC.xls",true);
         RepSpec.ObjStr = "ICC";
         APRn(RepSpec);
         closefile;
@@ -292,5 +292,15 @@ string 50 filename;
                 
       end;
     end;
+return;
+end;
+
+global webpublic Procedure WebKreditorkaReportEn() //Edit***************************Sasha2,15:18 04.07.2014
+begin
+
+	if (SetCompany(3,false)) then begin
+		KreditorkaReportEn;		
+		ResetCompany(3);  
+	end;
 return;
 end;
