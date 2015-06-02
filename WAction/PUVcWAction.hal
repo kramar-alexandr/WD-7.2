@@ -1242,3 +1242,28 @@ begin
 
 	return;
 end; //Edit***************************Sasha2,12:00 22.01.2015 }
+
+
+global
+procedure PrintPULabPUDsm()// Edit ************************** Tuesday, 2 June 2015 14:34:28
+BEGIN
+  record RcVc RepSpec;
+  record PUVc PUr;
+  Integer wn;
+
+  wn = CurWindow;
+  GetWindowRecord(wn,PUr);
+  RepSpec.f1 = PUr.SerNr;
+  RepSpec.Media = mtPrinter;
+  RepSpec.repname = "PULabForm";
+//Edit-------------------Dima 28.11.2014
+  if (WindowsMode==1) then	begin
+  RepSpec.flags[1]=1; //Windows
+  end else begin  
+  RepSpec.flags[1]=0; //Mac OS
+  end;
+//End Edit-------------------------28.11.2014
+
+  if (PrintDocument(RepSpec,"PULabForm",false)) then begin end;
+  RETURN;
+END;

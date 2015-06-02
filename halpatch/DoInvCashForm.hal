@@ -852,6 +852,7 @@ BEGIN
   vector string 10 ivpaymode;
   val PointsSpent,totdiscount;
   row LegalInvNrBlock LINrbrw;
+  boolean testf;// Edit ************************** Tuesday, 2 June 2015 12:32:14
   
   GetLangNr(IVCashr.LangCode,LangNrr);
   BlockLoad(CDb);
@@ -884,10 +885,14 @@ BEGIN
     for (i=rwcnt-1;i>=0;i=i-1) begin
       MatRowGet(FDr,i,FDrw);
       if (FindFormcode(IVCashr.OKFlag,FDrw.Typ)) then begin 
-        if (Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,IVCashr.SerNr,FDrw.PrintGroupCode,
-                        langcode,intdocnr,"IVCashVc",formcode)) then
-        begin
-          goto LBREAK;
+      	testf = true;// Edit ************************** Tuesday, 2 June 2015 12:33:04
+      	if(nonblank(IVCashr.LocalMachineCode) and IVCashr.LocalMachineCode!=FDrw.PrintGroupCode and nonblank(FDrw.PrintGroupCode))then begin testf = false; end;// Edit ************************** Tuesday, 2 June 2015 12:33:07
+      	if(testf)then begin// Edit ************************** Tuesday, 2 June 2015 12:33:06
+					if (Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,IVCashr.SerNr,FDrw.PrintGroupCode,
+													langcode,intdocnr,"IVCashVc",formcode)) then
+					begin
+						goto LBREAK;
+					end;
         end;
       end;
     end;

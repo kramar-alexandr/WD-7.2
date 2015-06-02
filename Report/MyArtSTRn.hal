@@ -8,7 +8,6 @@ external procedure HTDepartment(string,var string);
 external procedure HTArtGroup(string, var string);
 external procedure HTCusts(string, string, var string);
 external procedure HTDetailLevel(Integer, var string);
-external function Integer GetProgramMode();
 external procedure GetDateTurnover(string,string,record ICSVc,string,Date,Date,var val,Integer);
 external procedure FindFiscalYear(Date,var Date,var Date);
 external procedure HTArts(string, string, var string);
@@ -206,11 +205,11 @@ BEGIN
   HT2Per(RepSpec.sStartDate,RepSpec.sEndDate,tstr);
   Header(rw,tstr,1);
   rw = rw + 1;
-  if (GetProgramMode!=4) then begin
+  /*if (GetProgramMode!=4) then begin
     HTDetailLevel(RepSpec.ArtMode,tstr);
     Header(rw,tstr,1);
     rw = rw + 1;
-  end;
+  end;*/
   if ((nonblank(RepSpec.f1)) or (blank(RepSpec.AccStr))) then begin
     HTArtSel(RepSpec.f1,RepSpec.f3,tstr);
     Header(rw,tstr,1);
@@ -698,7 +697,6 @@ BEGIN
   Boolean withcost;
 
   withcost = true;
-  if ((GetProgramMode==4) or (GetProgramMode==9) or (GetProgramMode==10)) then begin withcost = false; end;
   if (RepSpec.ArtMode!=0) then begin
      ArtStatList2(RepSpec);    
      goto LArtSTRn;
