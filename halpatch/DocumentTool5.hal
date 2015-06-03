@@ -1,6 +1,6 @@
 external procedure PrintValue(string,val,Integer,record LangNrVc,record SysFormatBlock,Boolean);
 
-procedure WSGetSerRange(LongInt defsernr,var LongInt serstart,var LongInt serend)
+procedure WSGetSerRange(LongInt defsernr,var LongInt serstart,var LongInt serend)	//Transferred from 5.4 by --------------------Dima  03.06.2015
 BEGIN
   record WSSerBlock WSSerr;
   row WSSerBlock WSSerrw;
@@ -885,7 +885,7 @@ BEGIN
     case "VATIVVc": VATIVGetSerRange(defsernr,serstart,serend);
     case "VATVIVc": VATVIGetSerRange(defsernr,serstart,serend);
     case "IntIVVc": IntIVGetSerRange(defsernr,serstart,serend);
-    case "WSVc": WSGetSerRange(defsernr,serstart,serend);
+    case "WSVc": WSGetSerRange(defsernr,serstart,serend);//Transferred from 5.4 by --------------------Dima  03.06.2015
   end;
   RETURN;
 END;
