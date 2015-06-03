@@ -357,16 +357,18 @@ BEGIN
       rwcnt1 = MatRowCnt(newPUr1);
       formisopen=false;
       
-      if (formisopen==false) then begin
-       // if (OpenForm(formcode)==false) then begin goto LDoPULabFormPrint; end;
-        formisopen = true;
-      end;
-      for (i=0;i<rwcnt;i=i+1) begin
-        MatRowGet(newPUr,i,newPUrw);
-        if (nonblank(newPUrw.ArtCode)) then begin
-            PULab(newPUr,newPUrw,LangNrr,SysFormatRec,totcostprice,Docr);// Edit ************************** , 23  2010 . 10:38:52
-            //EndFormRow;
-        end;
+      if(rwcnt>0)then begin
+				if (formisopen==false) then begin
+				 // if (OpenForm(formcode)==false) then begin goto LDoPULabFormPrint; end;
+					formisopen = true;
+				end;
+				for (i=0;i<rwcnt;i=i+1) begin
+					MatRowGet(newPUr,i,newPUrw);
+					if (nonblank(newPUrw.ArtCode)) then begin
+							PULab(newPUr,newPUrw,LangNrr,SysFormatRec,totcostprice,Docr);// Edit ************************** , 23  2010 . 10:38:52
+							//EndFormRow;
+					end;
+				end;
       end;
       //CloseForm;
       formisopen = false;
