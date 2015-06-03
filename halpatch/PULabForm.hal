@@ -56,6 +56,7 @@ BEGIN
   OUTFORMFIELD("F_BASERATE",tstr);
   OUTFORMFIELD("F_PORDER",PUr.PONr);
   OUTFORMFIELD("F_KOMMENTAR",PUr.Comment);
+  OUTFORMFIELD("F_KOMMENTAR2",PUr.Comment);// Edit ************************** Wednesday, 3 June 2015 11:11:29
   OUTFORMFIELD("F_REGDATUM",PUr.RegDate);
   OUTFORMFIELD("F_LEVERANTOR",PUr.VECode);
   OUTFORMFIELD("F_LEVNAMN",PUr.VEName);
@@ -142,6 +143,67 @@ BEGIN
 	//Monday, 25 July 2011 15:40:13
 	rowtest = false;
   if (FIELDINFORM("F_COMMENT")) then begin
+  	if(nonblank(INr.GigieneText1))then begin
+			OUTFORMFIELD("F_COMMENT",INr.GigieneText1);
+			EndFormRow;
+			rowtest = true;
+			rowqty = i+1;
+  	end;
+  	if(nonblank(INr.GigieneText2))then begin
+			OUTFORMFIELD("F_COMMENT",INr.GigieneText2);
+			EndFormRow;
+			rowtest = true;
+			rowqty = i+1;
+  	end;
+  	if(nonblank(INr.GigieneText3))then begin
+			OUTFORMFIELD("F_COMMENT",INr.GigieneText3);
+			EndFormRow;
+			rowtest = true;
+			rowqty = i+1;
+  	end;
+  	if(nonblank(INr.GigieneText4))then begin
+			OUTFORMFIELD("F_COMMENT",INr.GigieneText4);
+			EndFormRow;
+			rowtest = true;
+			rowqty = i+1;
+  	end;
+  	if(nonblank(INr.GigieneText5))then begin
+			OUTFORMFIELD("F_COMMENT",INr.GigieneText5);
+			EndFormRow;
+			rowtest = true;
+			rowqty = i+1;
+  	end;
+  	if(nonblank(INr.GigieneText6))then begin
+			OUTFORMFIELD("F_COMMENT",INr.GigieneText6);
+			EndFormRow;
+			rowtest = true;
+			rowqty = i+1;
+  	end;
+  	if(nonblank(INr.GigieneText7))then begin
+			OUTFORMFIELD("F_COMMENT",INr.GigieneText7);
+			EndFormRow;
+			rowtest = true;
+			rowqty = i+1;
+  	end;
+  	if(nonblank(INr.GigieneText8))then begin
+			OUTFORMFIELD("F_COMMENT",INr.GigieneText8);
+			EndFormRow;
+			rowtest = true;
+			rowqty = i+1;
+  	end;
+  	if(nonblank(INr.GigieneText9))then begin
+			OUTFORMFIELD("F_COMMENT",INr.GigieneText9);
+			EndFormRow;
+			rowtest = true;
+			rowqty = i+1;
+  	end;
+  	if(nonblank(INr.GigieneText10))then begin
+			OUTFORMFIELD("F_COMMENT",INr.GigieneText10);
+			EndFormRow;
+			rowtest = true;
+			rowqty = i+1;
+  	end;
+  	/*
     GGr.ArtCode = PUrw.ArtCode;
     if(readfirstmain(GGr,1,true))then begin
       mtrw = matrowcnt(GGr);
@@ -149,10 +211,9 @@ BEGIN
         matrowget(GGr,i,GGrw);
         OUTFORMFIELD("F_COMMENT",GGrw.Str1);
         EndFormRow;
-        rowtest = true;
-        rowqty = i+1;
+        
       end;
-    end;
+    end;*/
   end;
 	// Edit End ---------------------------------------------- Edit End
 	
