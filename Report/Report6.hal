@@ -204,6 +204,31 @@ integer compno;
               MyItemReportRn(RepSpec);
               RunProgram("Stock/TXTStockFull.sh", "");
       
+      case 6: delete_file("Stock/MMROPStockFull.xls");
+      				CreateFile("Stock/MMROPStockFull.xls");
+              closefile;
+              openexportfile("Stock/MMROPStockFull.xls",true);
+              RepSpec.f1 = "INV#1_OP,INV#1_OPST,EXB_OP,EXB_OP_ST";
+              MyItemReportRn(RepSpec);
+              RepSpec.f1 = "";
+              RunProgram("Stock/MMROPStockFull.sh", "");
+              
+              delete_file("Stock/MMROLStockFull.xls");
+      				CreateFile("Stock/MMROLStockFull.xls");
+              closefile;
+              openexportfile("Stock/MMROLStockFull.xls",true);
+              RepSpec.f1 = "INV#1_OL,EXB_OL,EXB_OL_ST,INV#1_OLST";
+              MyItemReportRn(RepSpec);
+              RepSpec.f1 = "";
+              RunProgram("Stock/MMROLStockFull.sh", "");
+              
+              delete_file("Stock/MMRStockFull.xls");
+      				CreateFile("Stock/MMRStockFull.xls");
+              closefile;
+              openexportfile("Stock/MMRStockFull.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/MMRStockFull.sh", "");
+      
       case 7: delete_file("Stock/TNMStockFull.xls");
       				CreateFile("Stock/TNMStockFull.xls");
               closefile;

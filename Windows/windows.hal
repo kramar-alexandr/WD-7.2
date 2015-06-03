@@ -922,6 +922,7 @@ begin
 		ButtonFrame(h,v=vm+60,140,2,"Режим");
 		RadioButton(h,v,0,0,"Зведено",ArtMode);
 		RadioButton(h,v+=16,1,0,"Детально",ArtMode);
+		EditField(h,v+=20,150,"Об'єкти",Normal,f1,false,ObjSClass);
 		/*EditField(h,v+=20,150,"Клієнт",Normal,f1,false,CUSClass);
 		EditField(h,v+=20,150,"Група",Normal,f2,false,ITSClass);
 		EditField(h,v+=20,150,"Товар",Normal,f3,false,INSClass);

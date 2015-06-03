@@ -66,6 +66,33 @@ AService = 8;
     ResetCompany(iTek);  
   end;
   
+  if (SetCompany(MMR,false)) then begin//itek
+  	//logtext(0,currentcompany & " IPEn"); 
+    //IPEn; 
+  	//logtext(0,currentcompany & " SalesReportEn");
+    //SalesReportEn;
+  	//logtext(0,currentcompany & " DebitorkaReportEn");
+    //DebitorkaReportEn(iTek);
+    //logtext(0,currentcompany & " ShopsReportEn");
+    //ShopsReportEn;
+  	logtext(0,currentcompany & " FullStockEn");
+    FullStockEn;
+    //logtext(0,currentcompany & " FullStockTRWH2En");
+    //FullStockTRWH2En;
+    //logtext(0,currentcompany & " ManagersFullStockEn");
+    //ManagersFullStockEn;
+    //logtext(0,currentcompany & " SalesReportForManagersEn");
+    //SalesReportForManagersEn;
+    //logtext(0,currentcompany & " AutoUnreservOrderMn");
+    //AutoUnreservOrderMn;
+    //logtext(0,currentcompany & " MyReservStstEn");
+    //MyReservStstEn;
+    //logtext(0,currentcompany & " RetailSalesEn");
+    //RetailSalesEn;
+
+    
+    ResetCompany(MMR);  
+  end;
   
   	if (SetCompany(WD,false)) then begin//itek
   	//logtext(0,currentcompany & " IPEn"); 
