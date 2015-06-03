@@ -28,8 +28,46 @@ external function boolean GSXWarrantyStatus(string,string,date,array string,inte
 external function Boolean GSXCreateCarryInRepair(string,string,var record SVOVc,var string);
 remote updating function boolean RecordAction_raPasteSVOInQT(var record QTVc,record SVOVc);
 remote function string 255 DuplicateSVOSerial(string);// Edit ************************** Tuesday, 2 June 2015 20:09:42
+remote updating function Integer RecordAction_raPasteSVOInOrder(var record ORVc,var record SVOVc);// Edit ************************** Wednesday, 3 June 2015 16:59:04
 
 
+// Edit Start ---------------------------------------------- Edit Start
+	//Wednesday, 3 June 2015 16:58:34
+	
+global
+updating procedure ORFromSVODsm()
+BEGIN
+  record ORVc ORr;
+  Record SVOVc SVOr;
+  record IVVc IVr;
+  Integer wn,r,nwn;
+  Integer errcode;
+  Integer normalstate;
+
+  normalstate = 0;//Rs_normal
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  if (WindowState(wn)==normalstate) then begin
+    GetWindowRecord(wn,SVOr);
+        r = RecordAction_raPasteSVOInOrder(ORr,SVOr);
+        if (r==1) then begin
+            nwn = OpenWindow("ORDClass",1,0,"","",ORr);
+        end else begin
+          if (r!=-1) then begin
+            MessageBox(r,"");
+          end else begin
+            Beep;
+          end;
+        end;
+  end else begin
+    Beep;
+  end;
+  RETURN;
+END;
+
+
+	// Edit End ---------------------------------------------- Edit End
+	
 function Boolean SVODClassSerialNrEFAfter(Integer wn,Integer rownr,Integer changed)
 BEGIN
   record SVOVc SVOr;

@@ -170,6 +170,7 @@ begin
 		SVOr.RegDate = StringToDate(ImportField);
 		SVOr.RegTime = StringToTime(ImportField);
 		SVOr.Vlastnik = ImportField;
+		//logtext(0,"SVOr.Vlastnik" & SVOr.Vlastnik);
 		SVOr.Priynato = ImportField;
 		SVOr.Kontinfo1 = ImportField;
 		SVOr.Kontinfo2 = ImportField;
@@ -233,6 +234,7 @@ updating procedure ReadImportTagSVOVc(string thetag)
 begin
   record SVOVc SVOr;
   
+  logtext(0,"ReadImportTagSVOVc");
   while (NextImportLine(false)) begin
     ReadImportTagSVOVcRecord(SVOr);
     RecordImportStore(SVOr,false);
