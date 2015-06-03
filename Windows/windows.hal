@@ -1205,3 +1205,35 @@ real vs,v,h,h1,h2,h3;
   EditField(90,30,-40,"Назва дефекту",Normal,DefectName,false,0);
   EndWindow;
  end;  
+ 
+ 
+ 
+window SVOHistSerialLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+real vs,v,h,h1,h2,h3;
+  WindowBegin("Серийки в заказах",SVOHistSerialLClass,CGmlist,-);	// L
+  SetWRect(240,80,900,298);
+  Sizeable(-1,-1,0,0);
+  UseView(SVOHistSerialVc);
+  //SpawnClass(SVOHistSerialDClass);
+  RecordList(4,17,-21,-39);
+  RlColkey(10,100, "SerialNr",SerialNr,false,SerialNr);
+  RlCol(150,150, "ArtCode",ArtCode,false);
+  RlCol(200,200, "Qty",Qty,false);
+  RlCol(250,250, "TransNr",TransNr,false);
+  RlColkey(300,300, "FileName",FileName,false,FileName);
+  RlColkey(350,350, "OKFlag",OKFlag,false,OKFlag);
+  RlColkey(400,400, "Type",Type,false,Type);
+  RlColkey(450,450, "TransDate",TransDate,false,TransDate);
+  RlCol(500,500, "OkDate",OkDate,false);
+  RlCol(550,550, "ReturnDate",ReturnDate,false);
+	RlCol(600,600, "SalesMan",SalesMan,false);
+	RlColkey(650,650, "Client",Client,false,Client);
+	RlColkey(700,700, "Vlastnik",Vlastnik,false,Vlastnik);
+	RlCol(750,750, "ReturnDate",ReturnDate,false);
+	RlCol(800,800, "ReturnDate",ReturnDate,false);
+	
+  SearchField("Пошук");
+  EndWindow;
+ end;    

@@ -241,7 +241,7 @@ BEGIN
   SVOr.RegDate = blankd;
   SVOr.RegTime = blankt;
   if (SingleUserMode) then begin
-    SVOr.SerNr = NextSerNr("SVOVc",SVOr.TransDate,-1,false,"");
+    SVOr.SerNr = NextSerNr("SVOVc",SVOr.TransDate,GetUserSerNrSeries(-1),false,"");
   end;
   rwcnt = MatRowCnt(SVOr);
   for (i=0;i<rwcnt;i=i+1) begin

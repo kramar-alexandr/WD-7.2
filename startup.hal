@@ -59,6 +59,7 @@ begin
 	Setting("Рахунки об'єктів",ObjectsAccTClass,modSVO);	
 	Setting("Скарги",IssueLClass,modSVO);
   Setting("Дефекти",DefectLClass,modSVO);
+  Setting("Serials",SVOHistSerialLClass,modSVO);// Edit ************************** Tuesday, 2 June 2015 20:28:50
 	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
   //Document("Етикетки партій (надходження)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
@@ -73,6 +74,8 @@ begin
 	
 	Maintenance("RecalcORShops",MyVClass,RecalcShopsItemsMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Gigient to IN",MyVClass,FillINFromGigieneMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
+	
+	Maintenance("Add SVO Serial Hist",MyVClass,FillSVOHistSerialMn,modSVO);
 
 	Maintenance("ClearOldINVcPLVc",MyVClass,ClearINPLMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Поменять размер этикеток в карточках товаов",MyVClass,INChangeSizeMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014

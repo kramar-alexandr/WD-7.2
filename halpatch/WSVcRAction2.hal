@@ -464,7 +464,7 @@ BEGIN
   if (ReadFirstMain(Userr,1,true)) then begin end;
   WSr.Location = Userr.Location;
   if (SingleUserMode) then begin
-    WSr.SerNr = NextSerNr("WSVc",WSr.TransDate,-1,false,"");
+    WSr.SerNr = NextSerNr("WSVc",WSr.TransDate,GetUserSerNrSeries(-1),false,"");// Edit ************************** Tuesday, 2 June 2015 18:28:57
   end;
   WSVcRecordDefaults = res; 
   RETURN;
@@ -484,7 +484,7 @@ BEGIN
   WSr.InvFlag = 0;
   WSr.ExportFlag = 0;
   if (SingleUserMode) then begin
-    WSr.SerNr = NextSerNr("WSVc",WSr.TransDate,-1,false,"");
+    WSr.SerNr = NextSerNr("WSVc",WSr.TransDate,GetUserSerNrSeries(-1),false,"");// Edit ************************** Tuesday, 2 June 2015 18:28:55
   end;
   rwcnt = MatRowCnt(WSr);
   for (i=0;i<rwcnt;i=i+1) begin

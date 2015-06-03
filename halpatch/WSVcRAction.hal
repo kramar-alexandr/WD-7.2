@@ -449,7 +449,7 @@ begin
     goto LWSVcRecordCheck;
   end;
   if (WSp.SerNr<=0) then begin
-    WSp.SerNr = NextSerNr("WSVc",WSp.TransDate,-1,false,"");
+    WSp.SerNr = NextSerNr("WSVc",WSp.TransDate,GetUserSerNrSeries(-1),false,"");// Edit ************************** Tuesday, 2 June 2015 18:31:56
   end;
   if (SerNrTestWSVc(WSp.SerNr,WSp.TransDate,gentrans)==false) then begin
     if (check>0) then begin

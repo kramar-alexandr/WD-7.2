@@ -405,3 +405,66 @@ return;
 end;
 
 
+
+
+
+global updating procedure FillSVOHistSerialMn()
+begin
+record SVOVc SVOr;
+row SVOVc SVOrw;
+record SVOHistSerialVc SVHistr;
+integer mtrw,i;
+  
+  
+  while(loopmain(SVOr,1,true))begin
+    mtrw = matrowcnt(SVOr);
+    for(i=0;i<mtrw;i=i+1)begin
+      matrowget(SVOr,i,SVOrw);
+      if(nonblank(SVOrw.SerialNr))then begin
+        recordnew(SVHistr);
+        SVHistr.SerialNr = SVOrw.SerialNr;
+        SVHistr.ArtCode = SVOrw.ArtCode;
+        SVHistr.Qty = SVOrw.Quant;
+        SVHistr.TransNr = SVOr.SerNr;
+        SVHistr.FileName = "SVOVc";
+        SVHistr.OKFlag = SVOr.DoneMark;
+        SVHistr.Type = SVOrw.ItemType;
+        SVHistr.TransDate = SVOr.TransDate;
+        SVHistr.OkDate = SVOr.PlanShip;
+        SVHistr.ReturnDate = SVOr.RegDate;
+        SVHistr.SalesMan = SVOr.CustomField7;
+        SVHistr.Client = SVOr.CustCode;
+        SVHistr.Vlastnik = SVOr.Vlastnik;
+        recordinsert(SVHistr,true);
+      end;
+    end;
+  end;
+
+
+return;
+end;
+
+
+global function string 200 DuplicateSVOSerial(string Serial)
+begin
+record SVOHistSerialVc SVHistr;
+string 200 tstr;
+boolean testf;
+
+    testf = true;
+    tstr = "";
+    SVHistr.SerialNr = Serial;
+    while(loopmain(SVHistr,1,testf))begin
+      if(SVHistr.SerialNr!=Serial) then begin testf=false; end;
+      if(testf and SVHistr.Qty>-1)then begin
+        if(nonblank(tstr))then begin
+          tstr = tstr & "," & SVHistr.TransNr;
+        end else begin
+          tstr = SVHistr.TransNr;
+        end;
+      end;
+    end;
+DuplicateSVOSerial = tstr;
+
+return;
+end;

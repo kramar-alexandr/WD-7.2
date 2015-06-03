@@ -27,11 +27,15 @@ external updating function boolean GSXLogin(string,string,string,var string,var 
 external function boolean GSXWarrantyStatus(string,string,date,array string,integer,var record SVOSerVc,var record NotepadVc,var record NotepadVc,var string);
 external function Boolean GSXCreateCarryInRepair(string,string,var record SVOVc,var string);
 remote updating function boolean RecordAction_raPasteSVOInQT(var record QTVc,record SVOVc);
+remote function string 255 DuplicateSVOSerial(string);// Edit ************************** Tuesday, 2 June 2015 20:09:42
+
 
 function Boolean SVODClassSerialNrEFAfter(Integer wn,Integer rownr,Integer changed)
 BEGIN
   record SVOVc SVOr;
+  row SVOVc SVOrw;// Edit ************************** Tuesday, 2 June 2015 20:13:13
   string 255 warning;
+  string 200 tstr;
 
   if (changed!=0) then begin
     GetWindowRecord(wn,SVOr);    
@@ -43,11 +47,42 @@ BEGIN
       end;
     end else begin
     end;
+    
+    // Edit Start ---------------------------------------------- Edit Start
+	//Tuesday, 2 June 2015 20:10:43
+	
+    matrowget(SVOr,rownr,SVOrw);
+    tstr = DuplicateSVOSerial(SVOrw.SerialNr);
+    if(nonblank(tstr))then begin
+      MessageBox(31013,tstr & " " & USetStr(31012));
+    end;
+    
+	// Edit End ---------------------------------------------- Edit End
+	
   end;
   SVODClassSerialNrEFAfter = true;
   return;
 end;
+// Edit Start ---------------------------------------------- Edit Start
+	//Tuesday, 2 June 2015 20:15:33
+	
 
+global 
+function Boolean SVODClassAddr0EFAfter(integer wn, integer changed)
+begin
+  record SVOVc SVOr;
+  
+  GetWindowRecord(wn,SVOr);
+  if(changed>0)then begin
+    SVOr.Vlastnik=SVOr.Addr0;
+    PutWindowRecord(wn,SVOr);
+  end;
+
+return;
+end;
+
+	// Edit End ---------------------------------------------- Edit End
+	
 global 
 function Boolean SVODClassCurncyCodeEFAfter(Integer wn,Integer changedf)
 begin
@@ -339,6 +374,8 @@ BEGIN
     case "ArtCode": res = SVODClassArtCodeEFAfter(wn,rownr,changed);
     case "Quant": res = SVODClassQuantEFAfter(wn,rownr,changed);
     case "ItemKind": res = SVODClassItemKindEFAfter(wn,rownr,changed);
+    case "Addr0": res = SVODClassAddr0EFAfter(wn,changed);// Edit ************************** Tuesday, 2 June 2015 20:17:16
+
   end;
   SVODClassAfterEditField = res;
   RETURN;
