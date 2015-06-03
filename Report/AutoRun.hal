@@ -87,8 +87,8 @@ AService = 8;
     //AutoUnreservOrderMn;
     //logtext(0,currentcompany & " MyReservStstEn");
     //MyReservStstEn;
-    //logtext(0,currentcompany & " RetailSalesEn");
-    //RetailSalesEn;
+    logtext(0,currentcompany & " RetailSalesEn");
+    RetailSalesEn;
 
     
     ResetCompany(MMR);  
