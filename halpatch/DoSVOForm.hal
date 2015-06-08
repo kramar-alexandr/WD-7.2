@@ -87,7 +87,7 @@ BEGIN
   for (i=0;i<rwcnt;i=i+1) begin
     tstr = LineTextGet(Noter,i);
     if(length>0)then begin
-      while(len(tstr)>=length)begin
+      while(len(tstr)>=length) begin
         OUTFORMFIELD("F_STANDARDPROBLEMTEXT",left(tstr,length)); 
         tstr = right(tstr,len(tstr)-length);
       end;
@@ -95,8 +95,9 @@ BEGIN
         OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr); 
       end;
     end else begin
-      OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr);    
+      OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr);     
     end;
+    	EndFormRow; //Edit----------------------Dima  08.06.2015
   end;  
   RETURN;
 END;
@@ -216,7 +217,6 @@ string 255 enginer;
 record DocVc Docr;
 string 200 argument;
 integer length;
-			
 	// Edit End ---------------------------------------------- Edit End
 
     PrintWorksRows(SVOr);
@@ -237,7 +237,7 @@ integer length;
 				end; 
 			 cnt = cnt+1;
 			end;
-		end;
+		end;	
 L1:;
 		if (FIELDINFORM("MY_Enginer")) then begin
 			cnt=1;
