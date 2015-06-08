@@ -44,6 +44,10 @@ begin
 	record INVc INr;
 	record WSVc WSr; //Edit***************************Sasha2,14:26 18.05.2015
 	row WSVc WSrw; //Edit***************************Sasha2,14:26 18.05.2015
+	record BaseCurBlock BCb;
+	
+	
+	blockload(BCb);
 	
 	ressize = 0;
 	
@@ -93,6 +97,9 @@ begin
 						curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty);
 						curncy[ressize] = IHr.PUCurncyCode;
 						rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+						if(PUr.CurncyCode==BCb.BaseCur2)then begin
+							rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+						end;
 						indate[ressize] =	PUr.TransDate;
 						vecode[ressize] = PUr.VECode;
 					end;
@@ -125,6 +132,9 @@ begin
 										curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 										curncy[ressize] = IHr.PUCurncyCode;
 										rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+										if(PUr.CurncyCode==BCb.BaseCur2)then begin
+											rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+										end;
 										indate[ressize] =	PUr.TransDate;
 										vecode[ressize] = PUr.VECode;
 									end;
@@ -167,6 +177,9 @@ begin
 											curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 											curncy[ressize] = IHr.PUCurncyCode;
 											rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+											if(PUr.CurncyCode==BCb.BaseCur2)then begin
+												rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+											end;
 											indate[ressize] =	PUr.TransDate;
 											vecode[ressize] = PUr.VECode;
 										end;
@@ -216,6 +229,9 @@ begin
 														curncy[ressize] = IHr.PUCurncyCode;
 														if(PUr.CurncyCode!="USD")then begin
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+															if(PUr.CurncyCode==BCb.BaseCur2)then begin
+																rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+															end;
 														end else begin
 															rate[ressize] = blankval;
 														end;
@@ -230,6 +246,9 @@ begin
 														curncy[ressize] = IHr.PUCurncyCode;
 														if(PUr.CurncyCode!="USD")then begin
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+															if(PUr.CurncyCode==BCb.BaseCur2)then begin
+																rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+															end;
 														end else begin
 															rate[ressize] = blankval;
 														end;
@@ -245,6 +264,9 @@ begin
 													curncy[ressize] = IHr.PUCurncyCode;
 													if(PUr.CurncyCode!="USD")then begin
 														rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+														if(PUr.CurncyCode==BCb.BaseCur2)then begin
+															rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+														end;
 													end else begin
 														rate[ressize] = blankval;
 													end;
@@ -290,6 +312,9 @@ begin
 														curncy[ressize] = IHr.PUCurncyCode;
 														if(PUr.CurncyCode!="USD")then begin
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+															if(PUr.CurncyCode==BCb.BaseCur2)then begin
+																rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+															end;
 														end else begin
 															rate[ressize] = blankval;
 														end;
@@ -304,6 +329,9 @@ begin
 														curncy[ressize] = IHr.PUCurncyCode;
 														if(PUr.CurncyCode!="USD")then begin
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+															if(PUr.CurncyCode==BCb.BaseCur2)then begin
+																rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+															end;
 														end else begin
 															rate[ressize] = blankval;
 														end;
@@ -319,6 +347,9 @@ begin
 													curncy[ressize] = IHr.PUCurncyCode;
 													if(PUr.CurncyCode!="USD")then begin
 														rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+														if(PUr.CurncyCode==BCb.BaseCur2)then begin
+															rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+														end;
 													end else begin
 														rate[ressize] = blankval;
 													end;
@@ -355,6 +386,9 @@ begin
 								curncy[ressize] = IHr.PUCurncyCode;
 								if(PUr.CurncyCode!="USD")then begin
 									rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+									if(PUr.CurncyCode==BCb.BaseCur2)then begin
+										rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+									end;
 								end else begin
 									rate[ressize] = blankval;
 								end;
@@ -441,6 +475,10 @@ begin
 	string 20 itemrate,ivrate;
 	string 20 invcurncy;
 	boolean filter;// Edit ************************** Thursday, 14 May 2015 16:20:54
+	record BaseCurBlock BCb;
+	
+	
+	blockload(BCb);
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
@@ -499,6 +537,7 @@ begin
 		if(IVr.Invalid==1)then begin testf = false; end;
 		if(IVr.OKFlag==0)then begin testf = false; end;
 		if(nonblank(RepSpec.f6) and IVr.CustCode!=RepSpec.f6)then begin testf = false; end;// Edit ************************** Thursday, 14 May 2015 16:17:55
+		if(nonblank(RepSpec.f7) and !setinset(IVr.Location,RepSpec.f7))then begin testf = false; end;// Edit ************************** Friday, 5 June 2015 10:50:59
 		
 		cred = 1;
 		if(IVr.InvType==3) then begin 
@@ -518,6 +557,10 @@ begin
 			
 			invfr = IVr.FrRate;
 			invto1 = IVr.ToRateB1;
+			if(IVr.CurncyCode==BCb.BaseCur2)then begin
+				invfr = IVr.BaseRate2;
+				invto1 = IVr.BaseRate1;
+			end;
 			if(invfr==0 or invto1==0)then begin
 				invfr = 1;
 				invto1 = 1;
@@ -585,6 +628,10 @@ begin
 								invcurncy = IVr.CurncyCode;
 								invfr = IVr.FrRate;
 								invto1 = IVr.ToRateB1;
+								if(IVr.CurncyCode==BCb.BaseCur2)then begin
+									invfr = IVr.BaseRate2;
+									invto1 = IVr.BaseRate1;
+								end;
 								if(invfr==0 or invto1==0)then begin
 									invfr = 1;
 									invto1 = 1;
@@ -794,6 +841,11 @@ begin
 	roundmode rnd; //Edit***************************Sasha2,10:44 16.02.2015
 	string 5 invcurncy;
 	boolean filter;
+	record BaseCurBlock BCb;
+	
+	
+	blockload(BCb);
+	
 	
 	usercode = currentuser;
 	if(nonblank(usercode))then begin
@@ -867,6 +919,7 @@ begin
 		if(IVr.OKFlag==0)then begin testf = false; end;
 		if(nonblank(salesgroup) and IVr.SalesGroup!=salesgroup)then begin testf = false;  end;
 		if(nonblank(RepSpec.f6) and IVr.CustCode!=RepSpec.f6)then begin testf = false; end;// Edit ************************** Thursday, 14 May 2015 16:17:55
+		if(nonblank(RepSpec.f7) and !setinset(IVr.Location,RepSpec.f7))then begin testf = false; end;// Edit ************************** Friday, 5 June 2015 10:50:59
 		
 		cred = 1;
 		if(IVr.InvType==3) then begin 
@@ -883,6 +936,10 @@ begin
 			
 			invfr = IVr.FrRate;
 			invto1 = IVr.ToRateB1;
+			if(IVr.CurncyCode==BCb.BaseCur2)then begin
+				invfr = IVr.BaseRate2;
+				invto1 = IVr.BaseRate1;
+			end;
 			if(invfr==0 or invto1==0)then begin
 				invfr = 1;
 				invto1 = 1;
@@ -1250,6 +1307,30 @@ integer compnr;
 									SalesReportRn(RepSpec);
 									closefile;
 									RunProgram("Reports/5/FullSalesRep.sh","");
+									
+					case 6: filename = "Reports/6/FullSalesRepOL.xls";
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									RepSpec.f7 = "K_OL,K_OL_ST";
+									SalesReportRn(RepSpec);
+									RepSpec.f7 = "";
+									closefile;
+									RunProgram("Reports/5/FullSalesRepOL.sh","");
+									
+									filename = "Reports/6/FullSalesRepOP.xls";
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									RepSpec.f7 = "K_OP,K_OP_ST";
+									SalesReportRn(RepSpec);
+									RepSpec.f7 = "";
+									closefile;
+									RunProgram("Reports/5/FullSalesRepOP.sh","");
 																		
 									
           case 7: filename = "Reports/7/FullSalesRep.xls";

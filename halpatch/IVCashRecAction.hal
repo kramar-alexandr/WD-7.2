@@ -1652,12 +1652,12 @@ u might want to put loyalty card or bagger 1st
             tstr = tstr & IVCashrw.Objects;
           end;
         end;
-        errcode = CheckObjs(IVCashrw.SalesAcc,tstr,errstr);
+        /*errcode = CheckObjs(IVCashrw.SalesAcc,tstr,errstr);// Edit ************************** Thursday, 4 June 2015 16:59:48
         if (errcode!=0) then begin
           RecordCheckError(errcode,errstr,-1,"Objects");      
           res = -1; 
           goto LIVCashVcRecordCheck;
-        end;
+        end;*/
       end;
       if (IsControlAccount(IVCashrw.SalesAcc,true,false)) then begin
         RecordCheckError(1082,"",i,"SalesAcc");      

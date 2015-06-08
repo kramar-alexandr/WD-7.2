@@ -69,8 +69,8 @@ AService = 8;
   if (SetCompany(MMR,false)) then begin//itek
   	//logtext(0,currentcompany & " IPEn"); 
     //IPEn; 
-  	//logtext(0,currentcompany & " SalesReportEn");
-    //SalesReportEn;
+  	logtext(0,currentcompany & " SalesReportEn");
+    SalesReportEn;
   	//logtext(0,currentcompany & " DebitorkaReportEn");
     //DebitorkaReportEn(iTek);
     //logtext(0,currentcompany & " ShopsReportEn");

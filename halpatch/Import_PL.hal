@@ -98,7 +98,7 @@ BEGIN
 END;
 
 
-global
+/*global
 updating procedure ReadImportTagSVOVcRecord(record SVOVc SVOr)
 begin
   string 255 tstr;
@@ -241,4 +241,4 @@ begin
   end;
   
   return;
-end;
+end;*/

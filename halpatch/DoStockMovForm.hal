@@ -86,7 +86,9 @@ BEGIN
       
       if(currentcompany==4)then begin
       	switch(StockMovr.ToLocation)begin
-      		case "DREAM_TOWN": PLr.PLCode = "RRPD";     		     	
+      		case "DREAM_TOWN": PLr.PLCode = "RRPD";  
+      		case "INV#1_DT": PLr.PLCode = "RRPD";    
+      		case "INV#1_DTST": PLr.PLCode = "RRPD1";       		     	
       	end;
       end;
       

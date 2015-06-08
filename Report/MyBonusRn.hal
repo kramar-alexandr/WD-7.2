@@ -288,37 +288,33 @@ begin
   record IPrsVc IPrsr;
   record IPrsVc IPrs2r;
   boolean TrHs,trhs2,testf,testf2,TRHS1;
-  
   record ORVc ORr;
   record SHVc SHr;
   row SHVc SHrw;
-  
   integer mtrw,i,g,k,j,ivmtrw,mtrwsh;
   val MyCost,salesprice,salessum,sum;
   Record CUVc CUr;
   date enddate;
   val TransNo;
-  
   record RLinkVc RLr;
   Integer notenr,notenr1,notenr2,z,mtws;
   record SVOVc SVOr;
   record WOVc WOr;
   record WSVc WSr;
   row WSVc WSrw;
-  
   string 50 enginer,tstr,group;
-  
   val priceorig,costorig,sumorig,sumcostorig,gporig,curorig;
-  
   string 10 curncy;
-  
   array val rate,qty,cost,curcost; //Edit***************************Sasha2,15:29 23.04.2015
 	array date indate; //Edit***************************Sasha2,15:29 23.04.2015
 	array string 100 vecode,serial,curncyarr; //Edit***************************Sasha2,15:29 23.04.2015
 	integer ressize,foundqty; //Edit***************************Sasha2,15:29 23.04.2015
   val t,invfr,invto1,quant,sumcur,sumusd; //Edit***************************Sasha2,15:48 23.04.2015
   array integer pos; //Edit***************************Sasha2,11:15 27.04.2015
-  
+	record BaseCurBlock BCb;
+	
+	blockload(BCb);
+
   startreportnoheaderjob("Bonus")
   IPrsr.TransDate = RepSpec.sStartDate;
   TrHs = true;
@@ -392,6 +388,10 @@ begin
           enddate = "";
           invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
     			invto1 = IVr.ToRateB1;
+    			if(IVr.CurncyCode==BCb.BaseCur2)then begin
+						invfr = IVr.BaseRate2;
+						invto1 = IVr.BaseRate1;
+					end;
     			if(invfr==0 or invto1==0)then begin
     				invfr = 1;
     				invto1 = 1;
@@ -715,6 +715,10 @@ l1:;
             if(readfirstmain(newIVr,1,true))then begin
               invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
         			invto1 = IVr.ToRateB1;
+        			if(IVr.CurncyCode==BCb.BaseCur2)then begin
+								invfr = IVr.BaseRate2;
+								invto1 = IVr.BaseRate1;
+							end;
         			if(invfr==0 or invto1==0)then begin
         				invfr = 1;
         				invto1 = 1;
