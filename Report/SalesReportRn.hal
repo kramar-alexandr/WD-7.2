@@ -1318,7 +1318,7 @@ integer compnr;
 									SalesReportRn(RepSpec);
 									RepSpec.f7 = "";
 									closefile;
-									RunProgram("Reports/5/FullSalesRepOL.sh","");
+									//RunProgram("Reports/5/FullSalesRepOL.sh","");// Edit ************************** Tuesday, 9 June 2015 09:20:23
 									
 									filename = "Reports/6/FullSalesRepOP.xls";
           				delete_file(filename);
@@ -1330,7 +1330,7 @@ integer compnr;
 									SalesReportRn(RepSpec);
 									RepSpec.f7 = "";
 									closefile;
-									RunProgram("Reports/5/FullSalesRepOP.sh","");
+									//RunProgram("Reports/5/FullSalesRepOP.sh","");// Edit ************************** Tuesday, 9 June 2015 09:20:24
 																		
 									
           case 7: filename = "Reports/7/FullSalesRep.xls";
