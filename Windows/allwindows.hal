@@ -4901,6 +4901,8 @@ begin
   SpecialMenu("Виписати кредитовий акт/накладну",'F',1,"CreditIVFromRetsm");
   if (HasQualityControl) then begin
   SpecialMenu("Контроль якості",'u',10,"QualConFromRetDsm");
+ 	SpecialMenu("Надрукувати етикетки",'e',0,"PrintRetLabPUDsm");// Edit ************************** Wednesday, 10 June 2015 16:00:44
+
   end;
   EndWindow;
 end;

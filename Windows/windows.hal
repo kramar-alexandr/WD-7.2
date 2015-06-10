@@ -51,6 +51,7 @@ begin
 		EditField(h,v+=20,150,"Товар",Normal,f3,false,INSClass);
 		EditField(h,v+=20,150,"Постачальник",Normal,f4,false,VESClass);
 		EditField(h,v+=20,150,"Класифікація",Normal,f5,false,DISClass);
+		EditField(h,v+=20,150,"Склади",Normal,f7,false,LocationSClass);
 	
 	EndWindow;
 return;

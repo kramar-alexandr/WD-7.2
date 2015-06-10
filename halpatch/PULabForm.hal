@@ -262,7 +262,8 @@ BEGIN
   record POVc POr;
   string 50 reference;
   boolean findetic1;
-  
+  record RetVc Retr;// Edit ************************** Wednesday, 10 June 2015 16:10:45
+  row RetVc Retrw;// Edit ************************** Wednesday, 10 June 2015 16:10:53
   
   if (blank(RepSpec.f1)) then begin goto LDoPULabFormPrint; end;
   GetLangNr("",LangNrr);
@@ -289,20 +290,43 @@ BEGIN
   findetic1 = ReadFirstMain(Docr1,1,true);
   Docr.Code = formcode;
   if (ReadFirstMain(Docr,1,true)) then begin end;
-  frompu = FirstInRange(RepSpec.f1,20);
-  topu = LastInRange(RepSpec.f1,20);
-  PUr.SerNr = frompu;
-  TrHs = true;
   
+  if(blank(RepSpec.f2))then begin
   
-  while (LoopMain(PUr,1,TrHs)) begin
-    if (TrHs) then begin
+		frompu = FirstInRange(RepSpec.f1,20);
+		topu = LastInRange(RepSpec.f1,20);
+		PUr.SerNr = frompu;
+		TrHs = true;
+		 If(readfirstmain(PUr,1,TrHs)) begin
+	
+		end;
+  end else begin
+  	Retr.SerNr = FirstInRange(RepSpec.f1,20);
+  	if(readfirstmain(Retr,1,true))then begin
+  		recordNew(PUr);
+  		PUr.PONr = Retr.Comment;
+  		rwcnt = matrowcnt(Retr);
+  		For(i=0;i<rwcnt;i=i+1) begin
+				matrowget(Retr,i,Retrw);	  
+				clearrow(PUr,PUrw,1);
+				PUrw.ArtCode = Retrw.ArtCode;
+				PUrw.Quant = Retrw.Quant;
+				PUrw.SerialNr = Retrw.SerialNr;
+				PUrw.Spec = Retrw.Spec;
+				matrowput(PUr,i,PUrw);
+			end; 
+  	end;
+  end;
+  
+ 
+    /*if (TrHs) then begin
       if (topu!=-1) then begin
         if (PUr.SerNr>topu) then begin
           TrHs = false;
         end;
       end;
-    end;
+    end;*/
+    TrHs = true;
     if (TrHs) then begin
       recordnew(newPUr);// Edit ************************** среда, 23 июня 2010 г. 11:01:39
       recordnew(newPUr1);// Edit ************************** среда, 23 июня 2010 г. 11:01:39
@@ -334,14 +358,12 @@ BEGIN
               testf = false;
             end;
             if(testf) then begin
-              //matrowget(newPUr,k,newPUrw);
               newPUrw.ArtCode = PUrw.ArtCode;
               newPUrw.SerialNr = PUrw.SerialNr;
               newPUrw.Spec = PUrw.Spec;
               matrowput(newPUr,k,newPUrw);
               k=k+1;
             end else begin
-            	//matrowget(newPUr1,j,newPUrw1);
               newPUrw1.ArtCode = PUrw.ArtCode;
               newPUrw1.SerialNr = PUrw.SerialNr;
               newPUrw1.Spec = PUrw.Spec;
@@ -375,10 +397,11 @@ BEGIN
 	// Edit End ---------------------------------------------- Edit End
 	
     end;
-  end;
+  //end;// Edit ************************** Wednesday, 10 June 2015 16:08:53
 LDoPULabFormPrint:;
   
   if(findetic1 and rwcnt1>0)then begin
+  	logtext(0,"dfjkghskldfjghkjsdfgklsdfhghjdlskfghjsdlkfhj");
   	if (formisopen==false) then begin
 			CloseForm;
 			OpenForm(Docr1.Code);
@@ -472,7 +495,7 @@ procedure PULabForm(record RcVc RepSpec)
 BEGIN
   Boolean tmpf;
 	
-	logtext(0,1);
-  tmpf = PrintDocument(RepSpec,"PULabForm",false);
+	  tmpf = PrintDocument(RepSpec,"PULabForm",false);
+  
   RETURN;
 END;
