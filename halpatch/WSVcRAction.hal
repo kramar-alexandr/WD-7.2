@@ -50,7 +50,7 @@ external procedure WSUpdateFIFO(record WSVc);
 external function Boolean SerNrTestWSVc(LongInt,Date,var Boolean);
 external procedure GetLocationAcc(string,var string,var string);
 external function longint GetUserSerNrSeries(longint);// Edit ************************** Thursday, 13 February 2014 17:29:44
-remote updating procedure CreateIVFromWS(record WSVc); //Edit***************************Sasha2,11:46 10.06.2015
+remote updating procedure CreateIVFromWS(record WSVc,var LongInt,var record IVVc); //Edit***************************Sasha2,11:46 10.06.2015
 
 procedure GetWSStockAcc(Integer ItemGroupAccounts,string location,string MainStock,string itcode,string accusageacc,var string stockacc,var string locobjstr)
 begin  
@@ -1203,6 +1203,8 @@ global
 updating function LongInt WSVcRecordSaveAfter(var record WSVc WSr,record WSVc WS2r,LongInt stat,LongInt long4)
 begin
   LongInt res;
+  LongInt r; //Edit***************************Sasha2,16:20 10.06.2015
+  record IVVc IVr; //Edit***************************Sasha2,16:25 10.06.2015
   
   WSUpdateSVOWSMark(WSr);
   WSUpdateStock(WSr,true,WS2r,false,false);
@@ -1210,11 +1212,18 @@ begin
     WSUpdateItemHistory(WSr);
     WSUpdateSerialNr(WSr,false,true);
     WSOK(WSr);
-    CreateIVFromWS(WSr); //Edit***************************Sasha2,14:22 10.06.2015
+    CreateIVFromWS(WSr,r,IVr); //Edit***************************Sasha2,14:22 10.06.2015
   end;
   if ((WSr.PrelOK!=0) and (WSr.OKFlag==0)) then begin 
     WSPrelOK(WSr,true);
   end;
+  switch (r) begin //Edit***************************Sasha2,16:23 10.06.2015 {
+    case -1: /*Beep*/;
+    case -2: /*MessageBox(1281,"")*/;
+    otherwise
+      OpenWindow("IVDClass",1,0,"","",IVr);
+      UpdateBrowses("WSVc");
+  end; //Edit***************************Sasha2,16:23 10.06.2015 }
   WSVcRecordSaveAfter = res; 
   return;
 end;

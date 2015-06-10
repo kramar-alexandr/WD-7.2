@@ -297,7 +297,7 @@ BEGIN
   AddRowsFromServiceOrder(SVOp,IVp);
   srw = MatRowCnt(IVp);
   TrHs = true;
-  WSIVr.SVONr = SVOp.SerNr;
+  WSIVr.SVONr = SVOp.SerNr; 
   while (LoopKey("SVONr",WSIVr,1,TrHs)) begin   
     testf = true;
     if (WSIVr.CUCode!=SVOp.CustCode) then begin testf = false; end;
@@ -492,7 +492,8 @@ BEGIN
   record SVOVc oldSVOr;
   Boolean testf;
   record CUVc CUr;
-
+  record WSVc WSr; //Edit***************************Sasha2,15:57 10.06.2015
+ 
   if (ReadFirstMain(SVOp,0,true)) then begin end;  
   RecordNew(IVp);
   IVp.OrderNr = -1;
@@ -528,6 +529,13 @@ BEGIN
       end;
       CreateRecordLink(SVOp,CurrentCompany,IVp,CurrentCompany);
       CreateRecordLink(IVp,CurrentCompany,SVOp,CurrentCompany);
+      if (WSNum!=-1) then begin //Edit***************************Sasha2,15:57 10.06.2015 {
+        WSr.SerNr = WSNum;
+        if (ReadFirstMain(WSr,1,true)) then begin
+          CreateRecordLink(WSr,CurrentCompany,IVp,CurrentCompany);
+          CreateRecordLink(IVp,CurrentCompany,WSr,CurrentCompany);
+        end;
+      end; //Edit***************************Sasha2,15:57 10.06.2015 }
       res = 1;
     end;
   end;
@@ -538,12 +546,10 @@ END;
 
 
 global //Edit***************************Sasha2,13:04 10.06.2015 {
-updating procedure CreateIVFromWS(record WSVc WSr)
+updating procedure CreateIVFromWS(record WSVc WSr,var LongInt r,var record IVVc IVr)
 begin
-  record SVOVc SVOr;
-  record IVVc IVr;
-  LongInt r;
-  
+  record SVOVc SVOr; 
+
     if (UserCanAction("SVOToInv",true)) then begin
       SVOr.SerNr = WSr.SVONr;
       if (ReadFirstMain(SVOr,1,true)) then begin
