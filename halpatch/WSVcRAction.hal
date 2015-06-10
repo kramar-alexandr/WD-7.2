@@ -50,6 +50,7 @@ external procedure WSUpdateFIFO(record WSVc);
 external function Boolean SerNrTestWSVc(LongInt,Date,var Boolean);
 external procedure GetLocationAcc(string,var string,var string);
 external function longint GetUserSerNrSeries(longint);// Edit ************************** Thursday, 13 February 2014 17:29:44
+remote updating procedure CreateIVFromWS(record WSVc); //Edit***************************Sasha2,11:46 10.06.2015
 
 procedure GetWSStockAcc(Integer ItemGroupAccounts,string location,string MainStock,string itcode,string accusageacc,var string stockacc,var string locobjstr)
 begin  
@@ -1209,6 +1210,7 @@ begin
     WSUpdateItemHistory(WSr);
     WSUpdateSerialNr(WSr,false,true);
     WSOK(WSr);
+    CreateIVFromWS(WSr); //Edit***************************Sasha2,14:22 10.06.2015
   end;
   if ((WSr.PrelOK!=0) and (WSr.OKFlag==0)) then begin 
     WSPrelOK(WSr,true);

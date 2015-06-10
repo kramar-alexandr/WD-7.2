@@ -14,7 +14,7 @@ external procedure RemoveOldUserObjects(string,var string);
 external procedure GetSalesGroup(string,var string);
 remote procedure SVOVc_PasteTransDate(var record SVOVc);
 remote updating function Boolean MakeActFromSVO(record SVOVc,var record ActVc,Integer);
-remote updating function LongInt RecordAction_raPasteSVOInInv(var record SVOVc,var record IVVc);
+remote updating function LongInt RecordAction_raPasteSVOInInv(var record SVOVc,var record IVVc,LongInt); //Edit***************************Sasha2,11:46 10.06.2015
 remote updating function LongInt RecordAction_raPasteSVOInSVGM(record SVOVc,var record SVGMVc);
 remote function Boolean SVO_PasterSerialNr(var record SVOVc,Integer,var string);
 remote function Boolean PasteInvoiceToCodeInSVO(var record SVOVc,var string);
@@ -567,7 +567,7 @@ BEGIN
   if (WindowState(wn)==0) then begin//Rs_normal
     if (UserCanAction("SVOToInv",true)) then begin
       GetWindowRecord(wn,SVOr);
-      r = RecordAction_raPasteSVOInInv(SVOr,IVr);
+      r = RecordAction_raPasteSVOInInv(SVOr,IVr,-1); //Edit***************************Sasha2,11:46 10.06.2015
       switch (r) begin
         case -1: Beep;
         case -2: MessageBox(1281,"");
@@ -597,7 +597,7 @@ BEGIN
   if (UserCanAction("SVOToInv",true)) then begin
     if (ReadMarkedRecord(wn,SVOr)) then begin
       if (SVOr.InvFlag==0) then begin
-        r = RecordAction_raPasteSVOInInv(SVOr,IVr);
+        r = RecordAction_raPasteSVOInInv(SVOr,IVr,-1); //Edit***************************Sasha2,13:13 10.06.2015
         switch (r) begin
           case -1: Beep;
           case -2: MessageBox(1281,"");
