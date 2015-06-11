@@ -1989,6 +1989,7 @@ begin
   RadioButton(h,v+=16,4,0,USetStr(31038),LSize);
   RadioButton(h,v+=16,5,0,USetStr(31039),LSize);
   RadioButton(h,v+=16,6,0,USetStr(31040),LSize); //Edit***************************Sasha2,15:57 22.10.2014 }
+  RadioButton(h,v+=16,7,0,"1*5 SAMS",LSize); //Edit***************************Sasha2,15:57 22.10.2014 }
   Tile(tilenr,120,true,tilenr,Math);  tilenr = tilenr + 1;
   v = 24;
   MatrixBegin(4,v,-50,-40,-,99);

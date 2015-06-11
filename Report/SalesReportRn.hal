@@ -157,7 +157,7 @@ begin
 						For(reti=0;reti<retrwnt;reti=reti+1) begin
 	  					matrowget(Retr,reti,Retrw);
 
-	  					if(IVrw.OrdRow>=0 and IVrw.OrdRow==Retrw.OrdRow)then begin
+	  					if(IVrw.RetRow>=0 and IVrw.RetRow==reti)then begin
 							IHr.FileName = "RetVc";
 							IHr.TransNr = Retr.SerNr;
 							IHr.Row = reti;

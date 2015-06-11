@@ -304,3 +304,117 @@ begin
 	end;
 return;
 end;
+
+
+
+
+global procedure POSClientRn(record RcVc RepSpec)
+begin
+  record CUVc CUr;
+  boolean testf,TrHs,cut;
+  record IVCashVc IVCashr;
+  record IVVc IVr;
+  date ivcashdate,findate;
+  string 100 salesman,location;
+  record UserVc USr;
+  
+  startreportnoheaderjob("Карточки клиентов");
+  
+  USr.Code = currentuser;
+  readfirstmain(USr,1,true);
+  cut = true;
+  if(USr.SalesGroup=="POS")then begin
+  		cut = false;
+  end;
+  startformat(15);
+      OutString(0,0,"ФІО",false);
+      OutString(60,0,"№ Карт.",false);
+      if(cut)then begin
+				OutString(110,0,"Телефон",false);
+				OutString(140,0,"e-mail",false);
+				OutString(200,0,"Дата народж.",false);
+				OutString(330,0,"Місто",false);
+				OutString(1,0,"Семінари",true);
+				OutString(1,0,"Діти",true);
+				OutString(1,0,"Професія",true);
+				OutString(1,0,"Наявні товари",true);
+				OutString(1,0,"Перший продаж",true);
+				OutString(1,0,"Магазин",true);
+				OutString(1,0,"Продавець",true);
+      end;
+    endformat;
+    
+  TrHs = true;
+  CUr.CustCat = "POS";
+  
+  while(loopkey("Group",CUr,1,TrHs))begin
+    testf = true;
+    if(CUr.CustCat!="POS")then begin testf = false; TrHs = false; end;
+    if(blank(CUr.Name))then begin testf = false; end;
+    
+    if(testf)then begin
+      
+      IVCashr.CustCode = CUr.Code;
+        findate = "";
+        salesman = "";
+        location = "";
+      
+      if(readfirstkey("CustCode",IVcashr,1,true))then begin
+        findate = IVcashr.TransDate;
+        salesman = IVcashr.SalesMan;
+        location = IVcashr.Location;
+        //Messagebox(0,findate);
+      end;
+      resetloop(IVcashr);
+      IVr.CustCode = CUr.Name;
+      if(readfirstkey("CustCode",IVr,1,true))then begin
+        if(nonblank(findate))then begin
+          if(findate>IVr.TransDate)then begin
+            findate = IVr.TransDate;
+            salesman = IVr.SalesMan;
+            location = IVr.Location;
+          end;
+        end else begin
+          findate = IVr.TransDate;
+          salesman = IVr.SalesMan;
+          location = IVr.Location;
+        end;
+      end;
+      resetloop(IVr);
+      
+      StartFormat(15);
+				OutString(0,0,CUr.Name,false);
+				OutString(60,0,CUr.Code,false);
+				if(cut)then begin
+					OutString(110,0,CUr.Phone,false);
+					OutString(140,0,CUr.eMail,false);
+					OutString(200,0,CUr.BirthDate,false);
+					OutString(330,0,CUr.InvAddr1,false);
+					if(CUr.Smoking==1)then begin
+						OutString(1,0,"Так",true);//seminar
+					end else begin
+						OutString(1,0,"Ні",true);//seminar
+					end;
+					if(CUr.Blacklist==1)then begin
+						OutString(1,0,"Так",true);//seminar
+					end else begin
+						OutString(1,0,"Ні",true);//seminar
+					end;
+					OutString(1,0,CUr.Profesion,true);
+					OutString(1,0,CUr.Comment,true);
+					OutString(1,0,findate,true);
+					OutString(1,0,location,true);
+					OutString(1,0,salesman,true);
+				end;
+      endformat;
+    end;
+    
+  end;
+    
+  endjob;
+  
+  
+
+return;
+end;
+

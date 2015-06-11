@@ -2842,14 +2842,19 @@ if (HasTouchScreenLook==false) then begin
     MatCol(t,144,"Опис",0,Spec,false,0);
   end;
   MatCol(t,-230,"SHnr",0,SHNr,false,0);// Edit ************************** Wednesday, 18 February 2015 13:09:15
-  MatCol(t,-140,"Ном. клієнтa",0,CustomsNr,false,0);
+  //MatCol(t,-140,"Ном. клієнтa",0,CustomsNr,false,0);
+  MatCol(t,-140,"SHRow",0,SHRow,false,0);// Edit ************************** Wednesday, 10 June 2015 16:58:12
   MatCol(t,-70,"OrdRow",0,OrdRow,false,0);// Edit ************************** Wednesday, 18 February 2015 13:10:49
   MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Опис",0,Spec,false,0);
-  MatCol(t,-240,"Ном. клієнтa",0,CustomsNr,false,0);
+  //MatCol(t,-240,"Ном. клієнтa",0,CustomsNr,false,0);// Edit ************************** Wednesday, 10 June 2015 16:59:33
+  MatCol(t,-240,"SHRow",0,SHRow,false,0);// Edit ************************** Wednesday, 10 June 2015 16:59:33
   MatCol(t,-100,"OrdRow",0,OrdRow,false,0);// Edit ************************** Wednesday, 18 February 2015 13:10:51
   MatCol(t=kInvoiceRowTypeCorrection,144,"Опис",0,Spec,false,0); 
-  MatCol(t,-240,"Ном. клієнтa",0,CustomsNr,false,0);
+  //MatCol(t,-240,"Ном. клієнтa",0,CustomsNr,false,0);// Edit ************************** Wednesday, 10 June 2015 17:00:02
+  MatCol(t,-240,"SHRow",0,SHRow,false,0);// Edit ************************** Wednesday, 10 June 2015 17:00:03
+
   MatCol(t,-100,"OrdRow",0,OrdRow,false,0);// Edit ************************** Wednesday, 18 February 2015 13:09:12
+  
   InsertRowTest;
   DeleteRowTest;
   EndMatrix;
@@ -5600,6 +5605,9 @@ begin
   RadioButton(h,v+=16,4,0,USetStr(31038),LSize);
   RadioButton(h,v+=16,5,0,USetStr(31039),LSize);
   RadioButton(h,v+=16,6,0,USetStr(31040),LSize); //Edit***************************Sasha2,15:57 22.10.2014 }
+  RadioButton(h,v+=16,7,0,"1*5 SAMS",LSize); //Edit***************************Sasha2,15:57 22.10.2014 }
+  //RadioButton(h,v+=16,8,0,"1*5",LSize); //Edit***************************Sasha2,15:57 22.10.2014 }
+  //RadioButton(h,v+=16,9,0,"5*3",LSize); //Edit***************************Sasha2,15:57 22.10.2014 }
   Tile(tilenr,120,true,tilenr,Math);  tilenr = tilenr + 1;
   v = 24;
   MatrixBegin(4,v,-50,-40,-,99);

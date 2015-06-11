@@ -693,6 +693,9 @@ begin
   EndWindow;
 end;
 
+
+
+
 //Edit***************************Sasha2,16:07 24.10.2014 }
 
 window LabelStockItemsRClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
@@ -1239,3 +1242,13 @@ real vs,v,h,h1,h2,h3;
   SearchField("Пошук");
   EndWindow;
  end;    
+ 
+window POSClientRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+real vs,v,h,h1,h2,h3;
+ WindowBegin("Клиенты с карточками",POSClientRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);  
+    //EditField(h,20,150,"№ карточки",Normal,f1,false,POSClientRClass);
+  EndWindow;
+end;
