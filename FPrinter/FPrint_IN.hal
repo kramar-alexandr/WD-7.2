@@ -262,8 +262,8 @@ begin
 	record RcVc RecSpec;
 	
 	wn=CurWindow;
+	deselectwindow(wn,true);
 	GetWindowRecord(wn,RecSpec);
-  deselectwindow(wn,true);
 	if ((RecSpec.flags[1]==1)) then begin
 		IVCashr.SerNr=RecSpec.long2;
 		if (ReadFirstMain(IVCashr,1,true)==true) then begin
