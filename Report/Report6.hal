@@ -222,12 +222,12 @@ integer compno;
               RepSpec.f1 = "";
               RunProgram("Stock/MMROLStockFull.sh", "");
               
-              delete_file("Stock/MMRStockFull.xls");
+              /*delete_file("Stock/MMRStockFull.xls");
       				CreateFile("Stock/MMRStockFull.xls");
               closefile;
               openexportfile("Stock/MMRStockFull.xls",true);
               MyItemReportRn(RepSpec);
-              RunProgram("Stock/MMRStockFull.sh", "");
+              RunProgram("Stock/MMRStockFull.sh", "");*/
       
       case 7: delete_file("Stock/TNMStockFull.xls");
       				CreateFile("Stock/TNMStockFull.xls");
