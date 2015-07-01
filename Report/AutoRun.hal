@@ -89,6 +89,8 @@ AService = 8;
     //MyReservStstEn;
     logtext(0,currentcompany & " RetailSalesEn");
     RetailSalesEn;
+    logtext(0,currentcompany & " ManagersFullStockEn");
+    ManagersFullStockEn;
 
     
     ResetCompany(MMR);  

@@ -51,6 +51,190 @@ external function Integer ArgEInvLock(record IVVc,integer);
 external function Integer GetArgIVType(integer,string,string,string);
 external function Boolean UserCanChangePendingRecord(Integer);
 
+
+global
+function Boolean IVCashDClassActiveEditField(Integer wn,string fieldname,Integer fn,Integer wnst,Integer rownr,Integer changed)
+BEGIN
+  Boolean res;
+  record IVCashVc IVCashr;
+  row IVCashVc IVCashrw;
+  Integer updatemode,insertmode;
+  record CYBlock CYRec;
+  record RahaxiBlock Rahaxib; 
+  record CashierDefBlock CDb;
+  record CompaniesBlock CBb;
+  row CompaniesBlock CBrw;
+  
+  blockload(CBb);
+  if(matrowcnt(CBb)>0)then begin
+  	matrowget(CBb,currentcompany-1,CBrw);
+  end;
+
+  insertmode = 1;//Rs_insert
+  updatemode = 2;
+  res = true; 
+  if (fieldname=="TransDate") then begin
+    BlockLoad(CYRec);
+    if (CYRec.AllowTransDateEdit==0) then begin
+      res = false;
+      goto LIVCashDClassActiveEditField;
+    end;
+  end;
+  
+  if ((CBrw.Mode==kProgramModeLocal or CBrw.Mode==kProgramModeClient) and currentuser!="POSSRV") then begin
+		res = false;
+		goto LIVCashDClassActiveEditField;
+  end;
+  
+  if (wnst==updatemode) then begin  
+    GetPrevWindowRecord(wn,IVCashr);
+    BlockLoad(Rahaxib);
+    if (IVCashr.OKFlag!=0) then begin    
+      res = false;  
+      switch (fieldname) begin
+//        case "SalesMan": res = true;//reported as bug
+        case "PayDate": res = true;
+        case "InvComment": res = true;
+        case "VATNr": res = true;
+        case "ClientContact": res = true;
+        case "LangCode": res = true;
+        case "ivcashcommand": res = true;
+      end;    
+    end else begin
+      switch (fieldname) begin
+        case "OfficialSerNr2": 
+          if (HasLocalization("PRT")) then begin
+            res = IVCashr.Status==kRecordStatusManual or IVCashr.Status==kRecordStatusRecovered;
+          end;
+        case "Spec": 
+          BlockLoad(CDb);
+          if (UserCanAction("ChangeIVItemSpec",CDb.CashSalesToFiscalControlUnit==0)==false) then begin res = false; end;
+        case "Price":
+          BlockLoad(CDb);
+          if (UserCanAction("ChangeUnitPrices",CDb.CashSalesToFiscalControlUnit==0)==false) then begin res = false; end;
+        case "vRebate":
+          if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;
+        case "RebCode": 
+          if (UserCanAction("ChangeDiscountMatrixonIVCash",false)==false) then begin res = false; end;
+        case "touchscreenitemprice":
+          if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;
+        case "CreditCard": 
+          if (rownr>=0) then begin
+            MatRowGet(IVCashr,rownr,IVCashrw);
+            if (IVCashrw.stp==kInvoiceRowTypeCreditCardPayment) then begin
+              res = blank(IVCashrw.AuthorizationCode);
+            end;
+          end else begin
+            res = blank(IVCashr.AuthorizationCode);
+          end;        
+        case "AuthorizationCode": 
+          if (rownr>=0) then begin
+            MatRowGet(IVCashr,rownr,IVCashrw);
+            if (IVCashrw.stp==kInvoiceRowTypeCreditCardPayment) then begin
+              res = blank(IVCashrw.AuthorizationCode);
+            end;
+          end else begin
+            res = blank(IVCashr.AuthorizationCode);
+          end;        
+        case "VATNr": res = HasLocalization("PRT")==false;
+        case "Addr0": res = HasLocalization("PRT")==false;
+        case "RecValue": res = (Rahaxib.TerminalType==kLocalCCTerminalNone);
+        case "CreditCard2": res = (Rahaxib.TerminalType==kLocalCCTerminalNone);
+        case "AuthorizationCode2": res = (Rahaxib.TerminalType==kLocalCCTerminalNone);
+        case "RecValue2": res = (Rahaxib.TerminalType==kLocalCCTerminalNone);
+        case "MotherArtCode": res = false;
+        case "RecipeQuant": res = false;
+        case "Recepy": res = false;
+        case "ArtCode": 
+          MatRowGet(IVCashr,rownr,IVCashrw);
+          switch (IVCashrw.stp) begin
+            case kInvoiceRowTypeStructuredItemComponent:
+              res = false;
+          end;
+        case "Quant": 
+          MatRowGet(IVCashr,rownr,IVCashrw);
+          switch (IVCashrw.stp) begin
+            case kInvoiceRowTypeStructuredItemComponent:
+              res = false;
+          end;
+      end;
+    end;
+  end;
+  if (wnst==insertmode) then begin
+    GetWindowRecord(wn,IVCashr);
+    if (IVCashr.OKFlag!=0) then begin
+      res = false;
+      goto LIVCashDClassActiveEditField;
+    end;
+    if (IVCashr.Invalid!=0) then begin
+      res = false;
+      goto LIVCashDClassActiveEditField;
+    end;
+    BlockLoad(Rahaxib);
+    switch (fieldname) begin
+      case "Spec": 
+        if (UserCanAction("ChangeIVItemSpec",true)==false) then begin res = false; end;
+        case "CreditCard": 
+          if (rownr>=0) then begin
+            MatRowGet(IVCashr,rownr,IVCashrw);
+            if (IVCashrw.stp==kInvoiceRowTypeCreditCardPayment) then begin
+              res = blank(IVCashrw.AuthorizationCode);
+            end;
+          end else begin
+            res = blank(IVCashr.AuthorizationCode);
+          end;        
+        case "AuthorizationCode": 
+          if (rownr>=0) then begin
+            MatRowGet(IVCashr,rownr,IVCashrw);
+            if (IVCashrw.stp==kInvoiceRowTypeCreditCardPayment) then begin
+              res = blank(IVCashrw.AuthorizationCode);
+            end;
+          end else begin
+            res = blank(IVCashr.AuthorizationCode);
+          end;        
+      case "RecValue": res = (Rahaxib.TerminalType==kLocalCCTerminalNone);
+      case "CreditCard2": 
+        res = blank(IVCashr.AuthorizationCode2);
+      case "AuthorizationCode2": 
+        res = blank(IVCashr.AuthorizationCode2);
+      case "RecValue2": res = (Rahaxib.TerminalType==kLocalCCTerminalNone);
+      case "MotherArtCode": res = false;
+      case "RecipeQuant": res = false;
+      case "Recepy": res = false;
+      case "ArtCode": 
+        MatRowGet(IVCashr,rownr,IVCashrw);
+        switch (IVCashrw.stp) begin
+          case kInvoiceRowTypeStructuredItemComponent:
+            res = false;
+        end;
+      case "Quant": 
+        MatRowGet(IVCashr,rownr,IVCashrw);
+        switch (IVCashrw.stp) begin
+          case kInvoiceRowTypeStructuredItemComponent:
+            res = false;
+        end;
+    end;
+    if (rownr>=0) then begin
+      MatRowGet(IVCashr,rownr,IVCashrw);
+      switch (fieldname) begin
+        case "DownPaidSum": if (IVCashrw.OrdQuant==0) then begin res = false; end;
+        case "Price":
+          if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;
+      end;  
+    end;
+  end;
+  switch (fieldname) begin
+    case "SalesMan": 
+      if (UserCanAction("AllowSalesmanChangeOnPOS",false)==false) then begin
+        res = false;
+      end;
+  end;
+LIVCashDClassActiveEditField:;  
+  IVCashDClassActiveEditField = res;
+return;
+end;
+
+
 global
 function Boolean IVDClassNoInterestFlagButtonAction(Integer wn,Integer value)
 BEGIN

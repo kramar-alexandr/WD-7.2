@@ -417,7 +417,12 @@ begin
   val frrate;// Edit ************************** Thursday, 4 September 2014 10:40:39
   val percent,minpercent;// Edit ************************** Thursday, 4 September 2014 10:40:40
   record PLVc PLr;// Edit ************************** Thursday, 4 September 2014 10:40:41
+	record BaseCurBlock BCb;// Edit ************************** Tuesday, 23 June 2015 18:03:02
 
+	
+	blockload(BCb);// Edit ************************** Tuesday, 23 June 2015 18:02:59
+
+	
   res = 0;
   insertmode = 1;//Rs_insert
   updatemode = 2;//Rs_update
@@ -538,6 +543,9 @@ begin
       frrate = ORr.FrRate;
     end else begin
       frrate = 1;
+      If(nonblank(ORr.BaseRate2) and ORr.CurncyCode==BCb.BaseCur2)then begin// Edit ************************** Tuesday, 23 June 2015 18:02:37
+      	frrate = ORr.BaseRate2;
+      end;
     end;
     testf = true;
     if(nonblank(ORr.PriceList))then begin

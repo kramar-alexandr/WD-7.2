@@ -4427,6 +4427,15 @@ begin
   CheckBox(h1,v+=16,0,"Item Type",ItemType); 
   CheckBox(h1,v+=16,0,"Consignment #Stock#",ConsigStock);
   CheckBox(h1,v+=16,0,"Will be Purged",WillBePurged);
+
+  EditField(h,v=86,100,"PUCurncyCode",Normal,PUCurncyCode,true,0);// Edit ************************** Wednesday, 24 June 2015 11:46:23
+  EditField(h,v+=20,100,"InFileName",Normal,InFileName,true,0);// Edit ************************** Wednesday, 24 June 2015 11:46:23
+  EditField(h,v+=20,100,"InSerNr",Normal,InSerNr,true,0);// Edit ************************** Wednesday, 24 June 2015 11:46:24
+  EditField(h,v+=20,50,"InRow",Normal,InRow,false,0);// Edit ************************** Wednesday, 24 June 2015 11:46:24
+  EditField(h,v+=20,50,"TotCostPriceCurncy",Normal,TotCostPriceCurncy,false,0);// Edit ************************** Wednesday, 24 June 2015 11:46:25
+  EditField(h,v+=20,50,"RemCostPriceCurncy",Normal,RemCostPriceCurncy,false,0);// Edit ************************** Wednesday, 24 June 2015 11:46:25
+  
+  
   if (HasTREO) then begin
   CheckBox(h2,v=6,0,"TREO Stock",TREOStock);
   end;
