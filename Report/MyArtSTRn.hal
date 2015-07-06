@@ -195,7 +195,7 @@ BEGIN
   RETURN;
 END;
 
-global
+//global
 procedure PrintArtSTRnHeader(record RcVc RepSpec)
 BEGIN
   string 255 tstr;
