@@ -855,7 +855,15 @@ begin
   rwcnt = MatRowCnt(SHp);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(SHp,i,SHrw);
-    if (nonblank(SHrw.Location)) then begin
+    if (SHrw.Ship==0) and (SHp.OKFlag==1) then begin
+	  error = 1058;
+      errorstr = "";
+      rownr = i;
+      fieldstr = "Ship";                
+      res = -1;
+      goto LSHVcRecordCheck;
+	end;
+	if (nonblank(SHrw.Location)) then begin
       loc2 = SHrw.Location;
       if (MSb.Chronology==1) then begin//Chronology per Location
         if (SHrw.Location!=location) then begin
