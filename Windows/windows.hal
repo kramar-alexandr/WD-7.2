@@ -1252,3 +1252,80 @@ real vs,v,h,h1,h2,h3;
     //EditField(h,20,150,"№ карточки",Normal,f1,false,POSClientRClass);
   EndWindow;
 end;
+
+window CleaningVClass:1 //Edit---------------Vitalii 17:22 13.07.2015
+	wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	real h,v,vs;
+
+	WindowBegin("Видалити первинні документи",CleaningVClass,CGMnt,RcType);
+		SetWRect(20,120,360,750);
+		v = 10;  h = 25; vs = 16;
+		StaticText(h-10,v,"Будуть видалені всі записи з регістрів:",false);
+		StaticText(h,v+=vs,"Відвантаження",false);
+		StaticText(h,v+=vs,"Надходження",false);
+		StaticText(h,v+=vs,"Списання",false);
+		StaticText(h,v+=vs,"Переміщення товарів",false);
+		StaticText(h,v+=vs,"Повернення товарів",false);
+		StaticText(h,v+=vs,"Повернення постач.",false);
+		StaticText(h,v+=vs,"Інвентаризація",false);
+		StaticText(h,v+=vs,"Переоцінка товарів",false);
+		StaticText(h,v+=vs,"Акти/накладні",false);
+		StaticText(h,v+=vs,"Платежі клієнтів",false);
+		StaticText(h,v+=vs,"Контакти",false);
+		StaticText(h,v+=vs,"Товари",false);
+		StaticText(h,v+=vs,"Групи товарів",false);
+		StaticText(h,v+=vs,"Внутрішні акти/накладні",false);
+		StaticText(h,v+=vs,"Надходження",false);
+		StaticText(h,v+=vs,"Видачі",false);
+		StaticText(h,v+=vs,"Платежі постачальникам",false);
+		StaticText(h,v+=vs,"Виплати під звіт",false);
+		StaticText(h,v+=vs,"Симуляції",false);
+		StaticText(h,v+=vs,"Акти/накл. постач-ків",false);
+		StaticText(h,v+=vs,"Договір поставки",false);
+		StaticText(h,v+=vs,"Eл. акти/накл. пост.",false);
+		StaticText(h,v+=vs,"Повернення по BuyBack",false);
+		StaticText(h,v+=vs,"Замовлення постачальникам",false);
+		StaticText(h,v+=vs,"Пропозиції постачальників",false);
+		StaticText(h,v+=vs,"Внутрішні замовлення",false);
+		StaticText(h,v+=vs,"Товари постачальників",false);
+		StaticText(h,v+=vs,"Процеси по замовленням пост.",false);
+		StaticText(h,v+=vs,"Оповіщ. про відгр.",false);
+		StaticText(h,v+=vs,"Рахунки клієнтам",false);
+		StaticText(h,v+=vs,"Ціни",false);
+		StaticText(h,v+=vs,"Контракти",false);
+		StaticText(h,v+=vs,"Записи операцій",false);
+		StaticText(h,v+=vs,"Операції(системний)",false);
+		StaticText(h,v+=vs,"Об'єкти",false);
+		StaticText(h,v+=vs,"Бюджети",false);
+		StaticText(h,v+=vs,"Виправлені бюджети",false);
+		StaticText(h,v+=vs,"Початкове сальдо",false);
+		StaticText(h,v+=vs,"Формули товарів",false);
+		StaticText(h,v+=vs,"Таблиці знижок",false);
+		StaticText(h,v+=vs,"Кампанії",false);
+		StaticText(h,v+=vs,"Прейскуранти",false);
+		StaticText(h,v+=vs,"Формули цін",false);
+		StaticText(h,v+=vs,"Знижки від кількості",false);
+		StaticText(h,v+=vs,"Склади",false);
+		StaticText(h,v+=vs,"Зони на складі",false);
+		StaticText(h,v+=vs,"Історія товару(системний)",false);
+		StaticText(h,v+=vs,"Статус товару(системний)",false);
+	EndWindow;
+end;
+
+window ImportOfRegisterRewriteIClass:1 //Edit---------------Vitalii 17:23 13.07.2015
+	wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	WindowBegin("Імпорт регистрів",ImportOfRegisterRewriteIClass,CGIcW,RcType);
+		SetWRect(80,80,400,200);
+		EditField(150,40,100,"Назва регістру(Vc)",Normal,f1,false,0);   
+	EndWindow;  
+end;
+
+window ImportOfRegisterIClass:1 //Edit---------------Vitalii 17:23 13.07.2015
+	wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	WindowBegin("Імпорт регистрів",ImportOfRegisterIClass,CGIcW,RcType);
+		SetWRect(80,80,400,200);
+	EndWindow;
+end;
