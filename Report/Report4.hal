@@ -253,3 +253,39 @@ begin
 	
 return;
 end;
+
+global procedure  MyNotSearchSVORn(record RcVc RepSpec)
+begin
+string 255 search;  
+record NotepadVc NRr;
+record RLinkVc RLr;
+string 255 rlink;
+record SVOVc SVOr;
+integer cnt;
+boolean TrHs,Testf;
+
+  search = RepSpec.f1;
+  StartReportnoheaderJob("Report");
+  NRr.SerNr = -1;
+  StartFormat(15);
+    OutString(200,0,Search,false);
+  endFormat;
+  Gray_Divider(0,1);
+  while(loopmain(NRr,1,true))begin
+    if(NRr.CompanyNr==currentcompany)then begin
+      if (stringintext(search,NRr))begin
+      cnt = 1;   
+        while (ReadRecordtoLink(NRr,cnt,SVOr,RLr)) begin
+          StartFormat(15)
+            OutString(0,"DBLSVOVc",SVOr.SerNr,false);
+            OutString(50,0,SVOr.Addr0,false);
+            OutString(200,0,SVOr.Vlastnik,false);
+          endFormat;
+          cnt = cnt+1;
+        end;   
+      end;
+    end;
+  end;
+  endjob;
+return;
+end;
