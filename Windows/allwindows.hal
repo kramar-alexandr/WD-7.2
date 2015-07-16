@@ -6139,7 +6139,7 @@ window IVCashDClass:1
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   WindowBegin("Накладна ЕККА",IVCashDClass,CGview,-);
-  SetWRect(20,80,700,400);
+  SetWRect(20,80,1000,400);
   Sizeable(-1,-1,0,0);
   UseView(IVCashVc);
   vs=20;
@@ -6204,18 +6204,18 @@ begin
   Flip(0);
   MatCol(t=1,32,"Товар",0,ArtCode,false,ForSaleINSClass);
   if (HasVarieties) then begin
-  MatCol(t,144,"Кіл.",0,Quant,true,MATVARINSClass);
+  MatCol(t,174,"Кіл.",0,Quant,true,MATVARINSClass);
   end else begin
-    MatCol(t,144,"Кіл.",0,Quant,true,0); 
+    MatCol(t,174,"Кіл.",0,Quant,true,0); 
   end;
   EnterSkip(ArtCode);
   MatText(t=kInvoiceRowTypeHeader,32,"Заголовок",true); 
   MatCol(t,100,"",0,Spec,false,0);
   MatCol(t=kInvoiceRowTypeStructuredItemComponent,32,"Товар",0,ArtCode,false,ForSaleINSClass);
   if (HasVarieties) then begin
-  MatCol(t,144,"Кіл.",0,Quant,true,MATVARINSClass);
+  MatCol(t,164,"Кіл.",0,Quant,true,MATVARINSClass);
   end else begin
-    MatCol(t,144,"Кіл.",0,Quant,true,0); 
+    MatCol(t,164,"Кіл.",0,Quant,true,0); 
   end;
   EnterSkip(ArtCode);
   MatText(t=kInvoiceRowTypeVoid,28,"Відмін.",false);
@@ -6322,18 +6322,18 @@ begin
   end;
   
   Flip(1);
-  MatCol(t=1,184,"Найменування",0,Spec,false,0);
+  MatCol(t=1,194,"Найменування",0,Spec,false,0);
   //if (UserCanAction("ShowSerialNronPOSInvoices",false)) then begin
-  MatCol(t,-270,"Серійний №",0,SerialNr,false,SerialNrSClass); //Edit***************************Sasha2,12:22 13.01.2015
+  MatCol(t,-280,"Серійний №",0,SerialNr,false,SerialNrSClass); //Edit***************************Sasha2,12:22 13.01.2015
   //end;
   MatCol(t,-175,"Ціна",0,Price,true,0);
   MatCol(t,-105,"%",0,vRebate,true,0);
   MatCol(t,-70,"Сума",0,Sum,true,0);
-  if (UseTaxTemplatesforTaxCalc) then begin
+  /*if (UseTaxTemplatesforTaxCalc) then begin
     MatCol(t,-70,"Ш-н",0,TaxTemplateCode,false,TaxTemplateSClass);
   end else begin
     MatCol(t,-24,"",0,VATCode,false,VATCodeSClass);  
-  end;
+  end;*/
   MatCol(t=kInvoiceRowTypeStructuredItemComponent,184,"Найменування",0,Spec,false,0);
   if (UserCanAction("ShowSerialNronPOSInvoices",false)) then begin
     MatCol(t,-270,"Сер. №",0,SerialNr,false,SerialNrSClass);
@@ -6347,6 +6347,11 @@ begin
   MatCol(t,-200,"Серійн. №",0,SerialNr,false,SerialNrSClass);
   if (HasObjects) then begin
   MatCol(t,-100,"Об'єкти",0,Objects,false,ObjSClass);
+  end;
+  if (UseTaxTemplatesforTaxCalc) then begin
+    MatCol(t,-70,"Ш-н",0,TaxTemplateCode,false,TaxTemplateSClass);
+  end else begin
+    MatCol(t,-24,"",0,VATCode,false,VATCodeSClass);  
   end;
   MatCol(t=kInvoiceRowTypeStructuredItemComponent,184,"Найменування",0,Spec,false,0);
   MatCol(t,-200,"Сер. №",0,SerialNr,false,SerialNrSClass);

@@ -637,7 +637,7 @@ begin
 									invto1 = 1;
 								end;
 								if(left(IVr.CurncyCode,3)=="UAH")then begin
-									If(vecode[j]=="ERC")then begin
+									If(vecode[j]=="ERC" and currentcompany!=4 )then begin
 										invcurncy = "UAH_E";
 										GetFullCurncyRate(invcurncy,IVr.InvDate,invfr,invto1,invto2,invbr1,invbr2);
 									end;
@@ -664,7 +664,7 @@ begin
 										outstring(i11,0,IVrw.Price,false);
 									end else begin
 										CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
-										If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+										If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
 											CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 										end;
 										outstring(i11,0,t,false);
@@ -690,7 +690,7 @@ begin
 										sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
 										CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 										sumusd = t;
-										If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+										If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
 											CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 											sumusd = t;
 										end;
@@ -707,7 +707,7 @@ begin
 									outval(i15,0,curcost[j],m4UVal,false);
 									CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
 									t = t / invfr * invto1;
-									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+									If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
 										CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 									end;
 									outval(i16,0,t,m4UVal,false);
@@ -1006,7 +1006,7 @@ begin
 								outstring(i7,0,qty[j],false);
 								invcurncy = IVr.CurncyCode;
 								if(left(IVr.CurncyCode,3)=="UAH")then begin
-									If(vecode[j]=="ERC")then begin
+									If(vecode[j]=="ERC" and currentcompany!=4 )then begin
 										invcurncy = "UAH_E";
 									end;
 								end;
@@ -1021,7 +1021,7 @@ begin
 										outstring(i11,0,IVrw.Price,false);
 									end else begin
 										CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
-										If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+										If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
 											CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 										end;
 										outstring(i11,0,t,false);
@@ -1043,7 +1043,7 @@ begin
 										sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:57 02.02.2015
 										CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
 										sumusd = t;
-										If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+										If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
 											CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 											sumusd = t;
 										end;
@@ -1060,7 +1060,7 @@ begin
 									//outval(i15,0,-curcost[j],m4UVal,false);
 									CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
 									t = t / invfr * invto1;
-									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
+									If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
 										CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 									end;
 									//outval(i16,0,t,m4UVal,false);
