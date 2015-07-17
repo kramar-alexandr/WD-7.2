@@ -278,7 +278,7 @@ BEGIN
   row WSVc WS2rw;
   val itemtype;
   val t,s,price,vreb,baseprice,temp,tax2prc;
-  string 255 curitemname,salesacc,vatcode,tstr,tax2code,taxtemplatecode;
+  string 255 curitemname,salesacc,costsacc,vatcode,tstr,tax2code,taxtemplatecode;
   Boolean calcprice,dummyf;
   record GeneralOptionBlock GenOptRec;
   record CostAccBlock CAb;
@@ -362,11 +362,13 @@ BEGIN
       For(j=0;j<mtrw;j=j+1)begin
         matrowget(OAb,j,OAbrw);
         if(setinset(OAbrw.Objects,Locr.Objects))then begin
-          salesacc = OAbrw.AccCode;                                // Edit ************************** Friday, 8 April 2011 12:19:19
+          costsacc = OAbrw.AccCode;
+          salesacc = OAbrw.SaleAccCode;                                // Edit ************************** Friday, 8 April 2011 12:19:19
         end;
       end;
     
-    WSrw.CostAcc = salesacc;
+    WSrw.CostAcc = costsacc;
+    WSrw.SalesAcc = salesacc; //Edit***************************Sasha2,12:49 17.07.2015
     PackRowFieldMatrix(WSrw,"TaxMatrix",TMr);
     MatRowPut(WSr,rownr,WSrw);
     chrsum = true;
