@@ -438,6 +438,7 @@ global //Edit***************************Sasha2,10:03 17.07.2015 {
 procedure InputObjectsAccInWS(var record WSVc WSr)
 begin
   record SVOVc SVOr;
+  record UserVc USr;
   row WSVc WSrw;
   record LocationVc Locationr;
   record ObjectsAccBlock OAb;
@@ -449,8 +450,8 @@ begin
   	if (ReadFirstMain(Locationr,1,true)) then begin
   		//SVOr.SerNr = WSr.SVONr;
   		//ReadFirstMain(SVOr,1,true); 
-  		
-  		WSr.Objects = Locationr.Objects /*& "," & SVOr.Objects*/;   		
+  		DoGetCurUser(USr);
+  		WSr.Objects = Locationr.Objects & "," & USr.PersObjx;   		
   	  blockload(OAb);                                                    
 	    mtrw = matrowcnt(OAb);
 	    For(j=0;j<mtrw;j=j+1)begin
