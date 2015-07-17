@@ -59,6 +59,9 @@ external function Boolean PasteCustInQT(var record QTVc,string,string,var string
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
 external procedure GetCurUser(var record UserVc);
 external procedure IVVc_PasteSalesMan(var record IVVc,string);
+external function longint GetUserSerNrSeries(longint);// Edit ************************** Tuesday, 2 June 2015 18:37:37
+
+
 
 function Boolean IVRowItemEq(record IVVc IVp,record WSIVVc WSIVp,record INVc INp,string rowobjs,string SalesAcc,var Integer rownr)
 BEGIN
@@ -286,6 +289,9 @@ BEGIN
   record AccVc Accr;
   string 20 obj;
   Integer pos;
+  record ObjectsAccBlock OAb; //Edit***************************Sasha2,14:59 20.06.2014
+  row ObjectsAccBlock OArw; //Edit***************************Sasha2,15:00 20.06.2014
+  integer j, mtrw; //Edit***************************Sasha2,15:00 20.06.2014
   
   RecordCopy(oldSVOr,SVOp);
   res = false;
@@ -320,6 +326,15 @@ BEGIN
          case 0:
            WSr.SerNr = WSIVr.SerNr;
            if (ReadFirstMain(WSr,1,true)) then begin
+             blockload(OAb); //Edit***************************Sasha2,15:01 20.06.2014
+             mtrw = matrowcnt(OAb);
+             For(j=0;j<mtrw;j=j+1) begin
+               matrowget(OAb,j,OArw);
+               if(setinset(OArw.Objects,WSr.Objects))then begin
+                 salesacc = OArw.SaleAccCode;// Edit ************************** Monday, 23 June 2014 09:57:01
+                 j = mtrw;			 
+               end;
+             end; //Edit***************************Sasha2,15:01 20.06.2014
              MatRowGet(WSr,WSIVr.Row,WSrw);
              if (SVOAb.WSHeaderObjectOnSVOIV!=0) then begin
                rowobjects = WSr.Objects;
@@ -389,6 +404,16 @@ BEGIN
            GetItemSalesAcc(INr.Code,IVp.ExportFlag,tstr);
            IVrw.SalesAcc = tstr;
          end;
+         if (NonBlank(salesacc)) then begin //Edit***************************Sasha2,15:07 20.06.2014
+           IVrw.SalesAcc = salesacc;
+         end else begin
+           GetItemSalesAcc(INr.Code,IVp.ExportFlag,tstr);
+           IVrw.SalesAcc = tstr;
+         end; //Edit***************************Sasha2,15:07 20.06.2014
+         //GetItemSalesAcc(INr.Code,IVp.ExportFlag,tstr); //Edit***************************Sasha2,15:07 20.06.2014
+         //IVrw.SalesAcc = tstr; //Edit***************************Sasha2,15:07 20.06.2014
+         
+         
          Accr.AccNumber = IVrw.SalesAcc;
          ReadFirstMain(Accr,1,true);
          IVrw.PeriodCode = Accr.PeriodCode;
@@ -572,7 +597,7 @@ BEGIN
   RecordNew(WSp);
   if (PasteWOInWS(WOp,WSp)) then begin end;
   if (WSp.SerNr<=0) then begin
-    WSp.SerNr = NextSerNr("WSVc",WSp.TransDate,-1,false,"");
+    WSp.SerNr = NextSerNr("WSVc",WSp.TransDate,GetUserSerNrSeries(-1),false,"");// Edit ************************** Tuesday, 2 June 2015 18:38:12
   end;                      
   if (WSp.SerNr<=0) then begin goto LRecordAction_raPasteWOInWS; end;
   WSSumup(WSp);
@@ -598,7 +623,7 @@ BEGIN
   RecordNew(WSp);
   if (PasteSVOInWS(SVOp,WSp)) then begin end;
   if (WSp.SerNr<=0) then begin
-    WSp.SerNr = NextSerNr("WSVc",WSp.TransDate,-1,false,"");
+    WSp.SerNr = NextSerNr("WSVc",WSp.TransDate,GetUserSerNrSeries(-1),false,""); // Edit ************************** Tuesday, 2 June 2015 18:38:12
   end;                      
   if (WSp.SerNr<=0) then begin goto LRecordAction_raPasteSVOInWS; end;
   WSSumup(WSp);

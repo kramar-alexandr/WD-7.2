@@ -434,43 +434,57 @@ begin
   return;
 end;
 
-
-function Boolean WSDClassLocationEFAfter(Integer wn,Integer fn, Integer rownr,Integer changed) //Edit***************************Sasha2,17:43 19.06.2014
-BEGIN
-  record WSVc WSr;
+global //Edit***************************Sasha2,10:03 17.07.2015 {
+procedure InputObjectsAccInWS(var record WSVc WSr)
+begin
+  record SVOVc SVOr;
   row WSVc WSrw;
   record LocationVc Locationr;
   record ObjectsAccBlock OAb;
   row ObjectsAccBlock OArw;
-  Boolean res;
   integer i, j, rwcnt, mtrw;
-  string 255 salesacc;
+  string 255 salesacc,costacc;
+  
+    Locationr.Code = WSr.Location;    	
+  	if (ReadFirstMain(Locationr,1,true)) then begin
+  		//SVOr.SerNr = WSr.SVONr;
+  		//ReadFirstMain(SVOr,1,true); 
+  		
+  		WSr.Objects = Locationr.Objects /*& "," & SVOr.Objects*/;   		
+  	  blockload(OAb);                                                    
+	    mtrw = matrowcnt(OAb);
+	    For(j=0;j<mtrw;j=j+1)begin
+	      matrowget(OAb,j,OArw);
+	      if(setinset(OArw.Objects,WSr.Objects))then begin
+	        costacc = OArw.AccCode;
+	        salesacc = OArw.SaleAccCode;
+	        j = mtrw;                      
+	      end;
+	    end;
+
+  		WSr.CostAcc = costacc;
+  		rwcnt = MatRowCnt(WSr);
+  		for (i=0;i<rwcnt;i=i+1) begin
+      	MatRowGet(WSr,i,WSrw);
+      	if (NonBlank(WSrw.ArtCode)) then begin
+      		WSrw.CostAcc = costacc;
+      	end;	
+      	MatRowPut(WSr,i,WSrw);
+  		end;
+  	end;
+  	
+  return;
+end; //Edit***************************Sasha2,10:03 17.07.2015 }
+
+
+function Boolean WSDClassLocationEFAfter(Integer wn,Integer fn, Integer rownr,Integer changed) //Edit***************************Sasha2,17:43 19.06.2014
+BEGIN
+  record WSVc WSr;
+  Boolean res;
   
   if (changed!=0) then begin
     GetWindowRecord(wn,WSr);
-    	Locationr.Code = WSr.Location;    	
-    	if (ReadFirstMain(Locationr,1,true)) then begin
-    		WSr.Objects = Locationr.Objects;
-    		    		
-    	  blockload(OAb);                                                    
-		    mtrw = matrowcnt(OAb);
-		    For(j=0;j<mtrw;j=j+1)begin
-		      matrowget(OAb,j,OArw);
-		      if(setinset(OArw.Objects,WSr.Objects))then begin
-		        salesacc = OArw.AccCode;
-		        j = mtrw;                      
-		      end;
-		    end;
-
-    		rwcnt = MatRowCnt(WSr);
-      		for (i=0;i<rwcnt;i=i+1) begin
-	        	MatRowGet(WSr,i,WSrw);
-	        	if (NonBlank(WSrw.ArtCode)) then begin
-	        		WSrw.CostAcc = salesacc;
-	        	end;	
-	        	MatRowPut(WSr,i,WSrw);
-      		end;
-    	end;
+    InputObjectsAccInWS(WSr);
     PutWindowRecord(wn,WSr);    
   end;
   WSDClassLocationEFAfter = res;
