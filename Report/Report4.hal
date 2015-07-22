@@ -271,8 +271,13 @@ boolean TrHs,Testf;
     OutString(200,0,Search,false);
   endFormat;
   Gray_Divider(0,1);
-  while(loopmain(NRr,1,true))begin
-    if(NRr.CompanyNr==currentcompany)then begin
+  //NRr.SerNr = 2732;
+  TrHs = true;
+
+  while(loopmain(NRr,1,TrHs))begin
+  	//TrHs = false;
+  	//logtext(0,NRr.CompanyNr);
+    //if(NRr.CompanyNr==currentcompany)then begin
       if (stringintext(search,NRr))begin
       cnt = 1;   
         while (ReadRecordtoLink(NRr,cnt,SVOr,RLr)) begin
@@ -284,7 +289,7 @@ boolean TrHs,Testf;
           cnt = cnt+1;
         end;   
       end;
-    end;
+    //end;
   end;
   endjob;
 return;

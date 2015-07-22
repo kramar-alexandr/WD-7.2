@@ -502,19 +502,28 @@ begin
 			outstring(i7,0,"Кіл-ть",false);
 			outstring(i8,0,"Валюта",false);
 			outstring(i81,0,"Валюта надх.",false);
-			outstring(i9,0,"Курс выписки",false);
-			outstring(i91,0,"Курс текущий",false);
-			outstring(i10,0,"Ціна за од., валюта",false);
-			outstring(i11,0,"Ціна за од., $",false);
-			outstring(i12,0,"Знижка",false);
-			outstring(i13,0,"Сума, валюта",false);
-			outstring(i14,0,"Сума, $",false);
-			outstring(i15,0,"Собівартість за од., валюта",false);
-			outstring(i16,0,"Собівартість за од., $",false);
-			outstring(i17,0,"Собівартість, валюта",false);
-			outstring(i18,0,"Собірвартість, $",false);
-			outstring(i19,0,"Прибуток, валюта",false);
-			outstring(i20,0,"Прибуток, $",false);
+			if(currentcompany!=8)then begin
+				outstring(i9,0,"Курс выписки",false);
+				outstring(i91,0,"Курс текущий",false);
+				outstring(i10,0,"Ціна за од., валюта",false);
+				outstring(i11,0,"Ціна за од., $",false);
+				outstring(i12,0,"Знижка",false);
+				outstring(i13,0,"Сума, валюта",false);
+				outstring(i14,0,"Сума, $",false);
+				outstring(i15,0,"Собівартість за од., валюта",false);
+				outstring(i16,0,"Собівартість за од., $",false);
+				outstring(i17,0,"Собівартість, валюта",false);
+				outstring(i18,0,"Собірвартість, $",false);
+				outstring(i19,0,"Прибуток, валюта",false);
+				outstring(i20,0,"Прибуток, $",false);
+			end else begin
+				outstring(i11,0,"Ціна за од.",false);
+				outstring(i12,0,"Знижка",false);
+				outstring(i14,0,"Сума",false);
+				outstring(i16,0,"Собівартість за од.",false);
+				outstring(i18,0,"Собірвартість",false);
+				outstring(i20,0,"Прибуток",false);
+			end;
 			outstring(i21,0,"Маржа,%",false);
 			outstring(i22,0,"Спосіб відвантаження",false);
 			outstring(i23,0,"Дата надходження",false);
@@ -645,27 +654,28 @@ begin
 								outstring(i8,0,invcurncy,false);
 								outstring(i81,0,curncy[j],false);
 						
-								if(curncy[j]=="USD")then begin
-									outstring(i9,0,ValToMyString(invfr * invto1,4),false);
-								end else begin
-									if(rate[j]!=0)then begin
-										outstring(i9,0,ValToMyString(rate[j],4),false);
-									end else begin
+								if(currentcompany!=8)then begin
+									if(curncy[j]==BCb.BaseCur1)then begin
 										outstring(i9,0,ValToMyString(invfr * invto1,4),false);
+									end else begin
+										if(rate[j]!=0)then begin
+											outstring(i9,0,ValToMyString(rate[j],4),false);
+										end else begin
+											outstring(i9,0,ValToMyString(invfr * invto1,4),false);
+										end;
 									end;
+									outstring(i91,0,ValToMyString(invfr * invto1,4),false);
+									outstring(i10,0,IVrw.Price,false);
 								end;
-								outstring(i91,0,ValToMyString(invfr * invto1,4),false);
-						
-								outstring(i10,0,IVrw.Price,false);
-								if(curncy[j]=="USD")then begin
+								if(curncy[j]==BCb.BaseCur1)then begin
 									outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 								end else begin
-									if(IVr.CurncyCode=="USD")then begin
+									if(IVr.CurncyCode==BCb.BaseCur1)then begin
 										outstring(i11,0,IVrw.Price,false);
 									end else begin
-										CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,"USD",t,DefaultCurRoundOff);
+										CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,BCb.BaseCur1,t,DefaultCurRoundOff);
 										If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
-											CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+											CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,BCb.BaseCur1,t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 										end;
 										outstring(i11,0,t,false);
 									end;
@@ -674,24 +684,26 @@ begin
 						
 								//sumcur = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
 								sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
-								outstring(i13,0,ValToMyString(sumcur,3),false);
+								if(currentcompany!=8)then begin
+									outstring(i13,0,ValToMyString(sumcur,3),false);
+								end;
 						
-								if(curncy[j]=="USD")then begin
+								if(curncy[j]==BCb.BaseCur1)then begin
 									//sumusd = IVrw.Sum/IVrw.Quant * qty[j] / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
 									sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
 									sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:45 16.02.2015
 									outstring(i14,0,ValToMyString(sumusd,3),false);
 								end else begin
-									if(IVr.CurncyCode=="USD")then begin
+									if(IVr.CurncyCode==BCb.BaseCur1)then begin
 										//sumusd = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
 										sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
 									end else begin
 										//sumusd = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
 										sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
-										CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
+										CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);
 										sumusd = t;
-										If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
-											CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+										If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)==BCb.BaseCur1)then begin
+											CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 											sumusd = t;
 										end;
 									end;
@@ -700,30 +712,38 @@ begin
 								end;
 						
 								t = blankval;
-								if(curncy[j]=="USD")then begin
-									outval(i15,0,curcost[j],m4UVal,false);
+								if(curncy[j]==BCb.BaseCur1)then begin
+									if(currentcompany!=8)then begin
+										outval(i15,0,curcost[j],m4UVal,false);
+									end;
 									outval(i16,0,cost[j],m4UVal,false);
 								end else begin
-									outval(i15,0,curcost[j],m4UVal,false);
-									CurValToOtherCur(indate[j],"USD",cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
+									if(currentcompany!=8)then begin
+										outval(i15,0,curcost[j],m4UVal,false);
+									end;
+									CurValToOtherCur(indate[j],BCb.BaseCur1,cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
 									t = t / invfr * invto1;
 									If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
-										CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+										CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],BCb.BaseCur1,t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
 									end;
 									outval(i16,0,t,m4UVal,false);
 								end;
 
 								sumcostcur = curcost[j] * qty[j];
-								outstring(i17,0,ValToMyString(sumcostcur,3),false);
+								if(currentcompany!=8)then begin
+									outstring(i17,0,ValToMyString(sumcostcur,3),false);
+								end;
 								sumcostusd = cost[j] * qty[j];
 								outstring(i18,0,ValToMyString(sumcostusd,3),false);
 						
-						
-								if(IVr.CurncyCode==curncy[j])then begin
-									outstring(i19,0,ValToMyString((sumcur - sumcostcur),3),false);
-								end else begin
-									outstring(i19,0,"",false);
+								if(currentcompany!=8)then begin
+									if(IVr.CurncyCode==curncy[j])then begin
+										outstring(i19,0,ValToMyString((sumcur - sumcostcur),3),false);
+									end else begin
+										outstring(i19,0,"",false);
+									end;
 								end;
+								
 								outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
 								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
 								outstring(i22,0,IVr.ShipMode,false);

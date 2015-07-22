@@ -152,6 +152,7 @@ begin
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */
   StrSetText(UnCloseAll,"Відкрити записи");// Edit ************************** Wednesday, 15 April 2015 17:21:45
+   StrSetText(AllowViewOuwnRecords,"Бачити свої записи по группі");// Edit ************************** Wednesday, 22 July 2015 12:03:02
   StrSetText(AllowAddingINtoRet,"Додавання товарів до Повернення Товарів");
   StrSetText(AllowAddingINtoRetPOSIV,"Дозволяти додавання товарів до повернених накладних ЕККА");
   StrSetText(AllowAddingOrderDiscount,"Додати знижку до панелі вкладок");

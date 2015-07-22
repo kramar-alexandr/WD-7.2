@@ -492,32 +492,32 @@ begin
     							end else begin
     							  CUr.Code = IVr.CustCode;
   			            readfirstmain(CUr,1,true);
-    							  if (IVr.CurncyCode=="USD") then begin
+    							  if (IVr.CurncyCode==BCb.BaseCur1) then begin
     							    sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,1,foundqty,false);
     							    CurValToOtherCur(indate[j],IVr.CurncyCode,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
     							    sumcur = t;
     							  end else begin
     							    if (Left(IVr.CurncyCode,3)=="EUR") then begin
     							      sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,1,foundqty,false);
-    							      CurValToOtherCur(indate[j],IVr.CurncyCode,sumcur,"USD",t,DefaultCurRoundOff);
+    							      CurValToOtherCur(indate[j],IVr.CurncyCode,sumcur,BCb.BaseCur1,t,DefaultCurRoundOff);
     							      sumcur = t;
-    							      CurValToOtherCur(indate[j],"USD",sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
+    							      CurValToOtherCur(indate[j],BCb.BaseCur1,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
     							      sumcur = t; 
     							    end;
     							  end;
     							end;
     							
-    							if(curncyarr[j]=="USD")then begin
+    							if(curncyarr[j]==BCb.BaseCur1)then begin
     								sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,1,foundqty,false);
     							end else begin
-    								if(IVr.CurncyCode=="USD")then begin
+    								if(IVr.CurncyCode==BCb.BaseCur1)then begin
     									sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,1,foundqty,false);
     								end else begin
     									sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,1,foundqty,false);
-    									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,"USD",t,DefaultCurRoundOff);
+    									CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);
     									sumusd = t;
     									If(vecode[j]=="ERC" and left(IVr.CurncyCode,3)=="UAH")then begin
-    										CurValToOtherCur(currentdate,"UAH_E",sumusd,"USD",t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+    										CurValToOtherCur(currentdate,"UAH_E",sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
   											sumusd = t;
     									end;
     								end;

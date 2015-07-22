@@ -2157,3 +2157,37 @@ begin
     end;
   end;
 end;
+
+
+global
+function Boolean ORLClassOnOpenWindow(Integer wn)
+begin
+  record UserVc User;
+  
+  User.Code = currentuser;
+  if(readfirstmain(User,1,true))then begin
+  	if(!usercanaction("AllowViewOuwnRecords",true))then begin
+  		setwindowsubset(wn,User.SalesGroup);
+  	end;
+  end;
+  
+  ORLClassOnOpenWindow = false;
+  return;
+end;
+
+
+global
+function Boolean IVcashLClassOnOpenWindow(Integer wn)
+begin
+  record UserVc User;
+  
+  User.Code = currentuser;
+  if(readfirstmain(User,1,true))then begin
+  	if(!usercanaction("AllowViewOuwnRecords",true))then begin
+  		setwindowsubset(wn,User.SalesGroup);
+  	end;
+  end;
+  
+  IVcashLClassOnOpenWindow = false;
+  return;
+end;
