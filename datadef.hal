@@ -1343,6 +1343,7 @@ begin
   RecordField(RecValue3,M4Val,0,0);// Edit ************************** Monday, 15 April 2013 16:51:49
   RecordField(CreditCard3,M4UStr,20,CreditCardVc);// Edit ************************** Monday, 15 April 2013 16:51:48
   RecordField(AuthorizationCode3,M4UStr,10,0);// Edit ************************** Monday, 15 April 2013 16:51:47
+  RecordField(SalesGroup,M4UStr,30,SalesGroupVc);// Edit ************************** Wednesday, 22 July 2015 15:46:11
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
   ArrayField(ArtCode,M4Code,20,INVc);
@@ -1420,27 +1421,46 @@ begin
   ArrayField(MotherSecondarySerialNr,M4Str,30,0);
   ArrayField(MotherAlternateDeviceID,M4Str,30,0);
   EndArray;
-  MainKeyBegin(SerNr,0);
+  MainKeyBegin(SerNr,1);// Edit ************************** Wednesday, 22 July 2015 15:38:21
+  StoreInBaseKey;
+  AppendListFieldToKeyName(SalesMan);// Edit ************************** Wednesday, 22 July 2015 15:41:58
+  AppendListFieldToKeyName(SalesGroup);// Edit ************************** Wednesday, 22 July 2015 15:41:58
   KeySegment(SerNr);
   KeyBegin(ExportedFlag);
   KeySegment(ExportedFlag);
   KeySegment(SerNr);
-  KeyBegin(CustCode);
+  
+  SubsetKeyBegin2(CustCode);
+  StoreInBaseKey;
+  AppendListFieldToKeyName(SalesMan);// Edit ************************** Wednesday, 22 July 2015 15:41:59
+  AppendListFieldToKeyName(SalesGroup);// Edit ************************** Wednesday, 22 July 2015 15:42:00
   KeySegment(CustCode);
   KeySegment(SerNr);
-  KeyBegin(OKFlag);
+  SubsetKeyBegin2(OKFlag);// Edit ************************** Wednesday, 22 July 2015 15:41:38
+  StoreInBaseKey;
+  AppendListFieldToKeyName(SalesMan);// Edit ************************** Wednesday, 22 July 2015 15:41:59
+  AppendListFieldToKeyName(SalesGroup);// Edit ************************** Wednesday, 22 July 2015 15:42:00
   KeySegment(OKFlag);
   KeySegment(SerNr);
-  KeyBegin(InvDate);
+  SubsetKeyBegin2(InvDate);
+  StoreInBaseKey;
+  AppendListFieldToKeyName(SalesMan);// Edit ************************** Wednesday, 22 July 2015 15:41:59
+  AppendListFieldToKeyName(SalesGroup);// Edit ************************** Wednesday, 22 July 2015 15:42:00
   KeySegment(InvDate);
   KeySegment(SerNr);
-  KeyBegin(Name);
+  SubsetKeyBegin2(Name);// Edit ************************** Wednesday, 22 July 2015 15:43:25
+  StoreInBaseKey;
+  AppendListFieldToKeyName(SalesMan);// Edit ************************** Wednesday, 22 July 2015 15:41:59
+  AppendListFieldToKeyName(SalesGroup);// Edit ************************** Wednesday, 22 July 2015 15:42:00
   KeySegment(Addr0);
   KeySegment(SerNr);
   KeyBegin(TransDate);
   KeySegment(TransDate);
   KeySegment(SerNr);
-  KeyBegin(Sum4);
+  SubsetKeyBegin2(Sum4);
+  StoreInBaseKey;
+  AppendListFieldToKeyName(SalesMan);// Edit ************************** Wednesday, 22 July 2015 15:41:59
+  AppendListFieldToKeyName(SalesGroup);// Edit ************************** Wednesday, 22 July 2015 15:42:00
   KeySegment(Sum4);
   KeySegment(SerNr);
   SubsetKeyBegin2(SalesMan);
