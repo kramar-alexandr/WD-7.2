@@ -2382,6 +2382,7 @@ email not working yet
   end;
   SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
   SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+  SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
   SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
 
   end;
@@ -4761,6 +4762,7 @@ begin
       SpecialMenu("Send to Tax Authorities",'',10,"EShipPRTDsm");
     end;
   end;
+  SpecialMenu("Оновити ціни в замовленні клієнта (+9%)",'',10,"UpdatePricesInORFromStockMovDsm");
   EndWindow;
 end;
 

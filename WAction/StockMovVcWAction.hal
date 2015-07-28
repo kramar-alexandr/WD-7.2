@@ -32,6 +32,7 @@ external function LongInt AddTime(Time,LongInt,var Time);
 external function LongInt DateDiff(Date,Date);
 external procedure DisplayStrArray(array string);
 remote function string 20 FindCustRouteByLocation(string,string,string);
+remote updating procedure HandleUpdatePricesInORFromStockMov(record StockMovVc,var string); //Edit***************************Sasha2,14:32 28.07.2015
 
 global
 procedure CalcNewPrice(val oldprice,string extra,var val newprice)
@@ -1361,4 +1362,37 @@ begin
 
   return;
 end; //Edit***************************Sasha2,14:42 29.08.2014 }
+
+global //Edit***************************Sasha2,16:39 23.07.2015 {
+updating procedure UpdatePricesInORFromStockMovDsm()
+begin
+	record StockMovVc SMr;
+	longint wn;
+	string 255 error;
+
+  	wn = CurWindow;
+  	GetWindowRecord(wn,SMr);
+  	if (WindowState(wn) == Rs_normal and SMr.OrderNr>0 and SMr.OKFlag>0) then begin
+	  	HandleUpdatePricesInORFromStockMov(SMr,error);
+	  end else begin
+	    if (WindowState(wn)!=Rs_normal) then begin
+	      error = USetStr(1356);
+	    end else begin
+	      if (SMr.OrderNr<=0) then begin
+	        error = "No Order for Stock Movement";
+	      end else begin
+	        if (SMr.OKFlag==0) then begin
+	          error = Usetstr(5255);
+	        end;
+	      end;
+	    end;
+	     
+    end;
+    
+    if (NonBlank(error)) then begin
+      MessageBox(0,error);
+    end;
+
+  return;
+end; //Edit***************************Sasha2,16:39 23.07.2015 }
 
