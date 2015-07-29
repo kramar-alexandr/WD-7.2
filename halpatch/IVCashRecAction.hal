@@ -204,6 +204,7 @@ begin
   end else begin
     IVCashr.SalesMan = CurrentUser;
   end;
+  IVCashr.SalesGroup = USr.SalesGroup;// Edit ************************** Thursday, 23 July 2015 10:20:30
   
   if (ServingClient==false) then begin//offline
     BlockLoad(LastRecNr);

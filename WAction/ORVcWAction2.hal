@@ -2180,13 +2180,26 @@ global
 function Boolean IVcashLClassOnOpenWindow(Integer wn)
 begin
   record UserVc User;
+  record CompaniesBlock CBb;
+  row CompaniesBlock CBrw;
   
-  User.Code = currentuser;
-  if(readfirstmain(User,1,true))then begin
-  	if(!usercanaction("AllowViewOuwnRecords",true))then begin
-  		setwindowsubset(wn,User.SalesGroup);
-  	end;
+  blockload(CBb);
+  if(matrowcnt(CBb)>0)then begin
+  	matrowget(CBb,currentcompany-1,CBrw);
   end;
+  
+  
+  if ((CBrw.Mode==kProgramModeLocal or CBrw.Mode==kProgramModeClient)) then begin// Edit ************************** Thursday, 16 July 2015 11:27:23
+		User.Code = currentuser;
+		if(readfirstmain(User,1,true))then begin
+			if(!usercanaction("AllowViewOuwnRecords",true))then begin
+				setwindowsubset(wn,User.SalesGroup);
+			end;
+		end;
+  end;
+  
+  
+  
   
   IVcashLClassOnOpenWindow = false;
   return;

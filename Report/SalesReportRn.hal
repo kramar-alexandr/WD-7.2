@@ -50,6 +50,10 @@ begin
 	blockload(BCb);
 	
 	ressize = 0;
+	cost[ressize] = blankval;
+	qty[ressize] = blankval; 
+	rate[ressize] =	blankval;
+	curcost[ressize] = blankval;
 	
 	updstock = false;
 	if(IVr.UpdStockFlag==1)then begin
@@ -189,17 +193,13 @@ begin
 							end;
 							resetloop(IHr);
 						end;
-	  					
-	  					
-	  					
 						end; 											
 					end;
 				end;
 			end;
 		end else begin
 
-			if (IVr.OrderNr > -1) then begin 
-
+			if (IVr.OrderNr>-1) then begin 
 					SHr.OrderNr = IVr.OrderNr; 
 					trhs1=true;
 					resetloop(SHr);
@@ -227,7 +227,7 @@ begin
 														cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
 														curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 														curncy[ressize] = IHr.PUCurncyCode;
-														if(PUr.CurncyCode!="USD")then begin
+														if(PUr.CurncyCode!=BCb.BaseCur1)then begin
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 															if(PUr.CurncyCode==BCb.BaseCur2)then begin
 																rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -244,7 +244,7 @@ begin
 														cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred*cred);
 														curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 														curncy[ressize] = IHr.PUCurncyCode;
-														if(PUr.CurncyCode!="USD")then begin
+														if(PUr.CurncyCode!=BCb.BaseCur1)then begin
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 															if(PUr.CurncyCode==BCb.BaseCur2)then begin
 																rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -262,7 +262,7 @@ begin
 													cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty);
 													curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty);
 													curncy[ressize] = IHr.PUCurncyCode;
-													if(PUr.CurncyCode!="USD")then begin
+													if(PUr.CurncyCode!=BCb.BaseCur1)then begin
 														rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 														if(PUr.CurncyCode==BCb.BaseCur2)then begin
 															rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -283,7 +283,6 @@ begin
 							end; 
 						end else begin trhs1=false; end;
 					end;	//end - while(LoopBackKey..)
-
 			end		else begin			//  end-if (IVr.OrderNr > -1)		//Edit-------------------------------------Dima 20.01.2015
 				if (IVr.SVONr>-1) then begin //Edit***************************Sasha2,14:27 18.05.2015 {
 				  WSr.SVONr = IVr.SVONr;
@@ -310,7 +309,7 @@ begin
 														cost[ressize] = AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
 														curcost[ressize] = AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 														curncy[ressize] = IHr.PUCurncyCode;
-														if(PUr.CurncyCode!="USD")then begin
+														if(PUr.CurncyCode!=BCb.BaseCur1)then begin
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 															if(PUr.CurncyCode==BCb.BaseCur2)then begin
 																rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -323,11 +322,14 @@ begin
 														serial[ressize] = IHr.SerialNr;
 														qty[ressize] = -IHr.Qty*cred; 
 														ressize = ressize + 1;
+														if(ressize>=IVrw.Quant)then begin
+															goto lCollect;
+														end;
 													end else begin
 														cost[ressize] = AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred*cred);
 														curcost[ressize] = AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 														curncy[ressize] = IHr.PUCurncyCode;
-														if(PUr.CurncyCode!="USD")then begin
+														if(PUr.CurncyCode!=BCb.BaseCur1)then begin
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 															if(PUr.CurncyCode==BCb.BaseCur2)then begin
 																rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -340,12 +342,15 @@ begin
 														serial[ressize] = IHr.SerialNr;
 														qty[ressize] = -IHr.Qty*cred; 
 														ressize = ressize + 1;
+														if(ressize>=IVrw.Quant)then begin
+															goto lCollect;
+														end;
 													end;
 											end else begin
 													cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty);
 													curcost[ressize] = AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty);
 													curncy[ressize] = IHr.PUCurncyCode;
-													if(PUr.CurncyCode!="USD")then begin
+													if(PUr.CurncyCode!=BCb.BaseCur1)then begin
 														rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 														if(PUr.CurncyCode==BCb.BaseCur2)then begin
 															rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -358,6 +363,9 @@ begin
 													serial[ressize] = IHr.SerialNr;
 													qty[ressize] = -IHr.Qty; 
 													ressize = ressize + 1;
+													if(ressize>=IVrw.Quant)then begin
+														goto lCollect;
+													end;
 											end;
 										end;
 									end;
@@ -384,7 +392,7 @@ begin
 								cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
 								curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 								curncy[ressize] = IHr.PUCurncyCode;
-								if(PUr.CurncyCode!="USD")then begin
+								if(PUr.CurncyCode!=BCb.BaseCur1)then begin
 									rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 									if(PUr.CurncyCode==BCb.BaseCur2)then begin
 										rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -400,14 +408,30 @@ begin
 							end;
 						end;
 			    end;
+			    
+			    
+			    
 				end;
 			end;//End-----------------------------edit
 		end;
 	end;
-		
+	
+	
+	
 		
 lCollect:;
 
+	if(ressize==0)then begin
+	  	cost[ressize] = IVrw.BasePrice;
+			curcost[ressize] = 	IVrw.BasePrice;
+			curncy[ressize] = "";
+			rate[ressize] =	1;
+			indate[ressize] =	"";
+			vecode[ressize] = "";
+			serial[ressize] = "";
+			qty[ressize] = IVrw.Quant; 
+			ressize = 1;
+	end;
 return;
 end;
 
