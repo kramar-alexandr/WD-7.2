@@ -626,3 +626,31 @@ string 50 registerVc;
 
   RETURN;
 END;
+
+
+global updating
+procedure UpdateSalesGroupsInInvoicesMn()	//Edit----------------------Dima  29.07.2015
+begin
+	record IVCashVc IVCashr;
+	record LocalMachineAccBlock LAccblock;
+	row	LocalMachineAccBlock LAccrw;
+	record UserVc Userr;
+	string 20 customer;
+	vector string 30 SalesGroups;
+	integer i,rwcnt;
+	
+	BlockLoad(LAccblock);
+	rwcnt = MatRowCnt(LAccblock);
+	for(i=0;i<rwcnt;i=i+1) begin
+		MatRowGet(LAccblock,i,LAccrw);
+		Userr.Code = LAccrw.UserCode;
+		if (ReadFirstMain(Userr,1,true)) then begin
+			SalesGroups[LAccrw.CustCode] = Userr.SalesGroup;
+		end;
+	end;
+		
+	while(LoopMain(IVCashr,1,true)) begin
+		IVCashr.SalesGroup = SalesGroups[IVCashr.CustCode];
+		RecordStore(IVCashr,true);
+	end;  
+end;
