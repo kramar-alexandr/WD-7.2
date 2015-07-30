@@ -1372,21 +1372,12 @@ begin
 
   	wn = CurWindow;
   	GetWindowRecord(wn,SMr);
-  	if (WindowState(wn) == Rs_normal and SMr.OrderNr>0 and SMr.OKFlag>0) then begin
+  	if (WindowState(wn) == Rs_normal) then begin
 	  	HandleUpdatePricesInORFromStockMov(SMr,error);
 	  end else begin
 	    if (WindowState(wn)!=Rs_normal) then begin
 	      error = USetStr(1356);
-	    end else begin
-	      if (SMr.OrderNr<=0) then begin
-	        error = "No Order for Stock Movement";
-	      end else begin
-	        if (SMr.OKFlag==0) then begin
-	          error = Usetstr(5255);
-	        end;
-	      end;
-	    end;
-	     
+	    end;  
     end;
     
     if (NonBlank(error)) then begin
