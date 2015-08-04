@@ -5768,6 +5768,7 @@ begin
   if (HasJewelleryInterface) and (UserCanReport("INInfoRn","",true)) then begin 
     SpecialMenu("Статус товару по альтернат. коду",'S',5,"ItemStatusAltINDsm");
   end;
+  SpecialMenu("Перенести товар із ITeck в MMR",'',6,"FromITeckToMMRDsm"); //Edit***************************Sasha2,15:34 04.08.2015
   EndWindow;
 end;
 
