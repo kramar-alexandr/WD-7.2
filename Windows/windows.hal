@@ -403,10 +403,11 @@ begin
   real h,v,vs,f;
   WindowBegin("Настройка принтера Zebra",ZebraPrinterTClass,CGSbl,-);
   SetBlid(ZebraPrinterBlock);
-  SetWRect(64,80,380,150);
-  h=100;f=200;
+  SetWRect(64,80,450,300);
+  h=150;f=200;
   v=6;
     EditField(h,v+=vs,f,"Назва принтера",Normal,PrinterName,false,0); 
+    EditField(h,v+=20,f,"Назва комп'ютера(Win)",Normal,ParamStr1,false,0); //Edit***************************Sasha2,16:26 06.08.2015
   EndWindow;
 end; //Edit***************************Sasha2,16:12 25.09.2014 }
 
