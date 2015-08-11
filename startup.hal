@@ -82,6 +82,9 @@ begin
 	Maintenance("RecalcORShops",MyVClass,RecalcShopsItemsMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Gigient to IN",MyVClass,FillINFromGigieneMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	
+	Maintenance("Find RetIV costprice",MyVClass,UpdateRetIVCash,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
+	Maintenance("Find RetSM costprice",MyVClass,FixStockMovMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
+
 	Maintenance("Add SVO Serial Hist",MyVClass,FillSVOHistSerialMn,modSVO);
 
 	Maintenance("ClearOldINVcPLVc",MyVClass,ClearINPLMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014

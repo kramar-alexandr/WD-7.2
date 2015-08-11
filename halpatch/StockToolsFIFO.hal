@@ -1540,8 +1540,8 @@ begin
 														IHr.Source = sourceIHr.SerNr;
 													end;
   											end;
-  	case	"SR":	if(IHr.Qty>=0)then begin
-  												if(usetmpstkf)then begin
+  	case	"SRVc":	
+  										if(IHr.Qty>=0)then begin
 														sourceIHr.FileName = "SRVc";
 														sourceIHr.TransNr = IHr.TransNr;
 														sourceIHr.Row = IHr.Row;
@@ -1551,17 +1551,8 @@ begin
 														sfilename = sourceIHr.InFileName;
 														ssernr = sourceIHr.InSerNr;
 														srow = sourceIHr.InRow;
-													end else begin
-														sourceIHr.SerNr = TSr.TransNr;
-														readfirstmain(sourceIHr,1,true);
-														curncy = sourceIHr.PUCurncyCode;
-														totcostpricecurncy = sourceIHr.TotCostPriceCurncy;
-														sfilename = sourceIHr.InFileName;
-														ssernr = sourceIHr.InSerNr;
-														srow = sourceIHr.InRow;
 														IHr.Source = sourceIHr.SerNr;
-													end;
-  											end;
+											end;
   	case	"RetVc":	if(IHr.Qty>=0)then begin
   												/*Retr.SerNr = IHr.TransNr;
   												readfirstmain(Retr,1,true);
