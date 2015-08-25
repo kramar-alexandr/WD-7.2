@@ -3,6 +3,7 @@ external procedure ExtractObj(string,var Integer,var string);
 external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode);
 external function val AbsoluteVal(val);
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
+external function roundmode SetRoundModeD(Integer);
 
 
 SetLangMode(LangUkrainian,"UKR",0);
@@ -22,8 +23,328 @@ begin
   return;
 end; //Edit***************************Sasha2,8:58 02.02.2015 }
 
+
+procedure NewCalcCostAndPrice(record IVVc cIVr,row IVVc IVrw,var array val cost,var array val curcost,var array val qty,var integer ressize,integer cred,var array val realcostbase,var array val realcostuah,var array val realpricebase,var array val realpriceuah, var array val realsumbase,var array val realsumuah,record PUVc PUr,var array string uahpurate,var array string uahcurrate,string com,var array string comment,record BaseCurBlock BCb,array string vecode)
+begin
+	val t;
+	val fr,to1,to2,br1,br2;
+	string 5 curncy;
+	record ItemHistVc IHr;
+	boolean testf,TrHs;
+	record IVVc IVr;
+	
+	recordcopy(IVr,cIVr);
+	
+	lStartNewCalcCostAndPrice: 
+
+	//newcostblockbegin*****************
+	if(blank(PUr.CurncyCode))then begin
+		if(nonblank(IVrw.SerialNr))then begin
+			IHr.ArtCode = IVrw.ArtCode;
+			IHr.SerialNr = IVrw.SerialNr;
+			IHr.FileName = "PUVc";
+			if(readlastkey("ArtCodeSerialNr",IHr,3,true))then begin
+				PUr.SerNr = IHr.TransNr;
+				cost[ressize] = IHr.TotCostPrice;
+				qty[ressize] = IHr.Qty*cred;
+				readfirstmain(PUr,1,true);
+				goto lStartNewCalcCostAndPrice;
+			end;
+		end;
+		if(left(IVr.CurncyCode,3)=="UAH")then begin
+			if(BCb.BaseCur1==left(IVr.CurncyCode,3))then begin
+				curncy = "USD";
+				GetFullCurncyRate (curncy,IVr.InvDate,fr,to1,to2,br1,br2);
+				uahcurrate[ressize] = to1;
+				uahpurate[ressize] = to1;
+				realcostuah[ressize] = IVrw.BasePrice;
+				realcostbase[ressize] = IVrw.BasePrice;
+				realpriceuah[ressize] = IVrw.Price;
+				realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+				realpricebase[ressize] = IVrw.Price;
+				realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+				comment[ressize] = com & " blank(PUr.CurncyCode)01";
+			end else begin
+				uahcurrate[ressize] = IVr.FrRate;
+				uahpurate[ressize] = IVr.FrRate;
+				realcostuah[ressize] = IVrw.BasePrice*IVr.FrRate/IVr.ToRateB1;
+				realcostbase[ressize] = IVrw.BasePrice;
+				realpriceuah[ressize] = IVrw.Price;
+				realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+				realpricebase[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
+				realsumbase[ressize] = IVrw.Sum/IVr.FrRate*IVr.ToRateB1/IVrw.Quant*qty[ressize];
+				comment[ressize] = com & " blank(PUr.CurncyCode)";
+				if(BCb.BaseCur2==IVr.CurncyCode)then begin
+					realcostuah[ressize] = IVrw.BasePrice*IVr.BaseRate2/IVr.BaseRate1;
+					realpricebase[ressize] = IVrw.Price/IVr.BaseRate2*IVr.BaseRate1;
+					realsumbase[ressize] = IVrw.Sum/IVr.BaseRate2*IVr.BaseRate1/IVrw.Quant*qty[ressize];
+				end;
+			end;
+		end else begin
+			if(BCb.BaseCur1==left(IVr.CurncyCode,3))then begin
+				/*curncy = "USD";
+				GetFullCurncyRate (curncy,IVr.InvDate,fr,to1,to2,br1,br2);
+				uahcurrate[ressize] = to1;
+				uahpurate[ressize] = to1;
+				realcostuah[ressize] = IVrw.BasePrice;
+				realcostbase[ressize] = IVrw.BasePrice;
+				realpriceuah[ressize] = IVrw.Price/fr*to1;
+				realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/fr*to1;
+				realpricebase[ressize] = IVrw.Price;
+				realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/fr*to1;*/
+				comment[ressize] = com & " basecur 01 ";
+			end else begin
+				uahcurrate[ressize] = IVr.ToRateB1;
+				uahpurate[ressize] = IVr.ToRateB1;
+				realcostuah[ressize] = IVrw.BasePrice;
+				realcostbase[ressize] = IVrw.BasePrice;
+				realpriceuah[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
+				realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/IVr.FrRate*IVr.ToRateB1;
+				realpricebase[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
+				realsumbase[ressize] = IVrw.Sum/IVr.FrRate*IVr.ToRateB1/IVrw.Quant*qty[ressize];
+				comment[ressize] = com & " basecur 01";
+				if(BCb.BaseCur2==IVr.CurncyCode)then begin
+					realpricebase[ressize] = IVrw.Price/IVr.BaseRate2*IVr.BaseRate1;
+					realsumbase[ressize] = IVrw.Sum/IVr.BaseRate2*IVr.BaseRate1/IVrw.Quant*qty[ressize];
+				end;
+			end;
+		end;
+	end else begin
+		if(IVr.CurncyCode=="UAH")then begin
+			If(vecode[ressize]=="ERC" and currentcompany!=4)then begin
+				curncy = "UAH_E";
+				GetFullCurncyRate(curncy,IVr.InvDate,fr,to1,to2,br1,br2);
+				if(fr!=0 and to1!=0)then begin
+					IVr.FrRate = fr;
+					IVr.ToRateB1 = to1;
+					IVr.ToRateB2 = to2;
+					IVr.BaseRate1 = br1;
+					IVr.BaseRate2 = br2;
+				end;
+			end else begin
+				curncy = "UAH";
+			end;
+		end;
+		if(left(PUr.CurncyCode,3)==left(BCb.BaseCur1,3) or (left(BCb.BaseCur1,3)=="USD" and left(PUr.CurncyCode,3)!="UAH"))then begin //Если приход в основной валюте
+			realcostbase[ressize] = cost[ressize];
+			if(left(BCb.BaseCur1,3)=="UAH")then begin
+				realcostuah[ressize] = cost[ressize];
+				fr = IVr.FrRate;
+				to1 = IVr.ToRateB1;
+				to2 = IVr.ToRateB2;
+				br1 = IVr.BaseRate1;
+				br2 = IVr.BaseRate2;
+				if(fr==0 or to1==0)then begin
+					fr = 1;
+					to1 = 1;
+				end;
+				if(left(IVr.CurncyCode,3)=="UAH")then begin
+					realpriceuah[ressize] = IVrw.Price;
+					realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+					realpricebase[ressize] = IVrw.Price;
+					realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+				end else begin
+					realpriceuah[ressize] = IVrw.Price;
+					realsumuah[ressize] = IVrw.Sum;
+					realpricebase[ressize] = IVrw.Price*IVr.FrRate*IVr.ToRateB1;
+					realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]*IVr.FrRate*IVr.ToRateB1;
+				end;
+				curncy = "USD";
+				GetFullCurncyRate(curncy,PUr.TransDate,fr,to1,to2,br1,br2);
+				uahpurate[ressize] = to1;
+				curncy = "USD";
+				GetFullCurncyRate(curncy,IVr.InvDate,fr,to1,to2,br1,br2);
+				uahcurrate[ressize] = to1;
+				comment[ressize] = com & " 1";
+			end else begin
+				if(left(IVr.CurncyCode,3)=="UAH")then begin
+					curncy = IVr.CurncyCode;
+					fr = blankval;
+					to1 = blankval;
+					to2 = blankval;
+					br1 = blankval;
+					br2 = blankval;
+					
+					GetFullCurncyRate (curncy,PUr.TransDate,fr,to1,to2,br1,br2);
+					uahpurate[ressize] = fr;
+					if(blank(uahpurate[ressize]))then begin
+						uahpurate[ressize] = PUr.TransDate & " no rate";
+					end;
+					uahcurrate[ressize] = IVr.FrRate;
+				
+					realcostuah[ressize] = cost[ressize] * IVr.FrRate / IVr.ToRateB1;
+					realpriceuah[ressize] = IVrw.Price;
+					realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+					
+					if(left(PUr.CurncyCode,3)=="UAH" and left(PUr.CurncyCode,3)!=BCb.BaseCur1)then begin
+						realpricebase[ressize] = IVrw.Price / fr*to1;
+						realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize] / fr * to1;
+					end else begin
+						realpricebase[ressize] = IVrw.Price / IVr.FrRate * IVr.ToRateB1;
+						realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize] / IVr.FrRate * IVr.ToRateB1;
+					end;
+					
+					
+					if(IVr.CurncyCode==BCb.BaseCur2)then begin
+						uahpurate[ressize] = IVr.BaseRate2;
+						uahcurrate[ressize] = IVr.BaseRate2;
+						realcostuah[ressize] = cost[ressize] * IVr.BaseRate2 / IVr.BaseRate1 * cred;
+						realpricebase[ressize] = IVrw.Price * IVr.BaseRate1 / IVr.BaseRate2;
+						realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize] * IVr.BaseRate1 / IVr.BaseRate2;
+					end;
+					comment[ressize] = com & " 2";
+				end else begin
+					if(BCb.BaseCur1==left(IVr.CurncyCode,3))then begin
+						curncy = "UAH";
+						GetFullCurncyRate (curncy,IVr.InvDate,fr,to1,to2,br1,br2);
+						uahcurrate[ressize] = fr;
+						uahpurate[ressize] = fr;
+						if(curncy==BCb.BaseCur2)then begin
+							uahcurrate[ressize] = br2;
+							uahpurate[ressize] = br2;
+						end;
+						realpricebase[ressize]=IVrw.Price;
+						realsumbase[ressize]=IVrw.Sum/IVrw.Quant*qty[ressize];
+						comment[ressize] = com & " 3";
+					end else begin
+						t = blankval;
+						CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,BCb.BaseCur1,t,DefaultCurRoundOff);
+						realpricebase[ressize] = t;
+					
+						t = blankval;
+						CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum/IVrw.Quant*qty[ressize],BCb.BaseCur1,t,DefaultCurRoundOff);
+						realsumbase[ressize] = t;
+					
+						curncy = "UAH";
+						GetFullCurncyRate (curncy,IVr.InvDate,fr,to1,to2,br1,br2);
+						uahcurrate[ressize] = fr;
+						uahpurate[ressize] = fr;
+						if(curncy==BCb.BaseCur2)then begin
+							uahcurrate[ressize] = br2;
+							uahpurate[ressize] = br2;
+						end;
+						comment[ressize] = com & " 4";
+					end;
+					curncy = "UAH";
+					GetFullCurncyRate (curncy,IVr.InvDate,fr,to1,to2,br1,br2);
+					uahcurrate[ressize] = fr;
+					uahpurate[ressize] = fr;
+					if(curncy==BCb.BaseCur2)then begin
+						uahcurrate[ressize] = br2;
+						uahpurate[ressize] = br2;
+					end;
+				
+					t = blankval;
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,cost[ressize],"UAH",t,DefaultCurRoundOff);
+					realcostuah[ressize] = t;
+					t = blankval;
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,DefaultCurRoundOff);
+					realpriceuah[ressize] = t;
+					t = blankval;
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum/IVrw.Quant*qty[ressize],"UAH",t,DefaultCurRoundOff);
+					realsumuah[ressize] = t;
+					comment[ressize] = com & " 5";
+				end;
+			end;
+		end else begin
+			if(left(BCb.BaseCur1,3)=="USD" and left(PUr.CurncyCode,3)=="UAH")then begin
+				if(left(IVr.CurncyCode,3)=="UAH")then begin
+					fr = IVr.FrRate;
+					to1 = IVr.ToRateB1;
+					to2 = IVr.ToRateB2;
+					br1 = IVr.BaseRate1;
+					br2 = IVr.BaseRate2;
+					if(fr==0 or to1==0)then begin
+						fr = 1;
+						to1 = 1;
+					end;
+					uahcurrate[ressize] = fr*to1;
+					uahpurate[ressize] = PUr.FrRate * PUr.ToRateB1;
+					
+					realcostbase[ressize] = curcost[ressize] / PUr.FrRate * PUr.ToRateB1;
+					realpriceuah[ressize] = IVrw.Price;
+					realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+					if(IVr.CurncyCode==BCb.BaseCur2)then begin
+						realcostbase[ressize] = curcost[ressize]*br1/br2;
+						uahcurrate[ressize] = br2;
+						uahpurate[ressize] = PUr.BaseRate2;
+					end;
+					realcostuah[ressize] = curcost[ressize];
+					realpricebase[ressize] = IVrw.Price / PUr.FrRate * PUr.ToRateB1;
+					realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize] / PUr.FrRate * PUr.ToRateB1;
+					if(PUr.CurncyCode==BCb.BaseCur2)then begin
+						realpricebase[ressize] = IVrw.Price / PUr.BaseRate2 * PUr.BaseRate1;
+						realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize] / PUr.BaseRate2 * PUr.BaseRate1;
+					end;
+					comment[ressize] = com & " 6";
+				end else begin
+					t = blankval;
+					CurValToOtherCur(IVr.InvDate,PUr.CurncyCode,curcost[ressize],"USD",t,DefaultCurRoundOff);
+					realcostbase[ressize] = t;
+					realcostuah[ressize] = curcost[ressize];
+
+					t = blankval;
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,DefaultCurRoundOff);
+					realpriceuah[ressize] = t;
+
+					t = blankval;
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum/IVrw.Quant*qty[ressize],"UAH",t,DefaultCurRoundOff);
+					realsumuah[ressize] = t;
+					
+					if(IVr.CurncyCode==BCb.BaseCur1)then begin
+						realpricebase[ressize] = IVrw.Price;
+						realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+					end else begin
+						if(IVr.CurncyCode!=BCb.BaseCur2)then begin
+							realpricebase[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
+							realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/IVr.FrRate*IVr.ToRateB1;
+						end else begin
+							realpricebase[ressize] = IVrw.Price/IVr.BaseRate2*IVr.BaseRate1;
+							realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/IVr.BaseRate2*IVr.BaseRate1;
+						end;
+					end;
+					
+					comment[ressize] = com & " 7";
+				end;
+
+			end else begin
+				realcostbase[ressize] = cost[ressize];
+				realcostuah[ressize] = cost[ressize];
+
+				if(left(IVr.CurncyCode,3)=="UAH")then begin
+					realpriceuah[ressize] = IVrw.Price;
+					realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+					if(left(IVr.CurncyCode,3)==BCb.BaseCur1)then begin
+						realpricebase[ressize] = IVrw.Price;
+						realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+					end else begin
+						realpricebase[ressize] = IVrw.Price*IVr.FrRate/IVr.ToRateB1;
+						realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]*IVr.FrRate/IVr.ToRateB1;
+					end;
+					
+					curncy = "USD";
+					GetFullCurncyRate(curncy,IVr.InvDate,fr,to1,to2,br1,br2);
+					uahcurrate[ressize] = to1;
+					uahpurate[ressize] = PUr.ToRateB1;
+					
+				end else begin
+					curncy = "USD";
+					GetFullCurncyRate(curncy,IVr.InvDate,fr,to1,to2,br1,br2);
+					uahcurrate[ressize] = to1;
+					uahpurate[ressize] = PUr.ToRateB1;
+					realpriceuah[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
+					realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/IVr.FrRate*IVr.ToRateB1;
+				end;
+				comment[ressize] = com & " 8";
+			end;
+		end;	
+	end;
+	//newcostblockend*****************		
+return;
+end;
+
 global
-procedure CollectCostMyInvoice(record IVVc IVr, integer rownr,var array val cost,var array val curcost,var array string curncy,var array val rate,var array date indate,var array string vecode,var array string serial,var array val qty,var integer ressize,integer cred,longint credinv)
+procedure CollectCostMyInvoice(record IVVc IVr, integer rownr,var array val cost,var array val curcost,var array string curncy,var array val rate,var array date indate,var array string vecode,var array string serial,var array val qty,var integer ressize,integer cred,longint credinv,var array val realcostbase,var array val realcostuah,var array val realpricebase,var array val realpriceuah, var array val realsumbase,var array val realsumuah,var array string uahpurate,var array string uahcurrate,var array string comment,record BaseCurBlock BCb)
 begin
 	row IVVc IVrw;
 	record ORVc ORr;
@@ -44,17 +365,30 @@ begin
 	record INVc INr;
 	record WSVc WSr; //Edit***************************Sasha2,14:26 18.05.2015
 	row WSVc WSrw; //Edit***************************Sasha2,14:26 18.05.2015
-	record BaseCurBlock BCb;
-	
-	
-	blockload(BCb);
-	
+	val t;
+	val fr,to1,to2,br1,br2;
+	string 100 com;
+	boolean findf;
+	string 10 curncyloc;
+		
 	ressize = 0;
 	cost[ressize] = blankval;
 	qty[ressize] = blankval; 
 	rate[ressize] =	blankval;
 	curcost[ressize] = blankval;
 	
+	realcostbase[ressize] = blankval;
+	realcostuah[ressize] = blankval;
+	realpricebase[ressize] = blankval;
+	realsumbase[ressize] = blankval;
+	realpriceuah[ressize] = blankval;
+	realsumuah[ressize] = blankval;
+	
+	comment[ressize] = "";
+	
+	uahcurrate[ressize] = "";
+	uahpurate[ressize] = "";
+	com = "";
 	updstock = false;
 	if(IVr.UpdStockFlag==1)then begin
 		if (IVr.OrderNr<=0 and IVr.SVONr<=0) then begin
@@ -68,13 +402,94 @@ begin
 	if(INr.ItemType!=kItemTypeStocked)then begin
 		cost[ressize] = 0;
 		serial[ressize] = IVrw.SerialNr;
-		qty[ressize] = IVrw.Quant; 
+		qty[ressize] = IVrw.Quant*cred; 
 		curcost[ressize] = 0;
 		curncy[ressize] = IVr.CurncyCode;
 		rate[ressize] =	0;
 		indate[ressize] =	IVr.InvDate;
 		vecode[ressize] = "";
-
+		comment[ressize] = "NONSTOCK";
+		
+		realcostbase[ressize] = blankval;
+		realcostuah[ressize] = blankval;
+		if(left(IVr.CurncyCode,3)==BCb.BaseCur1)then begin
+		
+			if(BCb.BaseCur1=="UAH")then begin
+				curncyloc = "USD";
+				GetFullCurncyRate (curncyloc,IVr.InvDate,fr,to1,to2,br1,br2);
+				uahcurrate[ressize] = to1;
+				uahpurate[ressize] = to1;
+			end else begin
+				if(left(IVr.CurncyCode,3)=="UAH")then begin
+					uahcurrate[ressize] = IVr.FrRate;
+					uahpurate[ressize] = IVr.FrRate;
+					if(IVr.CurncyCode==BCb.BaseCur2)then begin
+						uahcurrate[ressize] = IVr.BaseRate2;
+						uahpurate[ressize] = IVr.BaseRate2;
+					end;
+				end else begin
+					curncyloc = "UAH";
+					GetFullCurncyRate(curncyloc,IVr.InvDate,fr,to1,to2,br1,br2);
+					uahcurrate[ressize] = fr;
+					uahpurate[ressize] = fr;
+				end;
+			end;
+			realpricebase[ressize] = IVrw.Price;
+			realsumbase[ressize] = IVrw.Sum;
+			if(left(IVr.CurncyCode,3)=="UAH")then begin				
+				realpriceuah[ressize] = IVrw.Price;
+				realsumuah[ressize] = IVrw.Sum;
+			end else begin
+				t = blankval;
+				CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,DefaultCurRoundOff);
+				realpriceuah[ressize] = t;
+				t = blankval;
+				CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum,"UAH",t,DefaultCurRoundOff);
+				realsumuah[ressize] = t;
+			end;
+		end else begin
+			if(BCb.BaseCur1=="UAH")then begin
+				uahcurrate[ressize] = IVr.ToRateB1;
+				uahpurate[ressize] = IVr.ToRateB1;
+			end else begin
+				if(left(IVr.CurncyCode,3)!="UAH")then begin
+					curncyloc = "UAH";
+					GetFullCurncyRate(curncyloc,IVr.InvDate,fr,to1,to2,br1,br2);
+					uahcurrate[ressize] = fr;
+					uahpurate[ressize] = fr;
+				end else begin
+					uahcurrate[ressize] = IVr.FrRate;
+					uahpurate[ressize] = IVr.FrRate;
+					if(IVr.CurncyCode==BCb.BaseCur2)then begin
+						uahcurrate[ressize] = IVr.BaseRate2;
+						uahpurate[ressize] = IVr.BaseRate2;
+					end;
+				end;
+			end;
+			
+			realpricebase[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
+			realsumbase[ressize] = IVrw.Sum/IVr.FrRate*IVr.ToRateB1;
+			if(IVr.CurncyCode==BCb.BaseCur2)then begin
+				realpricebase[ressize] = IVrw.Price/IVr.BaseRate2*IVr.BaseRate1;
+				realsumbase[ressize] = IVrw.Sum/IVr.BaseRate2*IVr.BaseRate1;
+			end;
+			if(left(IVr.CurncyCode,3)=="UAH")then begin
+				realpriceuah[ressize] = IVrw.Price;
+				realsumuah[ressize] = IVrw.Sum;
+			end else begin
+				if(BCb.BaseCur1=="UAH")then begin
+					realpriceuah[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
+					realsumuah[ressize] = IVrw.Sum/IVr.FrRate*IVr.ToRateB1;
+				end else begin
+					t = blankval;
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,DefaultCurRoundOff);
+					realpriceuah[ressize] = t;
+					t = blankval;
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum,"UAH",t,DefaultCurRoundOff);
+					realsumuah[ressize] = t;
+				end;
+			end;
+		end;		
 		ressize = ressize + 1;
 		goto lCollect;
 	end;
@@ -106,7 +521,17 @@ begin
 						end;
 						indate[ressize] =	PUr.TransDate;
 						vecode[ressize] = PUr.VECode;
+						
+						com = "UpdStock ";
+						
+						NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
+					
 					end;
+				end else begin
+					com = "IVUPDStock NOPU ";
+					PUr.SerNr = -1;
+					PUr.CurncyCode = "";
+					NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 				end;
 				ressize = ressize + 1;
 			end;
@@ -121,6 +546,7 @@ begin
 						IHr.TransNr = SHr.SerNr;
 						IHr.Row = IVrw.SHRow;
 						TrHs = true;
+						
 						while(loopkey("FNTransNr",IHr,3,TrHs)) begin
 							testf = true;
 							if(IHr.TransNr!=SHr.SerNr)then begin TrHs = false; testf = false; end;
@@ -130,7 +556,8 @@ begin
 								cost[ressize] = AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
 								serial[ressize] = IHr.SerialNr;
 								qty[ressize] = -IHr.Qty*cred; 
-								if(IHr.InFileName=="PUVc")then begin
+								
+								if(IHr.InFileName=="PUVc" and nonblank(IHr.InFileName))then begin
 									PUr.SerNr = IHr.InSerNr;
 									if(readfirstmain(PUr,1,true))then begin
 										curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
@@ -141,7 +568,14 @@ begin
 										end;
 										indate[ressize] =	PUr.TransDate;
 										vecode[ressize] = PUr.VECode;
+										com = "SH ";
+										NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 									end;
+								end else begin
+									com = "SHNOPu ";
+									PUr.SerNr = -1;
+									PUr.CurncyCode = "";
+									NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 								end;
 								ressize = ressize + 1;
 							end;
@@ -155,7 +589,6 @@ begin
 				cnt = 1;
 				while(ReadRecordLink(IVr,cnt,Retr,RLr)) begin
 					cnt = cnt+1;
-					
 					if(Retr.SerNr>-1)then begin
 						retrwnt = matrowcnt(Retr);
 						For(reti=0;reti<retrwnt;reti=reti+1) begin
@@ -175,7 +608,7 @@ begin
 									cost[ressize] = AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
 									serial[ressize] = IHr.SerialNr;
 									qty[ressize] = IHr.Qty*cred; 
-									if(IHr.InFileName=="PUVc")then begin
+									if(IHr.InFileName=="PUVc" and nonblank(IHr.InFileName))then begin
 										PUr.SerNr = IHr.InSerNr;
 										if(readfirstmain(PUr,1,true))then begin
 											curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
@@ -184,9 +617,16 @@ begin
 											if(PUr.CurncyCode==BCb.BaseCur2)then begin
 												rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
 											end;
+											com = "Ret ";
+											NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 											indate[ressize] =	PUr.TransDate;
 											vecode[ressize] = PUr.VECode;
 										end;
+									end else begin
+										com = "RetNOPu ";
+										PUr.SerNr = -1;
+										PUr.CurncyCode = "";
+										NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 									end;
 									ressize = ressize + 1;
 								end;
@@ -239,6 +679,9 @@ begin
 														vecode[ressize] = PUr.VECode;
 														serial[ressize] = IHr.SerialNr;
 														qty[ressize] = -IHr.Qty*cred; 
+														com = "SH1 ";
+														NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
+														
 														ressize = ressize + 1;
 													end else begin
 														cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred*cred);
@@ -321,6 +764,8 @@ begin
 														vecode[ressize] = PUr.VECode;
 														serial[ressize] = IHr.SerialNr;
 														qty[ressize] = -IHr.Qty*cred; 
+														com = "SVO ";
+														NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 														ressize = ressize + 1;
 														if(ressize>=IVrw.Quant)then begin
 															goto lCollect;
@@ -341,6 +786,8 @@ begin
 														vecode[ressize] = PUr.VECode;
 														serial[ressize] = IHr.SerialNr;
 														qty[ressize] = -IHr.Qty*cred; 
+														com = "USVO1 ";
+														NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 														ressize = ressize + 1;
 														if(ressize>=IVrw.Quant)then begin
 															goto lCollect;
@@ -362,6 +809,8 @@ begin
 													vecode[ressize] = PUr.VECode;
 													serial[ressize] = IHr.SerialNr;
 													qty[ressize] = -IHr.Qty; 
+													com = "SVO2 ";
+													NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 													ressize = ressize + 1;
 													if(ressize>=IVrw.Quant)then begin
 														goto lCollect;
@@ -375,12 +824,12 @@ begin
 						end;
 					end; //Edit***************************Sasha2,14:27 18.05.2015 }
 				end else begin
+					findf = false;// Edit ************************** Tuesday, 18 August 2015 15:42:12
 				  IHr.FileName = "SDVc";
 					IHr.SerialNr = IVrw.SerialNr;
 					IHr.ArtCode = IVrw.ArtCode;
 					TrHs = true;
 					while(loopkey("SerialNr",IHr,3,TrHs)) begin
-
 						testf = true;
 						if(IHr.FileName!="SDVc") then begin TrHs = false; testf = false; end; //Edit***************************Sasha2,13:43 24.04.2015
 						if(IHr.ArtCode!=IVrw.ArtCode) then begin TrHs = false; testf = false; end; //Edit***************************Sasha2,13:32 24.04.2015
@@ -388,7 +837,7 @@ begin
 						
 						if(testf and (IHr.InFileName=="PUVc"))then begin
 							PUr.SerNr = IHr.InSerNr; 
-							if(readfirstmain(PUr,1,true))then begin 
+							if(readfirstmain(PUr,1,true))then begin	
 								cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
 								curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 								curncy[ressize] = IHr.PUCurncyCode;
@@ -404,12 +853,42 @@ begin
 								vecode[ressize] = PUr.VECode;
 								serial[ressize] = IHr.SerialNr;
 								qty[ressize] = -IHr.Qty*cred; 
+								com = "SD ";
+								findf = true;
+								NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
+
 								ressize = ressize + 1;
 							end;
 						end;
 			    end;
-			    
-			    
+			    if(!findf)then begin
+						com = "Simple IV NOHIST ";
+						
+						if(currentcompany==8)then begin
+							if(left(INr.LastPurchCurncyCode,3)=="UAH")then begin
+								if(INr.LastPurchPrice2/IVrw.BasePrice>7)then begin
+									IVrw.BasePrice = INr.LastPurchPrice2;
+									matrowput(IVr,rownr,IVrw);
+									matrowget(IVr,rownr,IVrw);
+								end;
+							end;
+							if(left(INr.LastPurchCurncyCode,3)=="USD")then begin
+								if(INr.LastPurchPrice2/IVrw.BasePrice<2)then begin
+									t = blankval;
+									CurValToOtherCur(INr.LastPriceChange,"USD",IVrw.BasePrice,"UAH",t,DefaultCurRoundOff);
+									IVrw.BasePrice = t;
+									matrowput(IVr,rownr,IVrw);
+									matrowget(IVr,rownr,IVrw);
+								end;
+							end;
+						end;
+						PUr.SerNr = -1;
+						PUr.CurncyCode = "";
+						qty[ressize] = IVrw.Quant*cred; 
+						NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
+						ressize = ressize + 1;
+
+			    end;
 			    
 				end;
 			end;//End-----------------------------edit
@@ -429,8 +908,25 @@ lCollect:;
 			indate[ressize] =	"";
 			vecode[ressize] = "";
 			serial[ressize] = "";
-			qty[ressize] = IVrw.Quant; 
-			ressize = 1;
+			
+			realcostbase[ressize] = blankval;
+			realcostuah[ressize] = blankval;
+			realpricebase[ressize] = blankval;
+			realsumbase[ressize] = blankval;
+			realpriceuah[ressize] = blankval;
+			realsumuah[ressize] = blankval;
+			
+			uahcurrate[ressize] = "";
+			uahpurate[ressize] = "";
+			
+			comment[ressize] = "";
+			
+			PUr.SerNr = -1;
+			PUr.CurncyCode = "";
+			com = "NOHIST ";
+			qty[ressize] = IVrw.Quant*cred;
+			NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
+			ressize = ressize + 1;
 	end;
 return;
 end;
@@ -470,7 +966,7 @@ end;
 
 global procedure SalesReportRn(record RcVc RepSpec)
 begin
-	integer i0,i01,i02,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i91,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32;
+	integer i0,i01,i02,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i91,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38;
 	integer i,mtrw;
 	record IVVc IVr;
 	row IVVc IVrw;
@@ -500,6 +996,9 @@ begin
 	string 20 invcurncy;
 	boolean filter;// Edit ************************** Thursday, 14 May 2015 16:20:54
 	record BaseCurBlock BCb;
+	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
+	array string 5 uahpurate,uahcurrate;
+	array string 100 comment;
 	
 	
 	blockload(BCb);
@@ -524,21 +1023,21 @@ begin
 			outstring(i5,0,"Клієнт",false);
 			outstring(i6,0,"Склад",false);
 			outstring(i7,0,"Кіл-ть",false);
-			outstring(i8,0,"Валюта",false);
+			outstring(i8,0,"Валюта продаж.",false);
 			outstring(i81,0,"Валюта надх.",false);
 			if(currentcompany!=8)then begin
-				outstring(i9,0,"Курс выписки",false);
-				outstring(i91,0,"Курс текущий",false);
-				outstring(i10,0,"Ціна за од., валюта",false);
+				outstring(i9,0,"UAH Курс зак.",false);
+				outstring(i91,0,"UAH Курс текущий",false);
+				outstring(i10,0,"Ціна за од., грн",false);
 				outstring(i11,0,"Ціна за од., $",false);
 				outstring(i12,0,"Знижка",false);
-				outstring(i13,0,"Сума, валюта",false);
+				outstring(i13,0,"Сума, грн",false);
 				outstring(i14,0,"Сума, $",false);
-				outstring(i15,0,"Собівартість за од., валюта",false);
+				outstring(i15,0,"Собівартість за од., грн",false);
 				outstring(i16,0,"Собівартість за од., $",false);
-				outstring(i17,0,"Собівартість, валюта",false);
+				outstring(i17,0,"Собівартість, грн",false);
 				outstring(i18,0,"Собірвартість, $",false);
-				outstring(i19,0,"Прибуток, валюта",false);
+				outstring(i19,0,"Прибуток, грн",false);
 				outstring(i20,0,"Прибуток, $",false);
 			end else begin
 				outstring(i11,0,"Ціна за од.",false);
@@ -556,10 +1055,23 @@ begin
 			outstring(i26,0,"Продавець",false);
 			outstring(i27,0,"Виписав Акт/накл.",false);
 			outstring(i28,0,"Сервісний інженер",false);
+			outstring(i33,0,"realcostbase",false);
+			outstring(i34,0,"realcostuah",false);
+			outstring(i35,0,"realpricebase",false);
+			outstring(i36,0,"realpriceuah",false);
+			outstring(i37,0,"realsumebase",false);
+			outstring(i38,0,"realsumuah",false);
+			outstring(i38,0,"uahpurate",false);
+			outstring(i38,0,"uahcurrate",false);
+			
 			outstring(i29,0,"Класiфiкацiя",false);
 			outstring(i30,0,"Класiфiкацiя2",false);
 			outstring(i31,0,"Класiфiкацiя3",false);
 			outstring(i32,0,"Коментар",false);
+			
+			
+			
+			
 		endformat;
 	
 	
@@ -581,14 +1093,9 @@ begin
         CredInvNo = IVrw.OrdRow;
       end;
     end;
-    
-		
-		
 		If(testf) then begin
-
 			CUr.Code = IVr.CustCode;
 			readfirstmain(CUr,1,true);
-			
 			invfr = IVr.FrRate;
 			invto1 = IVr.ToRateB1;
 			if(IVr.CurncyCode==BCb.BaseCur2)then begin
@@ -599,7 +1106,6 @@ begin
 				invfr = 1;
 				invto1 = 1;
 			end;
-		
 			mtrw = matrowcnt(IVr);
 			For(i=0;i<mtrw;i=i+1) begin
 				matrowget(IVr,i,IVrw);
@@ -633,7 +1139,7 @@ begin
 					end else begin
 						location = IVr.Location;
 					end;
-					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo);		
+					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb);		
 				
 					foundqty = 0;
 					For(j=0;j<ressize;j=j+1) begin
@@ -671,14 +1177,57 @@ begin
 									invto1 = 1;
 								end;
 								if(left(IVr.CurncyCode,3)=="UAH")then begin
+									invcurncy="UAH";
 									If(vecode[j]=="ERC" and currentcompany!=4 )then begin
 										invcurncy = "UAH_E";
 										GetFullCurncyRate(invcurncy,IVr.InvDate,invfr,invto1,invto2,invbr1,invbr2);
+										if(invfr==0 or invto1==0)then begin
+											invcurncy="UAH";
+										end;
 									end;
 								end;
 								outstring(i8,0,invcurncy,false);
 								outstring(i81,0,curncy[j],false);
-						
+								
+								if(currentcompany!=8)then begin
+								outstring(i9,0,uahpurate[j],false);
+								outstring(i91,0,uahcurrate[j],false);
+								outstring(i10,0,round(realpriceuah[j],SetRoundModeD(2)),false);
+								outstring(i11,0,round(realpricebase[j],SetRoundModeD(2)),false);
+								outstring(i12,0,IVrw.vRebate,false);
+								outstring(i13,0,round(realsumuah[j],SetRoundModeD(2)),false);
+								outstring(i14,0,round(realsumbase[j],SetRoundModeD(2)),false);
+								outstring(i15,0,round(realcostuah[j],SetRoundModeD(2)),false);
+								outstring(i16,0,round(realcostbase[j],SetRoundModeD(2)),false);
+								outstring(i17,0,round(realcostuah[j]*qty[j],SetRoundModeD(2)),false);
+								outstring(i18,0,round(realcostbase[j]*qty[j],SetRoundModeD(2)),false);
+								outstring(i19,0,ValToMyString((realsumuah[j] - realcostuah[j]*qty[j]),3),false);
+								outstring(i20,0,ValToMyString((realsumbase[j] - realcostbase[j]*qty[j]),3),false);
+								sumusd = realsumbase[j];
+								sumcostusd = realcostbase[j]*qty[j];
+								
+							end else begin
+								outstring(i11,0,realpricebase[j],false);
+								outstring(i12,0,IVrw.vRebate,false);
+								outstring(i14,0,realsumbase[j],false);
+								outstring(i16,0,realcostbase[j],false);
+								outstring(i18,0,realcostbase[j]*qty[j],false);
+								outstring(i20,0,ValToMyString((realsumbase[j] - realcostbase[j]*qty[j]),3),false);
+								sumusd = realsumbase[j];
+								sumcostusd = realcostbase[j]*qty[j];
+							end;
+								
+								/*outstring(i33,0,realcostbase[j],false);
+								outstring(i34,0,realcostuah[j],false);
+								outstring(i35,0,realpricebase[j],false);
+								outstring(i36,0,realpriceuah[j],false);
+								outstring(i37,0,realsumbase[j],false);
+								outstring(i38,0,realsumuah[j],false);
+								outstring(i38,0,uahpurate[j],false);
+								outstring(i38,0,uahcurrate[j],false);
+								outstring(i38,0,comment[j],false);*/
+								
+								/*// Edit ************************** Friday, 21 August 2015 10:12:10// Edit ************************** Friday, 21 August 2015 10:12:12
 								if(currentcompany!=8)then begin
 									if(curncy[j]==BCb.BaseCur1)then begin
 										outstring(i9,0,ValToMyString(invfr * invto1,4),false);
@@ -770,6 +1319,9 @@ begin
 								end;
 								
 								outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
+								
+								*/
+								
 								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
 								outstring(i22,0,IVr.ShipMode,false);
 								outstring(i23,0,indate[j],false);
@@ -778,12 +1330,26 @@ begin
 								outstring(i26,0,CUr.SalesMan,false);
 								outstring(i27,0,IVr.SalesMan,false);
 								outstring(i28,0,"",false);
-								for(l=0;l<k;l=l+1) begin
-								outstring(i29,0,class[l],false);
-								outstring(i30,0,"",false);
-			          outstring(i31,0,"",false);
-			          outstring(i32,0,IVr.InvComment,false);
+								/*outstring(i33,0,realcostbase[j],false);
+								outstring(i34,0,realcostuah[j],false);
+								outstring(i35,0,realpricebase[j],false);
+								outstring(i36,0,realpriceuah[j],false);
+								outstring(i37,0,realsumbase[j],false);
+								outstring(i38,0,realsumuah[j],false);
+								outstring(i38,0,uahpurate[j],false);
+								outstring(i38,0,uahcurrate[j],false);
+								outstring(i38,0,comment[j],false);*/
+								
+								if(currentuser=="SA")then begin
+									outstring(i38,0,comment[j],false);
 								end;
+								for(l=0;l<k;l=l+1) begin
+									outstring(i29,0,class[l],false);
+									outstring(i30,0,"",false);
+									outstring(i31,0,"",false);
+									outstring(i32,0,IVr.InvComment,false);			          
+								end;
+								
 							endformat;
 						end;
 					end;
@@ -894,6 +1460,10 @@ begin
 	string 5 invcurncy;
 	boolean filter;
 	record BaseCurBlock BCb;
+	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
+	array string 5 uahpurate,uahcurrate;
+	array string 100 comment;
+	
 	
 	
 	blockload(BCb);
@@ -935,10 +1505,10 @@ begin
 			outstring(i8,0,"Валюта",false);
 			//outstring(i81,0,"Валюта надх.",false);
 			//outstring(i9,0,"Курс",false);
-			outstring(i10,0,"Ціна за од., валюта",false);
+			outstring(i10,0,"Ціна за од., грн",false);
 			outstring(i11,0,"Ціна за од., $",false);
 			outstring(i12,0,"Знижка",false);
-			outstring(i13,0,"Сума, валюта",false);
+			outstring(i13,0,"Сума, грн",false);
 			outstring(i14,0,"Сума, $",false);
 			//outstring(i15,0,"Собівартість за од., валюта",false);
 			//outstring(i16,0,"Собівартість за од., $",false);
@@ -1032,7 +1602,7 @@ begin
 						location = IVr.Location;
 					end;
 					
-					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo);			
+					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo,realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah,uahpurate,uahcurrate,comment,BCb);			
 					foundqty = 0;
 					For(j=0;j<ressize;j=j+1) begin
 						foundqty = foundqty + qty[j];
@@ -1060,12 +1630,22 @@ begin
 								if(left(IVr.CurncyCode,3)=="UAH")then begin
 									If(vecode[j]=="ERC" and currentcompany!=4 )then begin
 										invcurncy = "UAH_E";
+									end else begin
+										invcurncy = "UAH";
 									end;
 								end;
 								outstring(i8,0,invcurncy,false);
-								//outstring(i81,0,curncy[j],false);
-								//outstring(i9,0,ValToMyString(rate[j],4),false);
-								outstring(i10,0,IVrw.Price,false);
+								outstring(i10,0,round(realpriceuah[j],SetRoundModeD(2)),false);
+								outstring(i11,0,round(realpricebase[j],SetRoundModeD(2)),false);
+								outstring(i12,0,IVrw.vRebate,false);
+								outstring(i13,0,round(realsumuah[j],SetRoundModeD(2)),false);
+								outstring(i14,0,round(realsumbase[j],SetRoundModeD(2)),false);
+								sumusd = realsumbase[j];
+								sumcostusd = realcostbase[j]*qty[j];
+								
+								
+								
+								/*outstring(i10,0,IVrw.Price,false);
 								if(curncy[j]=="USD")then begin
 									outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 								end else begin
@@ -1129,7 +1709,7 @@ begin
 									//outstring(i19,0,ValToMyString((sumcur - sumcostcur),3),false);
 								end else begin
 									//outstring(i19,0,"",false);
-								end;
+								end;*/
 								//outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
 								if(currentcompany==2)then begin
 									outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);

@@ -4,7 +4,7 @@ external function val conv1(date,string);
 external function LongInt DateDiff(Date,Date);
 external procedure GetItemGroup(string,var string);
 external procedure GetItemGroupDescription(string,var string);
-external procedure CollectCostMyInvoice(record IVVc, integer,var array val,var array val,var array string,var array val,var array date,var array string,var array string,var array val,var integer,integer,longint); //Edit***************************Sasha2,15:24 23.04.2015
+external procedure CollectCostMyInvoice(record IVVc, integer,var array val,var array val,var array string,var array val,var array date,var array string,var array string,var array val,var integer,integer,longint,var array val,var array val,var array val,var array val, var array val,var array val,var array string,var array string,var array string,record BaseCurBlock); //Edit***************************Sasha2,15:24 23.04.2015
 external function val CalcSumForSales(val,val,val,val,val,integer, val,boolean); //Edit***************************Sasha2,15:24 23.04.2015
 external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode); //Edit***************************Sasha2,17:48 23.04.2015
 external function string 200 ValToMyString(val,integer); //Edit***************************Sasha2,11:32 27.04.2015
@@ -308,6 +308,10 @@ begin
   val t,invfr,invto1,quant,sumcur,sumusd; //Edit***************************Sasha2,15:48 23.04.2015
   array integer pos; //Edit***************************Sasha2,11:15 27.04.2015
 	record BaseCurBlock BCb;
+	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
+	array string 5 uahpurate,uahcurrate;
+	array string 100 comment;
+	
 	
 	blockload(BCb);
 
@@ -351,15 +355,15 @@ begin
     OutString(pos[7],0,"Name",false);
     OutString(pos[8],0,"Q-ty",false);
     OutString(pos[9],0,"Price",false);
-    OutString(pos[9],0,"Price Orig.",false);
+    OutString(pos[9],0,"Price UAH",false);
     OutString(pos[10],0,"Cost",false);
-    OutString(pos[10],0,"Cost Orig.",false);
+    OutString(pos[10],0,"Cost UAH",false);
     OutString(pos[11],0,"Sum",false);
-    OutString(pos[11],0,"Sum Orig.",false);
+    OutString(pos[11],0,"Sum UAH",false);
     OutString(pos[12],0,"SumCost",false);
-    OutString(pos[12],0,"SumCost Orig.",false);
+    OutString(pos[12],0,"SumCost UAH",false);
     OutString(pos[13],0,"GP",false);
-    OutString(pos[13],0,"GP Orig.",false);
+    OutString(pos[13],0,"GP UAH.",false);
     OutString(pos[14],0,"Rec.rate",false); //Edit***************************Sasha2,11:06 27.04.2015
     OutString(pos[15],0,"Rec.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
     OutString(pos[16],0,"Inv.rate",false); //Edit***************************Sasha2,11:06 27.04.2015
@@ -520,7 +524,7 @@ begin
                     end;
                   end;
                 end;
-                CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1); //Edit***************************Sasha2,15:53 23.04.2015
+                CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
       					foundqty = 0;
       					For(j=0;j<ressize;j=j+1) begin
       						foundqty = foundqty + qty[j]; 
@@ -577,22 +581,22 @@ begin
                     OutString(pos[7],0,IVrw.Spec,false);
                     quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
                     OutString(pos[8],0,quant,false);
-                    salesprice = sumusd/quant;
-                    priceorig = sumcur/quant; //Edit***************************Sasha2,11:37 24.04.2015 }
-                    OutVal(pos[9],0,salesprice,M4Val,false);
-                    OutVal(pos[9],0,priceorig,M4Val,false);
+                    salesprice = realpricebase[j];
+                    priceorig = realpriceuah[j]; //Edit***************************Sasha2,11:37 24.04.2015 }
+                    OutVal(pos[9],0,realpriceuah[j],M4Val,false);
+                    OutVal(pos[9],0,realpricebase[j],M4Val,false);
           // Edit End ---------------------------------------------- Edit End
-          					MyCost = cost[j];
-                    OutVal(pos[10],0,MyCost,M4Val,false);
+          					MyCost = realcostbase[j];
+                    OutVal(pos[10],0,realcostbase[j],M4Val,false);
                     curorig = round(IVr.FrRate/IVr.ToRateB1,defaultcurroundoff);
                     if(curorig==0)then begin
                       curorig = 1;
                     end;
-                    costorig = MyCost*curorig;
+                    costorig = realcostuah[j];
                     sumcostorig = costorig*quant;
-                    OutVal(pos[10],0,costorig,M4Val,false);
-                    salessum = sumusd;
-                    sumorig = sumcur; //Edit***************************Sasha2,11:48 24.04.2015 }
+                    OutVal(pos[10],0,realcostuah[j],M4Val,false);
+                    salessum = realsumbase[j];
+                    sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }
                     OutVal(pos[11],0,salessum,M4Val,false);
                     OutVal(pos[11],0,sumorig,M4Val,false);
                     OutVal(pos[12],0,MyCost*quant,M4Val,false);
@@ -600,15 +604,18 @@ begin
                     OutVal(pos[13],0,salessum-(MyCost*quant),M4Val,false);
                     gporig = sumorig - sumcostorig;
                     OutVal(pos[13],0,gporig,M4Val,false);
-                    
+                    /*
                     if (rate[j]!=0) then begin //Edit***************************Sasha2,11:34 27.04.2015 {
-                      OutString(pos[14],0,ValToMyString(rate[j],3),false); 
-                      OutString(pos[15],0,curncyarr[j],false); 
+                      OutString(pos[14],0,ValToMyString(uahpurate[j],3),false); 
+                      OutString(pos[15],0,curncy[j],false); 
                     end else begin
                       OutString(pos[14],0,"",false); 
                       OutString(pos[15],0,"",false); 
                     end;
-                    OutString(pos[16],0,ValToMyString(invfr/invto1,3),false); 
+                    */
+                    OutString(pos[14],0,uahpurate[j],false); 
+										OutString(pos[15],0,curncyarr[j],false); 
+                    OutString(pos[16],0,uahcurrate[j],false); 
                     OutString(pos[17],0,IVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015 }
                    
                     If(NonBlank(CUr.Code)) then begin
@@ -833,7 +840,7 @@ l1:;
                           end;
                         end;
                       end;
-                      CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1); //Edit***************************Sasha2,15:53 23.04.2015
+                      CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
             					foundqty = 0;
             					For(j=0;j<ressize;j=j+1) begin
             						foundqty = foundqty + qty[j];
@@ -890,8 +897,11 @@ l1:;
                           OutString(pos[7],0,newIVrw.Spec,false);
                           quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
                           OutString(pos[8],0,-quant,false);
-                          salesprice = sumusd/quant;
-                          priceorig = sumcur/quant;
+                          
+                          
+                          salesprice = realsumbase[j];
+                          priceorig = realsumuah[j];
+                          MyCost = realcostbase[j];
                           OutVal(pos[9],0,-salesprice,M4Val,false);
                           OutVal(pos[9],0,-priceorig,M4Val,false);                
                           OutVal(pos[10],0,-MyCost,M4Val,false);
@@ -899,19 +909,19 @@ l1:;
                           if(curorig==0)then begin
                             curorig = 1;
                           end;
-                          costorig = MyCost*curorig;
+                          costorig = realcostuah[j];;
                           OutVal(pos[10],0,-costorig,M4Val,false);
-                          salessum = sumusd;
-                          sumorig = sumcur;
+                          salessum = realsumbase[j];
+                          sumorig = realsumbase[j];
                           OutVal(pos[11],0,-salessum,M4Val,false);
                           OutVal(pos[11],0,-sumorig,M4Val,false);
                           OutVal(pos[12],0,-MyCost*quant,M4Val,false);
-                          sumcostorig = costorig*quant;
+                          sumcostorig = realcostuah[j]*quant;
                           OutVal(pos[12],0,-sumcostorig,M4Val,false);
                           OutVal(pos[13],0,-(salessum-(MyCost*quant)),M4Val,false);
                           gporig = sumorig - sumcostorig;
                           OutVal(pos[13],0,-gporig,M4Val,false);
-                          
+                          /*
                           if (rate[j]!=0) then begin  //Edit***************************Sasha2,11:34 27.04.2015 {
                             OutString(pos[14],0,ValToMyString(rate[j],3),false);
                             OutString(pos[15],0,curncyarr[j],false); 
@@ -919,7 +929,11 @@ l1:;
                             OutString(pos[14],0,"",false);
                             OutString(pos[15],0,"",false); 
                           end;
-                          OutString(pos[16],0,ValToMyString(invfr/invto1,3),false); 
+                          */
+                          OutString(pos[14],0,uahpurate[j],false); 
+													OutString(pos[15],0,curncyarr[j],false); 
+													
+                          OutString(pos[16],0,uahcurrate[j],false); 
                           OutString(pos[17],0,IVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015 }
                           If(NonBlank(CUr.Code)) then begin
                             OutString(pos[18],0,CUr.SalesMan,false);

@@ -6176,7 +6176,7 @@ begin
   EditField(h3 + 20,v,70,"Продавець",Normal,SalesMan,false,UserSClass);
   
   EditField(h4-50,v,70,"Здача",ViewOnly,RetValue,true,0); //Edit***************************Sasha2,16:02 26.09.2014
-  //EditField(h4+100,v,70,"Группа",Normal,SalesGroup,true,0); // Edit ************************** Thursday, 23 July 2015 10:18:00
+  EditField(h4+100,v,70,"Группа",Normal,SalesGroup,true,0); // Edit ************************** Thursday, 23 July 2015 10:18:00
   //EditField(h,v+=vs,30,/*"Спосіб спл."*/"Термінал",Normal,PayDeal,false,RestPMSClass);
   EditField(h2,v+=vs,80,"Терміналом",Normal,RecValue,true,0);
   

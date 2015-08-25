@@ -1554,28 +1554,38 @@ begin
 														IHr.Source = sourceIHr.SerNr;
 											end;
   	case	"RetVc":	if(IHr.Qty>=0)then begin
-  												/*Retr.SerNr = IHr.TransNr;
-  												readfirstmain(Retr,1,true);
-													matrowget(Retr,IHr.Row,Retrw);
-													//sourceIHr.ArtCode = IHr.ArtCode;
-													sourceIHr.FileName = "SHVc";
-													sourceIHr.Row = Retrw.SHRow;
-													sourceIHr.TransNr = Retr.SHNr;
-													readfirstkey("FNTransNr",sourceIHr,3,true);
-													curncy = sourceIHr.PUCurncyCode;
-													totcostpricecurncy = sourceIHr.TotCostPriceCurncy/-sourceIHr.Qty*IHr.Qty;
-													sfilename = sourceIHr.InFileName;
-													ssernr = sourceIHr.InSerNr;
-													srow = sourceIHr.InRow;*/
-													
-													//sourceIHr.FileName = "SHVc";
   												sourceIHr.SerNr = IHr.Source;
-  												readfirstmain(sourceIHr,1,true);
-  												curncy = sourceIHr.PUCurncyCode;
-													totcostpricecurncy = sourceIHr.TotCostPriceCurncy/-sourceIHr.Qty*IHr.Qty;
-													sfilename = sourceIHr.InFileName;
-													ssernr = sourceIHr.InSerNr;
-													srow = sourceIHr.InRow;
+  												if(readfirstmain(sourceIHr,1,true))then begin
+														curncy = sourceIHr.PUCurncyCode;
+														totcostpricecurncy = sourceIHr.TotCostPriceCurncy/-sourceIHr.Qty*IHr.Qty;
+														sfilename = sourceIHr.InFileName;
+														ssernr = sourceIHr.InSerNr;
+														srow = sourceIHr.InRow;
+													end else begin
+														Retr.SerNr = IHr.TransNr;
+														if(readfirstmain(Retr,1,true))then begin
+															if(Retr.WSNr>-1)then begin
+																sourceIHr.TransNr = Retr.WSNr;
+																sourceIHr.FileName = "WSVc";
+																TrHs = true;
+																if(loopkey("FNTransNr",sourceIHr,2,TrHs))then begin
+																	testf = true;
+																	if(sourceIHr.TransNr!=Retr.WSNr)then begin TrHs=false; testf=false; end;
+																	if(sourceIHr.FileName!="WSVc")then begin TrHs=false; testf=false; end;
+																	if(sourceIHr.ArtCode!=IHr.ArtCode)then begin testf=false; end;
+																	
+																	if(testf)then begin
+																		curncy = sourceIHr.PUCurncyCode;
+																		totcostpricecurncy = sourceIHr.TotCostPriceCurncy/-sourceIHr.Qty*IHr.Qty;
+																		sfilename = sourceIHr.InFileName;
+																		ssernr = sourceIHr.InSerNr;
+																		srow = sourceIHr.InRow;
+																		IHr.Source = sourceIHr.SerNr;
+																	end;
+																end;
+															end;
+														end;
+													end;
 													//logtext(0,sourceIHr.SerNr & " " & curncy & " " & totcostpricecurncy);
   											end;
   end;
