@@ -851,7 +851,7 @@ begin
 								end;
 								indate[ressize] =	IHr.TransDate;
 								vecode[ressize] = PUr.VECode;
-								serial[ressize] = IHr.SerialNr;
+								serial[ressize] = IHr.SerialNr; 
 								qty[ressize] = -IHr.Qty*cred; 
 								com = "SD ";
 								findf = true;
@@ -860,7 +860,7 @@ begin
 								ressize = ressize + 1;
 							end;
 						end;
-			    end;
+			    end; 
 			    if(!findf)then begin
 						com = "Simple IV NOHIST ";
 						
@@ -883,7 +883,7 @@ begin
 							end;
 						end;
 						PUr.SerNr = -1;
-						PUr.CurncyCode = "";
+						PUr.CurncyCode = ""; 
 						qty[ressize] = IVrw.Quant*cred; 
 						NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 						ressize = ressize + 1;
@@ -1147,13 +1147,13 @@ begin
 					end;
 				
 					For(j=0;j<ressize;j=j+1) begin
-						filter = true;// Edit ************************** Thursday, 14 May 2015 16:21:10
+						filter = true; // Edit ************************** Thursday, 14 May 2015 16:21:10
 						if(nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 						if(nonblank(RepSpec.f3) and RepSpec.f3!=INr.Code)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 						if(nonblank(RepSpec.f4) and RepSpec.f4!=vecode[j])then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 						if(nonblank(RepSpec.f5) and !SetInSet(RepSpec.f5,INr.DispGroups))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 				
-						if(filter)then begin// Edit ************************** Thursday, 14 May 2015 16:21:33
+						if(filter)then begin // Edit ************************** Thursday, 14 May 2015 16:21:33
 							startformat(15);		
 								outstring(i0,0,ITr.Comment,false);
 								outstring(i01,0,vecode[j],false);
