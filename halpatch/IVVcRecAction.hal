@@ -1683,7 +1683,7 @@ LIVVcRecordCheck_GenTrans:;
         res = -1;
         goto L99;
       end;
-      switch (gRuniningMaint) begin    
+      /*switch (gRuniningMaint) begin    //Edit***************************Sasha2,14:09 31.08.2015 
         case "RecalcStockMn":
           UpdateTrans_Stock(gTRp);
         otherwise
@@ -1699,7 +1699,7 @@ LIVVcRecordCheck_GenTrans:;
           end;
           SaveTrans(gTRp);
           AddTTrans_IVVc(gTRp,IVp);
-      end;
+      end;*/
     end;
     if (check) then begin
       if (MatRowCnt(gSMp)>0) then begin
