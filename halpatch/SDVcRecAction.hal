@@ -891,7 +891,27 @@ begin
       res = -1; 
     end;
     goto LSDVcRecordCheck;
-  end;  
+  end; 
+  
+  
+  if (CurrentUser != "SA" and CurrentUser != "KUDINA" and SDp.TransDate<CurrentDate) then begin
+  	if (stat==Rs_update) then begin		//Edit----------------------Dima  08.09.2015
+  		if(SDp.OKFlag==1 and SD2p.OKFlag==0) then begin
+  			RecordCheckError(31043,"",-1,"TransDate");
+  			res = -1;
+		    goto LSDVcRecordCheck;
+		   end; 
+  	end;
+  	if (stat==Rs_insert) then begin		
+  		if(SDp.OKFlag==1) then begin
+  			RecordCheckError(31043,"",-1,"TransDate");
+  			res = -1;
+		    goto LSDVcRecordCheck;
+		   end; 
+  	end; 
+  end;    //Edit---end-------------------Dima  08.09.2015  
+  
+   
   transf = false;
   if (SDp.OKFlag==1) then begin
     if (stat==insertmode) then begin transf = true; end;

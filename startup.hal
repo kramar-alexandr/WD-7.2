@@ -151,7 +151,8 @@ begin
   SString(31039,"4*4");
   SString(31040,"7*3 стик.");
   SString(31041,"Цей номер вже зареєстровано на одному зі складів");
-  SString(31042,"N квитанції"); 
+  SString(31042,"N квитанції");
+  SString(31043,"Не можна зберегти документ із минулою датою");  
 
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */
