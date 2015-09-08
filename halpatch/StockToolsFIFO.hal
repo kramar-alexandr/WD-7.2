@@ -326,10 +326,10 @@ end;
 
 function val FindLastCostPriceSerial(record INVc INr,string location,string serialnr,val qty,Boolean printf,Integer consigstock)
 begin
-  record ItemHistVc IHr;
+  record ItemHistVc IHr,sourceIHr;
   string 200 thekey;
   Integer keys;
-  Boolean foundf,testf;
+  Boolean foundf,testf,TrHs;// Edit ************************** Monday, 7 September 2015 13:42:51
   val res,adjv,t,takenqty,remcost,skippedqty,lqty;
   
   lqty = -qty;
@@ -374,6 +374,27 @@ begin
         res = res + (IHr.TotCostPrice*lqty)/IHr.Qty;
       end;
     end;
+  end;
+  
+  if(res==0)then begin// Edit ************************** Monday, 7 September 2015 13:41:07
+  	sourceIHr.SerialNr = serialnr;
+		sourceIHr.ArtCode = INr.Code;
+		TrHs = true;
+		while(loopbackkey("CodeSerialNrArtCode",sourceIHr,2,TrHs))begin
+			testf = true;
+			if(sourceIHr.SerialNr!=serialnr)then begin TrHs = false; testf = false; end;
+			if(sourceIHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
+			
+			if(testf)then begin
+				res = sourceIHr.TotCostPrice/sourceIHr.Qty*qty;
+				if(res<0)then begin
+					res = -res;
+				end;
+				testf = false;
+				TrHs = false;
+			end;
+		end;
+
   end;
   FindLastCostPriceSerial = res;
   return;
@@ -902,6 +923,7 @@ begin
     end else begin
       waperloc = WAPerLocation(INr,ITr,CAb);
     end;
+    logtext(0,primary);
     switch (primary) begin
       case kCostModelCostPrice: res = qty*INr.InPrice;//CostPricePerLocation(INr,ITr,CAb)
 //      case 1: res = qty*FindCostPriceCostPrice(CostPricePerLocation(INr,ITr,CAb),INr,location);//no alue per location
@@ -922,6 +944,7 @@ begin
 //adjustqty must be zero for Serial Nr tracking , not sure for Batch nr
         if (qty<0) then begin
           res = -FindLastCostPriceSerial(INr,location,serialnr,qty,false,0);//here
+          logtext(0,"***" & res & " " & qty);
         end else begin
           res = FindCostPriceSerial(INr,location,serialnr,qty,0,false,0);
         end;
@@ -936,6 +959,7 @@ begin
 //      res = -res;//or here
     end;
   end;
+  logtext(0,"***" & res & " " & qty);
   res = Round(res,CostPriceDecimals);
   FindCostPrice = res;
   RETURN;
@@ -1490,7 +1514,6 @@ begin
   									end;
   								end;
 		case	"IVVc":	IVr.SerNr = transnr;
-									
 									if(INr.SerNrf>0)then begin
 										sourceIHr.SerialNr = serialnr;
 										sourceIHr.ArtCode = INr.Code;
@@ -1507,12 +1530,21 @@ begin
 												sfilename = sourceIHr.InFileName;
 												ssernr = sourceIHr.InSerNr;
 												srow = sourceIHr.InRow;
+												if(IHr.TotCostPrice==0)then begin
+													IHr.TotCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*IHr.Qty;
+													IHr.RemCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*IHr.Qty;
+													logtext(0,IHr.TotCostPrice);
+													if(IHr.TotCostPrice<0)then begin
+														IHr.TotCostPrice = -IHr.TotCostPrice;
+														IHr.RemCostPrice = -IHr.RemCostPrice;
+													end;
+												end;
 												testf = false;
 												TrHs = false;
 											end;
 										end;
-										readfirstmain(IVr,1,true);
-										matrowget(IVr,IHr.Row,IVrw);
+
+										
 										curncy = INr.LastPurchCurncyCode;
 										totcostpricecurncy = INr.LastPurchPrice2 * IHr.Qty;
   								end else begin
@@ -1529,6 +1561,14 @@ begin
 														sfilename = sourceIHr.InFileName;
 														ssernr = sourceIHr.InSerNr;
 														srow = sourceIHr.InRow;
+														if(IHr.TotCostPrice==0)then begin
+															IHr.TotCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*IHr.Qty;
+															IHr.RemCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*IHr.Qty;
+															if(IHr.TotCostPrice<0)then begin
+																IHr.TotCostPrice = -IHr.TotCostPrice;
+																IHr.RemCostPrice = -IHr.RemCostPrice;
+															end;
+														end;
 													end else begin
 														sourceIHr.SerNr = TSr.TransNr;
 														readfirstmain(sourceIHr,1,true);
@@ -1538,6 +1578,14 @@ begin
 														ssernr = sourceIHr.InSerNr;
 														srow = sourceIHr.InRow;
 														IHr.Source = sourceIHr.SerNr;
+														if(IHr.TotCostPrice==0)then begin
+															IHr.TotCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*IHr.Qty;
+															IHr.RemCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*IHr.Qty;
+															if(IHr.TotCostPrice<0)then begin
+																IHr.TotCostPrice = -IHr.TotCostPrice;
+																IHr.RemCostPrice = -IHr.RemCostPrice;
+															end;
+														end;
 													end;
   											end;
   	case	"SRVc":	

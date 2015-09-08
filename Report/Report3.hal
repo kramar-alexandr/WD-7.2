@@ -256,6 +256,15 @@ string 50 filename;
 		RepSpec.flags[29] = 1;
 		
     if(GetDateID(currentdate)==1)then begin  
+    	if(currentcompany==1)then begin
+    		CreateFile("Stock/ISTORCreditorka.xls");
+        closefile;
+        openexportfile("Stock/ISTORCreditorka.xls",true);
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/ISTORCreditorka.sh","");
+    	end;
+    	
       if(currentcompany==3)then begin
       
         CreateFile("Stock/WDCreditorkaOFI.xls");

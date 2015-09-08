@@ -326,6 +326,8 @@ BEGIN
          case 0:
            WSr.SerNr = WSIVr.SerNr;
            if (ReadFirstMain(WSr,1,true)) then begin
+           		 IVp.TransDate = WSr.TransDate;// Edit ************************** Monday, 7 September 2015 10:33:04
+           		 IVp.InvDate = WSr.TransDate;// Edit ************************** Monday, 7 September 2015 10:33:05
              blockload(OAb); //Edit***************************Sasha2,15:01 20.06.2014
              mtrw = matrowcnt(OAb);
              For(j=0;j<mtrw;j=j+1) begin

@@ -84,6 +84,12 @@ begin
   IHr.InFileName = sourceIH.InFileName;
   IHr.InSerNr =	sourceIH.InSerNr;
   IHr.InRow =	sourceIH.InRow;
+  if(IHr.TotCostPrice==0)then begin
+  	IHr.TotCostPrice = sourceIH.TotCostPrice/sourceIH.Qty*(-IHr.Qty);// Edit ************************** Thursday, 3 September 2015 11:27:01
+  	if(IHr.TotCostPrice<0)then begin
+			IHr.TotCostPrice = -IHr.TotCostPrice;
+		end;
+  end;
   
 	// Edit End ---------------------------------------------- Edit End
 	

@@ -38,6 +38,8 @@ AService = 8;
     DebitorkaReportEn(iStore);
     RetailSalesEn;// Edit ************************** Tuesday, 17 February 2015 09:55:38
     BuhExportEn; //Edit***************************Sasha2,9:44 16.01.2015
+    logtext(0,currentcompany & " KreditorkaReportEn"); 
+    KreditorkaReportEn; 
   end;
   
   

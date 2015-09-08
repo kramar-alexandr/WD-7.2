@@ -4225,6 +4225,9 @@ begin
     EditField(120,-20,150,"Tax Auth. Approval",Normal,TaxAdminServSeal,false,0); 
 //    SoftEditField(120,-20,150,"Tax Auth. Approval",Normal,"TaxAdminServSeal",false,0,M4Str,200);
   end;
+  if(currentuser=="SA")then begin
+		EditField(100,-20,80,"LocOKNr",Normal,LocOKNr,true,0); //!!PRODTRANSLATE// Edit ************************** Thursday, 3 September 2015 10:05:37
+  end;
   EditField(-131,-20,80,"Total Qty",ViewOnly,TotQty,true,0); //!!PRODTRANSLATE
   if (IsEnterprise) then begin
     Tile(tilenr,90,false,tilenr,ShipMode); tilenr = tilenr + 1;
@@ -4662,6 +4665,11 @@ begin
   if (HasLocalization("HRV,PRT")) then begin 
     EditField(550,-40,150,"Tax Auth. Approval",Normal,TaxAdminServSeal,false,0);
 //    SoftEditField(550,-40,150,"Tax Auth. Approval",Normal,"TaxAdminServSeal",false,0,M4Str,200);
+  end;
+  if(currentuser=="SA")then begin
+		EditField(250,-46,50,"FrLocOKNr",Normal,FrLocOKNr,false,0);// Edit ************************** Thursday, 3 September 2015 10:07:59
+		EditField(450,-46,50,"ToThrouLocOKNr",Normal,ToThrouLocOKNr,false,0);// Edit ************************** Thursday, 3 September 2015 10:07:58
+		EditField(650,-46,50,"ToLocOKNr",Normal,ToLocOKNr,false,0);// Edit ************************** Thursday, 3 September 2015 10:07:58
   end;
   EditField(550,-20,100,"Неврах. накладні витрати",Normal,OtherExtraCosts,false,0);
   if (HasMultiCurrency or HasBase2) then begin

@@ -1719,6 +1719,8 @@ EndRecord;
   RecordField(CustomField12,M4Str,255,0);// Edit ************************** Friday, 27 December 2013 12:21:49
   RecordField(CustomField13,M4Str,255,0);// Edit ************************** Friday, 27 December 2013 12:21:50
   RecordField(CustomField14,M4Str,255,0);// Edit ************************** Friday, 27 December 2013 12:21:51
+  //RecordField(ServiceManager,M4Str,100,0);// Edit ************************** Tuesday, 8 September 2015 10:47:24
+  //RecordField(OrderStatus,M4Int,0,0);// Edit ************************** Tuesday, 8 September 2015 10:47:24
   //----------End Custom
   
 //  RecordField(TaxMatrix,M4PackedMatrix,0,TaxMatrixVc);

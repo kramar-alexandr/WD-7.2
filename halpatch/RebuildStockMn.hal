@@ -519,7 +519,7 @@ begin
           end;
           if (StockMovr.OKFlag!=0) then begin
           		if(StockMovr.FrThrouLocOKNr<1)then begin
-          			StockMovr.FrThrouLocOKNr = StockMovr.FrLocOKNr + 2;// Edit ************************** Friday, 14 November 2014 17:06:08
+          			StockMovr.FrThrouLocOKNr = StockMovr.FrLocOKNr + 1;// Edit ************************** Friday, 14 November 2014 17:06:08
           		end;
             if (AddToTemp(dummyIHr,"StockMov3Vc",StockMovr.SerNr,StockMovr.TransDate,StockMovr.FrThrouLocOKNr,StockMovr.ThrouLocation,StockMovr.OKFlag,0,30,cnt,skipifexistf)==false) then begin
               missed = missed + 1;
@@ -528,7 +528,7 @@ begin
         end;
         if (StockMovr.OKFlag!=0) then begin
         		if(StockMovr.ToLocOKNr<1)then begin
-							StockMovr.ToLocOKNr = StockMovr.ToThrouLocOKNr + 2;// Edit ************************** Friday, 14 November 2014 17:06:08
+							StockMovr.ToLocOKNr = StockMovr.ToThrouLocOKNr;// Edit ************************** Friday, 14 November 2014 17:06:08
 						end;
           if (AddToTemp(dummyIHr,"StockMov4Vc",StockMovr.SerNr,StockMovr.TransDate,StockMovr.ToLocOKNr,StockMovr.ToLocation,StockMovr.OKFlag,0,30,cnt,skipifexistf)==false) then begin
             missed = missed + 1;

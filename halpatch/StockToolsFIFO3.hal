@@ -840,6 +840,9 @@ begin
     IHr.Qty2 = CalculateQty2(IHr.Qty,coeff);
     IHr.TransNr = transnr;
     IHr.Row = rownr;
+    if(IHr.ArtCode=="ME949" and IHr.TransNr==601655)then begin
+  		logtext(0,foundf);
+  	end;
     if (foundf) then begin
       if (sourceIHr.RemQty==useqty) then begin
         IHr.TotCostPrice = sourceIHr.RemCostPrice;
@@ -847,6 +850,7 @@ begin
         IHr.TotCostPrice = (sourceIHr.TotCostPrice/sourceIHr.Qty) * useqty;
       end;
       IHr.Source = sourceIHr.SerNr;
+      
       // Edit Start ---------------------------------------------- Edit Start
 	//Thursday, 21 August 2014 16:49:52
 	
@@ -857,7 +861,12 @@ begin
       IHr.InFileName = sourceIHr.InFileName;
 			IHr.InSerNr =	sourceIHr.InSerNr;
 			IHr.InRow =	sourceIHr.InRow;
-      
+      if(IHr.TotCostPrice==0)then begin
+				IHr.TotCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*(-IHr.Qty);// Edit ************************** Thursday, 3 September 2015 11:27:01
+				if(IHr.TotCostPrice<0)then begin
+					IHr.TotCostPrice = -IHr.TotCostPrice;
+				end;
+			end;
 	// Edit End ---------------------------------------------- Edit End
 	
       

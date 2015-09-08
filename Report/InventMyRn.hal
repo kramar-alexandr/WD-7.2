@@ -37,7 +37,7 @@ record INVc INr;
   end;
   
   
-  ISr.Location = RepSpec.f1;
+  
   
   recordNew(ORr);
   STr.TransDate = RepSpec.sStartDate;
@@ -66,6 +66,7 @@ L1:;
           if(findf==false)then begin
             if(nonblank(STrw.ArtCode) or nonblank(STrw.SerialNr))then begin
               ORrw.ArtCode = STrw.ArtCode;
+              ORrw.UnitComment = STrw.Spec;// Edit ************************** Friday, 4 September 2015 14:57:17
               ORrw.Quant = STrw.Qty;
               ORrw.SerialNr = STrw.SerialNr;
               matrowinsert(ORr,s,ORrw);
@@ -79,6 +80,7 @@ L1:;
   
   g=0;
   recordNew(OR1r);
+  ISr.Location = RepSpec.f1;
   while(loopkey("Location",ISr,1,TrHs))begin
   testf = true;
     if(ISr.Location!=RepSpec.f1)then begin TrHs = false; testf = false; end;
@@ -97,6 +99,7 @@ L1:;
 						OR1rw.Quant = SBr.Quant;
 						OR1rw.SerialNr = SBr.Serial;
 						OR1rw.Spec = "Недостача";
+						OR1rw.Salesmen = INr.Group;
 						matrowinsert(OR1r,g,OR1rw);
 						g=g+1;
 					end;
@@ -107,6 +110,7 @@ L1:;
 				OR1rw.Quant = ISr.Instock;
 				OR1rw.SerialNr = "";
 				OR1rw.Spec = "Недостача";
+				OR1rw.Salesmen = INr.Group;
 				matrowinsert(OR1r,g,OR1rw);
 				g=g+1;
       end;
@@ -115,11 +119,13 @@ L1:;
 
   for(i=0;i<s;i=i+1)begin
     matrowget(ORr,i,ORrw);
+    INr.Code = ORrw.ArtCode;
+    readfirstmain(INr,1,true);
+    
     findf = false;
     for(j=0;j<g;j=j+1)begin
       matrowget(OR1r,j,OR1rw);
-      INr.Code = ORrw.ArtCode;
-      readfirstmain(INr,1,true);
+      
       if(INr.SerNrf>0 or blank(ORrw.ArtCode))then begin
 				if(ORrw.SerialNr==OR1rw.SerialNr)then begin
 					if(ORrw.Quant==OR1rw.Quant)then begin
@@ -129,6 +135,7 @@ L1:;
 						OR1rw.Shipd1 = ORrw.Quant;
 						OR1rw.Spec = "Пересорт (задвоение)";
 					end;
+					OR1rw.Salesmen = INr.Group;
 					matrowput(OR1r,j,OR1rw);
 					findf = true;
 					goto L2;
@@ -147,6 +154,7 @@ L1:;
 							OR1rw.Shipd1 = ORrw.Quant;
 						end;
 					end;
+					OR1rw.Salesmen = INr.Group;
 					matrowput(OR1r,j,OR1rw);
 					findf = true;
 					goto L2;
@@ -160,6 +168,7 @@ L2:;
       OR1rw.SerialNr = ORrw.SerialNr;
       OR1rw.Shipd1 = ORrw.Quant;
       OR1rw.Spec = "Пересорт (лишний)";
+      OR1rw.Salesmen = INr.Group;
       matrowinsert(OR1r,g,OR1rw);
       g=g+1;
     end;    
@@ -167,16 +176,16 @@ L2:;
   
   for(i=1;i<g;i=i+1)begin
     matrowget(OR1r,i,OR1rw);
-    INr.Code = OR1rw.ArtCode;
-    Readfirstmain(INr,1,true);
+    //INr.Code = OR1rw.ArtCode;
+    //Readfirstmain(INr,1,true);
     startformat(15);
       Outstring(0,0,OR1rw.ArtCode,false);
-      Outstring(0,0,INr.Name,false);
+      Outstring(0,0,OR1rw.UnitComment,false);//INr.Name
       Outstring(0,0,OR1rw.SerialNr,false);
       Outstring(0,0,OR1rw.Quant,false);
       Outstring(0,0,OR1rw.Shipd1,false);
       Outstring(0,0,OR1rw.Spec,false);
-      Outstring(0,0,INr.Group,false);
+      Outstring(0,0,OR1rw.Salesmen,false);//INr.Group
     endformat;
   end;
   

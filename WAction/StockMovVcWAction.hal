@@ -883,6 +883,16 @@ BEGIN
 		end;
   end;
   
+  if(fieldname=="FrLocOKNr")then begin
+		res = true;// Edit ************************** Thursday, 3 September 2015 10:10:31
+	end;
+	if(fieldname=="ToThrouLocOKNr")then begin
+		res = true;// Edit ************************** Thursday, 3 September 2015 10:10:36
+	end;
+	if(fieldname=="ToLocOKNr")then begin
+		res = true;// Edit ************************** Thursday, 3 September 2015 10:10:38
+	end;
+  
   StockMovDClassActiveEditField = res;
   RETURN;
 END;

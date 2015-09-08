@@ -366,6 +366,11 @@ updating function LongInt WSVcRecordUpdate(var record WSVc WSr,record WSVc WS2r,
 BEGIN
   LongInt res;
   
+  if(currentcompany==8)then begin// Edit ************************** Monday, 7 September 2015 10:26:30
+		if(currentuser!="LADA" and currentuser!="KUDINA" and  currentuser!="LENAS"  and  currentuser!="SA")then begin
+			WSr.TransDate = currentdate;// Edit ************************** Thursday, 24 November 2011 11:50:11
+		end;
+	end;
   if ((WS2r.OKFlag==0) and (WSr.OKFlag!=0)) then begin
     if (ItemHistExists("WSVc",WSr.SerNr)==false) then begin
       if (CheckIfUpdateLockOKNr(WSr)) then begin
@@ -409,9 +414,6 @@ BEGIN
   end;
   if ((WSr.OKFlag!=0) and (WS2r.OKFlag==0)) then begin
     if (ihef==false) then begin
-	    if(currentuser!="LADA" and  currentuser!="LENAS"  and  currentuser!="SA")then begin
-	      WSr.TransDate = currentdate;// Edit ************************** Thursday, 24 November 2011 11:50:11
-	    end;
       WSUpdateItemHistory(WSr);
       WSOK(WSr);
     end;
