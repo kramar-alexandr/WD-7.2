@@ -418,6 +418,10 @@ BEGIN
     switchtransf = true;
   end; //Edit***************************Sasha2,11:33 28.08.2015 }
   
+  if(currentcompany!=1 and currentcompany!=4 and currentcompany!=6)then begin// Edit ************************** Wednesday, 9 September 2015 15:53:38
+  	switchtransf = false;
+  end;
+  
   UseTaxTemplatesforTaxCalcf = UseTaxTemplatesforTaxCalc;
   opvataccf = false;
   if (IVp.InvType==kInvoiceTypeCash or IVp.InvType==kInvoiceTypeCashInvoiceReceiptPRT) then begin
@@ -647,7 +651,7 @@ retention change
 							end;
 						end;
 						
-						
+						logtext(0,curdif);
             ConvertSalesAcc(ivraccno,IVp.ExportFlag);        
             if (rs!=0) then begin
               negamf = NegativeAmountsOnIVTrans(IVp.InvType,rs);
@@ -662,11 +666,11 @@ retention change
     							negamf = !negamf;
               	end;
               end; // Edit ************************** Monday, 19 January 2015 17:30:06
-              logtext(0,taccnumber);
+
               if (inclqty) then begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,IVp.CurncyCode,
                                    trev/rs,1,BlankVal,BlankVal,BlankVal,trev,qty[j],-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
-                if(curdif!=0)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
+                if(curdif>0.01 or curdif<-0.01)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
                 	negamf = false;
 									GetAccName(usedacc,tstr,60);                 
 									AddEuroCurncyTrRow(gTRp,usedacc,objstr,vatcodes,tstr,curdif,true,dc2,TotSum,"",
@@ -675,7 +679,7 @@ retention change
               end else begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,IVp.CurncyCode,
                                    trev/rs,1,BlankVal,BlankVal,BlankVal,trev,nilv,-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
-                if(curdif!=0)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
+                if(curdif>0.01 or curdif<-0.01)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
                 	negamf = false;
 									GetAccName(usedacc,tstr,60);
 									AddEuroCurncyTrRow(gTRp,usedacc,objstr,vatcodes,tstr,curdif,true,dc2,TotSum,"",
