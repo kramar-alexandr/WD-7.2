@@ -393,6 +393,24 @@ BEGIN
   record BaseCurBlock BCb; //Edit***************************Sasha2,17:50 27.08.2015
   Boolean switchtransf; //Edit***************************Sasha2,10:44 28.08.2015
   val curdif;// Edit ************************** Tuesday, 8 September 2015 16:20:37
+  string 10 lossacc,gainacc,usedacc;
+  record LocalMachineAccBlock LMAb;
+  row LocalMachineAccBlock LMArw;
+  
+  BlockLoad(ARAccb);
+  lossacc = ARAccb.RateLossAcc;
+	gainacc = ARAccb.RateGainAcc;
+  blockload(LMAb);// Edit ************************** Wednesday, 9 September 2015 09:31:07
+  rwcnt = matrowcnt(LMAb);
+  For(i=0;i<rwcnt;i=i+1) begin
+  	matrowget(LMAb,i,LMArw);
+  	if(nonblank(IVp.Objects))then begin
+			if(setinset(LMArw.Objects,IVp.Objects))then begin
+				lossacc = LMArw.CurDiffDeb;
+				gainacc = LMArw.CurDiffCred;
+			end;
+		end;
+	end; 
   
   blockload(BCb); //Edit***************************Sasha2,17:50 27.08.2015
   
@@ -407,7 +425,7 @@ BEGIN
   end;
   nilv = -1;
   errstrno = 1085; // Transaction could not be generated 
-  BlockLoad(ARAccb);
+  
   for (i=0;i<asalescnt;i=i+1) begin
     vatcodes = "";
     simneeded = false;
@@ -614,9 +632,22 @@ retention change
             
             rs = realsumbase[j]; 
             curdif = curdif - rs;
-            
-            logtext(0,"rs = " & rs);
-            logtext(0,"curdif = " & curdif);
+            usedacc = "";
+						if(rs>0)then begin
+							if(curdif<0)then begin
+								usedacc = lossacc;
+							end else begin
+								usedacc = gainacc;
+							end;
+						end else begin
+							if(curdif>0)then begin
+								usedacc = lossacc;
+							end else begin
+								usedacc = gainacc;
+							end;
+						end;
+						
+						
             ConvertSalesAcc(ivraccno,IVp.ExportFlag);        
             if (rs!=0) then begin
               negamf = NegativeAmountsOnIVTrans(IVp.InvType,rs);
@@ -635,33 +666,24 @@ retention change
               if (inclqty) then begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,IVp.CurncyCode,
                                    trev/rs,1,BlankVal,BlankVal,BlankVal,trev,qty[j],-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
-                if(curdif!=0)then begin
+                if(curdif!=0)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
                 	negamf = false;
-                	if(curdif<0)then begin
-                		//negamf = !negamf;
-                	end;
-									GetAccName("74/002/OL",tstr,60);                 
-									AddEuroCurncyTrRow(gTRp,"74/002/OL",objstr,vatcodes,tstr,curdif,true,dc2,TotSum,"",
+									GetAccName(usedacc,tstr,60);                 
+									AddEuroCurncyTrRow(gTRp,usedacc,objstr,vatcodes,tstr,curdif,true,dc2,TotSum,"",
 																		 BlankVal,1,BlankVal,BlankVal,BlankVal,BlankVal,qty[j],-1,!negamf,taccnumber); // Edit ************************** Tuesday, 8 September 2015 17:17:50
                 end;
               end else begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,IVp.CurncyCode,
-                                   trev/rs,1,BlankVal,BlankVal,BlankVal,trev,nilv,-1,negamf ,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
-                if(curdif!=0)then begin
+                                   trev/rs,1,BlankVal,BlankVal,BlankVal,trev,nilv,-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
+                if(curdif!=0)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
                 	negamf = false;
-                	if(curdif<0)then begin
-                		//negamf = !negamf;
-                	end;
-									GetAccName("74/002/OL",tstr,60);
-									AddEuroCurncyTrRow(gTRp,"74/002/OL",objstr,vatcodes,tstr,curdif,true,dc2,TotSum,"",
-																		 BlankVal,1,BlankVal,BlankVal,BlankVal,BlankVal,nilv,-1,negamf ,taccnumber);// Edit ************************** Tuesday, 8 September 2015 17:17:54
+									GetAccName(usedacc,tstr,60);
+									AddEuroCurncyTrRow(gTRp,usedacc,objstr,vatcodes,tstr,curdif,true,dc2,TotSum,"",
+																		 BlankVal,1,BlankVal,BlankVal,BlankVal,BlankVal,nilv,-1,negamf,taccnumber);// Edit ************************** Tuesday, 8 September 2015 17:17:54
                 end;
               end;
-              
-              
-              
-              
             end;
+            
             btvat = MulRateToBase1(IVp.CurncyCode,tvat,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
             if ((IVp.InclVAT>0) and (ARAccb.RevInclVAT!=0)) then begin
               if (btvat!=0) then begin
@@ -683,7 +705,25 @@ retention change
             
           end else begin
             //rs = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
-            rs = realsumbase[j];
+            curdif = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);// Edit ************************** Wednesday, 9 September 2015 09:43:49
+            rs = realsumbase[j];// Edit ************************** Wednesday, 9 September 2015 09:43:55
+            curdif = curdif - rs;
+            usedacc = "";
+            if(rs>0)then begin
+							if(curdif<0)then begin
+								usedacc = lossacc;
+							end else begin
+								usedacc = gainacc;
+							end;
+						end else begin
+							if(curdif>0)then begin
+								usedacc = lossacc;
+							end else begin
+								usedacc = gainacc;
+							end;
+						end;// Edit ************************** Wednesday, 9 September 2015 09:43:53
+						
+						
             if (rs!=0) then begin
               ConvertSalesAcc(ivraccno,IVp.ExportFlag);
               negamf = NegativeAmountsOnIVTrans(IVp.InvType,rs);
@@ -696,13 +736,25 @@ retention change
               if (inclqty) then begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,
                                    IVp.CurncyCode,trev/rs,1,BlankVal,BlankVal,BlankVal,trev,quant,-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
+                
+                if(curdif!=0)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
+                	negamf = false;
+									GetAccName(usedacc,tstr,60);  
+									negamf = false;               
+									AddEuroCurncyTrRow(gTRp,usedacc,objstr,vatcodes,tstr,rs,true,dc2,TotSum,
+                                   "",BlankVal,1,BlankVal,BlankVal,BlankVal,BlankVal,quant,-1,negamf,taccnumber);// Edit ************************** Wednesday, 9 September 2015 09:44:45
+                end;
+                
               end else begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,
                                    IVp.CurncyCode,trev/rs,1,BlankVal,BlankVal,BlankVal,trev,nilv,-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
+                if(curdif!=0)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
+                	GetAccName(usedacc,tstr,60);  
+                	negamf = false;
+                	AddEuroCurncyTrRow(gTRp,usedacc,objstr,vatcodes,tstr,rs,true,dc2,TotSum,
+                                   "",BlankVal,1,BlankVal,BlankVal,BlankVal,BlankVal,nilv,-1,negamf,taccnumber);
+                end;
               end; 
-              
-              
-                                  
             end;
           end;
         end; 
