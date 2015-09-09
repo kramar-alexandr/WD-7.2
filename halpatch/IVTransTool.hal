@@ -392,6 +392,7 @@ BEGIN
 	array string 5 uahpurate,uahcurrate; //Edit***************************Sasha2,17:45 27.08.2015
   record BaseCurBlock BCb; //Edit***************************Sasha2,17:50 27.08.2015
   Boolean switchtransf; //Edit***************************Sasha2,10:44 28.08.2015
+  val curdif;// Edit ************************** Tuesday, 8 September 2015 16:20:37
   
   blockload(BCb); //Edit***************************Sasha2,17:50 27.08.2015
   
@@ -602,14 +603,20 @@ retention change
               end;          
           end;      
     
-    
+					curdif = 0;// Edit ************************** Tuesday, 8 September 2015 16:22:29
           if ((IVp.ExportFlag==0) or (IVp.ExportFlag==3) or (IVp.ExportFlag==4)) then begin
             if (ARAccb.BookVATOnlyFromDownpayment!=0) and (ivrwstp==kInvoiceRowTypeDownpayment) then begin
               errstrno = 0;          
               goto LAddIVTransRowsNewRow;
             end; 
-            //rs = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
+            //rs = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);// Edit ************************** Tuesday, 8 September 2015 16:21:38
+            curdif = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
+            
             rs = realsumbase[j]; 
+            curdif = curdif - rs;
+            
+            logtext(0,"rs = " & rs);
+            logtext(0,"curdif = " & curdif);
             ConvertSalesAcc(ivraccno,IVp.ExportFlag);        
             if (rs!=0) then begin
               negamf = NegativeAmountsOnIVTrans(IVp.InvType,rs);
@@ -624,13 +631,36 @@ retention change
     							negamf = !negamf;
               	end;
               end; // Edit ************************** Monday, 19 January 2015 17:30:06
+              logtext(0,taccnumber);
               if (inclqty) then begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,IVp.CurncyCode,
                                    trev/rs,1,BlankVal,BlankVal,BlankVal,trev,qty[j],-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
+                if(curdif!=0)then begin
+                	negamf = false;
+                	if(curdif<0)then begin
+                		//negamf = !negamf;
+                	end;
+									GetAccName("74/002/OL",tstr,60);                 
+									AddEuroCurncyTrRow(gTRp,"74/002/OL",objstr,vatcodes,tstr,curdif,true,dc2,TotSum,"",
+																		 BlankVal,1,BlankVal,BlankVal,BlankVal,BlankVal,qty[j],-1,!negamf,taccnumber); // Edit ************************** Tuesday, 8 September 2015 17:17:50
+                end;
               end else begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,IVp.CurncyCode,
                                    trev/rs,1,BlankVal,BlankVal,BlankVal,trev,nilv,-1,negamf ,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
+                if(curdif!=0)then begin
+                	negamf = false;
+                	if(curdif<0)then begin
+                		//negamf = !negamf;
+                	end;
+									GetAccName("74/002/OL",tstr,60);
+									AddEuroCurncyTrRow(gTRp,"74/002/OL",objstr,vatcodes,tstr,curdif,true,dc2,TotSum,"",
+																		 BlankVal,1,BlankVal,BlankVal,BlankVal,BlankVal,nilv,-1,negamf ,taccnumber);// Edit ************************** Tuesday, 8 September 2015 17:17:54
+                end;
               end;
+              
+              
+              
+              
             end;
             btvat = MulRateToBase1(IVp.CurncyCode,tvat,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
             if ((IVp.InclVAT>0) and (ARAccb.RevInclVAT!=0)) then begin
@@ -669,7 +699,10 @@ retention change
               end else begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,
                                    IVp.CurncyCode,trev/rs,1,BlankVal,BlankVal,BlankVal,trev,nilv,-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
-              end;                     
+              end; 
+              
+              
+                                  
             end;
           end;
         end; 
