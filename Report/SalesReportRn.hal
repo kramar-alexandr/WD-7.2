@@ -263,7 +263,7 @@ begin
 					uahcurrate[ressize] = fr*to1;
 					
 					
-					realcostbase[ressize] = curcost[ressize] / PUr.FrRate * PUr.ToRateB1;
+					realcostbase[ressize] = cost[ressize];
 					
 					
 					realpriceuah[ressize] = IVrw.Price;
@@ -273,7 +273,7 @@ begin
 					realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize] / PUr.FrRate * PUr.ToRateB1;
 					
 					if(IVr.CurncyCode==BCb.BaseCur2)then begin
-						realcostbase[ressize] = curcost[ressize]*PUr.BaseRate1/PUr.BaseRate2;
+						realcostbase[ressize] = cost[ressize];
 						uahcurrate[ressize] = br2;
 						uahpurate[ressize] = PUr.BaseRate2;
 						realpricebase[ressize] = IVrw.Price / PUr.BaseRate2 * PUr.BaseRate1;

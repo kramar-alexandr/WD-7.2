@@ -576,6 +576,19 @@ BEGIN
   record SVOAccBlock SVOAccRec;
 
   res = 0;
+  
+  
+  if(SVOr.OrderStatus==2 and blankdate(SVOr.PlanShip))then begin
+  	SVOr.PlanShip = currentdate;// Edit ************************** Thursday, 10 September 2015 17:31:49
+  end;
+  if(!blankdate(SVOr.PlanShip))then begin
+  	SVOr.OrderStatus=2;// Edit ************************** Thursday, 10 September 2015 17:31:49
+  end;
+  
+  if(matrowcnt(SVOr)>0)then begin
+  	matrowget(SVOr,0,SVOrw);  
+  	SVOr.ItemName = SVOrw.Spec;
+  end;
   BlockLoad(SVOAccRec);
   oldnr = SVOr.SerNr;
   if (SVOr.DoneMark!=0) and (SVO2r.DoneMark==0) then begin
@@ -949,3 +962,75 @@ begin
   SVOVcRecordProtectFields = res;
   return;
 end;
+
+
+global
+function LongInt SVOVcRecordInIndex(record SVOVc SVOr,string indexname)
+BEGIN
+  LongInt res;
+  
+  res = 1;
+  if (SVOr.DoneMark>0) then begin 
+    if (indexname=="UnServSerNr")  then begin res = 0; end;
+    if (indexname=="UnServTransDate")  then begin res = 0; end;
+    if (indexname=="UnServItemName")  then begin res = 0; end;
+    if (indexname=="UnServGaranty")  then begin res = 0; end;
+    if (indexname=="UnServVIPStatus")  then begin res = 0; end;
+    if (indexname=="UnServServiceManager")  then begin res = 0; end;
+    
+    if (indexname=="AllUnServSerNr")  then begin res = 0; end;
+    if (indexname=="AllUnServTransDate")  then begin res = 0; end;
+    if (indexname=="AllUnServItemName")  then begin res = 0; end;
+    if (indexname=="AllUnServGaranty")  then begin res = 0; end;
+    if (indexname=="AllUnServVIPStatus")  then begin res = 0; end;
+    if (indexname=="AllUnServOrderStatus")  then begin res = 0; end;
+    if (indexname=="AllUnServServiceManager")  then begin res = 0; end;
+    
+    if (indexname=="AllServSerNr")  then begin res = 0; end;
+    if (indexname=="AllServTransDate")  then begin res = 0; end;
+    if (indexname=="AllServItemName")  then begin res = 0; end;
+    if (indexname=="AllServGaranty")  then begin res = 0; end;
+    if (indexname=="AllServVIPStatus")  then begin res = 0; end;
+    if (indexname=="AllServOrderStatus")  then begin res = 0; end;
+    if (indexname=="AllServServiceManager")  then begin res = 0; end;
+  end;
+  
+  if (nonblankdate(SVOr.PlanShip) or nonblank(SVOr.PlanShip)) then begin 
+    if (indexname=="UnServSerNr")  then begin res = 0; end;
+    if (indexname=="UnServTransDate")  then begin res = 0; end;
+    if (indexname=="UnServItemName")  then begin res = 0; end;
+    if (indexname=="UnServGaranty")  then begin res = 0; end;
+    if (indexname=="UnServVIPStatus")  then begin res = 0; end;
+    if (indexname=="UnServServiceManager")  then begin res = 0; end;
+    
+    if (indexname=="AllUnServSerNr")  then begin res = 0; end;
+    if (indexname=="AllUnServTransDate")  then begin res = 0; end;
+    if (indexname=="AllUnServItemName")  then begin res = 0; end;
+    if (indexname=="AllUnServGaranty")  then begin res = 0; end;
+    if (indexname=="AllUnServVIPStatus")  then begin res = 0; end;
+    if (indexname=="AllUnServOrderStatus")  then begin res = 0; end;
+    if (indexname=="AllUnServServiceManager")  then begin res = 0; end;
+    
+    if (indexname=="AllServSerNr")  then begin res = 0; end;
+    if (indexname=="AllServTransDate")  then begin res = 0; end;
+    if (indexname=="AllServItemName")  then begin res = 0; end;
+    if (indexname=="AllServGaranty")  then begin res = 0; end;
+    if (indexname=="AllServVIPStatus")  then begin res = 0; end;
+    if (indexname=="AllServOrderStatus")  then begin res = 0; end;
+    if (indexname=="AllServServiceManager")  then begin res = 0; end;
+  end;
+  
+  if (nonblank(SVOr.ServiceManager)) then begin 
+    if (indexname=="UnServSerNr")  then begin res = 0; end;
+    if (indexname=="UnServTransDate")  then begin res = 0; end;
+    if (indexname=="UnServItemName")  then begin res = 0; end;
+    if (indexname=="UnServGaranty")  then begin res = 0; end;
+    if (indexname=="UnServVIPStatus")  then begin res = 0; end;
+    if (indexname=="UnServServiceManager")  then begin res = 0; end;
+  end;
+  
+  
+  
+  SVOVcRecordInIndex = res;
+  RETURN;
+END;

@@ -6999,19 +6999,28 @@ begin
   ActiveFieldOnNew("CustCode");  
   FormName(SVOForm);
   vs = 20; h3 = 550;
-  Tile(0,70,false,"",CustCode);
+  Tile(0,110,false,"",CustCode);
   EditField(h=90,v=6, 82,"Номер",Normal,SerNr,false,TSerSClass);
   EnterSkip(CustCode);
   EditField(h2=240,v,-40,"Власник",Normal,Addr0,false,0);
   EditField(h,vm=(v+=vs),82, "Клієнт",Normal,CustCode,false,CUSClass);
+  
+  halpushbutton(h-50,vm+30,h+150,vm+60,"ChangeSVOSalesGroup","Перенести ремонт");
+  
   EditField(h+190,vm,82, "Прийняв",Normal,CustomField7,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
+  EditField(h+400,vm+16,82, "Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
+  ButtonFrame(h+500,vm+16,130,3,"Статус");
+	RadioButton(h+500,vm+16,0,0,"В очікуванні",OrderStatus);
+	RadioButton(h+500,vm+16+16,1,0,"Діаг. заверш.",OrderStatus);
+  RadioButton(h+500,vm+32+16,2,0,"Ремонт виконано",OrderStatus);
+  
+  
   CheckBox(-70,vm,0,"Виконано",DoneMark);
   statictext(50,200,"",false);
   TileButton(1,"Дата");
   TileButton(2,"Товари");
-  //TileButton(3,"Коментар");
   TileButton(3,"Валюта");
-  Tile(1,70,false,"1",PayDeal);
+  Tile(1,80,false,"1",PayDeal);
   EditField(h=60,vm=(v=6), 20,"Умов.спл.",Normal,PayDeal,false,PDSClass);
   
   EditField(h+130,vm,60,"Класс замовлення",Normal,OrderClass,false,OrderClassSClass);// Edit ************************** Wednesday, 4 March 2015 15:52:13
@@ -7031,7 +7040,7 @@ begin
   //EditField(270,-21,70,"Ціна придбання",ViewOnly ,TotCost,true,0);
   //EditField(-133,-21,70,"Ціна продажу",ViewOnly ,TotPrice,true,0);
   v = 24;
-  MatrixBegin(3,v,-50,v+100,-,50);
+  MatrixBegin(3,v,-50,v+90,-,50);
   MatTypedRow(stp);
   Flip(0);
   MatCol(t=1,32,"Товар",0,ArtCode,false,INSClass);
@@ -7071,6 +7080,7 @@ begin
   //Tile(3,250,true,"3",Vlastnik);
    //------------------------------------------------------------------------------------------------------------
   v = v + 60;
+  checkbox(100,v-20,0,"VIP",VIPStatus);
  	EditField(h=100,v,200,"Власник",Normal,Vlastnik,false,0);EditField(h+300,v,-5,"SN Зареєст.",Normal,CustomField8,false,0);
  	EditField(h,v+=vs,-20,"Прийнято від",Normal,Priynato,false,0);	
 	EditField(h,v+=vs,-20,"Контактна інф.",Normal,Kontinfo1,false,0);	
@@ -7425,3 +7435,133 @@ end;
 
 
 
+window SVOLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Замовлення на обслуговування",SVOLClass,CGmlist,SVOView);
+  SpawnClass(SVODClass);
+  SetWRect(20,80,1300,298);
+  Sizeable(-1,-1,0,0);
+  UseView(SVOVc);
+  ToolBar;
+		HalPushButton(250,16,350,16+10,"SVOLClassOpenSVO1LClass","Без сер.мен.");
+		HalPushButton(360,16,460,16+10,"SVOLClassOpenSVO2LClass","Всі в роботі");
+		HalPushButton(470,16,570,16+10,"SVOLClassOpenSVO3LClass","Свої");
+  EndToolBar;
+  FormName(PrintSVOL);
+  
+  
+  
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Номер",SerNr,false,SerNr);
+  RlColKey(79,79,"Замов.",WOMark,false,WOMark);
+  RlColKey(111,111,"ТР",WSMark,false,WSMark);
+  RlColKey(143,143,"Акт/накл.",InvMark,false,InvFlag);
+  RlColKey(175,175,"Дата зам.",TransDate,false,TransDate);
+  RlColKey(255,255,"№ зам.кл.",CustOrdNr,false,CustOrdNr);
+  RlColKey(335,335,"Клієнт",CustCode,false,CustCode);
+  RlColKey(395,395,"Найм.",Addr0,false,Name);
+  RlColKey(-140,-140,"Вид",OrderClass,false,OrderClass);
+  RlColKey(-70,-70,"Рем.гот.",PlanShip,false,PlanShip);
+  SearchField("Пошук");
+  if (HasLimitedAccess) then begin 
+  BrowseSubsetButton(-40,-15);
+  end;
+  SpecialMenu("Створити замовлення на роботу",' ',0,"WorkOrderSVOLsm");
+  SpecialMenu("Створити запис опер. по складу обсл-ня",' ',1,"SVGMFromSVOLsm");
+  SpecialMenu("Виписати акт/накл. клієнту",'F',2,"IVFromSVOLsm");
+  SpecialMenu("Статус замовлення на обс-ня",'r',3,"SVOStaLsm");
+  SpecialMenu("Статус клієнта",'e',4,"SVOCustStatLsm");
+  SpecialMenu("Створити діяльність",'c',5,"ActFromSVOLsm");
+  EndWindow;
+end;
+
+window SVO1LClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Замовлення на обслуговування",SVO1LClass,CGmlist,SVOView);
+  SpawnClass(SVODClass);
+  SetWRect(20,80,800,298);
+  Sizeable(-1,-1,0,0);
+  UseView(SVOVc);
+  FormName(PrintSVOL);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Номер",SerNr,false,UnServSerNr);
+  RlColKey(175,175,"Дата зам.",TransDate,false,UnServTransDate);
+  RlColKey(300,300,"Товар",ItemName,false,UnServItemName);
+  RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,UnServServiceManager);
+  RlColKey(-160,-160,"VIP",VIPStatus,false,UnServVIPStatus);
+  RlColKey(-140,-140,"Гарантія",Garanty,false,UnServGaranty);
+  CalculatedColumn(-90,-90,"Статус","SVOServStatus",true);
+  SearchField("Пошук");
+  if (HasLimitedAccess) then begin 
+  BrowseSubsetButton(-40,-15);
+  end;
+  SpecialMenu("Створити замовлення на роботу",' ',0,"WorkOrderSVOLsm");
+  SpecialMenu("Створити запис опер. по складу обсл-ня",' ',1,"SVGMFromSVOLsm");
+  SpecialMenu("Виписати акт/накл. клієнту",'F',2,"IVFromSVOLsm");
+  SpecialMenu("Статус замовлення на обс-ня",'r',3,"SVOStaLsm");
+  SpecialMenu("Статус клієнта",'e',4,"SVOCustStatLsm");
+  SpecialMenu("Створити діяльність",'c',5,"ActFromSVOLsm");
+  EndWindow;
+end;
+
+window SVO2LClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Замовлення на обслуговування",SVO1LClass,CGmlist,SVOView);
+  SpawnClass(SVODClass);
+  SetWRect(20,80,800,298);
+  Sizeable(-1,-1,0,0);
+  UseView(SVOVc);
+  FormName(PrintSVOL);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Номер",SerNr,false,AllUnServSerNr);
+  RlColKey(175,175,"Дата зам.",TransDate,false,AllUnServTransDate);
+  RlColKey(300,300,"Товар",ItemName,false,AllUnServItemName);
+  RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,AllUnServServiceManager);
+  RlColKey(-160,-160,"VIP",VIPStatus,false,AllUnServVIPStatus);
+  RlColKey(-140,-140,"Гарантія",Garanty,false,AllUnServGaranty);
+  CalculatedColumn(-90,-90,"Статус","SVOServStatus",true);
+  SearchField("Пошук");
+  if (HasLimitedAccess) then begin 
+  BrowseSubsetButton(-40,-15);
+  end;
+  SpecialMenu("Створити замовлення на роботу",' ',0,"WorkOrderSVOLsm");
+  SpecialMenu("Створити запис опер. по складу обсл-ня",' ',1,"SVGMFromSVOLsm");
+  SpecialMenu("Виписати акт/накл. клієнту",'F',2,"IVFromSVOLsm");
+  SpecialMenu("Статус замовлення на обс-ня",'r',3,"SVOStaLsm");
+  SpecialMenu("Статус клієнта",'e',4,"SVOCustStatLsm");
+  SpecialMenu("Створити діяльність",'c',5,"ActFromSVOLsm");
+  EndWindow;
+end;
+
+window SVO3LClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Замовлення на обслуговування",SVO3LClass,CGmlist,SVOView);
+  SpawnClass(SVODClass);
+  SetWRect(20,80,800,298);
+  Sizeable(-1,-1,0,0);
+  UseView(SVOVc);
+  FormName(PrintSVOL);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Номер",SerNr,false,AllServSerNr);
+  RlColKey(175,175,"Дата зам.",TransDate,false,AllServTransDate);
+  RlColKey(300,300,"Товар",ItemName,false,AllServItemName);
+  RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,AllServServiceManager);
+  RlColKey(-160,-160,"VIP",VIPStatus,false,AllServVIPStatus);
+  RlColKey(-140,-140,"Гарантія",Garanty,false,AllServGaranty);
+  CalculatedColumn(-90,-90,"Статус","SVOServStatus",true);
+  SearchField("Пошук");
+  if (HasLimitedAccess) then begin 
+  BrowseSubsetButton(-40,-15);
+  end;
+  SpecialMenu("Створити замовлення на роботу",' ',0,"WorkOrderSVOLsm");
+  SpecialMenu("Створити запис опер. по складу обсл-ня",' ',1,"SVGMFromSVOLsm");
+  SpecialMenu("Виписати акт/накл. клієнту",'F',2,"IVFromSVOLsm");
+  SpecialMenu("Статус замовлення на обс-ня",'r',3,"SVOStaLsm");
+  SpecialMenu("Статус клієнта",'e',4,"SVOCustStatLsm");
+  SpecialMenu("Створити діяльність",'c',5,"ActFromSVOLsm");
+  EndWindow;
+end;

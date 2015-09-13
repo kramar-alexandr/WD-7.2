@@ -155,7 +155,7 @@ function Integer PrepareAddIVTransRowNew(record IVVc IVp,Integer rownr,string ob
                                       var array string asalesacc,var array string asalesobj,var array val asalessum,var array val asalesrowsum,var array val asalesqty,
                                       var array string asalesvatcode,var array string asalestaxtemplatecode,var array string asalesperiodcode,var array Integer asalesstp,var array val asalestax2,var array val asalestax2reb,
                                       Array record TaxMatrixVc aTMr,
-                                      var Integer asalescnt)
+                                      var Integer asalescnt,var array integer arownum)
 BEGIN
   Integer errstrno;
   row IVVc IVrw;
@@ -260,7 +260,7 @@ already checked in IVVcRecordCheckRows
   UnpackRowFieldMatrix(IVrw,"TaxMatrix",TMr);
   for (i=0;i<asalescnt;i=i+1) begin
     testf = false;
-    if (UseTaxTemplatesforTaxCalc) then begin
+    /*if (UseTaxTemplatesforTaxCalc) then begin// Edit ************************** Wednesday, 9 September 2015 17:44:35
       if ((asalesacc[i]==ivraccno) and (asalesobj[i]==objstr) and (asalestaxtemplatecode[i]==IVrw.TaxTemplateCode) and (asalesperiodcode[i]==IVrw.PeriodCode) 
           and (asalesstp[i]==stp)) then begin
         testf = true;
@@ -270,7 +270,7 @@ already checked in IVVcRecordCheckRows
           and (asalesstp[i]==stp)) then begin
         testf = true;
       end;
-    end;
+    end;*/// Edit ************************** Wednesday, 9 September 2015 17:44:36
     if (testf) then begin
       asalessum[i] = asalessum[i] + salesum;
       asalesrowsum[i] = asalesrowsum[i] + rowsum;
@@ -279,7 +279,10 @@ already checked in IVVcRecordCheckRows
       goto LPrepareAddIVTransRowNew;
     end;
   end;
+  
+  arownum[asalescnt] = rownr;// Edit ************************** Wednesday, 9 September 2015 17:27:52
   asalessum[asalescnt] = salesum;
+  
   asalesrowsum[asalescnt] = rowsum;
   asalesqty[asalescnt] = IVrw.Quant;
   asalesacc[asalescnt] = ivraccno;
@@ -365,7 +368,7 @@ function Integer AddIVTransRowsNew(var record TRVc gTRp,var record SMVc gSMp,rec
                                array string asalesvatcode,var array string asalestaxtemplatecode,array string asalesperiodcode,array Integer asalesstp,
                                array val asalestax2,array val asalestax2reb,Array record TaxMatrixVc aTMr,
                                Integer asalescnt,
-                               Boolean fifoupdf) //Edit***************************Sasha2,18:08 27.08.2015
+                               Boolean fifoupdf,array integer arownum) //Edit***************************Sasha2,18:08 27.08.2015
 BEGIN
   Integer errstrno;
   record AccBlock ARAccb;
@@ -547,8 +550,8 @@ retention change
             CredInvNo = IVrw.OrdRow;
           end;
         end;
-        
-        CollectCostMyInvoice(IVp,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,17:01 27.08.2015
+        ressize = 0;
+        CollectCostMyInvoice(IVp,arownum[i],cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,17:01 27.08.2015
 
         GetVATCodeSalesVatAcc(vatcod,vatacc);
         
@@ -650,8 +653,6 @@ retention change
 								usedacc = gainacc;
 							end;
 						end;
-						
-						logtext(0,curdif);
             ConvertSalesAcc(ivraccno,IVp.ExportFlag);        
             if (rs!=0) then begin
               negamf = NegativeAmountsOnIVTrans(IVp.InvType,rs);

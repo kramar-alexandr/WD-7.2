@@ -22,7 +22,7 @@ external function Integer PrepareAddIVTransRowNew(record IVVc,Integer,string,
                                       var array string,var array string,var array val,var array val,var array val,
                                       var array string,var array string,var array string,var array Integer,var array val,var array val,
                                       Array record TaxMatrixVc,
-                                      var Integer);
+                                      var Integer,array integer);
 external function Integer AddIVTransRowsNew(var record TRVc,var record SMVc,record IVVc,
                                val,val,val,val,val,
                                Boolean,Boolean,var val,record SMVc,record SMVc,var Integer,
@@ -30,7 +30,7 @@ external function Integer AddIVTransRowsNew(var record TRVc,var record SMVc,reco
                                array string,array string,array val,array val,array val,
                                array string,array string,array string,array Integer,array val,array val,
                                Array record TaxMatrixVc,
-                               Integer,Boolean); //Edit***************************Sasha2,18:07 27.08.2015
+                               Integer,Boolean,array integer); //Edit***************************Sasha2,18:07 27.08.2015
                                        
 //have a look in comment in IVTransTool.hal
 external function Integer AddIVTransRow(var record TRVc,var record SMVc,record IVVc,Integer,string,
@@ -321,7 +321,8 @@ BEGIN
   record HotelBlock Hotelb;
   record TaxMatrixVc TMr;
   Integer IPBookVAT;
-                                          
+  array integer arownum;
+                                           
   nilv = -1;
   errstrno = 1085;// Transactions could not be generated, please check settings 
   BlockLoad(ARb);
@@ -654,13 +655,14 @@ LkInvoiceTypeCash:;
   rwcnt = MatRowCnt(IVp);
 
   for (i=0; i<rwcnt; i=i+1) begin
-    errstrno = PrepareAddIVTransRowNew(IVp,i,cuobj,asalesacc,asalesobj,asalessum,asalesrowsum,asalesqty,asalesvatcode,asalestaxtemplatecode,asalesperiodcode,asalesstp,asalestax2,asalestax2reb,aTMr,asalescnt);
+    errstrno = PrepareAddIVTransRowNew(IVp,i,cuobj,asalesacc,asalesobj,asalessum,asalesrowsum,asalesqty,asalesvatcode,asalestaxtemplatecode,asalesperiodcode,asalesstp,asalestax2,asalestax2reb,aTMr,asalescnt,arownum);// Edit ************************** Wednesday, 9 September 2015 17:26:23
+    
     if (errstrno!=0) then begin goto LMakeTransFromIV; end;
   end;
 
   errstrno = AddIVTransRowsNew(gTRp,gSMp,IVp,frrate,torate1,torate2,baserate1,baserate2,dc1,dc2,TotSum,VATr,DTVATr,vcrwcnt,inclqty,VATCodeRec,
                                asalesacc,asalesobj,asalessum,asalesrowsum,asalesqty,asalesvatcode,asalestaxtemplatecode,asalesperiodcode,asalesstp,asalestax2,asalestax2reb,aTMr,asalescnt,
-                               fifoupdf); //Edit***************************Sasha2,18:08 27.08.2015
+                               fifoupdf,arownum); //Edit***************************Sasha2,18:08 27.08.2015
 
   if (errstrno!=0) then begin goto LMakeTransFromIV; end;
 

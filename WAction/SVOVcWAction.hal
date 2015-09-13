@@ -34,6 +34,8 @@ remote updating function Integer RecordAction_raPasteSVOInOrder(var record ORVc,
 // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 3 June 2015 16:58:34
 	
+SetLangMode(LangUkrainian,"UKR",0);
+	
 global
 updating procedure ORFromSVODsm()
 BEGIN
@@ -1347,3 +1349,110 @@ begin
   return;
 end;
 */
+
+
+
+global procedure SVOLClassOpenSVO1LClass()
+begin
+	record SVOVc SVOr;
+	
+	OpenWindow("SVO1LClass",0,0,"","",SVOr);
+	
+return;
+end;
+
+global procedure SVOLClassOpenSVO2LClass()
+begin
+	record SVOVc SVOr;
+	
+	OpenWindow("SVO2LClass",0,0,"","",SVOr);
+	
+return;
+end;
+
+global procedure SVOLClassOpenSVO3LClass()
+begin
+	record SVOVc SVOr;
+	
+	OpenWindow("SVO3LClass",0,0,"","",SVOr);
+	
+return;
+end;
+
+Global Procedure SVO3LClassOnOpenWindow(integer wn)
+begin
+
+	setwindowsubset(wn,currentuser);
+
+return;
+end;
+
+
+global
+function string 255 SVOServStatus(var record SVOVc SVOr)
+begin
+  string 200 res;
+  
+  switch(SVOr.OrderStatus)begin
+  	case 0: res = USetStr(31044);
+  	case 1:	res = USetStr(31045);
+  	case 2:	res = USetStr(31046);
+  end;
+  
+  SVOServStatus = res;
+  return;
+end;
+
+global
+function Integer SVO3LClassRowColor(record SVOVc SVOr)
+begin
+  Integer res;
+
+  
+  res = kRowColorNone;
+    
+  switch(SVOr.OrderStatus)begin
+  	case 0: res = kRowColorGreen;
+  	case 1:	res = kRowcolorYellow;
+  	case 2:	res = kRowColorNone;
+  end;
+  
+  SVO3LClassRowColor = res;
+  return;
+end;
+
+
+global updating procedure ChangeSVOSalesGroup()
+begin
+	record UserVc USr;
+	record SVOVc SVOr;
+	integer wn;
+	integer state;
+	
+	wn = curwindow;
+	state = windowstate(wn);
+	
+	if(state==Rs_normal)then begin
+		USr.Code = currentuser;
+	
+		if(readfirstmain(USr,1,true))then begin
+			if(nonblank(USr.SalesGroup))then begin
+				getwindowrecord(wn,SVOr);
+				if(SVOr.SalesGroup!=USr.SalesGroup)then begin
+					SVOr.SalesGroup=USr.SalesGroup;
+					recordstore(SVOr,true);
+					updatebrowses("SVOVc");
+					//putwindowrecord(wn,SVOr);
+				end;
+			end	else begin
+				messagebox(0,"У Вас не зареестровано групи продажу");
+			end;
+		end else begin
+			messagebox(0,"У Вас не зареестровано групи продажу в цій компанії");
+		end;
+	end else begin
+		messagebox(0,"Збережіть запис перед цією операцією");
+	end;
+	
+return;
+end;
