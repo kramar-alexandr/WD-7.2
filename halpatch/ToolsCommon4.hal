@@ -1590,3 +1590,39 @@ begin
 
 return;
 end;
+
+
+
+global procedure HandleReceiptPrinting(var area aFile)
+begin
+	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize;
+	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
+	string 10 BigLetterOn,BigLetterOff;
+	
+	SetLeftAlignment = chr(27) & chr(97) & "0";
+	SetMiddleAlignment = chr(27) & chr(97) & "1";
+	SetRightAlignment = chr(27) & chr(97) & "2";
+	//SetTextSize = chr(29) & chr(33) & "1";
+	SetBoldOn = chr(27) & chr(69) & "1";
+	SetBoldOff = chr(27) & chr(69) & "0";
+	SetUnderlineOn = chr(27) & chr(45) & "2";
+	SetUnderlineOff = chr(27) & chr(45) & "0";
+	BigLetterOn = chr(27) & chr(33)  & chr(32);
+	BigLetterOff = chr(27) & chr(33) & chr(0);
+
+	SetAreaZeroSize(aFile);
+
+	addtexttoarea(chr(13) & chr(10),aFile);
+ // addtexttoarea(USetStr(31033) & chr(13) & chr(10),aFile);
+
+addtexttoarea(chr(27) & chr(33) & chr(32),aFile);
+	addtexttoarea("Double width On" & chr(13) & chr(10),aFile);
+addtexttoarea(chr(27) & chr(33) & chr(0),aFile);	
+	addtexttoarea("double width off" & chr(13) & chr(10),aFile);
+addtexttoarea(chr(13) & chr(10),aFile);
+addtexttoarea(chr(13) & chr(10),aFile);	
+	
+  
+  addtexttoarea(chr(13) & chr(10) & chr(13) & chr(10) & chr(13) & chr(10),aFile);
+  addtexttoarea(chr(29) & chr(86) & "1",aFile);
+end;

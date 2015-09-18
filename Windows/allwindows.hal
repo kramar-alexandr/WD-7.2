@@ -7392,6 +7392,7 @@ begin
   if (HasTaxMatrix) then begin
   SpecialMenu("Open TAX Matrix",' ',25,"OpenVatMatrixWSDsm");  //!!PRODTRANSLATE
   end;
+  SpecialMenu("Печать чек",' ',0,"PrintDocumentBixolonDsm");	//Edit----------------------Dima  17.09.2015
 //  SpecMenuItem("Статус таблиці робіт",'r',4);
   EndWindow;
 end;

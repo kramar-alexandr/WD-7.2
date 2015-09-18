@@ -1330,3 +1330,20 @@ begin
 		SetWRect(80,80,400,200);
 	EndWindow;
 end;
+
+window TermoPrinterTClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,f;
+  WindowBegin("Налаштування принтерa чеків",TermoPrinterTClass,CGSbl,-);
+  SetBlid(TermoPrinterBlock);
+  SetWRect(64,80,480,150);
+  h=150;f=150;
+  v=6;vs=20;
+    StaticText(h,vs,"Для Windows _____________",false);
+    EditField(h,v+=vs,f,"Назва комп'ютера",Normal,CompNameWin,false,0); 
+    EditField(h,v+=vs,f,"Назва принтера",Normal,PrinterNameWin,false,0); 
+    StaticText(h,v+=2*vs,"Для Mac OS ______________",false);
+    EditField(h,v+=6,f,"Назва принтера",Normal,PrinterNameMac,false,0);
+  EndWindow;
+end; //Edit***************************Sasha2,16:12 25.09.2014 }

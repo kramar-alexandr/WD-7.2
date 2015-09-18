@@ -2540,6 +2540,13 @@ EndRecord;
 		MainKeyBegin(DefectName,0);
 		KeySegment(DefectName);
   EndRecord;
+  
+  
+	BlockBegin(TermoPrinterBlock,-,"");
+		RecordField(CompNameWin,M4Str,100,0);
+		RecordField(PrinterNameWin,M4Str,100,0);
+		RecordField(PrinterNameMac,M4Str,100,0);
+	EndBlock;  
 		
 return;
 end;
