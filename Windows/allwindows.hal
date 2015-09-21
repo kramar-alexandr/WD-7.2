@@ -3127,8 +3127,10 @@ if (HasTouchScreenLook==false) then begin
       end;
 
 //  SpecialMenu("GSXAutoEnrollmentIVDsm",'w',26,"GSXAutoEnrollmentIVDsm");
-    SpecialMenu("Перевірка статусу гарантії",'w',26,"WarrantyStatusIVDsm"); 
-
+    SpecialMenu("Перевірка статусу гарантії",'w',26,"WarrantyStatusIVDsm");
+    if (CurrentCompany==8) then begin //A-Service 
+			SpecialMenu("Печатать чек",'p',27,"PrintIVReceiptDsm"); //Edit----------------------Dima  21.09.2015
+		end;
 //  SpecialMenu("TESTSendArgEInvoiceFECAESolicitar",' ',25,"TESTSendArgEInvoiceFECAESolicitar"); 
 //  SpecialMenu("Test Mex E-Invoices",'1',0,"TestMexEInvoices");
   end;
@@ -7392,7 +7394,7 @@ begin
   if (HasTaxMatrix) then begin
   SpecialMenu("Open TAX Matrix",' ',25,"OpenVatMatrixWSDsm");  //!!PRODTRANSLATE
   end;
-  SpecialMenu("Печать чек",' ',0,"PrintDocumentBixolonDsm");	//Edit----------------------Dima  17.09.2015
+  SpecialMenu("Печать чек",' ',0,"PrintWSReceiptDsm");	//Edit----------------------Dima  17.09.2015
 //  SpecMenuItem("Статус таблиці робіт",'r',4);
   EndWindow;
 end;
