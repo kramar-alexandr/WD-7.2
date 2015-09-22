@@ -1983,34 +1983,26 @@ end;
 
 
 
-global procedure PrintBixolonReceipt(area aFile)
+global procedure PrintBixolonReceipt(area aFile)		//Edit----------------------Dima  21.09.2015
 begin
 	record TermoPrinterBlock TPb;
 	String 100 filename;
-	
 
-
-//  RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & " copy " & " print.txt " & " \\\\PC14\\BIXOLON");
- // RunProgram("c:\\windows\\system32\\cmd.exe"," copy " & " print.txt " & " \\\\PC14\\BIXOLON");
-//MessageBox(0,"/C \"" & " copy " & " print.txt " & " \\\\PC14\\BIXOLON");
-
-//RunProgram("/usr/bin/lp","-d " & ZPb.PrinterNameMac & " -o raw " & filename);
 
     blockload(TPb);
-    //SetExportCodePage("CP1251");
     filename = "Bixolon.txt";
     WriteAreaToFile(aFile,filename,0);
     millisleep(100);
     if (WindowsMode==1) then begin
   			RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & filename & " \\\\" & TPb.CompNameWin & "\\" & TPb.PrinterNameWin & "\"");
     end; 
-    if (WindowsMode==1) then begin
+    if (WindowsMode==0) then begin
 		    RunProgram("/usr/bin/lp","-d " & TPb.PrinterNameMac & " -o raw " & filename);
     end;     
 end;
 
 
-global procedure PrintWSReceiptDsm()
+global procedure PrintWSReceiptDsm()			//Edit----------------------Dima  21.09.2015
 begin
 	area aFile;
 	integer wn;
@@ -2027,7 +2019,7 @@ begin
 end;
 
 
-global procedure PrintIVReceiptDsm()
+global procedure PrintIVReceiptDsm()		//Edit----------------------Dima  21.09.2015
 begin
 	area aFile;
 	integer wn;
