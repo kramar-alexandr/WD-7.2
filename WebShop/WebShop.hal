@@ -364,7 +364,12 @@ begin
 	string 50 sernr,phone;
 	record SVOVc SVOr;
 	
+	setwebheaders("Access-Control-Allow-Origin: http://www.a.com");
 	
+	
+	WebSetContentType("application/binary");
+	
+	WeboutString("Access-Control-Allow-Origin: http://www.a.com");
 	
 	sernr = webgetarg("sernr");
 	phone = webgetarg("phone");

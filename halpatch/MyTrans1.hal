@@ -605,3 +605,19 @@ LRecordAction_raPasteSVOInIP:;
   RETURN;
 END;
 
+global updating procedure RA_AvansCreateDsm(record PPVc PPr,var record ExpVc Expr)
+begin
+integer curcomp;
+  
+  curcomp = currentcompany;
+  Expr.SerNr = NextSerNr("ExpVc",Expr.TransDate,-1,true,"");
+  Expr.Person = "";
+  Expr.Name = "";
+  
+ if(recordinsert(Expr,false)) then begin
+      CreateRecordLink(Expr,curcomp,PPr,curcomp);
+      CreateRecordLink(PPr,curcomp,Expr,curcomp);
+    end;
+
+return;
+end;

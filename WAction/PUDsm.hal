@@ -1,6 +1,7 @@
 remote updating procedure CreateTransFromPU(record PUVc);
 remote function boolean CreateSMfromPU(record PUVc, var record StockMovVc);
 remote function boolean CreateSDfromPU(record PUVc, var record SDVc);
+remote updating procedure RA_AvansCreateDsm(record PPVc,var record ExpVc);
 
 global updating procedure CreateTransFromPUDsm()
 begin
@@ -109,3 +110,22 @@ BEGIN
     
   RETURN;
 END; //Edit***************************Sasha2,17:38 13.10.2014 }
+
+
+global updating procedure AvansCreateDsm()
+begin
+integer wn,i,mtrw; 
+record ExpVc Expr;
+record PPVc PPr;
+
+    wn = curwindow;
+  if (WindowState(wn)==0) then begin//Rs_normal
+    GetWindowRecord(wn,PPr);
+    RecordNew(Expr);
+    RA_AvansCreateDsm(PPr,Expr);
+    
+    OpenWindow("ExpDClass",1,0,"","",Expr);
+	end;
+	
+return;
+end;

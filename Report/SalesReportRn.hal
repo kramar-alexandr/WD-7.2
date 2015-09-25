@@ -46,7 +46,7 @@ begin
 			if(readlastkey("ArtCodeSerialNr",IHr,3,true))then begin
 				PUr.SerNr = IHr.TransNr;
 				cost[ressize] = IHr.TotCostPrice;
-				qty[ressize] = IHr.Qty*cred;
+				//qty[ressize] = IHr.Qty*cred;// Edit ************************** Tuesday, 22 September 2015 15:30:44
 				readfirstmain(PUr,1,true);
 				goto lStartNewCalcCostAndPrice;
 			end;
