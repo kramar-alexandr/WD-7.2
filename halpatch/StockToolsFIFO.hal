@@ -923,7 +923,6 @@ begin
     end else begin
       waperloc = WAPerLocation(INr,ITr,CAb);
     end;
-    logtext(0,primary);
     switch (primary) begin
       case kCostModelCostPrice: res = qty*INr.InPrice;//CostPricePerLocation(INr,ITr,CAb)
 //      case 1: res = qty*FindCostPriceCostPrice(CostPricePerLocation(INr,ITr,CAb),INr,location);//no alue per location
@@ -944,7 +943,6 @@ begin
 //adjustqty must be zero for Serial Nr tracking , not sure for Batch nr
         if (qty<0) then begin
           res = -FindLastCostPriceSerial(INr,location,serialnr,qty,false,0);//here
-          logtext(0,"***" & res & " " & qty);
         end else begin
           res = FindCostPriceSerial(INr,location,serialnr,qty,0,false,0);
         end;
@@ -959,7 +957,6 @@ begin
 //      res = -res;//or here
     end;
   end;
-  logtext(0,"***" & res & " " & qty);
   res = Round(res,CostPriceDecimals);
   FindCostPrice = res;
   RETURN;
@@ -1533,7 +1530,6 @@ begin
 												if(IHr.TotCostPrice==0)then begin
 													IHr.TotCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*IHr.Qty;
 													IHr.RemCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*IHr.Qty;
-													logtext(0,IHr.TotCostPrice);
 													if(IHr.TotCostPrice<0)then begin
 														IHr.TotCostPrice = -IHr.TotCostPrice;
 														IHr.RemCostPrice = -IHr.RemCostPrice;
@@ -1634,7 +1630,6 @@ begin
 															end;
 														end;
 													end;
-													//logtext(0,sourceIHr.SerNr & " " & curncy & " " & totcostpricecurncy);
   											end;
   end;
   IHr.PUCurncyCode = curncy;

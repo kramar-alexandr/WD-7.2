@@ -639,7 +639,7 @@ begin
   Boolean res;
   Boolean userf;
   
-  LogText(0,"00.SynkGlobalMachineRegister");
+//LogText(0,"00.SynkGlobalMachineRegister");
   
   res = false;
   Userr.Code = usercode;
@@ -664,7 +664,7 @@ begin
     res = true;
   end;
   if (res) then begin
-    LogText(0,"01.SynkGlobalMachineRegister");
+    //LogText(0,"01.SynkGlobalMachineRegister");
     rwcnt = MatRowCnt(SynkGlobalDBIDRegr);
     if (rwcnt>0) then begin
       for (i=0;i<rwcnt;i=i+1) begin
@@ -693,7 +693,7 @@ begin
         end;
         
         if ((cnt>0) and (cnt<SynkGlobalAutoSerrw.NrsMinimum)) then begin
-          LogText(0,"02.SynkGlobalMachineRegister");
+          //LogText(0,"02.SynkGlobalMachineRegister");
           
           SynkGlobalDBIDRegrw.FileName = SynkGlobalAutoSerrw.FileName;
           GetSynkGlobalMachineRange(SynkGlobalAutoSerrw.FileName,SynkGlobalAutoSerrw.NumberSeries,SynkGlobalAutoSerrw.NrsRangeQty,fr,to);
@@ -707,7 +707,7 @@ begin
     end else begin
       arwcnt = MatRowCnt(SynkGlobalAutoSerr);
       for (ai=0;ai<arwcnt;ai=ai+1) begin
-        LogText(0,"03.SynkGlobalMachineRegister");
+        //LogText(0,"03.SynkGlobalMachineRegister");
         MatRowGet(SynkGlobalAutoSerr,ai,SynkGlobalAutoSerrw);
         SynkGlobalDBIDRegrw.FileName = SynkGlobalAutoSerrw.FileName;
         GetSynkGlobalMachineRange(SynkGlobalAutoSerrw.FileName,SynkGlobalAutoSerrw.NumberSeries,SynkGlobalAutoSerrw.NrsRangeQty,fr,to);
@@ -722,7 +722,7 @@ begin
     SynkGlobalDBIDRegr.LastSeenTime = CurrentTime;
     SynkGlobalDBIDRegr.LocalMachineCode = localmachine;
     
-    LogText(0,"04.SynkGlobalMachineRegister");
+    //LogText(0,"04.SynkGlobalMachineRegister");
     
     oldSynkGlobalDBIDRegr.DBIDCode = SynkGlobalDBIDRegr.DBIDCode;
     if (ReadFirstMain(oldSynkGlobalDBIDRegr,1,true)) then begin
