@@ -244,14 +244,17 @@ BEGIN
     SVOr.SerNr = NextSerNr("SVOVc",SVOr.TransDate,GetUserSerNrSeries(-1),false,"");
   end;
   rwcnt = MatRowCnt(SVOr);
-  for (i=0;i<rwcnt;i=i+1) begin
-    MatRowGet(SVOr,i,SVOrw);
-    SVOrw.WOMade = blankval;
-    SVOrw.Invd = blankval;
-    SVOrw.Cost = blankval;
-    SVOrw.WOSerNr = -1;
-    MatRowPut(SVOr,i,SVOrw);
-  end;  
+  for (i=rwcnt-1;i>=0;i=i-1) begin
+  	MatRowDelete(SVOr,i);				//Edit----------------------Dima  28.09.2015
+  end;
+  //for (i=0;i<rwcnt;i=i+1) begin
+  //  MatRowGet(SVOr,i,SVOrw);
+  //  SVOrw.WOMade = blankval;
+  //  SVOrw.Invd = blankval;
+  //  SVOrw.Cost = blankval;
+  //  SVOrw.WOSerNr = -1;
+  //  MatRowPut(SVOr,i,SVOrw);
+  //end;  
   SVOr.DoneMark = 0;
   SVOr.WOMark = 0;
   SVOr.WSMark = 0;
@@ -265,6 +268,14 @@ BEGIN
   SVOr.ToRateB2 = to2;
   SVOr.BaseRate1 = br1;
   SVOr.BaseRate2 = br2;
+  SVOr.PlanShip = blankval;		//Edit----------------------Dima  28.09.2015
+  SVOr.OrderStatus = 0;
+  SVOr.DoneMark = 0;
+  SVOr.CustomField7 = "";
+  SVOr.Comment1 = "";
+  SVOr.Comment2 = "";
+  SVOr.Comment3 = "";
+  SVOr.Comment4 = "";  
   SVOVcRecordDuplicate = res; 
   RETURN;
 END;
