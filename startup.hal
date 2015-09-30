@@ -65,7 +65,7 @@ begin
 	Setting("Скарги",IssueLClass,modSVO);
   Setting("Дефекти",DefectLClass,modSVO);
   Setting("Serials",SVOHistSerialLClass,modSVO);// Edit ************************** Tuesday, 2 June 2015 20:28:50
-  Setting("Налаштування принтера чеків",TermoPrinterTClass,modTC);	//Edit----------------------Dima  18.09.2015
+  Setting("Налаштування принтера чеків",TermoPrinterTClass,modUserSet);	//Edit----------------------Dima  18.09.2015
 	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
   //Document("Етикетки партій (надходження)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
