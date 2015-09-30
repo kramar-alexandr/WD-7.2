@@ -41,7 +41,7 @@ begin
 	Report("Інвентаризація (нова)",InventMyRClass,InventMyRn,0,modIN);// Edit ************************** Friday, 8 May 2015 11:48:41
 
 	
-	
+	Report("История серийных номеров 2",MySerhistRClass,MySerHistRn,0,modIN);
 	Report("История серийных номеров 2",MySerhistRClass,MySerHistRn,0,modSVO);
 	Report("Пошук замовлень на обслуговування",MySearchSVORClass,MySearchSVORn,0,modSVO);
 	Report("Пошук по нотаткам в замовленнях",MyNotSearchSVORClass,MyNotSearchSVORn,0,modSVO);
