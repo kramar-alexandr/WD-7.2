@@ -1985,19 +1985,19 @@ end;
 
 global procedure PrintBixolonReceipt(area aFile)		//Edit----------------------Dima  21.09.2015
 begin
-	record TermoPrinterBlock TPb;
+	record ReceiptPrinterBlock RPb;
 	String 100 filename;
 
 
-    blockload(TPb);
+    blockload(RPb);
     filename = "Bixolon.txt";
     WriteAreaToFile(aFile,filename,0);
     millisleep(100);
     if (WindowsMode==1) then begin
-  			RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & filename & " \\\\" & TPb.CompNameWin & "\\" & TPb.PrinterNameWin & "\"");
+  			RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & filename & " \\\\" & RPb.CompNameWin & "\\" & RPb.PrinterNameWin & "\"");
     end; 
     if (WindowsMode==0) then begin
-		    RunProgram("/usr/bin/lp","-d " & TPb.PrinterNameMac & " -o raw " & filename);
+		    RunProgram("/usr/bin/lp","-d " & RPb.PrinterNameMac & " -o raw " & filename);
     end;     
 end;
 

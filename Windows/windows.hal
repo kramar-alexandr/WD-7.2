@@ -1336,7 +1336,7 @@ window TermoPrinterTClass:1 //Edit***************************Sasha2,16:12 25.09.
 begin
   real h,v,vs,f;
   WindowBegin("Налаштування принтерa чеків",TermoPrinterTClass,CGSbl,-);
-  SetBlid(TermoPrinterBlock);
+  SetBlid(ReceiptPrinterBlock);
   SetWRect(64,80,480,150);
   h=150;f=150;
   v=6;vs=20;
