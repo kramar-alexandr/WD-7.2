@@ -2031,6 +2031,7 @@ begin
  
  		SetExportCodePage("CP1251");
  		HandleIVReceiptPrinting(IVr,aFile);
+ 		AddAreaToArea(aFile,aFile);
    	PrintBixolonReceipt(aFile);   
 end;
 
