@@ -12,7 +12,7 @@ external procedure SetSVOFlags(record SVOVc);
 external function Boolean SerNrTestSVOVc(LongInt,Date,var Boolean);
 external updating procedure CreateSVOSerNoter(record SVOVc,string);
 external updating procedure CreateInspection(string,string,Date,LongInt,LongInt);
-external function Boolean PasteCUInSVO(var record SVOVc,string,var string);// Edit ************************** Friday, 6 January 2012 11:06:45
+remote function Boolean PasteCUInSVO(var record SVOVc,string,var string);// Edit ************************** Friday, 6 January 2012 11:06:45
 remote procedure SENDSMS(record SVOVc,record SVOVc);
 remote procedure SENDFIRSTSMS(record SVOVc);
 
@@ -87,12 +87,6 @@ BEGIN
 	  end;
 	end;
 	
-	if (blank(SVOr.CustCode)) then begin
-    SVOr.CustCode = LMb.DefCustCode;
-    if (PasteCUInSVO(SVOr,"",warning)) then begin	////Edit----------------------Dima  14.05.2015 //oldcustCode = blank
-    end;
-  end;
-	
 	if(CurrentCompany==1) then begin
     SVOr.Garanty = "Діагностика";
   end;
@@ -127,7 +121,14 @@ BEGIN
   SVOr.PayDeal = "";
   if (SingleUserMode) then begin
     SVOr.SerNr = NextSerNr("SVOVc",SVOr.TransDate,GetUserSerNrSeries(-1),false,"");
+  end;
+  
+	if (blank(SVOr.CustCode)) then begin
+    SVOr.CustCode = LMb.DefCustCode;
+    if (PasteCUInSVO(SVOr,"",warning)) then begin	////Edit----------------------Dima  14.05.2015 //oldcustCode = blank
+    end;
   end;  
+    
   SVOVcRecordDefaultsClient = res; 
   RETURN;
 END;
@@ -158,28 +159,6 @@ BEGIN
   SVOr.InvMark = 0;
   SVOr.InvFlag = 0;
   
-  
-  // Edit Start ---------------------------------------------- Edit Start
-	//Thursday, 30 December 2010 10:44:34
-	blockload(LMb);// Edit ************************** Wednesday, 19 October 2011 10:59:52
-  blockload(LMAb);// Edit ************************** Wednesday, 19 October 2011 10:59:52
-	mtrw = matrowcnt(LMAb);
-	for(i=0;i<mtrw;i=i+1)begin
-	  matrowget(LMAb,i,LMArw);
-	  if(LMArw.LocalMachine==LMb.LocalMachineCode)then begin
-	    if(nonblank(SVOr.Objects))then begin
-	      SVOr.Objects = SVOr.Objects & "," & LMArw.Objects;
-	    end else begin
-        SVOr.Objects = LMArw.Objects;
-	    end;
-	  end;
-	end;
-
-	if (blank(SVOr.CustCode)) then begin
-    SVOr.CustCode = LMb.DefCustCode;
-    if (PasteCUInSVO(SVOr,"",warning)) then begin
-    end;
-  end;
 	
 	if(CurrentCompany==1) then begin
     SVOr.Garanty = "Діагностика";
@@ -212,7 +191,8 @@ BEGIN
   SVOr.ToRateB2 = to2;
   SVOr.BaseRate1 = br1;
   SVOr.BaseRate2 = br2;
-  SVOr.PayDeal = "";
+  SVOr.PayDeal = "";  
+
   if (SingleUserMode) then begin
     SVOr.SerNr = NextSerNr("SVOVc",SVOr.TransDate,GetUserSerNrSeries(-1),false,"");
   end;
