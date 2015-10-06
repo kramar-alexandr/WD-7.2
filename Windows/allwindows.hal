@@ -4617,11 +4617,14 @@ begin
   MatCol(1,188,"Відп. к-ть",0,SentQuant,true,0); //Edit***************************Sasha2,16:27 19.09.2014
   MatCol(1,230,"Отрим. к-ть",0,Quant,true,0); //Edit***************************Sasha2,16:27 19.09.2014
   MatCol(1,272,"Опис",0,Spec,false,0);
-  if (UserCanAction("ViewCostPrice",true)) then begin //Edit***************************Sasha2,10:31 18.08.2014 {
-  	MatCol(1,-260,"Стара ціна",0,SentOldPrice,true,0);
-  	MatCol(1,-160,"Накл. витр.",0,SentExtraSCost,true,0);
-  	MatCol(1,-80,"Нова ціна",0,SentNewPrice,true,0);
-  end;	//Edit***************************Sasha2,10:31 18.08.2014 }
+  if (UserCanAction("ViewCostPrice",true)) then begin //Edit***************************Sasha2,10:34 10.11.2014
+  	MatCol(1,-250,"Старая цена",0,SentOldPrice,true,0);
+  	MatCol(1,-200,"OldPrice",0,OldPrice,true,0);
+  	//MatCol(t,-160,"Накл. расх.",0,SentExtraSCost,true,0);
+  	MatCol(1,-150,"NewPrice",0,NewPrice,true,0);
+  	MatCol(1,-100,"Новая цена",0,SentNewPrice,true,0);
+  	MatCol(1,-50,"FIFORow",0,FIFORowVal,true,0);
+  end; //Edit***************************Sasha2,10:35 10.11.2014
   Flip(flipnr); flipnr = flipnr + 1;
   MatCol(1,86,"Опис",0,Spec,false,0);
   if (HasObjects) then begin

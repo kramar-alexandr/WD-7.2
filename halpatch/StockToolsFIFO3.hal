@@ -762,6 +762,13 @@ begin
   val ltotalcost;
   Date blankd;
   row TempStockVc TSrw;
+  val outcost;// Edit ************************** Saturday, 3 October 2015 10:54:33
+	record StockMovVc SMr;// Edit ************************** Saturday, 3 October 2015 11:13:28
+	row StockMovVc SMrw;// Edit ************************** Saturday, 3 October 2015 11:13:29
+	record IVVc IVr;// Edit ************************** Saturday, 3 October 2015 11:13:30
+	row IVVc IVrw;// Edit ************************** Saturday, 3 October 2015 11:13:30
+	record SHVc SHr;// Edit ************************** Saturday, 3 October 2015 11:13:31
+	row SHVc SHrw;// Edit ************************** Saturday, 3 October 2015 11:13:31
 
   ltotalcost = totalcost;//JJ->KH waht do u think about it ?, this is cause of structure items, do we need flag or it can belike this and this what happens with ltotalcost
   if (blank(artcode)) then begin 
@@ -840,9 +847,6 @@ begin
     IHr.Qty2 = CalculateQty2(IHr.Qty,coeff);
     IHr.TransNr = transnr;
     IHr.Row = rownr;
-    if(IHr.ArtCode=="ME949" and IHr.TransNr==601655)then begin
-  		logtext(0,foundf);
-  	end;
     if (foundf) then begin
       if (sourceIHr.RemQty==useqty) then begin
         IHr.TotCostPrice = sourceIHr.RemCostPrice;
@@ -945,6 +949,8 @@ begin
 */    
     IHr.Position = position;
     IHr.SerNr = NextSerNr("ItemHistVc",IHr.TransDate,-1,false,"");
+        outcost = outcost + IHr.TotCostPrice;// Edit ************************** Saturday, 3 October 2015 10:55:19
+
     if (RecordStore(IHr,false)) then begin end;
     if (foundf) then begin
       RecordCopy(oldsourceIHr,sourceIHr);
@@ -957,6 +963,63 @@ begin
     rem = rem - useqty;
   end;
 LStoreItemHistory_Out:;
+// Edit Start ---------------------------------------------- Edit Start
+	//Saturday, 3 October 2015 11:10:11
+	//outcost = 10;
+	if(filename=="StockMovVc")then begin
+		if(outcost!=0)then begin
+			SMr.SerNr = transnr;
+			if(readfirstmain(SMr,1,true))then begin
+				matrowget(SMr,rownr,SMrw);
+				if(SMrw.ArtCode==artcode and SMrw.Quant==qty)then begin
+					if(SMrw.FIFORowVal!=outcost)then begin
+						SMrw.OldPrice = outcost;
+						SMrw.NewPrice = outcost;
+						SMrw.FIFORowVal = outcost;
+						matrowput(SMr,rownr,SMrw);
+						RecordStore(SMr,true);
+						logtext(0,"StockMovVc " & SMr.SerNr);
+					end;
+				end;
+			end;
+		end;
+	end;
+	/*if(filename=="IVVc")then begin
+		if(outcost!=0)then begin
+			IVr.SerNr = transnr;
+			if(readfirstmain(IVr,1,true))then begin
+				matrowget(IVr,rownr,IVrw);
+				if(IVrw.ArtCode==artcode and IVrw.Quant==qty)then begin
+					if(IVrw.FIFORowVal!=outcost)then begin
+						IVrw.FIFORowVal = outcost;
+						IVrw.FIFO = outcost/IVrw.Quant;
+						matrowput(IVr,rownr,IVrw);
+						RecordStore(IVr,true);
+						logtext(0,"IVVc " & IVr.SerNr);
+					end;
+				end;
+			end;
+		end;
+	end;
+	if(filename=="SHVc")then begin
+		if(outcost!=0)then begin
+			SHr.SerNr = transnr;
+			if(readfirstmain(SHr,1,true))then begin
+				matrowget(SHr,rownr,SHrw);
+				if(SHrw.ArtCode==artcode and SHrw.Ship==qty)then begin
+					if(SHrw.FIFORowVal!=outcost)then begin
+						SHrw.FIFORowVal = outcost;
+						SHrw.FIFO = outcost/SHrw.Ship;
+						matrowput(SHr,rownr,SHrw);
+						RecordStore(SHr,true);
+						logtext(0,"SHVc " & SHr.SerNr);
+					end;
+				end;
+			end;
+		end;
+	end;*/
+	
+	// Edit End ---------------------------------------------- Edit End
   return;
 end;
 
