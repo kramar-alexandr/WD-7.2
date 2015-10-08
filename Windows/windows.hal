@@ -457,6 +457,16 @@ WindowBegin("Maintenance",MyVClass,CGMnt,RcType);
   EndWindow;
 end;
 
+
+window MyShopsRecalcVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ begin
+WindowBegin("Maintenance",MyShopsRecalcVClass,CGMnt,RcType);
+  SetWRect(20,120,360,220);
+  	EditField(20,50, 100,"Номер",Normal,f1,false,0);
+  EndWindow;
+end;
+
 window MyLabelItemLClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin

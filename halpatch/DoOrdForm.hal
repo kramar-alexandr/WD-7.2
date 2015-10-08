@@ -404,7 +404,18 @@ LkInvoiceRowTypeNormal:;
 					t = Round(t,SetRoundModeD(2));
 					PrintValueInclZero("F_APRISEXCLVAT",t,M45Val,LangNrr,SysFormatRec,false);
       end;
+      if (FIELDINFORM("F_VATEXCLPRC")) then begin
 
+					//t =	SumRowWithoutVAT(ORr,i)/ORrw.Quant;	//Price without VAT
+					rowsum = 0;
+					t = round((ORrw.Price/12*10),SetRoundModeD(2));
+					
+					t = Round(t,SetRoundModeD(2));
+					PrintValueInclZero("F_VATEXCLPRC",t,M45Val,LangNrr,SysFormatRec,false);
+      end;
+			//PrintValue("F_VATEXCLPRC",t,M4Val,LangNrr,SysFormatRec,false);    
+			
+			
       if (FIELDINFORM("F_ROWSUMWITHOUTVAT")) then begin
 
 					//t =	SumRowWithoutVAT(ORr,i);
@@ -871,7 +882,7 @@ BEGIN
         end;    
       end;
       GetVATproc(VATrw.VATCode,0,t);
-      PrintValue("F_VATEXCLPRC",t,M4Val,LangNrr,SysFormatRec,false);    
+      //PrintValue("F_VATEXCLPRC",t,M4Val,LangNrr,SysFormatRec,false);    
       if (GetVATLaw==25) then begin//vatPolish
         if (GetVAT2(VATrw.VATCode,vatexclprc,rn,0)) then begin
         end;

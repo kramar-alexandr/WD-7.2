@@ -2165,10 +2165,14 @@ begin
   record UserVc User;
   
   User.Code = currentuser;
-  if(readfirstmain(User,1,true))then begin
-  	if(!usercanaction("AllowViewOuwnRecords",true))then begin
-  		setwindowsubset(wn,User.SalesGroup);
-  	end;
+  if(currentcompany==1 and (currentuser=="OL" or Currentuser=="OL1") )then begin
+  	//do nothing
+  end else begin
+		if(readfirstmain(User,1,true))then begin
+			if(!usercanaction("AllowViewOuwnRecords",true))then begin
+				setwindowsubset(wn,User.SalesGroup);
+			end;
+		end;
   end;
   
   ORLClassOnOpenWindow = false;
