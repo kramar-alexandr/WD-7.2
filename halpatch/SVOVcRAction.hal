@@ -252,6 +252,7 @@ BEGIN
   SVOr.OrderStatus = 0;
   SVOr.DoneMark = 0;
   SVOr.CustomField7 = "";
+  SVOr.ServiceManager = "";
   SVOr.Comment1 = "";
   SVOr.Comment2 = "";
   SVOr.Comment3 = "";
