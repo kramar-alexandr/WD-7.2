@@ -322,6 +322,8 @@ BEGIN
   record TaxMatrixVc TMr;
   Integer IPBookVAT;
   array integer arownum;
+  integer mtrw;// Edit ************************** Friday, 16 October 2015 13:49:21
+  row TRVc TRrw;// Edit ************************** Friday, 16 October 2015 13:49:20
                                            
   nilv = -1;
   errstrno = 1085;// Transactions could not be generated, please check settings 
@@ -1148,6 +1150,32 @@ LkInvoiceTypeCash:;
     errstrno = IVVc_AddPaymentRows(gTRp,ARb,IVp,i,cuobj,baserate1,baserate2,dc1,dc2,TotSum);
     if (errstrno!=0) then begin goto LMakeTransFromIV; end;
   end;
+  // Edit Start ---------------------------------------------- Edit Start
+	//Friday, 16 October 2015 13:48:10
+	
+  mtrw = matrowcnt(gTRp);// Edit ************************** Friday, 16 October 2015 13:48:05
+  For(i=0;i<mtrw;i=i+1) begin
+	  matrowget(gTRp,i,TRrw);
+	  if(TRrw.CredVal>0 and TRrw.CredVal<0.2 and TRrw.CurCredVal==0)then begin
+	  	if (GetAccName(ARb.RndAcc,tstr,60)==true) then begin
+	  			AddEuroCurncyTrRow(gTRp,TRrw.AccNumber,TRrw.Objects,"",TRrw.Comment,TRrw.CredVal,true,dc1,TotSum,
+                             TRrw.Curncy,TRrw.FrRate,TRrw.ToRateB1,TRrw.ToRateB2,TRrw.BaseRate1,TRrw.BaseRate2,TRrw.CurCredVal,nilv,-1,false,taccnumber);
+		  		AddEuroTrRow(gTRp,ARb.RndAcc,"","",tstr,TRrw.CredVal,baserate1,baserate2,true,dc2,TotSum,false,taccnumber,"","");
+				TotSum = 0;
+			end;
+	  end;
+	  if(TRrw.DebVal>0 and TRrw.DebVal<0.2 and TRrw.CurDebVal==0)then begin
+	  	if (GetAccName(ARb.RndAcc,tstr,60)==true) then begin
+	  			AddEuroCurncyTrRow(gTRp,TRrw.AccNumber,TRrw.Objects,"",TRrw.Comment,-TRrw.DebVal,true,dc1,TotSum,
+                             TRrw.Curncy,TRrw.FrRate,TRrw.ToRateB1,TRrw.ToRateB2,TRrw.BaseRate1,TRrw.BaseRate2,-TRrw.CurDebVal,nilv,-1,false,taccnumber);
+		  		AddEuroTrRow(gTRp,ARb.RndAcc,"","",tstr,-TRrw.DebVal,baserate1,baserate2,true,dc2,TotSum,false,taccnumber,"","");
+				TotSum = 0;
+			end;
+	  end;
+	end; 
+  
+	// Edit End ---------------------------------------------- Edit End
+	
   errstrno = IVVc_Change(gTRp,ARb.ARUseObj,ARb.CashBackAcc,cuobj,IVp,baserate1,baserate2,dc1,dc2,TotSum);
   if (ARb.BookVATOnlyFromDownpayment!=0) and ((IVp.InvType!=kInvoiceTypeDownpayment) and (IVp.InvType!=kInvoiceTypeCredit and IVp.InvType!=kInvoiceTypeCreditSpecialSales) and (IVp.InvType!=kInvoiceTypeCash)) then begin
     cuobj = "";
