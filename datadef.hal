@@ -2553,6 +2553,39 @@ EndRecord;
 		RecordField(CompNameWin,M4Str,100,0);
 		RecordField(PrinterNameWin,M4Str,100,0);
 		RecordField(PrinterNameMac,M4Str,100,0);  
+	EndBlock;	
+	
+	
+  BlockBegin(MyCashFlowBlock,-,"");
+		RecordField(Math,M4Matrix,0,0);
+		ArrayBegin(Math,-,1);
+		ArrayField(SerNr,M4Long,0,0);
+    ArrayField(FrAcc,M4Code,20,AccVc);
+    ArrayField(ToAcc,M4Code,20,AccVc);
+    ArrayField(DebCred,M4Int,0,0);
+    ArrayField(TurnBal,M4Int,0,0);
+    ArrayField(Comment,M4Str,200,0);
+    ArrayField(SumUp,M4Int,0,0);
+    ArrayField(CalcStr,M4Str,200,0);
+    ArrayField(ComCoord,M4Int,0,0);
+    ArrayField(ComAlign,M4Int,0,0);
+		EndArray;
+	EndBlock;
+	
+	BlockBegin(MyCashFlowDRBlock,-,"");
+		RecordField(Math,M4Matrix,0,0);
+		ArrayBegin(Math,-,1);
+		ArrayField(SerNr,M4Long,0,0);
+    ArrayField(FrAcc,M4Code,20,AccVc);
+    ArrayField(ToAcc,M4Code,20,AccVc);
+    ArrayField(DebCred,M4Int,0,0);
+    ArrayField(TurnBal,M4Int,0,0);
+    ArrayField(Comment,M4Str,200,0);
+    ArrayField(SumUp,M4Int,0,0);
+    ArrayField(CalcStr,M4Str,200,0);
+    ArrayField(ComCoord,M4Int,0,0);
+    ArrayField(ComAlign,M4Int,0,0);
+		EndArray;
 	EndBlock;	  
 		
 return;

@@ -1357,3 +1357,49 @@ begin
     EditField(h,v+=6,f,"Назва принтера",Normal,PrinterNameMac,false,0);
   EndWindow;
 end; //Edit***************************Sasha2,16:12 25.09.2014 }
+
+
+window MyCashFlowTClass:1
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Настройка звіту Cash Flow",MyCashFlowTClass,CGHbl,-);
+  SetBlid(MyCashFlowBlock);
+  Sizeable(-1,-1,0,0);
+  SetWRect(10,80,1200,800);
+    MatrixBegin(5,27,-21,-20,-,1999);
+    MatCol(1,34,"№",0,SerNr,false,0);
+    MatCol(1,70,"Рахунок1",0,FrAcc,false,AccSClass);
+    MatCol(1,140,"Рахунок2",0,ToAcc,false,AccSClass);
+    MatCol(1,210,"Знак",0,DebCred,false,SetSClass);
+    MatCol(1,250,"Тип",0,TurnBal,false,0);
+    MatCol(1,280,"Коментар",0,Comment,false,0);
+    MatCol(1,-500,"Коорд.",0,ComCoord,false,0);
+    MatCol(1,-460,"Вир.",0,ComAlign,false,0);
+    MatCol(1,-430,"Сум.",0,SumUp,false,0);
+    MatCol(1,-400,"Формула",0,CalcStr,false,0);
+    EndMatrix;
+  EndWindow;
+end;  
+
+window MyCashFlowDirectTClass:1 
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin  
+   WindowBegin("Настройка звіту Cash Flow - Прямий метод",MyCashFlowDirectTClass,CGHbl,-);
+  SetBlid(MyCashFlowDRBlock);
+  Sizeable(-1,-1,0,0);
+  SetWRect(10,80,1200,800);
+    MatrixBegin(5,27,-21,-20,-,1999);
+    MatCol(1,34,"№",0,SerNr,false,0);
+    MatCol(1,70,"Рахунок1",0,FrAcc,false,AccSClass);
+    MatCol(1,140,"Рахунок2",0,ToAcc,false,AccSClass);
+    MatCol(1,210,"Знак",0,DebCred,false,SetSClass);
+    MatCol(1,250,"Тип",0,TurnBal,false,0);
+    MatCol(1,280,"Коментар",0,Comment,false,0);
+    MatCol(1,-500,"Коорд.",0,ComCoord,false,0);
+    MatCol(1,-460,"Вир.",0,ComAlign,false,0);
+    MatCol(1,-430,"Сум.",0,SumUp,false,0);
+    MatCol(1,-400,"Формула",0,CalcStr,false,0);
+    EndMatrix;
+  EndWindow;
+end;
+  

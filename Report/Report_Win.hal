@@ -269,7 +269,7 @@ begin
   
   WindowBegin("ђух готґвки",MyCashFlowRClass,CGRcW,RcType);
     UseView(RcVc);
-    SetWRect(90,80,370,140);
+    SetWRect(90,80,450,140);
     PeriodField(50,20,"Period");
   EndWindow;
   

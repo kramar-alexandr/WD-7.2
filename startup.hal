@@ -50,6 +50,11 @@ begin
 	Report("Клиенты с карточками",POSClientRClass,POSClientRn,0,modSL);
 	Report("Клиенты с карточками",POSClientRClass,POSClientRn,0,modSO);
 	Report("Клиенты с карточками",POSClientRClass,POSClientRn,0,modPOS);
+		
+	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);
+	Setting("Настройка Cash Flow - прямий метод",MyCashFlowDirectTClass,modNL);
+	Report("Рух готівки",MyCashFlowRClass,MyNewCashFlowRn,0,modNL);
+	Report("Рух готівки - прямий метод",MyCashFlowRClass,MyNewCashFlowDirectRn,0,modNL);	
 	
 	
 	Setting("Валюта ЕККА",POSCurncyTClass,modPOS); //Edit***************************Sasha2,17:25 11.09.2014
