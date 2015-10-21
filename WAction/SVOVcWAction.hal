@@ -1397,6 +1397,7 @@ begin
   	case 0: res = USetStr(31044);
   	case 1:	res = USetStr(31045);
   	case 2:	res = USetStr(31046);
+  	case 3:	res = USetStr(31050);// Edit ************************** Wednesday, 21 October 2015 10:25:18
   end;
   
   SVOServStatus = res;
@@ -1413,6 +1414,7 @@ begin
     
   switch(SVOr.OrderStatus)begin
   	case 0: res = kRowColorGreen;
+  	case 3: res = kRowColorGreen;
   	case 1:	res = kRowcolorYellow;
   	case 2:	res = kRowColorNone;
   end;

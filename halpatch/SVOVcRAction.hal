@@ -257,6 +257,19 @@ BEGIN
   SVOr.Comment2 = "";
   SVOr.Comment3 = "";
   SVOr.Comment4 = "";  
+  
+  SVOr.Region = ""; // Edit ************************** Friday, 16 October 2015 17:41:26
+  SVOr.Garanty = ""; 
+  SVOr.GarNo = ""; 
+  SVOr.CustomField3 = ""; 
+  SVOr.CustomField4 = ""; 
+  SVOr.CustomField5 = ""; 
+  
+  SVOr.Batary = ""; 
+  SVOr.Zaryadka = ""; 
+  SVOr.Inshe = ""; 
+  
+  
   SVOVcRecordDuplicate = res; 
   RETURN;
 END;
@@ -577,6 +590,24 @@ BEGIN
   	SVOr.OrderStatus=2;// Edit ************************** Thursday, 10 September 2015 17:31:49
   end;
   
+  if(blank(SVOr.Kontinfo2))then begin// Edit ************************** Friday, 16 October 2015 17:36:32
+  	SVOr.Kontinfo2 = USetStr(31047);
+  end;
+  if(blank(SVOr.Kontinfo3))then begin// Edit ************************** Friday, 16 October 2015 17:36:33
+  	SVOr.Kontinfo3 = USetStr(31048);
+  end;
+  
+  if(blank(SVOr.Garanty))then begin// Edit ************************** Friday, 16 October 2015 17:36:33
+  	SVOr.Garanty = USetStr(31049);
+  end;
+  if(blank(SVOr.Batary))then begin// Edit ************************** Friday, 16 October 2015 17:36:33
+  	SVOr.Batary = USetStr(31049);
+  end;
+  if(blank(SVOr.Zaryadka))then begin// Edit ************************** Friday, 16 October 2015 17:36:33
+  	SVOr.Zaryadka = USetStr(31049);
+  end;
+
+
   if(matrowcnt(SVOr)>0)then begin
   	matrowget(SVOr,0,SVOrw);  
   	SVOr.ItemName = SVOrw.Spec;

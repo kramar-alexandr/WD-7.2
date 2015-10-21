@@ -71,6 +71,9 @@ BEGIN
     SVOp.PayDeal = CUr.PayDeal;
     SVOp.Objects = AddObjectToObjectList(SVOp.Objects,CUr.Objects);
     SVOp.CustCat = CUr.CustCat;
+    if(currentcompany==8)then begin// Edit ************************** Monday, 19 October 2015 11:45:30
+    	CUr.SalesMan = "";
+    end;
     SetSalesMan(tstr,CUr.SalesMan);
     tstr2 = SVOp.Objects;
     RemoveOldPersObjects(SVOp.SalesMan,tstr2);

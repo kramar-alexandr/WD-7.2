@@ -164,7 +164,13 @@ begin
 	SString(31044,"В очікуванні");
 	SString(31045,"Діаг. завер.");
 	SString(31046,"Ремонт викон."); 
-
+	
+	SString(31047,"От предоставления E-mail/опроса отказались.");
+	SString(31048,"От предоставления адреса отказались.");
+	SString(31049,"Нет");
+	
+	SString(31050,"Очікує запч."); 
+	
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */
   StrSetText(UnCloseAll,"Відкрити записи");// Edit ************************** Wednesday, 15 April 2015 17:21:45
