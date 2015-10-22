@@ -409,4 +409,38 @@ end;
 
 
 
-
+global procedure CreateEAN128C(var string str)
+begin
+string 255 res,res1;
+integer ksum,sum,c,lenth,i;
+val csum;
+area arr;
+  res = "";
+  sum = 0;
+  res = res & chr(195) & chr(146);
+  sum = sum+105;
+  lenth = len(str);
+  for(i=0;i<lenth;i=i+1)begin
+    c = asc(mid(str,i,1));
+    c = c - 32;
+    sum = sum + c*(i+1);
+  end;
+  csum = sum/103;
+  if(csum<round(csum,SetRoundModeD(0))) then begin ksum = round(csum,SetRoundModeD(0))-1; end else begin
+    ksum = round(csum,SetRoundModeD(0));
+  end;
+  sum = sum-(ksum*103);
+  res = res & str;
+  if(sum<95) then begin
+    If(sum==0) then begin
+      res = res & chr(195) & chr(148);
+    end else begin
+      res = res & chr(sum+32);
+    end;  
+  end else begin
+  res = res & chr(195) & chr(sum+41);
+  end;
+  res = res & chr(195) & chr(147);
+  str = res;
+return;
+end;

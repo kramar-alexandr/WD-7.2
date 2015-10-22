@@ -6993,7 +6993,7 @@ begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   string 255 label;
 	WindowBegin("Замовлення на обслуговування",SVODClass,CGview,-);
-  SetWRect(20,80,800,750);
+  SetWRect(20,80,850,850);
   Sizeable(-1,-1,0,0);
   DynamicWindow;
   UseView(SVOVc);
@@ -7033,7 +7033,7 @@ begin
   EditField(h+130,vm,60,"Класс замовлення",Normal,OrderClass,false,OrderClassSClass);// Edit ************************** Wednesday, 4 March 2015 15:52:13
 
   //EditField(h,v+=vs,130,"Відповід.",Normal,OurContact,false,0);// Edit ************************** Tuesday, 1 June 2010 10:58:05 AM
-  EditField(h,v+=2*vs,130,"Конт. особа",Normal,CustContact,false,ContactSClass);
+  EditField(h+30,v+=2*vs,130,"Конт. особа",Normal,CustContact,false,ContactSClass);
   EditField(h2=350,v=vm,100,"Дата замовлення",Normal,TransDate,false,PasteCurDate);
   EditField(h3,v,70,"Серв. склад",Normal,ServLocation,false,LocationSClass);
   EditField(h3+100,v,-20,"",ViewOnly,RegTime,false,0);// Edit ************************** Friday, 17 December 2010 09:38:48
