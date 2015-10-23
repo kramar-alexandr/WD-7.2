@@ -1411,9 +1411,9 @@ begin
 
   
   res = kRowColorNone;
-    
+
   switch(SVOr.OrderStatus)begin
-  	case 0: res = kRowColorGreen;
+  	case 0: res = kRowColorNone;
   	case 3: res = kRowColorGreen;
   	case 1:	res = kRowcolorYellow;
   	case 2:	res = kRowColorNone;
@@ -1442,6 +1442,7 @@ begin
 				getwindowrecord(wn,SVOr);
 				if(SVOr.SalesGroup!=USr.SalesGroup)then begin
 					SVOr.SalesGroup=USr.SalesGroup;
+					SVOr.ServiceManager = "";// Edit ************************** Friday, 23 October 2015 09:54:42
 					putwindowrecord(wn,SVOr);
 					WindowDoOK(wn,0);
 					//recordstore(SVOr,true);
