@@ -108,8 +108,10 @@ BEGIN
 
 
   OUTFORMFIELD("F_MYITEMCODE",INr.AlternativeCode);// Edited среда, 30 июня 2010 г. 11:04:55
-
-
+	
+	OUTFORMFIELD("F_MYCODZNAK",INr.UserStr1);// Edit ************************** Friday, 23 October 2015 16:35:43
+	
+	
   if (FIELDINFORM("F_SERIENRBC128")) then begin
     OUTFORMFIELD("F_SERIENRBC128",BC128(PUrw.SerialNr));
   end;  
@@ -264,6 +266,8 @@ BEGIN
   boolean findetic1;
   record RetVc Retr;// Edit ************************** Wednesday, 10 June 2015 16:10:45
   row RetVc Retrw;// Edit ************************** Wednesday, 10 June 2015 16:10:53
+  boolean testf1;
+  
   
   if (blank(RepSpec.f1)) then begin goto LDoPULabFormPrint; end;
   GetLangNr("",LangNrr);
@@ -287,6 +291,8 @@ BEGIN
   if (RepSpec.flags[1]==1) then begin  //edit ------------------------Dima 28.11.2014
 		Docr1.Code = "ETIKETKA1_WIN";
 	end;
+	
+	
   findetic1 = ReadFirstMain(Docr1,1,true);
   Docr.Code = formcode;
   if (ReadFirstMain(Docr,1,true)) then begin end;
@@ -357,19 +363,20 @@ BEGIN
             end else begin
               testf = false;
             end;
-            if(testf) then begin
-              newPUrw.ArtCode = PUrw.ArtCode;
-              newPUrw.SerialNr = PUrw.SerialNr;
-              newPUrw.Spec = PUrw.Spec;
-              matrowput(newPUr,k,newPUrw);
-              k=k+1;
-            end else begin
-              newPUrw1.ArtCode = PUrw.ArtCode;
-              newPUrw1.SerialNr = PUrw.SerialNr;
-              newPUrw1.Spec = PUrw.Spec;
-              matrowput(newPUr1,j,newPUrw1);
-              j=j+1;
-            end;
+                        
+						if(testf) then begin
+							newPUrw.ArtCode = PUrw.ArtCode;
+							newPUrw.SerialNr = PUrw.SerialNr;
+							newPUrw.Spec = PUrw.Spec;
+							matrowput(newPUr,k,newPUrw);
+							k=k+1;
+						end else begin
+							newPUrw1.ArtCode = PUrw.ArtCode;
+							newPUrw1.SerialNr = PUrw.SerialNr;
+							newPUrw1.Spec = PUrw.Spec;
+							matrowput(newPUr1,j,newPUrw1);
+							j=j+1;
+						end;
           end; 
         end;
       end;
@@ -401,7 +408,6 @@ BEGIN
 LDoPULabFormPrint:;
   
   if(findetic1 and rwcnt1>0)then begin
-  	logtext(0,"dfjkghskldfjghkjsdfgklsdfhghjdlskfghjsdlkfhj");
   	if (formisopen==false) then begin
 			CloseForm;
 			OpenForm(Docr1.Code);
@@ -434,10 +440,6 @@ BEGIN
 	record FormDefVc FDr;
   row FormDefVc FDrw;
   
-  
-  logtext(0,Dummyr.repname);
-  logtext(0,RepSpec.repname);
-  
   FDr.repname = Dummyr.repname;
   FDr.shortname = Dummyr.shortname;
   if (ReadFirstMain(FDr,1,true)==false) then begin
@@ -464,7 +466,6 @@ LBREAKPULab:;
 	if (RepSpec.flags[1]==1) then begin  //edit ------------------------Dima 28.11.2014
 		formcode=formcode & "_WIN";
 	end;
-		logtext(0,"formcode" & formcode);
       if (formisopen==false) then begin
         if (OpenForm(formcode)==false) then begin goto LDoPULabFormPrint1; end;
         SetPrinter(FDrw.PrintGroupCode);  
