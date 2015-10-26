@@ -647,7 +647,7 @@ BEGIN
   record ObjectsAccBlock OAb;//Edit***************************Sasha2,13:08 27.06.2014
   row ObjectsAccBlock OArw;//Edit***************************Sasha2,13:08 27.06.2014
   Integer j, mtrw; //Edit***************************Sasha2,13:14 27.06.2014
-
+  
   if (readf) then begin
     if (ReadFirstMain(ORp,0,true)) then begin end;
   end;
@@ -676,6 +676,7 @@ BEGIN
         end;
         ORrw.VATCode = vatcode;
         Locr.Code = ORrw.Location; //Edit***************************Sasha2,14:17 03.07.2014
+        
         if(blank(Locr.Code))then begin Locr.Code = ORp.Location; end;// Edit ************************** Thursday, July 3, 2014 at 15:59:05
         if (ReadFirstMain(Locr,1,true) and NonBlank(Locr.Objects)) then begin //Edit***************************Sasha2,14:17 03.07.2014
           blockload(OAb); //Edit***************************Sasha2,13:13 27.06.2014
@@ -892,12 +893,12 @@ BEGIN
   //if (blank(ORp.PriceList)) then begin
     PDr.Code = ORp.PayDeal;
     if (ReadFirstMain(PDr,1,true)) then begin
-      if (nonblank(PDr.PriceList)) then begin
-        if (PDr.PriceList!=ORp.PriceList) then begin
+      //if (nonblank(PDr.PriceList)) then begin						//Edit----------------------Dima  26.10.2015 (for ORrw.SalesAcc recalculating)
+        //if (PDr.PriceList!=ORp.PriceList) then begin		//Edit----------------------Dima  26.10.2015
           ORp.PriceList = PDr.PriceList;
           ORDUpdatePrices(ORp,false);
-        end;
-      end;
+        //end;
+      //end;
     end;
   //end;
   RETURN;
