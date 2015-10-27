@@ -845,6 +845,7 @@ if (testf) then begin
     AR1Sum = sum + AR1Sum;
     AR2Sum = sum2 + AR2Sum;
     CurSum = rval + CurSum;
+    logtext(0,sum);
   if (RepSpec.ArtMode==0) then begin
     if (sum<>0) then begin
       PrintOnAccountInfo(CUr,rval,sum,CustOut,RepSpec,CurTotalsr,backdatf);
