@@ -684,6 +684,7 @@ L22:;
         if (RepSpec.ArtMode==1) then begin // Overview        
           ARRPrintOverView(CUr,IVr,IPrsr,TRr,RepSpec,rval,rs,latedays);
           AddCurncyTotals(acur,av1,curcnt,IVr.CurncyCode,rval);
+          logtext(0,rs);
           AddCurncyTotalsCustom(altcur,altcurcnt,IVr.CurncyCode,rval,rs,valClientTot,valTotSum); //Edit***************************Sasha2,15:06 20.08.2014
         	//LogText(0, "Inv: rval = " & rval & "|||" & "rs = " & rs);
         end;
