@@ -10,6 +10,7 @@ begin
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
 	string 10 BigLetterOn,BigLetterOff,SmallLetterOn;
 	string 100 s1,s2,s3, sTot,sVAT,sPay;
+	string 200 Name,Address,Phone;
 	integer rowLength;
 	record SVOVc SVOr;
 	
@@ -29,16 +30,31 @@ begin
 	
 	SVOr.SerNr = WSr.SVONr;
 	ReadFirstMain(SVOr,1,true);
+	
+	switch (WSr.SalesGroup) begin
+		case "8GR":
+					Name = "СПД-ФО Моісеєв Д. А.";
+					Address = "Україна, Київ, просп. Московський, 6";
+					Phone = "Телефон \(044\) 222-92-93";		
+		case "9GR":
+					Name = "СПД-ФО Головізнін С. Г.";
+					Address = "Україна, Київ, вул. Червоноармійська,21";
+					Phone = "Телефон \(044\) 451-5-451";			
+		otherwise
+					Name = "СПД-ФО Форманчук Д.В.";
+					Address = "Україна, Київ, вул. Кіквідзе,3";
+					Phone = "Телефон \(044\) 222-77-09";	
+	end;	
 
 	SetAreaZeroSize(aFile);
 
 	
 //Header	
 	addtexttoarea(SetMiddleAlignment,aFile);
-	addtexttoarea("СПД-ФО Форманчук Д.В." & chr(13) & chr(10),aFile);
+	addtexttoarea(Name & chr(13) & chr(10),aFile);
 	addtexttoarea(SetLeftAlignment,aFile);	
-	addtexttoarea("Україна, Київ, вул. Кіквідзе,3" & chr(13) & chr(10),aFile);
-	addtexttoarea("Телефон \(044\) 222-77-09" & chr(13) & chr(10) ,aFile);
+	addtexttoarea(Address & chr(13) & chr(10),aFile);
+	addtexttoarea(Phone & chr(13) & chr(10) ,aFile);
 	addtexttoarea("________________________________" & chr(13) & chr(10) ,aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);	
 	
@@ -116,6 +132,7 @@ begin
 	string 100 s1,s2,s3, sTot,sVAT,sPay;
 	integer rowLength,i,rwcnt;
 	row IVVc IVrw;
+	string 200 Name,Address,Phone;
 	
 	SetLeftAlignment = chr(27) & chr(97) & "0";
 	SetMiddleAlignment = chr(27) & chr(97) & "1";
@@ -130,17 +147,32 @@ begin
 	BigLetterOff = chr(27) & chr(33) & chr(0);
 	
 	rowLength = 32;
+
 	
+	switch (IVr.SalesGroup) begin
+		case "8GR":
+					Name = "СПД-ФО Моісеєв Д. А.";
+					Address = "Україна, Київ, просп. Московський, 6";
+					Phone = "Телефон \(044\) 222-92-93";		
+		case "9GR":
+					Name = "СПД-ФО Головізнін С. Г.";
+					Address = "Україна, Київ, вул. Червоноармійська,21";
+					Phone = "Телефон \(044\) 451-5-451";			
+		otherwise
+					Name = "СПД-ФО Форманчук Д.В.";
+					Address = "Україна, Київ, вул. Кіквідзе,3";
+					Phone = "Телефон \(044\) 222-77-09";	
+	end;		
 
 	SetAreaZeroSize(aFile);
 
 	
 //Header	
 	addtexttoarea(SetMiddleAlignment,aFile);
-	addtexttoarea("СПД-ФО Форманчук Д.В." & chr(13) & chr(10),aFile);
+	addtexttoarea(Name & chr(13) & chr(10),aFile);
 	addtexttoarea(SetLeftAlignment,aFile);	
-	addtexttoarea("Україна, Київ, вул. Кіквідзе,3" & chr(13) & chr(10),aFile);
-	addtexttoarea("Телефон \(044\) 222-77-09" & chr(13) & chr(10) ,aFile);
+	addtexttoarea(Address & chr(13) & chr(10),aFile);
+	addtexttoarea(Phone & chr(13) & chr(10) ,aFile);
 	addtexttoarea("________________________________" & chr(13) & chr(10) ,aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);	
 	
