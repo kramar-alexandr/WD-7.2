@@ -1289,8 +1289,8 @@ begin
                   end;
                 end;
                 
-               //if (enginer == CurrentUser) then begin  
-                if (enginer == "SAO") then begin
+               if (enginer == CurrentUser) then begin  
+                //if (enginer == "SAO") then begin
                 CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
       					foundqty = 0;
       					For(j=0;j<ressize;j=j+1) begin
