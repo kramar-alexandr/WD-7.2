@@ -4,7 +4,7 @@ SetLangMode(LangUkrainian,"UKR",0);
 
 
 
-global procedure HandleWSReceiptPrinting(record WSVc WSr,var area aFile)		//Edit----------------------Dima  21.09.2015
+global updating procedure HandleWSReceiptPrinting(record WSVc WSr,var area aFile)		//Edit----------------------Dima  21.09.2015
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -12,7 +12,7 @@ begin
 	string 100 s1,s2,s3, sTot,sVAT,sPay;
 	string 200 Name,Address,Phone;
 	integer rowLength;
-	record SVOVc SVOr;
+	record SVOVc SVOr,SVO2r;
 	
 	SetLeftAlignment = chr(27) & chr(97) & "0";
 	SetMiddleAlignment = chr(27) & chr(97) & "1";
@@ -30,6 +30,9 @@ begin
 	
 	SVOr.SerNr = WSr.SVONr;
 	ReadFirstMain(SVOr,1,true);
+	RecordCopy(SVO2r,SVOr);// Edit ************************** Wednesday, 28 October 2015 14:30:40
+	SVOr.RegDate = currentDate;// Edit ************************** Wednesday, 28 October 2015 14:28:31
+	RecordUpdate(SVO2r,SVOr,true);// Edit ************************** Wednesday, 28 October 2015 14:30:39
 	
 	switch (WSr.SalesGroup) begin
 		case "8GR":

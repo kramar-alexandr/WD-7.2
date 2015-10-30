@@ -2002,7 +2002,7 @@ begin
 end;
 
 
-global procedure PrintWSReceiptDsm()			//Edit----------------------Dima  21.09.2015
+global updating procedure PrintWSReceiptDsm()			//Edit----------------------Dima  21.09.2015
 begin
 	area aFile;
 	integer wn;
