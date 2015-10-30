@@ -996,10 +996,30 @@ real h,f,v;
   return;
 end;
 
-window MyCrWebSyncVClass:1
+window MyCrWebSync1VClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
-  WindowBegin("Create WebSynReg",MyCrWebSyncVClass,CGMnt,-);
+  WindowBegin("Create WebSynReg",MyCrWebSync1VClass,CGMnt,-);
+  SetWRect(20,80,400,300);
+  
+  EndWindow;
+	return;
+end;
+
+window MyCrWebSync2VClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Create WebSynReg",MyCrWebSync2VClass,CGMnt,-);
+  SetWRect(20,80,400,300);
+  
+  EndWindow;
+	return;
+end;
+
+window MyCrWebSync3VClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Create WebSynReg",MyCrWebSync3VClass,CGMnt,-);
   SetWRect(20,80,400,300);
   
   EndWindow;

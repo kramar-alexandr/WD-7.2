@@ -31,7 +31,7 @@ begin
 	string 5 curncy;
 	record ItemHistVc IHr;
 	boolean testf,TrHs;
-	record IVVc IVr;
+	record IVVc IVr;	
 	
 	recordcopy(IVr,cIVr);
 	
@@ -92,6 +92,9 @@ begin
 				realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/fr*to1;
 				realpricebase[ressize] = IVrw.Price;
 				realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/fr*to1;*/
+				realpricebase[ressize] = IVrw.Price;
+				realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
+				realcostbase[ressize] = cost[ressize];
 				comment[ressize] = com & " basecur 01 ";
 			end else begin
 				uahcurrate[ressize] = IVr.ToRateB1;
@@ -208,12 +211,19 @@ begin
 						comment[ressize] = com & " 3";
 					end else begin
 						t = blankval;
-						CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,BCb.BaseCur1,t,DefaultCurRoundOff);
+						
+						
+						CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,BCb.BaseCur1,t,SetRoundModeD(5));
 						realpricebase[ressize] = t;
 					
 						t = blankval;
-						CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum/IVrw.Quant*qty[ressize],BCb.BaseCur1,t,DefaultCurRoundOff);
+						CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum/IVrw.Quant*qty[ressize],BCb.BaseCur1,t,SetRoundModeD(5));
 						realsumbase[ressize] = t;
+						
+						if(BCb.BaseCur1=="USD" and left(IVr.CurncyCode,3)=="EUR")then begin
+							realpricebase[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
+							realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/IVr.FrRate*IVr.ToRateB1;
+						end;
 					
 						curncy = "UAH";
 						GetFullCurncyRate (curncy,IVr.InvDate,fr,to1,to2,br1,br2);
@@ -235,13 +245,13 @@ begin
 					end;
 				
 					t = blankval;
-					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,cost[ressize],"UAH",t,DefaultCurRoundOff);
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,cost[ressize],"UAH",t,SetRoundModeD(5));
 					realcostuah[ressize] = t;
 					t = blankval;
-					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,DefaultCurRoundOff);
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,SetRoundModeD(5));
 					realpriceuah[ressize] = t;
 					t = blankval;
-					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum/IVrw.Quant*qty[ressize],"UAH",t,DefaultCurRoundOff);
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum/IVrw.Quant*qty[ressize],"UAH",t,SetRoundModeD(5));
 					realsumuah[ressize] = t;
 					comment[ressize] = com & " 5";
 				end;
@@ -261,8 +271,6 @@ begin
 					
 					uahpurate[ressize] = PUr.FrRate * PUr.ToRateB1;
 					uahcurrate[ressize] = fr*to1;
-					
-					
 					realcostbase[ressize] = cost[ressize];
 					
 					
@@ -282,16 +290,16 @@ begin
 					comment[ressize] = com & " 6";
 				end else begin
 					t = blankval;
-					CurValToOtherCur(IVr.InvDate,PUr.CurncyCode,curcost[ressize],"USD",t,DefaultCurRoundOff);
-					realcostbase[ressize] = t;
+					CurValToOtherCur(IVr.InvDate,PUr.CurncyCode,curcost[ressize],"USD",t,SetRoundModeD(5));
+					realcostbase[ressize] = cost[ressize];// Edit ************************** Wednesday, 28 October 2015 16:59:07
 					realcostuah[ressize] = curcost[ressize];
-
+										
 					t = blankval;
-					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,DefaultCurRoundOff);
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,SetRoundModeD(5));
 					realpriceuah[ressize] = t;
 
 					t = blankval;
-					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum/IVrw.Quant*qty[ressize],"UAH",t,DefaultCurRoundOff);
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum/IVrw.Quant*qty[ressize],"UAH",t,SetRoundModeD(5));
 					realsumuah[ressize] = t;
 					
 					if(IVr.CurncyCode==BCb.BaseCur1)then begin
@@ -407,16 +415,20 @@ begin
 		serial[ressize] = IVrw.SerialNr;
 		qty[ressize] = IVrw.Quant*cred; 
 		curcost[ressize] = 0;
+		realcostbase[ressize] = blankval;
+		realcostuah[ressize] = blankval;
+		/*if(IVrw.FIFORowVal!=0)then begin
+			curcost[ressize] = IVrw.FIFORowVal;
+			realcostbase[ressize] = IVrw.FIFORowVal;
+		end;*/
 		curncy[ressize] = IVr.CurncyCode;
 		rate[ressize] =	0;
 		indate[ressize] =	IVr.InvDate;
 		vecode[ressize] = "";
 		comment[ressize] = "NONSTOCK";
 		
-		realcostbase[ressize] = blankval;
-		realcostuah[ressize] = blankval;
-		if(left(IVr.CurncyCode,3)==BCb.BaseCur1)then begin
 		
+		if(left(IVr.CurncyCode,3)==BCb.BaseCur1)then begin
 			if(BCb.BaseCur1=="UAH")then begin
 				curncyloc = "USD";
 				GetFullCurncyRate (curncyloc,IVr.InvDate,fr,to1,to2,br1,br2);
@@ -444,10 +456,10 @@ begin
 				realsumuah[ressize] = IVrw.Sum;
 			end else begin
 				t = blankval;
-				CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,DefaultCurRoundOff);
+				CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,SetRoundModeD(5));
 				realpriceuah[ressize] = t;
 				t = blankval;
-				CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum,"UAH",t,DefaultCurRoundOff);
+				CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum,"UAH",t,SetRoundModeD(5));
 				realsumuah[ressize] = t;
 			end;
 		end else begin
@@ -485,10 +497,10 @@ begin
 					realsumuah[ressize] = IVrw.Sum/IVr.FrRate*IVr.ToRateB1;
 				end else begin
 					t = blankval;
-					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,DefaultCurRoundOff);
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,SetRoundModeD(5));
 					realpriceuah[ressize] = t;
 					t = blankval;
-					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum,"UAH",t,DefaultCurRoundOff);
+					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum,"UAH",t,SetRoundModeD(5));
 					realsumuah[ressize] = t;
 				end;
 			end;
@@ -902,7 +914,6 @@ begin
 	
 		
 lCollect:;
-
 	if(ressize==0)then begin
 	  	cost[ressize] = IVrw.BasePrice;
 			curcost[ressize] = 	IVrw.BasePrice;
@@ -1002,6 +1013,7 @@ begin
 	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
 	array string 5 uahpurate,uahcurrate;
 	array string 100 comment;
+	val totalrealcost,totalrealsum;
 	
 	
 	blockload(BCb);
@@ -1200,8 +1212,10 @@ begin
 								outstring(i12,0,IVrw.vRebate,false);
 								outstring(i13,0,round(realsumuah[j],SetRoundModeD(2)),false);
 								outstring(i14,0,round(realsumbase[j],SetRoundModeD(2)),false);
+								totalrealsum = totalrealsum + realsumbase[j];
 								outstring(i15,0,round(realcostuah[j],SetRoundModeD(2)),false);
 								outstring(i16,0,round(realcostbase[j],SetRoundModeD(2)),false);
+								totalrealcost = totalrealcost + realcostbase[j]*qty[j];// Edit ************************** Wednesday, 28 October 2015 18:27:00
 								outstring(i17,0,round(realcostuah[j]*qty[j],SetRoundModeD(2)),false);
 								outstring(i18,0,round(realcostbase[j]*qty[j],SetRoundModeD(2)),false);
 								outstring(i19,0,ValToMyString((realsumuah[j] - realcostuah[j]*qty[j]),3),false);
@@ -1420,6 +1434,15 @@ begin
 				end;	  
 			end; 
 		end; 
+	end;
+	
+	if(currentuser=="SA")then begin
+		startformat(15);
+			outstring(0,0,"TotalCost ",false);
+			outval(0,0,totalrealcost,M4Val,false);
+			outstring(0,0,"TotalSum ",false);
+			outval(0,0,totalrealsum,M4Val,false);
+		endformat;
 	end;
 	
 	endjob;

@@ -39,7 +39,7 @@ external function Boolean PUDClassRowCost5EFAfter(Integer,Integer,Integer,Intege
 external function Boolean PUDClassExtraEFAfter(Integer,Integer,Integer,Integer);
 external function Boolean PUDClassCustomsCostEFAfter(Integer,Integer,Integer,Integer);
 external function Boolean PUDClassVATCodeEFAfter(Integer,Integer,Integer,Integer);
-external procedure PUSumUp(var record PUVc);
+remote procedure PUSumUp(var record PUVc);// Edit ************************** Thursday, 29 October 2015 17:00:37
 external procedure MulVATIV(string,val,var val,var val,Integer,Integer);
 remote procedure PUSetShipCost(var record PUVc,Integer);
 remote procedure PURecalcCost(var record PUVc);

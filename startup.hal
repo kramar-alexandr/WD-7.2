@@ -100,9 +100,11 @@ begin
 	Maintenance("Створення актів/накладних із накладних ЕККА",IVCashToIVVClass,IVCash_To_IVMn,modPOS);	//Edit----------------------Dima 15.01.2015
 	Maintenance("BuhReport",MyFullStockRClass,BuhExportEn,modPOS); //Edit***************************Sasha2,17:26 15.01.2015
 	Maintenance("Знищити віртуальни товари WEB",DellZerroWebSyncRegVClass,DellZerroWebSyncRegMn,modSO);// Edit ************************** Thursday, 26 March 2015 10:50:19
-	Maintenance("Створити товари синхронізації WEB",MyCrWebSyncVClass,SyncWebRegMn,modSO);// Edit ************************** Thursday, 26 March 2015 10:50:20
-	Maintenance("Перерахувати товари синхронізації WEB",MyCrWebSyncVClass,RecalcWebRegMn,modSO);// Edit ************************** Thursday, 26 March 2015 10:50:20
-	Maintenance("Поновити товари синхронізації WEB",MyCrWebSyncVClass,UpdateWebRegMn,modSO); // Edit ************************** Thursday, 26 March 2015 10:50:21
+	
+	Maintenance("Створити товари синхронізації WEB",MyCrWebSync1VClass,SyncWebRegMn,modSO);// Edit ************************** Thursday, 26 March 2015 10:50:20
+	Maintenance("Перерахувати товари синхронізації WEB",MyCrWebSync2VClass,RecalcWebRegMn,modSO);// Edit ************************** Thursday, 26 March 2015 10:50:20
+	Maintenance("Поновити товари синхронізації WEB",MyCrWebSync3VClass,UpdateWebRegMn,modSO); // Edit ************************** Thursday, 26 March 2015 10:50:21
+	
 	Maintenance("Видалити первинні документи",CleaningVClass,CleaningMn,modDBMain); //Edit---------------Vitalii 16:05 13.07.2015 
 	Maintenance("Оновити групи продаж в накладних ЕККА",MyVClass,UpdateSalesGroupsInInvoicesMn,modDBMain); //Edit----------------------Dima  29.07.2015
   
