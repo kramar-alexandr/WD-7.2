@@ -176,8 +176,8 @@ begin
    WindowBegin("Bonus",MyBonusCurUserRClass,CGRcW,RcType);
     SetWRect(20,120,360,280);
     ButtonFrame(50,55,140,2,"Отчет за месяц");
-    RadioButton(50,71,0,0,"Текущий",flags[1]);
-    RadioButton(50,87,1,0,"Предыдущий",flags[1]);    
+    RadioButton(50,55,0,0,"Текущий",flags[1]);
+    RadioButton(50,71,1,0,"Предыдущий",flags[1]);    
   EndWindow;   
   
   

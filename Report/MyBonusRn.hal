@@ -1086,7 +1086,7 @@ begin
   	eDate = CurrentDate;
 	end else begin											//previous month
   	eDate = AddDay(CurrentDate,-GetDay(CurrentDate));//end of the previous month
-  	sDate = AddDay(CurrentDate,1-GetDay(eDate));;
+  	sDate = AddDay(eDate,1-GetDay(eDate));;
 	end;
 
   //IPrsr.TransDate = RepSpec.sStartDate;
