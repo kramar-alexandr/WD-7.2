@@ -1074,12 +1074,13 @@ begin
 	array string 5 uahpurate,uahcurrate;
 	array string 100 comment;
 	longint worksheet;
+	val totSum,totCost,totGP;
 	
 	
 	blockload(BCb);
 
   startreportnoheaderjob("Bonus");
-  sDate = AddMonth(CurrentDate,-10);
+  sDate = AddMonth(CurrentDate,-2);
   eDate = CurrentDate;
   //IPrsr.TransDate = RepSpec.sStartDate;
   IPrsr.TransDate = sDate;
@@ -1285,7 +1286,7 @@ begin
                   end;
                 end;
                 
-                if (enginer == CurrentUser) then begin  
+               if (enginer == CurrentUser) then begin  
                 //if (enginer == "SAO") then begin
                 CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
       					foundqty = 0;
@@ -1329,6 +1330,10 @@ begin
                     OutString(pos[21],0,IVr.SVONr,false);
 										OutString(pos[23],0,worksheet,false);
                   endformat;
+                  	totSum = totSum + sumorig;
+                  	totCost = totCost + sumcostorig;
+                  	totGP = totGP + gporig;
+                  
                 end; //Edit***************************Sasha2,15:52 23.04.2015
                 if(foundqty<IVrw.Quant) then begin //Edit***************************Sasha2,15:52 23.04.2015 {
 						      if (Left(IVr.CurncyCode,3)=="UAH") then begin
@@ -1383,6 +1388,9 @@ begin
                     OutString(pos[21],0,newIVr.SVONr,false);
 										OutString(pos[23],0,worksheet,false);
 						      endformat;
+                  	totSum = totSum + sumorig;
+                  	totCost = totCost + sumcostorig;
+                  	totGP = totGP + gporig;						      
 					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
 					      
 					      end; //CurrentUser == enginer
@@ -1392,7 +1400,6 @@ begin
             goto l1;
           end;
           
-          Gray_Divider(0,1);
         end;
       end;
       
@@ -1617,6 +1624,9 @@ l1:;
 													OutString(pos[23],0,worksheet,false);
 
                         endformat;
+                  				totSum = totSum + sumorig;
+                  				totCost = totCost + sumcostorig;
+                  				totGP = totGP + gporig;                        
                       end; //Edit***************************Sasha2,15:52 23.04.2015
                       if(foundqty<newIVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
       						      if (Left(newIVr.CurncyCode,3)=="UAH") then begin
@@ -1672,6 +1682,9 @@ l1:;
                           OutString(pos[21],0,newIVr.SVONr,false);
 													OutString(pos[23],0,worksheet,false);
       						      endformat;
+                  				totSum = totSum + sumorig;
+                  				totCost = totCost + sumcostorig;
+                  				totGP = totGP + gporig;      						      
       					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
       					      
       					      end; //enginer==CurrentUser
@@ -1686,6 +1699,16 @@ l1:;
       end;
     end; 
   end;
+  
+  if (totSum>0 or totCost>0) then begin
+		startformat(15);
+		endformat;
+		Black_Divider(0,1);
+		OutVal(pos[11],0,totSum,M4Val,false);
+		OutVal(pos[12],0,totCost,M4Val,false);
+		OutVal(pos[13],0,totGP,M4Val,false);
+		endformat;
+	end;  
 
   endjob;
 return;
