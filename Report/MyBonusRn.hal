@@ -1080,27 +1080,30 @@ begin
 	blockload(BCb);
 
   startreportnoheaderjob("Bonus");
-  sDate = AddMonth(CurrentDate,-2);
-  eDate = CurrentDate;
+  
+  if (RepSpec.flags[1]==0) then begin		//current month
+  	sDate = AddDay(CurrentDate,1-GetDay(CurrentDate));//begin of the month
+  	eDate = CurrentDate;
+	end else begin											//previous month
+  	eDate = AddDay(CurrentDate,-GetDay(CurrentDate));//end of the previous month
+  	sDate = AddDay(CurrentDate,1-GetDay(eDate));;
+	end;
+
   //IPrsr.TransDate = RepSpec.sStartDate;
   IPrsr.TransDate = sDate;
   TrHs = true;
   //paydatenew = "";
   pos[0] = 0;
   pos[6] = 50;
-  pos[7] = 90;
+  pos[7] = 110;
   pos[8] = 180;
   pos[10] = 210;
   pos[11] = 250;
   pos[12] = 290;
   pos[13] = 330;
-  pos[16] = 100;
-  pos[17] = 110;
-  pos[18] = 120;
-  pos[19] = 130;
-  pos[20] = 370;
-  pos[21] = 415;
-  pos[23] = 450;
+
+  pos[21] = 390;
+  pos[23] = 440;
   
   StartFormat(15);
     //OutString(pos[0],0,"Customer",false);
@@ -1112,11 +1115,11 @@ begin
     //OutString(pos[6],0,"Group",false);
     OutString(pos[6],0,"ArtCode",false);//
     OutString(pos[7],0,"Name",false);//
-    OutString(pos[8],0,"Q-ty",false);
+    //OutString(pos[8],0,"Q-ty",false);
     //OutString(pos[9],0,"Price",false);
     //OutString(pos[9],0,"Price UAH",false);
     //OutString(pos[10],0,"Cost",false);
-    OutString(pos[10],0,"Cost UAH",false);//
+    //OutString(pos[10],0,"Cost UAH",false);//
     //OutString(pos[11],0,"Sum",false);
     OutString(pos[11],0,"Sum UAH",false);//
     //OutString(pos[12],0,"SumCost",false);
@@ -1129,7 +1132,7 @@ begin
     //OutString(pos[17],0,"Inv.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
     //OutString(pos[18],0,"SalesMan",false);
     //OutString(pos[19],0,"Inv. SalesMan",false);
-    OutString(pos[20],0,"ServiceMan",false);
+   // OutString(pos[20],0,"ServiceMan",false);
     OutString(pos[21],0,"Service Order",false);
     OutString(pos[23],0,"Work sheet",false);
   EndFormat;
@@ -1286,8 +1289,8 @@ begin
                   end;
                 end;
                 
-               if (enginer == CurrentUser) then begin  
-                //if (enginer == "SAO") then begin
+               //if (enginer == CurrentUser) then begin  
+                if (enginer == "SAO") then begin
                 CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
       					foundqty = 0;
       					For(j=0;j<ressize;j=j+1) begin
@@ -1309,13 +1312,13 @@ begin
                     end;
                     //OutString(pos[5],0,IVr.SerNr,false);
                     OutString(pos[6],0,IVrw.ArtCode,false);
-                    OutString(pos[7],0,IVrw.Spec,false);
+                    OutString(pos[7],0,Left(IVrw.Spec,30),false);
                     quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
-                    OutString(pos[8],0,quant,false);
+                    //OutString(pos[8],0,quant,false);
 
                     costorig = realcostuah[j];
                     sumcostorig = costorig*quant;
-                    OutVal(pos[10],0,realcostuah[j],M4Val,false);
+                    //OutVal(pos[10],0,realcostuah[j],M4Val,false);
                     salessum = realsumbase[j];
                     sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }
                     //OutVal(pos[11],0,salessum,M4Val,false);
@@ -1326,9 +1329,9 @@ begin
                     gporig = sumorig - sumcostorig;
                     OutVal(pos[13],0,gporig,M4Val,false);
  
-                    OutString(pos[20],0,enginer,false);
+                    //OutString(pos[20],0,enginer,false);
                     OutString(pos[21],0,IVr.SVONr,false);
-										OutString(pos[23],0,worksheet,false);
+										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
                   endformat;
                   	totSum = totSum + sumorig;
                   	totCost = totCost + sumcostorig;
@@ -1362,9 +1365,9 @@ begin
                     end;
 
                     OutString(pos[6],0,IVrw.ArtCode,false);
-                    OutString(pos[7],0,IVrw.Spec,false);
+                    OutString(pos[7],0,Left(IVrw.Spec,30),false);
                     quant = IVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
-                    OutString(pos[8],0,quant,false);
+                    //OutString(pos[8],0,quant,false);
 
                     curorig = round(IVr.FrRate/IVr.ToRateB1,defaultcurroundoff);
                     if(curorig==0)then begin
@@ -1372,7 +1375,7 @@ begin
                     end;
                     costorig = MyCost* curorig;
                     sumcostorig = costorig * quant;
-                    OutVal(pos[10],0,costorig,M4Val,false);
+                    //OutVal(pos[10],0,costorig,M4Val,false);
                     salessum = sumusd;
                     sumorig = sumcur; //Edit***************************Sasha2,11:48 24.04.2015 }
                    // OutVal(pos[11],0,salessum,M4Val,false);
@@ -1384,9 +1387,9 @@ begin
                     OutVal(pos[13],0,gporig,M4Val,false);
                     
 
-                    OutString(pos[20],0,enginer,false);
+                    //OutString(pos[20],0,enginer,false);
                     OutString(pos[21],0,newIVr.SVONr,false);
-										OutString(pos[23],0,worksheet,false);
+										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
 						      endformat;
                   	totSum = totSum + sumorig;
                   	totCost = totCost + sumcostorig;
@@ -1595,9 +1598,9 @@ l1:;
                           end;
 
                           OutString(pos[6],0,newIVrw.ArtCode,false);
-                          OutString(pos[7],0,newIVrw.Spec,false);
+                          OutString(pos[7],0,Left(newIVrw.Spec,30),false);
                           quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
-                          OutString(pos[8],0,-quant,false);
+                          //OutString(pos[8],0,-quant,false);
                          
                           MyCost = realcostbase[j];
               
@@ -1607,7 +1610,7 @@ l1:;
                             curorig = 1;
                           end;
                           costorig = realcostuah[j];;
-                          OutVal(pos[10],0,-costorig,M4Val,false);
+                          //OutVal(pos[10],0,-costorig,M4Val,false);
                           salessum = realsumbase[j];
                           sumorig = realsumbase[j];
                           //OutVal(pos[11],0,-salessum,M4Val,false);
@@ -1619,9 +1622,9 @@ l1:;
                           gporig = sumorig - sumcostorig;
                           OutVal(pos[13],0,-gporig,M4Val,false);
 
-                          OutString(pos[20],0,enginer,false);
+                          //OutString(pos[20],0,enginer,false);
                           OutString(pos[21],0,newIVr.SVONr,false);
-													OutString(pos[23],0,worksheet,false);
+													OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
 
                         endformat;
                   				totSum = totSum + sumorig;
@@ -1655,9 +1658,9 @@ l1:;
                           end;
 
                           OutString(pos[6],0,newIVrw.ArtCode,false);
-                          OutString(pos[7],0,newIVrw.Spec,false);
+                          OutString(pos[7],0,Left(newIVrw.Spec,30),false);
                           quant = newIVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
-                          OutString(pos[8],0,-quant,false);
+                          //OutString(pos[8],0,-quant,false);
 
                 
                           //OutVal(pos[10],0,-MyCost,M4Val,false);
@@ -1666,7 +1669,7 @@ l1:;
                             curorig = 1;
                           end;
                           costorig = MyCost*curorig;
-                          OutVal(pos[10],0,-costorig,M4Val,false);
+                          //OutVal(pos[10],0,-costorig,M4Val,false);
                           salessum = sumusd;
                           sumorig = sumcur;
                           //OutVal(pos[11],0,-salessum,M4Val,false);
@@ -1678,9 +1681,9 @@ l1:;
                           gporig = sumorig - sumcostorig;
                           OutVal(pos[13],0,-gporig,M4Val,false);
 
-                          OutString(pos[20],0,enginer,false);
+                          //OutString(pos[20],0,enginer,false);
                           OutString(pos[21],0,newIVr.SVONr,false);
-													OutString(pos[23],0,worksheet,false);
+													OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
       						      endformat;
                   				totSum = totSum + sumorig;
                   				totCost = totCost + sumcostorig;

@@ -1112,3 +1112,18 @@ begin
   
   return;
 end;
+
+
+global
+procedure DblBonusRn(string dblstr,string l,Integer currepwn)		//Edit----------------------Dima  30.10.2015
+begin
+  Integer wn;
+  record WSVc WSr;
+	
+	WSr.SerNr = StringToLongInt(dblstr);
+	if (ReadFirstMain(WSr,1,true)) then begin
+		wn = OpenWindow("WSDClass",1,0,"","",WSr);
+	end;
+
+  return;
+end;
