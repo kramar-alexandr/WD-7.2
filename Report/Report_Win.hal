@@ -173,6 +173,10 @@ begin
     PeriodField(150,45,"Џерґод");
   EndWindow; 
   
+   WindowBegin("Bonus",MyBonusCurUserRClass,CGRcW,RcType);
+    SetWRect(20,120,360,280);
+  EndWindow;   
+  
   
     WindowBegin("‡вґт термґну гарантґ»",MyGarRClass,CGRcW,RcType);
   SetWRect(20,120,360,220);
