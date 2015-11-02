@@ -173,6 +173,9 @@ begin
 	SString(31049,"Нет");
 	
 	SString(31050,"Очікує запч."); 
+	SString(31051,"Затверджено"); 
+	SString(31052,"Сплачено"); 
+	SString(31053,"Борг:"); 
 	
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */

@@ -391,3 +391,169 @@ integer compno;
   closefile;
 return;
 end; //Edit***************************Sasha2,11:42 22.09.2014 }
+
+
+
+procedure PrintSVOInfo2(record SVOVc SVOr)		//Edit----------------------Dima  02.11.2015
+BEGIN
+  StartFormat(15);
+  OutString(0,0,USetStr(7629),false);
+  OutLongInt(110,"DblSVOVc",SVOr.SerNr,false);
+  EndFormat;
+  StartFormat(15);
+  OutString(0,0,USetStr(7628),false);
+  OutString(70,0,SVOr.CustCode,false);
+  OutString(110,0,SVOr.Addr0,false);
+  EndFormat;
+  StartFormat(15);
+  OutString(0,0,USetStr(8151),false);
+  OutDate(70,0,SVOr.TransDate,false);
+  EndFormat;
+
+  StartFormat(5);
+  EndFormat;
+  if (nonblank(SVOr.Comment1)) then begin
+    StartFormat(15);
+    OutString(60,0,SVOr.Comment1,false);
+    EndFormat;
+  end;  
+  if (nonblank(SVOr.Comment2)) then begin
+    StartFormat(15);
+    OutString(60,0,SVOr.Comment2,false);
+    EndFormat;
+  end;  
+  if (nonblank(SVOr.Comment3)) then begin
+    StartFormat(15);
+    OutString(60,0,SVOr.Comment3,false);
+    EndFormat;
+  end;  
+  if (nonblank(SVOr.Comment4)) then begin
+    StartFormat(15);
+    OutString(60,0,SVOr.Comment4,false);
+  EndFormat;
+  end;  
+  Gray_Divider(0,1);
+  RETURN;
+END;
+
+
+global procedure SVOPaymentRn(record RcVc RepSpec)		//Edit----------------------Dima  02.11.2015
+begin
+	record SVOVc SVOr;
+	record WSVc WSr;
+	record IVVc IVr;
+	record IPVc IPr;
+	record ARVc ARr;
+	string 10 statusWS,statusIV;
+	boolean TrHs;
+	val sumWS,sumIV,paidIV,sumPaidIV,debtIV;
+	array integer pos;
+	
+	StartReportNoHeaderJob("Статус замовлення");
+	
+	SVOr.SerNr = RepSpec.long1;
+	ReadFirstMain(SVOr,1,true);	
+	PrintSVOInfo2(SVOr);
+  StartFormat(15);
+  EndFormat;
+  
+  
+  pos[0] = 40;
+  pos[1] = 150;
+  pos[2] = 220;
+  pos[3] = 290;
+
+//-------------------   WorkSheets  ------------------------------------//
+  StartFormat(15);
+  OutString(pos[0],0,USetStr(8270),false);
+  OutString(pos[1],0,USetStr(10661),false);
+  OutString(pos[2],0,USetStr(31051),false);
+  EndFormat;
+  
+  TrHs = true;
+  WSr.SVONr = SVOr.SerNr;
+  While(LoopKey("SVONr",WSr,1,TrHs)) begin
+  	if (WSr.SVONr != SVOr.SerNr) then begin TrHs = false; end;
+  	if (TrHs) then begin
+  		sumWS = sumWS + WSr.Sum4;
+  	
+  		StartFormat(15);
+			OutLongInt(pos[0],"DblWSVc",WSr.SerNr,false);
+			OutString(pos[1],0,WSr.Sum4,false);
+			if (WSr.OKFlag>0) then begin
+				statusWS = "OK";
+			end else begin
+				statusWS = "-";
+			end;
+			OutString(pos[2],0,statusWS,false);
+			EndFormat;
+		end;
+	end;
+	
+  Black_Divider(0,1);
+  OutString(pos[1],0,sumWS,false);  
+  EndFormat;
+  EndFormat;
+  EndFormat;
+  Gray_Divider(0,1);
+  EndFormat;
+  
+  
+//-------------------   Invoices  ------------------------------------//
+  
+  StartFormat(15);
+  OutString(pos[0],0,USetStr(10672),false);
+  OutString(pos[1],0,USetStr(10661),false);	
+  OutString(pos[2],0,USetStr(31052),false);
+  OutString(pos[3],0,USetStr(31051),false);
+  EndFormat;	
+  
+  IVr.SVONr = SVOr.SerNr;
+  TrHs = true;
+  while (LoopKey("SVONr",IVr,1,TrHs)) begin
+		if (IVr.SVONr!= SVOr.SerNr) then begin TrHs = false; end;
+		if (TrHs) then begin
+			ARr.InvoiceNr = IVr.SerNr;
+			debtIV = 0;
+			if (ReadFirstMain(ARr,1,true)) then begin
+				debtIV = ARr.RVal;
+			end;
+			
+			paidIV = IVr.Sum4 - debtIV;
+			if (IVr.OKFlag>0) then begin
+				paidIV = IVr.Sum4 - debtIV;
+			end else begin
+				paidIV = 0;
+			end;
+
+			if (IVr.OKFlag>0) then begin
+				statusIV = "OK";
+			end else begin
+				statusIV = "-";
+			end;
+			
+			StartFormat(15);				
+				OutLongInt(pos[0],"DblIVVc",IVr.SerNr,false);	
+				OutString(pos[1],0,IVr.Sum4,false);
+				OutString(pos[2],0,paidIV,false);
+				OutString(pos[3],0,statusIV,false);
+			EndFormat;
+			
+			sumPaidIV = sumPaidIV + paidIV;
+			sumIV = sumIV + IVr.Sum4;			
+		end;		
+	end;
+  Black_Divider(0,1);
+  OutString(pos[1],0,sumIV,false);
+  OutString(pos[2],0,paidIV,false);
+  
+  
+  EndFormat;
+  EndFormat;
+  EndFormat;    	
+  OutString(pos[2]-30,0,USetStr(31053),false);
+  OutString(pos[2],0,sumWS - paidIV,false);
+  
+	EndJob;
+  
+end;

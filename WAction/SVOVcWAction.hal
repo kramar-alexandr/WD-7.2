@@ -452,6 +452,25 @@ BEGIN
   RETURN;
 END;
 
+
+global
+procedure SVOPaymentRnDsm()		//Edit----------------------Dima  02.11.2015
+BEGIN
+  record SVOVc SVOr;
+  record RcVc RepSpec;
+  Integer wn;
+
+  wn = CurWindow;
+  GetWindowRecord(wn,SVOr);
+  ReportDefaults(RepSpec,"SVOPaymentRClass");
+  RepSpec.repname = "SVOPaymentRn";
+  RepSpec.long1 = SVOr.SerNr;
+  RepSpec.Media = mtScreen;
+  RunReport(RepSpec,0);
+  RETURN;
+END;
+
+
 global
 procedure SVOCustStatDsm()
 BEGIN
