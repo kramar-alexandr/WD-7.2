@@ -829,11 +829,13 @@ BEGIN
     res = 0;
     goto LSVOVcRecordRemoveTest;
   end;
+ 
   WSIVr.SVONr = SVOr.SerNr;
-  if (ReadFirstKey("SVONr",WSr,1,true)) then begin
+  if (ReadFirstKey("SVONr",WSIVr,1,true)) then begin
     res = 0;
     goto LSVOVcRecordRemoveTest;
   end;
+
   locSVOr.SerNr = SVOr.SerNr;
   if (ReadFirstMain(locSVOr,1,true)) then begin
     if (SVORemoveTest(locSVOr,long3)==false) then begin
