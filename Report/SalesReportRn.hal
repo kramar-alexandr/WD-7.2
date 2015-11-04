@@ -1030,7 +1030,9 @@ begin
 		startformat(15);		
 			outstring(i0,0,"Група",false);
 			outstring(i01,0,"Постачальник",false);
-			outstring(i02,0,"Класифікація",false);
+			if(currentcompany!=9)then begin
+				outstring(i02,0,"Класифікація",false);
+			end;
 			outstring(i2,0,"Код товару",false);
 			outstring(i3,0,"Найменування",false);
 			outstring(i4,0,"Дата продажу",false);
@@ -1040,7 +1042,7 @@ begin
 			outstring(i7,0,"Кіл-ть",false);
 			outstring(i8,0,"Валюта продаж.",false);
 			outstring(i81,0,"Валюта надх.",false);
-			if(currentcompany!=8)then begin
+			if(currentcompany!=8 and currentcompany!=9)then begin
 				outstring(i9,0,"UAH Курс зак.",false);
 				outstring(i91,0,"UAH Курс текущий",false);
 				outstring(i10,0,"Ціна за од., грн",false);
@@ -1059,32 +1061,31 @@ begin
 				outstring(i12,0,"Знижка",false);
 				outstring(i14,0,"Сума",false);
 				outstring(i16,0,"Собівартість за од.",false);
-				outstring(i18,0,"Собірвартість",false);
+				if(currentcompany!=9)then begin
+					outstring(i18,0,"Собірвартість",false);
+				end;
 				outstring(i20,0,"Прибуток",false);
 			end;
 			outstring(i21,0,"Маржа,%",false);
-			outstring(i22,0,"Спосіб відвантаження",false);
+			if(currentcompany!=9)then begin
+				outstring(i22,0,"Спосіб відвантаження",false);
+			end;
 			outstring(i23,0,"Дата надходження",false);
-			outstring(i24,0,"Постачальник",false);
+			if(currentcompany!=9)then begin
+				outstring(i24,0,"Постачальник",false);
+			end;
 			outstring(i25,0,"Серійний номер",false);
-			outstring(i26,0,"Продавець",false);
+			if(currentcompany!=9)then begin
+				outstring(i26,0,"Продавець",false);
+			end;
 			outstring(i27,0,"Виписав Акт/накл.",false);
-			outstring(i28,0,"Сервісний інженер",false);
-			outstring(i33,0,"realcostbase",false);
-			outstring(i34,0,"realcostuah",false);
-			outstring(i35,0,"realpricebase",false);
-			outstring(i36,0,"realpriceuah",false);
-			outstring(i37,0,"realsumebase",false);
-			outstring(i38,0,"realsumuah",false);
-			outstring(i38,0,"uahpurate",false);
-			outstring(i38,0,"uahcurrate",false);
-			
-			outstring(i29,0,"Класiфiкацiя",false);
-			outstring(i30,0,"Класiфiкацiя2",false);
-			outstring(i31,0,"Класiфiкацiя3",false);
-			outstring(i32,0,"Коментар",false);
-			
-			
+			if(currentcompany!=9)then begin
+				outstring(i28,0,"Сервісний інженер",false);
+				outstring(i29,0,"Класiфiкацiя",false);
+				outstring(i30,0,"Класiфiкацiя2",false);
+				outstring(i31,0,"Класiфiкацiя3",false);
+				outstring(i32,0,"Коментар",false);
+			end;
 			
 			
 		endformat;
@@ -1172,7 +1173,9 @@ begin
 							startformat(15);		
 								outstring(i0,0,ITr.Comment,false);
 								outstring(i01,0,vecode[j],false);
-								outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
+								if(currentcompany!=9)then begin
+									outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
+								end;
 								outstring(i2,0,INr.Code,false);
 								outstring(i3,0,INr.Name,false);
 								outstring(i4,0,IVr.InvDate,false);
@@ -1204,169 +1207,63 @@ begin
 								outstring(i8,0,invcurncy,false);
 								outstring(i81,0,curncy[j],false);
 								
-								if(currentcompany!=8)then begin
-								outstring(i9,0,uahpurate[j],false);
-								outstring(i91,0,uahcurrate[j],false);
-								outstring(i10,0,round(realpriceuah[j],SetRoundModeD(2)),false);
-								outstring(i11,0,round(realpricebase[j],SetRoundModeD(2)),false);
-								outstring(i12,0,IVrw.vRebate,false);
-								outstring(i13,0,round(realsumuah[j],SetRoundModeD(2)),false);
-								outstring(i14,0,round(realsumbase[j],SetRoundModeD(2)),false);
-								totalrealsum = totalrealsum + realsumbase[j];
-								outstring(i15,0,round(realcostuah[j],SetRoundModeD(2)),false);
-								outstring(i16,0,round(realcostbase[j],SetRoundModeD(2)),false);
-								totalrealcost = totalrealcost + realcostbase[j]*qty[j];// Edit ************************** Wednesday, 28 October 2015 18:27:00
-								outstring(i17,0,round(realcostuah[j]*qty[j],SetRoundModeD(2)),false);
-								outstring(i18,0,round(realcostbase[j]*qty[j],SetRoundModeD(2)),false);
-								outstring(i19,0,ValToMyString((realsumuah[j] - realcostuah[j]*qty[j]),3),false);
-								outstring(i20,0,ValToMyString((realsumbase[j] - realcostbase[j]*qty[j]),3),false);
-								sumusd = realsumbase[j];
-								sumcostusd = realcostbase[j]*qty[j];
+								if(currentcompany!=8 and currentcompany!=9)then begin
+									outstring(i9,0,uahpurate[j],false);
+									outstring(i91,0,uahcurrate[j],false);
+									outstring(i10,0,round(realpriceuah[j],SetRoundModeD(2)),false);
+									outstring(i11,0,round(realpricebase[j],SetRoundModeD(2)),false);
+									outstring(i12,0,IVrw.vRebate,false);
+									outstring(i13,0,round(realsumuah[j],SetRoundModeD(2)),false);
+									outstring(i14,0,round(realsumbase[j],SetRoundModeD(2)),false);
+									totalrealsum = totalrealsum + realsumbase[j];
+									outstring(i15,0,round(realcostuah[j],SetRoundModeD(2)),false);
+									outstring(i16,0,round(realcostbase[j],SetRoundModeD(2)),false);
+									totalrealcost = totalrealcost + realcostbase[j]*qty[j];// Edit ************************** Wednesday, 28 October 2015 18:27:00
+									outstring(i17,0,round(realcostuah[j]*qty[j],SetRoundModeD(2)),false);
+									outstring(i18,0,round(realcostbase[j]*qty[j],SetRoundModeD(2)),false);
+									outstring(i19,0,ValToMyString((realsumuah[j] - realcostuah[j]*qty[j]),3),false);
+									outstring(i20,0,ValToMyString((realsumbase[j] - realcostbase[j]*qty[j]),3),false);
+									sumusd = realsumbase[j];
+									sumcostusd = realcostbase[j]*qty[j];
 								
-							end else begin
-								outstring(i11,0,realpricebase[j],false);
-								outstring(i12,0,IVrw.vRebate,false);
-								outstring(i14,0,realsumbase[j],false);
-								outstring(i16,0,realcostbase[j],false);
-								outstring(i18,0,realcostbase[j]*qty[j],false);
-								outstring(i20,0,ValToMyString((realsumbase[j] - realcostbase[j]*qty[j]),3),false);
-								sumusd = realsumbase[j];
-								sumcostusd = realcostbase[j]*qty[j];
-							end;
-								
-								/*outstring(i33,0,realcostbase[j],false);
-								outstring(i34,0,realcostuah[j],false);
-								outstring(i35,0,realpricebase[j],false);
-								outstring(i36,0,realpriceuah[j],false);
-								outstring(i37,0,realsumbase[j],false);
-								outstring(i38,0,realsumuah[j],false);
-								outstring(i38,0,uahpurate[j],false);
-								outstring(i38,0,uahcurrate[j],false);
-								outstring(i38,0,comment[j],false);*/
-								
-								/*// Edit ************************** Friday, 21 August 2015 10:12:10// Edit ************************** Friday, 21 August 2015 10:12:12
-								if(currentcompany!=8)then begin
-									if(curncy[j]==BCb.BaseCur1)then begin
-										outstring(i9,0,ValToMyString(invfr * invto1,4),false);
-									end else begin
-										if(rate[j]!=0)then begin
-											outstring(i9,0,ValToMyString(rate[j],4),false);
-										end else begin
-											outstring(i9,0,ValToMyString(invfr * invto1,4),false);
-										end;
-									end;
-									outstring(i91,0,ValToMyString(invfr * invto1,4),false);
-									outstring(i10,0,IVrw.Price,false);
-								end;
-								if(curncy[j]==BCb.BaseCur1)then begin
-									outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 								end else begin
-									if(IVr.CurncyCode==BCb.BaseCur1)then begin
-										outstring(i11,0,IVrw.Price,false);
-									end else begin
-										CurValToOtherCur(indate[j],IVr.CurncyCode,IVrw.Price,BCb.BaseCur1,t,DefaultCurRoundOff);
-										If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
-											CurValToOtherCur(IVr.InvDate,"UAH_E",IVrw.Price,BCb.BaseCur1,t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
-										end;
-										outstring(i11,0,t,false);
+									outstring(i11,0,realpricebase[j],false);
+									outstring(i12,0,IVrw.vRebate,false);
+									outstring(i14,0,realsumbase[j],false);
+									outstring(i16,0,realcostbase[j],false);
+									if(currentcompany!=9)then begin
+										outstring(i18,0,realcostbase[j]*qty[j],false);
 									end;
+									outstring(i20,0,ValToMyString((realsumbase[j] - realcostbase[j]*qty[j]),3),false);
+									sumusd = realsumbase[j];
+									sumcostusd = realcostbase[j]*qty[j];
 								end;
-								outstring(i12,0,IVrw.vRebate,false);
-						
-								//sumcur = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
-								sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
-								if(currentcompany!=8)then begin
-									outstring(i13,0,ValToMyString(sumcur,3),false);
-								end;
-						
-								if(curncy[j]==BCb.BaseCur1)then begin
-									//sumusd = IVrw.Sum/IVrw.Quant * qty[j] / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
-									sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],invfr,invto1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
-									sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:45 16.02.2015
-									outstring(i14,0,ValToMyString(sumusd,3),false);
-								end else begin
-									if(IVr.CurncyCode==BCb.BaseCur1)then begin
-										//sumusd = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
-										sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
-									end else begin
-										//sumusd = IVrw.Sum/IVrw.Quant * qty[j]; //Edit***************************Sasha2,8:58 02.02.2015
-										sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,cred,foundqty,false); //Edit***************************Sasha2,8:58 02.02.2015
-										CurValToOtherCur(indate[j],IVr.CurncyCode,sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);
-										sumusd = t;
-										If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)==BCb.BaseCur1)then begin
-											CurValToOtherCur(IVr.InvDate,"UAH_E",sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
-											sumusd = t;
-										end;
-									end;
-									sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:46 16.02.2015
-									outstring(i14,0,ValToMyString(sumusd,3),false);
-								end;
-						
-								t = blankval;
-								if(curncy[j]==BCb.BaseCur1)then begin
-									if(currentcompany!=8)then begin
-										outval(i15,0,curcost[j],m4UVal,false);
-									end;
-									outval(i16,0,cost[j],m4UVal,false);
-								end else begin
-									if(currentcompany!=8)then begin
-										outval(i15,0,curcost[j],m4UVal,false);
-									end;
-									CurValToOtherCur(indate[j],BCb.BaseCur1,cost[j],IVr.CurncyCode,t,DefaultCurRoundOff);
-									t = t / invfr * invto1;
-									If(vecode[j]=="ERC" and currentcompany!=4  and left(IVr.CurncyCode,3)=="UAH")then begin
-										CurValToOtherCur(IVr.InvDate,"UAH_E",cost[j],BCb.BaseCur1,t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
-									end;
-									outval(i16,0,t,m4UVal,false);
-								end;
-
-								sumcostcur = curcost[j] * qty[j];
-								if(currentcompany!=8)then begin
-									outstring(i17,0,ValToMyString(sumcostcur,3),false);
-								end;
-								sumcostusd = cost[j] * qty[j];
-								outstring(i18,0,ValToMyString(sumcostusd,3),false);
-						
-								if(currentcompany!=8)then begin
-									if(IVr.CurncyCode==curncy[j])then begin
-										outstring(i19,0,ValToMyString((sumcur - sumcostcur),3),false);
-									end else begin
-										outstring(i19,0,"",false);
-									end;
-								end;
-								
-								outstring(i20,0,ValToMyString((sumusd - sumcostusd),3),false);
-								
-								*/
 								
 								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
-								outstring(i22,0,IVr.ShipMode,false);
+								if(currentcompany!=9)then begin
+									outstring(i22,0,IVr.ShipMode,false);
+								end;
 								outstring(i23,0,indate[j],false);
-								outstring(i24,0,vecode[j],false);
+								if(currentcompany!=9)then begin
+									outstring(i24,0,vecode[j],false);
+								end;
 								outstring(i25,0,serial[j],false);
-								outstring(i26,0,CUr.SalesMan,false);
+								if(currentcompany!=9)then begin
+									outstring(i26,0,CUr.SalesMan,false);
+								end;
 								outstring(i27,0,IVr.SalesMan,false);
 								outstring(i28,0,"",false);
-								/*outstring(i33,0,realcostbase[j],false);
-								outstring(i34,0,realcostuah[j],false);
-								outstring(i35,0,realpricebase[j],false);
-								outstring(i36,0,realpriceuah[j],false);
-								outstring(i37,0,realsumbase[j],false);
-								outstring(i38,0,realsumuah[j],false);
-								outstring(i38,0,uahpurate[j],false);
-								outstring(i38,0,uahcurrate[j],false);
-								outstring(i38,0,comment[j],false);*/
-								
 								if(currentuser=="SA")then begin
 									outstring(i38,0,comment[j],false);
 								end;
-								for(l=0;l<k;l=l+1) begin
-									outstring(i29,0,class[l],false);
-									outstring(i30,0,"",false);
-									outstring(i31,0,"",false);
-									outstring(i32,0,IVr.InvComment,false);			          
+								if(currentcompany!=9)then begin
+									for(l=0;l<k;l=l+1) begin
+										outstring(i29,0,class[l],false);
+										outstring(i30,0,"",false);
+										outstring(i31,0,"",false);
+										outstring(i32,0,IVr.InvComment,false);			          
+									end;
 								end;
-								
 							endformat;
 						end;
 					end;
@@ -1382,7 +1279,9 @@ begin
 							startformat(15);		
 								outstring(i0,0,ITr.Comment,false);
 								outstring(i01,0,"",false);
-								outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
+								if(currentcompany!=9)then begin
+									outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
+								end;
 								outstring(i2,0,INr.Code,false);
 								outstring(i3,0,INr.Name,false);
 								outstring(i4,0,IVr.InvDate,false);
@@ -1397,10 +1296,8 @@ begin
 								outstring(i10,0,IVrw.Price,false);
 								outstring(i11,0,ValToMyString(IVrw.Price / invfr * invto1,3),false);
 								outstring(i12,0,IVrw.vRebate,false);
-								//sumcur = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty); //Edit***************************Sasha2,8:58 02.02.2015
 								sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,1,1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
 								outstring(i13,0,ValToMyString(sumcur,3),false);
-								//sumusd = IVrw.Sum/IVrw.Quant * (IVrw.Quant*cred - foundqty) / invfr * invto1; //Edit***************************Sasha2,8:58 02.02.2015
 								sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,cred,foundqty,true); //Edit***************************Sasha2,8:58 02.02.2015
 								sumusd = Round(sumusd,rnd); //Edit***************************Sasha2,10:56 16.02.2015
 								outstring(i14,0,ValToMyString(sumusd,3),false);
@@ -1414,20 +1311,28 @@ begin
 								outstring(i19,0,"",false);
 								outstring(i20,0,"",false);
 								outstring(i21,0,ValToMyString((sumusd - sumcostusd)/sumcostusd*100*cred,3),false);
-								outstring(i22,0,IVr.ShipMode,false);
-								outstring(i23,0,"",false);
-								outstring(i24,0,"",false);
-								outstring(i25,0,"",false);
-								outstring(i26,0,CUr.SalesMan,false);
-								outstring(i27,0,IVr.SalesMan,false);
-								outstring(i28,0,"",false);
-								for(l=0;l<k;l=l+1) begin
-									outstring(i29,0,class[l],false);
+								if(currentcompany!=9)then begin
+									outstring(i22,0,IVr.ShipMode,false);
 								end;
-								outstring(i29,0,"Продажа без истории по товарам",false);
-								outstring(i30,0,"",false);
-			          outstring(i31,0,"",false);
-			          outstring(i32,0,IVr.InvComment,false);
+								outstring(i23,0,"",false);
+								if(currentcompany!=9)then begin
+									outstring(i24,0,"",false);
+								end;
+								outstring(i25,0,"",false);
+								if(currentcompany!=9)then begin
+									outstring(i26,0,CUr.SalesMan,false);
+								end;
+								outstring(i27,0,IVr.SalesMan,false);
+								if(currentcompany!=9)then begin
+									outstring(i28,0,"",false);
+									for(l=0;l<k;l=l+1) begin
+										outstring(i29,0,class[l],false);
+									end;
+									outstring(i29,0,"Продажа без истории по товарам",false);
+									outstring(i30,0,"",false);
+									outstring(i31,0,"",false);
+									outstring(i32,0,IVr.InvComment,false);
+			          end;
 							endformat;
 						end;
 					end;
@@ -1973,7 +1878,7 @@ integer compnr;
 									closefile;
 									RunProgram("Reports/5/FullSalesRep.sh","");
 									
-					case 6: filename = "Reports/6/FullSalesRepOL.xls";
+					case 6: /*filename = "Reports/6/FullSalesRepOL.xls";
           				delete_file(filename);
 									CreateFile(filename);
 									closefile;
@@ -1982,7 +1887,7 @@ integer compnr;
 									RepSpec.f7 = "INV#1_OL,INV#1_OLST";
 									SalesReportRn(RepSpec);
 									RepSpec.f7 = "";
-									closefile;
+									closefile;*/
 									//RunProgram("Reports/5/FullSalesRepOL.sh","");// Edit ************************** Tuesday, 9 June 2015 09:20:23
 									
 									filename = "Reports/6/FullSalesRepOP.xls";
@@ -2007,6 +1912,20 @@ integer compnr;
 									SalesReportRn(RepSpec);
 									closefile;
 									RunProgram("Reports/7/FullSalesRep.sh","");
+									
+					case 9: filename = "Reports/9/FullSalesRepSamsung.xls";
+          				delete_file(filename);
+									CreateFile(filename);
+									closefile;
+									millisleep(100);
+									openexportfile(filename,true);
+									RepSpec.f7 = "INV#1_OL,INV#1_OLST";
+									SalesReportRn(RepSpec);
+									RepSpec.f7 = "";
+									closefile;
+									//RunProgram("Reports/5/FullSalesRepOL.sh","");// Edit ************************** Tuesday, 9 June 2015 09:20:23
+									
+									
         end;
         
         

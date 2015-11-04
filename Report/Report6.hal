@@ -235,6 +235,15 @@ integer compno;
               openexportfile("Stock/TNMStockFull.xls",true);
               MyItemReportRn(RepSpec);
               RunProgram("Stock/TNMStockFull.sh", "");
+              
+      case 9: delete_file("Stock/SamsungStockFull.xls");
+      				CreateFile("Stock/SamsungStockFull.xls");
+              closefile;
+              openexportfile("Stock/SamsungStockFull.xls",true);
+              RepSpec.f1 = "INV#1_OL,EXB_OL,EXB_OL_ST,INV#1_OLST";
+              MyItemReportRn(RepSpec);
+              RepSpec.f1 = "";
+              RunProgram("Stock/SamsungStockFull.sh", "");
       
   end;
   closefile;
@@ -294,14 +303,14 @@ integer compno;
               MyItemReportRn(RepSpec);
               RunProgram("Stock/MMROPStockFullManagers.sh", "");
               
-              delete_file("Stock/MMROLStockFullManagers.xls");
+              /*delete_file("Stock/MMROLStockFullManagers.xls");
       				CreateFile("Stock/MMROLStockFullManagers.xls");
               closefile;
               openexportfile("Stock/MMROLStockFullManagers.xls",true);
               RepSpec.f1 = "INV#1_OL,INV#1_OLST";
               RepSpec.f2 = "P111,P112";
               MyItemReportRn(RepSpec);
-              RunProgram("Stock/MMROLStockFullManagers.sh", "");
+              RunProgram("Stock/MMROLStockFullManagers.sh", "");*/
       
       case 7: delete_file("Stock/TNMStockFullManagers.xls");
       				CreateFile("Stock/TNMStockFullManagers.xls");
@@ -309,6 +318,17 @@ integer compno;
               openexportfile("Stock/TNMStockFullManagers.xls",true);
               MyItemReportRn(RepSpec);
               RunProgram("Stock/TNMStockFullManagers.sh", "");
+              
+      case 9: delete_file("Stock/SamsungStockFullManagers.xls");
+      				CreateFile("Stock/SamsungStockFullManagers.xls");
+              closefile;
+              openexportfile("Stock/SamsungStockFullManagers.xls",true);
+              RepSpec.f1 = "INV#1_OL,INV#1_OLST";
+              RepSpec.f2 = "P111,P112";
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/SamsungStockFullManagers.sh", "");
+              
+              
   end;
   closefile;
 return;

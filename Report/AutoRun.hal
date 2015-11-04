@@ -15,7 +15,7 @@ external procedure KreditorkaReportEn();
 //------------------------------------------------------------------------------------------------------------------------------
 global updating procedure AutoRun()
 begin
-integer iStore,iTek,Textera,Technomedia,AService,WD,MMR,iCenter;
+integer iStore,iTek,Textera,Technomedia,AService,WD,MMR,iCenter,Samsung;
 record RcVc RepSpec;
 
 iStore = 1;
@@ -26,6 +26,7 @@ Textera = 5;//Textera
 MMR = 6;
 Technomedia = 7;//Technomedia
 AService = 8;
+Samsung = 9;
 
   if (SetCompany(iStore,false)) then begin
   	logtext(0,currentcompany & " FullStockEn");
@@ -68,33 +69,28 @@ AService = 8;
     ResetCompany(iTek);  
   end;
   
-  if (SetCompany(MMR,false)) then begin//itek
-  	//logtext(0,currentcompany & " IPEn"); 
-    //IPEn; 
+  
+  if (SetCompany(Samsung,false)) then begin//itek
   	logtext(0,currentcompany & " SalesReportEn");
     SalesReportEn;
-  	//logtext(0,currentcompany & " DebitorkaReportEn");
-    //DebitorkaReportEn(iTek);
-    //logtext(0,currentcompany & " ShopsReportEn");
-    //ShopsReportEn;
   	logtext(0,currentcompany & " FullStockEn");
     FullStockEn;
-    //logtext(0,currentcompany & " FullStockTRWH2En");
-    //FullStockTRWH2En;
-    //logtext(0,currentcompany & " ManagersFullStockEn");
-    //ManagersFullStockEn;
-    //logtext(0,currentcompany & " SalesReportForManagersEn");
-    //SalesReportForManagersEn;
-    //logtext(0,currentcompany & " AutoUnreservOrderMn");
-    //AutoUnreservOrderMn;
-    //logtext(0,currentcompany & " MyReservStstEn");
-    //MyReservStstEn;
     logtext(0,currentcompany & " RetailSalesEn");
     RetailSalesEn;
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
-
-    
+    ResetCompany(Samsung);  
+  end;
+  
+  if (SetCompany(MMR,false)) then begin//itek
+  	logtext(0,currentcompany & " SalesReportEn");
+    SalesReportEn;
+  	logtext(0,currentcompany & " FullStockEn");
+    FullStockEn;
+    logtext(0,currentcompany & " RetailSalesEn");
+    RetailSalesEn;
+    logtext(0,currentcompany & " ManagersFullStockEn");
+    ManagersFullStockEn;
     ResetCompany(MMR);  
   end;
   
