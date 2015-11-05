@@ -367,7 +367,7 @@ BEGIN
   LongInt res;
   
   if(currentcompany==8)then begin// Edit ************************** Monday, 7 September 2015 10:26:30
-		if(currentuser!="LADA" and currentuser!="KUDINA" and  currentuser!="LENAS"  and  currentuser!="SA")then begin
+		if(currentuser!="KUDINA" and  currentuser!="LENAS"  and  currentuser!="SA")then begin
 			WSr.TransDate = currentdate;// Edit ************************** Thursday, 24 November 2011 11:50:11
 		end;
 	end;
