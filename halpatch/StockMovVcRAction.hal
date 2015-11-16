@@ -1883,9 +1883,9 @@ LStockMovVcRecordCheck_GenTrans:;
     end;
   end;
   
-  if (NonBlank(SMp.OrderNr)) then begin //Edit***************************Sasha2,11:40 16.11.2015 {
+  if (SMp.OrdFlag == 1 and NonBlank(SMp.OrderNr)) then begin //Edit***************************Sasha2,11:40 16.11.2015 {
     ORr.SerNr = SMp.OrderNr;
-    if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops") then begin
+    if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops" and SMp.FrLocation==ORr.Location) then begin
       rwcnt = MatRowCnt(SMp);
       for (i=0;i<rwcnt;i=i+1) begin
         MatRowGet(SMp,i,StockMovrw);
