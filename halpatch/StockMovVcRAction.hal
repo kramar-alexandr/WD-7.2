@@ -495,6 +495,9 @@ BEGIN
   record CountryVc Countryr;
   LongInt dummyl;
   record IVOfficialSerBlock IOSTr;
+  record ORVc ORr; //Edit***************************Sasha2,11:39 16.11.2015
+  row ORVc ORrw; //Edit***************************Sasha2,11:39 16.11.2015
+  array Integer smrowqty; //Edit***************************Sasha2,11:48 16.11.2015
 
   res = 0;
   insertmode = 1;//Rs_insert
@@ -1879,6 +1882,32 @@ LStockMovVcRecordCheck_GenTrans:;
       end;
     end;
   end;
+  
+  if (NonBlank(SMp.OrderNr)) then begin //Edit***************************Sasha2,11:40 16.11.2015 {
+    ORr.SerNr = SMp.OrderNr;
+    if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops") then begin
+      rwcnt = MatRowCnt(SMp);
+      for (i=0;i<rwcnt;i=i+1) begin
+        MatRowGet(SMp,i,StockMovrw);
+        if (StockMovrw.ORRow>-1) then begin
+          smrowqty[StockMovrw.ORRow] = smrowqty[StockMovrw.ORRow] + StockMovrw.Quant;
+        end;
+      end;
+      rwcnt = MatRowCnt(ORr);
+      for (i=0;i<rwcnt;i=i+1) begin
+        MatRowGet(ORr,i,ORrw);
+        if (smrowqty[i]>ORrw.Shopd) then begin
+          error = 1247;
+          errorstr = "";
+          rownr = i;
+          fieldstr = "Quant";       
+          res = error; 
+          goto LCheckStockMovRecord;
+        end;
+      end;
+    end;
+  end; //Edit***************************Sasha2,11:40 16.11.2015 }
+  
 LCheckStockMovRecord:;
   if (res!=0) then begin 
     SMp.OfficialSerNrSerie = "";
