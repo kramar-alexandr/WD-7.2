@@ -114,7 +114,8 @@ begin
 		end;
 	end else begin
 		if(IVr.CurncyCode=="UAH")then begin
-			If(vecode[ressize]=="ERC" and currentcompany!=4)then begin
+			curncy = "UAH";
+			/*If(vecode[ressize]=="ERC" and currentcompany!=4)then begin
 				curncy = "UAH_E";
 				GetFullCurncyRate(curncy,IVr.InvDate,fr,to1,to2,br1,br2);
 				if(fr!=0 and to1!=0)then begin
@@ -125,8 +126,8 @@ begin
 					IVr.BaseRate2 = br2;
 				end;
 			end else begin
-				curncy = "UAH";
-			end;
+				
+			end;*/
 		end;
 		if(left(PUr.CurncyCode,3)==left(BCb.BaseCur1,3) or (left(BCb.BaseCur1,3)=="USD" and left(PUr.CurncyCode,3)!="UAH"))then begin //Если приход в основной валюте
 			realcostbase[ressize] = cost[ressize];
@@ -186,7 +187,6 @@ begin
 						realpricebase[ressize] = IVrw.Price / IVr.FrRate * IVr.ToRateB1;
 						realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize] / IVr.FrRate * IVr.ToRateB1;
 					end;
-					
 					
 					if(IVr.CurncyCode==BCb.BaseCur2)then begin
 						uahpurate[ressize] = IVr.BaseRate2;
@@ -1014,6 +1014,12 @@ begin
 	array string 5 uahpurate,uahcurrate;
 	array string 100 comment;
 	val totalrealcost,totalrealsum;
+	record SHVc SHr;
+	record TRVc TRr;
+	row TRVc TRrw;
+	integer tri,trcred;
+	val disbalanscost,disbalanssale,totcost,totsale;
+	longint shnr;
 	
 	
 	blockload(BCb);
@@ -1102,8 +1108,10 @@ begin
 		if(nonblank(RepSpec.f7) and !setinset(IVr.Location,RepSpec.f7))then begin testf = false; end;// Edit ************************** Friday, 5 June 2015 10:50:59
 		
 		cred = 1;
+		trcred = 1;
 		if(IVr.InvType==3) then begin 
       cred=-1;
+      trcred = -1;
       matRowGet(IVr,0,IVrw);
       if(IVrw.stp==3) then begin
         CredInvNo = IVrw.OrdRow;
@@ -1122,9 +1130,18 @@ begin
 				invfr = 1;
 				invto1 = 1;
 			end;
+			
+			totcost = 0;
+			totsale = 0;
+			disbalanssale = 0;
+			disbalanscost = 0;
+			
 			mtrw = matrowcnt(IVr);
 			For(i=0;i<mtrw;i=i+1) begin
 				matrowget(IVr,i,IVrw);
+				if(IVrw.Quant<0)then begin
+					trcred = -1;
+				end;
 				if(IVrw.stp==kInvoiceRowTypeNormal and nonblank(IVrw.ArtCode))then begin
 					INr.Code = IVrw.ArtCode;
 					readfirstmain(INr,1,true);
@@ -1161,7 +1178,7 @@ begin
 					For(j=0;j<ressize;j=j+1) begin
 						foundqty = foundqty + qty[j];
 					end;
-				
+					
 					For(j=0;j<ressize;j=j+1) begin
 						filter = true; // Edit ************************** Thursday, 14 May 2015 16:21:10
 						if(nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
@@ -1170,6 +1187,9 @@ begin
 						if(nonblank(RepSpec.f5) and !SetInSet(RepSpec.f5,INr.DispGroups))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 				
 						if(filter)then begin // Edit ************************** Thursday, 14 May 2015 16:21:33
+							
+							totcost = totcost + realcostbase[j]*qty[j];
+							totsale = totsale + realsumbase[j];
 							startformat(15);		
 								outstring(i0,0,ITr.Comment,false);
 								outstring(i01,0,vecode[j],false);
@@ -1267,7 +1287,7 @@ begin
 							endformat;
 						end;
 					end;
-				
+					
 					if(foundqty*cred<IVrw.Quant)then begin
 						filter = true;// Edit ************************** Thursday, 14 May 2015 16:21:10
 						if(nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
@@ -1338,6 +1358,101 @@ begin
 					end;
 				end;	  
 			end; 
+			
+			
+			if(IVr.UpdStockFlag==1)then begin
+				TRr.Number = IVr.SerNr;
+				TRr.IntYc = IVYc;
+				if(readfirstmain(TRr,2,true))then begin
+					For(i=0;i<matrowcnt(TRr);i=i+1) begin
+						matrowget(TRr,i,TRrw);
+						//logtext(0,"TR " & TRr.Number & " " & i & " " & TRrw.AccNumber & " " & TRrw.CredVal - TRrw.DebVal);
+						if(left(TRrw.AccNumber,1)=="4" and TRrw.ovst==0)then begin
+							disbalanssale = disbalanssale + TRrw.CredVal - TRrw.DebVal;
+						end;
+						if(trcred>0)then begin
+							if(left(TRrw.AccNumber,1)=="5" and TRrw.ovst==0)then begin
+								disbalanscost = disbalanscost + TRrw.DebVal - TRrw.CredVal;
+							end;
+						end else begin
+							if(left(TRrw.AccNumber,1)=="5" and TRrw.ovst==0)then begin
+								disbalanscost = disbalanscost + TRrw.CredVal - TRrw.DebVal;
+							end;
+						end;
+					end; 
+				end;
+			end else begin
+				TRr.Number = IVr.SerNr;
+				TRr.IntYc = IVYc;
+				if(readfirstmain(TRr,2,true))then begin
+					For(i=0;i<matrowcnt(TRr);i=i+1) begin
+						matrowget(TRr,i,TRrw);
+						if(left(TRrw.AccNumber,1)=="4" and TRrw.ovst==0)then begin
+							disbalanssale = disbalanssale + TRrw.CredVal - TRrw.DebVal;
+						end;
+					end; 
+				end;
+				
+				shnr = -1;
+				For(i=0;i<matrowcnt(IVr);i=i+1) begin
+					matrowget(IVr,i,IVrw);
+					if(IVrw.SHNr>0)then begin
+						shnr = IVrw.SHNr;
+					end;
+				end;
+				
+				if(shnr>0)then begin
+					SHr.SerNr = shnr;
+					if(readfirstmain(SHr,1,true))then begin
+						TRr.Number = IVr.SerNr;
+						TRr.IntYc = SHYc;
+						if(readfirstmain(TRr,2,true))then begin
+							For(i=0;i<matrowcnt(TRr);i=i+1) begin
+								matrowget(TRr,i,TRrw);
+								if(left(TRrw.AccNumber,1)=="5" and TRrw.ovst==0)then begin
+									disbalanscost = disbalanscost + TRrw.CredVal - TRrw.DebVal;
+								end;
+							end; 
+						end;
+					end;
+				end;
+				
+			end;
+			disbalanssale = disbalanssale - totsale;
+			disbalanscost = disbalanscost - totcost;
+			
+			
+			if((round(disbalanssale,SetRoundModeD(2))!=0 or round(disbalanscost,SetRoundModeD(2))!=0)and (currentuser=="SA" or currentuser=="FCUA"))then begin
+				startformat(15);
+					outstring(0,0,"Дисбаланс с проводкой",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,IVr.CustCode,false);
+					outstring(0,0,IVr.Location,false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outstring(0,0,"",false);
+					outval(0,0,disbalanssale,m4Val,false);
+					//outstring(0,0,"",false);
+					//outstring(0,0,"",false);
+					//outstring(0,0,"",false);
+					//outval(0,0,disbalanscost,m4Val,false);
+
+				endformat;
+			end;
+			
+			
+			
 		end; 
 	end;
 	

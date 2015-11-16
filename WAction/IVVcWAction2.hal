@@ -787,6 +787,7 @@ BEGIN
       end;
   end;
 LIVDClassActiveEditField:;  
+
   ActiveField = res;
   RETURN;
 END;
@@ -865,6 +866,10 @@ BEGIN
     end;
   end;
 LIVDClassActiveEditField:;
+	if(currentuser=="SA" and fieldname=="BaseSum4")then begin// Edit ************************** Wednesday, 11 November 2015 16:16:15
+		res = true;
+	end;
+	
   IVDClassActiveEditField = res;
   RETURN;
 END;

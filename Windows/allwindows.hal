@@ -2486,7 +2486,11 @@ if (HasTouchScreenLook==false) then begin
       end;
       EditField(410,-41,95,"Податок",ViewOnly ,Sum3,true,0);
     end;
-  EditField(410,-21,95,"Осн.",ViewOnly,BaseSum4,true,0);
+  if(currentuser=="SA")then begin
+		EditField(410,-21,95,"Осн.",Normal,BaseSum4,true,0);// Edit ************************** Wednesday, 11 November 2015 16:38:48
+  end else begin
+  	EditField(410,-21,95,"Осн.",ViewOnly,BaseSum4,true,0);
+  end;
   EditField(-150,-41,95,"Разом",ViewOnly ,Sum1,true,0);
   EditField(-150,-21,95,"Всього",ViewOnly ,Sum4,true,0);
   end else begin

@@ -442,6 +442,7 @@ L22:;
               if ((IVr.InstallmentInv==1) and (RepSpec.flags[19]!=0)) then begin
               end else begin
                 ARRnGetInvBalance(IVr,RepSpec.d1,IVr.InvType,rval,rvalb1,latedays);
+                
               end;
               SubPrePayments(IVr,rval,rvalb1);
               if (IVr.InvType!=kInvoiceTypeCash and IVr.InvType!=kInvoiceTypeCashInvoiceReceiptPRT) then begin
@@ -684,7 +685,6 @@ L22:;
         if (RepSpec.ArtMode==1) then begin // Overview        
           ARRPrintOverView(CUr,IVr,IPrsr,TRr,RepSpec,rval,rs,latedays);
           AddCurncyTotals(acur,av1,curcnt,IVr.CurncyCode,rval);
-          logtext(0,rs);
           AddCurncyTotalsCustom(altcur,altcurcnt,IVr.CurncyCode,rval,rs,valClientTot,valTotSum); //Edit***************************Sasha2,15:06 20.08.2014
         	//LogText(0, "Inv: rval = " & rval & "|||" & "rs = " & rs);
         end;
@@ -845,7 +845,6 @@ if (testf) then begin
     AR1Sum = sum + AR1Sum;
     AR2Sum = sum2 + AR2Sum;
     CurSum = rval + CurSum;
-    logtext(0,sum);
   if (RepSpec.ArtMode==0) then begin
     if (sum<>0) then begin
       PrintOnAccountInfo(CUr,rval,sum,CustOut,RepSpec,CurTotalsr,backdatf);
