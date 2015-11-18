@@ -323,6 +323,7 @@ BEGIN
 
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(ORr,i,ORrw);
+    ORrw.vRebate = (1-ORrw.Sum/(ORrw.Price*ORrw.Quant))*100;// Edit ************************** Tuesday, 17 November 2015 11:01:08
     SetRowStyle(Docr,"ORVc",ORrw.stp,ORrw.ArtCode,ORrw.Sum);
     switch (ORrw.stp) begin
     case kInvoiceRowTypeStructuredItemComponent:
@@ -401,6 +402,8 @@ LkInvoiceRowTypeNormal:;
 					rowsum = 0;
 					t = round((ORrw.Price/12*10),SetRoundModeD(2));
 					
+					//t = round((ORrw.Price/12*10),SetRoundModeD(2));
+					
 					t = Round(t,SetRoundModeD(2));
 					PrintValueInclZero("F_APRISEXCLVAT",t,M45Val,LangNrr,SysFormatRec,false);
       end;
@@ -419,7 +422,8 @@ LkInvoiceRowTypeNormal:;
       if (FIELDINFORM("F_ROWSUMWITHOUTVAT")) then begin
 
 					//t =	SumRowWithoutVAT(ORr,i);
-					t = round(ORrw.Price*(100-ORrw.vRebate)/100/12*10,SetRoundModeD(2))*ORrw.Quant;// Edit ************************** Tuesday, 21 July 2015 14:42:24
+					//t = round(round(ORrw.Price*ORrw.Quant*(100-ORrw.vRebate),SetRoundModeD(2))/100/12*10,SetRoundModeD(2));// Edit ************************** Tuesday, 21 July 2015 14:42:24
+					t = round(ORrw.Sum/12*10,SetRoundModeD(2));// Edit ************************** Tuesday, 17 November 2015 10:52:57
 					//t = Round(t*ORrw.Quant,SetRoundModeD(2));// Edit ************************** Monday, 23 February 2015 16:44:31
 					PrintValueInclZero("F_ROWSUMWITHOUTVAT",t,M45Val,LangNrr,SysFormatRec,false);
       end;
@@ -1060,6 +1064,9 @@ BEGIN
 	t = 0;
 	For(i=0;i<rwcnt;i=i+1) begin
 	  matrowget(ORr,i,ORrw);
+	  
+	  ORrw.vRebate = (1-ORrw.Sum/(ORrw.Price*ORrw.Quant))*100;
+	  
 	  t = t + round((ORrw.Price * (100-ORrw.vRebate)/100/12*10),SetRoundModeD(2))* ORrw.Quant;// Edit ************************** Monday, 23 February 2015 16:42:06
 	end; 
 	sumnovat = round(t,SetRoundModeD(2));// Edit ************************** Friday, 13 February 2015 17:04:24

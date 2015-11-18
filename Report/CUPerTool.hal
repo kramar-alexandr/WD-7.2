@@ -57,6 +57,7 @@ BEGIN
       while (LoopMain(ARPayHistr,2,foundf)) begin
         if ((ARPayHistr.CUPNr<>IVrw.CUPNr) or (ARPayHistr.FileName<>"IPVc")) then begin foundf = false; end;
         if (foundf) then begin
+        	logtext(0,ARPayHistr.Val & " " & ARPayHistr.BookVal);
           if (nonblank(cuperlastprepcur)) then begin
             if (ARPayHistr.CurncyCode!=cuperlastprepcur) then begin   
               onecurf = false;
@@ -138,6 +139,9 @@ BEGIN
       end else begin
         thesum = (IVrw.Sum*realbases)/curv;
       end;
+      
+      logtext(0,bases & " " & realbases);
+      
       lossvp = lossvp - Round(bases-realbases,DefaultRoundMode); // bases-thesum, makes no sense....
       if (incur!=0) then begin
         if (cucurcode==IVp.CurncyCode) then begin
@@ -536,7 +540,9 @@ BEGIN
   Boolean cash;
   val frrate,torate1,torate2,baserate1,baserate2;
   val opensum;
-
+	
+	
+	
   IVr.SerNr = IVSerNr;
   if (ReadFirstMain(IVr,1,true)==false) then begin goto LCUPer_PrintInvoice; end;
   if (RepSpec.flags[2]!=0) then begin
@@ -588,9 +594,9 @@ change does not increase invoice values
     for (i=0;i<rwcnt;i=i+1) begin
       MatRowGet(IVr,i,IVrw);
       switch (IVrw.stp) begin
-        case 14: cashv = cashv + IVrw.Sum;
-        case 15: cashv = cashv + MulRateToBase1(IVrw.CurncyCode,IVrw.Sum,IVrw.FrRate,IVrw.ToRateB1,IVrw.ToRateB2,IVrw.BaseRate1,IVrw.BaseRate2,DefaultCurRoundOff);
-        case 16: cashv = cashv + IVrw.Sum;
+        case kInvoiceRowTypeGiftVoucherPayment: cashv = cashv + IVrw.Sum;
+        case kInvoiceRowTypeCashPayment: cashv = cashv + MulRateToBase1(IVrw.CurncyCode,IVrw.Sum,IVrw.FrRate,IVrw.ToRateB1,IVrw.ToRateB2,IVrw.BaseRate1,IVrw.BaseRate2,DefaultCurRoundOff);
+        case kInvoiceRowTypeCreditCardPayment: cashv = cashv + MulRateToBase1(IVrw.CurncyCode,IVrw.Sum,IVrw.FrRate,IVrw.ToRateB1,IVrw.ToRateB2,IVrw.BaseRate1,IVrw.BaseRate2,DefaultCurRoundOff);
       end;
     end;
     if ((IVr.RetnValue>0 and IVr.Sum4>0) or (IVr.RetnValue<0 and IVr.Sum4<0)) then begin
@@ -612,6 +618,9 @@ change does not increase invoice values
     end;
 
     GetIPPrepaymentAmount(IVr,bascur.BaseCur1,cuscurval,lossv,IVr.Sum4,RepSpec.flags[2],CUp.CurncyCode,cuperlastprepcur);
+    
+    logtext(0,lossv);
+    
     if (cashv==0) then begin
       cashv = blankval;
     end;
@@ -627,6 +636,9 @@ change does not increase invoice values
     balp = balp - cashv;
     SumDebet = SumDebet + cuscurval + lossv;
     SumCredit = SumCredit + cashv;
+    
+    logtext(0,SumDebet);
+    
     if (RepSpec.ArtMode==1) then begin
       if (lossv!=0) then begin//            if ((RepSpec.flags[2]==0) and (lossv!=0)) then begin
         if (lossv<0) then begin

@@ -7152,7 +7152,7 @@ begin
   if(CurrentCompany==1 or CurrentCompany==2) then begin
     SpecialMenu("Перенести в сервис",' ',0,"MyImportSVOToCompDsm");
   end;
-  SpecialMenu("Статус документа (звіт)",' ',0,"SVOPaymentRnDsm");
+  SpecialMenu("Статус оплат по замовленню",' ',0,"SVOPaymentRnDsm");
   EndWindow;
 end;
 
