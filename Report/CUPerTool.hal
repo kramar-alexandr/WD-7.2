@@ -57,7 +57,6 @@ BEGIN
       while (LoopMain(ARPayHistr,2,foundf)) begin
         if ((ARPayHistr.CUPNr<>IVrw.CUPNr) or (ARPayHistr.FileName<>"IPVc")) then begin foundf = false; end;
         if (foundf) then begin
-        	logtext(0,ARPayHistr.Val & " " & ARPayHistr.BookVal);
           if (nonblank(cuperlastprepcur)) then begin
             if (ARPayHistr.CurncyCode!=cuperlastprepcur) then begin   
               onecurf = false;
@@ -139,9 +138,7 @@ BEGIN
       end else begin
         thesum = (IVrw.Sum*realbases)/curv;
       end;
-      
-      logtext(0,bases & " " & realbases);
-      
+            
       lossvp = lossvp - Round(bases-realbases,DefaultRoundMode); // bases-thesum, makes no sense....
       if (incur!=0) then begin
         if (cucurcode==IVp.CurncyCode) then begin
@@ -629,9 +626,7 @@ change does not increase invoice values
     end;
 
     GetIPPrepaymentAmount(IVr,bascur.BaseCur1,cuscurval,lossv,IVr.Sum4,RepSpec.flags[2],CUp.CurncyCode,cuperlastprepcur);
-    
-    logtext(0,lossv);
-    
+        
     if (cashv==0) then begin
       cashv = blankval;
     end;
@@ -648,7 +643,6 @@ change does not increase invoice values
     SumDebet = SumDebet + cuscurval + lossv;
     SumCredit = SumCredit + cashv;
     
-    logtext(0,SumDebet);
     
     if (RepSpec.ArtMode==1) then begin
       if (lossv!=0) then begin//            if ((RepSpec.flags[2]==0) and (lossv!=0)) then begin

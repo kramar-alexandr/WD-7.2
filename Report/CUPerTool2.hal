@@ -1557,6 +1557,9 @@ CURRENCIES-TODO
                     end else begin
                       SumDebet = SumDebet + lossv;
                     end;
+                    
+                    logtext(0,"1 " & SumDebet);
+                    
                   end;
                 end else begin
 //                    balp = balp - basecurval;//balance cannot be calculated here since displayed below base on ipcurcnt array
@@ -1568,6 +1571,7 @@ CURRENCIES-TODO
 //                    SumDebet = SumDebet + lossv;
                     SumDebet = SumDebet - lossv;//JJ
                   end;
+                  logtext(0,"2 " & SumDebet);
                 end;
                 if (IPrw.InvoiceNr>0) then begin
                   balp = balp + lossv;

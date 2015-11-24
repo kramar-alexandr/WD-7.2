@@ -162,7 +162,6 @@ BEGIN
                     end;
                   end;
                   sump = sump - t;
-                  logtext(0,"0 " & sump);
                   if ((RepSpec.flags[18]!=0) and (RepSpec.ArtMode!=4) and (RepSpec.ArtMode!=6)) then begin
                     AddToCreditorsAccounts(apacc,0,-t,credaccs,credbal,credcnt);
                   end;        
@@ -245,7 +244,6 @@ L11:;
                           rvalp = rvalp - TRrw.DebVal;
                         end;                      
                         sump = sump - TRrw.DebVal; 
-                        logtext(0,"1 " & sump);                     
                         sum2p = sum2p - TRrw.DebVal2;
                         if (RepSpec.ArtMode==4) begin
                           sumcurncy = sumcurncy + TRrw.CurDebVal;
@@ -272,7 +270,6 @@ L11:;
                           rvalp = rvalp + TRrw.CredVal;
                         end;                      
                         sump = sump + TRrw.CredVal;  
-                        logtext(0,"2 " & sump);                    
                         sum2p = sum2p + TRrw.CredVal2;
                         if (RepSpec.ArtMode==4) begin
                           sumcurncy = sumcurncy - TRrw.CurCredVal;
@@ -338,7 +335,6 @@ L11:;
                     rvalp = rvalp - PurgeTRr.DebVal;
                   end;                      
                   sump = sump - PurgeTRr.DebVal;  
-                  logtext(0,"3 " & sump);                    
                   sum2p = sum2p - PurgeTRr.DebVal2;
                   if (RepSpec.ArtMode==4) begin
                     sumcurncy = sumcurncy + PurgeTRr.CurDebVal;
@@ -365,7 +361,6 @@ L11:;
                     rvalp = rvalp + PurgeTRr.CredVal;
                   end;                      
                   sump = sump + PurgeTRr.CredVal; 
-                  logtext(0,"4 " & sump);                     
                   sum2p = sum2p + PurgeTRr.CredVal2;
                   if (RepSpec.ArtMode==4) begin
                     sumcurncy = sumcurncy - PurgeTRr.CurCredVal;
@@ -455,8 +450,6 @@ L11:;
                 rvalp = rvalp + APPayHistr.BookVal;
               end;
               sump = sump + APPayHistr.BookVal;
-              logtext(0,"5 " & APPayHistr.SerNr);
-              logtext(0,"5 " & APPayHistr.BookVal);
               if (sump==0) then begin
                 sum2p = 0;
               end else begin
@@ -535,8 +528,6 @@ L11:;
                 rvalp = rvalp - APPayHistr.BookVal;
               end;
               sump = sump - APPayHistr.BookVal;
-              logtext(0,"6 " & APPayHistr.SerNr);
-              logtext(0,"6 " & -APPayHistr.BookVal);
               if (APPayHistr.CurncyCode==bcur.BaseCur1) then begin
               end else begin
                 OPr.SerNr = APPayHistr.SerNr;
@@ -547,7 +538,6 @@ L11:;
                     if (OPrw.PrepayNr==APPayHistr.VEPNr) then begin
                       if (nonblank(OPrw.B1BankVal)) then begin
                         sump = sump + t;
-                        logtext(0,"7 " & sump);
                         sump = sump - OPrw.B1BankVal;
                       end;
                       if (GetAPPayRate(OPrw.PrepayNr,frrate,torate1,torate2,baserate1,baserate2,OPrw.PInvCurncy,OPr.TransDate)) then begin
@@ -558,7 +548,6 @@ L11:;
 
                       lossv = lossv - t;
                       sump = sump - lossv;
-                      logtext(0,"8 " & sump);
                       if (blank(VEp.VECurncyCode)) then begin// in base1 then
                         rvalp = rvalp - lossv;
                       end;
@@ -628,7 +617,6 @@ L11:;
             AddCurncyTotals(acur,av1,curcnt,APPayHistr.CurncyCode,-APPayHistr.Val);
             rvalp = rvalp - APPayHistr.Val;
             sump = sump - APPayHistr.BookVal;
-            logtext(0,"9 " & sump);
             Base1ToBase2(APPayHistr.BookVal,APPayHistr.TransDate,t);
             sum2p = sum2p - t;
             if ((RepSpec.flags[18]!=0) and (RepSpec.ArtMode!=4) and (RepSpec.ArtMode!=6)) then begin
@@ -677,7 +665,6 @@ L11:;
             AddCurncyTotals(acur,av1,curcnt,APPayHistr.CurncyCode,-APPayHistr.Val);
             rvalp = rvalp + APPayHistr.Val;
             sump = sump + APPayHistr.BookVal;
-            logtext(0,"10 " & sump);
             Base1ToBase2(APPayHistr.BookVal,APPayHistr.TransDate,t);
             sum2p = sum2p + t;
             if ((RepSpec.flags[18]!=0) and (RepSpec.ArtMode!=4) and (RepSpec.ArtMode!=6)) then begin

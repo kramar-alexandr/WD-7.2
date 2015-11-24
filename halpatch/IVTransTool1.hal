@@ -159,7 +159,6 @@ BEGIN
     objstr = object;
 //    GetFullCurncyRate(ARPayr.CurncyCode,ARPayr.PayDate,pfr,pto1,pto2,pbr1,pbr2);
     GetARPrepaymentRate(IVrw.CUPNr,pfr,pto1,pto2,pbr1,pbr2);
-    logtext(0,"PRRATEEE   " & pfr & " " & pto1);
     if (CheckVATLaws) then begin
       FindIPCurncyRate(ARPayr.CUPNr,pfr,pto1,td);
     end; 
@@ -167,7 +166,6 @@ BEGIN
     if (baseprep==0) then begin
       baseprep = MulRateToBase1(IVp.CurncyCode,trev,pfr,pto1,pto2,pbr1,pbr2,DefaultCurRoundOff);
     end;
-    logtext(0,trev);
     switch (IVTb.IVFromORRate) begin
       case kIVRateFromPrepaymentandInvoice:
         rs = IVrw.BasePrice;
@@ -198,7 +196,6 @@ BEGIN
         bbaserate2 = ivbaserate2;
     end;    
     diff = rs - baseprep;
-    logtext(0,rs & " " & baseprep);
     if (diff<0) then begin gain = -1; end;
     if (diff>0) then begin gain = 1; end;
     ConvertSalesAcc(revacc,IVp.ExportFlag);
@@ -261,9 +258,7 @@ BEGIN
                            pfr,pto1,pto2,pbr1,pbr2,trev,nilv,-1,IVp.InvType==kInvoiceTypeCredit or IVp.InvType==kInvoiceTypeCreditSpecialSales,taccnumber);
       end;
     end;
-    
-    logtext(0,"dsfsdf " & gain);
-    
+        
     if (gain==-1) then begin//tofollow corsp rules
       err = GetAccNamCurVAT(IVp.ARAcc,tstr,tstr2,59,IVp.CurncyCode);
       tstr = tstr & " "; // To get a different comment 
@@ -276,7 +271,6 @@ BEGIN
         errstrno = 1918;
         goto LAddIVPrePayRow;
       end;
-      logtext(0,ARAccRec.RateGainAcc);
       AddEuroTrRow(gTRp,ARAccRec.RateGainAcc,"","",tstr,diff,ivbaserate1,ivbaserate2,false,dc2,TotSum,IVp.InvType==kInvoiceTypeCredit or IVp.InvType==kInvoiceTypeCreditSpecialSales,"","","");
     end;
     if (gain==1) then begin
@@ -284,7 +278,6 @@ BEGIN
         errstrno = 1917;
         goto LAddIVPrePayRow;
       end;
-      logtext(0,ARAccRec.RateLossAcc);
       AddEuroTrRow(gTRp,ARAccRec.RateLossAcc,"","",tstr,diff,ivbaserate1,ivbaserate2,false,dc2,TotSum,IVp.InvType==kInvoiceTypeCredit or IVp.InvType==kInvoiceTypeCreditSpecialSales,"","","");
     end;
     if (ARPayr.VATVal!=0) then begin

@@ -237,6 +237,7 @@ LCustListTransAnotherCurrency:;
 
       if (IPrsr.TransType==kIPrsTransTypeInvoice) then begin
         CUPer_PrintInvoice(RepSpec,IPrsr.TransNr,CUp,bascur,balp,SumDebet,SumCredit,totloss,totgain,pos1,pos2,cuperlastprepcur,fwdbalinvoices,statmentcurrency,remainingcurrencies,vreportedcurncy);
+      	logtext(0,SumDebet & " " & IPrsr.TransNr & " 2");
       end;       
       if (IPrsr.TransType==kIPrsTransTypeReceipt) then begin
         if (nonblank(RepSpec.ObjStr)) then begin goto L55; end;
@@ -256,26 +257,32 @@ LCustListTransAnotherCurrency:;
             end;  
           end;
           CUPer_PrintReceipt(RepSpec,IPr,CUp,bascur,IPrsr,aipnr,acnt,balp,SumDebet,SumCredit,totloss,totgain,pos1,pos2,fwdbalinvoices,statmentcurrency,remainingcurrencies,vreportedcurncy);
+					logtext(0,SumDebet & "  3 " & IPr.SerNr);
 //  PrintCurncyTotals(ipacur,ipav1,ipav2,ipav3,ipcurcnt,4,480,-1,300,false,RepSpec.PocketPC);
         end;
       end;
       if (IPrsr.TransType==kIPrsTransTypePurgeNLTransaction) then begin
         CUPer_PrintPurgeTransaction(RepSpec,CUp,IPrsr,balp,SumDebet,SumCredit,totloss,totgain,pos1,pos2);
+        logtext(0,SumDebet & "  4");
       end;
       if (IPrsr.TransType==kIPrsTransTypeNLTransaction) then begin
         CUPer_PrintTransaction(RepSpec,CUp,IPrsr,balp,SumDebet,SumCredit,totloss,totgain,pos1,pos2,statmentcurrency,remainingcurrencies,vreportedcurncy);
+     		logtext(0,SumDebet & "  5");
       end;
       if (IPrsr.TransType==kIPrsTransTypeCashIn) then begin
         CustListTransCLIn(RepSpec,IPrsr,CUp,balp,SumCredit,totloss,totgain,pos1,pos2,fwdbalinvoices,statmentcurrency,remainingcurrencies,vreportedcurncy);
       end;
       if (IPrsr.TransType==kIPrsTransTypeCashOut) then begin
         CustListTransCLOut(RepSpec,IPrsr,CUp,balp,SumDebet,pos1,pos2,statmentcurrency,remainingcurrencies,vreportedcurncy);
+        logtext(0,SumDebet & "  6");
       end;    
       if (IPrsr.TransType==5) then begin
         CustListTransCLOut(RepSpec,IPrsr,CUp,balp,SumDebet,pos1,pos2,statmentcurrency,remainingcurrencies,vreportedcurncy);
+        logtext(0,SumDebet & "  7");
       end;    
       if (IPrsr.TransType==6) then begin
         CustListTransCredMan(RepSpec,IPrsr,CUp,balp,SumDebet,pos1,pos2);
+        logtext(0,SumDebet & "  8");
       end;  
     end;
 L55:;
@@ -286,8 +293,10 @@ L55:;
   end;
   if (fwdbalinvoices==0) then begin
     CUPer_PrintTotals(RepSpec,CUp,bascur,custout,SumDebet,SumCredit,startbal,totloss,totgain,balp,TotSumDebet,TotSumCredit);
+    logtext(0,SumDebet & "  9");
   end else begin
     CUPer_PrintTotals(RepSpec,CUp,bascur,startbal!=0,SumDebet,SumCredit,startbal,totloss,totgain,balp,TotSumDebet,TotSumCredit);
+    logtext(0,SumDebet & "  10");
   end;
   if ((RepSpec.flags[2]==1) and (nonblank(CUp.CurncyCode))) then begin
     curncy = CUp.CurncyCode;
@@ -380,6 +389,7 @@ LCustListTrans_SortOnInvoiceAnotherCurrency:;
       if (IPrsr.TransType==kIPrsTransTypeInvoice) then begin
         if (IPrsr.IVNr==IPrsr.TransNr) then begin
           CUPer_PrintInvoice(RepSpec,IPrsr.TransNr,CUp,bascur,balp,SumDebet,SumCredit,totloss,totgain,pos1,pos2,cuperlastprepcur,fwdbalinvoices,statmentcurrency,remainingcurrencies,vreportedcurncy);
+          logtext(0,SumDebet & " " & IPrsr.TransNr & " 1");
           CUPer_PrintDataForInvoice(RepSpec,IPrsr.TransNr,CUp,bascur,balp,SumDebet,SumCredit,totloss,totgain,pos1,pos2,fwdbalinvoices,statmentcurrency,remainingcurrencies,vreportedcurncy);
         end;
       end;       

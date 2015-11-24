@@ -90,7 +90,6 @@ BEGIN
   vector val vtots;
   val myrs,myrsval;// Edit ************************** Wednesday, 29 February 2012 14:34:49
   
-
   totCurSum = blankval;
   tot1Sum = blankval;
   BlockLoad(Ab);  
@@ -855,7 +854,6 @@ L55:;
   rval = 0;
   if (RepSpec.flags[21]<2) then begin    
     APGetOnAccBalance(RepSpec,VEr,backdatf,sum,sum2,rval,onaccsumbooked,onaccsumnow,onaccsumcurncy,onaccsumdiff,credaccs,credbal,credcnt,acur,av1,curcnt);
-    logtext(0,"SUM " & sum);
     sumbooked = sumbooked - onaccsumbooked;
     sumnow = sumnow - onaccsumnow;
     sumcurncy = sumcurncy - onaccsumcurncy;

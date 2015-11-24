@@ -1331,7 +1331,6 @@ begin
     ld = AddDay(sd,-1);
 //    v = GetBalance(CUr,colns,ld);
 		//ld = sd;
-		logtext(0,ld);
     CSr.CustCode = CUr.Code;
     CSr.CurncyCode = curncy;    
     v = GetBalance(CSr,colns,ld);
@@ -1342,7 +1341,6 @@ StartFormat(15);
  OutString(400,0,v,false);
 EndFormat;
 */	
-	logtext(0,v);
   end;
   return;
 end;

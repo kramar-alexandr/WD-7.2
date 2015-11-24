@@ -1573,7 +1573,6 @@ integer compno;
       switch (compno) begin
       case 1: CreateFile("Reports/1/iStoreAmortization.xls");
               closefile;
-              logtext(0,"1");
               millisleep(100);
               openexportfile("Reports/1/iStoreAmortization.xls",true);
               AT2DeprRn(RepSpec);

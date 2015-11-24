@@ -290,12 +290,10 @@ L12:;
 		mtrw1 = matrowcnt(OPp);
 		mtrw2 = matrowcnt(OP2p);
 		if(mtrw1==mtrw2)then begin
-			logtext(0,222);
 			For(i=0;i<mtrw1;i=i+1) begin
 				matrowget(OPp,i,OPrw);
 				matrowget(OP2p,i,OP2rw);
 				if(OPrw.Objects!=OP2rw.Objects)then begin
-					logtext(0,333);
 					res = 0;
 					goto LMyEditBjectsCheck;
 				end;
@@ -303,7 +301,6 @@ L12:;
 		end;
 	end;
   if (Date2Test("OPVc",OPp.TransDate,"TransDate",-1)==false) then begin
-  	logtext(0,111);
     res = -1;
     goto LOPVcRecordCheck;
   end;
@@ -316,7 +313,6 @@ LMyEditBjectsCheck:  // Edit ************************** Wednesday, 28 October 20
     goto LOPVcRecordCheck;
   end;
 */  
-	logtext(0,444);  
   if (blank(OPp.PayMode)) then begin
     if (disperrf) then begin
       RecordCheckError(1207,"",-1,"PayMode");      

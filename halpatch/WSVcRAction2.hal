@@ -438,7 +438,8 @@ BEGIN
 //  if ((IVr.Invalid==0) and (IV2r.Invalid==0)) then begin
   if ((WSr.OKFlag==0) and (WS2r.OKFlag!=0)) then begin//unok
     UnOKWorkSheet(WSr,WS2r,true);
-  end; LogText(0,"r " & r);
+  end; 
+  
   switch (r) begin //Edit***************************Sasha2,16:23 10.06.2015 {
     case -1: /*Beep*/;
     case -2: /*MessageBox(1281,"")*/;

@@ -978,7 +978,6 @@ LStoreItemHistory_Out:;
 						SMrw.FIFORowVal = outcost;
 						matrowput(SMr,rownr,SMrw);
 						RecordStore(SMr,true);
-						logtext(0,"StockMovVc " & SMr.SerNr);
 					end;
 				end;
 			end;
