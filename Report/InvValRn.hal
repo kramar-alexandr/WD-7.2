@@ -626,7 +626,7 @@ BEGIN
       groupqtyp = groupqtyp + instockwithconsig;
       nrq2p = nrq2p + instock2;      
     end;
-    if (RepSpec.ArtMode==0) then begin// Overview     
+    if (RepSpec.ArtMode==0) then begin // Overview     
       GetCostPrice(RepSpec,INp,orgINr,varf,fManyLocations,CAb,GOb.UseDiscount,roundof,instock,instockwithconsig,orginstock,t2,t);
 
 //Trace("INp.Code " & INp.Code," instock " & instock & " t " & t);  
@@ -699,29 +699,29 @@ BEGIN
       end;  
       end;
     end;
-    if (RepSpec.ArtMode==2) then begin// Per location          
-      if (printf) then begin
+    if (RepSpec.ArtMode==2) then begin // Per location          
+      /*if (printf) then begin //Edit***************************Sasha2,11:33 24.11.2015
         StartFormat(15);
         OutString(inpos,dblstr,INp.Code & variety,false);
         OutString(2,0,INp.Name,false);
         OutString(4,0,INp.Unittext,false);
         EndFormat;
-      end;
+      end;*/
       if (RepSpec.flags[22]!=0) then begin
         INp.Code = INp.Code;
         FindStockValue2(INp,variety,RepSpec.f2,RepSpec.flags[1],RepSpec.d1,RepSpec.flags[14],fManyLocations,t,instock,instock2,RepSpec.flags[15],RepSpec.flags[11],RepSpec.flags[12],RepSpec.flags[20],true,vlocationtotals);
       end else begin
         FindStockValue2(INp,"",RepSpec.f2,RepSpec.flags[1],RepSpec.d1,RepSpec.flags[14],fManyLocations,t,instock,instock2,RepSpec.flags[15],RepSpec.flags[11],RepSpec.flags[12],RepSpec.flags[20],true,vlocationtotals);
       end;
-      if (printf) then begin
-        Black_Divider(2,1);      
+      if (printf) then begin //Edit***************************Sasha2,11:55 24.11.2015
+        /*Black_Divider(2,1);      
         StartFormat(15);
-        OutVal(3,0,instockwithconsig,M4UVal,true);
+        OutVal(3,0,instockwithconsig,M4UVal,true);*/
         if (RepSpec.flags[15]!=0) then begin
-          OutValBiDi(350,0,instock2,M4UVal,true,390);
+          //OutValBiDi(350,0,instock2,M4UVal,true,390);
         end;
         if (UserCanAction("ViewCostPrice",false)) then begin //Edit***************************Sasha2,15:17 24.04.2015
-          OutVal(4,0,t/instock,M45Val,true);
+          //OutVal(4,0,t/instock,M45Val,true);
         end; //Edit***************************Sasha2,15:27 24.04.2015
         typ = M45Val;
         if ((RepSpec.flags[16]!=0) or (roundof.decimals==2)) then begin
@@ -729,10 +729,10 @@ BEGIN
           typ = M4Val;
         end;
         if (UserCanAction("ViewCostPrice",false)) then begin //Edit***************************Sasha2,15:17 24.04.2015
-          OutVal(6,0,t,typ,true);
+          //OutVal(6,0,t,typ,true);
         end; //Edit***************************Sasha2,15:27 24.04.2015
-        EndFormat;
-      end;      
+        //EndFormat;
+      end;     
       sum1p = sum1p + t;
       nrp = nrp + instockwithconsig;
       groupsump = groupsump + t;

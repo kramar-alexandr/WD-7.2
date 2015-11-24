@@ -869,6 +869,9 @@ begin
         vlocationtotals[Locr.Code] = vlocationtotals[Locr.Code] + instock;
         if (printlocqf) then begin
           StartFormat(15);
+          OutString(0,0,INp.Code & variety,false); //Edit***************************Sasha2,11:28 24.11.2015
+          OutString(40,0,INp.Name,false); //Edit***************************Sasha2,11:28 24.11.2015
+          OutString(100,0,INp.Unittext,false); //Edit***************************Sasha2,11:28 24.11.2015
           OutString(120,0,Locr.Code,false);
           OutVal(3,0,instockwithconsig,M4UVal,true);
           if (qty2!=0) then begin
