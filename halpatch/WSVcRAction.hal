@@ -415,7 +415,8 @@ begin
   Boolean initotcheckf;
   record AccVc Accr;
   record CUVc CUr;// Edit ************************** Thursday, 15 December 2011 09:33:37
-  record UserVc User;// Edit ************************** Monday, 25 November 2013 10:01:27  
+  record UserVc User;// Edit ************************** Monday, 25 November 2013 10:01:27 
+  record LocationVc Locationr;// Edit ************************** Thursday, 19 November 2015 10:32:59
     
   res = 0;
   BlockLoad(MainStockRec);
@@ -574,6 +575,20 @@ begin
      end;
    end;
   end;
+  
+  // Edit Start ---------------------------------------------- Edit Start
+	//Thursday, 19 November 2015 10:32:41
+	Locationr.Code = WSp.Location;
+  if (ReadFirstMain(Locationr,1,true)==false) then begin
+		RecordCheckError(1290,"",-1,"Location");      
+		res = -1; 
+		goto LWSVcRecordCheck;
+	end;
+  
+  
+	// Edit End ---------------------------------------------- Edit End
+	
+  
   rwcnt = MatRowCnt(WSp);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(WSp,i,WSrw);

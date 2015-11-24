@@ -312,7 +312,7 @@ begin
 	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
 	array string 5 uahpurate,uahcurrate;
 	array string 100 comment;
-	
+	longint worksheet;
 	
 	blockload(BCb);
 
@@ -453,7 +453,12 @@ begin
 									end;
 								end;
                 
-                
+                notenr = 1;
+								while (ReadRecordLink(IVr,notenr,WSr,RLr)) begin
+									enginer = WSr.EMCode;
+									worksheet = WSr.SerNr;
+									notenr = notenr + 1;
+								end;
                 
                 if(nonblank(IVrw.FIFO) and (IVrw.FIFO!=0)) then begin
                   //OutVal(20,0,IVrw.FIFO,M4Val,false);
@@ -519,6 +524,13 @@ begin
                         notenr1=notenr1+1;
                       end;
                     end;
+                    
+                    notenr = 1;
+										while (ReadRecordLink(IVr,notenr,WSr,RLr)) begin
+											enginer = WSr.EMCode;
+											worksheet = WSr.SerNr;
+											notenr = notenr + 1;
+										end;
       //COSTZERO:;
                     if(MyCost==0) then begin
                       //MyCost = IVrw.BasePrice;
@@ -777,6 +789,13 @@ l1:;
 														notenr1=notenr1+1;
 													end;
 												end;
+												
+												notenr = 1;
+												while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
+													enginer = WSr.EMCode;
+													worksheet = WSr.SerNr;
+													notenr = notenr + 1;
+												end;
                       	
                       	
                         if(newIVr.OrderNr>0) then begin
@@ -836,6 +855,13 @@ l1:;
                               notenr1=notenr1+1;
                             end;
                           end;
+                          
+                          notenr = 1;
+													while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
+														enginer = WSr.EMCode;
+														worksheet = WSr.SerNr;
+														notenr = notenr + 1;
+													end;
           //  COSTZERO:;
                           if(MyCost==0) then begin
                           end;
@@ -1189,6 +1215,13 @@ begin
 										notenr1=notenr1+1;
 									end;
 								end;
+								
+								notenr = 1;
+								while (ReadRecordLink(IVr,notenr,WSr,RLr)) begin
+									enginer = WSr.EMCode;
+									worksheet = WSr.SerNr;
+									notenr = notenr + 1;
+								end;
                 
                 if(nonblank(IVrw.FIFO) and (IVrw.FIFO!=0)) then begin
                   MyCost = IVrw.FIFO;
@@ -1252,6 +1285,13 @@ begin
                         notenr1=notenr1+1;
                       end;
                     end;
+                    
+                    notenr = 1;
+										while (ReadRecordLink(IVr,notenr,WSr,RLr)) begin
+											enginer = WSr.EMCode;
+											worksheet = WSr.SerNr;
+											notenr = notenr + 1;
+										end;
       //COSTZERO:;
                     if(MyCost==0) then begin
                       //MyCost = IVrw.BasePrice;
@@ -1418,6 +1458,13 @@ l1:;
 														notenr1=notenr1+1;
 													end;
 												end;
+												
+												notenr = 1;
+												while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
+													enginer = WSr.EMCode;
+													worksheet = WSr.SerNr;
+													notenr = notenr + 1;
+												end;
                       	
                         if(newIVr.OrderNr>0) then begin
                           SHr.OrderNr = newIVr.OrderNr;
@@ -1476,7 +1523,15 @@ l1:;
                               notenr1=notenr1+1;
                             end;
                           end;
-          //  COSTZERO:;
+          //  COSTZERO:;	
+          
+          								notenr = 1;
+													while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
+														enginer = WSr.EMCode;
+														worksheet = WSr.SerNr;
+														notenr = notenr + 1;
+													end;
+          								
                           if(MyCost==0) then begin
                           end;
                         end;

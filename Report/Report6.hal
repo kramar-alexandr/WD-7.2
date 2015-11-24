@@ -240,7 +240,7 @@ integer compno;
       				CreateFile("Stock/SamsungStockFull.xls");
               closefile;
               openexportfile("Stock/SamsungStockFull.xls",true);
-              RepSpec.f1 = "INV#1_OL,EXB_OL,EXB_OL_ST,INV#1_OLST";
+              RepSpec.f1 = "INV#1_OL,EXB_OL,EXB_OL_ST,INV#1_OLST,INV#1,EXB";
               MyItemReportRn(RepSpec);
               RepSpec.f1 = "";
               RunProgram("Stock/SamsungStockFull.sh", "");

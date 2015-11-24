@@ -591,13 +591,24 @@ change does not increase invoice values
 */    
     cashv = 0;
     rwcnt = MatRowCnt(IVr);
-    for (i=0;i<rwcnt;i=i+1) begin
-      MatRowGet(IVr,i,IVrw);
-      switch (IVrw.stp) begin
-        case kInvoiceRowTypeGiftVoucherPayment: cashv = cashv + IVrw.Sum;
-        case kInvoiceRowTypeCashPayment: cashv = cashv + MulRateToBase1(IVrw.CurncyCode,IVrw.Sum,IVrw.FrRate,IVrw.ToRateB1,IVrw.ToRateB2,IVrw.BaseRate1,IVrw.BaseRate2,DefaultCurRoundOff);
-        case kInvoiceRowTypeCreditCardPayment: cashv = cashv + MulRateToBase1(IVrw.CurncyCode,IVrw.Sum,IVrw.FrRate,IVrw.ToRateB1,IVrw.ToRateB2,IVrw.BaseRate1,IVrw.BaseRate2,DefaultCurRoundOff);
-      end;
+    if (RepSpec.flags[2]==0) then begin// Edit ************************** Thursday, 19 November 2015 12:54:41
+			for (i=0;i<rwcnt;i=i+1) begin
+				MatRowGet(IVr,i,IVrw);
+				switch (IVrw.stp) begin
+					case kInvoiceRowTypeGiftVoucherPayment: cashv = cashv + IVrw.Sum;
+					case kInvoiceRowTypeCashPayment: cashv = cashv + MulRateToBase1(IVrw.CurncyCode,IVrw.Sum,IVrw.FrRate,IVrw.ToRateB1,IVrw.ToRateB2,IVrw.BaseRate1,IVrw.BaseRate2,DefaultCurRoundOff);
+					case kInvoiceRowTypeCreditCardPayment: cashv = cashv + MulRateToBase1(IVrw.CurncyCode,IVrw.Sum,IVrw.FrRate,IVrw.ToRateB1,IVrw.ToRateB2,IVrw.BaseRate1,IVrw.BaseRate2,DefaultCurRoundOff);
+				end;
+			end;
+    end else begin// Edit ************************** Thursday, 19 November 2015 12:54:39
+			for (i=0;i<rwcnt;i=i+1) begin
+				MatRowGet(IVr,i,IVrw);
+				switch (IVrw.stp) begin
+					case kInvoiceRowTypeGiftVoucherPayment: cashv = cashv + IVrw.Sum;
+					case kInvoiceRowTypeCashPayment: cashv = cashv + IVrw.Sum;//MulRateToBase1(IVrw.CurncyCode,IVrw.Sum,IVrw.FrRate,IVrw.ToRateB1,IVrw.ToRateB2,IVrw.BaseRate1,IVrw.BaseRate2,DefaultCurRoundOff);
+					case kInvoiceRowTypeCreditCardPayment: cashv = cashv + IVrw.Sum;//MulRateToBase1(IVrw.CurncyCode,IVrw.Sum,IVrw.FrRate,IVrw.ToRateB1,IVrw.ToRateB2,IVrw.BaseRate1,IVrw.BaseRate2,DefaultCurRoundOff);
+				end;
+			end;
     end;
     if ((IVr.RetnValue>0 and IVr.Sum4>0) or (IVr.RetnValue<0 and IVr.Sum4<0)) then begin
       cashv = cashv - IVr.RetnValue;
