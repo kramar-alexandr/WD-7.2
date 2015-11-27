@@ -1439,6 +1439,16 @@ BEGIN
             end else begin            
               t = MulWithRateToBase1(ARPayHistr.CurncyCode,ARPayHistr.TransDate,ARPayHistr.Val,DefaultCurRoundOff);
             end;
+            
+            // Edit Start ---------------------------------------------- Edit Start
+	//Wednesday, 25 November 2015 15:04:23
+	
+						if(t<0)then begin
+								t = ARPayHistr.BookVal;
+						end;
+                  
+	// Edit End ---------------------------------------------- Edit End
+	
             prepbalbase = prepbalbase + t;
             lossv = blankval;
             if (ARPayHistr.CurncyCode==BCb.BaseCur1) then begin
@@ -1457,6 +1467,15 @@ BEGIN
                       prepbalbase = prepbalbase + IPrw.B1BankVal;
                     end;
                     FindAllPrepayLosses(IPrw.InvCurncy,IPr.TransDate,IPrw.InvVal,IPrw.CUPNr,IPrw.InvVal,lossv,IVr,IPrw.InvoiceNr,-1,false,BCb,IPrw.B1BankVal,IPrw.BankCurncy);
+                    // Edit Start ---------------------------------------------- Edit Start
+	//Wednesday, 25 November 2015 15:17:21
+	
+                    if(t<0)then begin
+												lossv = ARPayHistr.BookVal;
+										end;
+										
+	// Edit End ---------------------------------------------- Edit End
+	
                     if (lossv!=t) then begin
                       prepbalbase = prepbalbase - lossv;
                     end;

@@ -36,7 +36,7 @@ BEGIN
   val thesum,sumthesum;
   val bases,realbases;  
 //  transaction string 10 cuperlastprepcur;//global variable crashes when export
-
+		
   cvp = curvalp;
   lastcupno = -1;
   lossvp = blankval;
@@ -91,6 +91,7 @@ BEGIN
           cuperlastprepcur = ARPayHistr.CurncyCode;
         end;
       end;
+      
       ResetLoop(ARPayHistr);
       ARPayHistr.CUPNr = IVrw.CUPNr;
       ARPayHistr.FileName = "CLInVc";
@@ -138,7 +139,6 @@ BEGIN
       end else begin
         thesum = (IVrw.Sum*realbases)/curv;
       end;
-            
       lossvp = lossvp - Round(bases-realbases,DefaultRoundMode); // bases-thesum, makes no sense....
       if (incur!=0) then begin
         if (cucurcode==IVp.CurncyCode) then begin
@@ -148,7 +148,7 @@ BEGIN
       if (lossvp==0) then begin
         lossvp = blankval;
       end;
-      lastcupno = IVrw.CUPNr;
+      //lastcupno = IVrw.CUPNr;//???// Edit ************************** Tuesday, 24 November 2015 16:10:47
     end;
   end;  
   RETURN;
@@ -640,6 +640,7 @@ change does not increase invoice values
       end;
     end;
     balp = balp - cashv;
+    
     SumDebet = SumDebet + cuscurval + lossv;
     SumCredit = SumCredit + cashv;
     

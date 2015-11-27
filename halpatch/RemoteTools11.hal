@@ -1043,7 +1043,11 @@ begin
   row CLInVc CLInrw;
   record CLOutVc CLOutr;
   row CLOutVc CLOutrw;
-
+  
+  string 20 tempcur;
+  
+  tempcur = CUr.CurncyCode;
+		
 //  res = startdbgv;
 /*
 StartFormat(15);    
@@ -1303,6 +1307,7 @@ StartFormat(15);
  OutString(400,0,res,false);
 EndFormat;
 */
+	CUr.CurncyCode = tempcur;
   CUGetStartBalanceNotFullMonth = res;          
   return;
 end;
@@ -1314,6 +1319,7 @@ begin
   record CSVc CSr;
   Date blankd;
   Date ed;
+  record BaseCurBlock BCb;// Edit ************************** Tuesday, 24 November 2015 14:23:31
   
   v = blankval;
   if (GetDay(sd)!=1) then begin
@@ -1333,6 +1339,9 @@ begin
 		//ld = sd;
     CSr.CustCode = CUr.Code;
     CSr.CurncyCode = curncy;    
+    if(blank(CUr.CurncyCode))then begin
+    	//CUr.CurncyCode = "USD";// Edit ************************** Tuesday, 24 November 2015 14:23:15
+    end;
     v = GetBalance(CSr,colns,ld);
 /*    
 StartFormat(15);    

@@ -62,6 +62,7 @@ external procedure Base2ToBase1(var val,Date,var val);
 remote procedure CalculatePOSCashBack(var record IVCashVc);
 remote function val MulRateToBase2(var string,val,val,val,val,val,val,roundmode);
 //external procedure IVCashDClassSpecificLevel(string);
+external function string 40 SerialNrSClassSpecPName(string);
 
 global
 function string 255 FindPOSCommandText(Integer action)
@@ -2726,3 +2727,37 @@ end;
 
 	// Edit End ---------------------------------------------- Edit End
 	
+	
+	
+	procedure IVCashDClassSpecPasteNameArtCode(Integer wn,var string psname)
+begin
+  record IVCashVc IVCashr;
+  Integer rownr;
+
+  GetWindowRecord(wn,IVCashr);
+  rownr = WindowActiveRow(wn);
+  DeselectWindow(wn,false);
+  WindowFieldGoto(wn,IVCashr,rownr,"ArtCode",false);
+  return;
+end;
+	
+	global
+function string 40 IVCashDClassSpecPasteName(Integer wn,string defpsname)
+begin
+  string 255 psname;
+  
+  psname = defpsname;
+  if(currentcompany!=4)then begin
+		switch (WindowActiveField(wn)) begin
+			case "SerialNr": psname = SerialNrSClassSpecPName(defpsname);
+			case "ArtCode": IVCashDClassSpecPasteNameArtCode(wn,psname);
+		end;
+  end else begin
+  	switch (WindowActiveField(wn)) begin
+			case "SerialNr": psname = "";
+			case "ArtCode": IVCashDClassSpecPasteNameArtCode(wn,psname);
+		end;
+  end;
+  IVCashDClassSpecPasteName = psname;
+  return;
+end;

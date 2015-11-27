@@ -870,6 +870,10 @@ LIVDClassActiveEditField:;
 		res = true;
 	end;
 	
+	if(currentuser=="SA")then begin// Edit ************************** Wednesday, 11 November 2015 16:16:15
+		res = true;
+	end;
+	
   IVDClassActiveEditField = res;
   RETURN;
 END;

@@ -161,7 +161,7 @@ BEGIN
   array val valClientTot,valTotSum; //Edit***************************Sasha2,14:31 20.08.2014
   array string 20 altcur; //Edit***************************Sasha2,14:25 20.08.2014
   Integer altcurcnt; //Edit***************************Sasha2,14:29 20.08.2014
-  
+    
   tot1Sum = blankval;
   altcurcnt = 1; //Edit***************************Sasha2,14:42 20.08.2014
   BlockLoad(Agedb);

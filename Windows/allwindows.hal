@@ -6254,7 +6254,11 @@ begin
   end;
   MatCol(t,190,"–΄νΰ",0,Price,true,0);
   MatCol(t,250,"οθρ",0,Spec,false,0);
-  MatCol(t,-195,"‘επ. ά",0,SerialNr,false,SerialNrSClass);
+  if(currentcompany==4)then begin// Edit ************************** Wednesday, 25 November 2015 17:47:46
+		MatCol(t,-195,"‘επ. ά",0,SerialNr,false,0);
+  end else begin
+  	MatCol(t,-195,"‘επ. ά",0,SerialNr,false,SerialNrSClass);// Edit ************************** Wednesday, 25 November 2015 17:47:48
+  end;
   MatCol(t,-110,"%",0,vRebate,true,0);
   MatCol(t,-80,"‘σμΰ",0,Sum,true,0);
   MatText(t=kInvoiceRowTypeUpdateMark,28,"΄δοθρ",false);

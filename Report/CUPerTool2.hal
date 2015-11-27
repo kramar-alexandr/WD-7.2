@@ -678,22 +678,28 @@ begin
     if (invnr<>-1) then begin
       b1loss = MulRateToBase1(IVr.CurncyCode,curval,IVr.FrRate,IVr.ToRateB1,IVr.ToRateB2,IVr.BaseRate1,IVr.BaseRate2,DefaultCurRoundOff);
     end else begin
-      if (B1BankVal==0) then begin
-        if ((bascur.BaseCur1==bankcurncy) and (bankcurncy<>invcurncy)) then begin
-  //        b1loss = bankval;//must be same as one on prepayment account
-          b1loss = MulWithRateToBase1(invcurncy,ltransdate,curval,DefaultCurRoundOff);
-        end else begin
-          b1loss = MulWithRateToBase1(invcurncy,ltransdate,curval,DefaultCurRoundOff);
-        end;
+    	if (invval<0) then begin// Edit ************************** Wednesday, 25 November 2015 11:25:20
+				if (B1BankVal==0) then begin
+					if ((bascur.BaseCur1==bankcurncy) and (bankcurncy<>invcurncy)) then begin
+						b1loss = MulWithRateToBase1(invcurncy,ltransdate,curval,DefaultCurRoundOff);
+					end else begin
+						b1loss = MulWithRateToBase1(invcurncy,ltransdate,curval,DefaultCurRoundOff);
+					end;
+				end else begin
+					b1loss = B1BankVal;
+				end; 
       end else begin
-        b1loss = B1BankVal;
-      end;    
+      	//b1loss
+      end;   
     end;
     losses = losses + b1loss;
     if (losses==0) then begin
       losses = BlankVal;
     end;  
-  end;
+  end;  
+  
+  //logtext(0,cuscurval);
+  
   return;
 end;
 
@@ -1317,6 +1323,7 @@ begin
   val opensum,bv;
   val v1,t1;// Edit ************************** Monday, 13 December 2010 12:00:58
   string 5 mycur;
+  record ARPayHistVc ARHistr;// Edit ************************** Wednesday, 25 November 2015 14:59:09
     
   rwcnt = MatRowCnt(IPr);
   if (RepSpec.flags[8]!=0) then begin
@@ -1346,24 +1353,8 @@ LCUPer_PrintReceiptLoop:;
       if (nonblank(RepSpec.CurncyCode)) then begin
         if (IPrw.InvCurncy!=RepSpec.CurncyCode) then begin testf = false; end;
       end;
-/*    
-CURRENCIES-TODO        
-      if (nonblank(statmentcurrency)) then begin
-        if (IPrw.InvCurncy!=statmentcurrency) then begin 
-          if (vreportedcurncy[IPrw.InvCurncy]==false) then begin
-            remainingcurrencies = AddObjectToObjectList(remainingcurrencies,IPrw.InvCurncy);        
-          end;
-          testf = false;
-        end;
-      end else begin
-        statmentcurrency = IPrw.InvCurncy;
-      end;    
-*/      
-    end;
-/*    
-CURRENCIES-TODO  
-    vreportedcurncy[statmentcurrency] = true;
-*/    
+
+    end; 
 
     if (testf) then begin
 //      lossv = 0; //loss is calculated below, and if more than 1 line on receipt it cannot be set to zero
@@ -1423,6 +1414,22 @@ CURRENCIES-TODO
                     end;
                   end;
                   basecurval = MulWithRateToBase1(IPrw.InvCurncy,IPr.TransDate,IPrw.InvVal,DefaultCurRoundOff);
+                  
+                  // Edit Start ---------------------------------------------- Edit Start
+	//Wednesday, 25 November 2015 15:04:23
+	
+                  if(basecurval<0)then begin
+										ARHistr.CUPNr = IPrw.CUPNr;
+										ARHistr.FileName = "IPVc";
+										ARHistr.SerNr = IPr.SerNr;
+										if(readfirstmain(ARHistr,3,true))then begin
+											basecurval = ARHistr.BookVal;
+										end;
+                  end;
+                  
+	// Edit End ---------------------------------------------- Edit End
+	
+                  
                   if ((bascur.BaseCur1==IPrw.BankCurncy) and (IPrw.BankCurncy<>IPrw.InvCurncy)) then begin
                     if (RepSpec.flags[2]==0) then begin
                       basecurval = IPrw.BankVal; //must show same as on prepayment account
@@ -1557,9 +1564,6 @@ CURRENCIES-TODO
                     end else begin
                       SumDebet = SumDebet + lossv;
                     end;
-                    
-                    logtext(0,"1 " & SumDebet);
-                    
                   end;
                 end else begin
 //                    balp = balp - basecurval;//balance cannot be calculated here since displayed below base on ipcurcnt array
@@ -1569,9 +1573,8 @@ CURRENCIES-TODO
                   end else begin
                     SumDebet = SumDebet - basecurval;
 //                    SumDebet = SumDebet + lossv;
-                    SumDebet = SumDebet - lossv;//JJ
+                    SumDebet = SumDebet + lossv;//JJ  ???? WTF// Edit ************************** Tuesday, 24 November 2015 14:32:13   bil minus
                   end;
-                  logtext(0,"2 " & SumDebet);
                 end;
                 if (IPrw.InvoiceNr>0) then begin
                   balp = balp + lossv;
