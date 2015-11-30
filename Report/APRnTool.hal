@@ -13,6 +13,8 @@ external function val MulWithRateToBase2(var string,Date,val,roundmode);
 external function val MulWithRateToBase1(var string,Date,val,roundmode);
 external procedure Base1ToBase2(var val,Date,var val);
 external function Integer TypeOfCurncy(var string,var Integer);
+external procedure ExtractObj(string,var Integer,var string); //Edit***************************Sasha2,10:51 30.11.2015
+external function Boolean SetInSet2(string,string); //Edit***************************Sasha2,10:56 30.11.2015
 
 global
 procedure SubAPPrePayments(record VIVc VIp,var val rvalp,var val rvalbase)
@@ -76,6 +78,22 @@ BEGIN
   val frrate,torate1,torate2,baserate1,baserate2;
   val lossv;
   Boolean vif,opf;
+  string 20 curobj; //Edit***************************Sasha2,10:50 30.11.2015
+  string 255 newobjlist; //Edit***************************Sasha2,10:53 30.11.2015
+  integer pos; //Edit***************************Sasha2,11:56 30.11.2015
+  
+  if (nonblank(RepSpec.ObjStr)) then begin //Edit***************************Sasha2,10:43 30.11.2015 {
+    pos = 0;
+    ExtractObj(RepSpec.ObjStr,pos,curobj);
+    while nonblank(curobj) begin
+      if (blank(newobjlist)) then begin
+        newobjlist = curobj;
+      end else begin
+        newobjlist = newobjlist & "+" & curobj;
+      end;
+      ExtractObj(RepSpec.ObjStr,pos,curobj);
+    end;
+  end; //Edit***************************Sasha2,10:43 30.11.2015 }
 
   BlockLoad(bcur);
   sump = 0;
@@ -120,7 +138,7 @@ BEGIN
                     end;
                   end;
                   if (nonblank(RepSpec.ObjStr)) then begin
-                    if (SetInSet(RepSpec.ObjStr,OPrw.Objects)==false) then begin
+                    if (SetInSet2(newobjlist,OPrw.Objects)==false) then begin //Edit***************************Sasha2,14:54 30.11.2015
                       testf = false;
                     end;
                   end;
@@ -411,7 +429,7 @@ L11:;
                   testf = false;
                 end;
               end;                                                        
-              if (!SetInSet(RepSpec.ObjStr,VIr.Objects)) then begin
+              if (!SetInSet2(newobjlist,VIr.Objects)) then begin //Edit***************************Sasha2,14:55 30.11.2015
                 testf = false;
               end;
             end;
@@ -483,7 +501,7 @@ L11:;
                     testf = ObjectTypeMatch(OPrw.Objects,RepSpec.ObjType);
                   end;                                                        
 //                  if (SetInSet(RepSpec.ObjStr,OPrw.Objects)==false) and (nonblank(OPrw.Objects)) then begin // y ?
-                  if (SetInSet(RepSpec.ObjStr,OPrw.Objects)==false) then begin
+                  if (SetInSet2(newobjlist,OPrw.Objects)==false) then begin //Edit***************************Sasha2,14:55 30.11.2015
                     testf = false;
                     i = rwcnt;
                   end;                
@@ -585,7 +603,7 @@ L11:;
                   if (nonblank(RepSpec.ObjType)) then begin
                     testf = ObjectTypeMatch(CLOutr.Objects,RepSpec.ObjType);
                   end;                                                        
-                  if (SetInSet(RepSpec.ObjStr,CLOutr.Objects)==false) then begin
+                  if (SetInSet2(newobjlist,CLOutr.Objects)==false) then begin //Edit***************************Sasha2,14:55 30.11.2015
                     testf = false;
                   end;
                   i = rwcnt;
@@ -641,7 +659,7 @@ L11:;
                   if (nonblank(RepSpec.ObjType)) then begin
                     testf = ObjectTypeMatch(CLInr.Objects,RepSpec.ObjType);
                   end;                                                        
-                  if (SetInSet(RepSpec.ObjStr,CLInr.Objects)==false) then begin
+                  if (SetInSet2(newobjlist,CLInr.Objects)==false) then begin //Edit***************************Sasha2,14:56 30.11.2015
                     testf = false;
                   end;
                   i = rwcnt;

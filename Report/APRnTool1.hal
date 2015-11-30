@@ -22,6 +22,8 @@ external function Integer TypeOfCurncy(var string,var Integer);
 external procedure HTCustClass(string,var string);
 external procedure HTCustClassType(string,var string);
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);// Edit ************************** Thursday, 26 January 2012 12:28:50
+external procedure ExtractObj(string,var Integer,var string); //Edit***************************Sasha2,10:51 30.11.2015
+external function Boolean SetInSet2(string,string); //Edit***************************Sasha2,10:56 30.11.2015
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -346,6 +348,22 @@ BEGIN
   val rrate,to1,to2,br1,br2,fr;
   record CUVc CUr;
   string 200 tstr1;
+  string 20 curobj; //Edit***************************Sasha2,10:50 30.11.2015
+  string 255 newobjlist; //Edit***************************Sasha2,10:53 30.11.2015
+  integer pos; //Edit***************************Sasha2,11:56 30.11.2015
+  
+  if (nonblank(RepSpec.ObjStr)) then begin //Edit***************************Sasha2,10:43 30.11.2015 {
+    pos = 0;
+    ExtractObj(RepSpec.ObjStr,pos,curobj);
+    while nonblank(curobj) begin
+      if (blank(newobjlist)) then begin
+        newobjlist = curobj;
+      end else begin
+        newobjlist = newobjlist & "+" & curobj;
+      end;
+      ExtractObj(RepSpec.ObjStr,pos,curobj);
+    end;
+  end; //Edit***************************Sasha2,10:43 30.11.2015 }
   
   if (backdate==false) then begin
     found = true;
@@ -377,7 +395,7 @@ BEGIN
                       testf = ObjectTypeMatch(OPrw.Objects,RepSpec.ObjType);
                     end;
                     if (nonblank(RepSpec.ObjStr)) then begin
-                      testf = SetInSet(RepSpec.ObjStr,OPrw.Objects);
+                      testf = SetInSet2(newobjlist,OPrw.Objects); //Edit***************************Sasha2,14:59 30.11.2015
                     end;
                   end;
                 end;
@@ -470,7 +488,7 @@ BEGIN
                       testf = ObjectTypeMatch(OPrw.Objects,RepSpec.ObjType);
                     end;
                     if (nonblank(RepSpec.ObjStr)) then begin
-                      testf = SetInSet(RepSpec.ObjStr,OPrw.Objects);
+                      testf = SetInSet2(newobjlist,OPrw.Objects); //Edit***************************Sasha2,14:59 30.11.2015
                     end;
                  end;
                 end;
@@ -490,7 +508,7 @@ BEGIN
                         testf = ObjectTypeMatch(CLOutr.Objects,RepSpec.ObjType);
                       end;
                       if (nonblank(RepSpec.ObjStr)) then begin
-                        testf = SetInSet(RepSpec.ObjStr,CLOutr.Objects);
+                        testf = SetInSet2(newobjlist,CLOutr.Objects); //Edit***************************Sasha2,14:59 30.11.2015
                       end;
                       i = rwcnt;
                     end;
@@ -512,7 +530,7 @@ BEGIN
                          testf = ObjectTypeMatch(CLInr.Objects,RepSpec.ObjType);
                       end;
                      if (nonblank(RepSpec.ObjStr)) then begin
-                       testf = SetInSet(RepSpec.ObjStr,CLInr.Objects);
+                       testf = SetInSet2(newobjlist,CLInr.Objects); //Edit***************************Sasha2,14:59 30.11.2015
                      end;
                      i = rwcnt;
                     end;
@@ -577,6 +595,22 @@ BEGIN
   Integer i,rwcnt;
   LongInt prepno;
   val prepbal;
+  string 20 curobj; //Edit***************************Sasha2,10:50 30.11.2015
+  string 255 newobjlist; //Edit***************************Sasha2,10:53 30.11.2015
+  integer pos; //Edit***************************Sasha2,11:56 30.11.2015
+  
+  if (nonblank(RepSpec.ObjStr)) then begin //Edit***************************Sasha2,10:43 30.11.2015 {
+    pos = 0;
+    ExtractObj(RepSpec.ObjStr,pos,curobj);
+    while nonblank(curobj) begin
+      if (blank(newobjlist)) then begin
+        newobjlist = curobj;
+      end else begin
+        newobjlist = newobjlist & "+" & curobj;
+      end;
+      ExtractObj(RepSpec.ObjStr,pos,curobj);
+    end;
+  end; //Edit***************************Sasha2,10:43 30.11.2015 }
   
   if (backdate==false) then begin
     found = true;
@@ -608,7 +642,7 @@ BEGIN
                     testf = ObjectTypeMatch(OPrw.Objects,RepSpec.ObjType);
                   end;
                   if (nonblank(RepSpec.ObjStr)) then begin
-                    testf = SetInSet(RepSpec.ObjStr,OPrw.Objects);
+                    testf = SetInSet2(newobjlist,OPrw.Objects);//Edit***************************Sasha2,15:00 30.11.2015
                   end;
                 end;
               end;
@@ -677,7 +711,7 @@ BEGIN
                       testf = ObjectTypeMatch(OPrw.Objects,RepSpec.ObjType);
                     end;
                     if (nonblank(RepSpec.ObjStr)) then begin
-                      testf = SetInSet(RepSpec.ObjStr,OPrw.Objects);
+                      testf = SetInSet2(newobjlist,OPrw.Objects); //Edit***************************Sasha2,15:01 30.11.2015
                     end;
                  end;
                 end;
@@ -697,7 +731,7 @@ BEGIN
                         testf = ObjectTypeMatch(CLOutr.Objects,RepSpec.ObjType);
                       end;
                       if (nonblank(RepSpec.ObjStr)) then begin
-                        testf = SetInSet(RepSpec.ObjStr,CLOutr.Objects);
+                        testf = SetInSet2(newobjlist,CLOutr.Objects); //Edit***************************Sasha2,15:01 30.11.2015
                       end;
                       i = rwcnt;
                     end;
@@ -719,7 +753,7 @@ BEGIN
                          testf = ObjectTypeMatch(CLInr.Objects,RepSpec.ObjType);
                       end;
                      if (nonblank(RepSpec.ObjStr)) then begin
-                       testf = SetInSet(RepSpec.ObjStr,CLInr.Objects);
+                       testf = SetInSet2(newobjlist,CLInr.Objects); //Edit***************************Sasha2,15:01 30.11.2015
                      end;
                      i = rwcnt;
                     end;
