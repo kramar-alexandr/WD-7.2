@@ -775,7 +775,6 @@ LVEPer_PrintInvoicetoFile:;
              baserate2 = VI2r.BaseRate2;
            end;
         end;
-        logtext(0,"frrate" & frrate & " " & "torate1 " & torate1);
         cuscurval = MULRATETOBASE1(VIr.CurncyCode,v,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff); 
         if (RepSpec.flags[2]==0) then begin
           v = cuscurval;
@@ -784,7 +783,6 @@ LVEPer_PrintInvoicetoFile:;
             cuscurval = v;
           end;  
         end;          
-        logtext(0,"djahflkdjhfalks " & cuscurval);  
         balp = balp - cuscurval;
         if (RepSpec.flags[7]!=0) then begin
           SumCredit = SumCredit - cuscurval;

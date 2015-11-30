@@ -887,7 +887,18 @@ BEGIN
               if (VIr.InvType==kInvoiceTypeCredit or VIr.InvType==kInvoiceTypeCreditSpecialSales) then begin
                 t = -VIr.PayVal;
                 rvalp = rvalp + t;
-                basevalp = basevalp + MulRateToBase1(VIr.CurncyCode,t,VIr.FrRate,VIr.ToRateB1,VIr.ToRateB2,VIr.BaseRate1,VIr.BaseRate2,DefaultCurRoundOff);
+                // Edit Start ---------------------------------------------- Edit Start
+	//Monday, 30 November 2015 15:23:52
+	
+                if(VIr.FrRate!=OrgVIr.FrRate)then begin
+									basevalp = basevalp + MulRateToBase1(OrgVIr.CurncyCode,t,OrgVIr.FrRate,OrgVIr.ToRateB1,OrgVIr.ToRateB2,OrgVIr.BaseRate1,OrgVIr.BaseRate2,DefaultCurRoundOff);
+                end else begin
+									basevalp = basevalp + MulRateToBase1(VIr.CurncyCode,t,VIr.FrRate,VIr.ToRateB1,VIr.ToRateB2,VIr.BaseRate1,VIr.BaseRate2,DefaultCurRoundOff);
+                end;
+                
+                
+	// Edit End ---------------------------------------------- Edit End
+	
                 vicredf = true;
                 if (rvalp<0) then begin
                   if (latedays>0) then begin latedays = 0; end;
@@ -1042,6 +1053,7 @@ BEGIN
                   
     end;
   end;
+  
   RETURN;
 END;
 

@@ -95,6 +95,7 @@ BEGIN
   string 255 newobjlist; //Edit***************************Sasha2,10:53 30.11.2015
   integer pos; //Edit***************************Sasha2,11:56 30.11.2015
   
+    
   totCurSum = blankval; 
   tot1Sum = blankval;
   BlockLoad(Ab);  
@@ -465,10 +466,12 @@ L22:;
             rval = blankval;
           end;
           rs = MulRateToBase1(VIr.CurncyCode,rval,VIr.FrRate,VIr.ToRateB1,VIr.ToRateB2,VIr.BaseRate1,VIr.BaseRate2,DefaultCurRoundOff);
+          
           GetAPInvBalance(VIr,thedate,RepSpec.flags[14],rval,rs,latedays);
-          SubAPPrePayments(VIr,rval,rs);
+      		SubAPPrePayments(VIr,rval,rs);
           rs = rs - MulRateToBase1(VIr.CurncyCode,VIr.WithHoldingTax,VIr.FrRate,VIr.ToRateB1,VIr.ToRateB2,VIr.BaseRate1,VIr.BaseRate2,DefaultCurRoundOff);
           rval = rval - VIr.WithHoldingTax;
+                  
           Base1ToBase2(rs,VIr.TransDate,rs2); /* wierd */
 //          rs = MulRateToBase1(VIr.CurncyCode,rval,VIr.FrRate,VIr.ToRateB1,VIr.ToRateB2,VIr.BaseRate1,VIr.BaseRate2,DefaultCurRoundOff); 
 //          rs2 = MulRateToBase2(VIr.CurncyCode,rval,VIr.FrRate,VIr.ToRateB1,VIr.ToRateB2,VIr.BaseRate1,VIr.BaseRate2,DefaultCurRoundOff);
