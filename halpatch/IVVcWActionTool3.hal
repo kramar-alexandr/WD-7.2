@@ -587,8 +587,18 @@ begin
   record IVVc tmpIVr;
   row IVVc tmpIVrw;
   Integer t,trwcnt;
+  record IVCashVc IVCashr; //Edit***************************Sasha2,17:25 30.11.2015
 
   res = 1958;
+  
+  if (NonBlank(IVr.OfficialSerNr)) then begin //Edit***************************Sasha2,17:25 30.11.2015 {
+    IVCashr.SerNr = IVr.OfficialSerNr;
+    if (ReadFirstMain(IVCashr,1,true)) then begin
+      res = 12566;
+      goto LCreateCreditNoteIV;
+    end;
+  end; //Edit***************************Sasha2,17:25 30.11.2015 }
+  
   BlockLoad(Mb);
   RecordCopy(CreditIVr,IVr);
   CreditIVr.PayDeal = "";
