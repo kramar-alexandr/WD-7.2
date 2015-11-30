@@ -33,6 +33,8 @@ external procedure Base1ToBase2(var val,Date,var val);
 external function Boolean SetInSet2(string,string);
 external procedure ClassTypef(string,string,var Boolean);
 external procedure PrintPrepaymentsNrsOPMy(record RcVc,string,Boolean,var val,var val);// Edit ************************** Monday, 16 March 2015 15:51:38
+external procedure ExtractObj(string,var Integer,var string); //Edit***************************Sasha2,10:51 30.11.2015
+external function Boolean SetInSet2(string,string); //Edit***************************Sasha2,10:56 30.11.2015
 
 global
 procedure RunAPRn(record RcVc RepSpec,var val tot1Sum)
@@ -89,8 +91,11 @@ BEGIN
   record PDVc PDr;
   vector val vtots;
   val myrs,myrsval;// Edit ************************** Wednesday, 29 February 2012 14:34:49
+  string 20 curobj; //Edit***************************Sasha2,10:50 30.11.2015
+  string 255 newobjlist; //Edit***************************Sasha2,10:53 30.11.2015
+  integer pos; //Edit***************************Sasha2,11:56 30.11.2015
   
-  totCurSum = blankval;
+  totCurSum = blankval; 
   tot1Sum = blankval;
   BlockLoad(Ab);  
   credcnt = -1;
@@ -113,6 +118,19 @@ BEGIN
   frpddays = FirstInRange(RepSpec.f6,5);
   topddays = LastInRange(RepSpec.f6,5);
   first3f = true;
+  
+  if (nonblank(RepSpec.ObjStr)) then begin //Edit***************************Sasha2,10:43 30.11.2015 {
+    pos = 0;
+    ExtractObj(RepSpec.ObjStr,pos,curobj);
+    while nonblank(curobj) begin
+      if (blank(newobjlist)) then begin
+        newobjlist = curobj;
+      end else begin
+        newobjlist = newobjlist & "+" & curobj;
+      end;
+      ExtractObj(RepSpec.ObjStr,pos,curobj);
+    end;
+  end; //Edit***************************Sasha2,10:43 30.11.2015 }
   
   // Edit Start ---------------------------------------------- Edit Start
 	//Monday, 16 March 2015 15:41:03
@@ -411,7 +429,8 @@ L22:;
           if ((nonblank(RepSpec.AccStr)) and (RepSpec.AccStr<>VIr.SalesMan)) then begin testf = false; end;
   //        if ((nonblank(RepSpec.f2)) and (RepSpec.f2<>VEr.SalesGroup)) then begin testf = false; end;
   //Invoice has salesgroup
-          if ((nonblank(RepSpec.ObjStr)) and (SetInSet(RepSpec.ObjStr,VIr.Objects)==false)) then begin testf = false; end;
+          //if ((nonblank(RepSpec.ObjStr)) and (SetInSet(RepSpec.ObjStr,VIr.Objects)==false)) then begin testf = false; end; //Edit***************************Sasha2,11:57 30.11.2015
+          if ((nonblank(newobjlist)) and (SetInSet2(newobjlist,VIr.Objects)==false)) then begin testf = false; end; //Edit***************************Sasha2,11:57 30.11.2015
           if (nonblank(RepSpec.Language)) then begin
             if (RepSpec.Language!=VIr.LangCode) then begin
               testf = false;
@@ -503,7 +522,8 @@ L22:;
         vifoundf = ReadFirstMain(VIr,1,true);
         if (VIr.Invalid<>0) then begin testf = false; end;
         if ((nonblank(RepSpec.AccStr)) and (RepSpec.AccStr<>VIr.SalesMan)) then begin testf = false; end;
-        if ((nonblank(RepSpec.ObjStr)) and (SetInSet(RepSpec.ObjStr,VIr.Objects)==false)) then begin testf = false; end;
+        //if ((nonblank(RepSpec.ObjStr)) and (SetInSet(RepSpec.ObjStr,VIr.Objects)==false)) then begin testf = false; end; //Edit***************************Sasha2,11:58 30.11.2015
+        if ((nonblank(newobjlist)) and (SetInSet2(newobjlist,VIr.Objects)==false)) then begin testf = false; end; //Edit***************************Sasha2,11:58 30.11.2015
         if ((nonblank(RepSpec.f2)) and (RepSpec.f2<>VIr.SalesGroup)) then begin testf = false; end;
         switch (RepSpec.flags[22]) begin
           case 1:

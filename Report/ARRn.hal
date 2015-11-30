@@ -13,7 +13,7 @@ external procedure ARRnRateDifferences(record RcVc,record IVVc,val,val,Date,var 
                             var string,var Boolean ,var record SMVc);
 external procedure PrintARAged(record RcVc,val,val,val,val,val,val,val,val,val,val,val,Integer,val,val,val,val,val,val,val,val,val,val);
 external procedure PrintARReportTotals(record RcVc,Integer,val,val,val,val,val,val,val,val,val,val,Array val);
-external function Boolean ARInvoiceTest(record RcVc,record IVVc,Boolean);
+external function Boolean ARInvoiceTest(record RcVc,record IVVc,Boolean,string); //Edit***************************Sasha2,11:27 30.11.2015
 external procedure ARRnAddToDebtorsAccounts(string,Integer,val,Array string,Array val,var Integer);
 external procedure ARRnPrintDebtorsAccounts(Array string,Array val,var Integer);
 external procedure ARRnGetInvBalance(record IVVc,var Date,Integer,var val,var val,var LongInt);
@@ -44,6 +44,8 @@ external procedure PrintAgedLine(val,val,val,val,val,val,val,val,val,val,val,Int
 external procedure SumAged(Date,Integer,Integer,var val,var val,var val,var val,var val,var val,var val,var val,var val,var val);
 external procedure CountPeriods(var Integer);
 external procedure ClassTypef(string,string,var boolean);
+external procedure ExtractObj(string,var Integer,var string); //Edit***************************Sasha2,10:51 30.11.2015
+external function Boolean SetInSet2(string,string); //Edit***************************Sasha2,10:56 30.11.2015
 
 global
 function LongInt CalcARRnColumnSpacing(LongInt nrofper,Integer UseAccPeriod,var LongInt colwidth,var LongInt colstart,var LongInt col2start)
@@ -161,6 +163,8 @@ BEGIN
   array val valClientTot,valTotSum; //Edit***************************Sasha2,14:31 20.08.2014
   array string 20 altcur; //Edit***************************Sasha2,14:25 20.08.2014
   Integer altcurcnt; //Edit***************************Sasha2,14:29 20.08.2014
+  string 20 curobj; //Edit***************************Sasha2,10:50 30.11.2015
+  string 255 newobjlist; //Edit***************************Sasha2,10:53 30.11.2015
     
   tot1Sum = blankval;
   altcurcnt = 1; //Edit***************************Sasha2,14:42 20.08.2014
@@ -175,6 +179,21 @@ BEGIN
   end;  
   frcc = FirstInRange(RepSpec.f1,20);
   tocc = LastInRange(RepSpec.f1,20);
+  
+  if (nonblank(RepSpec.ObjStr)) then begin //Edit***************************Sasha2,10:43 30.11.2015 {
+    pos = 0;
+    ExtractObj(RepSpec.ObjStr,pos,curobj);
+    while nonblank(curobj) begin
+      if (blank(newobjlist)) then begin
+        newobjlist = curobj;
+      end else begin
+        newobjlist = newobjlist & "+" & curobj;
+      end;
+      ExtractObj(RepSpec.ObjStr,pos,curobj);
+    end;
+    pos = 0;
+  end; //Edit***************************Sasha2,10:43 30.11.2015 }
+  
   CountPeriods(nrofper);
   if ((RepSpec.ArtMode==2) or (RepSpec.ArtMode==5)) then begin    
     ncols = CalcARRnColumnSpacing(nrofper,Agedb.UseAccPeriod,colwidth,colstart,col2start);
@@ -364,7 +383,7 @@ L22:;
             testf = false;
         end;
         if (testf) then begin
-          testf = ARInvoiceTest(RepSpec,IVr,backdatf);          
+          testf = ARInvoiceTest(RepSpec,IVr,backdatf,newobjlist);   //Edit***************************Sasha2,12:14 30.11.2015        
 /*          
           if (RepSpec.flags[22]==0) then begin
             latedays = DateDiff(IVr.PayDate,agedate);
@@ -581,8 +600,8 @@ L22:;
           if (IVr.Invalid<>0) then begin testf = false; end;
           if ((RepSpec.flags[13]==1) and (IVr.InvType!=kInvoiceTypeInterest)) then begin testf = false; end;
           if ((RepSpec.flags[15]==1) and (IVr.InvType!=kInvoiceTypeDownpayment)) then begin testf = false; end;
-          if (nonblank(RepSpec.ObjStr)) then begin
-            if (SetInSet(RepSpec.ObjStr,IVr.Objects)==false) then begin
+          if (nonblank(newobjlist)) then begin //Edit***************************Sasha2,11:06 30.11.2015
+            if (SetInSet2(newobjlist,IVr.Objects)==false) then begin //Edit***************************Sasha2,11:06 30.11.2015
               testf = false;
             end;
           end;
