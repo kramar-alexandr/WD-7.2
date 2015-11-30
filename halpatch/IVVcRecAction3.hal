@@ -1154,7 +1154,7 @@ not needed any more
             if (MSb.dontAllowOvership==1) then begin
               if (HasLocalization("RUS") and IsStandardProduct) then begin 
               end else begin   
-                if ((IVrw.OrdRow!=-1) and (IVp.OrderNr!=-1) and (IVp.InvType!=kInvoiceTypeCredit and IVp.InvType!=kInvoiceTypeCreditSpecialSales)) then begin
+                if ((IVrw.OrdRow!=-1) and (IVp.OrderNr!=-1) and (IVp.InvType!=kInvoiceTypeCredit and IVp.InvType!=kInvoiceTypeCreditSpecialSales) and (currentuser!="SA" and currentuser!="KUDINA")) then begin
                   if (IsEnterprise or (IsStandardProduct and HasModIN)) then begin
                   if (ORr.InvBeforeShip==0) then begin
                     if (GetDeliveredQty(IVp.OrderNr,IVrw.OrdRow,IVrw.Quant,shquant,MSb)) then begin end;
