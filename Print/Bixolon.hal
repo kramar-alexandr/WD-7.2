@@ -35,6 +35,10 @@ begin
 	RecordUpdate(SVO2r,SVOr,true);// Edit ************************** Wednesday, 28 October 2015 14:30:39
 	
 	switch (WSr.SalesGroup) begin
+		case "3GR":
+					Name = "СПД-ФО Іваненко В.І.";
+					Address = "Україна, Київ, вул. Білоруська, 8";
+					Phone = "Телефон \(044\) 222-57-74";	
 		case "8GR":
 					Name = "СПД-ФО Моісеєв Д. А.";
 					Address = "Україна, Київ, просп. Московський, 6";
@@ -153,6 +157,10 @@ begin
 
 	
 	switch (IVr.SalesGroup) begin
+		case "3GR":
+					Name = "СПД-ФО Іваненко В.І.";
+					Address = "Україна, Київ, вул. Білоруська, 8";
+					Phone = "Телефон \(044\) 222-57-74";	
 		case "8GR":
 					Name = "СПД-ФО Моісеєв Д. А.";
 					Address = "Україна, Київ, просп. Московський, 6";
