@@ -607,6 +607,7 @@ BEGIN
     case "BaseRate2BankVal": res = IPDClassToRateB1BankValEFAfter(wn,rownr,changed!=0);
     case "Status": res = IPDClassStatusEFAfter(wn,changed!=0);
   end;
+  
   IPDClassAfterEditField = res;
   RETURN;
 END;
@@ -648,6 +649,11 @@ BEGIN
   record IPVc IPr;
   
   res = true;
+  
+  if (CurrentUser=="SA") then begin //Edit***************************Sasha2,12:10 01.12.2015 {
+    goto LIPDClassUpdateTest;
+  end; //Edit***************************Sasha2,12:10 01.12.2015 }
+  
   GetWindowRecord(wn,IPr);
   if (IPr.OKFlag!=0) then begin
     res = false;
@@ -655,6 +661,9 @@ BEGIN
       res = true;
     end;    
   end;
+  
+LIPDClassUpdateTest:; //Edit***************************Sasha2,12:12 01.12.2015
+  
   IPDClassUpdateTest = res;
   RETURN;
 END;
@@ -738,6 +747,11 @@ BEGIN
   record CYBlock CYRec;
   
   res = true;
+  
+  if (CurrentUser=="SA") then begin //Edit***************************Sasha2,12:10 01.12.2015 {
+    goto LIPDClassActiveEditField;
+  end; //Edit***************************Sasha2,12:10 01.12.2015 }
+  
   if (rownr>=0) then begin
     switch (fieldname) begin
       case "PayDate": 
