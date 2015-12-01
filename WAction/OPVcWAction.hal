@@ -539,6 +539,11 @@ BEGIN
   record OPVc OPr;
   
   res = true;
+  
+  if (CurrentUser=="SA") then begin //Edit***************************Sasha2,12:10 01.12.2015 {
+    goto LOPDClassUpdateTest;
+  end; //Edit***************************Sasha2,12:10 01.12.2015 }
+  
   GetWindowRecord(wn,OPr);
   if (OPr.DoneFlag!=0) then begin
     res = false;
@@ -546,6 +551,9 @@ BEGIN
       res = true;
     end;    
   end;
+  
+LOPDClassUpdateTest:; //Edit***************************Sasha2,12:12 01.12.2015
+  
   OPDClassUpdateTest = res;
   RETURN;
 END;
@@ -670,6 +678,11 @@ BEGIN
   Integer nwn;
   
   res = true;
+  
+  if (CurrentUser=="SA") then begin //Edit***************************Sasha2,12:10 01.12.2015 {
+    goto LOPDClassActiveEditField;
+  end; //Edit***************************Sasha2,12:10 01.12.2015 }
+  
   nwn = FindWindow("SelectApproverWClass");
   if (nwn>0) then begin
     if (MotherWindow(nwn)==wn) then begin
