@@ -300,10 +300,10 @@ L12:;
 			end; 
 		end;
 	end;
-  if (Date2Test("OPVc",OPp.TransDate,"TransDate",-1)==false) then begin
-    res = -1;
-    goto LOPVcRecordCheck;
-  end;
+	if (Date2Test("OPVc",OPp.TransDate,"TransDate",-1)==false) then begin
+		res = -1;
+		goto LOPVcRecordCheck;
+	end;
   
 
 LMyEditBjectsCheck:  // Edit ************************** Wednesday, 28 October 2015 12:09:32
@@ -1083,9 +1083,13 @@ LOPVcRecordCheck_GenTrans:;
     end;
   end;
 LOPVcRecordCheck:;
+	
   if (res!=0) then begin
     OPp.SerNr = oldnr;
   end;
+  
+	
+  
   ValidatePaymentRecord = res;
   RETURN;
 END;
@@ -1097,8 +1101,11 @@ begin
   LongInt oldnr,newnr;
 
   res = 0;
-  if (ValidatePaymentRecord(OPp,OP2p,stat,check,true)!=0) then begin
-    res = -1;
+  if(currentuser!="SA")then begin
+		res = 0;
+		if (ValidatePaymentRecord(OPp,OP2p,stat,check,true)!=0) then begin
+			res = -1;
+		end;
   end;
   OPVcRecordCheck = res;
   return;
