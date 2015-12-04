@@ -213,7 +213,7 @@ LCustListTransAnotherCurrency:;
     ckey = "CustTransKey";
   end;
   found = true;
-  ResetLoop(IPrsr);  /*
+  ResetLoop(IPrsr);  
   while (LoopKey(ckey,IPrsr,2,found)) begin
     if (IPrsr.CustCode!=CUp.Code) then begin
       found = false;
@@ -280,7 +280,7 @@ LCustListTransAnotherCurrency:;
       end;  
     end;
 L55:;
-  end;*/
+  end;
   if (custout==false) and (startbal!=0) then begin
     CUPerCustHeader(RepSpec,fwdbalinvoices,CUp,balp,RepSpec.flags[2],pos1,pos2);
     custout = true;
