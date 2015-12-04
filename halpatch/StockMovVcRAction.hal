@@ -1926,16 +1926,40 @@ BEGIN
   string 255 errorstr,fieldstr;
   Integer rownr;
   Boolean UnOKedCheckSerialf;
+  record UserVc Userr;//Edit-------------------Vitalii 11:01 04.12.2015
 
   res = 0;
-  oldnr = SMp.SerNr;
-  oldOfficialSerNr = SMp.OfficialSerNr;
-  UnOKedCheckSerialf = false;
-  if (CheckStockMovRecord(SMp,SM2p,stat,check,true,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf)!=0) then begin
-    res = -1;
-    RecordCheckError(error,errorstr,rownr,fieldstr);
-    goto LStockMovVcRecordCheck;
-  end;
+
+  	//Edit-------------------Vitalii 11:02 04.12.2015
+	if (CurrentCompany == 8) then begin
+		Userr.Code = CurrentUser;
+		if ReadFirstMain(Userr,1,true) then begin
+			if ((SM2p.OKFlag==0) and (SMp.OKFlag!=0)) then begin
+				if Userr.Location != SMp.ToLocation then begin
+					RecordCheckError(31055,"",-1,"ToLocation");
+					res = -1;
+					goto LStockMovVcRecordCheck;
+				end;
+			end;
+			if ((SM2p.OrdFlag==0) and (SMp.OrdFlag!=0)) then begin
+				if Userr.Location != SMp.FrLocation then begin
+					RecordCheckError(31054,"",-1,"FrLocation");
+					res = -1;
+					goto LStockMovVcRecordCheck;
+				end;
+			end;
+		end;
+	end;
+	if res != -1 then begin
+		oldnr = SMp.SerNr;
+		oldOfficialSerNr = SMp.OfficialSerNr;
+		UnOKedCheckSerialf = false;
+		if (CheckStockMovRecord(SMp,SM2p,stat,check,true,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf)!=0) then begin
+			res = -1;
+			RecordCheckError(error,errorstr,rownr,fieldstr);
+			goto LStockMovVcRecordCheck;
+		end;
+	end;
 LStockMovVcRecordCheck:;
   if (res!=0) then begin 
     SMp.SerNr = oldnr; 

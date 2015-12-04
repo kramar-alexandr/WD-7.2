@@ -178,7 +178,9 @@ begin
 	SString(31050,"Очікує запч."); 
 	SString(31051,"Затверджено"); 
 	SString(31052,"Сплачено"); 
-	SString(31053,"Борг:"); 
+	SString(31053,"Борг:");
+	SString(31054,"Не можна відравити не зі свого складу");
+	SString(31055,"Не можна прийняти не на свій склад");
 	
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */

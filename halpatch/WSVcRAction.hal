@@ -549,6 +549,17 @@ begin
       res = -1;
       goto LWSVcRecordCheck;
     end;
+	//Edit-------------------Vitalii 14:03 04.12.2015
+	if (CurrentCompany == 8) then begin
+		Userr.Code = CurrentUser;
+		if ReadFirstMain(Userr,1,true) then begin
+			if Userr.Location != WSp.Location then begin
+				RecordCheckError(31033,"",-1,"Location");
+				res = -1;
+				goto LWSVcRecordCheck;
+			end;
+		end;
+	end;
   end;
   if (WSp.WONr>-1) then begin
     if (CheckWOFinished(WSp.WONr)) then begin
@@ -884,7 +895,8 @@ LWSVcRecordCheck_GenTrans:;
           SaveTrans(gTRp);
       end;
     end;
-  end;  
+  end;
+  
 LWSVcRecordCheck:;
   if (res!=0) then begin
     WSp.SerNr = oldnr;
