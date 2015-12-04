@@ -58,7 +58,7 @@ procedure APGetOnAccBalance(record RcVc RepSpec,record CUVc VEp,Boolean backdate
 BEGIN
   val t,pinvval,t2;
   record OPrsVc OPrsr;
-  record APPayHistVc APPayHistr;  
+  record APPayHistVc APPayHistr,APPayHist2r;  
   Boolean found,testf;
   record VIVc VIr;
   record OPVc OPr;
@@ -81,6 +81,7 @@ BEGIN
   string 20 curobj; //Edit***************************Sasha2,10:50 30.11.2015
   string 255 newobjlist; //Edit***************************Sasha2,10:53 30.11.2015
   integer pos; //Edit***************************Sasha2,11:56 30.11.2015
+  val rate;// Edit ************************** Thursday, 3 December 2015 17:56:13
   
   if (nonblank(RepSpec.ObjStr)) then begin //Edit***************************Sasha2,10:43 30.11.2015 {
     pos = 0;
@@ -442,9 +443,21 @@ L11:;
             if (RepSpec.FirstAcc!=apacc) then begin
               testf = false;
             end;
-          end;                
-          if (nonblank(RepSpec.CurncyCode)) then begin
-            if (RepSpec.CurncyCode!=APPayHistr.CurncyCode) then begin testf = false; end;
+          end;   
+          rate = 1;// Edit ************************** Thursday, 3 December 2015 17:56:36             
+          if (nonblank(RepSpec.CurncyCode) and testf) then begin
+          	if (RepSpec.CurncyCode!=APPayHistr.CurncyCode) then begin testf = false; end;
+          	
+          	APPayHist2r.VEPNr = APPayHistr.VEPNr;
+          	APPayHist2r.FileName = "OPVc";// Edit ************************** Thursday, 3 December 2015 17:46:04
+          	if(readfirstmain(APPayHist2r,2,true))then begin// Edit ************************** Thursday, 3 December 2015 17:39:46
+          		if(APPayHist2r.CurncyCode!=APPayHistr.CurncyCode and APPayHist2r.CurncyCode==RepSpec.CurncyCode)then begin
+          			VEp.VECurncyCode=APPayHist2r.CurncyCode;
+          			rate = APPayHist2r.Val/APPayHist2r.BookVal;// Edit ************************** Thursday, 3 December 2015 17:56:00
+          			testf = true;
+          		end;
+          	end;
+            
           end;
           if (testf) then begin        
             if (RepSpec.ArtMode==4) or (RepSpec.ArtMode==6) begin
@@ -463,11 +476,19 @@ L11:;
               AddCurncyTotals(acur,av1,curcnt,APPayHistr.CurncyCode,APPayHistr.Val);
             end else begin
               if (nonblank(VEp.VECurncyCode)) then begin
-                rvalp = rvalp + APPayHistr.Val;
+                rvalp = rvalp + APPayHistr.Val*rate;
+                logtext(0,"rvalp " & rate & " " &  rvalp);
               end else begin
                 rvalp = rvalp + APPayHistr.BookVal;
               end;
-              sump = sump + APPayHistr.BookVal;
+              if (nonblank(RepSpec.CurncyCode)) then begin// Edit ************************** Thursday, 3 December 2015 18:05:48
+								sump = sump + APPayHistr.Val*rate;
+								logtext(0,"sump " & rate & " " &  sump);
+              end else begin
+              	sump = sump + APPayHistr.BookVal;
+              end;
+              
+              
               if (sump==0) then begin
                 sum2p = 0;
               end else begin
@@ -520,8 +541,10 @@ L11:;
           end;                
           if (nonblank(RepSpec.CurncyCode)) then begin
             if (RepSpec.CurncyCode!=APPayHistr.CurncyCode) then begin testf = false; end;
+            VEp.VECurncyCode=RepSpec.CurncyCode;// Edit ************************** Thursday, 3 December 2015 18:03:27
           end;
           if (testf) then begin
+          	logtext(0,44);
             if (RepSpec.ArtMode==4) or (RepSpec.ArtMode==6) begin
               sumcurncy = sumcurncy + APPayHistr.Val;
               t = APPayHistr.BookVal;
@@ -539,13 +562,21 @@ L11:;
             end else begin                                                   
               AddCurncyTotals(acur,av1,curcnt,APPayHistr.CurncyCode,-APPayHistr.Val);
               t = APPayHistr.BookVal;
-              
+              logtext(0,"rvalp0 " & VEp.VECurncyCode);
               if (nonblank(VEp.VECurncyCode)) then begin
                 rvalp = rvalp - APPayHistr.Val;
+                logtext(0,"rvalp0 " & rvalp);
               end else begin
                 rvalp = rvalp - APPayHistr.BookVal;
               end;
-              sump = sump - APPayHistr.BookVal;
+              
+              if (nonblank(RepSpec.CurncyCode)) then begin// Edit ************************** Thursday, 3 December 2015 18:05:34
+								sump = sump - APPayHistr.Val;
+								logtext(0,"sump " & sump);
+              end else begin
+              	sump = sump - APPayHistr.BookVal;
+              end;
+              
               if (APPayHistr.CurncyCode==bcur.BaseCur1) then begin
               end else begin
                 OPr.SerNr = APPayHistr.SerNr;

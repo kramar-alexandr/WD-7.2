@@ -493,7 +493,7 @@ begin
   val v,t;
   record RcVc oldRepSpec;
   Date td;
-
+		
   frcc = FirstInRange(RepSpec.f1,20);
   tocc = LastInRange(RepSpec.f1,20);
 

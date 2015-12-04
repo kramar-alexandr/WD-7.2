@@ -6198,8 +6198,8 @@ begin
   
   EditField(h4-50,v,70,"Здача",ViewOnly,RetValue,true,0); //Edit***************************Sasha2,16:02 26.09.2014
   EditField(h4+100,v,70,"Группа",Normal,SalesGroup,true,0); // Edit ************************** Thursday, 23 July 2015 10:18:00
-  //EditField(h,v+=vs,30,/*"Спосіб спл."*/"Термінал",Normal,PayDeal,false,RestPMSClass);
-  EditField(h2,v+=vs,80,"Терміналом",Normal,RecValue,true,0);
+  EditField(h,v+=vs,30,"CC",ViewOnly,PayDeal,false,0);
+  EditField(h2,v,80,"Терміналом",Normal,RecValue,true,0);
   
   EditField(h3+15,v,80,"Подар. серт.",Normal,RecValue2,true,0); //Edit***************************Sasha2,
   //EditField(h3+150,v,80,"Приват",Normal,RecValue3,true,0); //Edit***************************Sasha2,15:56 26.09.2014
@@ -8366,3 +8366,134 @@ begin
   SpecialMenu("Авансовий звіт",' ',3,"AvansCreateDsm");// Edit ************************** Friday, 25 September 2015 14:52:17
   EndWindow;
 end;
+
+window ARPayHistDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,h3,v,vs;
+  WindowBegin("AR Prepayment",ARPayHistDClass,CGview,-);
+  SetWRect(20,80,600,260);
+  UseView(ARPayHistVc);
+  vs = 20; h = 100; h2 = h + 200; h3 = h2 + 160;
+  EditField(h,v=6,80, "Prepayment No.",Normal,CUPNr,false,0);
+  
+  EditField(h2,v,80, "File Name",St_i,FileName,false,0);
+  EditField(h,v+=vs,80, "Ser No.",Normal,SerNr,false,0);
+  EditField(h2,v,80, "Trans. Date",Normal,TransDate,false,0);
+  EditField(h,v+=vs,80, "Customer",Normal,CustCode,false,0);
+  EditField(h2,v,80, "Вал.",Normal,CurncyCode,false,0);
+
+  EditField(h,v+=vs,80, "Cur. Amount",Normal,Val,false,0);
+  EditField(h2,v,-40, "Booked Amount",Normal,BookVal,false,0);
+  EditField(h,v+=vs,80, "VAT",Normal,VATVal,false,0);
+  EditField(h2,v,80, "Booked VAT",Normal,VATBookVal,false,0);
+  EditField(h3,v,80, "Bank Cur.",Normal,BankCurncy,false,0);
+  EditField(h2,v+=vs,80, "Order No.",Normal,OrderNr,false,0);
+  EditField(h3,v,80, "TAX1",Normal,TAX1Sum,false,0);
+  EditField(h2,v+=vs,80, "Booked TAX1",Normal,TAX1SumBook,false,0);
+  EditField(h3,v,80, "AR A/C",Normal,ARAcc,false,0);  
+  EndWindow;
+end;
+
+window APPayHistDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,h3,v,vs;
+  WindowBegin("AP Prepayment",APPayHistDClass,CGview,-);
+  SetWRect(20,80,600,260);
+  UseView(APPayHistVc);
+  vs = 20; h = 100; h2 = h + 200; h3 = h2 + 160;
+  EditField(h,v=6,80, "Prepayment No.",Normal,VEPNr,false,0);
+  
+  EditField(h2,v,80, "File Name",St_i,FileName,false,0);
+  EditField(h,v+=vs,80, "Ser No.",Normal,SerNr,false,0);
+  EditField(h2,v,80, "Trans. Date",Normal,TransDate,false,0);
+  EditField(h,v+=vs,80, "Customer",Normal,VECode,false,0);
+  EditField(h2,v,80, "Вал.",Normal,CurncyCode,false,0);
+
+  EditField(h,v+=vs,80, "Cur. Amount",Normal,Val,false,0);
+  EditField(h2,v,-40, "Booked Amount",Normal,BookVal,false,0);
+  EditField(h,v+=vs,80, "VAT",Normal,VATVal,false,0);
+  EditField(h2,v,80, "Booked VAT",Normal,VATBookVal,false,0);
+  EditField(h3,v,80, "Bank Cur.",Normal,BankCurncy,false,0);
+  EditField(h2,v+=vs,80, "Order No.",Normal,OrderNr,false,0);
+  EditField(h3,v,80, "AR A/C",Normal,APAcc,false,0);  
+  EndWindow;
+end;
+
+
+window OPPDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,h3,v,vs;
+  WindowBegin("AP Prepayment",OPPDClass,CGview,-);
+  SetWRect(20,80,600,460);
+  UseView(OPPVc);
+  vs = 20; h = 100; h2 = h + 200; h3 = h2 + 160;
+  EditField(h,v=6,80, "SerNr",Normal,SerNr,false,0);
+  
+  EditField(h2,v,80, "PPVal",Normal,PPVal,false,0);
+  EditField(h,v+=vs,80, "PayDate",Normal,PayDate,false,0);
+  EditField(h2,v,80, "VECode",Normal,VECode,false,0);
+  EditField(h,v+=vs,80, "RebDate",Normal,RebDate,false,0);
+  EditField(h2,v,80, "VEName",Normal,VEName,false,0);
+  
+  EditField(h,v+=vs,80, "CurncyCode",Normal,CurncyCode,false,0);
+  EditField(h2,v,80, "BookRVal",Normal,BookRVal,false,0);
+ 	
+ 	 EditField(h,v+=vs,80, "VATVal",Normal,VATVal,false,0);
+  EditField(h2,v,80, "VATCode",Normal,VATCode,false,0);
+ 	
+ 	 EditField(h,v+=vs,80, "VATBookVal",Normal,VATBookVal,false,0);
+  EditField(h2,v,80, "BankCurncy",Normal,BankCurncy,false,0);
+  
+  EditField(h,v+=vs,80, "OrderNr",Normal,OrderNr,false,0);
+ 	
+  EndWindow;
+end;
+
+
+window OPPLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Передплати AP",OPPLClass,CGmlist,-);
+  SetWRect(20,80,700,355);
+  Sizeable(-1,-1,0,0);
+  UseView(OPPVc);
+  SpawnClass(OPPDClass);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,1,"SerNr",SerNr,false,SerNr);
+  RlCol(90,90,"PPVal",PPVal,false);
+  RlColKey(160,160,"PayDate",PayDate,false,PayDate);
+  RlCol(-400,-400, "VECode",VECode,true);
+  RlCol(-310,-310, "CurncyCodeVc",CurncyCode,true); 
+  RlCol(-180,-230, "BookRVal",BookRVal,true);
+  SearchField("Пошук");
+  EndWindow;
+end;
+
+
+
+window APPayHistLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Передплати AP",APPayHistLClass,CGmlist,-);
+  SetWRect(20,80,700,355);
+  Sizeable(-1,-1,0,0);
+  UseView(APPayHistVc);
+  SpawnClass(APPayHistDClass);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,1,    "Номер",VEPNr,false,MainKey);
+  RlCol(90,90,"Дата",TransDate,false);
+  RlColKey(160,160,"Пост.",VECode,false,VECode);
+  RlCol(-400,-400, "ПДВ",VATVal,true);
+  RlCol(-310,-310, "Варт.",Val,true); 
+  RlCol(-180,-230, "Сума",BookVal,true);
+//  RlCol(-50,-50, "SerNr",SerNr,false);
+  RlCol(-150,-150, "Файл",FileName,false);
+  RlCol(-50,-50, "Номер",SerNr,false);
+  SearchField("Пошук");
+  EndWindow;
+end;
+
+

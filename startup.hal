@@ -19,6 +19,9 @@ begin
   Register("ARPayVc","ARPayVc",ARPayVc,modDBMain);
   Register("APVc","APVc",APVc,modDBMain);
 	
+	
+	Setting("Prepayments VE",OPPLClass,modDBMain);// Edit ************************** Wednesday, 2 December 2015 17:15:29
+	
 	Report("Історія продажів по клієнтам ",CUSalesRepRClass,CustSalesReportRn,0,modSO);
 	Report("Звiт по продажах",SalesReportRClass,SalesReportRn,0,modSL);
 	Report("Звiт по продажах для менеджерів",SalesReportForManagersRClass,SalesReportForManagersRn,0,modSL);
