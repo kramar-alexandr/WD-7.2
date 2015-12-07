@@ -1397,3 +1397,18 @@ begin
   return;
 end; //Edit***************************Sasha2,16:39 23.07.2015 }
 
+//Edit-------------------Vitalii 15:10 04.12.2015
+global
+procedure TableSearchAddition2Dsm()
+BEGIN
+  record RcVc RepSpec;
+  Integer wn,res;
+  wn = CurWindow;
+  RepSpec.flags[0] = wn;
+  RepSpec.flags[1] = 0;  //current row in table
+  RepSpec.flags[2] = 0;  //search direction: 1-forward, 2-backward
+  RepSpec.flags[3] = 0; 
+  res = OpenWindow("TableSearchAddition2IClass",0,wn,"","",RepSpec);
+
+  RETURN;
+END;

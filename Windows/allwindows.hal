@@ -4766,7 +4766,11 @@ begin
   EditField(h,v+=vs,-40,"",Normal,ToAddr4,false,0);
   SpecialMenu("Собівартість у старій ціні за од.",'=',0,"StockMovFillFIFODsm");
   SpecialMenu("Статус товару",'I',1,"ItemStatusStockMovDsm");
-  SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
+  if (CurrentCompany == 4) then begin//Edit-------------------Vitalii 17:25 07.12.2015
+	SpecialMenu("Пошук товару",'',1,"ItemSearchDsm");
+  end else begin
+	SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
+  end;
   if (HasModNL) then begin
   SpecialMenu("Відкрити запис операції відпр.",' ',2,"OpenTRFromStockMovSent");
   SpecialMenu("Відкрити запис операції отрим.",'t',3,"OpenTRFromStockMov");
@@ -4780,6 +4784,9 @@ begin
     end;
   end;
   SpecialMenu("Оновити ціни в замовленні клієнта (+9%)",'',10,"UpdatePricesInORFromStockMovDsm");
+  if (CurrentCompany == 4) then begin//Edit-------------------Vitalii 17:25 07.12.2015
+	SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");
+  end;
   EndWindow;
 end;
 
@@ -8497,3 +8504,30 @@ begin
 end;
 
 
+//Edit-------------------Vitalii 15:20 04.12.2015
+window TableSearchAddition2IClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,v,vs;
+Integer i,mwn;
+  WindowBegin("Пошук і додавання в таблиці",TableSearchIClass,CGother,RcType);
+	//DynamicWindow;
+  SetWRect(3,140,400,310);
+  UseView(RcVc);
+  Modality(2);
+
+  v=30;
+  h=40;
+ 	//EditFieldTL(h+30,v+90 ,150,"Відправлено",M4Str,Normal,20,f2,true,0);
+	//EnterSkip(f2);
+	EditFieldTL(h+30,v+90 ,150,"Отримано",M4Str,Normal,20,f3,true,0);
+	EnterSkip(f3);
+  EditFieldTL(h+30,v-10 ,150,"Пошук",M4Str,Normal,20,f1,true,0); // new search field
+
+	StaticText(h-25,v+70,"Для додавання в таблицю введіть Штрих-код або Серійний номер",false);
+
+  ColourPushButton(h+=200,v-10,h+58,v+26,"GoPreviousItem","Пред.",20);
+  ColourPushButton(h+=75,v-10,h+58,v+26,"GoNextItem","След.",2);
+
+  EndWindow;
+end;
