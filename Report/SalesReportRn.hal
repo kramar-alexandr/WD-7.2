@@ -1250,7 +1250,7 @@ begin
 									outstring(i11,0,realpricebase[j],false);
 									outstring(i12,0,IVrw.vRebate,false);
 									outstring(i14,0,realsumbase[j],false);
-									outstring(i16,0,realcostbase[j],false);
+									outstring(i16,0,realcostbase[j]*qty[j],false);
 									if(currentcompany!=9)then begin
 										outstring(i18,0,realcostbase[j]*qty[j],false);
 									end;

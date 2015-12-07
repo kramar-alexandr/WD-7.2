@@ -297,15 +297,12 @@ BEGIN
               end;
             end;
           end;
-//          FindStockValue(StockMovrw.ArtCode,frlocation,ISr);    
-					//logtext(0,SNrb.BulkSerialNos);        
           if (SNrb.BulkSerialNos!=0) then begin
             FindStockValueInclStockReserv(-1,StockMovrw.ArtCode,"",frlocation,ISr,stockreservq);
           end else begin
             FindStockValueInclStockReserv(-1,StockMovrw.ArtCode,StockMovrw.SerialNr,frlocation,ISr,stockreservq);
           end;
           prev = prev + quant;
-          //logtext(0,ISr.Instock & "_" & prev & "_" & stockreservq);
           if (ISr.Instock<(prev+stockreservq)) then begin
             if (sentquantf) then begin
               error = 1247;
@@ -1931,25 +1928,43 @@ BEGIN
   res = 0;
 
   	//Edit-------------------Vitalii 11:02 04.12.2015
-	if (CurrentCompany == 8) then begin
+  
+  if(SMp.OrdFlag==0)then begin
+		if(SMp.OKFlag!=0)then begin
+			RecordCheckError(9930,"",-1,"FrLocation");
+			res = -1;
+			goto LStockMovVcRecordCheck;
+		end;
+		if(SMp.SentOKFlag!=0)then begin
+			RecordCheckError(9930,"",-1,"ToLocation");
+			res = -1;
+			goto LStockMovVcRecordCheck;
+		end;
+	end;
+  	
+	/*if (CurrentCompany==8) then begin//**доработать
 		Userr.Code = CurrentUser;
-		if ReadFirstMain(Userr,1,true) then begin
+		if(ReadFirstMain(Userr,1,true))then begin
 			if ((SM2p.OKFlag==0) and (SMp.OKFlag!=0)) then begin
-				if Userr.Location != SMp.ToLocation then begin
+				if(nonblank(Userr.Location) and Userr.Location!=SMp.ToLocation) then begin
 					RecordCheckError(31055,"",-1,"ToLocation");
 					res = -1;
 					goto LStockMovVcRecordCheck;
 				end;
 			end;
 			if ((SM2p.OrdFlag==0) and (SMp.OrdFlag!=0)) then begin
-				if Userr.Location != SMp.FrLocation then begin
+				if (nonblank(Userr.Location) and Userr.Location!=SMp.FrLocation) then begin
 					RecordCheckError(31054,"",-1,"FrLocation");
 					res = -1;
 					goto LStockMovVcRecordCheck;
 				end;
 			end;
 		end;
-	end;
+	end;*///*****************//
+	
+	
+	
+	
 	if res != -1 then begin
 		oldnr = SMp.SerNr;
 		oldOfficialSerNr = SMp.OfficialSerNr;
