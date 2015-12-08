@@ -113,8 +113,9 @@ BEGIN
   
   if (StockMovVc_PasteArtCode(StockMovr,rownr,changed,aWarning)) then begin
   	MatRowGet(StockMovr,rownr,StockMovrw);// Edit ************************** Tuesday, 21 April 2015 14:56:37
-    if(blank(StockMovrw.Quant)) then begin StockMovrw.Quant = 1; end;// Edit ************************** Tuesday, 21 April 2015 14:56:38
-    if(blank(StockMovrw.SentQuant)) then begin StockMovrw.SentQuant = StockMovrw.Quant; end;// Edit ************************** Tuesday, 21 April 2015 14:56:39
+    if(blank(StockMovrw.Quant) and (CurrentCompany!=4) ) then begin StockMovrw.Quant = 1; end;// Edit ************************** Tuesday, 21 April 2015 14:56:38
+    //if(blank(StockMovrw.SentQuant) and (CurrentCompany!=8)) then begin StockMovrw.SentQuant = StockMovrw.Quant; end;// Edit ************************** Tuesday, 21 April 2015 14:56:39 //Edit----------------------Dima  08.12.2015
+    if(blank(StockMovrw.SentQuant) and (CurrentCompany!=8)) then begin StockMovrw.SentQuant = 1; end;//Edit----------------------Dima  08.12.2015
     if(blank(StockMovrw.OrdQuant)) then begin StockMovrw.OrdQuant = 1; end;// Edit ************************** Tuesday, 21 April 2015 14:56:40
     MatRowPut(StockMovr,rownr,StockMovrw);// Edit ************************** Tuesday, 21 April 2015 14:56:36
     PutWindowRecord(wn,StockMovr);
