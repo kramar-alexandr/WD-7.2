@@ -7107,6 +7107,7 @@ begin
    //------------------------------------------------------------------------------------------------------------
   v = v + 60;
   checkbox(100,v-20,0,"VIP",VIPStatus);
+  checkbox(200,v-20,0,"Товар від партнера з поверненням",ItemFrPartner); //Edit***************************Sasha2,14:19 08.12.2015
  	EditField(h=100,v,200,"Власник",Normal,Vlastnik,false,0);EditField(h+300,v,-5,"SN Зареєст.",Normal,CustomField8,false,0);
  	EditField(h,v+=vs,-20,"Прийнято від",Normal,Priynato,false,0);	
 	EditField(h,v+=vs,-20,"Контактна інф.",Normal,Kontinfo1,false,0);	
