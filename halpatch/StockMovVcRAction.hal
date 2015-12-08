@@ -1913,6 +1913,26 @@ LCheckStockMovRecord:;
   RETURN;
 END;
   
+  
+function boolean   CheckUserLocation (string location) //Edit----------------------Dima  08.12.2015
+begin
+	boolean res;
+	record Uservc Userr;
+	record LocationVc Locr;
+	
+	res = true;	
+	Userr.Code = location;
+	if (ReadFirstMain(Userr,1,true)) then begin
+		if (CurrentUser != Userr.Code) then begin
+			res = false;
+		end;
+	end;
+
+	CheckUserLocation = res;
+	return;
+end;  
+  
+  
 global
 updating function LongInt StockMovVcRecordCheck(var record StockMovVc SMp,record StockMovVc SM2p,LongInt stat,LongInt check)
 BEGIN
@@ -1942,7 +1962,7 @@ BEGIN
 		end;
 	end;
   	
-	/*if (CurrentCompany==8) then begin//**доработать
+  if (CurrentCompany==8) then begin
 		Userr.Code = CurrentUser;
 		if(ReadFirstMain(Userr,1,true))then begin
 			if ((SM2p.OKFlag==0) and (SMp.OKFlag!=0)) then begin
@@ -1951,16 +1971,34 @@ BEGIN
 					res = -1;
 					goto LStockMovVcRecordCheck;
 				end;
+				
+				if(blank(Userr.Location))	then begin	
+					if (CheckUserLocation(SMp.ToLocation)==false) then begin
+						RecordCheckError(31055,"",-1,"ToLocation");
+						res = -1;
+						goto LStockMovVcRecordCheck;
+					end;
+				end;
 			end;
+			
 			if ((SM2p.OrdFlag==0) and (SMp.OrdFlag!=0)) then begin
 				if (nonblank(Userr.Location) and Userr.Location!=SMp.FrLocation) then begin
 					RecordCheckError(31054,"",-1,"FrLocation");
 					res = -1;
 					goto LStockMovVcRecordCheck;
 				end;
-			end;
+				
+				if(blank(Userr.Location))	then begin	
+					if (CheckUserLocation(SMp.FrLocation)==false) then begin
+						RecordCheckError(31055,"",-1,"FrLocation");
+						res = -1;
+						goto LStockMovVcRecordCheck;
+					end;
+				end;
+								
+			end;			
 		end;
-	end;*///*****************//
+	end;
 	
 	
 	
