@@ -1,0 +1,62 @@
+SetLangMode(LangUkrainian,"UKR",0);
+
+
+global
+procedure SVOPartnerFinishedRn(record RcVc RepSpec)
+begin
+  record SVOVc SVOr;
+  row SVOVc SVOrw;
+  Boolean TrHs;
+  Boolean testf;
+  Integer pos;
+  
+  val iv;
+  val TotSum;
+  date afr;
+  date ato;
+  string 255 tstr;
+  Integer rw,i,mtrw,j,mtrw1;// Edit ************************** Wednesday, 18 May 2011 15:22:32
+  Boolean womade;
+  Boolean wonotmade,TrHs1;// Edit ************************** Tuesday, 11 October 2011 16:11:25
+  record WSVc WSr;
+  row WSVc WSrw;
+  string 255 serial,artcode;// Edit ************************** Tuesday, 11 October 2011 16:03:06
+  
+  
+  
+  //afr = RepSpec.sStartDate;//FirstInRange(RepSpec.f1,30);
+  //ato = RepSpec.sEndDate;//LastInRange(RepSpec.f1,30);
+  
+  StartReportnoheaderJob("Звіт виконаних замовлень партнерів");
+  StartFormat(15);
+    pos = 0;
+    OutString(pos,0,USetStr(14365),false); //customer
+    OutString(pos+=40,0,USetStr(2448),false);//name
+    OutString(pos+=100,0,USetStr(7731),false); //Order #
+    OutString(pos+=50,0,USetStr(13796),false); //date
+  EndFormat;
+  
+
+  TrHs = true;
+  SVOr.CustCode = RepSpec.f2;
+  While(loopkey("CustCode",SVOr,1,TrHs)) begin
+    testf = true;
+    if (nonblank(RepSpec.f2) and (RepSpec.f2<>SVOr.CustCode)) then begin testf = false; TrHs = false; end;
+    if (SVOr.OrderStatus!=2 or nonblank(SVOr.RegDate)) then begin testf = false; end;
+    if (SVOr.ItemFrPartner!=1) then begin testf = false; end;
+    if(testf)then begin
+      StartFormat(15);
+        pos = 0;
+        OutString(pos,0,SVOr.CustCode,false);
+        OutString(pos+=40,0,SVOr.Addr0,false);
+        OutString(pos+=100,"DblSVOVc",SVOr.SerNr,false);
+        OutString(pos+=50,0,SVOr.TransDate,false);
+      EndFormat;
+    end;  
+  end;
+  
+  
+  EndJob;
+  return;
+end;
+

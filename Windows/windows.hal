@@ -1423,4 +1423,17 @@ begin
     EndMatrix;
   EndWindow;
 end;
+
+window SVOPartnerFinishedRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("‚изначте звґт виконаних замовлень партнерґв",SVOPartnerFinishedRClass,CGRcW,RcType);
+  SetWRect(20,80,450,300);
+  v= 6; vs = 20;
+  //EditFieldTL(150,v, 150,"Ь рахунка",   M4Str,Normal,30,f1,false,0);
+  //PeriodField(150,v+=vs,"Џерґод");
+  EditFieldTL(150,v/*+=vs*/ ,150,"Љлґ№нт",M4UStr,Normal,20,f2,false,CUSClass);
+  EndWindow;
+end;
   
