@@ -61,6 +61,8 @@ begin
 	Report("Рух готівки",MyCashFlowRClass,MyNewCashFlowRn,0,modNL);
 	Report("Рух готівки - прямий метод",MyCashFlowRClass,MyNewCashFlowDirectRn,0,modNL);	
 	
+	Report("Переміщення по складу користувача",CurUserStockMovsRClass,CurrentUserStockMovsRn,0,modIN);//Edit----------------------Dima  08.12.2015	
+	
 	
 	Setting("Валюта ЕККА",POSCurncyTClass,modPOS); //Edit***************************Sasha2,17:25 11.09.2014
 	Setting("Рахунки продавців",LocalMachineAccTClass,modPOS); //Edit***************************Sasha2,17:26 11.09.2014
