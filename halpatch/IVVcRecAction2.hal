@@ -1011,8 +1011,8 @@ BEGIN
       if (ihef==false) then begin
         UpdateCOIV(IVr);
         IVUpdateItemHist(IVr);
-        CreateTransAfterFIFO(IVr); //Edit***************************Sasha2,14:29 31.08.2015
       end;
+      CreateTransAfterFIFO(IVr); //Edit***************************Sasha2,14:29 31.08.2015
       if (BatchStat(IVr,false,false)) then begin end;
       IVUpdateSerialNr(IVr,false,true);
       MakeActFromSubSys_IVVc(IVr,false);   
