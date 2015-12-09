@@ -239,6 +239,7 @@ BEGIN
     res = 1574; 
     goto LCheckStockMovRow;
   end;
+
   if (blank(quant)) then begin
     if (sentquantf) then begin
       error = 1058;
@@ -249,11 +250,21 @@ BEGIN
       error = 1058;
       errorstr = "";
       errorrownr = rownr;
-      fieldstr = "Quant";              
+      fieldstr = "Quant";
     end;
     res = 1058;
     goto LCheckStockMovRow;
-  end;    
+//Edit-------------------Vitalii 10:41 09.12.2015
+  end else begin
+	if (quant!=StockMovrw.SentQuant) then begin
+		error = 1008;
+		errorstr = "";
+		errorrownr = rownr;
+		fieldstr = "Quant";           
+		res = 1008;
+		goto LCheckStockMovRow;
+	end;
+  end;
   if (((INr.SerNrf>0) and (INr.SerNrf<3)) and (MSb.NoSerOnPU==0)) then begin
     if (ToLocr.Type==1) then begin
       if (CheckSerialStatus(StockMovrw.ArtCode,StockMovrw.SerialNr,errstr)==2) then begin
@@ -1611,15 +1622,27 @@ BEGIN
         end;
       end;
     end;
+
+
     if (SMp.SentOKFlag!=0) then begin
-      if (blank(StockMovrw.SentQuant)) then begin
+	  if (blank(StockMovrw.SentQuant)) then begin
         error = 1058;
         errorstr = "";
         rownr = i;
         fieldstr = "SentQuant";           
         res = 1826; 
         goto LCheckStockMovRecord;
-      end;
+//Edit-------------------Vitalii 10:41 09.12.2015
+      end else begin
+		if (StockMovrw.SentQuant!=StockMovrw.OrdQuant) then begin
+			error = 1008;
+			errorstr = "";
+			rownr = i;
+			fieldstr = "SentQuant";           
+			res = 1008;
+			goto LCheckStockMovRecord;
+		end;
+	  end;
     end;
     if (blank(SMp.ThrouLocation)) then begin
       if (StockMovrw.SentQuant>0) then begin
@@ -1948,7 +1971,7 @@ BEGIN
   res = 0;
 
   	//Edit-------------------Vitalii 11:02 04.12.2015
-  
+
   if(SMp.OrdFlag==0)then begin
 		if(SMp.OKFlag!=0)then begin
 			RecordCheckError(9930,"",-1,"FrLocation");
@@ -1999,7 +2022,6 @@ BEGIN
 			end;			
 		end;
 	end;
-	
 	
 	
 	
