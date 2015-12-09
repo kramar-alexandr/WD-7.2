@@ -558,7 +558,7 @@ begin
       goto LWSVcRecordCheck;
     end;
 	//Edit-------------------Vitalii 14:03 04.12.2015
-		/*if (CurrentCompany==8) then begin//Доработть
+		if (CurrentCompany==8) then begin//Доработть// Edit ************************** Wednesday, 9 December 2015 13:08:05
 			User.Code = CurrentUser;
 			if ReadFirstMain(User,1,true) then begin
 				if (nonblank(User.Location) and User.Location!=WSp.Location) then begin
@@ -567,7 +567,11 @@ begin
 					goto LWSVcRecordCheck;
 				end;
 			end;
-		end;*/
+		end;
+		
+		
+		
+		
   end;
   if (WSp.WONr>-1) then begin
     if (CheckWOFinished(WSp.WONr)) then begin
