@@ -116,6 +116,7 @@ BEGIN
       end;
     end;    
     SVOp.RebCode = CUr.RebCode;
+    SVOp.ItemFrPartner = CUr.Partner; //Edit***************************Sasha2,10:26 09.12.2015
     warntext = CUr.WarnText1;
     SVOGetRate(SVOp);
     res = true;
