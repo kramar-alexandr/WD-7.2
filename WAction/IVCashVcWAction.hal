@@ -2729,7 +2729,7 @@ end;
 	
 	
 	
-	procedure IVCashDClassSpecPasteNameArtCode(Integer wn,var string psname)
+/*		procedure IVCashDClassSpecPasteNameArtCode(Integer wn,var string psname)
 begin
   record IVCashVc IVCashr;
   Integer rownr;
@@ -2741,7 +2741,7 @@ begin
   return;
 end;
 	
-	global
+global
 function string 40 IVCashDClassSpecPasteName(Integer wn,string defpsname)
 begin
   string 255 psname;
@@ -2760,4 +2760,4 @@ begin
   end;
   IVCashDClassSpecPasteName = psname;
   return;
-end;
+end;*/

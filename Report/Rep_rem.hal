@@ -875,8 +875,9 @@ record SHVc SHr;
 			testf = true;
 			if(IHr.ArtCode!=artcode and nonblank(artcode)) then begin testf = false; end;
 			if(IHr.SerialNr!=serial) then begin testf = false;  TrHs = false; end;
-			if(IHr.FileName=="IVVc") then begin testf = false; end;
-			 
+			//if(IHr.FileName=="IVVc") then begin testf = false; end;
+			if(IHr.StockAffectf==0)then begin testf = false; end;
+			
 			if(testf) then begin
 				
 				if(oldartcode!=IHr.ArtCode)then begin
@@ -910,8 +911,8 @@ record SHVc SHr;
 											 OutString(0,0,SHr.CustCode,false);
 											 OutString(80,0,SHr.Addr0,false);
 											 
-					/*case "IVVc": OutString(0,0,"Акт-накладна",false);
-											 OutString(80,"DblIVVc",IHr.TransNr,false);*/
+					case "IVVc": OutString(0,0,"Акт-накладна",false);
+											 OutString(80,"DblIVVc",IHr.TransNr,false);
 					
 					case "SDVc": OutString(0,0,"Списання",false);
 											 OutString(80,"DblSDVc",IHr.TransNr,false);

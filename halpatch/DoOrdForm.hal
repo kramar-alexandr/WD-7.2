@@ -320,7 +320,7 @@ BEGIN
   sumnorebeate = 0;	
 	sumnotpdv = 0;
   SetupVATBase(nodiscVATr,vatcnt);  
-
+	
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(ORr,i,ORrw);
     ORrw.vRebate = (1-ORrw.Sum/(ORrw.Price*ORrw.Quant))*100;// Edit ************************** Tuesday, 17 November 2015 11:01:08
@@ -471,6 +471,8 @@ LkInvoiceRowTypeNormal:;
       PrintValue("F_CONVERSIONVAL1",INr.Conversion1,M4UVal,LangNrr,SysFormatRec,false);
       PrintValue("F_CONVERSIONVAL2",INr.Conversion2,M4UVal,LangNrr,SysFormatRec,false);
       
+      //OUTFORMFIELD("MYF_RABATTABS",Round((ORrw.Quant * ORrw.Price) - ORrw.Sum,SetRoundModeD(2)));// Edit ************************** Wednesday, 9 December 2015 11:21:09
+			OUTFORMFIELD("MYF_RABATTABS",ORrw.vRebate & "%");// Edit ************************** Wednesday, 9 December 2015 11:28:19
       
       OUTFORMFIELD("F_SOURCE",ORrw.Source);      
       OUTFORMFIELD("F_KOSTPRIS",ORrw.BasePrice);      
