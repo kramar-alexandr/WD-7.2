@@ -256,7 +256,7 @@ BEGIN
     goto LCheckStockMovRow;
 //Edit-------------------Vitalii 10:41 09.12.2015
   end else begin
-	if (quant!=StockMovrw.SentQuant) then begin
+	if ((quant!=StockMovrw.SentQuant) and nonblank(SMp.ThrouLocation)) or ((quant!=StockMovrw.OrdQuant) and blank(SMp.ThrouLocation)) then begin
 		error = 1008;
 		errorstr = "";
 		errorrownr = rownr;
