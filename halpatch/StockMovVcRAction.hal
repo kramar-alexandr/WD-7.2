@@ -1913,7 +1913,7 @@ LCheckStockMovRecord:;
   RETURN;
 END;
   
-  
+global  
 function boolean   CheckUserLocation (string location) //Edit----------------------Dima  08.12.2015
 begin
 	boolean res;

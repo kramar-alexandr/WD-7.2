@@ -51,6 +51,7 @@ external function Boolean SerNrTestWSVc(LongInt,Date,var Boolean);
 external procedure GetLocationAcc(string,var string,var string);
 external function longint GetUserSerNrSeries(longint);// Edit ************************** Thursday, 13 February 2014 17:29:44
 remote updating procedure CreateIVFromWS(record WSVc,var LongInt,var record IVVc); //Edit***************************Sasha2,11:46 10.06.2015
+external function boolean CheckUserLocation(string);//Edit----------------------Dima  09.12.2015
 
 procedure GetWSStockAcc(Integer ItemGroupAccounts,string location,string MainStock,string itcode,string accusageacc,var string stockacc,var string locobjstr)
 begin  
@@ -486,6 +487,13 @@ begin
 				goto LWSVcRecordCheck;
   		end;
   	end;
+		if(blank(User.Location))	then begin	
+			if (CheckUserLocation(WSp.Location)==false) then begin
+				RecordCheckError(31033,"",-1,"Location");
+				res = -1;
+				goto LWSVcRecordCheck;
+			end;
+		end;  	
   end;
 
 	// Edit End ---------------------------------------------- Edit End
