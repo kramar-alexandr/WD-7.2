@@ -92,6 +92,9 @@ BEGIN
 			if (NonBlank(Userr.Location)) then begin
 				StockMovr.FrLocation = Userr.Location;
 			end;
+			if (NonBlank(Userr.ThroughLocation)) then begin
+				StockMovr.ThrouLocation = Userr.ThroughLocation;
+			end;			
 		end;
 	end;
   StockMovVcRecordDefaults = res; 
