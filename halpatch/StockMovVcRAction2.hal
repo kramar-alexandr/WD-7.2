@@ -54,6 +54,7 @@ BEGIN
   LongInt res;
   string 10 curcode;
   val fr,to1,to2,br1,br2;
+  record UserVc Userr;
   
   StockMovr.SerNr = -1;
   StockMovr.OrdTransDate = CurrentDate;
@@ -84,7 +85,15 @@ BEGIN
   StockMovr.LocalMachineCode = CurMachineName;
   StockMovr.OfficialSerNr = "";
   StockMovr.OfficialSerNrSerie = "";
-
+  
+  if (CurrentCompany == 8) then begin
+  	Userr.Code = CurrentUser;	//Edit----------------------Dima  10.12.2015
+  	if (ReadFirstMain(Userr,1,true)) then begin
+			if (NonBlank(Userr.Location)) then begin
+				StockMovr.FrLocation = Userr.Location;
+			end;
+		end;
+	end;
   StockMovVcRecordDefaults = res; 
   RETURN;
 END;
@@ -97,6 +106,8 @@ BEGIN
   val fr,to1,to2,br1,br2;
   Date bd;
   Time bt;
+  record UserVc Userr;
+  string 50 temp;
 
   StockMovr.SerNr = -1;
   StockMovr.OKFlag = 0;
@@ -140,7 +151,19 @@ BEGIN
   if (HasLocalization("PRT")) then begin
     StockMovr.PlanSendTime = "";
     StockMovr.PlanSendDate = "";
-  end;  
+  end;
+  
+  if (CurrentCompany == 8) then begin
+  	Userr.Code = CurrentUser;		//Edit----------------------Dima  10.12.2015
+  	if (ReadFirstMain(Userr,1,true)) then begin
+			if ((Userr.Location==StockMovr.FrLocation) or (Userr.Location==StockMovr.ToLocation)) then begin
+				temp = StockMovr.FrLocation;
+				StockMovr.FrLocation = StockMovr.ToLocation;
+				StockMovr.ToLocation = temp;
+			end;
+		end;  
+	end;
+    
   StockMovVcRecordDuplicate = res; 
   RETURN;
 END;
