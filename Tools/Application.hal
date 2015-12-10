@@ -469,7 +469,7 @@ begin
     NewPeriodicTask("CallRegisterAtPresenceServerIT","CallRegisterAtPresenceServerIT","CallRegisterAtPresenceServerIT","",10,"");
   end;
   
-  if(CurrentCompany==4) then begin //iCenter
+  if(CurrentCompany==4) then begin //iCenter			//Edit----------------------Dima  10.12.2015
       RepSpec.Media = mtScreen;
       RepSpec.repname = "CurrentUserStockMovsRn";
       RunReport(RepSpec,0);
