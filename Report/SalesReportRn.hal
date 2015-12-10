@@ -59,6 +59,10 @@ begin
 				uahpurate[ressize] = to1;
 				realcostuah[ressize] = IVrw.BasePrice;
 				realcostbase[ressize] = IVrw.BasePrice;
+				if(IVr.UpdStockFlag==1)then begin
+					realcostuah[ressize] = IVrw.FIFO;// Edit ************************** Wednesday, 9 December 2015 15:30:59
+					realcostbase[ressize] = IVrw.FIFO;// Edit ************************** Wednesday, 9 December 2015 15:30:58
+				end;
 				realpriceuah[ressize] = IVrw.Price;
 				realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
 				realpricebase[ressize] = IVrw.Price;
@@ -69,6 +73,12 @@ begin
 				uahpurate[ressize] = IVr.FrRate;
 				realcostuah[ressize] = IVrw.BasePrice*IVr.FrRate/IVr.ToRateB1;
 				realcostbase[ressize] = IVrw.BasePrice;
+				
+				if(IVr.UpdStockFlag==1)then begin
+					realcostuah[ressize] = IVrw.FIFO*IVr.FrRate/IVr.ToRateB1;// Edit ************************** Wednesday, 9 December 2015 15:30:59
+					realcostbase[ressize] = IVrw.FIFO;// Edit ************************** Wednesday, 9 December 2015 15:30:58
+				end;
+				
 				realpriceuah[ressize] = IVrw.Price;
 				realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
 				realpricebase[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
@@ -76,6 +86,9 @@ begin
 				comment[ressize] = com & " blank(PUr.CurncyCode)";
 				if(BCb.BaseCur2==IVr.CurncyCode)then begin
 					realcostuah[ressize] = IVrw.BasePrice*IVr.BaseRate2/IVr.BaseRate1;
+					if(IVr.UpdStockFlag==1)then begin
+						realcostuah[ressize] = IVrw.FIFO*IVr.BaseRate2/IVr.BaseRate1;// Edit ************************** Wednesday, 9 December 2015 15:30:59
+					end;
 					realpricebase[ressize] = IVrw.Price/IVr.BaseRate2*IVr.BaseRate1;
 					realsumbase[ressize] = IVrw.Sum/IVr.BaseRate2*IVr.BaseRate1/IVrw.Quant*qty[ressize];
 				end;
