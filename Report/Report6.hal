@@ -256,7 +256,9 @@ record RcVc RepSpec;
 integer compno;
   compno = CurrentCompany;
       switch (compno) begin
-      case 1: delete_file("Stock/iStoreStockFullManagers.xls");
+      case 1: RepSpec.f1 = "INV#1,INV#1_LV,INV#1_LVST,INV#1_GL,INV#1_GL_ST";
+              RepSpec.f2 = "RRPD,RRPD1";
+      				delete_file("Stock/iStoreStockFullManagers.xls");
       				CreateFile("Stock/iStoreStockFullManagers.xls");
               closefile;
               openexportfile("Stock/iStoreStockFullManagers.xls",true);
