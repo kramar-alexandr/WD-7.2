@@ -1,5 +1,6 @@
-SetLangMode(LangUkrainian,"UKR",0);
+remote function Boolean Getformcode(Integer,Integer,string,string,string,LongInt,LongInt,string,string,Integer,string,var string);
 
+SetLangMode(LangUkrainian,"UKR",0);
 
 global
 procedure SVOPartnerFinishedRn(record RcVc RepSpec)
@@ -7,56 +8,237 @@ begin
   record SVOVc SVOr;
   row SVOVc SVOrw;
   Boolean TrHs;
-  Boolean testf;
-  Integer pos;
-  
-  val iv;
-  val TotSum;
+  Boolean testf,reportf;
+  Integer pos,reccount;
   date afr;
   date ato;
-  string 255 tstr;
-  Integer rw,i,mtrw,j,mtrw1;// Edit ************************** Wednesday, 18 May 2011 15:22:32
-  Boolean womade;
-  Boolean wonotmade,TrHs1;// Edit ************************** Tuesday, 11 October 2011 16:11:25
-  record WSVc WSr;
-  row WSVc WSrw;
-  string 255 serial,artcode;// Edit ************************** Tuesday, 11 October 2011 16:03:06
-  
-  
+  string 20 curcustomer;
+  string 255 concatedstr;
   
   //afr = RepSpec.sStartDate;//FirstInRange(RepSpec.f1,30);
   //ato = RepSpec.sEndDate;//LastInRange(RepSpec.f1,30);
   
-  StartReportnoheaderJob("Звіт виконаних замовлень партнерів");
-  StartFormat(15);
-    pos = 0;
-    OutString(pos,0,USetStr(14365),false); //customer
-    OutString(pos+=40,0,USetStr(2448),false);//name
-    OutString(pos+=100,0,USetStr(7731),false); //Order #
-    OutString(pos+=50,0,USetStr(13796),false); //date
-  EndFormat;
+  if (RepSpec.flags[29]>0) then begin
+    reportf = false;
+  end else begin
+    reportf = true; 
+  end;
   
-
+  if (reportf) then begin
+    StartReportnoheaderJob("Звіт виконаних замовлень партнерів");
+    StartFormat(15);
+      pos = 0;
+      OutString(pos,0,USetStr(14365),false); //customer
+      OutString(pos+=40,0,USetStr(2448),false);//name
+      OutString(pos+=100,0,USetStr(7731),false); //Order #
+      OutString(pos+=70,0,USetStr(13796),false); //date
+    EndFormat;  
+  end;
+  
+  reccount = 0;
   TrHs = true;
   SVOr.CustCode = RepSpec.f2;
   While(loopkey("CustCode",SVOr,1,TrHs)) begin
+    if (reportf) then begin
+      if (NonBlank(curcustomer) and SVOr.CustCode!=curcustomer and reccount>0) then begin
+        StartFormat(15);
+          OutString(0,"DblPrintSVOList","Надрукувати спискок замовлень для: "& curcustomer,false);
+          OutString(0,0,"",false);
+        EndFormat;
+      end;
+    end;
+    if (SVOr.CustCode!=curcustomer) then begin
+      curcustomer = SVOr.CustCode;
+      reccount = 0;
+    end;
     testf = true;
     if (nonblank(RepSpec.f2) and (RepSpec.f2<>SVOr.CustCode)) then begin testf = false; TrHs = false; end;
     if (SVOr.OrderStatus!=2 or nonblank(SVOr.RegDate)) then begin testf = false; end;
     if (SVOr.ItemFrPartner!=1) then begin testf = false; end;
     if(testf)then begin
-      StartFormat(15);
-        pos = 0;
-        OutString(pos,0,SVOr.CustCode,false);
-        OutString(pos+=40,0,SVOr.Addr0,false);
-        OutString(pos+=100,"DblSVOVc",SVOr.SerNr,false);
-        OutString(pos+=50,0,SVOr.TransDate,false);
-      EndFormat;
+      reccount = reccount + 1;
+      if (reportf) then begin
+        StartFormat(15);
+          pos = 0;
+          OutString(pos,0,SVOr.CustCode,false);
+          OutString(pos+=40,0,SVOr.Addr0,false);
+          OutString(pos+=100,"DblSVOVc",SVOr.SerNr,false);
+          OutString(pos+=70,0,SVOr.TransDate,false);
+        EndFormat;
+      end else begin
+        if (FIELDINFORM("F_FIXEDNUMBER")) then begin
+          OUTFORMFIELD("F_FIXEDNUMBER",reccount);
+        end;
+        if (FIELDINFORM("F_SERVICEORDER")) then begin
+          OUTFORMFIELD("F_SERVICEORDER",SVOr.SerNr);
+        end;
+        MatRowGet(SVOr,0,SVOrw);
+        if (FIELDINFORM("F_SERIENR")) then begin
+          if (NonBlank(SVOrw.SerialNr)) then begin
+            OUTFORMFIELD("F_SERIENR",SVOrw.SerialNr);
+          end;
+        end;
+        if (FIELDINFORM("F_MODEL1")) then begin
+          if (NonBlank(SVOrw.Spec)) then begin
+            OUTFORMFIELD("F_MODEL1",left(SVOrw.Spec,40));
+          end;
+        end;
+        if (FIELDINFORM("F_STANDARDPROBLEMTEXT")) then begin
+          concatedstr = "";
+          if (NonBlank(SVOr.Comment1)) then begin
+            concatedstr = concatedstr & SVOr.Comment1 & "; ";
+          end;
+          if (NonBlank(SVOr.Comment2)) then begin
+            concatedstr = concatedstr & SVOr.Comment2 & "; ";
+          end;
+          if (NonBlank(concatedstr)) then begin
+            OUTFORMFIELD("F_STANDARDPROBLEMTEXT",left(concatedstr,100));
+          end;
+        end;
+        if (FIELDINFORM("F_OTHERTEXT")) then begin
+          concatedstr = "";
+          if (NonBlank(SVOr.Batary)) then begin
+            concatedstr = concatedstr & SVOr.Batary & "; ";
+          end;
+          if (NonBlank(SVOr.Zaryadka)) then begin
+            concatedstr = concatedstr & SVOr.Zaryadka & "; ";
+          end;
+          if (NonBlank(SVOr.Inshe)) then begin
+            concatedstr = concatedstr & SVOr.Inshe & "; ";
+          end;
+          if (NonBlank(concatedstr)) then begin
+            OUTFORMFIELD("F_OTHERTEXT",concatedstr);
+          end;
+        end;
+        EndFormRow;
+        EndFormRow;
+      end;      
     end;  
   end;
+
+  if (reportf) then begin
+    EndJob;
+  end;
   
-  
-  EndJob;
   return;
 end;
 
+global
+procedure DoSVOPartnerFinishedForm(record RcVc RepSpec/*,record RcVc custRepSpec*/)
+BEGIN
+  record FormDefVc FDr;
+  row FormDefVc FDrw;
+  Integer i,rwcnt;
+  Boolean printf;
+  Integer intdocnr;
+  string 30 formcode,langcode;
+     
+  FDr.repname = "SVOPartnerFinishedForm";
+  FDr.shortname = RepSpec.shortname;
+  if (ReadFirstMain(FDr,1,true)==false) then begin
+    MessageBox(1624, " " & USetStr(1623));
+    goto L99;
+  end;
+  
+  langcode = "";
+  intdocnr = 1;
+  printf = true;
+  while (printf) begin
+    rwcnt = MatRowCnt(FDr);  
+    formcode = "";
+    for (i=rwcnt-1;i>=0;i=i-1) begin
+      MatRowGet(FDr,i,FDrw);
+      if (Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,-1,FDrw.PrintGroupCode,
+                      langcode,intdocnr,"",formcode)) then
+      begin
+        goto LBREAK;
+      end;
+    end;
+LBREAK:;
+    if (nonblank(formcode)) then begin
+      if (OpenForm(formcode)) then begin
+        if (FIELDINFORM("F_DATUM")) then begin
+          OUTFORMFIELD("F_DATUM",CurrentDate);
+        end;
+        SVOPartnerFinishedRn(RepSpec);
+        CloseForm;
+      end else begin
+        printf = false;
+        MessageBox(1546,formcode);
+      end;
+    end else begin
+      printf = false;
+      if (intdocnr==1) then begin
+        MessageBox(1624, " " & USetStr(1623));
+      end;
+    end;
+    intdocnr = intdocnr + 1;
+  end;
+L99:;
+  RETURN;
+END;
+
+global
+procedure DblPrintSVOListButton()
+begin
+  integer wn;
+  record RcVc RepSpec; 
+
+	wn = curwindow;
+	GetWindowRecord(wn,RepSpec);
+	CloseWindow(wn);
+
+  if (PrintDocument(RepSpec,"SVOPartnerFinishedForm",false)) then begin  
+
+  end;
+  return;
+end;
+
+global
+procedure DblPrintSVOList(string dblstr,string l,Integer currepwn)
+begin
+  integer i,lenth;
+  longint pos;
+  Boolean testf;
+  string 255 customer;
+  Integer wn;
+  record SVOVc SVOr;
+  record RcVc RepSpec;
+
+  pos = 0;
+  GetNextSubstring(dblstr,pos,":",customer);
+  GetNextSubstring(dblstr,pos,":",customer);
+  if (nonblank(customer)) then begin
+    lenth = len(customer);
+    testf = true;
+    i=0;
+    while(testf and i<lenth) begin
+    	if(mid(customer,i,1)!=" ")then begin
+    		testf = false;
+    	end;
+    	i=i+1;
+    end;
+    customer = mid(customer,i-1,lenth-i+1);
+    
+    lenth = len(customer);
+    testf = true;
+    i=lenth;
+    while(testf and i>0) begin
+    	if(mid(customer,i,1)!=" ")then begin
+    		testf = false;
+    	end;
+    	i=i-1;
+    end;
+    customer = mid(customer,0,i+1);
+    
+    if (NonBlank(customer)) then begin
+      RECORDNEW(RepSpec);
+      RepSpec.f2 = customer;
+      RepSpec.flags[29] = 1;
+      RepSpec.Media = mtPrinter;
+      wn = CurWindow;
+      OpenWindow("PrintSVOPartFinTClass",0,wn,"","",RepSpec);
+    end;
+  end;
+  return;
+end;

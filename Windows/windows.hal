@@ -1436,4 +1436,28 @@ begin
   EditFieldTL(150,v/*+=vs*/ ,150,"Клієнт",M4UStr,Normal,20,f2,false,CUSClass);
   EndWindow;
 end;
+
+
+window PrintSVOPartFinTClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+integer v,mtrw,h,heiz;
+string 255 stattxt;
+
+  WindowBegin("Друк",PrintSVOPartFinTClass,CGother,RcType);
+	UseView(RcVc);
+	DynamicWindow;
+	
+	mtrw = 2;
+	heiz = 80 + 20 + 18 + mtrw*18;
+	SetWRect(90,80,430,heiz);
+	v=10;
+	stattxt = "Ви дійсно бажаєте роздрукувати замовлення?";
+  StaticText(20,v+=15,stattxt,false);
+	v=v+16;
+	h = 100;
+	HalPushButton(-120,v,-20,v+50,"DblPrintSVOListButton","Друк");
+L99:;
+  EndWindow;
+end;
   
