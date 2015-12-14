@@ -34,7 +34,8 @@ begin
   SMr.SerNr = 9000000000;
   While(LoopBackKey("SerNr",SMr,1,true)) begin
   	testf = true;
-  	if (RepSpec.flags[1]==0 and SMr.SentOKFlag!=0 and SMr.OKFlag!=0) then begin testf = false; end;
+  	if (RepSpec.flags[1]==0 and SMr.OKFlag!=0) then begin testf = false; end;
+  	
 		if (SMr.FrLocation != Userr.Location and SMr.ToLocation != Userr.Location) then begin testf = false; end;
 
 		if (testf) then begin

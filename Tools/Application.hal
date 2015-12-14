@@ -21,6 +21,7 @@ external function Boolean UniversityURLCacheNeedsUpdate();
 external updating procedure InitAvailClientIdleTask();
 external updating procedure InitAvailableVersionVcIdleTasks();
 external updating procedure InitCloudControllerNewVersionsIdleTask();
+remote function string 50 CurrentUserOnServer();// Edit ************************** Friday, 11 December 2015 15:46:26
 
 // Same GetFeatureUsage as in IntEnabCl.hal
 updating procedure GetFeatureUsage(record InternetEnablerBlock IEr,Boolean automatic,string hwaddress,Integer hwport,LongInt fcnt)
@@ -470,16 +471,22 @@ begin
     NewPeriodicTask("CallRegisterAtPresenceServerIT","CallRegisterAtPresenceServerIT","CallRegisterAtPresenceServerIT","",10,"");
   end;
   
-  if(CurrentCompany==4) then begin //iCenter			//Edit----------------------Dima  10.12.2015
-  		User.Code = currentuser;
-  		if(readfirstmain(User,1,true))then begin
-  			if(nonblank(User.Location))then begin
-					RepSpec.Media = mtScreen;
-					RepSpec.repname = "CurrentUserStockMovsRn";
-					RunReport(RepSpec,0);
+  if (!ServerMode) then begin
+		logtext(0,"OnAppCompl " & CurrentCompany & " " & CurrentUserOnServer);
+		CurrentUserOnServer;// Edit ************************** Friday, 11 December 2015 15:46:07
+		if(CurrentCompany==4) then begin //iCenter			//Edit----------------------Dima  10.12.2015
+				User.Code = CurrentUserOnServer;
+				if(readfirstmain(User,1,true))then begin
+					if(nonblank(User.Location))then begin
+						logtext(0,"CurUserStockMovsRClass");
+						ReportDefaults(RepSpec,"CurUserStockMovsRClass");
+						RepSpec.Media = mtScreen;
+						RepSpec.repname = "CurrentUserStockMovsRn";
+						RunReport(RepSpec,0);
+					end;
 				end;
-      end;
-	end;  
+		end;  
+	end;
   return;
 end;
 

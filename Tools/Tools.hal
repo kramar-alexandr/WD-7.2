@@ -654,3 +654,12 @@ begin
 		RecordStore(IVCashr,true);
 	end;  
 end;
+
+
+global function string 50 CurrentUserOnServer()
+begin
+
+	CurrentUserOnServer = currentuser;
+
+return;
+end;
