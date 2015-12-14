@@ -10,6 +10,7 @@ external procedure FindMotherWindowLocation(Integer,var string,var Date);
 external procedure INrsRClassReportDef(var record RcVc);
 external procedure SendArtStat(string,string,string,val,val,val,Date,Integer);
 remote function Boolean HandleFromITeckToMMR(record INVc,integer); //Edit***************************Sasha2,15:45 04.08.2015
+external procedure PasteFromSysList(Integer,Integer); //Edit***************************Sasha2,14:52 14.12.2015
 
 global //Edit***************************Sasha2,15:38 04.08.2015 {
 procedure FromITeckToMMRDsm()
@@ -1257,4 +1258,80 @@ LINDCLassBarcodeData:;
 
   return;
 end;
+
+global
+procedure LocationClassificationSClassArrayOnOpen(var Array string astr,var Integer acnt)
+BEGIN
+  record UserVc Userr;
+  record LocationVc Locationr;
+  Boolean testf;
+  string 200 classif;
+  
+    Userr.Code = CurrentUser;
+    if (ReadFirstMain(Userr,1,true) and NonBlank(Userr.Location)) then begin
+      Locationr.Code = Userr.Location;
+      if (ReadFirstMain(Locationr,1,true) and NonBlank(Locationr.Classification)) then begin
+        classif = Locationr.Classification;
+        Locationr.Code = "";
+        while (LoopMain(Locationr,1,true)) begin
+          testf = true;
+          if (classif!=Locationr.Classification) then begin testf = false; end;
+          if (testf) then begin 
+            astr[acnt] = Left(Locationr.Code & "    ",14);
+            astr[acnt] = astr[acnt] & Locationr.Name;
+            acnt = acnt + 1;
+          end;
+        end;
+      end;
+    end; 
+ 
+  RETURN;
+END;
+
+global //Edit***************************Sasha2,14:20 14.12.2015 {
+function Boolean LocationClassificationSClassOnOpenWindow(Integer wn)
+begin
+  Array string 255 astr;
+  Integer i,acnt;
+  
+  LocationClassificationSClassArrayOnOpen(astr,acnt);
+  for (i=0;i<acnt;i=i+1) begin
+    SetListString(wn,len(astr[i]),astr[i],false);    
+  end;
+  LocationClassificationSClassOnOpenWindow = false;
+  return;
+end; //Edit***************************Sasha2,14:20 14.12.2015 }
+
+
+global //Edit***************************Sasha2,14:51 14.12.2015 {
+function Boolean LocationClassificationSClassOnOKWindow(Integer wn)
+begin
+  PasteFromSysList(wn,-2);
+  LocationClassificationSClassOnOKWindow = false;
+  return;
+end; //Edit***************************Sasha2,14:51 14.12.2015 }
+
+//Edit***************************Sasha2,13:21 14.12.2015 {
+global
+function Boolean LocationSClassOnOpenWindow(Integer wn)
+begin
+  Integer mwn;
+  record UserVc Userr;
+  record LocationVc Locationr;
+  
+    if (CurrentCompany==8) then begin
+      mwn = MotherWindow(wn);
+      Userr.Code = CurrentUser;
+      if (ReadFirstMain(Userr,1,true) and NonBlank(Userr.Location)) then begin
+        Locationr.Code = Userr.Location;
+        if (ReadFirstMain(Locationr,1,true) and NonBlank(Locationr.Classification)) then begin
+          CloseWindow(wn);
+          OpenPasteWindow(mwn,"LocationClassificationSClass","");
+        end;   
+      end;
+    end;
+    
+  LocationSClassOnOpenWindow = false;
+  return;
+end; //Edit***************************Sasha2,13:21 14.12.2015 ]
 

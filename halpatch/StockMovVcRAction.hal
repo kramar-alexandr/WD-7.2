@@ -570,13 +570,21 @@ BEGIN
   
   transreceivef = false;
   if (SMp.OKFlag!=0) then begin
-    if (stat==insertmode) then begin transreceivef = true; end;
+    if (stat==insertmode) then begin 
+      transreceivef = true;
+      if (CurrentCompany==8 and BlankDate(SMp.TransDate)) then begin
+        SMp.TransDate = CurrentDate; //Edit***************************Sasha2,15:41 14.12.2015
+      end; 
+    end;
     if (stat==updatemode) then begin
       if (SM2p.OKFlag==0) then begin
         transreceivef = true;
         if (MSb.SetDelDateToCurrent!=0) then begin
           SMp.TransDate = CurrentDate;
         end;
+        if (CurrentCompany==8 and BlankDate(SMp.TransDate)) then begin
+          SMp.TransDate = CurrentDate; //Edit***************************Sasha2,15:41 14.12.2015
+        end; 
       end;
     end;
   end;
@@ -589,13 +597,21 @@ BEGIN
   end;    
   transsendf = false;
   if (SMp.SentOKFlag!=0) then begin
-    if (stat==insertmode) then begin transsendf = true; end;
+    if (stat==insertmode) then begin 
+      transsendf = true;
+      if (CurrentCompany==8 and BlankDate(SMp.SentTransDate)) then begin
+        SMp.SentTransDate = CurrentDate; //Edit***************************Sasha2,15:41 14.12.2015
+      end;  
+    end;
     if (stat==updatemode) then begin
       if (SM2p.SentOKFlag==0) then begin
         transsendf = true;
         if (MSb.SetDelDateToCurrent!=0) then begin
           SMp.SentTransDate = CurrentDate;
         end;
+        if (CurrentCompany==8 and BlankDate(SMp.SentTransDate)) then begin
+          SMp.SentTransDate = CurrentDate; //Edit***************************Sasha2,15:41 14.12.2015
+        end; 
       end;
     end;
   end;

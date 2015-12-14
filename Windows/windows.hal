@@ -1460,4 +1460,14 @@ string 255 stattxt;
 L99:;
   EndWindow;
 end;
+
+window LocationClassificationSClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Ћберґть склад",LocationClassificationSClass,CGother,HBlRecType);
+  SetWRect(240,80,520,291);
+  Sizeable(-1,-1,-1,0);
+  StringList(9,9,-20,-10);
+  EndWindow;
+end;
   
