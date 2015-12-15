@@ -72,6 +72,9 @@ begin
         if (FIELDINFORM("F_SERVICEORDER")) then begin
           OUTFORMFIELD("F_SERVICEORDER",SVOr.SerNr);
         end;
+        if (FIELDINFORM("F_KUNDNAMN")) then begin
+          OUTFORMFIELD("F_KUNDNAMN",SVOr.Addr0);
+        end;
         MatRowGet(SVOr,0,SVOrw);
         if (FIELDINFORM("F_SERIENR")) then begin
           if (NonBlank(SVOrw.SerialNr)) then begin
@@ -156,6 +159,9 @@ BEGIN
     end;
 LBREAK:;
     if (nonblank(formcode)) then begin
+      if (WindowsMode==1) then begin
+        formcode = formcode & "_WIN";
+      end;
       if (OpenForm(formcode)) then begin
         if (FIELDINFORM("F_DATUM")) then begin
           OUTFORMFIELD("F_DATUM",CurrentDate);
