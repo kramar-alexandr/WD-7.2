@@ -662,6 +662,11 @@ LWSDClassActiveEditField:;
         end;
       end;
   end;
+  /*
+  if(currentuser=="SA")then begin
+  	res = true;
+  end;*/
+  
   WSDClassActiveEditField = res;
   RETURN;
 END;
