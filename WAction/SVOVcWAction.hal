@@ -115,6 +115,9 @@ begin
   GetWindowRecord(wn,SVOr);
   if(changed>0)then begin
     SVOr.Vlastnik=SVOr.Addr0;
+    if (Blank(SVOr.Priynato)) then begin
+      SVOr.Priynato = SVOr.Vlastnik; //Edit***************************Sasha2,16:37 15.12.2015
+    end;
     PutWindowRecord(wn,SVOr);
   end;
 
@@ -122,6 +125,20 @@ return;
 end;
 
 	// Edit End ---------------------------------------------- Edit End
+	
+global //Edit***************************Sasha2,16:35 15.12.2015 {
+function Boolean SVODClassVlastnikEFAfter(integer wn, integer changed)
+begin
+  record SVOVc SVOr;
+  
+  GetWindowRecord(wn,SVOr);
+  if(changed>0 and Blank(SVOr.Priynato))then begin
+    SVOr.Priynato = SVOr.Vlastnik;
+    PutWindowRecord(wn,SVOr);
+  end;
+
+return;
+end; //Edit***************************Sasha2,16:35 15.12.2015 }
 	
 global 
 function Boolean SVODClassCurncyCodeEFAfter(Integer wn,Integer changedf)
@@ -415,7 +432,8 @@ BEGIN
     case "Quant": res = SVODClassQuantEFAfter(wn,rownr,changed);
     case "ItemKind": res = SVODClassItemKindEFAfter(wn,rownr,changed);
     case "Addr0": res = SVODClassAddr0EFAfter(wn,changed);// Edit ************************** Tuesday, 2 June 2015 20:17:16
-
+    case "Vlastnik": res = SVODClassVlastnikEFAfter(wn,changed); //Edit***************************Sasha2,16:36 15.12.2015
+    
   end;
   SVODClassAfterEditField = res;
   RETURN;

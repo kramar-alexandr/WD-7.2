@@ -117,6 +117,13 @@ BEGIN
     end;    
     SVOp.RebCode = CUr.RebCode;
     SVOp.ItemFrPartner = CUr.Partner; //Edit***************************Sasha2,10:26 09.12.2015
+    if (CurrentCompany==8) then begin //Edit***************************Sasha2,16:21 15.12.2015 {
+      SVOp.Vlastnik = CUr.Person;
+      SVOp.Priynato = CUr.Name;
+      SVOp.Kontinfo1 = CUr.Phone;
+      SVOp.Kontinfo2 = CUr.eMail;
+      SVOp.Kontinfo3 = CUr.InvAddr0;
+    end; //Edit***************************Sasha2,16:21 15.12.2015 }
     warntext = CUr.WarnText1;
     SVOGetRate(SVOp);
     res = true;
