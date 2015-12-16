@@ -112,8 +112,22 @@ begin
 					OutString(3,0,ISr.Instock-ISr.RsrvQty-ISr.StockRsrvQty,false);
 				end;
 				if(RepSpec.flags[0]==1)then begin
+				
+					resetloop(IHr);
+					INr.InPrice = 0;
+					IHr.ArtCode = INr.Code;
+        	TrHs1 = true;
+					while(loopkey("ActiveQty",IHr,1,TrHs1))begin
+        		testf1 = true;
+        		if(IHr.ArtCode!=INr.Code)then begin testf1 = false; TrHs1 = false; end;
+        		if(IHr.Location!=ISr.Location)then begin testf1 = false; end;
+        		if(testf1)then begin 
+        			INr.InPrice = INr.InPrice + IHr.RemCostPrice;
+        		end;
+        	end;
+					
+					OutString(1,0,INr.InPrice/ISr.Instock,false);
 					OutString(1,0,INr.InPrice,false);
-					OutString(1,0,INr.InPrice*ISr.Instock,false);
 				end;
 				OutString(4,0,ISr.Location,false);
 				For(i=0;i<plcnt;i=i+1) begin
