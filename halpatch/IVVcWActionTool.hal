@@ -457,6 +457,7 @@ BEGIN
     if (!INVc_AllowSales(INr,ErrorCode)) then begin
       warning = USetStr(ErrorCode);
     end;
+    IVrw.Quant = 1;//Edit----------------------Dima  18.12.2015
     IVrw.Price = price;
     IVrw.Spec = curitemname;
     IVrw.vRebate = vreb;
