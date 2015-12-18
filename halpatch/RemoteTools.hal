@@ -248,7 +248,7 @@ BEGIN
             ClearRow(StockMovp,StockMovrw,1);   
             StockMovrw.IntORRow = i;
             StockMovrw.ArtCode = ORrw.ArtCode;
-            StockMovrw.Quant = ORrw.Quant-ORrw.Shipd2;//ORrw.Quant;//-----------------------------------Customixe
+            StockMovrw.Quant = ORrw.Quant-ORrw.Shipd2;//ORrw.Quant;//-----------------------------------Customize
             StockMovrw.OrdQuant = StockMovrw.Quant;// Edit ************************** Friday, 9 January 2015 10:31:55
             StockMovrw.Spec = ORrw.Spec;
             StockMovrw.SerialNr = ORrw.SerialNr;
@@ -261,15 +261,19 @@ BEGIN
             StockMovrw.Objects = ORrw.Objects;
             MatRowPut(StockMovp,stcnt,StockMovrw);
             stcnt = stcnt + 1;
-            ORrw.Shipd1 = 1;//ORrw.Quant;//-----------------------------------Customixe
+            ORrw.Shipd1 = 1;//ORrw.Quant;//-----------------------------------Customize
             MatRowPut(ORp,i,ORrw);
         end else begin
-          for(k=0;k<ORrw.Quant-ORrw.Shipd2;k=k+1) begin//-----------------------------------Customixe
+          for(k=0;k<ORrw.Quant-ORrw.Shipd2;k=k+1) begin//-----------------------------------Customize
             ClearRow(StockMovp,StockMovrw,1);   
             StockMovrw.IntORRow = i;
             StockMovrw.ArtCode = ORrw.ArtCode;
-            StockMovrw.Quant = 1;//ORrw.Quant;//-----------------------------------Customixe
-            StockMovrw.OrdQuant = StockMovrw.Quant;// Edit ************************** Friday, 9 January 2015 10:31:55
+            if (CurrentCompany!=4) then begin
+            	StockMovrw.Quant = 1;//ORrw.Quant;//-----------------------------------Customize
+            end else begin	
+            	StockMovrw.Quant = 0;
+            end;
+            StockMovrw.OrdQuant = 1;// Edit ************************** Friday, 9 January 2015 10:31:55
             StockMovrw.Spec = ORrw.Spec;
             StockMovrw.SerialNr = ORrw.SerialNr;
             StockMovrw.NewPrice = ORrw.BasePrice;
@@ -281,10 +285,10 @@ BEGIN
             StockMovrw.Objects = ORrw.Objects;
             MatRowPut(StockMovp,stcnt,StockMovrw);
             stcnt = stcnt + 1;
-            ORrw.Shipd1 = 1;//ORrw.Quant;//-----------------------------------Customixe
+            ORrw.Shipd1 = 1;//ORrw.Quant;//-----------------------------------Customize
             MatRowPut(ORp,i,ORrw);
           end;
-        end;//-----------------------------------Customixe
+        end;//-----------------------------------Customize
       end;  
     end;  
   end;  
