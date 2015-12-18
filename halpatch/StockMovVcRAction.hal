@@ -256,7 +256,7 @@ BEGIN
     goto LCheckStockMovRow;
 //Edit-------------------Vitalii 10:41 09.12.2015
   end else begin
-	if ((StockMovrw.Quant!=StockMovrw.SentQuant) and nonblank(SMp.ThrouLocation) and (SMp.SentOKFlag!=0)) or ((StockMovrw.Quant!=StockMovrw.OrdQuant) and blank(SMp.ThrouLocation) and (SMp.OKFlag!=0)) then begin
+	if ((StockMovrw.Quant!=StockMovrw.SentQuant) and nonblank(SMp.ThrouLocation) and (SMp.OKFlag!=0)) or ((StockMovrw.Quant!=StockMovrw.OrdQuant) and blank(SMp.ThrouLocation) and (SMp.OKFlag!=0)) then begin
 		error = 1008;
 		errorstr = "";
 		errorrownr = rownr;
@@ -264,6 +264,19 @@ BEGIN
 		res = 1008;
 		goto LCheckStockMovRow;
 	end;
+	
+	if ((StockMovrw.OrdQuant!=StockMovrw.SentQuant) and blank(SMp.ThrouLocation) and (SMp.SentOKFlag!=0)) then begin
+		error = 1008;
+		errorstr = "";
+		errorrownr = rownr;
+		fieldstr = "SendQuant";           
+		res = 1008;
+		goto LCheckStockMovRow;
+	end;
+	
+	
+	
+	
   end;
   if (((INr.SerNrf>0) and (INr.SerNrf<3)) and (MSb.NoSerOnPU==0)) then begin
     if (ToLocr.Type==1) then begin
