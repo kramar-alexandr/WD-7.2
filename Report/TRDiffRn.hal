@@ -5,6 +5,7 @@ external function val AbsoluteVal(val);
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
 external function roundmode SetRoundModeD(Integer);
 external procedure ToStrTRCode(var string,Integer,LongInt);
+external function string 200 ValToMyString(val,integer); //Edit***************************Sasha2,17:04 21.12.2015
 
 
 SetLangMode(LangUkrainian,"UKR",0);
@@ -19,7 +20,7 @@ begin
   Integer pos,i,mtcnt;
   Boolean TrHs,testf,testf1;
   roundmode rnd;
-  val debt,cred,diff;
+  val debt,cred,diff,totdiff;
   string 255 rstr;
 	
 	sd = RepSpec.sStartDate;
@@ -40,6 +41,7 @@ begin
 		outstring(pos+=70,0,"ê¥ÁÌËˆﬂ",false);
 	endformat;
 	
+	totdiff = 0;
 	TrHs = true;
 	TRr.TransDate = sd;
 	while (loopkey("TransDate",TRr,1,TrHs)) begin
@@ -65,13 +67,21 @@ begin
       	  ToStrTRCode(rstr,TRr.IntYc,TRr.Number);	
       		outstring(pos,"DblTrans",rstr,false);
       		outstring(pos+=70,0,TRr.TransDate,false);
-      		outstring(pos+=70,0,debt,false);
-      		outstring(pos+=70,0,cred,false);
-      		outstring(pos+=70,0,diff,false);
+      		outstring(pos+=70,0,ValToMyString(debt,5),false);
+      		outstring(pos+=70,0,ValToMyString(cred,5),false);
+      		outstring(pos+=70,0,ValToMyString(diff,5),false);
       	endformat;
+      	totdiff = totdiff + diff;
 		  end;
 		end;
 	end;	
+	
+	if (totdiff!=0) then begin
+	  pos = 0;
+  	startformat(15);	
+  		outstring(pos+=280,0,ValToMyString(totdiff,5),false);
+  	endformat;
+  end;
 	
 	endjob;
 
