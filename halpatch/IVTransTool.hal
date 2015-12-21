@@ -643,7 +643,7 @@ retention change
             curdif = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
             
             rs = realsumbase[j];
-            rs = Round(rs,rnd); //Edit***************************Sasha2,17:41 21.12.2015
+            rs = Round(rs,DefaultCurRoundOff); //Edit***************************Sasha2,17:41 21.12.2015
             curdif = curdif - rs;
             usedacc = "";
 						if(rs>0)then begin
@@ -718,7 +718,7 @@ retention change
             //rs = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
             curdif = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);// Edit ************************** Wednesday, 9 September 2015 09:43:49
             rs = realsumbase[j];// Edit ************************** Wednesday, 9 September 2015 09:43:55
-            rs = Round(rs,rnd); //Edit***************************Sasha2,17:41 21.12.2015
+            rs = Round(rs,DefaultCurRoundOff); //Edit***************************Sasha2,17:41 21.12.2015
             curdif = curdif - rs;
             usedacc = "";
             if(rs>0)then begin
