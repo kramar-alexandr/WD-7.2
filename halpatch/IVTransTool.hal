@@ -399,6 +399,7 @@ BEGIN
   string 10 lossacc,gainacc,usedacc;
   record LocalMachineAccBlock LMAb;
   row LocalMachineAccBlock LMArw;
+  roundmode rnd; //Edit***************************Sasha2,17:35 21.12.2015
   
   BlockLoad(ARAccb);
   lossacc = ARAccb.RateLossAcc;
@@ -416,6 +417,10 @@ BEGIN
 	end; 
   
   blockload(BCb); //Edit***************************Sasha2,17:50 27.08.2015
+  rnd = DefaultValRoundoff; //Edit***************************Sasha2,17:36 21.12.2015
+  rnd.decimals = 2; //Edit***************************Sasha2,17:36 21.12.2015
+  rnd.step = kRoundingStepNone; //Edit***************************Sasha2,17:36 21.12.2015
+  rnd.mode = kRoundingModeHalfUp; //Edit***************************Sasha2,17:36 21.12.2015
   
   if (fifoupdf and left(IVp.CurncyCode,3)=="UAH") then begin //Edit***************************Sasha2,11:33 28.08.2015 {
     switchtransf = true;
@@ -637,7 +642,8 @@ retention change
             //rs = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);// Edit ************************** Tuesday, 8 September 2015 16:21:38
             curdif = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
             
-            rs = realsumbase[j]; 
+            rs = realsumbase[j];
+            rs = Round(rs,rnd); //Edit***************************Sasha2,17:41 21.12.2015
             curdif = curdif - rs;
             usedacc = "";
 						if(rs>0)then begin
@@ -671,7 +677,7 @@ retention change
               if (inclqty) then begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,IVp.CurncyCode,
                                    trev/rs,1,BlankVal,BlankVal,BlankVal,trev,qty[j],-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
-                if(curdif>0.01 or curdif<-0.01)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
+                if(curdif>0.01 or curdif<-0.01)then begin // Edit ************************** Wednesday, 9 September 2015 09:42:22
                 	negamf = false;
 									GetAccName(usedacc,tstr,60);                 
 									AddEuroCurncyTrRow(gTRp,usedacc,objstr,vatcodes,tstr,curdif,true,dc2,TotSum,"",
@@ -680,7 +686,7 @@ retention change
               end else begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,IVp.CurncyCode,
                                    trev/rs,1,BlankVal,BlankVal,BlankVal,trev,nilv,-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
-                if(curdif>0.01 or curdif<-0.01)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
+                if(curdif>0.01 or curdif<-0.01)then begin // Edit ************************** Wednesday, 9 September 2015 09:42:22
                 	negamf = false;
 									GetAccName(usedacc,tstr,60);
 									AddEuroCurncyTrRow(gTRp,usedacc,objstr,vatcodes,tstr,curdif,true,dc2,TotSum,"",
@@ -712,6 +718,7 @@ retention change
             //rs = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
             curdif = MulRateToBase1(IVp.CurncyCode,trev,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);// Edit ************************** Wednesday, 9 September 2015 09:43:49
             rs = realsumbase[j];// Edit ************************** Wednesday, 9 September 2015 09:43:55
+            rs = Round(rs,rnd); //Edit***************************Sasha2,17:41 21.12.2015
             curdif = curdif - rs;
             usedacc = "";
             if(rs>0)then begin
@@ -742,7 +749,7 @@ retention change
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,
                                    IVp.CurncyCode,trev/rs,1,BlankVal,BlankVal,BlankVal,trev,quant,-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
                 
-                if(curdif!=0)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
+                if(curdif!=0)then begin // Edit ************************** Wednesday, 9 September 2015 09:42:22
                 	negamf = false;
 									GetAccName(usedacc,tstr,60);  
 									negamf = false;               
@@ -753,7 +760,7 @@ retention change
               end else begin
                 AddEuroCurncyTrRow(gTRp,ivraccno,objstr,vatcodes,tstr,rs,true,dc2,TotSum,
                                    IVp.CurncyCode,trev/rs,1,BlankVal,BlankVal,BlankVal,trev,nilv,-1,negamf,taccnumber); //Edit***************************Sasha2,14:08 28.08.2015
-                if(curdif!=0)then begin// Edit ************************** Wednesday, 9 September 2015 09:42:22
+                if(curdif!=0)then begin // Edit ************************** Wednesday, 9 September 2015 09:42:22
                 	GetAccName(usedacc,tstr,60);  
                 	negamf = false;
                 	AddEuroCurncyTrRow(gTRp,usedacc,objstr,vatcodes,tstr,rs,true,dc2,TotSum,
