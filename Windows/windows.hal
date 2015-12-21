@@ -1470,4 +1470,22 @@ begin
   StringList(9,9,-20,-10);
   EndWindow;
 end;
+
+window TRDiffRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,hacc,v,vm,vm2,vs;
+  Integer tilenr;
+
+  WindowBegin("Визначте звіт по дисбалансу проводок",TRDiffRClass,CGRcW,RcType);
+  UseView(RcVc);
+  
+  SetWRect(20,80,450,300);
+
+  h = 160; h2 = 342;
+  
+  PeriodField(h,v=6,"Період");
+  
+  EndWindow;
+end;
   
