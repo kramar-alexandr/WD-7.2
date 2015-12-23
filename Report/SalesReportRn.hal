@@ -2006,16 +2006,16 @@ integer compnr;
 									closefile;
 									RunProgram("Reports/5/FullSalesRep.sh","");
 									
-					case 6: /*filename = "Reports/6/FullSalesRepOL.xls";
+					case 6: filename = "Reports/6/FullSalesRepOL.xls";
           				delete_file(filename);
 									CreateFile(filename);
 									closefile;
 									millisleep(100);
 									openexportfile(filename,true);
-									RepSpec.f7 = "INV#1_OL,INV#1_OLST";
+									RepSpec.f7 = "INV_OLM,INV_OLM_ST";
 									SalesReportRn(RepSpec);
 									RepSpec.f7 = "";
-									closefile;*/
+									closefile;
 									//RunProgram("Reports/5/FullSalesRepOL.sh","");// Edit ************************** Tuesday, 9 June 2015 09:20:23
 									
 									filename = "Reports/6/FullSalesRepOP.xls";
