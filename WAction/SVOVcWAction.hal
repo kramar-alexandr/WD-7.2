@@ -139,6 +139,30 @@ begin
 
 return;
 end; //Edit***************************Sasha2,16:35 15.12.2015 }
+
+//Edit***************************Sasha2,11:50 23.12.2015 {
+function Boolean SVODClassItemTypeEFAfter(Integer wn,Integer rownr,Integer changed)
+BEGIN
+  record SVOVc SVOr;
+  row SVOVc SVOrw;
+  string 255 warning;
+  string 200 tstr;
+
+  if (changed!=0 and rownr>-1) then begin
+    GetWindowRecord(wn,SVOr);    
+    DeselectWindow(wn,false);
+    matrowget(SVOr,rownr,SVOrw);
+    if (SetFromString(31,SVOrw.ItemType)==2) then begin
+      SVOr.Garanty = StringFromSet(432,1);
+    end else begin
+      SVOr.Garanty = StringFromSet(432,0);
+    end;
+    PutWindowRecord(wn,SVOr);
+  end;
+  
+  SVODClassItemTypeEFAfter = true;
+  return;
+end; //Edit***************************Sasha2,11:50 23.12.2015 }
 	
 global 
 function Boolean SVODClassCurncyCodeEFAfter(Integer wn,Integer changedf)
@@ -433,6 +457,7 @@ BEGIN
     case "ItemKind": res = SVODClassItemKindEFAfter(wn,rownr,changed);
     case "Addr0": res = SVODClassAddr0EFAfter(wn,changed);// Edit ************************** Tuesday, 2 June 2015 20:17:16
     case "Vlastnik": res = SVODClassVlastnikEFAfter(wn,changed); //Edit***************************Sasha2,16:36 15.12.2015
+    case "ItemType": res = SVODClassItemTypeEFAfter(wn,rownr,changed); //Edit***************************Sasha2,16:36 15.12.2015
     
   end;
   SVODClassAfterEditField = res;

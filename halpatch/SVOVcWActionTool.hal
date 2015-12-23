@@ -263,6 +263,8 @@ BEGIN
     MatRowPut(SVOp,rownr,SVOrw);
     res = true;
     SVOMultiLineText(SVOp,INr,SVOp.LangCode,rownr);
+    SVOp.Region = INr.Group; //Edit***************************Sasha2,11:47 23.12.2015
+    
   end;
   PasteItemInSVO = res;
   RETURN;
@@ -338,6 +340,11 @@ BEGIN
     end else begin
       if (SVOrw.ItemType==3) then begin SVOrw.ItemType = 1; end;
     end;
+    if (SetFromString(31,SVOrw.ItemType)==2) then begin //Edit***************************Sasha2,12:09 23.12.2015 {
+      SVOp.Garanty = StringFromSet(432,1);
+    end else begin
+      SVOp.Garanty = StringFromSet(432,0);
+    end; //Edit***************************Sasha2,12:09 23.12.2015 }
     MatRowPut(SVOp,rownr,SVOrw);
     res = true;
   end;
