@@ -596,8 +596,9 @@ begin
                     OutString(pos[8],0,quant,false);
                     salesprice = realpricebase[j];
                     priceorig = realpriceuah[j]; //Edit***************************Sasha2,11:37 24.04.2015 }
-                    OutVal(pos[9],0,realpriceuah[j],M4Val,false);
                     OutVal(pos[9],0,realpricebase[j],M4Val,false);
+                    OutVal(pos[9],0,realpriceuah[j],M4Val,false);
+                    
           // Edit End ---------------------------------------------- Edit End
           					MyCost = realcostbase[j];
                     OutVal(pos[10],0,realcostbase[j],M4Val,false);
@@ -929,8 +930,8 @@ l1:;
                           salesprice = realsumbase[j];
                           priceorig = realsumuah[j];
                           MyCost = realcostbase[j];
-                          OutVal(pos[9],0,-salesprice,M4Val,false);
-                          OutVal(pos[9],0,-priceorig,M4Val,false);                
+                          OutVal(pos[9],0,realpricebase[j],M4Val,false);
+													OutVal(pos[9],0,realpriceuah[j],M4Val,false);              
                           OutVal(pos[10],0,-MyCost,M4Val,false);
                           curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
                           if(curorig==0)then begin
@@ -939,7 +940,7 @@ l1:;
                           costorig = realcostuah[j];;
                           OutVal(pos[10],0,-costorig,M4Val,false);
                           salessum = realsumbase[j];
-                          sumorig = realsumbase[j];
+													sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }
                           OutVal(pos[11],0,-salessum,M4Val,false);
                           OutVal(pos[11],0,-sumorig,M4Val,false);
                           OutVal(pos[12],0,-MyCost*quant,M4Val,false);

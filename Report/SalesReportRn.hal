@@ -463,17 +463,17 @@ begin
 				end;
 			end;
 			realpricebase[ressize] = IVrw.Price;
-			realsumbase[ressize] = IVrw.Sum;
+			realsumbase[ressize] = IVrw.Sum*cred;
 			if(left(IVr.CurncyCode,3)=="UAH")then begin				
 				realpriceuah[ressize] = IVrw.Price;
-				realsumuah[ressize] = IVrw.Sum;
+				realsumuah[ressize] = IVrw.Sum*cred;
 			end else begin
 				t = blankval;
 				CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,SetRoundModeD(5));
 				realpriceuah[ressize] = t;
 				t = blankval;
 				CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum,"UAH",t,SetRoundModeD(5));
-				realsumuah[ressize] = t;
+				realsumuah[ressize] = t*cred;
 			end;
 		end else begin
 			if(BCb.BaseCur1=="UAH")then begin
@@ -496,25 +496,25 @@ begin
 			end;
 			
 			realpricebase[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
-			realsumbase[ressize] = IVrw.Sum/IVr.FrRate*IVr.ToRateB1;
+			realsumbase[ressize] = IVrw.Sum/IVr.FrRate*IVr.ToRateB1*cred;
 			if(IVr.CurncyCode==BCb.BaseCur2)then begin
 				realpricebase[ressize] = IVrw.Price/IVr.BaseRate2*IVr.BaseRate1;
-				realsumbase[ressize] = IVrw.Sum/IVr.BaseRate2*IVr.BaseRate1;
+				realsumbase[ressize] = IVrw.Sum/IVr.BaseRate2*IVr.BaseRate1*cred;
 			end;
 			if(left(IVr.CurncyCode,3)=="UAH")then begin
 				realpriceuah[ressize] = IVrw.Price;
-				realsumuah[ressize] = IVrw.Sum;
+				realsumuah[ressize] = IVrw.Sum*cred;
 			end else begin
 				if(BCb.BaseCur1=="UAH")then begin
 					realpriceuah[ressize] = IVrw.Price/IVr.FrRate*IVr.ToRateB1;
-					realsumuah[ressize] = IVrw.Sum/IVr.FrRate*IVr.ToRateB1;
+					realsumuah[ressize] = IVrw.Sum/IVr.FrRate*IVr.ToRateB1*cred;
 				end else begin
 					t = blankval;
 					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,SetRoundModeD(5));
 					realpriceuah[ressize] = t;
 					t = blankval;
 					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Sum,"UAH",t,SetRoundModeD(5));
-					realsumuah[ressize] = t;
+					realsumuah[ressize] = t*cred;
 				end;
 			end;
 		end;		

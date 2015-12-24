@@ -745,6 +745,11 @@ BEGIN
     case "Name": res = HasLocalization("PRT")==false;
     case "TaxAuthID": res = true;
   end;
+  
+  if(currentuser=="SA")then begin
+  	res = true;// Edit ************************** Thursday, 24 December 2015 12:56:08
+  end;
+  
   SHDClassActiveEditField = res;
   RETURN;
 END;
