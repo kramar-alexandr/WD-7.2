@@ -482,6 +482,44 @@ BEGIN
   
 	// Edit End ---------------------------------------------- Edit End
 	
+	if (SVO2r.ServiceManager!=SVOr.ServiceManager) and nonblank(SVOr.ServiceManager) then begin
+		tstr = currentdate & " " & currenttime & " " & currentuser & " - ";
+		if nonblank(SVO2r.ServiceManager) then begin
+			tstr = tstr & USetStr(11006) & " " & USetStr(31057) & " '" & SVO2r.ServiceManager & "' " & USetStr(31058) & " '" & SVOr.ServiceManager & "'";
+		end else begin
+			tstr = tstr & USetStr(31060) & " '" & SVOr.ServiceManager & "'";
+		end;
+		comment = USetStr(31056);
+		CreateNoterChangeInSVO(SVOr,tstr,comment);
+	end;
+	if (SVO2r.OrderStatus!=SVOr.OrderStatus) then begin
+		tstr = currentdate & " " & currenttime & " " & currentuser & " - " & USetStr(11006) & " " & USetStr(31057) & " '";
+		switch (SVO2r.OrderStatus) begin
+			case 0:
+				tstr = tstr & USetStr(31044);
+			case 1:
+				tstr = tstr & USetStr(31045);
+			case 3:
+				tstr = tstr & USetStr(31050);
+			case 2:
+				tstr = tstr & USetStr(31046);
+		end;
+		tstr = tstr & "' " & USetStr(31058) & " '";
+		switch (SVOr.OrderStatus) begin
+			case 0:
+				tstr = tstr & USetStr(31044);
+			case 1:
+				tstr = tstr & USetStr(31045);
+			case 3:
+				tstr = tstr & USetStr(31050);
+			case 2:
+				tstr = tstr & USetStr(31046);
+		end;
+		tstr = tstr & "'";
+		comment = USetStr(31059);
+		CreateNoterChangeInSVO(SVOr,tstr,comment);
+	end;
+	
   SVOVcRecordUpdateAfter = res;
   RETURN;
 END;

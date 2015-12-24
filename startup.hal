@@ -187,6 +187,11 @@ begin
 	SString(31054,"Не можна відравити не зі свого складу");
 	SString(31055,"Не можна прийняти не на свій склад");
 	
+	SString(31056,"Змінено сервісного майстра");
+	SString(31057,"з");
+	SString(31058,"на");
+	SString(31059,"Змінено статус");
+	SString(31060,"Призначено");
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */
   StrSetText(UnCloseAll,"Відкрити записи");// Edit ************************** Wednesday, 15 April 2015 17:21:45

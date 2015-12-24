@@ -1,6 +1,6 @@
 external function string 255 GetTextForPrint(integer,string);
 
-
+global
 updating procedure AddTextToNote(var record NotepadVc Noter,string tstr)
 BEGIN
     AddToText(tstr,Noter);
