@@ -1,3 +1,5 @@
+external updating procedure AddTextToNote(var record NotepadVc,string);
+
 global
 updating procedure CleaningMn()
 BEGIN
