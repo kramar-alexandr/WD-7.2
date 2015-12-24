@@ -15,7 +15,7 @@ external updating procedure CreateInspection(string,string,Date,LongInt,LongInt)
 remote function Boolean PasteCUInSVO(var record SVOVc,string,var string);// Edit ************************** Friday, 6 January 2012 11:06:45
 remote procedure SENDSMS(record SVOVc,record SVOVc);
 remote procedure SENDFIRSTSMS(record SVOVc);
-
+external updating procedure CreateNoterChangeInSVO(record SVOVc,string,string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
