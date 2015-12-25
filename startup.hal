@@ -195,6 +195,7 @@ begin
 	SString(31058,"на");
 	SString(31059,"Змінено статус");
 	SString(31060,"Призначено");
+	SString(31061,"На узгодженні");
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */
   StrSetText(UnCloseAll,"Відкрити записи");// Edit ************************** Wednesday, 15 April 2015 17:21:45

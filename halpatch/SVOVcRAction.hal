@@ -495,25 +495,19 @@ BEGIN
 	if (SVO2r.OrderStatus!=SVOr.OrderStatus) then begin
 		tstr = currentdate & " " & currenttime & " " & currentuser & " - " & USetStr(11006) & " " & USetStr(31057) & " '";
 		switch (SVO2r.OrderStatus) begin
-			case 0:
-				tstr = tstr & USetStr(31044);
-			case 1:
-				tstr = tstr & USetStr(31045);
-			case 3:
-				tstr = tstr & USetStr(31050);
-			case 2:
-				tstr = tstr & USetStr(31046);
+			case 0: tstr = tstr & USetStr(31044);
+			case 1: tstr = tstr & USetStr(31045);
+			case 3: tstr = tstr & USetStr(31050);
+			case 2: tstr = tstr & USetStr(31046);
+			case 4: tstr = tstr & USetStr(31061);
 		end;
 		tstr = tstr & "' " & USetStr(31058) & " '";
 		switch (SVOr.OrderStatus) begin
-			case 0:
-				tstr = tstr & USetStr(31044);
-			case 1:
-				tstr = tstr & USetStr(31045);
-			case 3:
-				tstr = tstr & USetStr(31050);
-			case 2:
-				tstr = tstr & USetStr(31046);
+			case 0: tstr = tstr & USetStr(31044);
+			case 1: tstr = tstr & USetStr(31045);
+			case 3: tstr = tstr & USetStr(31050);
+			case 2: tstr = tstr & USetStr(31046);
+			case 4: tstr = tstr & USetStr(31061);
 		end;
 		tstr = tstr & "'";
 		comment = USetStr(31059);

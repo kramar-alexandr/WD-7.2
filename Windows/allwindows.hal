@@ -7023,7 +7023,7 @@ begin
   ActiveFieldOnNew("CustCode");  
   FormName(SVOForm);
   vs = 20; h3 = 550;
-  Tile(0,120,false,"",CustCode);
+  Tile(0,130,false,"",CustCode);
   EditField(h=90,v=6, 82,"Номер",Normal,SerNr,false,TSerSClass);
   EnterSkip(CustCode);
   EditField(h2=240,v,-40,"Власник",Normal,Addr0,false,0);
@@ -7037,8 +7037,9 @@ begin
   ButtonFrame(h+500,vm+16,130,4,"Статус");
 	RadioButton(h+500,vm+16,0,0,"В очікуванні",OrderStatus);
 	RadioButton(h+500,vm+16+16,1,0,"Діаг. заверш.",OrderStatus);
-	RadioButton(h+500,vm+32+16,3,0,"Очікує запч.",OrderStatus);
-  RadioButton(h+500,vm+48+16,2,0,"Ремонт виконано",OrderStatus);
+	RadioButton(h+500,vm+32+16,4,0,"На узгодженні",OrderStatus);
+	RadioButton(h+500,vm+48+16,3,0,"Очікує запч.",OrderStatus);
+  RadioButton(h+500,vm+64+16,2,0,"Ремонт виконано",OrderStatus);
   
   
   CheckBox(-70,vm,0,"Виконано",DoneMark);

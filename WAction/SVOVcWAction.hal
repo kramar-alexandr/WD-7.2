@@ -1460,6 +1460,8 @@ begin
   	case 1:	res = USetStr(31045);
   	case 2:	res = USetStr(31046);
   	case 3:	res = USetStr(31050);// Edit ************************** Wednesday, 21 October 2015 10:25:18
+	case 4: res = USetStr(31061);//Edit-------------------Vitalii 16:43 25.12.2015
+
   end;
   
   SVOServStatus = res;
@@ -1479,6 +1481,7 @@ begin
   	case 3: res = kRowColorGreen;
   	case 1:	res = kRowcolorYellow;
   	case 2:	res = kRowColorNone;
+	case 4: res = kRowcolorYellow;
   end;
   
   SVO3LClassRowColor = res;
