@@ -5756,7 +5756,9 @@ begin
   StaticText(50,v=20,"Ќотатки",true);
   TextField(60,v-5,-20,370,Math2,0);
   Tile(tilenr,400,false,tilenr,-); tilenr = tilenr + 1;// Edit ************************** Friday, 17 October 2014 10:48:33
+  
   h=170;
+  StaticText(-90,vs,"| друку№ приблизно до цґ№» вґдмґтки",true);
   EditFieldTL(h,v=vs,400,"ЌЂ‡‚Ђ:",M4Str,Normal,100,GigieneText1,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
   EditFieldTL(h,v+=vs,400,"ЋЏ€‘:",M4Str,Normal,100,GigieneText2,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
   EditFieldTL(h,v+=vs,400,"‚€ђЋЃЌ€Љ:",M4Str,Normal,100,GigieneText3,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
