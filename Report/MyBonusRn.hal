@@ -937,7 +937,7 @@ l1:;
                           if(curorig==0)then begin
                             curorig = 1;
                           end;
-                          costorig = realcostuah[j];;
+                          costorig = realcostuah[j];
                           OutVal(pos[10],0,-costorig,M4Val,false);
                           salessum = realsumbase[j];
 													sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }

@@ -231,7 +231,7 @@ integer compno;
       				CreateFile("Stock/MMROLStockFull.xls");
               closefile;
               openexportfile("Stock/MMROLStockFull.xls",true);
-              RepSpec.f1 = "INV#1_OL,EXB_OL,EXB_OL_ST,INV#1_OLST";
+              RepSpec.f1 = "INV_OLM,INV_OLM_ST,EXB_OLP_ST,EXB_OL_ST";
               MyItemReportRn(RepSpec);
               RepSpec.f1 = "";
               RunProgram("Stock/MMROLStockFull.sh", "");
