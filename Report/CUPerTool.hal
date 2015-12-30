@@ -34,7 +34,8 @@ BEGIN
   Boolean foundf,onecurf;
   val cvp;
   val thesum,sumthesum;
-  val bases,realbases;  
+  val bases,realbases;
+  val tempsum;  
 //  transaction string 10 cuperlastprepcur;//global variable crashes when export
 		
   cvp = curvalp;
@@ -72,20 +73,25 @@ BEGIN
             sumthesum = sumthesum + thesum;
             curv = curv + ARPayHistr.Val;
             bases = bases + MulRateToBase1(IVp.CurncyCode,ARPayHistr.Val,IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
-            realbases = realbases + (ARPayHistr.BookVal*thesum)/ARPayHistr.Val;
+            realbases = realbases + Round((ARPayHistr.BookVal*thesum)/ARPayHistr.Val,DefaultCurRoundOff);// Edit ************************** Tuesday, 29 December 2015 10:29:48
+           	//realbases = realbases + Round(thesum/Round(ARPayHistr.Val/ARPayHistr.BookVal,DefaultCurRoundOff),DefaultCurRoundOff);// Edit ************************** Tuesday, 29 December 2015 10:29:44
+
 // should thesum be converted to ARPayHistr curency ? 
           end else begin
             cvp = cvp - IVrw.Sum;
             curv = curv + ARPayHistr.Val;
             thesum = IVrw.Sum - sumthesum;
+            logtext(0,IVrw.BasePrice);
             if (ARPayHistr.Val>thesum) then begin
             end else begin
               thesum = ARPayHistr.Val;
             end;
-            sumthesum = sumthesum + thesum;
-            bases = bases + MulRateToBase1(IVp.CurncyCode,thesum,IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
-            realbases = realbases + (ARPayHistr.BookVal*thesum)/ARPayHistr.Val;
-//StopAlert("realbases " & realbases & " ARPayHistr.BookVal " & ARPayHistr.BookVal & " thesum " & thesum & " ARPayHistr.Val " & ARPayHistr.Val);
+           
+						sumthesum = sumthesum + IVrw.BasePrice;
+						bases = bases + MulRateToBase1(IVp.CurncyCode,thesum,IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
+
+            realbases = realbases + Round((ARPayHistr.BookVal*thesum)/ARPayHistr.Val,DefaultCurRoundOff);
+            
             foundf = false;
           end;
           cuperlastprepcur = ARPayHistr.CurncyCode;
@@ -116,6 +122,7 @@ BEGIN
             curv = curv + ARPayHistr.Val;
             bases = bases + MulRateToBase1(IVp.CurncyCode,ARPayHistr.Val,IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
             realbases = realbases + (ARPayHistr.BookVal*thesum)/ARPayHistr.Val;
+            logtext(0,ARPayHistr.BookVal & " " & thesum & " " & realbases);
 // should thesum be converted to ARPayHistr curency ? 
           end else begin
             cvp = cvp - IVrw.Sum;
@@ -127,7 +134,9 @@ BEGIN
             end;
             sumthesum = sumthesum + thesum;
             bases = bases + MulRateToBase1(IVp.CurncyCode,thesum,IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
-            realbases = realbases + (ARPayHistr.BookVal*thesum)/ARPayHistr.Val;
+            
+            realbases = realbases + Round((ARPayHistr.BookVal*thesum)/ARPayHistr.Val,DefaultRoundMode);
+            
             foundf = false;
           end;
           cuperlastprepcur = ARPayHistr.CurncyCode;
@@ -537,9 +546,7 @@ BEGIN
   Boolean cash;
   val frrate,torate1,torate2,baserate1,baserate2;
   val opensum;
-	
-	
-	
+		
   IVr.SerNr = IVSerNr;
   if (ReadFirstMain(IVr,1,true)==false) then begin goto LCUPer_PrintInvoice; end;
   if (RepSpec.flags[2]!=0) then begin

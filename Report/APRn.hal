@@ -1455,7 +1455,7 @@ procedure APRn(record RcVc RepSpec)
 BEGIN
   string 255 frve,tove;
   val tot1Sum;
-  
+    
   frve = FirstInRange(RepSpec.f1,20);
   tove = LastInRange(RepSpec.f1,20);
   StartReportJob(USetStr(4041)); 

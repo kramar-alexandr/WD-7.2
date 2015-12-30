@@ -2012,7 +2012,7 @@ integer compnr;
 									closefile;
 									millisleep(100);
 									openexportfile(filename,true);
-									RepSpec.f7 = "INV_OLM,INV_OLM_ST";
+									RepSpec.f7 = "INV_OLM,INV_OLM_ST,EXB_O";
 									SalesReportRn(RepSpec);
 									RepSpec.f7 = "";
 									closefile;
