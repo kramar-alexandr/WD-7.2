@@ -87,7 +87,11 @@ begin
   res = true;
 
   if (WindowState(wn)==Rs_update) then begin
-    GetPrevWindowRecord(wn,IVr);    
+    GetPrevWindowRecord(wn,IVr);
+    if (CurrentCompany==8 and IVr.PrintedFlag>0 and UserCanAction("AllowEditRemoveRecAfterPrint",false)==false) then begin //Edit***************************Sasha2,11:49 11.01.2016 {
+      res = false;
+      goto LIVDClassDeleteRowTest;
+    end; //Edit***************************Sasha2,11:49 11.01.2016 }    
     if (IVr.OKFlag!=0) then begin res = false; end;
     if (HasLocalization("ARG")) then begin
       if (ArgEInvLock(IVr,wn)!=kArgentinianInvoiceLockNone) then begin res = false; end;
@@ -154,7 +158,11 @@ begin
     end;    
   end else begin
     if (rownr!=-1) then begin 
-      GetWindowRecord(wn,IVr);     
+      GetWindowRecord(wn,IVr); 
+      if (CurrentCompany==8 and IVr.PrintedFlag>0 and UserCanAction("AllowEditRemoveRecAfterPrint",false)==false) then begin //Edit***************************Sasha2,11:49 11.01.2016 {
+        res = false;
+        goto LIVDClassDeleteRowTest;
+      end; //Edit***************************Sasha2,11:49 11.01.2016 }       
       if (IVr.OKFlag!=0) then begin res = false; end;
       if (HasLocalization("ARG")) then begin
         if (WindowState(wn)==Rs_normal) then begin   //to skip problems with multiple line deleting in case of new record
@@ -163,7 +171,7 @@ begin
       end;
       if (IVAcceptanceStarted(IVr) and UserCanAction("ChangeRecordMatrixWhenPending",false)==false) then begin res = false; end;
       MatRowGet(IVr,rownr,IVrw);
-      if (IVrw.stp==5) then begin//otherwise one cannot raise downpay invoice from an order
+      if (IVrw.stp==5) then begin //otherwise one cannot raise downpay invoice from an order
         res = false;
       end;
       if (IVrw.stp==kInvoiceRowTypeWithholdingTax) then begin

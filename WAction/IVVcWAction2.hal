@@ -235,6 +235,18 @@ LIVCashDClassActiveEditField:;
 return;
 end;
 
+global //Edit***************************Sasha2,12:30 11.01.2016 {
+function Boolean IVDClassPrintedFlagButtonAction(Integer wn,Integer value)
+BEGIN
+  Boolean res;
+ 
+  res = true;
+  if (UserCanAction("AllowEditRemoveRecAfterPrint",false)==false) then begin
+    res = false;
+  end;
+  IVDClassPrintedFlagButtonAction = res;
+  RETURN;
+END; //Edit***************************Sasha2,12:31 11.01.2016 }
 
 global
 function Boolean IVDClassNoInterestFlagButtonAction(Integer wn,Integer value)
@@ -811,10 +823,18 @@ BEGIN
   end;
   if (wnst!=Rs_update) then begin
     GetWindowRecord(wn,IVr);
+    if (CurrentCompany==8 and IVr.PrintedFlag>0 and UserCanAction("AllowEditRemoveRecAfterPrint",false)==false) then begin //Edit***************************Sasha2,11:49 11.01.2016 {
+      res = false;
+      goto LIVDClassActiveEditField;
+    end; //Edit***************************Sasha2,11:49 11.01.2016 }
     res = ActiveField(IVr,IVr,rownr,fieldname,wnst,false);
   end else begin
     res = false;
     GetPrevWindowRecord(wn,IVr);
+    if (CurrentCompany==8 and IVr.PrintedFlag>0 and UserCanAction("AllowEditRemoveRecAfterPrint",false)==false) then begin //Edit***************************Sasha2,11:49 11.01.2016 {
+      res = false;
+      goto LIVDClassActiveEditField;
+    end; //Edit***************************Sasha2,11:49 11.01.2016 }
     if (HasLocalization("ARG")) then begin
       arglock = ArgEInvLock(IVr,wn);
 
@@ -2018,30 +2038,48 @@ begin
 	record WSVc WSr;
 	
 		wn = CurWindow;
-		DeselectWindow(wn,false);
-		GetWindowRecord(wn,WSr);
- 		
- 		SetExportCodePage("CP1251");
- 		HandleWSReceiptPrinting(WSr,aFile);
- 		AddAreaToArea(aFile,aFile);
-   	PrintBixolonReceipt(aFile);   
+		if (WindowState(wn)==Rs_normal) then begin
+  		DeselectWindow(wn,false);
+  		GetWindowRecord(wn,WSr);
+   		
+   		SetExportCodePage("CP1251");
+   		HandleWSReceiptPrinting(WSr,aFile);
+   		AddAreaToArea(aFile,aFile);
+     	PrintBixolonReceipt(aFile); 
+		end else begin
+		  MessageBox(1356,"");
+		end; 
 end;
 
 
-global procedure PrintIVReceiptDsm()		//Edit----------------------Dima  21.09.2015
+global 
+updating procedure PrintIVReceiptDsm()		//Edit----------------------Dima  21.09.2015
 begin
 	area aFile;
 	integer wn;
 	record IVVc IVr;
 	
 		wn = CurWindow;
-		DeselectWindow(wn,false);
-		GetWindowRecord(wn,IVr);
- 
- 		SetExportCodePage("CP1251");
- 		HandleIVReceiptPrinting(IVr,aFile);
- 		AddAreaToArea(aFile,aFile);
-   	PrintBixolonReceipt(aFile);   
+		if (WindowState(wn)==Rs_normal) then begin
+  		DeselectWindow(wn,false);
+  		GetWindowRecord(wn,IVr);
+   
+   		SetExportCodePage("CP1251");
+   		HandleIVReceiptPrinting(IVr,aFile);
+   		AddAreaToArea(aFile,aFile);
+     	PrintBixolonReceipt(aFile);
+     	IVr.PrintedFlag = 1;
+     	IVr.PrintedSum4 = IVr.Sum4;
+     	/*PutWindowRecord(wn,IVr);
+     	GetWindowRecord(wn,IVr);
+     	RECORDSTORE(IVr,true);
+     	PutWindowRecord(wn,IVr);*/
+     	PutWindowRecord(wn,IVr);
+     	RECORDSTORE(IVr,true);
+     	UpdateBrowses("IVVc");
+		end else begin
+		  MessageBox(1356,"");
+		end;
 end;
 
 

@@ -206,6 +206,7 @@ begin
   StrSetText(AllowCashDiscountIP,"Додати знижку до платежу"); 
   StrSetText(AllowUsersAdding,"Додавання користувачів");
   StrSetText(AllowWriteoffIP,"Додавання списання до платежу");
+  StrSetText(AllowEditRemoveRecAfterPrint,"Дозволяти видаляти/редагувати запис після друку"); //Edit***************************Sasha2,11:04 11.01.2016
   StrSetText(AdminClient,"Режим адміністратора");
   StrSetText(RoyaltyRepApproveWithDiscount,"Approve Royalty Sales records with Approved Discount"); //!!PRODTRANSLATE
   StrSetText(RoyaltyRepApproveAnyPercentage,"Approve Royalty Sales records with Custom Royalty %"); //!!PRODTRANSLATE

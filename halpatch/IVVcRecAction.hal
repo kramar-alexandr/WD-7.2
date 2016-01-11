@@ -1769,6 +1769,15 @@ BEGIN
   res = 1;
   BlockLoad(DBLockRec);
   BlockLoad(MainCLRec);
+  if (CurrentCompany==8 and IVr.PrintedFlag>0) then begin //Edit***************************Sasha2,11:00 11.01.2016 {
+    if (UserCanAction("AllowEditRemoveRecAfterPrint",false)==false) then begin
+      if (long3>0) then begin
+        MessageBox(1560,". " & USetStr(8136));
+      end;  
+      res = 0;
+      goto LIVVcRecordRemoveTest;
+    end;
+  end; //Edit***************************Sasha2,11:00 11.01.2016 }
   if (IVr.OKFlag==0) then begin
     if (IVr.OrderNr!=-1) then begin      
       if (IVr.Sum4>0) then begin // Has to be allowed to delete Invoice connected to Downpayment, which is negative....

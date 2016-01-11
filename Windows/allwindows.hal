@@ -2463,6 +2463,7 @@ if (HasTouchScreenLook==false) then begin
     EditField(h3,v+=vs,-20,"§нфо приход.",Normal,ReceiptInfo,false,0);
   end;
   CheckBox(h4,v=6,0,"‘уперечливий",DisputedFlag);
+  CheckBox(h4,v+=vs,0,"Bixolon надрук.",PrintedFlag); //Edit***************************Sasha2,12:28 11.01.2016
   if (StandardHansa) then begin
     CheckBox(h4,v+=16,0,"Ћбн. склад",UpdStockFlag);
   end;
