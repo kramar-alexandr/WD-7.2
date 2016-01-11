@@ -903,8 +903,21 @@ begin
   SetWRect(20,80,512,639);
   UseView(ARPayVc);
   vs = 20; h=50; h1=100; h2=220;
-
-  
+	EditField(h,v+=20,150,"CUPNr",Normal,CUPNr,false,0);
+  EditField(h,v+=20,150,"RVal",Normal,RVal,false,0);
+  EditField(h,v+=20,150,"PayDate",Normal,PayDate,false,0);
+  EditField(h,v+=20,150,"CustCode",Normal,CustCode,false,0);
+  EditField(h,v+=20,150,"CurncyCode",Normal,CurncyCode,false,0);
+  EditField(h,v+=20,150,"CustName",Normal,CustName,false,0);
+  EditField(h,v+=20,150,"BookRVal",Normal,BookRVal,false,0);
+  EditField(h,v+=20,150,"IPNr",Normal,IPNr,false,0);
+  EditField(h,v+=20,150,"VATVal",Normal,VATVal,false,0);
+  EditField(h,v+=20,150,"VATCode",Normal,VATCode,false,0);
+  EditField(h,v+=20,150,"VATBookVal",Normal,VATBookVal,false,0);
+  EditField(h,v+=20,150,"BankCurncy",Normal,BankCurncy,false,0);
+  EditField(h,v+=20,150,"OrderNr",Normal,OrderNr,false,0);
+  EditField(h,v+=20,150,"TAX1Sum",Normal,TAX1Sum,false,0);
+  EditField(h,v+=20,150,"TAX1SumBook",Normal,TAX1SumBook,false,0);
   EndWindow;
 end;
 

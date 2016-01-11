@@ -89,9 +89,7 @@ BEGIN
            
 						sumthesum = sumthesum + IVrw.BasePrice;
 						bases = bases + MulRateToBase1(IVp.CurncyCode,thesum,IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
-
             realbases = realbases + Round((ARPayHistr.BookVal*thesum)/ARPayHistr.Val,DefaultCurRoundOff);
-            
             foundf = false;
           end;
           cuperlastprepcur = ARPayHistr.CurncyCode;

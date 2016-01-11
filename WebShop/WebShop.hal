@@ -1,5 +1,6 @@
 external function roundmode SetRoundModeD(Integer);
 
+SetLangMode(LangUkrainian,"UKR",0);
 
 procedure CR(var area areply)
 begin
@@ -367,9 +368,9 @@ begin
 	setwebheaders("Access-Control-Allow-Origin: http://www.a.com");
 	
 	
-	WebSetContentType("application/binary");
+	//WebSetContentType("application/binary");
 	
-	WeboutString("Access-Control-Allow-Origin: http://www.a.com");
+	//WeboutString("Access-Control-Allow-Origin: http://www.a.com");
 	
 	sernr = webgetarg("sernr");
 	phone = webgetarg("phone");
@@ -383,15 +384,15 @@ begin
 	if(readfirstmain(SVOr,1,true))then begin
 		if(SVOr.Kontinfo1==phone)then begin
 			if(nonblank(SVOr.PlanShip))then begin
-				WeboutString("SERVICE DONE");
+				WeboutString("Ваш ремонт готов");
 			end else begin
-				WeboutString("SERVICE DURING");
+				WeboutString("Ваш ремонт на диагностике");
 			end;
 		end else begin
-			WeboutString("ERROR PHONE");
+			WeboutString("Не верный номер телефна");
 		end;
 	end else begin
-		WeboutString("ERROR SERNR");
+		WeboutString("Не верный номер ремонта");
 	end;
 	ResetCompany(8);
 return;
