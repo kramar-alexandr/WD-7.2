@@ -1,6 +1,6 @@
 external function string 60 AddObjectToObjectList(string,string);
 external procedure ExtractObj(string,var Integer,var string);
-external function string 60 AddObjectToObjectList(string,string); 
+external function string 60 AddObjectToObjectList(string,string);
 external procedure RowCalculateTaxMatrix_IVVc(var record IVVc,Integer,row IVVc);
 external function Boolean GetItemPriceDiscount3(string,val,var record INVc,string,val,val,val,val,val,string,string,string,string,
                                                 var val,var string,var val,var string,var val,var string,Integer,var Boolean,Date,Time,
