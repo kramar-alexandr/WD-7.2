@@ -631,6 +631,7 @@ begin
 								testf = true;
 								if(IHr.TransNr!=Retr.SerNr)then begin TrHs = false; testf = false; end;
 								if(IHr.Row!=reti)then begin TrHs = false; testf = false; end;
+								if(IHr.FileName!="RetVc")then begin TrHs = false; testf = false;  end;
 			
 								if(testf)then begin
 									cost[ressize] = AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
@@ -1789,7 +1790,7 @@ begin
 							endformat;
 						end;
 					end;
-					if(foundqty*cred<IVrw.Quant)then begin
+					if(foundqty*cred<IVrw.Quant and foundqty!=IVrw.Quant)then begin
 						filter = true;// Edit ************************** Thursday, 14 May 2015 16:21:10
 						if(nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 						if(nonblank(RepSpec.f3) and RepSpec.f3!=INr.Code)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
