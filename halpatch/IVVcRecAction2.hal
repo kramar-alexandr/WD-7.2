@@ -1132,7 +1132,7 @@ BEGIN
     if ((IVr.OKFlag==0) and (IV2r.OKFlag!=0)) then begin
       DeletePointsHist(IVr.SerNr,"IVVc");
     end; 
-    if ((IVr.Invalid!=9) and (IV2r.Invalid==0)) then begin
+    if ((IVr.Invalid!=0) and (IV2r.Invalid==0)) then begin	
       DeletePointsHist(IVr.SerNr,"IVVc");
     end;   
   end;

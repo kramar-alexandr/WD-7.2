@@ -251,7 +251,7 @@ BEGIN
   LongInt res;
   row IVVc IVrw;
   row IVVc IV2rw;
-  record IVVc locIVr;
+  record IVVc locIVr,credIVr;
   record CUVc CUr;
   record AccVc Accr;
   record TRVc TRr;
@@ -262,7 +262,7 @@ BEGIN
   record IVOfficialSerBlock IOSTr;
   record MainCLBlock MainCLRec;
   record ORVc ORr;
-  Boolean testf,test2f,FiscalPrf,nousersernr;
+  Boolean testf,test2f,test3f,FiscalPrf,nousersernr;
   Boolean transf,gentrans,check,unokf,controlaccf;
   Boolean lightFlag;
   Integer errcode,j,cnt;
@@ -1095,6 +1095,45 @@ L12:;
       goto L99;
     end;
   end;
+  
+  
+  //Edit----------------------Dima  13.01.2016
+  test3f = false; 
+  if (blank(IVp.LoyaltyCardNr)) then begin test3f = true; end;
+  if (NonBlank(IVp.LoyaltyCardNr) and stat==updatemode) then begin
+    if (IVp.CustCode!=IV2p.CustCode) then begin test3f = true; end;
+    if (IVp.Sum4!=IV2p.Sum4) then begin test3f = true; end;
+  end;
+  if (test3f) then begin
+    LoyaltyCardr.CustCode = IVp.CustCode;
+    if (ReadFirstKey("CustCode",LoyaltyCardr,1,true)) then begin
+      if ((LoyaltyCardr.ExpiryDate<IVp.InvDate) and nonblank(LoyaltyCardr.ExpiryDate)) then begin
+        test3f = false;
+        if (IVp.InvType==kInvoiceTypeCredit or IVp.InvType==kInvoiceTypeCreditSpecialSales) then begin 
+          credIVr.SerNr = IVp.CredInv;
+          if (ReadFirstMain(credIVr,1,true)) then begin 
+            if not ((LoyaltyCardr.ExpiryDate<IVp.InvDate) and nonblank(LoyaltyCardr.ExpiryDate)) then begin
+              test3f = true;
+            end;  
+          end;
+        end;   
+      end;
+      if (LoyaltyCardr.StartDate>IVp.InvDate) then begin
+        test3f = false;
+      end;
+      if (LoyaltyCardr.Closed!=0) then begin
+        test3f = false;
+      end;
+      if (test3f) then begin 
+        IVp.LoyaltyCardNr = LoyaltyCardr.SerNr;
+        IVp.LCMLevel = LoyaltyCardr.LCMLevel;
+        IVp.Points = 0;
+        IVSumup(IVp,true);
+      end;
+    end;
+  end;
+  //Edit--end-------------------------------Dima  13.01.2016 
+  
   if (HasLocalization("ARG")==false) then begin
     errcode = CheckVATNrMask(IVp.VATNr,CUr.CountryCode,CUr.CustType,tstr);
     if (errcode!=0) then begin
