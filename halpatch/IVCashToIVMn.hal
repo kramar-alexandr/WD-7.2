@@ -12,6 +12,7 @@ external function val CalculateIVCashAmount(record IVVc);
 external procedure IVVc_PasteCurncyCode(var record IVVc,string,Integer,Boolean,Boolean);
 external procedure IVVc_PasteLocation(var record IVVc,Integer);
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
+external procedure IVVc_PastePayDeal(var record IVVc,string,string);
 
 
 function Boolean SearchPayModeForLocMach(string LocMachine, integer stp, var string paymode)
@@ -111,6 +112,7 @@ begin
 	record CUVc CUr;
 	record LocalMachineAccBlock LMAb;
 	row LocalMachineAccBlock LMAbrw;
+	record CCatVc CCatr;
 	
 	recordNew(IVr);
 	
@@ -146,8 +148,11 @@ begin
 	IVr.SerNr = NextSerNr("IVVc",IVr.TransDate,startSerNr,false,"");
 	IVr.OfficialSerNr = IVCashSerNr;
 	
-	
-	
+	IVr.InvDate = IVCashr.InvDate;
+	IVr.TransDate = IVCashr.TransDate;
+	IVVc_PasteTransDate(IVr,err1,err2);
+	IVVc_PasteInvDate(IVr,LMb,err1,err2);	
+		
 	IVr.CustCode = IVCashr.CustCode;
 	PasteCust2InInv(IVr,LMb,IVCashr.CustCode,true,warning,errstr,prepstr,invdatewarn,transdatewarn);
 	IVr.Objects = "";// Edit ************************** Tuesday, 7 April 2015 10:34:05
@@ -156,13 +161,9 @@ begin
 		matrowget(LMAb,i,LMAbrw); 
 		if(IVCashr.LocalMachineCode==LMAbrw.LocalMachine)then begin
 			IVr.Objects = LMAbrw.Objects;
+			i = rwcnt;
 		end; 
 	end; 
-	
-	IVr.InvDate = IVCashr.InvDate;
-	IVr.TransDate = IVCashr.TransDate;
-	IVVc_PasteTransDate(IVr,err1,err2);
-	IVVc_PasteInvDate(IVr,LMb,err1,err2);	
 
 	IVr.SalesMan = IVCashr.SalesMan;
 	IVVc_PasteSalesMan(IVr,IVCashr.SalesMan);
@@ -170,7 +171,22 @@ begin
 	IVVc_PasteLocation(IVr,-1);
   //IVr.CurncyCode = IVCashr.CurncyCode;
 	//IVVc_PasteCurncyCode(IVr,"",-1,false,true);
-	IVr.MachineName = IVCashr.LocalMachineCode;
+	IVr.MachineName = IVCashr.LocalMachineCode;	
+	
+	if (blank(IVr.PayDeal)) then begin		//Edit----------------------Dima  14.01.2016
+		IVr.PayDeal = LMAbrw.PayDeal;
+		IVVc_PastePayDeal(IVr,"",LMb.DefReturnLocation);
+	end;
+
+	CUr.Code = IVCashr.CustCode;							//Edit----------------------Dima  14.01.2016
+	if (ReadFirstMain(CUr,1,true)) then begin
+    CCatr.Code = CUr.CustCat;
+    if (ReadFirstMain(CCatr,1,true)) then begin      	
+			if (blank(CCatr.ARAcc)) then begin
+  		IVr.ARAcc = LMAbrw.RecAcc;
+  		end;
+		end;
+	end;
 
 	rwcnt = MatRowCnt(IVCashr);
 	for(i=0; i <rwcnt; i = i+1) begin
@@ -200,8 +216,7 @@ begin
 	if (IVCashr.RecValue != 0) then begin
 		ClearRow(IVr,IVrw,kInvoiceRowTypeCreditCardPayment);
 		IVrw.stp = kInvoiceRowTypeCreditCardPayment;
-		IVrw.Sum = IVCashr.RecValue;
-		//IVrw.PayMode = IVCashr.PayDeal; 
+		IVrw.Sum = IVCashr.RecValue;		
 		if (SearchPayModeForLocMach(IVr.MachineName,kInvoiceRowTypeCreditCardPayment,paymode)) then begin
 				IVrw.PayMode = paymode;
 		end;       

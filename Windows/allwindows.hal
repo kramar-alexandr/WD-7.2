@@ -9489,3 +9489,22 @@ end;
 end;
   EndWindow;
 end;
+
+
+window PointsHistLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Історія накопичувальних балів",PointsHistLClass,CGmlist,-);
+  SetWRect(64,80,549,298);
+  SpawnClass(PointsHistDClass);
+  Sizeable(-1,-1,0,0);
+  UseView(PointsHistVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Reg.Name",FileName,false,SerNr);		//Edit----------------------Dima  14.01.2016
+  RlCol(84,84,"№ операції",TransNr,false);
+  RlColKey(164,164,"№ картки",LMCardNr,false,CardDate);
+  RlCol(-170,-170,"Дата",TransDate,true);
+  RlColKey(-80,-80,"З балів",PointsFrom,true,PointsFrom);
+  SearchField("Пошук");
+  EndWindow;
+end;

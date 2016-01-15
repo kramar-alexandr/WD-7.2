@@ -2221,6 +2221,8 @@ BEGIN
   if (nonblank(IVCashp.OfficialSerNr2)) then begin
     UpdateOffSerNr(IVCashp.SerNr,"IVCashVc2",0,IVCashp.OfficialSerNr2,false);
   end;
+  /*
+  //Dublicate with IVVc //Edit----------------------Dima  14.01.2016
   if (IVCashp.OKFlag!=0) then begin
     if (nonblank(IVCashp.LoyaltyCardNr) and (IVCashp.Points!=0)) then begin
       AddPointsHist(IVCashp.SerNr,"IVCashVc",1);
@@ -2229,6 +2231,7 @@ BEGIN
       IVCashVc_LoyaltyCardPointsRedemption(IVCashp,false);
     end;
   end;
+  */
   IVCashVcRecordSaveAfter = res;
   RETURN;
 END;
@@ -2366,6 +2369,8 @@ BEGIN
       DeleteOffSerNr(IVCash2p.SerNr,"IVCashVc2");
     end;
   end;
+  /*
+  //Dublicate with IVVc //Edit----------------------Dima  14.01.2016
   if (nonblank(IVCashp.LoyaltyCardNr) and (IVCashp.Points!=0)) then begin
     if ((IVCashp.OKFlag!=0) and (IVCash2p.OKFlag==0)) then begin
       AddPointsHist(IVCashp.SerNr,"IVCashVc",1);
@@ -2382,16 +2387,19 @@ BEGIN
       IVCashVc_LoyaltyCardPointsRedemption(IVCashp,true);
     end;
   end;
+  */
   if ((IVCash2p.Invalid==0) and (IVCashp.Invalid!=0)) then begin
     if (IVCash2p.OKFlag!=0) then begin
       IVCashVcCreateSoldGiftCert_Invalidate(IVCashp);
       IVCashArtStats(IVCashp,true);
-      if (nonblank(IVCashp.LoyaltyCardNr) and (IVCashp.Points!=0)) then begin
-        DeletePointsHist(IVCashp.SerNr,"IVCashVc");
-      end;
-      if (nonblank(IVCashp.LoyaltyCardNr)) then begin
-        IVCashVc_LoyaltyCardPointsRedemption(IVCashp,true);
-      end;
+      
+       //Dublicate with IVVc //Edit----------------------Dima  14.01.2016
+      //if (nonblank(IVCashp.LoyaltyCardNr) and (IVCashp.Points!=0)) then begin
+      //  DeletePointsHist(IVCashp.SerNr,"IVCashVc");
+      //end;
+      //if (nonblank(IVCashp.LoyaltyCardNr)) then begin
+      //  IVCashVc_LoyaltyCardPointsRedemption(IVCashp,true);
+      //end;
     end;
   end;
   IVCashVcRecordUpdateAfter = res;
