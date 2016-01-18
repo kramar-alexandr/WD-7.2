@@ -1259,7 +1259,7 @@ BEGIN
   record IVVc lIV2r;
   row SHVc SHrw;
   Integer res;
-  Integer shrwcnt,i;
+  Integer shrwcnt,i,k,rwcnt;
   string 255 objstr,rowstockacc,tstr,CostAcc,taccnumber,lobjstr,location;
   LongInt credord;
   Boolean creditshipment,defaultcostmodel;
@@ -1269,8 +1269,9 @@ BEGIN
   val t1,q;
   row IVVc IVrwp;
   Boolean dc1,dc2;
-  
+ 
   MatRowGet(IVp,rownr,IVrwp);
+  
   CostModel = 0;  
   res = 1085;
   CombineStructure(SHp);
@@ -1445,6 +1446,13 @@ BEGIN
   string 255 location,pbbvaracc;
   record PLVc PLr;
   record ORVc ORr;
+  record LocalMachineAccBlock LMAb;
+	row LocalMachineAccBlock LMAbrw;
+	record CUVc CUr;
+	record CCatVc CCr;
+	Integer k,rwcnt;
+	
+	blockload(LMAb);		//Edit----------------------Dima  16.01.2016    
 		
   if (IsStandardProduct) then begin
     if (HasModIN==false or (HasModNL==false and HasIncomeAndExpenseBook==false)) then begin
@@ -1697,6 +1705,25 @@ L22AddIVCostRow:;
                 goto LAddIVCostRow;
               end;
             end;
+            
+            if (CostAcc == ARAccb.StockCostAcc) then begin			//Edit----------------------Dima  16.01.2016
+            		rwcnt = MatRowCnt(LMAb);
+								For(k=0;k<rwcnt;k=k+1) begin
+									matrowget(LMAb,k,LMAbrw); 
+									if(IVp.MachineName == LMAbrw.LocalMachine) then begin
+										CUr.Code = LMAbrw.CustCode;
+										if (ReadFirstMain(CUr,1,true)) then begin
+    									CCr.Code = CUr.CustCat;
+    									if (ReadFirstMain(CCr,1,true)) then begin
+    									    CostAcc = CCr.CostAcc;
+    									    GetAccName(CostAcc,tstr,60);
+    									end;	
+										end;
+										k = rwcnt;	
+									end; 
+								end;
+	          end;  //Edit---end---------------------------------------------------------Dima  16.01.2016            
+            
             if (CostModel==0) then begin goto L66AddIVCostRow; end;
             if (CostModel==9) then begin goto L66AddIVCostRow; end;
             if (checkf) then begin
