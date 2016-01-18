@@ -1319,7 +1319,7 @@ LSkipMainCL:;
     	mrwcnt = matrowcnt(IVp);
     	for(i=0;i<mrwcnt;i=i+1) begin
     	  matrowget(IVp,i,IVrw);
-    	  if(NonBlank(IVrw.ArtCode)) then begin
+    	  if(NonBlank(IVrw.ArtCode) and nonblank(PDr.pdSalesAcc)) then begin// Edit ************************** Tuesday, 12 January 2016 14:52:19
 					IVrw.SalesAcc = PDr.pdSalesAcc;
  					MatRowPut(IVp,i,IVrw);
     	  end;    	  

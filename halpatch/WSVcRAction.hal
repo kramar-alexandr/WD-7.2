@@ -1248,7 +1248,8 @@ updating function LongInt WSVcRecordSaveAfter(var record WSVc WSr,record WSVc WS
 begin
   LongInt res;
   LongInt r; //Edit***************************Sasha2,16:20 10.06.2015
-  record IVVc IVr; //Edit***************************Sasha2,16:25 10.06.2015
+  record IVVc IVr,oldIVr; //Edit***************************Sasha2,16:25 10.06.2015
+  
   
   WSUpdateSVOWSMark(WSr);
   WSUpdateStock(WSr,true,WS2r,false,false);
@@ -1257,6 +1258,11 @@ begin
     WSUpdateSerialNr(WSr,false,true);
     WSOK(WSr);
     CreateIVFromWS(WSr,r,IVr); //Edit***************************Sasha2,14:22 10.06.2015
+    if(IVr.SerNr>-1 and currentcompany==8)then begin
+			recordcopy(oldIVr,IVr);// Edit ************************** Tuesday, 12 January 2016 13:04:30
+			IVr.OKFlag = 1;// Edit ************************** Tuesday, 12 January 2016 13:04:29
+			RecordUpdate(oldIVr,IVr,true);// Edit ************************** Tuesday, 12 January 2016 13:04:27
+    end;
   end;
   if ((WSr.PrelOK!=0) and (WSr.OKFlag==0)) then begin 
     WSPrelOK(WSr,true);

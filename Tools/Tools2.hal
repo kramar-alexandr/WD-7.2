@@ -488,6 +488,7 @@ BEGIN
       salesacc = ARAccRec.DomSalesAcc;
     end;
   end;
+  logtext(0,"*****" & salesacc);
   RETURN;
 END;
 
