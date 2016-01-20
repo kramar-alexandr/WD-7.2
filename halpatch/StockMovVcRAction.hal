@@ -216,6 +216,8 @@ BEGIN
   val serqty;
   string 255 serialnr,errofield;
   
+  logtext(0,"CheckStockMovRow " & 0);
+  
   ToLocr.Code = tolocation;
   if (ReadFirstMain(ToLocr,1,true)) then begin
   end;
@@ -308,42 +310,42 @@ BEGIN
   end;
   if (check!=0) then begin
     if (MSb.dontAllowOvership==1) then begin
-      if (SMp.OKFlag==1) or (SMp.SentOKFlag==1) then begin
-        if (INr.ItemType==1) then begin        
-          prev = 0;
-          for (j=0;j<rownr;j=j+1) begin           
-            MatRowGet(SMp,j,StockMov2rw);
-            if ((StockMovrw.ArtCode==StockMov2rw.ArtCode) and ((StockMovrw.SerialNr==StockMov2rw.SerialNr) and (SNrb.BulkSerialNos==0))) then begin
-              if (sentquantf) then begin
-                prev = prev + StockMov2rw.SentQuant;
-              end else begin
-                prev = prev + StockMov2rw.Quant;
-              end;
-            end;
-          end;
-          if (SNrb.BulkSerialNos!=0) then begin
-            FindStockValueInclStockReserv(-1,StockMovrw.ArtCode,"",frlocation,ISr,stockreservq);
-          end else begin
-            FindStockValueInclStockReserv(-1,StockMovrw.ArtCode,StockMovrw.SerialNr,frlocation,ISr,stockreservq);
-          end;
-          prev = prev + quant;
-          if (ISr.Instock<(prev+stockreservq)) then begin
-            if (sentquantf) then begin
-              error = 1247;
-              errorstr = "";
-              errorrownr = rownr;
-              fieldstr = "SentQuant";                  
-            end else begin
-              error = 1247;
-              errorstr = "";
-              errorrownr = rownr;
-              fieldstr = "Quant";                      
-            end;
-            res = 1247;
-            goto LCheckStockMovRow;
-          end;
-        end;
-      end;
+			if (SMp.OKFlag==1) or (SMp.SentOKFlag==1) then begin
+				if (INr.ItemType==1) then begin        
+					prev = 0;
+					for (j=0;j<rownr;j=j+1) begin           
+						MatRowGet(SMp,j,StockMov2rw);
+						if ((StockMovrw.ArtCode==StockMov2rw.ArtCode) and ((StockMovrw.SerialNr==StockMov2rw.SerialNr) and (SNrb.BulkSerialNos==0))) then begin
+							if (sentquantf) then begin
+								prev = prev + StockMov2rw.SentQuant;
+							end else begin
+								prev = prev + StockMov2rw.Quant;
+							end;
+						end;
+					end;
+					if (SNrb.BulkSerialNos!=0) then begin
+						FindStockValueInclStockReserv(-1,StockMovrw.ArtCode,"",frlocation,ISr,stockreservq);
+					end else begin
+						FindStockValueInclStockReserv(-1,StockMovrw.ArtCode,StockMovrw.SerialNr,frlocation,ISr,stockreservq);
+					end;
+					prev = prev + quant;
+					if (ISr.Instock<(prev+stockreservq)) then begin
+						if (sentquantf) then begin
+							error = 1247;
+							errorstr = "";
+							errorrownr = rownr;
+							fieldstr = "SentQuant";                  
+						end else begin
+							error = 1247;
+							errorstr = "";
+							errorrownr = rownr;
+							fieldstr = "Quant";                      
+						end;
+						res = 1247;
+						goto LCheckStockMovRow;
+					end;
+				end;
+			end;
     end;
   end;  
   if (((INr.SerNrf>0) and (INr.SerNrf<3)) and (MSb.NoSerOnPU==0)) then begin
@@ -533,30 +535,58 @@ BEGIN
       SMp.SerNr = SM2p.SerNr;
     end;
   end;      
-    
-  if (SMp.OrdFlag == 1 and NonBlank(SMp.OrderNr)) then begin //Edit***************************Sasha2,11:40 16.11.2015 {
-    ORr.SerNr = SMp.OrderNr;
-    if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops" and SMp.FrLocation==ORr.Location) then begin
-      rwcnt = MatRowCnt(SMp);
-      for (i=0;i<rwcnt;i=i+1) begin
-        MatRowGet(SMp,i,StockMovrw);
-        if (StockMovrw.ORRow>-1) then begin
-          smrowqty[StockMovrw.ORRow] = smrowqty[StockMovrw.ORRow] + StockMovrw.Quant;
-        end;
-      end;
-      rwcnt = MatRowCnt(ORr);
-      for (i=0;i<rwcnt;i=i+1) begin
-        MatRowGet(ORr,i,ORrw);
-        if (smrowqty[i]>ORrw.Shopd) then begin
-          error = 1247;
-          errorstr = "";
-          rownr = i;
-          fieldstr = "Quant";       
-          res = error; 
-          goto LCheckStockMovRecord;
-        end;
-      end;
-    end;
+  
+  if(stat==insertmode)then begin
+		if (SMp.OrdFlag == 1 and NonBlank(SMp.OrderNr)) then begin //Edit***************************Sasha2,11:40 16.11.2015 {
+			ORr.SerNr = SMp.OrderNr;
+			if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops" and SMp.FrLocation==ORr.Location) then begin
+				rwcnt = MatRowCnt(SMp);
+				for (i=0;i<rwcnt;i=i+1) begin
+					MatRowGet(SMp,i,StockMovrw);
+					if (StockMovrw.ORRow>-1) then begin
+						smrowqty[StockMovrw.ORRow] = smrowqty[StockMovrw.ORRow] + StockMovrw.Quant;
+					end;
+				end;
+				rwcnt = MatRowCnt(ORr);
+				for (i=0;i<rwcnt;i=i+1) begin
+					MatRowGet(ORr,i,ORrw);
+					if (smrowqty[i]>ORrw.Shopd) then begin
+						error = 1247;
+						errorstr = "";
+						rownr = i;
+						fieldstr = "Quant";       
+						res = error; 
+						goto LCheckStockMovRecord;
+					end;
+				end;
+			end;
+		end;
+  end;
+  if(stat==updatemode)then begin	
+		if (SMp.OrdFlag==1 and SM2p.OrdFlag==0 and NonBlank(SMp.OrderNr)) then begin //Edit***************************Sasha2,11:40 16.11.2015 {
+			ORr.SerNr = SMp.OrderNr;
+			if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops" and SMp.FrLocation==ORr.Location) then begin
+				rwcnt = MatRowCnt(SMp);
+				for (i=0;i<rwcnt;i=i+1) begin
+					MatRowGet(SMp,i,StockMovrw);
+					if (StockMovrw.ORRow>-1) then begin
+						smrowqty[StockMovrw.ORRow] = smrowqty[StockMovrw.ORRow] + StockMovrw.Quant;
+					end;
+				end;
+				rwcnt = MatRowCnt(ORr);
+				for (i=0;i<rwcnt;i=i+1) begin
+					MatRowGet(ORr,i,ORrw);
+					if (smrowqty[i]>ORrw.Shopd) then begin
+						error = 1247;
+						errorstr = "";
+						rownr = i;
+						fieldstr = "Quant";       
+						res = error; 
+						goto LCheckStockMovRecord;
+					end;
+				end;
+			end;
+		end;
   end; //Edit***************************Sasha2,11:40 16.11.2015 }
   
   if (SMp.OKFlag==0) then begin
@@ -1684,6 +1714,7 @@ BEGIN
       end;
     end;
     if (transsendf or checksendf) then begin
+    logtext(0,"CheckStockMovRow " & 1);
       errcode = CheckStockMovRow(SMp,StockMovrw,INr,MSb,SNrb,i,SMp.FrLocation,SMp.ThrouLocation,true,check,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
       if (errcode!=0) then begin 
         res = -1;
@@ -1692,8 +1723,10 @@ BEGIN
     end else begin
       if (transreceivef or checkreceivef) then begin
         if (blank(SMp.ThrouLocation)) then begin
+        	logtext(0,"CheckStockMovRow " & 2);
           errcode = CheckStockMovRow(SMp,StockMovrw,INr,MSb,SNrb,i,SMp.FrLocation,SMp.ToLocation,false,check,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
         end else begin
+        	logtext(0,"CheckStockMovRow " & 3);
           errcode = CheckStockMovRow(SMp,StockMovrw,INr,MSb,SNrb,i,SMp.ThrouLocation,SMp.ToLocation,false,check,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
         end;
         if (errcode!=0) then begin 
@@ -1770,6 +1803,7 @@ BEGIN
       end;
     end;
     if (transsendf or (transsendf and UnOKedCheckSerialf)) then begin
+    	logtext(0,"CheckStockMovRow " & 4);
       errcode = CheckStockMovRowFromPosition(SMp,StockMovrw,LocFrRec,INr,i,true,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);  
       if (errcode!=0) then begin 
         res = -1;
@@ -1777,6 +1811,7 @@ BEGIN
       end;
     end else begin
       if (transreceivef or (transreceivef and UnOKedCheckSerialf)) then begin
+      	logtext(0,"CheckStockMovRow " & 5);
         errcode = CheckStockMovRowFromPosition(SMp,StockMovrw,LocFrRec,INr,i,false,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
         if (errcode!=0) then begin 
           res = -1;
@@ -1794,7 +1829,7 @@ already checked few lines above
           goto LCheckStockMovRecord;
         end;
       end;
-*/      
+*/     logtext(0,"CheckStockMovRow " & 6);
       errcode = CheckStockMovRowToPosition(SMp,StockMovrw,LocToRec,INr,i,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
       if (errcode!=0) then begin 
         res = -1;
@@ -2058,7 +2093,9 @@ BEGIN
 		oldnr = SMp.SerNr;
 		oldOfficialSerNr = SMp.OfficialSerNr;
 		UnOKedCheckSerialf = false;
+		logtext(0,1);
 		if (CheckStockMovRecord(SMp,SM2p,stat,check,true,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf)!=0) then begin
+			logtext(0,error & " " & errorstr & " " & rownr & " " & fieldstr);
 			res = -1;
 			RecordCheckError(error,errorstr,rownr,fieldstr);
 			goto LStockMovVcRecordCheck;

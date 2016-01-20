@@ -4526,7 +4526,7 @@ begin
   EditField(h2,v,80,"через",Normal,ThrouLocation,false,LocationSClass);
     end;
   EditField(h3,v,80,"на склад",Normal,ToLocation,false,LocationSClass);
-  if(currentuser=="SA" or currentuser=="LADA")then begin
+  if(currentuser=="SA" or currentuser=="LADA" or currentuser=="KUDINA" or currentuser=="FILATIEV")then begin
 		EditField(h3,v+VS,80,"Order No.",Normal,OrderNr,false,0); //Edit***************************Sasha2,18:13 03.11.2014
   end else begin
   	EditField(h3,v+VS,80,"Order No.",ViewOnly,OrderNr,false,0); //Edit***************************Sasha2,18:13 03.11.2014
