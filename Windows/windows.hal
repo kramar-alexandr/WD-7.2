@@ -1501,4 +1501,29 @@ begin
   
   EndWindow;
 end;
+
+window INITImportIClass:1	//Edit***************************Sasha2,17:17 06.01.2016 {
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,v,vs;
+Integer i;
+  WindowBegin("Изменение группы товаров",INITImportIClass,CGIcW,-);	
+  SetWRect(20,80,470,300);
+  i=1; //номер колонки
+  h=10;  v=15;
+  StaticText(h,v,"Формат импорта",false);
+  h=20;  v=40;
+  StaticText(h,v,"Список колонок:",false);
+  v=v+30; vs=25;
+  StaticText(h,v, 	i & ". Код товара",false);
+	 StaticText(h+100,v,"Обязательное поле",false);
+	 i=i+1;
+  StaticText(h,v+=vs,i & ". Группа",false);
+	 StaticText(h+100,v,"Пусто - группа удалится; Заполнено - группа заменится",false);
+	 i=i+1;
+
+  StaticText(h,v+=40,"Примечание:   Все столбцы разделены <Tab>",false);
+
+  EndWindow;
+end; //Edit***************************Sasha2,17:18 06.01.2016 }
   

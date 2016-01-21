@@ -97,6 +97,37 @@ BEGIN
   RETURN;
 END;
 
+global //Edit***************************Sasha2,15:53 21.01.2016 {
+updating procedure ImportNewItemsWithGroupIn()
+begin
+string 100 artcode,group;
+record INVc INr;
+boolean testf;
+
+	while (TestEOF()==false) begin
+		artcode = ImportField;
+		group = ImportField; 
+		
+		if(nonblank(artcode))then begin
+			INr.Code = artcode;
+			if(readfirstmain(INr,1,true))then begin
+			  testf = true;
+			  if (INr.Group==group) then begin testf = false; end;
+			  if (testf) then begin
+			    INr.Group = group;
+			    recordStore(INr,true);
+			  end;
+			end;
+		end;
+		
+	NextImportLine(true); 
+    
+  end; 
+
+LImportNewItemsWithGroupIn:;
+	
+return;
+end; //Edit***************************Sasha2,15:53 21.01.2016 }
 
 /*global
 updating procedure ReadImportTagSVOVcRecord(record SVOVc SVOr)

@@ -117,6 +117,8 @@ begin
 	
 	Maintenance("Видалити первинні документи",CleaningVClass,CleaningMn,modDBMain); //Edit---------------Vitalii 16:05 13.07.2015 
 	Maintenance("Оновити групи продаж в накладних ЕККА",MyVClass,UpdateSalesGroupsInInvoicesMn,modDBMain); //Edit----------------------Dima  29.07.2015
+	
+	Import("Импорт Item/Group",INITImportIClass,ImportNewItemsWithGroupIn,modIN); //Edit***************************Sasha2,15:52 21.01.2016
   
 	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 2" & USetStr(31035),LabelItem2RClass,ItemLabForm2,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
