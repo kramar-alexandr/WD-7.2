@@ -3278,6 +3278,10 @@ begin
   EditField(75,v+=20,95,"Постачальник",Normal,VECode,false,VESClass);
   EnterSkip(TransDate);
   EditField(h=255,v=vm,-40,"Найменування",Normal,VEName,false,0);
+  if (CurrentUser=="SA") then begin	//Edit----------------------Dima  21.01.2016
+  	EditField(h=255,v+20,100,"LocOKNr",Normal,LocOKNr,false,0);
+  end;
+  
   CheckBox(h4=-100,v+=20,0,"OK",OKFlag);
   if (CYb.UseTaxTemplatesforTaxCalc==0) then begin
   CheckBox(h4,v+=16,0,"Ціна з ПДВ",InclVAT); 
@@ -3750,6 +3754,11 @@ begin
   if (HasModTS) then begin
     EditField(h3,v,100,"Проект",Normal,PRCode,false,PRSClass);
     end;
+    
+  if (CurrentUser=="SA")  then begin		//Edit----------------------Dima  21.01.2016
+		EditField(h4,v,100,"LocOKNr",Normal,LocOKNr,false,0);
+	end;
+    
   if (HasObjects) then begin
     EditField(h2,v+=vs,270,"Об'єкти",Normal,Objects,false,ObjSClass);
   end;
