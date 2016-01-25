@@ -3493,6 +3493,10 @@ begin
   MatCol(1,-310,"Коментар",0,POReconComment,false,0);
   MatCol(1,-200,"Узг. накл.",0,VIRecon,false,0);
   MatCol(1,-130,"Коментар",0,VIReconComment,false,0);
+  if (CurrentCompany==8) then begin
+    MatCol(1,-60,"Ціна(друк)",0,RetailPrice,false,0); //Edit***************************Sasha2,15:19 25.01.2016 
+  end;
+  
   end else begin
     if (HasSerialNumbers) then begin
       Flip(flipnr); flipnr = flipnr + 1;

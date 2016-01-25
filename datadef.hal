@@ -3372,6 +3372,7 @@ EndRecord;
   ArrayField(DispatchNumber,M4Str,60,0);
   ArrayField(CustomsDate,M4Date,0,0);
   ArrayField(AlternativeCode,M4Str,40,0); //Edit***************************Sasha2,14:27 23.01.2015
+  ArrayField(RetailPrice,M45Val,0,0); //Edit***************************Sasha2,15:16 25.01.2016
   EndArray;
   MainKeyBegin(SerNr,0);
   KeySegment(SerNr);
