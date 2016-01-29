@@ -1781,6 +1781,9 @@ BEGIN
   if (ORr.OKFlag!=0) then begin
     res = false;
   end;
+  if (ORr.Closed!=0) then begin
+    res = false;
+  end;
   if (UserCanAction("ChangeReserved",true)==false) then begin
     res = false;
   end;  

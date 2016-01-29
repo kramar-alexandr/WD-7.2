@@ -87,7 +87,12 @@ BEGIN
   OUTFORMFIELD("F_ARTNR",PUrw.ArtCode);
   OUTFORMFIELD("F_ARTNR2",PUrw.ArtCode);
   PrintValue("F_ANTAL",PUrw.Quant,M4UVal,LangNrr,SysFormatRec,false);
-  PrintValue("F_PRIS",PUrw.CostPrice,M4Val,LangNrr,SysFormatRec,false);
+  //PrintValue("F_PRIS",PUrw.CostPrice,M4Val,LangNrr,SysFormatRec,false);// Edit ************************** Tuesday, 26 January 2016 11:14:11
+  
+  if(PUrw.RetailPrice!=0)then begin
+  	OUTFORMFIELD("F_PRIS",USetStr(7684) & ": " & PUrw.RetailPrice & USetStr(31000));  // Edit ************************** Tuesday, 26 January 2016 11:15:05
+  end;
+  
   OUTFORMFIELD("F_SERIENR",PUrw.SerialNr);
   OUTFORMFIELD("F_SPECIFIKATION",PUrw.Spec);
   BC39(PUrw.VEItemCode,tstr);
@@ -368,12 +373,14 @@ BEGIN
 							newPUrw.ArtCode = PUrw.ArtCode;
 							newPUrw.SerialNr = PUrw.SerialNr;
 							newPUrw.Spec = PUrw.Spec;
+							newPUrw.RetailPrice = PUrw.RetailPrice;
 							matrowput(newPUr,k,newPUrw);
 							k=k+1;
 						end else begin
 							newPUrw1.ArtCode = PUrw.ArtCode;
 							newPUrw1.SerialNr = PUrw.SerialNr;
 							newPUrw1.Spec = PUrw.Spec;
+							newPUrw1.RetailPrice = PUrw.RetailPrice;
 							matrowput(newPUr1,j,newPUrw1);
 							j=j+1;
 						end;
