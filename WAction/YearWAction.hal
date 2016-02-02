@@ -98,8 +98,10 @@ begin
   res = true;
   GetWindowRecord(wn,RepSpec);
   if (RepSpec.flags[10]!=0) then begin
-		RepSpec.Media=mtExcel;
-		PutWindowRecord(wn,RepSpec);
+  	if (RepSpec.Media!=mtExcel and RepSpec.Media!=mtClipBoard) then begin
+			RepSpec.Media=mtExcel;
+			PutWindowRecord(wn,RepSpec);
+		end;
   end;
   
 
