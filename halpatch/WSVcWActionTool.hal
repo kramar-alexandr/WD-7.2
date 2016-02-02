@@ -352,10 +352,11 @@ BEGIN
     if (CAb.NoNLCostOnShip==2) then begin
       salesacc = ARb.COSAccrualAcc;
     end else begin
-      if (GetCOSAcc("",WSr.CustCode,WSr.Location,ARb,INr,CAb.ItemGroupAccounts,true,WSrw.ItemType,salesacc,tstr)==false) then begin
+      if (GetCOSAcc("",WSr.CustCode,WSr.Location,ARb,INr,CAb.ItemGroupAccounts,true,WSrw.ItemType,costsacc,tstr)==false) then begin// Edit ************************** Tuesday, 2 February 2016 15:21:38
+      //if (GetCOSAcc("",WSr.CustCode,WSr.Location,ARb,INr,CAb.ItemGroupAccounts,true,WSrw.ItemType,salesacc,tstr)==false) then begin// Edit ************************** Tuesday, 2 February 2016 15:21:33
       end;
     end;
-    blockload(OAb);          
+    blockload(OAb);
     Locr.Code = WSr.Location;
     readfirstmain(Locr,1,true);                                      // Edit ************************** Friday, 8 April 2011 12:19:17
       mtrw = matrowcnt(OAb);
