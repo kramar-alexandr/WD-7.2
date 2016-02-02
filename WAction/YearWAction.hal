@@ -85,3 +85,24 @@ begin
   YearTClassActiveEditField = res;
   return;
 end;
+
+
+
+
+global
+function Boolean ResRClassOnOKWindow(Integer wn)		//Edit----------------------Dima  29.01.2016
+begin
+  Boolean res;
+  record RcVc RepSpec;
+  
+  res = true;
+  GetWindowRecord(wn,RepSpec);
+  if (RepSpec.flags[10]!=0) then begin
+		RepSpec.Media=mtExcel;
+		PutWindowRecord(wn,RepSpec);
+  end;
+  
+
+  ResRClassOnOKWindow = res;
+  return;
+end;

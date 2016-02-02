@@ -9521,3 +9521,87 @@ begin
   SearchField("Пошук");
   EndWindow;
 end;
+
+
+
+
+window ResRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm;
+  WindowBegin("Визначте звіт про фінансові результати",ResRClass,CGRcW,RcType);
+  SetWRect(20,80,527,370);
+  PeriodField(h=100,v=6,"Період");
+  if (HasAdvancedAccounting) then begin
+  EditFieldTL(h,v+=20,150,"Бюдж. період",M4UStr,Normal,21,Stext,false,PerSClass);
+  end;
+  CheckBox(345,v,0,"По місяцям",flags[10]);			//Edit----------------------Dima  29.01.2016
+  if (HasObjects) then begin
+  EditFieldTL(h,v+=20,150,"Об'єкт",M4UStr,Normal,60 ,ObjStr,false,ObjSClass);
+  EditFieldTL(h,v+=20,50,"Тип об'єкту",M4UStr,Normal,5 ,ObjType,false,OTSClass);
+  CheckBox(180,v,0,"Враховувати невизначені",flags[2]);
+  end;
+  if (HasMultiCurrency) then begin
+  EditField(h,v+=20,50,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
+  end;
+  if (HasLanguages) then begin
+  EditField(h,v+=20,50,"Мова",Normal,Language,false,LangSClass);
+  end;
+  if (HasObjects) then begin
+  EditFieldTL(h,v+=20,150,"Не врах. об'єкт",M4UStr,Normal,60,f6,false,ObjSClass);
+  end;
+  EditFieldTL(345,6,120,"Заголовок",M4Str,Normal,60 ,f1,false,0);
+  ButtonFrame(h=30,vm=(v+=41),123,5,"Рахунки");
+  RadioButton(h,v,0,0,"всі",AccSpec);
+  RadioButton(h,v+=16,1,0,"лише використані",AccSpec);
+  if (HasAdvancedAccounting or HasLocalization("FIN")) then begin
+  RadioButton(h,v+=16,2,0,"лише групи",AccSpec);
+  RadioButton(h,v+=16,3,0,"лише викор. гр.",AccSpec);
+  RadioButton(h,v+=16,4,0,"з сальдо",AccSpec);
+  end;
+  EndFrame;
+  ButtonFrame(h+=148,v=vm,123,5,"Формат");
+  RadioButton(h,v,0,0,"точно",Notation);
+  RadioButton(h,v+=16,4,0,"цілі",Notation);
+  RadioButton(h,v+=16,1,0,"тисячі",Notation);
+  RadioButton(h,v+=16,2,0,"мільйони",Notation);
+  if (HasAdvancedAccounting) then begin
+  RadioButton(h,v+=16,3,0,"% від обігу",Notation);
+  end;
+  EndFrame;
+  if (HasAdvancedAccounting) then begin
+    ButtonFrame(h,v+=40,123,3,"Показ. порівняння"); 
+    RadioButton(h,v,0,0,"У значенні",flags[1]); 
+    RadioButton(h,v+=16,1,0,"У %",flags[1]);
+    RadioButton(h,v+=16,3,0,"Не показ.",flags[1]);
+  end;
+  ButtonFrame(h+=148,v=vm,140,5,"Порівняння");
+  RadioButton(h,v,0,0,"накопичене",Comparison);
+  RadioButton(h,v+=16,1,0,"з попер. роком",Comparison);
+  RadioButton(h,v+=16,4,0,"з попер. результом",Comparison);
+  if (HasAdvancedAccounting) then begin
+  RadioButton(h,v+=16,2,0,"з бюджетом",Comparison);
+  RadioButton(h,v+=16,3,0,"з випр. бюджетом",Comparison);
+  end;
+  EndFrame;
+  //CheckBox(h+100,v-16,0,"Add",flags[6]);//fir internal use only
+  if (HasBase2) then begin
+  ButtonFrame(h,v+=40,123,2,"Значення в");
+  RadioButton(h,v,0,0,"осн. вал. 1",basecurncy);
+  RadioButton(h,v+=16,1,0,"осн. вал. 2",basecurncy);
+  end;
+  h = 30; v = 270;
+  if (HasSimulations) then begin
+    CheckBox(h,v,0,"Вкл. симуляції",SimVerf);
+    v = v + 16;
+  end;
+  if (HasAdvancedAccounting) then begin
+    CheckBox(h,v,0,"Список номерів трансакції",flags[4]);
+  end;
+  if (HasAdvancedAccounting) then begin
+  CheckBox(h,v+=16,0,"Без заголовку",flags[5]);
+end;
+  EndWindow;
+end;
+
+  

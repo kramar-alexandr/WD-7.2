@@ -3959,6 +3959,22 @@ EndRecord;
   KeySegment(SerNr);
 
   EndRecord;
+  
+  
+  RecordBegin(MonthsStructVc,-,"");	//Edit----------------------Dima  02.02.2016
+  RecordField(Jan,M4Val,0,0);
+  RecordField(Feb,M4Val,0,0);
+  RecordField(Mar,M4Val,0,0);
+  RecordField(Apr,M4Val,0,0);
+  RecordField(May,M4Val,0,0);
+  RecordField(Jun,M4Val,0,0);
+  RecordField(Jul,M4Val,0,0);
+  RecordField(Aug,M4Val,0,0);
+  RecordField(Sep,M4Val,0,0);
+  RecordField(Oct,M4Val,0,0);
+  RecordField(Nov,M4Val,0,0);
+  RecordField(Dec,M4Val,0,0); 
+  EndRecord;  
 	  
 		
 return;
