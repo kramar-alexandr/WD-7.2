@@ -1258,7 +1258,7 @@ begin
     WSUpdateSerialNr(WSr,false,true);
     WSOK(WSr);
     CreateIVFromWS(WSr,r,IVr); //Edit***************************Sasha2,14:22 10.06.2015
-    if(IVr.SerNr>-1 and currentcompany==8)then begin
+    if(IVr.SerNr>-1 and (currentcompany==8 or currentcompany==2))then begin
 			recordcopy(oldIVr,IVr);// Edit ************************** Tuesday, 12 January 2016 13:04:30
 			IVr.OKFlag = 1;// Edit ************************** Tuesday, 12 January 2016 13:04:29
 			RecordUpdate(oldIVr,IVr,true);// Edit ************************** Tuesday, 12 January 2016 13:04:27
