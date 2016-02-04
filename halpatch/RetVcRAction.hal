@@ -1476,6 +1476,10 @@ BEGIN
   record DBLockBlock DBLockRec;
 
   res = 1;
+  if (CurrentUser=="SA") then begin //Edit***************************Sasha2,13:07 04.02.2016
+    res = 1;
+    goto LRetVcRecordRemoveTest;
+  end;
   BlockLoad(DBLockRec);
   if (Retr.TransDate<=DBLockRec.DeleteBeforeDate) then begin
     res = 1;
