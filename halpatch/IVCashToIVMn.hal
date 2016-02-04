@@ -125,19 +125,23 @@ begin
 
 	IVr.OfficialSerNr = IVCashSerNr;
 	if (ReadFirstKey("OfficialSerNr",IVr,1,true)) then begin	
+			logtext(0,"OfficialSerNr error " & IVCashSerNr & " IVvc " & IVr.SerNr);
 			goto LBreak;
 	end;
 
 	if (IVCashr.OKFlag!=1) then begin	
+			logtext(0,"OKFlag error " & IVCashSerNr);
 			goto LBreak;
 	end;
 
 
 	if (SearchStartSerNrForUser(IVCashr.LocalMachineCode,startSerNr)==false) then begin 
+			logtext(0,"SearchStartSerNrForUser " & IVCashSerNr);
 			goto LBreak;
 	end;
 
 	if (startSerNr < 0) then begin 	//if InvoiceCash without Local Machine
+			logtext(0,"startSerNr < 0 " & IVCashSerNr);
 			goto LBreak;
 	end;
 
@@ -315,6 +319,7 @@ begin
 		if (nonblank(RepSpec.f1)and(RepSpec.f1!=IVCashr.LocalMachineCode))then begin	testf=false;	end;
 
 		if (testf) then begin
+			logtext(0,"IVCash_To_IVMn " & IVCashr.SerNr);
 			IVCash_To_IV(IVCashr.SerNr);
 		end;
 
