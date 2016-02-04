@@ -166,9 +166,17 @@ begin
 		if(IVCashr.LocalMachineCode==LMAbrw.LocalMachine)then begin
 			IVr.Objects = LMAbrw.Objects;
 			i = rwcnt;
+			
+			CUr.Code = LMAbrw.CustCode;						// Edit ************************** Thursday, 4 February 2016 10:33:11
+			if (ReadFirstMain(CUr,1,true)) then begin
+				IVr.CurncyCode = CUr.CurncyCode;
+			end;
+			
 		end; 
 	end; 
-
+	
+	
+	
 	IVr.SalesMan = IVCashr.SalesMan;
 	IVVc_PasteSalesMan(IVr,IVCashr.SalesMan);
 	IVr.Location = IVCashr.Location;
