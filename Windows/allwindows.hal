@@ -2462,6 +2462,7 @@ if (HasTouchScreenLook==false) then begin
   if (HasLocalization("RUS")) then begin 
     EditField(h3,v+=vs,-20,"Інфо приход.",Normal,ReceiptInfo,false,0);
   end;
+	CheckBox(h3,v+=vs,0,"Прийняти по нульовій FIFO",IgnoreBlankFIFO);	//Edit----------------------Dima  09.02.2016
   CheckBox(h4,v=6,0,"Суперечливий",DisputedFlag);
   CheckBox(h4,v+=vs,0,"Bixolon надрук.",PrintedFlag); //Edit***************************Sasha2,12:28 11.01.2016
   if (StandardHansa) then begin

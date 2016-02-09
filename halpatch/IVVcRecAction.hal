@@ -193,6 +193,33 @@ LVerifySalesmen:;
   return; 
 end;
 
+function boolean CheckIsBlankFIFO(record IVVc IVr,var integer rownr)	//Edit----------------------Dima  09.02.2016
+begin
+	row IVVc IVrw;
+	integer rwcnt,i;
+	boolean res;
+	record INVc INr;
+	res = false;
+
+	if (IVr.IgnoreBlankFIFO==0) then begin
+		rwcnt = MatRowCnt(IVr);
+		for(i=0;i<rwcnt;i=i+1) begin
+			MatRowGet(IVr,i,IVrw);
+			if (IVrw.Quant<0 and IVrw.FIFORowVal==0) then begin
+				INr.Code = IVrw.ArtCode;
+				ReadFirstMain(INr,1,true);
+				if (INr.ItemType==kItemTypeStocked ) then begin
+  				res = true;
+					rownr = i;
+					i = rwcnt;
+				end;
+			end;
+		end;
+	end;	
+CheckIsBlankFIFO = res;
+return;  
+end;
+
 function Boolean CheckGlobalTransportNr(string GlobalTransportNr)
 begin
   Boolean res;
@@ -1691,7 +1718,29 @@ LkInvoiceTypeCash:;
         end;
       end;
     end;
-  end;  
+  end; 
+
+  
+    if (stat==insertmode and IVp.OKFlag!=0) then begin		//Edit----------------------Dima  09.02.2016
+					if (CheckIsBlankFIFO(IVp,i)) then begin
+      			RecordCheckError(31062,"",i,"FIFORowVal");      
+      			res = -1;
+      			goto L99;
+					end; 
+		end else begin 
+			if (stat==updatemode) then begin
+				if (IVp.OKFlag!=0 and IV2p.OKFlag==0) then begin
+					if (CheckIsBlankFIFO(IVp,i)) then begin
+      			RecordCheckError(31062,"",i,"FIFORowVal");      
+      			res = -1;
+      			goto L99;
+					end; 
+				end;
+			end;				
+		end;		//Edit--end--------------------Dima  09.02.2016
+
+
+
 LIVVcRecordCheck_GenTrans:;
 //  if (HasModNL==false) then begin gentrans = false; end;
   if (gentrans==false) then begin transf = false; end;
