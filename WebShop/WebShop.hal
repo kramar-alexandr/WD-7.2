@@ -397,3 +397,72 @@ begin
 	ResetCompany(8);
 return;
 end;
+
+
+
+
+Global updating procedure WebCreateCustomeriCenter()
+begin
+  area xmlarea,workarea;
+	xml getxml;
+	integer i,cui,ri,cucnt,rwcnt;
+	integer sem,chil;
+	string 200 name,sername,card_number,phone,email,birthday,city,is_seminar,is_children,job,equipments;
+	
+	record CUVc CUr;
+  
+  logtext(0,"WebCreateCustomeriCenter");
+  
+  SetCompany(4,false);
+	ri = 0;
+	WEBGETPOSTDATA(xmlarea);
+	getxml = ParseXmlArea(xmlarea);
+	cucnt = XMLCOUNTCHILDREN(getxml,"buyers");
+	cui = 1;
+	//for(cui = 1;cui<=cucnt;cui = cui+1) begin
+		name =	XmlGet(getxml,"buyers/buyer" & cui & "/name");
+		sername = XmlGet(getxml,"buyers/buyer" & cui & "/sername");
+		card_number = XmlGet(getxml,"buyers/buyer" & cui & "/card_number");
+		phone = XmlGet(getxml,"buyers/buyer" & cui & "/phone");
+		email = XmlGet(getxml,"buyers/buyer" & cui & "/email");
+		birthday = XmlGet(getxml,"buyers/buyer" & cui & "/birthday");
+		city = XmlGet(getxml,"buyers/buyer" & cui & "/city");
+		is_seminar = XmlGet(getxml,"buyers/buyer" & cui & "/is_seminar");
+		is_children = XmlGet(getxml,"buyers/buyer" & cui & "/is_children");
+		job = XmlGet(getxml,"buyers/buyer" & cui & "/job");
+		equipments = XmlGet(getxml,"buyers/buyer" & cui & "/equipments");
+		
+		CUr.Code = card_number;
+		if(ReadFirstMain(CUr,1,true))then begin
+		  CUr.Name = sername & " " & name;
+		  CUr.Phone = phone;
+		  CUr.eMail = email;
+		  CUr.BirthDate = birthday;
+		  CUr.InvAddr1 = city;
+		  sem=0;
+		  if(is_seminar=="true")then begin
+		    sem=1;
+		  end;
+		  CUr.Smoking = sem;
+		  chil=0;
+		  if(is_children=="true")then begin
+		    chil=1;
+		  end;
+		  CUr.Blacklist = chil;
+		  CUr.Profesion = job;
+		  CUr.Comment = equipments;
+		  
+		  if(recordstore(CUr,true))then begin
+		    //ri=ri+1;
+		  end;
+		end;
+	//end;
+	
+	WeboutString("Hansa received " & ri & "from " & cucnt);
+	
+	writeareatofile(xmlarea,"webcricentr.txt",0);
+    
+ResetCompany(4);
+
+return;
+end;
