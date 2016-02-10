@@ -408,7 +408,7 @@ begin
 	integer i,cui,ri,cucnt,rwcnt;
 	integer sem,chil;
 	string 200 name,sername,card_number,phone,email,birthday,city,is_seminar,is_children,job,equipments;
-	
+	record LoyaltyCardVc LCr,oldLCr;
 	record CUVc CUr;
   
   logtext(0,"WebCreateCustomeriCenter");
@@ -450,8 +450,26 @@ begin
 		  CUr.Blacklist = chil;
 		  CUr.Profesion = job;
 		  CUr.Comment = equipments;
+		  if (CUr.blockedFlag==1) then begin
+		    CUr.blockedFlag = 0;
+		  end;
 		  
 		  if(recordstore(CUr,true))then begin
+		    LCr.SerNr = CUr.Code;
+		    if (ReadFirstMain(LCr,1,true)) then begin
+		      if (LCr.Closed==1) then begin
+		        RecordCopy(oldLCr,LCr);
+            LCr.Closed = 0;
+            if (RecordUpdate(oldLCr,LCr,true)==0) then begin end;
+		      end;
+		    end else begin
+		      RECORDNEW(LCr);
+		      LCr.SerNr = CUr.Code;
+		      LCr.CustName = CUr.Code; 
+		      LCr.CustName = CUr.Name;
+		      LCr.LCMLevel = "1";
+		      RECORDSTORE(LCr,false);
+		    end;
 		    ri=ri+1;
 		  end;
 		end;
