@@ -467,7 +467,7 @@ begin
 		      LCr.SerNr = CUr.Code;
 		      LCr.CustName = CUr.Code; 
 		      LCr.CustName = CUr.Name;
-		      LCr.LCMLevel = "1";
+		      LCr.LCMLevel = "PROGRAM_1";
 		      RECORDSTORE(LCr,false);
 		    end;
 		    ri=ri+1;
