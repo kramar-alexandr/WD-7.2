@@ -141,14 +141,14 @@ begin
           end;
         end;
         if (test2f==true) then begin
-          StartFormat(15);
+          /*StartFormat(15);
           OutString(0,0,Accr.AccNumber,false);
           OutString(80,0,Accr.Comment,false);
           OutVal(270,0,B1b,M4Val,true);
           OutVal(340,0,B2b,M4Val,true);
           OutVal(410,0,Db,M4Val,true);
           OutVal(1,0,Diff,M4Val,true);
-          EndFormat;
+          EndFormat;*/
           // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 10 February 2016 14:05:55
 	
@@ -159,7 +159,8 @@ begin
           	EndFormat;
           	
           	StartFormat(15);
-						OutString(80,0,"Для переоцінки 2-ї осно. вал.",false);
+						OutString(0,0,Accr.AccNumber,false);
+          	OutString(80,0,Accr.Comment,false);
 						OutVal(270,0,B1b,M4Val,true);
 						OutVal(340,0,B2b,M4Val,true);
 						OutVal(410,0,mDb,M4Val,true);
@@ -169,7 +170,7 @@ begin
           
 	// Edit End ---------------------------------------------- Edit End
 	
-          DiffSum = DiffSum + Diff;
+          DiffSum = DiffSum + mDiff;
         end;
       end;
     end;
