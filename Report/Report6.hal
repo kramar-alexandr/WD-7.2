@@ -65,6 +65,7 @@ begin
   startformat(15);
     outstring(0,0,"Товар",false);
     outstring(0,0,"Назва",false);
+    outstring(0,0,"Класифікація",false);
     if(RepSpec.flags[0]==1)then begin
     	outstring(0,0,"Постачальник",false);
     	outstring(0,0,"Дата надходження",false);
@@ -107,6 +108,7 @@ begin
 			StartFormat(15)
 				OutString(0,0,ISr.Code,false);
 				OutString(1,0,INr.Name,false);
+				outstring(0,0,INr.DispGroups,false);
 				OutString(2,0,ISr.Instock,false);
 				if(RepSpec.ArtMode==0)then begin
 					OutString(3,0,ISr.Instock-ISr.RsrvQty-ISr.StockRsrvQty,false);
@@ -147,6 +149,7 @@ begin
         			StartFormat(15)
 						OutString(0,0,ISr.Code,false);
 						OutString(1,0,INr.Name,false);
+						outstring(0,0,INr.DispGroups,false);
 						if(RepSpec.flags[0]==1)then begin
 							PUr.SerNr = IHr.InSerNr;
 							if(readfirstmain(PUr,1,true) and IHr.InFileName=="PUVc")then begin

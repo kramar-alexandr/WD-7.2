@@ -418,8 +418,7 @@ begin
 	WEBGETPOSTDATA(xmlarea);
 	getxml = ParseXmlArea(xmlarea);
 	cucnt = XMLCOUNTCHILDREN(getxml,"buyers");
-	cui = 1;
-	//for(cui = 1;cui<=cucnt;cui = cui+1) begin
+	for(cui = 1;cui<=cucnt;cui = cui+1) begin
 		name =	XmlGet(getxml,"buyers/buyer" & cui & "/name");
 		sername = XmlGet(getxml,"buyers/buyer" & cui & "/sername");
 		card_number = XmlGet(getxml,"buyers/buyer" & cui & "/card_number");
@@ -453,10 +452,10 @@ begin
 		  CUr.Comment = equipments;
 		  
 		  if(recordstore(CUr,true))then begin
-		    //ri=ri+1;
+		    ri=ri+1;
 		  end;
 		end;
-	//end;
+	end;
 	
 	WeboutString("Hansa received " & ri & "from " & cucnt);
 	

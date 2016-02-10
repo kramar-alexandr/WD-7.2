@@ -1050,9 +1050,7 @@ begin
 		startformat(15);		
 			outstring(i0,0,"Група",false);
 			outstring(i01,0,"Постачальник",false);
-			if(currentcompany!=9)then begin
-				outstring(i02,0,"Класифікація",false);
-			end;
+			outstring(i02,0,"Класифікація",false);
 			outstring(i2,0,"Код товару",false);
 			outstring(i3,0,"Найменування",false);
 			outstring(i4,0,"Дата продажу",false);
@@ -1207,9 +1205,7 @@ begin
 							startformat(15);		
 								outstring(i0,0,ITr.Comment,false);
 								outstring(i01,0,vecode[j],false);
-								if(currentcompany!=9)then begin
-									outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
-								end;
+								outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
 								outstring(i2,0,INr.Code,false);
 								outstring(i3,0,INr.Name,false);
 								outstring(i4,0,IVr.InvDate,false);
@@ -1313,9 +1309,7 @@ begin
 							startformat(15);		
 								outstring(i0,0,ITr.Comment,false);
 								outstring(i01,0,"",false);
-								if(currentcompany!=9)then begin
-									outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
-								end;
+								outstring(i02,0,INr.DispGroups,false);// Edit ************************** Thursday, 14 May 2015 16:12:42
 								outstring(i2,0,INr.Code,false);
 								outstring(i3,0,INr.Name,false);
 								outstring(i4,0,IVr.InvDate,false);
