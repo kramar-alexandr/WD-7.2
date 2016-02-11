@@ -47,6 +47,12 @@ external procedure GetCurncyRoundoff(string,string,string,var roundmode,var roun
 external function Integer GetVATLaw();
 remote function Boolean ORVc_AllowSales(record ORVc,var Integer,var LongInt);
 external function Boolean UserCanChangePendingRecord(Integer);
+remote procedure ORtoExcell1Remote(record ORVc);// Edit ************************** Thursday, 11 February 2016 10:23:08
+
+
+
+	SetLangMode(LangUkrainian,"UKR",0);
+
 
 global
 procedure RoundBelCash(string curncycode,var val rsum)
@@ -2256,4 +2262,35 @@ begin
   
   IVcashLClassOnOpenWindow = false;
   return;
+end;
+
+
+
+
+global procedure ORtoExcell1Dsm()
+begin
+	integer wn;
+	record ORVc ORr;
+	integer wst;
+	
+	wn = curwindow;
+	
+	wst = windowstate(wn);
+	
+	if(wst==Rs_insert or wst==Rs_update)then begin
+		messagebox(0,"‡бережґть запис перед цґ№ю операцґ№ю");
+		goto lORtoExcell1Dsm;
+	end;
+	
+	if(wst==Rs_normal)then begin
+		getwindowrecord(wn,ORr);
+		
+		ORtoExcell1Remote(ORr);
+		
+	end;
+	
+
+lORtoExcell1Dsm:;
+
+return;
 end;

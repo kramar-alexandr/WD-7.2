@@ -1968,6 +1968,7 @@ begin
   EditField(h=255,v=vm,-40,"Найменув.",Normal,Addr0,false,0);
   if (StandardHansa==false) then begin
   EditField(h,vm=(v+=20),135,"Офіц. №",Normal,OfficialSerNr,false,LegalInvNrSClass);
+  //EditField(h+250,vm,-120,"№ рах. на сплату",Normal,RahSplatNom,false,0);// Edit ************************** Thursday, 11 February 2016 10:47:19
   CheckBox(h4=-100,v,0,"OK",OKFlag);
   end else begin
     CheckBox(h4=-100,vm=(v+=20),0,"OK",OKFlag);
@@ -1993,6 +1994,11 @@ begin
   EditField(h2,v+=vs,135,"Об'єкт",Normal,Objects,false,ObjSClass);
   EditField(h2,v+=vs,135,"Ссылка",Normal,RefStr,false,0);
   EditField(h2,v+=vs,135,"№ рах. у клієнта",Normal,CustOrdNr,false,0);
+  EditField(h2,v+=vs,150,"№ рах. на сплату",Normal,RahSplatNom,false,0);// Edit ************************** Thursday, 11 February 2016 10:47:19
+  EditField(h2,v+=vs,150,"№ дог. на поставку",Normal,DogPostNom,false,0);// Edit ************************** Thursday, 11 February 2016 10:47:19
+
+  
+  
   EditField(h3,v=vm,80,"Продавець",Normal,SalesMan,false,UserSClass);
   if (StandardHansa==false) then begin
   EditField(h3,v+=vs,80,"Проект",Normal,PRCode,false,PRSClass);
@@ -2384,6 +2390,8 @@ email not working yet
   SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
   SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
   SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
+  
+  SpecialMenu("Видаткова накладна Excell",'',16,"ORtoExcell1Dsm");
 
   end;
   EndWindow;

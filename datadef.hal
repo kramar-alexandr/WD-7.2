@@ -1763,6 +1763,9 @@ begin
   RecordField(IntrastatTransCode,M4Code,20,0);
   RecordField(ReservToDate,M4Date,0,0);// Edit ************************** Tuesday, 23 September 2014 21:46:08
   RecordField(ShopsMark,M4Mark,0,0);// Edit ************************** Friday, 31 October 2014 15:51:47
+  RecordField(RahSplatNom,M4Str,0,100);// Edit ************************** Friday, 31 October 2014 15:51:47
+  RecordField(DogPostNom,M4Str,0,100);// Edit ************************** Friday, 31 October 2014 15:51:47
+
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
   ArrayField(ArtCode,M4Code,20,INVc);
