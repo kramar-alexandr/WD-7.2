@@ -1035,15 +1035,24 @@ LORShipdTest:;
   return;
 end;
 
-function Boolean ORShipdFromRowTest(record ORVc ORp,Integer rownr)
+function Boolean ORShipdFromRowTest(record ORVc ORp,Integer rownr,Integer wn, var string msgerr) //Edit***************************Sasha2,13:32 11.02.2016
 begin
   Boolean res;
   Boolean testf;
   Integer i,rwcnt;
   row ORVc ORrw;
   record INVc INr;
+  record StockMovVc StockMovr; //Edit***************************Sasha2,10:40 11.02.2016
+  record ORVc OR2r; //Edit***************************Sasha2,13:32 11.02.2016
+  Boolean updf; //Edit***************************Sasha2,13:33 11.02.2016
+  Integer rwcnt2; //Edit***************************Sasha2,13:45 11.02.2016
   
-  rwcnt = MatRowCnt(ORp);
+  if (WindowState(wn)==Rs_update) then begin //Edit***************************Sasha2,13:37 11.02.2016 {
+    GetPrevWindowRecord(wn,OR2r);
+    rwcnt2 = MatRowCnt(OR2r);
+    updf = true;
+  end; //Edit***************************Sasha2,13:37 11.02.2016 }
+  rwcnt = MatRowCnt(ORp); 
   for (i=rownr;i<rwcnt;i=i+1) begin
     MatRowGet(ORp,i,ORrw);
     INr.Code = ORrw.ArtCode;
@@ -1052,6 +1061,17 @@ begin
       testf = (ORrw.Invd>0)==true;
     end else begin
       testf = (ORrw.Shipd1>0)==true or (ORrw.Invd>0)==true  or (ORrw.Shopd>0)==true;// Edit ************************** Friday, 31 October 2014 16:09:22
+      if (ORp.OrderClass=="Shops") then begin //Edit***************************Sasha2,10:43 11.02.2016 {
+        StockMovr.OrderNr = ORp.SerNr;
+        if (ReadFirstKey("OrderNr",StockMovr,1,true)) then begin
+          if (updf and rownr>=rwcnt2) then begin
+          end else begin
+            testf = true;
+            msgerr = USetStr(11761) & " " & USetStr(13103) & " Shops";
+            MessageBox(0,USetStr(11761) & " " & USetStr(13103) & " Shops");
+          end;
+        end;   
+      end; //Edit***************************Sasha2,10:43 11.02.2016 }
     end;
     if (testf) then begin
       res = true;
@@ -1108,6 +1128,7 @@ LORInvdTest:;
   return;
 end;
 
+
 global 
 function Boolean ORDClassDeleteRowTest(Integer wn,Integer rownr)
 begin
@@ -1119,6 +1140,7 @@ begin
   val ordqty;
   string 60 comment;
   string 60 location;
+  string 255 msgerr; //Edit***************************Sasha2,13:45 11.02.2016
 
   res = true;
   GetWindowRecord(wn,ORr);    
@@ -1133,9 +1155,11 @@ begin
         res = false;
         goto LORDClassDeleteRowTest;
       end;
-      if (ORShipdFromRowTest(ORr,rownr)==true) then begin
+      if (ORShipdFromRowTest(ORr,rownr,wn,msgerr)==true) then begin //Edit***************************Sasha2,13:32 11.02.2016
         res = false;
-        MessageBox(1304,"");
+        if (blank(msgerr)) then begin //Edit***************************Sasha2,13:46 11.02.2016
+          MessageBox(1304,"");
+        end;
         goto LORDClassDeleteRowTest;
       end;
       if (res) then begin
@@ -1181,7 +1205,7 @@ begin
       PutWindowRecord(wn,ORr);    
     end;
   end;
-LORDClassDeleteRowTest:; 
+LORDClassDeleteRowTest:;
   ORDClassDeleteRowTest = res;
   return;
 end;
@@ -1209,6 +1233,7 @@ BEGIN
   row ORVc ORrw;
   record INVc INr;
   Integer nwn;
+  record StockMovVc StockMovr; //Edit***************************Sasha2,11:19 11.02.2016
   
   nwn = FindWindow("SelectApproverWClass");
   if (nwn>0) then begin
@@ -1321,6 +1346,18 @@ BEGIN
       end else begin
         if (UserCanAction("ChangeORItemSpec",true)==false) then begin res = false; end;
       end;
+    case "ArtCode": //Edit***************************Sasha2,10:43 11.02.2016 {
+      if (ORr.OrderClass=="Shops" and rownr<MatRowCnt(OR2r)) then begin 
+        StockMovr.OrderNr = ORr.SerNr;
+        if (ReadFirstKey("OrderNr",StockMovr,1,true)) then begin
+          MatRowGet(OR2r,rownr,ORrw);
+          if (rownr==(MatRowCnt(OR2r)-1) and Blank(ORrw.ArtCode)) then begin
+          end else begin
+            res = false;
+            MessageBox(0,USetStr(11761) & " " & USetStr(13103) & " Shops");  
+          end;
+        end;  
+      end; //Edit***************************Sasha2,10:43 11.02.2016 }
   end;
   if (ORShipdTest(ORr)==false) then begin goto LORDClassActiveEditField; end;
   if (wnst==Rs_update) then begin
@@ -1365,14 +1402,23 @@ BEGIN
   record ORVc ORr;
   row ORVc ORrw;
   record ORVc OR2r;
+  record StockMovVc StockMovr; //Edit***************************Sasha2,10:40 11.02.2016
 
-  res = true;
+  res = true; 
   GetWindowRecord(wn,ORr);
   if (ORr.Closed==0) then begin
     if (ORAcceptanceStarted(ORr) and UserCanAction("ChangeRecordMatrixWhenPending",false)==false) then begin
       res = false;
       goto LORDClassInsertRowTest;
     end;
+    if (ORr.OrderClass=="Shops" and rownr<MatRowCnt(ORr)) then begin //Edit***************************Sasha2,10:43 11.02.2016 {
+      StockMovr.OrderNr = ORr.SerNr;
+      if (ReadFirstKey("OrderNr",StockMovr,1,true)) then begin
+        res = false;
+        MessageBox(0,USetStr(11761) & " " & USetStr(13103) & " Shops");
+        goto LORDClassInsertRowTest;
+      end; 
+    end; //Edit***************************Sasha2,10:43 11.02.2016 }
     switch (WindowState(wn)) begin
       case Rs_normal:
         if (ORShipdTest(ORr)) or (ORr.OKFlag!=0) then begin res = false; end;
