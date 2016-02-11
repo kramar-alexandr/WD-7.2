@@ -55,7 +55,10 @@ begin
 	Report("Клиенты с карточками",POSClientRClass,POSClientRn,0,modSL);
 	Report("Клиенты с карточками",POSClientRClass,POSClientRn,0,modSO);
 	Report("Клиенты с карточками",POSClientRClass,POSClientRn,0,modPOS);
-		
+	
+	Report("Аналiз оборотностi товарiв",ItemTurnoverRClass,ItemTurnoverRn,0,modSO);
+
+	
 	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);
 	Setting("Настройка Cash Flow - прямий метод",MyCashFlowDirectTClass,modNL);
 	Report("Рух готівки",MyCashFlowRClass,MyNewCashFlowRn,0,modNL);
