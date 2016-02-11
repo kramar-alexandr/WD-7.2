@@ -394,7 +394,7 @@ BEGIN
 	longint CredInvNo; //Edit***************************Sasha2,17:05 27.08.2015
 	array string 5 uahpurate,uahcurrate; //Edit***************************Sasha2,17:45 27.08.2015
   record BaseCurBlock BCb; //Edit***************************Sasha2,17:50 27.08.2015
-  Boolean switchtransf; //Edit***************************Sasha2,10:44 28.08.2015
+  Boolean switchtransf,foundlossf; //Edit***************************Sasha2,10:44 28.08.2015
   val curdif;// Edit ************************** Tuesday, 8 September 2015 16:20:37
   string 10 lossacc,gainacc,usedacc;
   record LocalMachineAccBlock LMAb;
@@ -412,9 +412,23 @@ BEGIN
 			if(setinset(LMArw.Objects,IVp.Objects))then begin
 				lossacc = LMArw.CurDiffDeb;
 				gainacc = LMArw.CurDiffCred;
+				foundlossf = true;
 			end;
 		end;
-	end; 
+	end;
+	
+	if (foundlossf==false and CurrentCompany==4) then begin //Edit***************************Sasha2,16:09 11.02.2016 {
+	  IVp.Objects = IVp.Objects & "," & "DT_ST2";
+    For(i=0;i<rwcnt;i=i+1) begin
+    	matrowget(LMAb,i,LMArw);
+    	if(nonblank(IVp.Objects))then begin
+  			if(setinset(LMArw.Objects,IVp.Objects))then begin
+  				lossacc = LMArw.CurDiffDeb;
+  				gainacc = LMArw.CurDiffCred;
+  			end;
+  		end;
+  	end;
+	end; //Edit***************************Sasha2,16:09 11.02.2016 }
   
   blockload(BCb); //Edit***************************Sasha2,17:50 27.08.2015
   rnd = DefaultValRoundoff; //Edit***************************Sasha2,17:36 21.12.2015
