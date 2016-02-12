@@ -440,7 +440,7 @@ BEGIN
     switchtransf = true;
   end; //Edit***************************Sasha2,11:33 28.08.2015 }
   
-  if(currentcompany!=1 and currentcompany!=4 and currentcompany!=6)then begin// Edit ************************** Wednesday, 9 September 2015 15:53:38
+  if(currentcompany!=1 and currentcompany!=2 and currentcompany!=4 and currentcompany!=6)then begin// Edit ************************** Wednesday, 9 September 2015 15:53:38
   	switchtransf = false;
   end;
   
