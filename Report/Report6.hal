@@ -36,10 +36,14 @@ begin
   record PUVc PUr;
   integer pos;
   string 20 pricelist;
+  record RetVc Retr; //Edit***************************Sasha2,10:32 12.02.2016
+  record StockMovVc StockMovr; //Edit***************************Sasha2,10:32 12.02.2016
+  record ORVc ORr; //Edit***************************Sasha2,10:32 12.02.2016
+  Boolean showclientf; //Edit***************************Sasha2,10:41 12.02.2016
   
   PLDefr.Code = "";
   if(blank(RepSpec.f2))then begin
-		while(loopmain(PLDefr,1,true))begin
+		while(loopmain(PLDefr,1,true)) begin
 			if(PLDefr.Code!="C+9%")then begin
 				plcode[plcnt] = PLDefr.Code;
 				price[plcnt] = 0;
@@ -50,7 +54,7 @@ begin
   	pos = 0;
   	pricelist = "";
   	ExtractObj(RepSpec.f2,pos,pricelist);
-  	while(nonblank(pricelist))begin
+  	while(nonblank(pricelist)) begin
   		if(nonblank(pricelist))then begin
   			plcode[plcnt] = pricelist;
 				price[plcnt] = 0;
@@ -59,6 +63,10 @@ begin
   		ExtractObj(RepSpec.f2,pos,pricelist);
   	end;
   end;
+  
+  if (currentcompany==2) then begin //Edit***************************Sasha2,10:41 12.02.2016 {
+    showclientf = true;
+  end; //Edit***************************Sasha2,10:41 12.02.2016 }
   
   startreportnoheaderjob("MyItemReportRn");
   
@@ -72,6 +80,9 @@ begin
     	outstring(0,0,"Серiйний номер",false);
     end;
     outstring(0,0,"На складі",false);
+    if (showclientf and RepSpec.ArtMode==1) then begin //Edit***************************Sasha2,10:18 12.02.2016 {
+      outstring(0,0,"Клиент",false);
+    end; //Edit***************************Sasha2,10:18 12.02.2016 }
     if(RepSpec.ArtMode==0)then begin
 			outstring(0,0,"Доступно",false);
     end;
@@ -99,82 +110,98 @@ begin
       INr.Code = ISr.Code;
       If(readfirstmain(INr,1,True)) then begin
       	ITr.Code = INr.Group;
-			readfirstmain(ITr,1,true);
-			For(i=0;i<plcnt;i=i+1) begin
-				price[i] = GetItemPrice(INr.Code,plcode[i]);
-			end; 
-		
-		if(RepSpec.ArtMode==0)then begin
-			StartFormat(15)
-				OutString(0,0,ISr.Code,false);
-				OutString(1,0,INr.Name,false);
-				outstring(0,0,INr.DispGroups,false);
-				OutString(2,0,ISr.Instock,false);
-				if(RepSpec.ArtMode==0)then begin
-					OutString(3,0,ISr.Instock-ISr.RsrvQty-ISr.StockRsrvQty,false);
-				end;
-				if(RepSpec.flags[0]==1)then begin
-				
-					resetloop(IHr);
-					INr.InPrice = 0;
-					IHr.ArtCode = INr.Code;
-        	TrHs1 = true;
-					while(loopkey("ActiveQty",IHr,1,TrHs1))begin
-        		testf1 = true;
-        		if(IHr.ArtCode!=INr.Code)then begin testf1 = false; TrHs1 = false; end;
-        		if(IHr.Location!=ISr.Location)then begin testf1 = false; end;
-        		if(testf1)then begin 
-        			INr.InPrice = INr.InPrice + IHr.RemCostPrice;
-        		end;
-        	end;
-					
-					OutString(1,0,INr.InPrice/ISr.Instock,false);
-					OutString(1,0,INr.InPrice,false);
-				end;
-				OutString(4,0,ISr.Location,false);
-				For(i=0;i<plcnt;i=i+1) begin
-					OutString(4,0,price[i],false);
-				end; 
-				OutString(5,0,ITr.Comment,false);
-			endformat;
+  			readfirstmain(ITr,1,true);
+  			For(i=0;i<plcnt;i=i+1) begin
+  				price[i] = GetItemPrice(INr.Code,plcode[i]);
+  			end; 
+    		if(RepSpec.ArtMode==0)then begin
+    			StartFormat(15)
+    				OutString(0,0,ISr.Code,false);
+    				OutString(1,0,INr.Name,false);
+    				outstring(0,0,INr.DispGroups,false);
+    				OutString(2,0,ISr.Instock,false);
+    				if(RepSpec.ArtMode==0)then begin
+    					OutString(3,0,ISr.Instock-ISr.RsrvQty-ISr.StockRsrvQty,false);
+    				end;
+    				if(RepSpec.flags[0]==1)then begin
+    				
+    					resetloop(IHr);
+    					INr.InPrice = 0;
+    					IHr.ArtCode = INr.Code;
+            	TrHs1 = true;
+    					while(loopkey("ActiveQty",IHr,1,TrHs1)) begin
+            		testf1 = true;
+            		if(IHr.ArtCode!=INr.Code)then begin testf1 = false; TrHs1 = false; end;
+            		if(IHr.Location!=ISr.Location)then begin testf1 = false; end;
+            		if(testf1)then begin 
+            			INr.InPrice = INr.InPrice + IHr.RemCostPrice;
+            		end;
+            	end;
+    					
+    					OutString(1,0,INr.InPrice/ISr.Instock,false);
+    					OutString(1,0,INr.InPrice,false);
+    				end;
+    				OutString(4,0,ISr.Location,false);
+    				For(i=0;i<plcnt;i=i+1) begin
+    					OutString(4,0,price[i],false);
+    				end; 
+    				OutString(5,0,ITr.Comment,false);
+    			endformat;
         end else begin
-        	
         	IHr.ArtCode = INr.Code;
         	TrHs1 = true;
-        	while(loopkey("ActiveQty",IHr,1,TrHs1))begin
+        	while(loopkey("ActiveQty",IHr,1,TrHs1)) begin
         		testf1 = true;
         		if(IHr.ArtCode!=INr.Code)then begin testf1 = false; TrHs1 = false; end;
         		if(IHr.Location!=ISr.Location)then begin testf1 = false; end;
         		if(testf1)then begin 
         			StartFormat(15)
-						OutString(0,0,ISr.Code,false);
-						OutString(1,0,INr.Name,false);
-						outstring(0,0,INr.DispGroups,false);
-						if(RepSpec.flags[0]==1)then begin
-							PUr.SerNr = IHr.InSerNr;
-							if(readfirstmain(PUr,1,true) and IHr.InFileName=="PUVc")then begin
-								outstring(0,0,PUr.VECode,false);
-								outstring(0,0,PUr.TransDate,false);
-							end else begin
-								outstring(0,0,"",false);
-								outstring(0,0,"",false);
-							end;
-							outstring(0,0,IHr.SerialNr,false);
-						end;
-						OutString(2,0,IHr.RemQty,false);
-						if(RepSpec.flags[0]==1)then begin
-							OutString(1,0,IHr.RemCostPrice / IHr.RemQty,false);
-						end;
-						OutString(1,0,IHr.RemCostPrice,false);
-						OutString(4,0,ISr.Location,false);
-						For(i=0;i<plcnt;i=i+1) begin
-							OutString(4,0,price[i],false);
-						end; 
-						OutString(5,0,ITr.Comment,false);
-					endformat;
-        	end;
-        end;
-        resetloop(IHr);
+  						OutString(0,0,ISr.Code,false);
+  						OutString(1,0,INr.Name,false);
+  						outstring(0,0,INr.DispGroups,false);
+  						if(RepSpec.flags[0]==1)then begin
+  							PUr.SerNr = IHr.InSerNr;
+  							if(readfirstmain(PUr,1,true) and IHr.InFileName=="PUVc")then begin
+  								outstring(0,0,PUr.VECode,false);
+  								outstring(0,0,PUr.TransDate,false);
+  							end else begin
+  								outstring(0,0,"",false);
+  								outstring(0,0,"",false);
+  							end;
+  							outstring(0,0,IHr.SerialNr,false);
+  						end;
+  						OutString(2,0,IHr.RemQty,false);
+  						if (showclientf and IHr.Location=="INV_OUT") then begin //Edit***************************Sasha2,10:25 12.02.2016 {
+  						  switch (IHr.FileName) begin
+  						    case "RetVc":
+  						      Retr.SerNr = IHr.TransNr;
+  						      ReadFirstMain(Retr,1,true);
+  						      OutString(1,0,Retr.CustCode,false);
+  						    case "StockMovVc":
+  						      StockMovr.SerNr = IHr.TransNr;
+  						      ReadFirstMain(StockMovr,1,true);
+  						      ORr.SerNr = StockMovr.OrderNr;
+  						      ReadFirstMain(ORr,1,true);
+  						      OutString(1,0,ORr.CustCode,false);
+  						    otherwise
+  						      OutString(1,0,"----",false);
+  						  end;
+  						end else begin
+  						  OutString(1,0,"",false);
+  						end; //Edit***************************Sasha2,10:25 12.02.2016 }
+  						if(RepSpec.flags[0]==1)then begin
+  							OutString(1,0,IHr.RemCostPrice / IHr.RemQty,false);
+  						end;
+  						OutString(1,0,IHr.RemCostPrice,false);
+  						OutString(4,0,ISr.Location,false);
+  						For(i=0;i<plcnt;i=i+1) begin
+  							OutString(4,0,price[i],false);
+  						end; 
+  						OutString(5,0,ITr.Comment,false);
+  					  endformat;
+          	end;
+          end;
+          resetloop(IHr);
         end;
       end;
     end;
