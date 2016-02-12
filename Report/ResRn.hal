@@ -418,13 +418,11 @@ end;
                 
                 
 
-
-
-global
-procedure AccListPerBalResGr(record RcVc RepSpec,Boolean PLf,record UserDefRepLinesVc UserDefRepLinesr,var val S3bp,var val Pbp,
-                        var val Ebp,var val S4bp,var val S5bp,var val S6bp,Boolean negf,val goms,Boolean resUseAccum,
-                        Date AccumStartDate,Boolean printf)
-BEGIN
+//Edit----------------------Dima  12.02.2016
+procedure AccListPerBalResGr_inner(record RcVc RepSpec,Boolean PLf,record UserDefRepLinesVc UserDefRepLinesr,string fieldWithAccounts,var val S3bp,var val Pbp,
+                        var val Ebp,var val S4bp,var val S5bp,var val S6bp,val goms,var Boolean headflag,Boolean resUseAccum,
+                        Date AccumStartDate,Boolean printf,var record MonthsStructVc MonthsStructSum)
+begin
   record AccVc Accr;
   Boolean addflag;
   string 255 Nitem;
@@ -433,36 +431,25 @@ BEGIN
   string 5 nsep;
   Boolean Accs;
   Integer np;
-  Boolean headflag;
-  string 255 tstr;
-  record MonthsStructVc MonthsStructSum;
-  vector record MonthsStructVc DataByMonths;
 
-  S3bp = 0;
-  S4bp = 0;
-  S5bp = 0;
-  S6bp = 0;
-  Pbp = 0;
-  Ebp = 0;
-  headflag = false;
   np = 0;
-  GetNext2Sep(UserDefRepLinesr.Desc,np,nsep);
-  while (GetNextTokenReturn(UserDefRepLinesr.Desc,np,Nitem)) begin
+  GetNext2Sep(fieldWithAccounts,np,nsep);
+  while (GetNextTokenReturn(fieldWithAccounts,np,Nitem)) begin
     if (nsep=="-") then begin
       addflag = false; 
     end else begin
       addflag = true;
     end;
-    GetNext2Sep(UserDefRepLinesr.Desc,np,nsep);
+    GetNext2Sep(fieldWithAccounts,np,nsep);
     if (nsep==".") then begin
-      GetNextToken(UserDefRepLinesr.Desc,np,NRu);
-      GetNext2Sep(UserDefRepLinesr.Desc,np,nsep);
+      GetNextToken(fieldWithAccounts,np,NRu);
+      GetNext2Sep(fieldWithAccounts,np,nsep);
     end else begin
       NRu = "";
     end;    
     if (nsep==":") then begin
-      GetNextToken(UserDefRepLinesr.Desc,np,Nitem2);
-      GetNext2Sep(UserDefRepLinesr.Desc,np,nsep);
+      GetNextToken(fieldWithAccounts,np,Nitem2);
+      GetNext2Sep(fieldWithAccounts,np,nsep);
     end else begin
       Nitem2 = "";
     end;
@@ -506,118 +493,55 @@ BEGIN
       end;
     end;
   end;
-  np = 0;
-  GetNext2Sep(UserDefRepLinesr.Desc2,np,nsep);
-  while (GetNextTokenReturn(UserDefRepLinesr.Desc2,np,Nitem)) begin
-    if (nsep=="-") then begin
-      addflag = false; 
-    end else begin
-      addflag = true;
-    end;  
-    GetNext2Sep(UserDefRepLinesr.Desc2,np,nsep);
-    if (nsep==".") then begin
-      GetNextToken(UserDefRepLinesr.Desc2,np,NRu);
-      GetNext2Sep(UserDefRepLinesr.Desc2,np,nsep);
-    end else begin
-      NRu = "";
-    end;    
-    if (nsep==":") then begin
-      GetNextToken(UserDefRepLinesr.Desc2,np,Nitem2);
-      GetNext2Sep(UserDefRepLinesr.Desc2,np,nsep);
-    end else begin
-      Nitem2 = "";
-    end;    
-    Accr.AccNumber = Nitem;
-    if (blank(Nitem2)) then begin
-      Accs = ReadFirstMain(Accr,1,true);
-      if ((Accs) and  (Accr.GroupAcc==0)) then begin
-        ALPB2ResGr(RepSpec,PLf,UserDefRepLinesr,Accr,NRu,S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,addflag,goms,headflag,resUseAccum,AccumStartDate,printf);
-      end;    
-    end else begin
-      if (Nitem<Nitem2) then begin
-        ResetLoop(Accr);
-        Accs = true;
-        while (LoopMain(Accr,2,Accs)) begin
-          if (Accs==true) then begin
-            if (Accr.AccNumber>Nitem2) then begin Accs = false; end;
-          end;  
-          if ((Accs) and  (Accr.GroupAcc==0)) then begin
-            ALPB2ResGr(RepSpec,PLf,UserDefRepLinesr,Accr,NRu,S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,addflag,goms,headflag,resUseAccum,AccumStartDate,printf);
-          end;
-        end;
-      end else begin
-        ResetLoop(Accr);
-        Accr.AccNumber = Nitem;
-        Accs = LoopBackKey("AccNumber",Accr,1,true);
-        while (Accs) begin
-          if (Accs==true) then begin
-            if (Accr.AccNumber<Nitem2) then begin Accs = false; end;
-          end;  
-          if ((Accs) and  (Accr.GroupAcc==0)) then begin
-            ALPB2ResGr(RepSpec,PLf,UserDefRepLinesr,Accr,NRu,S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,addflag,goms,headflag,resUseAccum,AccumStartDate,printf);
-          end;  
-          Accs = LoopBackKey("AccNumber",Accr,1,true);//Accs = m4_ReadLogicalMain(AccVc,LLoop1--,&Accr);
-        end;
-      end;
-    end;
-  end;
-  np = 0;
-  GetNext2Sep(UserDefRepLinesr.Desc3,np,nsep);
-  while (GetNextTokenReturn(UserDefRepLinesr.Desc3,np,Nitem)) begin
-    if (nsep=="-") then begin
-      addflag = false; 
-    end else begin
-      addflag = true;
-    end;  
-    GetNext2Sep(UserDefRepLinesr.Desc3,np,nsep);
-    if (nsep==".") then begin
-      GetNextToken(UserDefRepLinesr.Desc3,np,NRu);
-      GetNext2Sep(UserDefRepLinesr.Desc3,np,nsep);
-    end else begin
-      NRu = "";
-    end;    
-    if (nsep==":") then begin
-      GetNextToken(UserDefRepLinesr.Desc3,np,Nitem2);
-      GetNext2Sep(UserDefRepLinesr.Desc3,np,nsep);
-    end else begin
-      Nitem2 = "";
-    end;    
-    Accr.AccNumber = Nitem;
-    if (blank(Nitem2)) then begin
-      Accs = ReadFirstMain(Accr,1,true);
-      if ((Accs) and  (Accr.GroupAcc==0)) then begin
-        ALPB2ResGr(RepSpec,PLf,UserDefRepLinesr,Accr,NRu,S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,addflag,goms,headflag,resUseAccum,AccumStartDate,printf);
-      end;
-    end else begin
-      if (Nitem<Nitem2) then begin
-        ResetLoop(Accr);
-        Accs = true;
-        while (LoopMain(Accr,2,Accs)) begin
-          if (Accs==true) then begin
-            if (Accr.AccNumber>Nitem2) then begin Accs = false; end;
-          end;  
-          if ((Accs) and  (Accr.GroupAcc==0)) then begin
-            ALPB2ResGr(RepSpec,PLf,UserDefRepLinesr,Accr,NRu,S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,addflag,goms,headflag,resUseAccum,AccumStartDate,printf);
-          end;  
-        end;
-      end else begin
-        ResetLoop(Accr);
-        Accr.AccNumber = Nitem;
-        Accs = LoopBackKey("AccNumber",Accr,1,true);
-        while (Accs) begin
-          if (Accs==true) then begin
-            if (Accr.AccNumber<Nitem2) then begin
-              Accs = false;
-            end;  
-          end;  
-          if ((Accs) and  (Accr.GroupAcc==0)) then begin
-            ALPB2ResGr(RepSpec,PLf,UserDefRepLinesr,Accr,NRu,S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,addflag,goms,headflag,resUseAccum,AccumStartDate,printf);
-          end;
-          Accs = LoopBackKey("AccNumber",Accr,1,true);
-        end;
-      end;
-    end;
-  end;
+end;
+
+
+
+global
+procedure AccListPerBalResGr(record RcVc RepSpec,Boolean PLf,record UserDefRepLinesVc UserDefRepLinesr,var val S3bp,var val Pbp,
+                        var val Ebp,var val S4bp,var val S5bp,var val S6bp,Boolean negf,val goms,Boolean resUseAccum,
+                        Date AccumStartDate,Boolean printf)
+BEGIN
+  record AccVc Accr;
+  Boolean addflag;
+  string 255 Nitem;
+  string 255 Nitem2;
+  string 255 NRu;
+  string 5 nsep;
+  Boolean Accs;
+  Integer np;
+  Boolean headflag;
+  string 255 tstr;
+  record MonthsStructVc MonthsStructSum;
+  vector record MonthsStructVc DataByMonths;
+
+  S3bp = 0;
+  S4bp = 0;
+  S5bp = 0;
+  S6bp = 0;
+  Pbp = 0;
+  Ebp = 0;
+  headflag = false;
+  
+
+	/*
+	//Edit----------------------Dima  12.02.2016
+	Body of this function was transfered into	AccListPerBalResGr_inner, 
+	because it repeats 3 times 	for different fields.
+	But in future, it would be better if combine these fields into one: Str = UserDefRepLinesr.Desc + UserDefRepLinesr.Desc2 + UserDefRepLinesr.Desc3;
+	Now sum of lenght's of these fields is 300, but max length of string type is 255;
+	*/  
+  
+  
+  AccListPerBalResGr_inner(RepSpec,PLf,UserDefRepLinesr,UserDefRepLinesr.Desc,
+  													S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,goms,headflag,resUseAccum,AccumStartDate,printf,MonthsStructSum);
+  													
+  AccListPerBalResGr_inner(RepSpec,PLf,UserDefRepLinesr,UserDefRepLinesr.Desc2,
+  													S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,goms,headflag,resUseAccum,AccumStartDate,printf,MonthsStructSum);
+  													
+  AccListPerBalResGr_inner(RepSpec,PLf,UserDefRepLinesr,UserDefRepLinesr.Desc3,
+  													S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,goms,headflag,resUseAccum,AccumStartDate,printf,MonthsStructSum);  													  													
+ 
   GetUserDefRepDescription(UserDefRepLinesr,RepSpec.Language,tstr);
   ALPBEnd(RepSpec,PLf,tstr,UserDefRepLinesr.SpecCode,S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,MonthsStructSum,negf,goms,headflag,resUseAccum,UserDefRepLinesr.IdKey,printf);// UserDefRepLinesr.Comment
   RETURN;
