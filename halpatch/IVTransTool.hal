@@ -417,8 +417,12 @@ BEGIN
 		end;
 	end;
 	
-	if (foundlossf==false and CurrentCompany==4) then begin //Edit***************************Sasha2,16:09 11.02.2016 {
-	  IVp.Objects = IVp.Objects & "," & "DT_ST2";
+	if (foundlossf==false and (CurrentCompany==4 or CurrentCompany==2)) then begin //Edit***************************Sasha2,16:09 11.02.2016 {
+	  if (blank(IVp.Objects)) then begin
+	    IVp.Objects ="DT_ST2";
+	  end else begin
+	    IVp.Objects = IVp.Objects & "," & "DT_ST2";
+	  end;
     For(i=0;i<rwcnt;i=i+1) begin
     	matrowget(LMAb,i,LMArw);
     	if(nonblank(IVp.Objects))then begin
