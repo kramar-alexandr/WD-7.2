@@ -429,7 +429,7 @@ BEGIN
 		if(fileexists(path & "/xl/.DS_Store"))then begin
 			delete_file(path & "/xl/.DS_Store");
 		end;
-		RunProgram("jar","-cf0M " & path & ".xlsx -C " & path & "/ . -C " & path & "/ _rels/.rels");
+		RunProgram("jar","-cf0M " & path & ".xlsx -C " & path & "/ .");
 	end;
 	RETURN;
 END;
