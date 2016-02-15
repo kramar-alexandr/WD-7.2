@@ -2422,6 +2422,10 @@ if (HasTouchScreenLook==false) then begin
       EditField(h,vm=(v+=20),180,"Ћплата посил",ViewOnly,CalcFinRef,false,0);
     end else begin
   EditField(h,vm=(v+=20),135,"Ћфґц. номер",Normal,OfficialSerNr,false,LegalInvNrSClass);
+  if (CurrentUser=="SA") then begin
+    EditField(h+200,v,100,"LocOKNr",Normal,LocOKNr,false,0); //Edit***************************Sasha2,14:56 15.02.2016
+  end;
+  
     end;
   end else begin
     v = v + 20;
