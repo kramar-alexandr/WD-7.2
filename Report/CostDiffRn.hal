@@ -1,0 +1,236 @@
+external function val AbsoluteVal(val);
+
+
+SetLangMode(LangUkrainian,"UKR",0);
+
+
+
+procedure CollectNonStockedItems(var vector boolean items)
+begin
+record INVc INr;
+boolean TrHs;
+
+	TrHs = true;
+	INr.ItemType = kItemTypeService;
+	While(LoopKey("ItemType",INr,1,TrHs)) begin
+		if (INr.ItemType!=kItemTypeService) then begin TrHs=false; end;
+		if (TrHs) then begin
+			items[INr.Code] = true;
+		end;
+  end;
+	INr.ItemType = kItemTypePlain;
+	While(LoopKey("ItemType",INr,1,TrHs)) begin
+		if (INr.ItemType!=kItemTypePlain) then begin TrHs=false; end;
+		if (TrHs) then begin
+			items[INr.Code] = true;
+		end;
+  end;  
+end;
+
+
+function boolean GetCostFromTransaction(longint sernr, integer intYc, string accPrefix, var val debit, var val credit)		//Edit--------Dima  17.02.2016
+begin
+	record TRVc TRr;
+	row TRVc TRrw;
+	boolean res;
+	integer i,accPrefixLen;
+
+	res = false;
+	accPrefixLen = Len(accPrefix);
+	debit = 0; credit = 0;
+	
+	TRr.Number = sernr;
+	TRr.IntYc = intYc;
+	if (ReadFirstMain(TRr,2,true)) then begin
+		for (i=0;i<MatRowCnt(TRr);i=i+1) begin
+			MatRowGet(TRr,i,TRrw);
+			if (Left(TRrw.AccNumber,accPrefixLen)==accPrefix  and TRrw.ovst==0) then begin
+				debit = debit + TRrw.DebVal;
+				credit = credit + TRrw.CredVal;
+			end;
+		end;
+		res = true;
+	end;
+
+GetCostFromTransaction = res;
+return;
+end;
+
+
+
+function longint GetCostFromItemHistory(longint sernr, string  filename, var val itemhistoryCost)	//Edit-------Dima  17.02.2016
+begin
+record ItemHistVc IHr;
+boolean TrHs;
+longint ihSerNr;
+
+	itemhistoryCost = 0;
+	ihSerNr = 0;
+	TrHs = true;
+	
+	IHr.FileName = filename;
+	IHr.TransNr = sernr;
+	while(LoopKey("FNTransNr",IHr,2,TrHs)) begin
+		if (IHr.TransNr != sernr or IHr.FileName!=filename) then begin TrHs=false; end;
+		if (TrHs and IHr.StockAffectf) then begin
+  		itemhistoryCost = itemhistoryCost + IHr.TotCostPrice;
+  		ihSerNr = IHr.SerNr;
+		end;				
+	end;
+			
+GetCostFromItemHistory = ihSerNr;
+return;			
+end;
+
+
+
+
+
+
+global procedure CostDiffRn(record RcVc RepSpec)
+begin
+
+	record IVVc IVr;
+	row IVVc IVrw;
+	record POVc POr;
+	record VIVc VIr;
+	record PUVc PUr;
+	boolean testf,TrHs,TrHs2,TrHs3,printDoc;
+	boolean transExist;
+	string 5 accPrefix;
+	integer i,pos;
+	longint ihSerNr;
+	val debit,credit,ihcost,debitTot,creditTot,ihcostTot;
+	vector boolean NonStockedItems;
+	
+	
+	//--report's constants---
+	accPrefix = "13/"; //Accounts of warehouses in iStore, for example 13/101/D
+
+
+	//-----	
+
+
+	StartReportnoheaderjob("Порівняння собівартості в транзакціяї та історії товарів");
+	pos = 0;
+	StartFormat(15);		
+		OutString(pos,0,"Type",false);			
+		OutString(pos+=30,0,"Date",false);		
+		OutString(pos+=60,0,"Number",false);
+		OutString(pos+=90,0,"Trans. debit",false);
+		OutString(pos+=70,0,"Trans. credit",false);
+		OutString(pos+=120,0,"History record",false);
+		OutString(pos+=70,0,"History cost",false);
+	EndFormat;
+	Black_Divider(0,1);
+	
+	CollectNonStockedItems(NonStockedItems);	
+	
+
+	//STMovYc;
+	TrHs = true;
+	IVr.TransDate = RepSpec.sStartDate;
+	While(LoopKey("TransDate",IVr,1,TrHs)) begin
+		testf = false;
+		for (i=0;i<MatRowCnt(IVr);i=i+1) begin
+			MatRowGet(IVr,i,IVrw);
+			if (NonStockedItems[IVrw.ArtCode]==false and IVrw.stp==kInvoiceRowTypeNormal) then begin 
+					testf = true; i = MatRowCnt(IVr);
+			end;
+		end;
+		
+		if (IVr.TransDate > RepSpec.sEndDate)	then begin TrHs = false; testf=false; end;
+		if (IVr.OKFlag==0 or IVr.UpdStockFlag==0) then begin testf=false; end;
+				
+		if (testf) then begin
+			printDoc = false;						
+			
+			transExist = GetCostFromTransaction(IVr.SerNr,IVYc,accPrefix,debit,credit);			
+			ihSerNr = GetCostFromItemHistory(IVr.SerNr,"IVVc",ihcost);
+			
+			if (ihSerNr==0 or transExist==false) then begin printDoc = true; end;
+			
+			if ((AbsoluteVal(ihcost-AbsoluteVal(debit-credit))) > 0.01 ) then begin printDoc = true; end;
+				
+			if (printDoc)	then begin
+				pos = 0;
+				StartFormat(15);		
+					OutString(pos,0,"IVVc",false);	
+					OutString(pos+=30,0,IVr.TransDate,false);					
+					OutStringID(pos+=60,"DblIVVc",IVr.SerNr,false,IVr.SerNr);
+					OutString(pos+=100,0,debit,false);
+					OutString(pos+=70,0,credit,false);
+					OutStringID(pos+=120,"DblItemHistVc",ihSerNr,false,ihSerNr);
+					OutString(pos+=70,0,ihcost,false);
+				EndFormat;										
+			end;
+			
+		end;	
+	end;
+	
+	
+	//-------------------------  PUVc <--> POVc <--> VIVc -------------------------
+	
+	TrHs = true;
+	POr.TransDate = RepSpec.sStartDate;
+	While(LoopKey("TransDate",POr,1,TrHs)) begin
+		if (POr.TransDate > RepSpec.sEndDate)	then begin TrHs = false;  end;
+		if (TrHs) then begin
+		
+			printDoc = false;
+			ihcostTot = 0; creditTot = 0; debitTot = 0;
+
+			TrHs2 = true;
+			VIr.POSerNr = POr.SerNr;
+			While(LoopKey("POSerNr",VIr,1,TrHs2)) begin
+				testf = true;
+				//LogText(0,"vivc   " & VIr.SerNr & "   ponr  " & VIr.POSerNr);
+				if (VIr.POSerNr!=POr.SerNr) then begin TrHs2 = false; testf = false; end;
+				if (VIr.CredInv>0 or VIr.PayDeal=="CN") then begin testf = false; end;
+				if (VIr.OKFlag==0) then begin testf = false; end;
+				if (testf) then begin
+						
+						transExist = GetCostFromTransaction(VIr.SerNr,VIYc,accPrefix,debit,credit);
+						debitTot = debitTot + debit;
+						creditTot = creditTot + credit;
+				end;
+			end;		
+			ResetLoop(VIr);	
+				
+				
+			TrHs2 = true;		
+			PUr.PONr = POr.SerNr;
+			while(LoopKey("PONr",PUr,1,TrHs2)) begin
+    		if (PUr.PONr!=POr.SerNr) then begin TrHs2 = false; end;
+    		if (TrHs2 and PUr.OKFlag!=0) then begin    		    		
+    		
+    					ihSerNr = GetCostFromItemHistory(PUr.SerNr,"PUVc",ihcost);
+							ihcostTot = ihcostTot + ihcost;
+				end;
+			end;
+			ResetLoop(PUr);
+			
+			
+			if ((AbsoluteVal(ihcostTot-AbsoluteVal(debitTot-creditTot))) > 0.01 ) then begin printDoc = true; end;
+				
+			if (printDoc)	then begin
+				pos = 0;
+				StartFormat(15);		
+					OutString(pos,0,"POVc",false);	
+					OutString(pos+=30,0,POr.TransDate,false);					
+					OutStringID(pos+=60,"DblPOVc",POr.SerNr,false,POr.SerNr);
+					OutString(pos+=100,0,debit,false);
+					OutString(pos+=70,0,credit,false);
+					OutStringID(pos+=120,"DblItemHistVc",ihSerNr,false,ihSerNr);
+					OutString(pos+=70,0,ihcost,false);
+				EndFormat;										
+			end;			
+			
+		
+		end;
+	end;
+	
+	
+	EndJob;
+	
+end;	
