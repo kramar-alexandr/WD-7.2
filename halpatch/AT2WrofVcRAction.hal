@@ -278,7 +278,7 @@ BEGIN
   string 255 tstr,curncy;
   val temp,baserate1,baserate2;
   string 10 account;
-  
+    
   gotofield = "SerNr";
   gotorow = -1;
   BlockLoad(ACRec);  
@@ -447,7 +447,7 @@ BEGIN
   record InvBalVc InvBalr;
   string 255 tstr,gotofield;
   record AT2AccBlock AT2Ab;
-  
+    
   res = 0;
   insertmode = 1;//Rs_insert
   updatemode = 2;//Rs_update
@@ -476,8 +476,9 @@ BEGIN
   	if (IsUnOKAllowed("AT2WrofVc",AT2Wrofr.TransDate)==false) then begin
       RecordCheckError(1046,"",-1,"TransDate");      
       res = -1; 
+      goto LAT2WrofVcRecordCheck;
     end;    
-    goto LAT2WrofVcRecordCheck;
+    
   end;
   
   if(stat==updatemode)then begin
@@ -485,11 +486,10 @@ BEGIN
 			if (IsUnOKAllowed("AT2WrofVc",AT2Wrofr.TransDate)==false) then begin
 				RecordCheckError(1046,"",-1,"TransDate");      
 				res = -1; 
+				goto LAT2WrofVcRecordCheck;
 			end;    
-			goto LAT2WrofVcRecordCheck;
 		end;
   end;
-  
 	// Edit End ---------------------------------------------- Edit End
 	
   if (stat==updatemode) then begin
@@ -586,6 +586,8 @@ LAT2WrofVcRecordCheck_GenTrans:;
       goto LAT2WrofVcRecordCheck;
     end;
   end;  
+
+  
   if (transf) then begin
     errstr = MakeTransFromWrof(gTRp,AT2Wrofr,false,gotofield,gotorow);
   end;

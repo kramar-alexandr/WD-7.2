@@ -296,7 +296,7 @@ begin
   record ITVc ITr;
   Integer primary,queuecostmodel;
   val costprc;
-  
+    
   GetCostModel(INp,CAb,ITr,primary,queuecostmodel,false);
   
   StockListCostModel = RepSpec.flags[11];
@@ -373,8 +373,7 @@ begin
           switch (queuecostmodel) begin // What about the others and why checking only CAb?
             case 0: restotprice = GetFIFOPrice(CAb,RepSpec,INp.Code,orgINr,fManyLocations,instock,0);
             case 1: restotprice = GetLIFOPrice(CAb,RepSpec,INp.Code,orgINr,fManyLocations,instock,0);
-            case 20: 
-              restotprice = GetSerialNumberPrice(CAb,RepSpec,INp.Code,orgINr,fManyLocations,instock,0);
+            case 20: restotprice = GetSerialNumberPrice(CAb,RepSpec,INp.Code,orgINr,fManyLocations,instock,0);
           end;
         case 1: 
           switch (queuecostmodel) begin // What about the others and why checking only CAb?
@@ -383,7 +382,6 @@ begin
             case 20: restotprice = GetSerialNumberPrice(CAb,RepSpec,INp.Code,orgINr,fManyLocations,instock,2);
           end;
       end;
-
       resprice = restotprice/instockwithconsig;
 /*
     case 20:
@@ -630,7 +628,6 @@ BEGIN
       GetCostPrice(RepSpec,INp,orgINr,varf,fManyLocations,CAb,GOb.UseDiscount,roundof,instock,instockwithconsig,orginstock,t2,t);
 
 //Trace("INp.Code " & INp.Code," instock " & instock & " t " & t);  
-
       t = t + totcpsin;
       if (totcpsin>0) then begin
         t2 = t/instockwithconsig;
@@ -1423,7 +1420,7 @@ begin
   vector val vlocationtotals;
   Boolean found;
   record LocationVc Locr;
-  
+    
   BlockLoad(mst);
   BlockLoad(CAb);
   BlockLoad(RoundRec);

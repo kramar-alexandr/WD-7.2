@@ -546,7 +546,7 @@ begin
   val remcostprice,totcostprice,t,usedqty,outqty,nextqty;
   record CostAccBlock CAb;
   LongInt looppos;
-
+		
   res = blankval;
   testf = false;
   BlockLoad(CAb);

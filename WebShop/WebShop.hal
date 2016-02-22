@@ -416,6 +416,8 @@ begin
   SetCompany(4,false);
 	ri = 0;
 	WEBGETPOSTDATA(xmlarea);
+	writeareatofile(xmlarea,"webcricentr.txt",0);
+	
 	getxml = ParseXmlArea(xmlarea);
 	cucnt = XMLCOUNTCHILDREN(getxml,"buyers");
 	for(cui = 1;cui<=cucnt;cui = cui+1) begin
@@ -475,10 +477,12 @@ begin
 		end;
 	end;
 	
-	WeboutString("Hansa received " & ri & "from " & cucnt);
+	WeboutString("Hansa received " & ri & " from " & cucnt);
 	
-	writeareatofile(xmlarea,"webcricentr.txt",0);
-    
+	WeboutString("<BR>" & cucnt);
+	
+	weboutarea(xmlarea);
+	    
 ResetCompany(4);
 
 return;

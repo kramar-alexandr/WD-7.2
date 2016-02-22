@@ -1994,8 +1994,8 @@ begin
   EditField(h2,v+=vs,135,"Об'єкт",Normal,Objects,false,ObjSClass);
   EditField(h2,v+=vs,135,"Ссылка",Normal,RefStr,false,0);
   EditField(h2,v+=vs,135,"№ рах. у клієнта",Normal,CustOrdNr,false,0);
-  EditField(h2,v+=vs,150,"№ рах. на сплату",Normal,RahSplatNom,false,0);// Edit ************************** Thursday, 11 February 2016 10:47:19
-  EditField(h2,v+=vs,150,"№ дог. на поставку",Normal,DogPostNom,false,0);// Edit ************************** Thursday, 11 February 2016 10:47:19
+  //EditField(h2,v+=vs,150,"№ рах. на сплату",Normal,RahSplatNom,false,0);// Edit ************************** Thursday, 11 February 2016 10:47:19
+  //EditField(h2,v+=vs,150,"№ дог. на поставку",Normal,DogPostNom,false,0);// Edit ************************** Thursday, 11 February 2016 10:47:19
 
   
   
@@ -2604,7 +2604,9 @@ if (HasTouchScreenLook==false) then begin
   MatCol(t,-30,"",0,VATCode,false,VATCodeSClass);
   MatText(t=kInvoiceRowTypeGiftVoucherSold,32,"ПС",true);
   MatCol(t,58,"",0,GCNr,false,GCSClass);
+  MatCol(t,158,"",0,PayMode,false,0);// Edit ************************** Thursday, 18 February 2016 12:10:52
   MatCol(t,-416,"",0,Spec,false,0);
+  
   MatCol(t,-84,"Сума",0,Sum,true,0);
   MatCol(t,-24,"",0,VATCode,false,VATCodeSClass);  
   MatText(t=kInvoiceRowTypeGiftVoucherPayment,32,"ПСТ",true);
@@ -6310,6 +6312,8 @@ begin
   MatText(t=kInvoiceRowTypeGiftVoucherSold,32,"ПС",true);
   end;
   MatCol(t,68,"",0,GCNr,false,GCSClass);
+  MatCol(t,158,"",0,PayMode,false,0);// Edit ************************** Thursday, 18 February 2016 12:10:52
+
   MatCol(t,141,"",0,Spec,false,0);
   MatCol(t,-84,"Сума",0,Sum,true,0);
   MatCol(t,-24,"",0,VATCode,false,VATCodeSClass);  
@@ -7433,6 +7437,9 @@ begin
   EditField(h,v+=vs,200,"Факторинг",Normal,InvoiceToCode,false,CUSClass);
   EditField(h,v+=vs,80,"Мова",Normal,LangCode,false,LangSClass);
   EditField(h,v+=vs,80,"Прайс",Normal,PriceList,false,PLDefSClass);
+  
+  EditField(h+100,v,80,"Гр.П.",Normal,SalesGroup,false,0);// Edit ************************** Monday, 22 February 2016 11:00:04
+  
   v = VATZoneButtonsLabelsUKR(h2,v=vm+vs,140,16);
   Tile(5,90,false,"5",Comment1); vs = 20;
   EditField(h=75,v=6,-20,"Ком.",Normal,Comment1,false,0);
@@ -8791,7 +8798,7 @@ begin
   RadioButton(h5,v+=16,1,0,"заплан. відвантаження",PriceBasedOn);
   RadioButton(h5,v+=16,2,0,"відправки",PriceBasedOn);  
   Tile(tilenr,180,false,tilenr,Comment); tilenr = tilenr + 1;
-  EditField(h,v=6,-20,"Коментар",Normal,Comment,false,0);
+  EditField(h,v=6,-20,"Коментар (№Дог. на пост.)",Normal,Comment,false,0);// Edit ************************** Tuesday, 16 February 2016 14:29:28
   EditField(h,v+=vs,-20,"Попередж. (продаж)",Normal,WarnText1,false,0);
   EditField(h,v+=vs,-20,"Попередж. (придб.)",Normal,VEWarnText1,false,0);
   EditField(h,v+=vs,120,"Номер свід. ПДВ",Normal,VATNr,false,0);

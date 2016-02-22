@@ -1309,6 +1309,54 @@ begin
   usedqty = 0;
   firstf = true;
   foundf = true;
+  
+  // Edit Start ---------------------------------------------- Edit Start
+	//Tuesday, 16 February 2016 11:51:30
+	
+  if(qty<0)then begin
+  	while (LoopKey(thekey,nextIHr,2,foundf)) begin
+  		if (nextIHr.ArtCode!=INr.Code) then begin
+				foundf = false;
+			end;
+			if (keys==3) then begin
+				if (nextIHr.Location!=location) then begin
+					foundf = false;
+				end;
+			end;
+			
+			
+			if (foundf) then begin
+				testf = true;
+				if (nextIHr.StockAffectf==0) then begin testf = false; end;
+				if (nextIHr.ItemType!=kItemTypeStocked) then begin testf = false; end;
+				if (nextIHr.Invalid!=0) then begin testf = false; end;
+				if (nextIHr.Qty<0) then begin testf = false; end;
+				if (nextIHr.TransDate<=td) then begin testf = false; end;
+				if (nonblank(location)) then begin
+					if (nextIHr.Location!=location) then begin
+						testf = false;
+					end;
+				end;
+				if (testf) then begin
+					inprice = inprice - nextIHr.TotCostPrice;
+					usedqty = usedqty + nextIHr.Qty;
+					if(-qty<=usedqty)then begin
+						testf = false;
+						foundf = false;
+					end;
+				end;
+  		end;
+  	end;
+  	ResetLoop(nextIHr);
+		nextIHr.ArtCode = INr.Code;
+		nextIHr.Location = location;
+		SetLoopPosition(nextIHr,looppos-1);  
+  end;
+  
+	// Edit End ---------------------------------------------- Edit End
+	usedqty = 0;
+  firstf = true;
+  foundf = true;
   while (LoopKey(thekey,nextIHr,2,foundf)) begin // Start from the nextIHr record
     if (nextIHr.ArtCode!=INr.Code) then begin
       foundf = false;
@@ -1318,12 +1366,11 @@ begin
         foundf = false;
       end;
     end;
-    if (nextIHr.FIFODate>td) then begin
-      foundf = false;
-    end;
+
     if (usedqty>=qty) then begin
       foundf = false;
     end;
+        
     if (foundf) then begin
       testf = true;
       if (nextIHr.StockAffectf==0) then begin testf = false; end;
@@ -1346,13 +1393,18 @@ begin
           testf = false;
         end;
       end;              
-      if (testf) then begin     
-        if ((usedqty+nextqty)>qty) then begin
-          nextqty = qty - usedqty;
-        end else begin
-          nextqty = nextqty; 
-        end;
-        usedqty = usedqty + nextqty;
+      if (testf) then begin   
+				if ((usedqty+nextqty)>qty) then begin
+					nextqty = qty - usedqty;
+				end else begin
+					nextqty = nextqty; 
+				end;
+
+        
+        
+	// Edit End ---------------------------------------------- Edit End
+	
+        usedqty = usedqty + nextqty;        
         switch (consigstock) begin
           case 1: 
             if (ConsigmentStock(nextIHr.ArtCode,nextIHr.SerialNr,td)) then begin

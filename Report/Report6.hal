@@ -171,28 +171,33 @@ begin
   							outstring(0,0,IHr.SerialNr,false);
   						end;
   						OutString(2,0,IHr.RemQty,false);
-  						if (showclientf and IHr.Location=="INV_OUT") then begin //Edit***************************Sasha2,10:25 12.02.2016 {
-  						  switch (IHr.FileName) begin
-  						    case "RetVc":
-  						      Retr.SerNr = IHr.TransNr;
-  						      ReadFirstMain(Retr,1,true);
-  						      OutString(1,0,Retr.CustCode,false);
-  						    case "StockMovVc":
-  						      StockMovr.SerNr = IHr.TransNr;
-  						      ReadFirstMain(StockMovr,1,true);
-  						      ORr.SerNr = StockMovr.OrderNr;
-  						      ReadFirstMain(ORr,1,true);
-  						      OutString(1,0,ORr.CustCode,false);
-  						    otherwise
-  						      OutString(1,0,"----",false);
-  						  end;
-  						end else begin
-  						  OutString(1,0,"",false);
-  						end; //Edit***************************Sasha2,10:25 12.02.2016 }
+  						if(RepSpec.ArtMode==1)then begin
+  							if (showclientf) then begin 
+									if (IHr.Location=="INV_OUT") then begin //Edit***************************Sasha2,10:25 12.02.2016 {
+										switch (IHr.FileName) begin
+											case "RetVc":
+												Retr.SerNr = IHr.TransNr;
+												ReadFirstMain(Retr,1,true);
+												OutString(1,0,Retr.CustCode,false);
+											case "StockMovVc":
+												StockMovr.SerNr = IHr.TransNr;
+												ReadFirstMain(StockMovr,1,true);
+												ORr.SerNr = StockMovr.OrderNr;
+												ReadFirstMain(ORr,1,true);
+												OutString(1,0,ORr.CustCode,false);
+											otherwise
+												OutString(1,0,"----",false);
+										end;
+									end else begin
+										OutString(1,0,"",false);
+									end; //Edit***************************Sasha2,10:25 12.02.2016 }
+								end;
+  						end;
   						if(RepSpec.flags[0]==1)then begin
   							OutString(1,0,IHr.RemCostPrice / IHr.RemQty,false);
+  							OutString(1,0,IHr.RemCostPrice,false);
   						end;
-  						OutString(1,0,IHr.RemCostPrice,false);
+  						
   						OutString(4,0,ISr.Location,false);
   						For(i=0;i<plcnt;i=i+1) begin
   							OutString(4,0,price[i],false);
@@ -313,7 +318,9 @@ integer compno;
       				CreateFile("Stock/ITEKUAStockFullManagers.xls");
               closefile;
               openexportfile("Stock/ITEKUAStockFullManagers.xls",true);
+              RepSpec.ArtMode=1;
               MyItemReportRn(RepSpec);
+              RepSpec.ArtMode=0;
               RunProgram("Stock/ITEKUAStockFullManagers.sh", "");
               
       case 4: delete_file("Stock/ICStockFullManagers.xls");

@@ -420,10 +420,10 @@ begin
   record LocationVc Locationr;// Edit ************************** Thursday, 19 November 2015 10:32:59
     
   res = 0;
-  /*
+  
   if(currentuser=="SA")then begin
   	goto LWSVcRecordCheck;
-  end;*/
+  end;
   
   BlockLoad(MainStockRec);
   insertmode = 1;//Rs_insert

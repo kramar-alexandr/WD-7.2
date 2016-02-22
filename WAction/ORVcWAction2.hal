@@ -2286,7 +2286,7 @@ begin
 	
 	if(wst==Rs_normal)then begin
 		getwindowrecord(wn,ORr);
-		tstr = "Видаткова накладна № " & ORr.OfficialSerNr;
+		tstr = "Видаткова накладна № " & ORr.SerNr;
   filename = SaveFileDialog(tstr,"","xlsx");
   if ((filename!=tstr) and nonblank(filename)) then begin
     ORtoExcell1Remote(ORr,fileToSave);
