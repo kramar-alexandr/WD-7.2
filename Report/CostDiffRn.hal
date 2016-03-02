@@ -1,5 +1,5 @@
 external function val AbsoluteVal(val);
-
+external procedure GetLocationAcc(string,var string,var string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -18,6 +18,8 @@ boolean TrHs;
 			items[INr.Code] = true;
 		end;
   end;
+	ResetLoop(INr);
+  TrHs = true;
 	INr.ItemType = kItemTypePlain;
 	While(LoopKey("ItemType",INr,1,TrHs)) begin
 		if (INr.ItemType!=kItemTypePlain) then begin TrHs=false; end;
@@ -58,6 +60,43 @@ end;
 
 
 
+
+function string 50 GetRegisterDescription(string filename)
+begin
+string 50 description;
+integer strid;
+	
+	switch(filename) begin
+    case "IVVc": strid = 5004; 
+    case "IVCashVc": strid = 11675;
+    case "INTransferVc": strid = 5040;
+    case "ProdVc": strid = 5016; 
+    case "ProdOperationVc": strid = 11674;
+    case "PUVc": strid = 5002; 
+    case "RetPUVc": strid = 5058;
+    case "RetVc": strid = 5029;
+    case "SDVc": strid = 5020; 
+    case "SRVc": strid = 11676;
+    case "SHVc": strid = 5003; 
+    case "StockMovVc": strid = 5012; 
+    case "WSVc": strid = 7650;
+    case "Fut2ProdOrderInVc": strid = 5057; 
+    case "Fut2ProdInVc": strid = 5037;  
+    case "Fut3ORVc": strid = 5035; 
+    case "Fut1POVc": strid = 5036;
+	end;
+	
+	if (strid>0) then begin
+		description = USetStr(strid);
+	end;
+
+GetRegisterDescription = description;
+return;
+end;
+
+
+
+
 function longint GetCostFromItemHistory(longint sernr, string  filename, var val itemhistoryCost)	//Edit-------Dima  17.02.2016
 begin
 record ItemHistVc IHr;
@@ -93,41 +132,76 @@ begin
 	record IVVc IVr;
 	row IVVc IVrw;
 	record POVc POr;
+	row POVc POrw;
 	record VIVc VIr;
 	record PUVc PUr;
+	record RetPUVc RetPUr;
+	row VIVc VIrw;
+	record SDVc SDr;
+	row SDVc SDrw;
+	record SHVc SHr;
+	row SHVc SHrw;
+	record StockMovVc SMr;
+	record RetVc Retr;
+	row RetVc Retrw;
 	boolean testf,TrHs,TrHs2,TrHs3,printDoc;
 	boolean transExist;
-	string 5 accPrefix;
-	integer i,pos;
-	longint ihSerNr;
+	string 15 accPrefix,acc,obj;
+	string 50 location;
+	integer i,j,pos;
+	longint ihSerNr,currentPONr;
 	val debit,credit,ihcost,debitTot,creditTot,ihcostTot;
+	val precision;
 	vector boolean NonStockedItems;
-	
+	array longint recordsArray,availablePOs;
+	vector boolean POrders;
+	array integer tab;
 	
 	//--report's constants---
 	accPrefix = "13/"; //Accounts of warehouses in iStore, for example 13/101/D
-
+	precision = 0.01; 
 
 	//-----	
 
 
-	StartReportnoheaderjob("Порівняння собівартості в транзакціяї та історії товарів");
-	pos = 0;
+	StartReportnoheaderjob("Порівняння собівартості в транзакціях та історії товарів");
+	
+	
+	tab[1] = 0;
+	tab[2] = 45;
+	tab[3] = 90;
+	tab[5] = 180;
+	tab[6] = 240;
+	tab[8] = 330;
+	tab[9] = 400;
+	tab[10] = 450;
+
+	
+	
+
 	StartFormat(15);		
-		OutString(pos,0,"Type",false);			
-		OutString(pos+=30,0,"Date",false);		
-		OutString(pos+=60,0,"Number",false);
-		OutString(pos+=90,0,"Trans. debit",false);
-		OutString(pos+=70,0,"Trans. credit",false);
-		OutString(pos+=120,0,"History record",false);
-		OutString(pos+=70,0,"History cost",false);
+		OutString(tab[1],0,"Тип",false);			
+		OutString(tab[2],0,"Дата",false);		
+		OutString(tab[3],0,"Документ",false);
+		OutString(tab[5],0,"Транзакції.дебет",false);
+		OutString(tab[6],0,"Транзакції.кредит",false);
+		OutString(tab[8],0,"Запис історії",false);
+		OutString(tab[9],0,"Собівартість по історії",false);
+
+	EndFormat;
 	EndFormat;
 	Black_Divider(0,1);
 	
 	CollectNonStockedItems(NonStockedItems);	
 	
 
-	//STMovYc;
+
+//----------------------------------------  IVVc  ---------------------------------------	
+	//Local header
+	OutString(tab[1],0,USetStr(31071),false);	// Invoices
+	EndFormat;
+	Gray_Divider(0,1);
+	
 	TrHs = true;
 	IVr.TransDate = RepSpec.sStartDate;
 	While(LoopKey("TransDate",IVr,1,TrHs)) begin
@@ -150,32 +224,48 @@ begin
 			
 			if (ihSerNr==0 or transExist==false) then begin printDoc = true; end;
 			
-			if ((AbsoluteVal(ihcost-AbsoluteVal(debit-credit))) > 0.01 ) then begin printDoc = true; end;
+			if ((AbsoluteVal(ihcost-AbsoluteVal(debit-credit))) > precision ) then begin printDoc = true; end;
 				
 			if (printDoc)	then begin
-				pos = 0;
 				StartFormat(15);		
-					OutString(pos,0,"IVVc",false);	
-					OutString(pos+=30,0,IVr.TransDate,false);					
-					OutStringID(pos+=60,"DblIVVc",IVr.SerNr,false,IVr.SerNr);
-					OutString(pos+=100,0,debit,false);
-					OutString(pos+=70,0,credit,false);
-					OutStringID(pos+=120,"DblItemHistVc",ihSerNr,false,ihSerNr);
-					OutString(pos+=70,0,ihcost,false);
-				EndFormat;										
+					OutString(tab[1],0,GetRegisterDescription("IVVc"),false);	
+					OutString(tab[2],0,IVr.TransDate,false);					
+					OutStringID(tab[3],"DblIVVc",IVr.SerNr,false,IVr.SerNr);
+					OutString(tab[5],0,debit,false);
+					OutString(tab[6],0,credit,false);
+					OutStringID(tab[8],"DblItemHistVc",ihSerNr,false,ihSerNr);
+					OutString(tab[9],0,ihcost,false);
+				EndFormat;
+				Gray_Divider(0,1);										
 			end;
 			
 		end;	
 	end;
-	
+	EndFormat; // new empty line
 	
 	//-------------------------  PUVc <--> POVc <--> VIVc -------------------------
 	
+	
+	//Local header
+	OutString(tab[1],0,USetStr(31072),false);		
+	OutString(tab[3],0,USetStr(31074),false);		//# PO
+	OutString(tab[10],0,USetStr(31075),false);	//# PU
+	EndFormat;
+	Gray_Divider(0,1);	
+	
 	TrHs = true;
 	POr.TransDate = RepSpec.sStartDate;
-	While(LoopKey("TransDate",POr,1,TrHs)) begin
-		if (POr.TransDate > RepSpec.sEndDate)	then begin TrHs = false;  end;
-		if (TrHs) then begin
+	While(LoopKey("TransDate",POr,1,TrHs)) begin	
+		testf = false;
+		for (i=0;i<MatRowCnt(POr);i=i+1) begin
+			MatRowGet(POr,i,POrw);
+			if (NonStockedItems[POrw.ArtCode]==false) then begin 
+					testf = true; i = MatRowCnt(POr);
+			end;
+		end;	
+	
+		if (POr.TransDate > RepSpec.sEndDate)	then begin TrHs = false; testf = false; end;
+		if (testf) then begin
 		
 			printDoc = false;
 			ihcostTot = 0; creditTot = 0; debitTot = 0;
@@ -197,7 +287,7 @@ begin
 			end;		
 			ResetLoop(VIr);	
 				
-				
+			ClearArray(recordsArray);	
 			TrHs2 = true;		
 			PUr.PONr = POr.SerNr;
 			while(LoopKey("PONr",PUr,1,TrHs2)) begin
@@ -206,30 +296,329 @@ begin
     		
     					ihSerNr = GetCostFromItemHistory(PUr.SerNr,"PUVc",ihcost);
 							ihcostTot = ihcostTot + ihcost;
+							recordsArray[recordsArray.length] = PUr.SerNr;
 				end;
 			end;
 			ResetLoop(PUr);
 			
 			
-			if ((AbsoluteVal(ihcostTot-AbsoluteVal(debitTot-creditTot))) > 0.01 ) then begin printDoc = true; end;
+			if ((AbsoluteVal(ihcostTot-AbsoluteVal(debitTot-creditTot))) > precision ) then begin printDoc = true; end;
 				
 			if (printDoc)	then begin
 				pos = 0;
 				StartFormat(15);		
-					OutString(pos,0,"POVc",false);	
-					OutString(pos+=30,0,POr.TransDate,false);					
-					OutStringID(pos+=60,"DblPOVc",POr.SerNr,false,POr.SerNr);
-					OutString(pos+=100,0,debit,false);
-					OutString(pos+=70,0,credit,false);
-					OutStringID(pos+=120,"DblItemHistVc",ihSerNr,false,ihSerNr);
-					OutString(pos+=70,0,ihcost,false);
-				EndFormat;										
+					OutString(tab[1],0,GetRegisterDescription("PUVc"),false);	
+					OutString(tab[2],0,POr.TransDate,false);					
+					OutStringID(tab[3],"DblPOVc",POr.SerNr,false,POr.SerNr);			
+					OutString(tab[5],0,debit,false);
+					OutString(tab[6],0,credit,false);					
+					OutStringID(tab[8],"DblItemHistVc",ihSerNr,false,ihSerNr);
+					OutString(tab[9],0,ihcost,false);
+					for(i=0;i<recordsArray.length;i=i+1) begin
+						OutStringID(tab[10],"DblPUVc",recordsArray[i],false,recordsArray[i]);
+					end;						
+				EndFormat;
+				Gray_Divider(0,1);										
 			end;			
 			
 		
 		end;
 	end;
+	EndFormat;
+	ClearArray(recordsArray);
 	
+//-------------------------  RetPUVc <--> POVc <--> cred VIVc -------------------------	
+
+
+	//Local header
+	OutString(tab[1],0,USetStr(31073),false);		//Returns to suppliers
+	OutString(tab[3],0,USetStr(31074),false);		//# PO
+	OutString(tab[10],0,USetStr(31076),false);	//# RetPU
+	EndFormat;
+	Gray_Divider(0,1);	
+
+	TrHs = true;
+	RetPUr.TransDate = RepSpec.sStartDate;
+	While(LoopKey("TransDate",RetPUr,1,TrHs)) begin
+		if (RetPUr.TransDate > RepSpec.sEndDate)	then begin TrHs = false;  end;
+		if (TrHs) then begin
+				if (POrders[RetPUr.PONr]==false) then begin
+					POrders[RetPUr.PONr] = true;
+					availablePOs[availablePOs.length] = RetPUr.PONr;
+				end;	
+		end;
+	end;
+	ResetLoop(RetPUr);
+	//SortStringArray(availablePOs);
+	//LogText(0,"length  " & availablePOs.length);
+	
+	for (i=0; i<availablePOs.length;i=i+1) begin	
+		currentPONr = availablePOs[i];
+		printDoc = false;
+		ihcostTot = 0; creditTot = 0; debitTot = 0;
+		ClearArray(recordsArray);
+		//LogText(0,currentPONr);
+		TrHs = true;
+		RetPUr.PONr = currentPONr;
+		While(LoopKey("PONr",RetPUr,1,TrHs))  begin
+				if (RetPUr.PONr!=currentPONr) then begin TrHs = false; end;
+				if (TrHs) then begin	
+    					ihSerNr = GetCostFromItemHistory(RetPUr.SerNr,"RetPUVc",ihcost);
+							ihcostTot = ihcostTot + ihcost;
+							recordsArray[recordsArray.length] = RetPUr.SerNr;			
+							if (ihSerNr==0) then begin printDoc = true; end;		
+							//LogText(0,currentPONr & "  ** " & RetPUr.SerNr);
+				end;
+		end;
+		ResetLoop(RetPUr);
+		
+
+		TrHs = true;
+		VIr.POSerNr = currentPONr;
+		While(LoopKey("POSerNr",VIr,1,TrHs)) begin
+				testf = false;		
+				if (VIr.CredInv>0 or VIr.PayDeal=="CN") then begin testf = true; end;			
+				if (VIr.POSerNr!=currentPONr) then begin TrHs = false; testf = false; end;
+				if (testf) then begin	
+						transExist = GetCostFromTransaction(VIr.SerNr,VIYc,accPrefix,debit,credit);
+						//LogText(0,VIr.SerNr & "   deb " & debit & "   cred " & credit);
+						debitTot = debitTot + debit;
+						creditTot = creditTot + credit;
+						if (transExist==false) then begin printDoc = true; end;
+				end;
+		end;
+		ResetLoop(VIr);
+			
+		if ((AbsoluteVal(ihcostTot-AbsoluteVal(debitTot-creditTot))) > precision ) then begin printDoc = true; end;
+	//LogText(0,	ihcostTot & "   deb   " & debitTot & "    cred  " &  creditTot);
+		if (printDoc)	then begin
+				StartFormat(15);		
+					OutString(tab[1],0,GetRegisterDescription("RetPUVc"),false);	
+					OutString(tab[2],0,RetPUr.TransDate,false);					
+					OutStringID(tab[3],"DblPOVc",currentPONr,false,currentPONr);			
+					OutString(tab[5],0,debitTot,false);
+					OutString(tab[6],0,creditTot,false);					
+					OutStringID(tab[8],"DblItemHistVc",ihSerNr,false,ihSerNr);
+					OutString(tab[9],0,ihcostTot,false);
+					for(j=0;j<recordsArray.length;j=j+1) begin
+						OutStringID(tab[10],"DblRetPUVc",recordsArray[j],false,recordsArray[j]);
+					end;						
+				EndFormat;
+				Gray_Divider(0,1);										
+		end;				
+	end;
+	EndFormat;
+	ClearArray(recordsArray);
+	
+
+
+
+//-------------------------  SDVc -------------------------	
+
+
+	//Local header
+	OutString(tab[1],0,USetStr(31078),false);		//Stock Depreciations
+	EndFormat;
+	Gray_Divider(0,1);
+	
+	
+	TrHs = true;
+	SDr.TransDate = RepSpec.sStartDate;
+	While(LoopKey("TransDate",SDr,1,TrHs)) begin
+		testf = true;		
+		if (SDr.TransDate > RepSpec.sEndDate)	then begin TrHs = false; testf=false; end;
+		if (SDr.OKFlag==0) then begin testf=false; end;
+				
+		if (testf) then begin
+		
+			location = SDr.Location;
+			if (blank(location)) then begin
+				if (MatRowCnt(SDr)>0) then begin
+					MatRowGet(SDr,0,SDrw);
+					location = SDrw.Location;
+				end;
+			end;
+			GetLocationAcc(location,acc,obj);
+		
+			printDoc = false;					
+			transExist = GetCostFromTransaction(SDr.SerNr,SDYc,acc,debit,credit);			
+			ihSerNr = GetCostFromItemHistory(SDr.SerNr,"SDVc",ihcost);
+			
+			if (ihSerNr==0 or transExist==false) then begin printDoc = true; end;
+			
+			if ((AbsoluteVal(ihcost-AbsoluteVal(credit))) > precision ) then begin printDoc = true; end;
+				
+				
+			if (printDoc)	then begin
+				StartFormat(15);		
+					OutString(tab[1],0,GetRegisterDescription("SDVc"),false);	
+					OutString(tab[2],0,SDr.TransDate,false);					
+					OutStringID(tab[3],"DblSDVc",SDr.SerNr,false,SDr.SerNr);
+					OutString(tab[5],0,debit,false);
+					OutString(tab[6],0,credit,false);
+					OutStringID(tab[8],"DblItemHistVc",ihSerNr,false,ihSerNr);
+					OutString(tab[9],0,ihcost,false);
+				EndFormat;
+				Gray_Divider(0,1);										
+			end;
+			
+		end;	
+	end;
+	EndFormat; 
+	
+	
+//-------------------------  SHVc -------------------------	
+
+	//Local header
+	OutString(tab[1],0,USetStr(31079),false);		//Deliveries
+	EndFormat;
+	Gray_Divider(0,1);
+	
+	
+	TrHs = true;
+	SHr.ShipDate = RepSpec.sStartDate;
+	While(LoopKey("ShipDate",SHr,1,TrHs)) begin
+		testf = false;
+		for (i=0;i<MatRowCnt(SHr);i=i+1) begin
+			MatRowGet(SHr,i,SHrw);
+			if (NonStockedItems[SHrw.ArtCode]==false and (SHrw.Ship>0)) then begin 
+					testf = true; i = MatRowCnt(SHr);
+			end;
+		end;
+		if (SHr.ShipDate > RepSpec.sEndDate)	then begin TrHs = false; testf=false; end;
+		if (SHr.OKFlag==0) then begin testf=false; end;
+				
+		if (testf) then begin
+		
+			printDoc = false;					
+			transExist = GetCostFromTransaction(SHr.SerNr,SHYc,accPrefix,debit,credit);			
+			ihSerNr = GetCostFromItemHistory(SHr.SerNr,"SHVc",ihcost);
+			
+			if (ihSerNr==0 or transExist==false) then begin printDoc = true; end;
+
+			if ((AbsoluteVal(ihcost-AbsoluteVal(debit-credit))) > precision ) then begin printDoc = true; end;
+				
+				
+			if (printDoc)	then begin
+				StartFormat(15);		
+					OutString(tab[1],0,GetRegisterDescription("SHVc"),false);	
+					OutString(tab[2],0,SHr.ShipDate,false);					
+					OutStringID(tab[3],"DblSHVc",SHr.SerNr,false,SHr.SerNr);
+					OutString(tab[5],0,debit,false);
+					OutString(tab[6],0,credit,false);
+					OutStringID(tab[8],"DblItemHistVc",ihSerNr,false,ihSerNr);
+					OutString(tab[9],0,ihcost,false);
+				EndFormat;
+				Gray_Divider(0,1);										
+			end;
+			
+		end;	
+	end;
+	EndFormat;
+
+
+
+
+//-------------------------  StockMovVc -------------------------	
+
+	//Local header
+	OutString(tab[1],0,USetStr(31080),false);		//Stock Movements
+	EndFormat;
+	Gray_Divider(0,1);
+	
+	
+	TrHs = true;
+	SMr.TransDate = RepSpec.sStartDate;
+	While(LoopKey("TransDate",SMr,1,TrHs)) begin
+		testf = true;
+		if (SMr.TransDate > RepSpec.sEndDate)	then begin TrHs = false; testf=false; end;
+		if (SMr.OKFlag==0) then begin testf=false; end;
+				
+		if (testf) then begin
+		
+			printDoc = false;					
+			transExist = GetCostFromTransaction(SMr.SerNr,STMovYc,accPrefix,debit,credit);			
+			ihSerNr = GetCostFromItemHistory(SMr.SerNr,"StockMovVc",ihcost);
+			
+			if (ihSerNr==0 or transExist==false) then begin printDoc = true; end;
+
+			if (blank(SMr.ThrouLocation)) then begin
+				if ((AbsoluteVal(ihcost-AbsoluteVal(debit+credit))) > precision ) then begin printDoc = true; end;
+			end else begin	
+				if ((AbsoluteVal(ihcost-2*AbsoluteVal(debit+credit))) > precision ) then begin printDoc = true; end;
+			end;
+				
+				
+			if (printDoc)	then begin
+				StartFormat(15);		
+					OutString(tab[1],0,GetRegisterDescription("StockMovVc"),false);	
+					OutString(tab[2],0,SMr.TransDate,false);					
+					OutStringID(tab[3],"DblStockMovVc",SMr.SerNr,false,SMr.SerNr);
+					OutString(tab[5],0,debit,false);
+					OutString(tab[6],0,credit,false);
+					OutStringID(tab[8],"DblItemHistVc",ihSerNr,false,ihSerNr);
+					OutString(tab[9],0,ihcost,false);
+				EndFormat;
+				Gray_Divider(0,1);										
+			end;
+			
+		end;	
+	end;
+	EndFormat;
+	
+
+
+
+//-------------------------  RetVc -------------------------	
+
+	//Local header
+	OutString(tab[1],0,USetStr(31081),false);		//Returned Goods
+	EndFormat;
+	Gray_Divider(0,1);
+	
+	
+	TrHs = true;
+	Retr.TransDate = RepSpec.sStartDate;
+	While(LoopKey("TransDate",Retr,1,TrHs)) begin
+		testf = false;
+		for (i=0;i<MatRowCnt(Retr);i=i+1) begin
+			MatRowGet(Retr,i,Retrw);
+			if (NonStockedItems[Retrw.ArtCode]==false) then begin 
+					testf = true; i = MatRowCnt(Retr);
+			end;
+		end;		
+		if (Retr.TransDate > RepSpec.sEndDate)	then begin TrHs = false; testf=false; end;
+		if (Retr.OKFlag==0) then begin testf=false; end;
+				
+		if (testf) then begin
+		
+			printDoc = false;					
+			transExist = GetCostFromTransaction(Retr.SerNr,RetYc,accPrefix,debit,credit);			
+			ihSerNr = GetCostFromItemHistory(Retr.SerNr,"RetVc",ihcost);
+			
+			if (ihSerNr==0 or transExist==false) then begin printDoc = true; end;
+
+			if ((AbsoluteVal(ihcost-AbsoluteVal(debit-credit))) > precision ) then begin printDoc = true; end;
+				
+				
+			if (printDoc)	then begin
+				StartFormat(15);		
+					OutString(tab[1],0,GetRegisterDescription("RetVc"),false);	
+					OutString(tab[2],0,Retr.TransDate,false);					
+					OutStringID(tab[3],"DblRetVc",Retr.SerNr,false,Retr.SerNr);
+					OutString(tab[5],0,debit,false);
+					OutString(tab[6],0,credit,false);
+					OutStringID(tab[8],"DblItemHistVc",ihSerNr,false,ihSerNr);
+					OutString(tab[9],0,ihcost,false);
+				EndFormat;
+				Gray_Divider(0,1);										
+			end;
+			
+		end;	
+	end;
+	EndFormat;
+	
+
 	
 	EndJob;
 	
