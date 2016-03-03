@@ -384,6 +384,7 @@ begin
 			testf = true;
 			if(sourceIHr.SerialNr!=serialnr)then begin TrHs = false; testf = false; end;
 			if(sourceIHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
+			if(sourceIHr.StockAffectf==0)then begin testf = false; end;
 			
 			if(testf)then begin
 				res = sourceIHr.TotCostPrice/sourceIHr.Qty*qty;
@@ -1448,7 +1449,7 @@ begin
   
 	// Edit Start ---------------------------------------------- Edit Start
 	//Tuesday, 12 August 2014 17:17:59
-	
+		
   switch(filename)begin
   	case "PUVc":	PUr.SerNr = transnr;
   								readfirstmain(PUr,1,true);
@@ -1520,6 +1521,7 @@ begin
 											testf = true;
 											if(sourceIHr.SerialNr!=serialnr)then begin TrHs = false; testf = false; end;
 											if(sourceIHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
+											if(sourceIHr.StockAffectf==0)then begin testf = false; end;
 											
 											if(testf)then begin
 												curncy = sourceIHr.PUCurncyCode;
@@ -1632,8 +1634,9 @@ begin
 													end;
   											end;
   end;
+  
   IHr.PUCurncyCode = curncy;
-  IHr.TotCostPriceCurncy = totcostpricecurncy;
+  IHr.TotCostPriceCurncy = TotCostPriceCurncy;
   IHr.RemCostPriceCurncy = totcostpricecurncy; 
   IHr.InFileName = sfilename;
   IHr.InSerNr =	ssernr;

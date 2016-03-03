@@ -1464,6 +1464,7 @@ begin
 					testf1 = true;
 					if(sourceIHr.SerialNr!=IHr.SerialNr)then begin TrHs1 = false; testf1 = false; end;
 					if(sourceIHr.ArtCode!=IHr.ArtCode)then begin TrHs1 = false; testf1 = false; end;
+					if(sourceIHr.StockAffectf==0)then begin testf = false; end;
 					
 					if(testf1)then begin
 						IVr.SerNr = IHr.TransNr;
@@ -1516,6 +1517,7 @@ begin
 					testf1 = true;
 					if(sourceIHr.SerialNr!=IHr.SerialNr)then begin TrHs1 = false; testf1 = false; end;
 					if(sourceIHr.ArtCode!=IHr.ArtCode)then begin TrHs1 = false; testf1 = false; end;
+					if(sourceIHr.StockAffectf==0)then begin testf = false; end;
 					
 					if(testf1)then begin
 						IVr.SerNr = IHr.TransNr;

@@ -34,7 +34,7 @@ integer compnr;
         RepSpec.flags[1] = 0;
         RepSpec.flags[2] = 1;
         switch(compnr)begin
-        	case 2: RepSpec.f3 = "24";//ITEK
+        	case 2: RepSpec.f3 = "";//ITEK// Edit ************************** Monday, 29 February 2016 16:07:32
           case 5: RepSpec.f3 = "24";//TXT
           case 7: RepSpec.f3 = "24";//tntm
         end;

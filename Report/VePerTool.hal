@@ -1306,11 +1306,18 @@ BEGIN
                  if (TRrw.CurCredVal<>0) then begin
                    v = TRrw.CurCredVal;
                    VI2r.SerNr = TRrw.SerNr;
-                   if (ReadFirstMain(VI2r,1,true)) then begin
-                     cuscurval = MULRATETOBASE1(TRrw.Curncy,v,VI2r.FrRate,VI2r.ToRateB1,VI2r.ToRateB2,VI2r.BaseRate1,VI2r.BaseRate2,DefaultCurRoundOff); 
+                   if(VI2r.CurncyCode==TRrw.Curncy)then begin// Edit ************************** Tuesday, 23 February 2016 18:42:26
+										 if (ReadFirstMain(VI2r,1,true)) then begin
+											 cuscurval = MULRATETOBASE1(TRrw.Curncy,v,VI2r.FrRate,VI2r.ToRateB1,VI2r.ToRateB2,VI2r.BaseRate1,VI2r.BaseRate2,DefaultCurRoundOff); 
+										 end else begin
+											 cuscurval = MULRATETOBASE1(TRrw.Curncy,v,TRrw.FrRate,TRrw.ToRateB1,TRrw.ToRateB2,TRrw.BaseRate1,TRrw.BaseRate2,DefaultCurRoundOff); 
+										 end;
                    end else begin
-                     cuscurval = MULRATETOBASE1(TRrw.Curncy,v,TRrw.FrRate,TRrw.ToRateB1,TRrw.ToRateB2,TRrw.BaseRate1,TRrw.BaseRate2,DefaultCurRoundOff); 
+                   	cuscurval = TRrw.CredVal;// Edit ************************** Tuesday, 23 February 2016 18:42:25
                    end;
+                   
+                   
+                   
                    if (RepSpec.flags[2]==0) then begin
                      v = cuscurval;
                    end else begin

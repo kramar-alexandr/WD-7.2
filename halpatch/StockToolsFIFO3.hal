@@ -1249,7 +1249,7 @@ begin
   record ItemHistVc IHr;
   record ItemHistVc nextIHr;
   record ItemHistVc outIHr;
-  record ItemHistVc printIHr;
+  record ItemHistVc printIHr,fIHr;
   string 200 thekey;
   Integer keys;
   Boolean foundf,firstf,testf;
@@ -1313,7 +1313,7 @@ begin
   // Edit Start ---------------------------------------------- Edit Start
 	//Tuesday, 16 February 2016 11:51:30
 	
-  if(qty<0)then begin
+  /*if(qty<0)then begin
   	while (LoopKey(thekey,nextIHr,2,foundf)) begin
   		if (nextIHr.ArtCode!=INr.Code) then begin
 				foundf = false;
@@ -1351,7 +1351,7 @@ begin
 		nextIHr.ArtCode = INr.Code;
 		nextIHr.Location = location;
 		SetLoopPosition(nextIHr,looppos-1);  
-  end;
+  end;*/
   
 	// Edit End ---------------------------------------------- Edit End
 	usedqty = 0;
@@ -1376,13 +1376,24 @@ begin
       if (nextIHr.StockAffectf==0) then begin testf = false; end;
       if (nextIHr.ItemType!=kItemTypeStocked) then begin testf = false; end;
       if (nextIHr.Invalid!=0) then begin testf = false; end;
-      if (nextIHr.Qty<0) then begin testf = false; end;
+      if (nextIHr.Qty<0) then begin 
+      	testf = false;
+      	fIHr.SerNr = nextIHr.Source;
+      	if(readfirstkey("Source",fIHr,1,true))then begin
+						if (fIHr.FIFODate>td) then begin
+							qusebefdat = qusebefdat + nextIHr.Qty; 
+						end;
+      	end;
+      end;
       if (nonblank(location)) then begin
         if (nextIHr.Location!=location) then begin
           testf = false;
         end;
       end;
+
+      
       if (testf) then begin
+      	logtext(0,nextIHr.SerNr);
         qusebefdat = QtyUsedBeforeDate(nextIHr,true,td);
         nextqty = nextIHr.Qty - qusebefdat;
         outqty = outqty - nextIHr.Qty - qusebefdat;
@@ -1399,10 +1410,6 @@ begin
 				end else begin
 					nextqty = nextqty; 
 				end;
-
-        
-        
-	// Edit End ---------------------------------------------- Edit End
 	
         usedqty = usedqty + nextqty;        
         switch (consigstock) begin

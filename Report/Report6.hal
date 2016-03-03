@@ -630,3 +630,63 @@ begin
 	EndJob;
   
 end;
+
+
+
+global procedure FindErrorInIHRn(record RcVc RepSpec)
+begin
+record ItemHistVc IHr;
+boolean TrHs,testf;
+string 255 tstr;
+val sumrem,sumqty,sumremcost,sumcost;
+record ItemStatusVc ISr;
+
+startreportnoheaderjob("ErrorFix");
+	
+	TrHs = true;
+	IHr.ArtCode = RepSpec.f1;
+	IHr.Location = RepSpec.f2;
+	while(loopkey("ArtCodeLoc",IHr,2,TrHs))begin
+		testf = true;
+		if(IHr.ArtCode!=RepSpec.f1)then begin TrHs = false; testf = false; end;
+		if(IHr.Location!=RepSpec.f2)then begin TrHs = false; testf = false; end;
+		if(IHr.StockAffectf==0)then begin testf = false; end;
+		
+		if(testf)then begin
+			sumrem = sumrem + IHr.RemQty;
+			sumqty = sumqty + IHr.Qty;
+			sumremcost = sumremcost + IHr.RemCostPrice;
+			if(IHr.Qty>0)then begin
+				sumcost = sumcost + IHr.TotCostPrice;
+			end else begin
+				sumcost = sumcost - IHr.TotCostPrice;
+			end;
+			startformat(15);
+				OutString(0,"DblItemHist",IHr.SerNr,false);
+				OutDate(40,0,IHr.TransDate,false);
+				OutString(100,0,IHr.FileName,false);
+				OutString(150,0,IHr.TransNr,false);
+				OutString(200,0,IHr.Source,false);
+				OutString(250,0,IHr.Qty,false);
+				OutString(270,0,IHr.TotCostPrice,false);
+				OutString(300,0,IHr.RemQty,false);
+				OutString(330,0,sumrem,false);
+				OutString(360,0,sumqty,false);
+				OutString(390,0,sumremcost,false);
+				OutString(420,0,sumcost,false);
+			endformat;
+		end;
+		
+	end;
+	
+	ISr.Code = RepSpec.f1;
+	ISr.Location = RepSpec.f2;
+	readfirstmain(ISr,2,true);
+	startformat(15);
+		OutString(360,0,ISr.Instock,false);
+	endformat;
+
+endjob;
+
+return;
+end;
