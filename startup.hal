@@ -97,6 +97,8 @@ begin
 	Import("Імпорт регистрів З ПЕРЕЗАПИСОМ",ImportOfRegisterRewriteIClass,ImportOfRegisterRewriting,modDBMain);
 
   Export("Register Export",ExpRegEClass,ExpRegEn,modPOS);
+	
+	Maintenance("Перенос начального сальдо по объектам",ObjInitBalVClass,ObjInitBalMn,modNL);// Edit ************************** Friday, 4 March 2016 16:57:53
 
 	
 	Maintenance("RecalcORShops",MyShopsRecalcVClass,RecalcShopsItemsMn,modSO); //Edit***************************Sasha2,18:17 22.10.2014

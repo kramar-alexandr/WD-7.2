@@ -1568,3 +1568,18 @@ real h,v,vs;
     EditField(h,60,150,"Склад",Normal,f2,false,LocationSClass);
   EndWindow;  
 end;
+
+
+window ObjInitBalVClass:1// Edit ************************** Friday, 4 March 2016 16:58:27
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+  WindowBegin("Перенос начального сальдо по объектам",RenameCertainDIVClass,CGMnt,RcType);
+  SetWRect(20,80,400,400);
+  h = 150;
+  vs = 20;
+  PeriodField(h,v=6,"Период");
+  EditFieldTL(h,v+=vs,150,"Объект",M4UStr,Normal,60,ObjStr,false,ObjSClass);
+  EditField(h,v+=vs,150,"Компания для переноса",Normal,f1,false,Companies2SClass);
+  EndWindow;
+end;
