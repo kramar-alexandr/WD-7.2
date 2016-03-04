@@ -621,3 +621,38 @@ integer curcomp;
 
 return;
 end;
+
+global //Edit***************************Sasha2,16:38 03.03.2016 {
+function Boolean IsEnoughRemQtyInHist(string code,string location,date docdate,val qty,string serialnumber)
+begin
+  record ItemHistvc IHr;
+  Boolean TrHs,testf;
+  val remval;
+  Boolean res;
+    
+    res = false;
+    if (blank(code) or blank(location) or blankdate(docdate)) then begin
+      goto LIsEnoughRemQtyInHist;
+    end;
+
+    IHr.ArtCode = code;
+    IHr.Location = location;
+    TrHs = true;
+    while (LoopKey("ActiveLocQty",IHr,2,TrHs)) begin
+      testf = true;
+      if (IHr.ArtCode!=code or IHr.Location!=location) then begin TrHs = false; testf = false; end;
+      if (NonBlank(serialnumber) and IHr.SerialNr!=serialnumber) then begin testf = false; end;
+      if (docdate<IHr.TransDate) then begin testf = false; end;
+      if (testf) then begin
+        remval = remval + IHr.RemQty;
+      end;
+    end;
+    if (qty<=remval) then begin
+      res = true;
+    end;
+
+LIsEnoughRemQtyInHist:;
+ 
+    IsEnoughRemQtyInHist = res;
+  return;
+end; //Edit***************************Sasha2,16:39 03.03.2016 }

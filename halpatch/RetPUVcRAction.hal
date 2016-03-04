@@ -67,6 +67,7 @@ external procedure GetLegalInvNrRow(string,var row LegalInvNrBlock);
 external procedure FindNextRetPUVcOfficialSerialNr(var record RetPUVc,Integer);
 external function Boolean ValidateOfficialSerialNrChronology(string,string,LongInt,Date,var Date);
 external function Integer GetVATLaw();
+external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
 
 global
 function LongInt RetPUVcRecordDefaults(var record RetPUVc RetPUr,record RetPUVc RetPU2r,LongInt stat,LongInt long4)
@@ -1588,7 +1589,15 @@ what?
           fieldstr = "Quant";              
           res = -1; 
           goto LRetPUVcRecordCheck;
-        end;      
+        end;
+        if (IsEnoughRemQtyInHist(RetPUrw.ArtCode,location,RetPUp.TransDate,prev,RetPUrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+          error = 31063;
+          errorstr = ": " & RetPUrw.ArtCode;
+          rownr = i;
+          fieldstr = "ArtCode";         
+          res = -1;
+          goto LRetPUVcRecordCheck;
+        end; //Edit***************************Sasha2,10:45 04.03.2016 }      
       end;
       switch (INr.SerNrf) begin
         case 1:

@@ -53,6 +53,7 @@ external function Boolean SerialNrAvail(string,string,string,val);
 external procedure FindStockValue(string,string,var record ItemStatusVc);
 external function Boolean Date2Test(string,Date,string,Integer);
 external function Boolean SerNrTestStockMovVc(LongInt,Date,var Boolean);
+external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
 
 function Integer CheckStockMovRowToPosition(record StockMovVc SMp,row StockMovVc StockMovrw,record LocationVc LocToRec,record INVc INr,
                                             Integer rownr,var LongInt error,var string errorstr,var integer errorrownr,var string fieldstr,boolean UnOKedCheckSerialf)
@@ -344,6 +345,14 @@ BEGIN
 						res = 1247;
 						goto LCheckStockMovRow;
 					end;
+					if (IsEnoughRemQtyInHist(StockMovrw.ArtCode,frlocation,SMp.SentTransDate,prev,StockMovrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+            error = 31063;
+            errorstr = ": " & StockMovrw.ArtCode;
+            errorrownr = rownr;
+            fieldstr = "ArtCode";         
+            res = -1;
+            goto LCheckStockMovRow;
+          end; //Edit***************************Sasha2,10:45 04.03.2016 }
 				end;
 			end;
     end;

@@ -39,6 +39,7 @@ external function Boolean GetItemPriceDiscount3(string,val,var record INVc,strin
                                                 string,Boolean,var Boolean,string,var string,var val,string,string,var string);
 external function Boolean INVc_AllowSales(record INVc,var LongInt);
 external function Boolean OverFlowStock_SerialNrAvail(string,string); //Edit***************************Sasha2,13:23 25.03.2015
+external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,10:46 04.03.2016
 
 function Boolean CheckInvDatePerItemType(Date invdate,Integer daysrange, Integer OutArgEInvoices)
 begin
@@ -1258,6 +1259,11 @@ not needed any more
                             goto L99;
                           end;
                         end;
+                        if (IsEnoughRemQtyInHist(IVrw.ArtCode,location,IVp.InvDate,prev,IVrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+                          RecordCheckError(31063,": " & IVrw.ArtCode,i,"ArtCode");      
+                          res = -1; 
+                          goto L99;
+                        end; //Edit***************************Sasha2,10:45 04.03.2016 }
                       end;
                     end;
                     end;

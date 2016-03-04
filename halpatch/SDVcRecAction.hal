@@ -67,6 +67,7 @@ external procedure PUCalcCostPrice(string,val,Integer,Integer,string,string,
                                    val,val,val,val,val,val,
                                    string,var val,val,var val,string,Integer);
 external function Integer PUVc_PasteQuant(var record PUVc,Integer);// Edit ************************** Tuesday, 9 September 2014 13:57:09
+external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
 
 procedure SetSDAcceptanceFlag(var record SDVc SDr,record SDVc prevSDr,LongInt stat)
 begin
@@ -1177,6 +1178,11 @@ begin
                   res = -1;
                   goto LSDVcRecordCheck;
                 end;
+                if (IsEnoughRemQtyInHist(SDrw.ArtCode,location,SDp.TransDate,prev,SDrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+                  RecordCheckError(31063,": " & SDrw.ArtCode,i,"ArtCode");      
+                  res = -1; 
+                  goto LSDVcRecordCheck;
+                end; //Edit***************************Sasha2,10:45 04.03.2016 }
                 if (LocRec.RequirePos!=0) then begin
                   FindStockValueAtPosition(SDrw.ArtCode,loc2,SDrw.PosCode,PISr);
                   if (SDrw.Qty>PISr.LeftQty) then begin

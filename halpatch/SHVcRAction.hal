@@ -66,6 +66,7 @@ external function Boolean Date2Test(string,Date,string,Integer);
 external function Boolean SerNrTestSHVc(LongInt,Date,var Boolean);
 external function val FindPUBaseRate2forSerialNr(string,string);
 remote updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
+external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
 
 function Boolean StockMovOKedForSH(LongInt shnr,var LongInt stmovnr)
 begin
@@ -1099,178 +1100,201 @@ begin
         goto LSHVcRecordCheck;
       end;  
       if (check!=0) then begin
-      
-      if (MSb.dontAllowOvership==1) then begin
-      if ((INr.ItemType==kItemTypeStocked) or (nonblank(SHrw.Recepy))) then begin
-        if (nonblank(SHrw.Recepy)) then begin
-          isstruct = false;
-          if (SHrw.stp!=kInvoiceRowTypeStructuredItemComponent) then begin
-            isstruct = ExpandStructItem(SHrw.ArtCode,SHrw.Recepy,SHrw.Ship,recSHr);
-          end;
-          if (isstruct) then begin
-            rwcntrec = MatRowCnt(recSHr);
-            for (cnt=0;cnt<i;cnt=cnt+1) begin
-              MatRowGet(SHp,cnt,SHrw3);
-              isstruct = ExpandStructItem(SHrw3.ArtCode,SHrw3.Recepy,SHrw3.Ship,rec2SHr);
+        if (MSb.dontAllowOvership==1) then begin
+          if ((INr.ItemType==kItemTypeStocked) or (nonblank(SHrw.Recepy))) then begin
+            if (nonblank(SHrw.Recepy)) then begin
+              isstruct = false;
+              if (SHrw.stp!=kInvoiceRowTypeStructuredItemComponent) then begin
+                isstruct = ExpandStructItem(SHrw.ArtCode,SHrw.Recepy,SHrw.Ship,recSHr);
+              end;
               if (isstruct) then begin
-                rwcntrec2 = MatRowCnt(rec2SHr);
-                for (reci2=0;reci2<rwcntrec;reci2=reci2+1) begin
-                  MatRowGet(rec2SHr,reci2,rec2SHrw);
-                  prev = rec2SHrw.Ship;              
+                rwcntrec = MatRowCnt(recSHr);
+                for (cnt=0;cnt<i;cnt=cnt+1) begin
+                  MatRowGet(SHp,cnt,SHrw3);
+                  isstruct = ExpandStructItem(SHrw3.ArtCode,SHrw3.Recepy,SHrw3.Ship,rec2SHr);
+                  if (isstruct) then begin
+                    rwcntrec2 = MatRowCnt(rec2SHr);
+                    for (reci2=0;reci2<rwcntrec;reci2=reci2+1) begin
+                      MatRowGet(rec2SHr,reci2,rec2SHrw);
+                      prev = rec2SHrw.Ship;              
+                      for (reci=0;reci<rwcntrec;reci=reci+1) begin
+                        MatRowGet(recSHr,reci,recSHrw);
+                        if (recSHrw.ArtCode==rec2SHrw.ArtCode) then begin
+                          prev = prev + recSHrw.Ship;
+                        end;
+                      end;
+                      IN2r.Code = rec2SHrw.ArtCode;
+                      if (ReadFirstItem(rec2SHrw.ArtCode,IN2r,false,false)) then begin
+                        if (IN2r.ItemType==kItemTypeStocked) then begin
+                          FindStockValueInclStockReserv(SHp.OrderNr,rec2SHrw.ArtCode,rec2SHrw.SerialNr,loc2,ISr,stockreservq);
+                          if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
+                          	  if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin 
+          				          	error = 1247;
+          				            errorstr = "";
+          				            rownr = i;
+          				            fieldstr = "Ship";                      
+          				            res = -1; 
+          				            goto LSHVcRecordCheck;
+          				          end; 
+                          end else begin
+    						            if ((ISr.Instock-stockreservq<prev) and (prev>0)) then begin
+    	                        error = 1247;
+    	                        errorstr = "";
+    	                        rownr = i;
+    	                        fieldstr = "Ship";                          
+    	                        res = -1; 
+    	                        goto LSHVcRecordCheck;
+    	                      end;
+                          end; //Edit***************************Sasha2,17:55 28.08.2014 }
+                          if (IsEnoughRemQtyInHist(SHrw.ArtCode,SHp.Location,SHp.ShipDate,prev,SHrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+                            error = 31063;
+  	                        errorstr = ": " & SHrw.ArtCode;
+  	                        rownr = i;
+  	                        fieldstr = "ArtCode";                          
+  	                        res = -1; 
+  	                        goto LSHVcRecordCheck;
+                          end; //Edit***************************Sasha2,10:45 04.03.2016 }
+                        end;
+                      end;
+                    end;
+                  end else begin
+                    prev = SHrw3.Ship;
+                    for (reci=0;reci<rwcntrec;reci=reci+1) begin
+                      MatRowGet(recSHr,reci,recSHrw);
+                      if (SHrw3.ArtCode==recSHrw.ArtCode) then begin
+                        prev = prev + recSHrw.Ship;
+                      end;
+                    end;
+                    IN2r.Code = SHrw3.ArtCode;
+                    if (ReadFirstItem(SHrw3.ArtCode,IN2r,false,false)) then begin
+                      if (IN2r.ItemType==kItemTypeStocked) then begin
+                        FindStockValueInclStockReserv(SHp.OrderNr,SHrw3.ArtCode,SHrw3.SerialNr,loc2,ISr,stockreservq);
+              					if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
+              						if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin
+          				          error = 1247;
+          				          errorstr = "";
+          				          rownr = i;
+          				          fieldstr = "Ship";                      
+          				          res = -1; 
+          				          goto LSHVcRecordCheck;
+          				        end; 	
+              					end else begin
+              						if ((ISr.Instock-stockreservq<prev) and (prev>0)) then begin
+    	                      error = 1247;
+    	                      errorstr = "";
+    	                      rownr = i;
+    	                      fieldstr = "Ship";                          
+    	                      res = -1; 
+    	                      goto LSHVcRecordCheck;
+    	                    end;
+              					end; //Edit***************************Sasha2,17:55 28.08.2014 }
+              					if (IsEnoughRemQtyInHist(SHrw.ArtCode,SHp.Location,SHp.ShipDate,prev,SHrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+                          error = 31063;
+	                        errorstr = ": " & SHrw.ArtCode;
+	                        rownr = i;
+	                        fieldstr = "ArtCode";                          
+	                        res = -1; 
+	                        goto LSHVcRecordCheck;
+                        end; //Edit***************************Sasha2,10:45 04.03.2016 }
+                      end;
+                    end;
+                  end;
+                end;
+              end;
+            end else begin
+              prev = blankval;
+              for (cnt=0;cnt<i;cnt=cnt+1) begin
+                MatRowGet(SHp,cnt,SHrw3);
+                if (nonblank(SHrw3.Location)) then begin
+                  loc3 = SHrw3.Location;
+                end else begin
+                  loc3 = location;
+                end;
+                isstruct = ExpandStructItem(SHrw3.ArtCode,SHrw3.Recepy,SHrw3.Ship,rec2SHr);
+                if (isstruct) then begin
+                  rwcntrec = MatRowCnt(recSHr);
                   for (reci=0;reci<rwcntrec;reci=reci+1) begin
                     MatRowGet(recSHr,reci,recSHrw);
-                    if (recSHrw.ArtCode==rec2SHrw.ArtCode) then begin
+                    if (SHrw.ArtCode==recSHrw.ArtCode) then begin
                       prev = prev + recSHrw.Ship;
                     end;
                   end;
-                  IN2r.Code = rec2SHrw.ArtCode;
-                  if (ReadFirstItem(rec2SHrw.ArtCode,IN2r,false,false)) then begin
-                    if (IN2r.ItemType==kItemTypeStocked) then begin
-                      FindStockValueInclStockReserv(SHp.OrderNr,rec2SHrw.ArtCode,rec2SHrw.SerialNr,loc2,ISr,stockreservq);
-                      if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
-                      	  if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin 
-      				          	error = 1247;
-      				            errorstr = "";
-      				            rownr = i;
-      				            fieldstr = "Ship";                      
-      				            res = -1; 
-      				            goto LSHVcRecordCheck;
-      				          end; 
-                      end else begin
-						            if ((ISr.Instock-stockreservq<prev) and (prev>0)) then begin
-	                        error = 1247;
-	                        errorstr = "";
-	                        rownr = i;
-	                        fieldstr = "Ship";                          
-	                        res = -1; 
-	                        goto LSHVcRecordCheck;
-	                      end;
-                      end; //Edit***************************Sasha2,17:55 28.08.2014 }
+                end else begin
+                  if (MSb.NoSerOnPU==0) then begin
+                    if ((SHrw3.ArtCode==SHrw.ArtCode) and ((SHrw3.SerialNr==SHrw.SerialNr) and (SNrb.BulkSerialNos==0)) and (loc2==loc3)) then begin
+                      prev = prev + SHrw3.Ship;
+                    end;
+                  end else begin
+                    if ((SHrw3.ArtCode==SHrw.ArtCode) and (loc2==loc3)) then begin
+                      prev = prev + SHrw3.Ship;
                     end;
                   end;
                 end;
+              end;
+              prev = prev + SHrw.Ship;
+              if (SNrb.BulkSerialNos!=0) then begin
+                FindStockValueInclStockReserv(SHp.OrderNr,SHrw.ArtCode,"",loc2,ISr,stockreservq);
               end else begin
-                prev = SHrw3.Ship;
-                for (reci=0;reci<rwcntrec;reci=reci+1) begin
-                  MatRowGet(recSHr,reci,recSHrw);
-                  if (SHrw3.ArtCode==recSHrw.ArtCode) then begin
-                    prev = prev + recSHrw.Ship;
-                  end;
-                end;
-                IN2r.Code = SHrw3.ArtCode;
-                if (ReadFirstItem(SHrw3.ArtCode,IN2r,false,false)) then begin
-                  if (IN2r.ItemType==kItemTypeStocked) then begin
-                    FindStockValueInclStockReserv(SHp.OrderNr,SHrw3.ArtCode,SHrw3.SerialNr,loc2,ISr,stockreservq);
-          					if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
-          						if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin
-      				          error = 1247;
-      				          errorstr = "";
-      				          rownr = i;
-      				          fieldstr = "Ship";                      
-      				          res = -1; 
-      				          goto LSHVcRecordCheck;
-      				        end; 	
-          					end else begin
-          						if ((ISr.Instock-stockreservq<prev) and (prev>0)) then begin
-	                      error = 1247;
-	                      errorstr = "";
-	                      rownr = i;
-	                      fieldstr = "Ship";                          
-	                      res = -1; 
-	                      goto LSHVcRecordCheck;
-	                    end;
-          					end; //Edit***************************Sasha2,17:55 28.08.2014 }
-                  end;
+                if (MSb.NoSerOnPU==0) then begin
+                  FindStockValueInclStockReserv(SHp.OrderNr,SHrw.ArtCode,SHrw.SerialNr,loc2,ISr,stockreservq);
+                end else begin
+                  FindStockValueInclStockReserv(SHp.OrderNr,SHrw.ArtCode,"",loc2,ISr,stockreservq);
                 end;
               end;
-            end;
-          end;
-        end else begin
-          prev = blankval;
-          for (cnt=0;cnt<i;cnt=cnt+1) begin
-            MatRowGet(SHp,cnt,SHrw3);
-            if (nonblank(SHrw3.Location)) then begin
-              loc3 = SHrw3.Location;
-            end else begin
-              loc3 = location;
-            end;
-            isstruct = ExpandStructItem(SHrw3.ArtCode,SHrw3.Recepy,SHrw3.Ship,rec2SHr);
-            if (isstruct) then begin
-              rwcntrec = MatRowCnt(recSHr);
-              for (reci=0;reci<rwcntrec;reci=reci+1) begin
-                MatRowGet(recSHr,reci,recSHrw);
-                if (SHrw.ArtCode==recSHrw.ArtCode) then begin
-                  prev = prev + recSHrw.Ship;
-                end;
-              end;
-            end else begin
-              if (MSb.NoSerOnPU==0) then begin
-                if ((SHrw3.ArtCode==SHrw.ArtCode) and ((SHrw3.SerialNr==SHrw.SerialNr) and (SNrb.BulkSerialNos==0)) and (loc2==loc3)) then begin
-                  prev = prev + SHrw3.Ship;
-                end;
+              if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
+              	if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin 
+    	          	error = 1247;
+    	            errorstr = "";
+    	            rownr = i;
+    	            fieldstr = "Ship";                      
+    	            res = -1; 
+    	            goto LSHVcRecordCheck;
+    	      	  end; 
               end else begin
-                if ((SHrw3.ArtCode==SHrw.ArtCode) and (loc2==loc3)) then begin
-                  prev = prev + SHrw3.Ship;
-                end;
-              end;
-            end;
-          end;
-          prev = prev + SHrw.Ship;
-          if (SNrb.BulkSerialNos!=0) then begin
-            FindStockValueInclStockReserv(SHp.OrderNr,SHrw.ArtCode,"",loc2,ISr,stockreservq);
-          end else begin
-            if (MSb.NoSerOnPU==0) then begin
-              FindStockValueInclStockReserv(SHp.OrderNr,SHrw.ArtCode,SHrw.SerialNr,loc2,ISr,stockreservq);
-            end else begin
-              FindStockValueInclStockReserv(SHp.OrderNr,SHrw.ArtCode,"",loc2,ISr,stockreservq);
-            end;
-          end;
-          if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
-          	if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin 
-	          	error = 1247;
-	            errorstr = "";
-	            rownr = i;
-	            fieldstr = "Ship";                      
-	            res = -1; 
-	            goto LSHVcRecordCheck;
-	      	  end; 
-          end else begin
-          	if ((ISr.Instock-stockreservq<prev) and (prev>0)) then begin
-	            error = 1247;
-	            errorstr = "";
-	            rownr = i;
-	            fieldstr = "Ship";                      
-	            res = -1; 
-	            goto LSHVcRecordCheck;
-	        end;
-          end; //Edit***************************Sasha2,17:55 28.08.2014 }
-          if (nonblank(SHrw.PosCode) and nonblank(SHrw.SerialNr)) then begin           
-            errcode = CheckSerialatPositionInItemHist(SHrw.ArtCode,loc2,SHrw.PosCode,SHrw.SerialNr,prev);
-            if (errcode!=0) then begin 
-              error = 15057;
-              errorstr = " : " & USetStr(12872) & " " & USetStr(16148);
-              rownr = i;
-              fieldstr = "PosCode";                   
-              res = -1;
-              goto LSHVcRecordCheck;
-            end;  
-          end;            
-          if (SHp.OKFlag!=0 or UnOKedCheckSerialf) then begin
-            if (LocRec.RequirePos!=0) then begin
-              FindStockValueAtPosition(SHrw.ArtCode,loc2,SHrw.PosCode,PISr);
-              if (SHrw.Ship>PISr.LeftQty) then begin
-                error = 1397;
-                errorstr = "";
+              	if ((ISr.Instock-stockreservq<prev) and (prev>0)) then begin
+    	            error = 1247;
+    	            errorstr = "";
+    	            rownr = i;
+    	            fieldstr = "Ship";                      
+    	            res = -1; 
+    	            goto LSHVcRecordCheck;
+    	          end;
+              end; //Edit***************************Sasha2,17:55 28.08.2014 }
+              if (IsEnoughRemQtyInHist(SHrw.ArtCode,SHp.Location,SHp.ShipDate,prev,SHrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+                error = 31063;
+                errorstr = ": " & SHrw.ArtCode;
                 rownr = i;
-                fieldstr = "PosCode";                         
+                fieldstr = "ArtCode";                          
                 res = -1; 
                 goto LSHVcRecordCheck;
+              end; //Edit***************************Sasha2,10:45 04.03.2016 }
+              if (nonblank(SHrw.PosCode) and nonblank(SHrw.SerialNr)) then begin           
+                errcode = CheckSerialatPositionInItemHist(SHrw.ArtCode,loc2,SHrw.PosCode,SHrw.SerialNr,prev);
+                if (errcode!=0) then begin 
+                  error = 15057;
+                  errorstr = " : " & USetStr(12872) & " " & USetStr(16148);
+                  rownr = i;
+                  fieldstr = "PosCode";                   
+                  res = -1;
+                  goto LSHVcRecordCheck;
+                end;  
+              end;            
+              if (SHp.OKFlag!=0 or UnOKedCheckSerialf) then begin
+                if (LocRec.RequirePos!=0) then begin
+                  FindStockValueAtPosition(SHrw.ArtCode,loc2,SHrw.PosCode,PISr);
+                  if (SHrw.Ship>PISr.LeftQty) then begin
+                    error = 1397;
+                    errorstr = "";
+                    rownr = i;
+                    fieldstr = "PosCode";                         
+                    res = -1; 
+                    goto LSHVcRecordCheck;
+                  end;
+                end;
               end;
             end;
           end;
         end;
-      end;
-      end;
       end;
       if ((check!=0) and (transf or UnOKedCheckSerialf)) then begin
       if ((INr.SerNrf>0) and (INr.SerNrf<3)) then begin
