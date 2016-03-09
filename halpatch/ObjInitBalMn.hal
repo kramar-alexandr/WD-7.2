@@ -191,20 +191,22 @@ begin
 			mtrw = matrowcnt(FBr);
 			for (i=0;i<mtrw;i=i+1) begin
 				matrowget(FBr,i,FBrw);
-				if !AccInArr[FBrw.AccNumber] then begin
-					AccInArr[FBrw.AccNumber] = true;
-					AccArr[AAi] = FBrw.AccNumber;
-					AAi = AAi + 1;
-				end;
-				if !CurInArr[FBrw.CurncyCode] then begin
-					CurInArr[FBrw.CurncyCode] = true;
-					CurArr[CAi] = FBrw.CurncyCode;
-					CAi = CAi + 1;
-				end;
-				RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":cred"] = RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":cred"] + FBrw.CurCredVal;
-				RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":deb"] = RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":deb"] + FBrw.CurDebVal;
-				RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":cred:base"] = RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":cred:base"] + FBrw.CredVal;
-				RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":deb:base"] = RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":deb:base"] + FBrw.DebVal;
+        if AccAllow[TRrw.AccNumber] then begin
+          if !AccInArr[FBrw.AccNumber] then begin
+            AccInArr[FBrw.AccNumber] = true;
+            AccArr[AAi] = FBrw.AccNumber;
+            AAi = AAi + 1;
+          end;
+          if !CurInArr[FBrw.CurncyCode] then begin
+            CurInArr[FBrw.CurncyCode] = true;
+            CurArr[CAi] = FBrw.CurncyCode;
+            CAi = CAi + 1;
+          end;
+          RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":cred"] = RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":cred"] + FBrw.CurCredVal;
+          RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":deb"] = RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":deb"] + FBrw.CurDebVal;
+          RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":cred:base"] = RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":cred:base"] + FBrw.CredVal;
+          RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":deb:base"] = RepVect[FBr.Objects & ":" & FBrw.AccNumber & ":" & FBrw.CurncyCode & ":deb:base"] + FBrw.DebVal;
+        end;
 			end;
 		end;
 	end;
