@@ -711,7 +711,7 @@ Lfindnoter:;
   
 return;
 end;
-
+/*
 global updating procedure FixUUIDMn()
 begin
 record AccVc Accr,tAccr;
@@ -780,7 +780,7 @@ begin
   end;
   
   return;
-end;
+end;*/
 /*
 global
 function string 120 ReadRecordIdStrkonto5(Integer compnr,string thetag)
