@@ -29,8 +29,9 @@ begin
 	curcomp = CurrentCompany;
 	
   SetCompany(comptoadd,false);
+  TrHs = true;
   while(loopmain(Accr,1,TrHs)) begin
-    AccAllow[TRrw.AccNumber] = true;
+    AccAllow[Accr.AccNumber] = true;
   end;
   ResetCompany(curcomp);
 	
@@ -41,9 +42,9 @@ begin
 	mainr.TransDate = sd;
 	while (loopkey("TransDate",mainr,1,TrHs)) begin
 		testf = true;
-		if (mainr.TransDate > ed) then begin TrHs = false; end;
-		
-		if (TrHs) then begin
+		if (mainr.TransDate > ed) then begin testf = false; TrHs = false; end;
+		if (AccAllow[mainr.AccNumber]==false) then begin testf = false; end;
+		if (testf) then begin
 			TRr.IntYc = mainr.IntYc;
 			TRr.Number = mainr.TransNr;
 			if (readfirstmain(TRr,2,true)) then begin
@@ -191,7 +192,7 @@ begin
 			mtrw = matrowcnt(FBr);
 			for (i=0;i<mtrw;i=i+1) begin
 				matrowget(FBr,i,FBrw);
-        if AccAllow[TRrw.AccNumber] then begin
+        if AccAllow[FBrw.AccNumber] then begin
           if !AccInArr[FBrw.AccNumber] then begin
             AccInArr[FBrw.AccNumber] = true;
             AccArr[AAi] = FBrw.AccNumber;
