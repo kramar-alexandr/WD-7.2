@@ -534,6 +534,7 @@ string 50 registerVc;
 	record FBVc FBr;
 	record ItemHistVc IHr;
 	record ItemStatusVc ISr;
+	record AccVc Accr;
 
 	registerVc = UpperCase(RepSpec.f1);
 	tag = ImportField;
@@ -620,7 +621,11 @@ string 50 registerVc;
  			  	  
 				case "ITEMSTATUSVC": 					 	
  			  	  ImportOneRecord(ISr,tag);
- 			  	  RecordStore(ISr,true);  			  	   			  	   			  	  			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	  			  	  
+ 			  	  RecordStore(ISr,true); 
+ 			  	   	
+ 			  case "ACCVC": 					 	
+ 			  	  ImportOneRecord(Accr,tag);
+ 			  	  RecordStore(Accr,true);  			  	   			  	   			  	  			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	   			  	  			  	  
 					
 			end;
 		end;	
@@ -706,3 +711,83 @@ Lfindnoter:;
   
 return;
 end;
+
+global updating procedure FixUUIDMn()
+begin
+record AccVc Accr,tAccr;
+
+while(loopmain(Accr,1,true))begin
+	Accr.UUID = makeuuid;
+	logtext(0,Accr.UUID);
+	recordstore(Accr,true);
+end;
+
+
+return;
+end;
+procedure ReadImportTagkonto5Record(record AccVc Accr)
+begin
+  string 255 tstr;
+  row AccVc Accrw;
+  integer rwcnt;
+  
+  RecordNew(Accr);
+  ImportField; // NewAutosyncRegister
+  ImportField; // NewAutosyncRegister
+  ImportField; // NewAutosyncRegister
+  Accr.AccNumber = ImportField;
+  Accr.Comment = ImportField;
+  Accr.AccType = StringToInt(ImportField);
+  Accr.NVD = StringToInt(ImportField);
+  Accr.NVC = StringToInt(ImportField);
+  Accr.AutCode = ImportField;
+  Accr.blockedFlag = StringToInt(ImportField);
+  Accr.VATCode = ImportField;
+  Accr.ControlType = StringToInt(ImportField);
+  Accr.Curncy = ImportField;
+  Accr.ConsAccNumber = ImportField;
+  Accr.Conspr = StringToInt(ImportField);
+  Accr.Objects = ImportField;
+  Accr.SRUCode = ImportField;
+  Accr.ExclFrRep = StringToInt(ImportField);
+  Accr.PeriodCode = ImportField;
+  Accr.GroupAcc = StringToInt(ImportField);
+  Accr.TransAutCode = ImportField;
+  Accr.TaxTemplateCode = ImportField;
+  Accr.AccClass = ImportField;
+  
+  rwcnt = 0;
+  
+  while (NextImportLine(false)) begin
+    ClearRow(Accr,Accrw,1);
+    Accrw.LangCode = ImportField;
+    Accrw.Text = ImportField;
+    MatRowPut(Accr,rwcnt,Accrw);
+    rwcnt = rwcnt + 1;
+  end;
+  
+  return;
+end;
+
+global
+updating procedure ReadImportTagkonto5(string thetag)
+begin
+  record AccVc Accr;
+  
+  while (NextImportLine(false)) begin
+    ReadImportTagkonto5Record(Accr);
+    RecordImportStore(Accr,false);
+  end;
+  
+  return;
+end;
+/*
+global
+function string 120 ReadRecordIdStrkonto5(Integer compnr,string thetag)
+begin
+  record AccVc Accr;
+  
+  Accr.AccNumber = ImportField;
+  ReadRecordIdStrkonto5 = BuildRecordIdStr(Accr,compnr);
+  return;
+end;*/
