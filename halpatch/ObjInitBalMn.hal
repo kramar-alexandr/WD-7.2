@@ -17,12 +17,14 @@ begin
 	integer i,j,k,l,mtrw,pos,mi,qty,curcomp,comptoadd,mesnr;
 	string 255 tstr;
 	array string 50 mas;
-	
 	vector boolean AccInArr,CurInArr,ObjInArr,AccAllow;
 	array string 5 AccArr,CurArr,ObjArr;
 	integer AAi,CAi,OAi;
 	vector val RepVect;
 	integer flush;
+	longint time1;
+	val credval,curcredval,debval,curdebval;
+	string 100 objstr,accstr;
 
 	objcode = RepSpec.ObjStr;// must 1be nonblank 
 	sd = RepSpec.sStartDate;
@@ -236,7 +238,7 @@ begin
 	Logtext(0,"comptoadd AccArr.length " & AccArr.length);
 	Logtext(0,"comptoadd CurArr.length " & CurArr.length);
 	for (OAi=0;OAi<ObjArr.length;OAi=OAi+1) begin
-		RecordNew(newFBr);
+		//RecordNew(newFBr);
 		flush = flush + 1;
     nonblankFB = false;
 		newFBr.Objects = ObjArr[OAi];
@@ -245,12 +247,18 @@ begin
 		newFBr.SerNr = NextSerNr("FBVc",newFBr.TransDate,-1,false,"");
 		logtext(0,newFBr.SerNr);
 		i = 0;
+		time1 = GetCurTick;
+		objstr = ObjArr[OAi];
 		for (AAi=0;AAi<AccArr.length;AAi=AAi+1) begin
+			accstr = AccArr[AAi];
 			for (CAi=0;CAi<CurArr.length;CAi=CAi+1) begin
-				logtext(0,OAi & " _ " & AAi & " _ " & CAi);
-				if (RepVect[ObjArr[OAi] & ":" & AccArr[AAi] & ":" & CurArr[CAi] & ":deb"] != blankval) or
-				   (RepVect[ObjArr[OAi] & ":" & AccArr[AAi] & ":" & CurArr[CAi] & ":deb:base"] != blankval) then begin
-					newFBrw.AccNumber = AccArr[AAi];
+				debval = RepVect[objstr & ":" & accstr & ":" & CurArr[CAi] & ":deb"];
+				curdebval = RepVect[objstr & ":" & accstr & ":" & CurArr[CAi] & ":deb:base"];
+				credval = RepVect[objstr & ":" & accstr & ":" & CurArr[CAi] & ":cred"];
+				curcredval = RepVect[objstr & ":" & accstr & ":" & CurArr[CAi] & ":cred:base"];
+				//logtext(0,OAi & " _ " & AAi & " _ " & CAi);
+				if (debval!=blankval) or (curdebval!=blankval) then begin
+					/*newFBrw.AccNumber = AccArr[AAi];
 					
 					//Accr.AccNumber = newFBrw.AccNumber;
 					//ReadFirstKey("AccNumber",Accr,1,true);
@@ -263,12 +271,11 @@ begin
           nonblankFB = true;
 					//FBVc_PasteDebVal(newFBr,i,mesnr);
 					//if (mesnr!=0) then begin logtext(0,USetStr(mesnr)); end;
-					i = i + 1;
+					i = i + 1;*/
 				end;
-				if(RepVect[ObjArr[OAi] & ":" & AccArr[AAi] & ":" & CurArr[CAi] & ":cred"] != blankval) or
-				   (RepVect[ObjArr[OAi] & ":" & AccArr[AAi] & ":" & CurArr[CAi] & ":cred:base"] != blankval) then begin
+				if(curcredval!=blankval) or (credval!=blankval) then begin
 				   
-					newFBrw.AccNumber = AccArr[AAi];
+					/*newFBrw.AccNumber = AccArr[AAi];
 					//Accr.AccNumber = newFBrw.AccNumber;
 					//ReadFirstKey("AccNumber",Accr,1,true);
 					//newFBrw.Comment = Accr.Comment;
@@ -280,19 +287,22 @@ begin
           nonblankFB = true;
 					//FBVc_PasteCredVal(newFBr,i,mesnr);
 					//if (mesnr!=0) then begin logtext(0,USetStr(mesnr)); end;
-					i = i + 1;
+					i = i + 1;*/
 				end;
 			end;
 		end;
+		
+		logtext(0,"OAi  " & OAi & " t  " & GetCurTick-time1);
+		
     if nonblankFB then begin
     	logtext(0,newFBr.SerNr);
-    	FBSumup(newFBr);
-      RecordStore(newFBr,true);
-      if(flush>10)then begin
+    	//FBSumup(newFBr);
+      //RecordStore(newFBr,true);
+      /*if(flush>10)then begin
       	flush = 0;
       	DBFlush;
 		    DBHold;
-      end;
+      end;*/
     end;
 	end;
 	ResetCompany(curcomp);
