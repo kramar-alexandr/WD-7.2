@@ -8,27 +8,38 @@ external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var
 
 procedure FullFillVector(var vector string RepVectTot,var vector val RepVect,string objs,string accs,string curs,row TRVc TRrw,row FBVc FBrw,Boolean istrrw)
 begin
-  val cred,deb,cred_b,deb_b,total;
+  val cred,deb,cred_b,deb_b;
     
-    cred = RepVect["cred"     & objs & curs & accs];
-    deb = RepVect["deb"       & objs & curs & accs];
-    cred_b = RepVect["cred:b" & objs & curs & accs];
-    deb_b = RepVect["deb:b"   & objs & curs & accs];
+    cred = RepVect["cred:"     & objs &":"& curs &":"& accs];
+    deb = RepVect["deb:"       & objs &":"& curs &":"& accs];
+    cred_b = RepVect["cred:b:" & objs &":"& curs &":"& accs];
+    deb_b = RepVect["deb:b:"   & objs &":"& curs &":"& accs];
     if (istrrw) then begin
-      RepVect["cred"   & objs & curs & accs] = cred + TRrw.CurCredVal;
-  		RepVect["deb"    & objs & curs & accs] = deb + TRrw.CurDebVal;
-  		RepVect["cred:b" & objs & curs & accs] = cred_b + TRrw.CredVal;
-  		RepVect["deb:b"  & objs & curs & accs] = deb_b + TRrw.DebVal;
-  		RepVectTot[objs & curs & ";" & accs] = cred + TRrw.CurCredVal & ";" & deb + TRrw.CurDebVal & ";" & 
-  		                                       cred_b + TRrw.CredVal & ";" & deb_b + TRrw.DebVal;
+      RepVect["cred:"   & objs &":"& curs &":"& accs] = cred + TRrw.CurCredVal;
+  		RepVect["deb:"    & objs &":"& curs &":"& accs] = deb + TRrw.CurDebVal;
+  		RepVect["cred:b:" & objs &":"& curs &":"& accs] = cred_b + TRrw.CredVal;
+  		RepVect["deb:b:"  & objs &":"& curs &":"& accs] = deb_b + TRrw.DebVal;
+  		RepVectTot[objs &":"& curs & ";" & accs] = cred + TRrw.CurCredVal & ";" & deb + TRrw.CurDebVal & ";" & 
+  		                                           cred_b + TRrw.CredVal & ";" & deb_b + TRrw.DebVal;
     end else begin
-      RepVect["cred"   & objs & curs & accs] = cred + FBrw.CurCredVal;
-  		RepVect["deb"    & objs & curs & accs] = deb + FBrw.CurDebVal;
-  		RepVect["cred:b" & objs & curs & accs] = cred_b + FBrw.CredVal;
-  		RepVect["deb:b"  & objs & curs & accs] = deb_b + FBrw.DebVal;
-  		RepVectTot[objs & curs & ";" & accs] = cred + FBrw.CurCredVal & ";" & deb + FBrw.CurDebVal & ";" & 
-  		                                       cred_b + FBrw.CredVal & ";" & deb_b + FBrw.DebVal;  
+      RepVect["cred:"   & objs &":"& curs &":"& accs] = cred + FBrw.CurCredVal;
+  		RepVect["deb:"    & objs &":"& curs &":"& accs] = deb + FBrw.CurDebVal;
+  		RepVect["cred:b:" & objs &":"& curs &":"& accs] = cred_b + FBrw.CredVal;
+  		RepVect["deb:b:"  & objs &":"& curs &":"& accs] = deb_b + FBrw.DebVal;
+  		RepVectTot[objs &":"& curs & ";" & accs] = cred + FBrw.CurCredVal & ";" & deb + FBrw.CurDebVal & ";" & 
+  		                                           cred_b + FBrw.CredVal & ";" & deb_b + FBrw.DebVal;  
     end;
+		
+		/*if (accs=="13/101/GL") then begin
+		  LogText(0,"SRT " & objs &":"& curs & ";" & accs);
+		  if (istrrw) then begin
+		    LogText(0,cred + TRrw.CurCredVal & ";" & deb + TRrw.CurDebVal & ";" & cred_b + TRrw.CredVal & ";" & deb_b + TRrw.DebVal);
+		  end else begin
+		    LogText(0,cred + FBrw.CurCredVal & ";" & deb + FBrw.CurDebVal & ";" & cred_b + FBrw.CredVal & ";" & deb_b + FBrw.DebVal);
+		  end;
+		  
+		  LogText(0,"RepVectTot:" & RepVectTot[objs &":"& curs & ";" & accs]);
+		end;*/
 								
   return;
 end;
@@ -74,10 +85,10 @@ begin
   end;
   
   //Delete FBVc in comptoadd
-  /*while (LoopMain(FBr,1,true)) begin
+  while (LoopMain(FBr,1,true)) begin
     RECORDREMOVE(FBr);
     StepBack(FBr);
-  end; return;*/
+  end;
   
   ResetCompany(curcomp); 
 	
@@ -287,35 +298,44 @@ begin
 			for (CAi=0;CAi<curlen;CAi=CAi+1) begin
 			  curstr = CurArr[CAi]; 
 
-			  if (AccHolder[objstr & curstr]==true) then begin
-			    indexstr = objstr & curstr & ";" & accstr;
+			  /*if (accstr=="13/101/GL") then begin
+    		  LogText(0,"SRT to extrude " & objstr &":"& curstr & ";" & accstr);
+    		  LogText(0,"RepVectTot to extrude " & RepVectTot[objstr &":"& curstr & ";" & accstr]);
+    		end;*/
+			  
+			  if (AccHolder[objstr &":"& curstr]==true) then begin
+			    indexstr = objstr &":"& curstr & ";" & accstr;
 			    valuestr = RepVectTot[indexstr]; 
 			    if (NonBlank(valuestr)) then begin
+			      /*if (accstr=="13/101/GL") then begin
+        		  LogText(0,"SRT in extrude " & objstr &":"& curstr & ";" & accstr);
+        		  LogText(0,"RepVectTot in extrude " & RepVectTot[objstr &":"& curstr & ";" & accstr]);
+        		end;*/
 			      //Logtext(0,"valuestr" & valuestr);
   			    pos = 0;
-  			    ExtractObjWithSeparator(";",valuestr,true,pos,tstr);
-  			    if (blank(tstr)) then begin
-  			      credval = blankval;
-  			    end else begin
-  			      credval = StringToVal(tstr,M4Val);
-  			    end;
-    			  ExtractObjWithSeparator(";",valuestr,true,pos,tstr);
-    			  if (blank(tstr)) then begin
-    			    debval = blankval;
-  			    end else begin
-  			      debval = StringToVal(tstr,M4Val);
-  			    end;
-    			  ExtractObjWithSeparator(";",valuestr,true,pos,tstr);
+  			    ExtractObjWithSeparator(";",valuestr,false,pos,tstr);
     			  if (blank(tstr)) then begin
     			    curcredval = blankval;
   			    end else begin
   			      curcredval = StringToVal(tstr,M4Val);
   			    end;
-    				ExtractObjWithSeparator(";",valuestr,true,pos,tstr);
+    				ExtractObjWithSeparator(";",valuestr,false,pos,tstr);
     				if (blank(tstr)) then begin
     				  curdebval = blankval;
   			    end else begin
   			      curdebval = StringToVal(tstr,M4Val);
+  			    end;
+  			    ExtractObjWithSeparator(";",valuestr,false,pos,tstr);
+  			    if (blank(tstr)) then begin
+  			      credval = blankval;
+  			    end else begin
+  			      credval = StringToVal(tstr,M4Val);
+  			    end;
+    			  ExtractObjWithSeparator(";",valuestr,false,pos,tstr);
+    			  if (blank(tstr)) then begin
+    			    debval = blankval;
+  			    end else begin
+  			      debval = StringToVal(tstr,M4Val);
   			    end;
   			    
     			  if (debval!=blankval) or (curdebval!=blankval) then begin
@@ -324,8 +344,8 @@ begin
     					Accr.AccNumber = newFBrw.AccNumber;
     					ReadFirstKey("AccNumber",Accr,1,true);
     					newFBrw.Comment = Accr.Comment;
+    					newFBrw.CurDebVal = curdebval;
     					newFBrw.DebVal = debval;
-    					newFBrw.CurDebVal = curcredval;
     					newFBrw.CurncyCode = curstr;
     					matrowput(newFBr,i,newFBrw);
               nonblankFB = true;
@@ -333,14 +353,14 @@ begin
     					//if (mesnr!=0) then begin Logtext(0,USetStr(mesnr)); end;
     					i = i + 1;
     				end;
-    				if(curcredval!=blankval) or (credval!=blankval) then begin
+    				if(credval!=blankval) or (curcredval!=blankval) then begin
     				  ClearRow(newFBr,newFBrw,1);
     					newFBrw.AccNumber = accstr;
     					Accr.AccNumber = newFBrw.AccNumber;
     					ReadFirstKey("AccNumber",Accr,1,true);
     					newFBrw.Comment = Accr.Comment;
-    					newFBrw.CredVal = credval;
     					newFBrw.CurCredVal = curcredval;
+    					newFBrw.CredVal = credval;
     					newFBrw.CurncyCode = curstr;
     					matrowput(newFBr,i,newFBrw);
               nonblankFB = true;
@@ -351,15 +371,15 @@ begin
 			    end;
   				
   				/*if (NonBlank(valuestr)) then begin
-			      Logtext(0,"value---" & credval & ";" & debval & ";" & curcredval & ";" & curdebval);
+			      Logtext(0,"value---" & curcredval & ";" & curdebval & ";" & credval & ";" & debval);
 			    end;*/
   				 
 			  end;
 			end;
-		end; Logtext(0,"OAi  " & OAi & " t  " & GetCurTick-time1);
+		end; //Logtext(0,"OAi  " & OAi & " t  " & GetCurTick-time1);
 
     if nonblankFB then begin
-    	Logtext(0,"newFBr.SerNr" & newFBr.SerNr);
+    	//Logtext(0,"newFBr.SerNr" & newFBr.SerNr);
     	FBSumup(newFBr);
       RecordStore(newFBr,true);
     end;
