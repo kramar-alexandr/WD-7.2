@@ -29,18 +29,52 @@ begin
   		RepVectTot[objs &":"& curs & ";" & accs] = cred + FBrw.CurCredVal & ";" & deb + FBrw.CurDebVal & ";" & 
   		                                           cred_b + FBrw.CredVal & ";" & deb_b + FBrw.DebVal;  
     end;
-		
-		/*if (accs=="13/101/GL") then begin
-		  LogText(0,"SRT " & objs &":"& curs & ";" & accs);
-		  if (istrrw) then begin
-		    LogText(0,cred + TRrw.CurCredVal & ";" & deb + TRrw.CurDebVal & ";" & cred_b + TRrw.CredVal & ";" & deb_b + TRrw.DebVal);
-		  end else begin
-		    LogText(0,cred + FBrw.CurCredVal & ";" & deb + FBrw.CurDebVal & ";" & cred_b + FBrw.CredVal & ";" & deb_b + FBrw.DebVal);
-		  end;
-		  
-		  LogText(0,"RepVectTot:" & RepVectTot[objs &":"& curs & ";" & accs]);
-		end;*/
 								
+  return;
+end;
+
+
+//init: startpos=0; exceptstr=""; step=objscnt.
+procedure CombineObjs(integer startpos,integer objscnt,array string objs,integer step,string exceptstr,var array string ObjArr,var Integer OAi,var vector boolean ObjInArr,row TRVc TRrw,row FBVc FBrw,var vector string RepVectTot,var vector val RepVect,Boolean istrrw)
+begin
+  integer i;
+  boolean testf;
+  string 255 tstr;
+  
+    if (step<2) then begin
+      goto LCombineObjs;
+    end;
+    if (objscnt==0) then begin
+       goto LCombineObjs;
+    end;
+    
+    for (i=startpos;i<objscnt;i=i+1) begin
+			testf = true;
+			if (NonBlank(exceptstr) and setinset(objs[i],exceptstr)==true) then begin testf = false; end;
+			if (testf) then begin
+			  if (Blank(exceptstr)) then begin
+			    tstr = objs[i];
+			  end else begin
+			    tstr = exceptstr & "," & objs[i];
+			  end;
+  			if !ObjInArr[tstr] then begin
+  				ObjInArr[tstr] = true;
+  				ObjArr[OAi] = tstr;
+  				OAi = OAi + 1;
+  			end;
+  			if (istrrw) then begin
+  			  FullFillVector(RepVectTot,RepVect,tstr,TRrw.AccNumber,TRrw.Curncy,TRrw,FBrw,istrrw);
+  			end else begin
+  			  FullFillVector(RepVectTot,RepVect,tstr,FBrw.AccNumber,FBrw.CurncyCode,TRrw,FBrw,istrrw);
+  			end;
+			  if (step>2) then begin
+			    CombineObjs((i+1),objscnt,objs,(step-1),tstr,ObjArr,OAi,ObjInArr,TRrw,FBrw,RepVectTot,RepVect,istrrw);
+			  end;
+		  end;
+		end;
+    
+LCombineObjs:;    
+
   return;
 end;
 
@@ -85,10 +119,10 @@ begin
   end;
   
   //Delete FBVc in comptoadd
-  while (LoopMain(FBr,1,true)) begin
+  /*while (LoopMain(FBr,1,true)) begin
     RECORDREMOVE(FBr);
     StepBack(FBr);
-  end;
+  end;*/
   
   ResetCompany(curcomp); 
 	
@@ -111,8 +145,8 @@ begin
 					mtrw = matrowcnt(TRr);
 					for (i=0;i<mtrw;i=i+1) begin
 						matrowget(TRr,i,TRrw);
-						if ((TRrw.ovst == 0) and (TRrw.AccNumber == Mainr.AccNumber and TRrw.stp == 1)) then begin
-							if setinset(objcode,TRrw.Objects) and AccAllow[TRrw.AccNumber] then begin
+						if ((TRrw.ovst == 0) and (TRrw.AccNumber == Mainr.AccNumber and TRrw.stp == 1) and NonBlank(TRrw.AccNumber)) then begin
+							if (setinset(objcode,TRrw.Objects) and AccAllow[TRrw.AccNumber]) or (blank(objcode)) then begin
 								if !AccInArr[TRrw.AccNumber] then begin
 									AccInArr[TRrw.AccNumber] = true;
 									AccArr[AAi] = TRrw.AccNumber;
@@ -135,6 +169,9 @@ begin
 									OAi = OAi + 1;
 								end;
 								FullFillVector(RepVectTot,RepVect,TRrw.Objects,TRrw.AccNumber,TRrw.Curncy,TRrw,FBrw,true);
+								if (NonBlank(TRrw.Objects)) then begin
+								  FullFillVector(RepVectTot,RepVect,"",TRrw.AccNumber,TRrw.Curncy,TRrw,FBrw,true);
+								end;
 								pos = 0;
 								mi = 0;
 								ExtractObj(TRrw.Objects,pos,ostr);
@@ -145,7 +182,9 @@ begin
 										ExtractObj(TRrw.Objects,pos,ostr);
 									end;
 									qty = mi;
-									if qty == 2 then begin
+									
+									CombineObjs(0,mi,mas,qty,"",ObjArr,OAi,ObjInArr,TRrw,FBrw,RepVectTot,RepVect,true);
+									/*if qty == 2 then begin
 										for (j=0;j<qty;j=j+1) begin
 											if !ObjInArr[mas[j]] then begin
 												ObjInArr[mas[j]] = true;
@@ -207,7 +246,7 @@ begin
 												end;
 											end;
 										end;
-									end;
+									end;*/
 								end;
 							end;
 						end;
@@ -242,6 +281,9 @@ begin
             CAi = CAi + 1;
           end;
           FullFillVector(RepVectTot,RepVect,FBr.Objects,FBrw.AccNumber,FBrw.CurncyCode,TRrw,FBrw,false);
+          if (NonBlank(FBr.Objects)) then begin
+            FullFillVector(RepVectTot,RepVect,"",FBrw.AccNumber,FBrw.CurncyCode,TRrw,FBrw,false);
+          end;
         end;
 			end;
 		end;
@@ -277,9 +319,7 @@ begin
 	  pos = 0;
 	  ExtractObj(combarr[i],pos,tstr);
 	  AccHolder[tstr] = true;
-	  //Logtext(0,combarr[i]);
 	end;
-
 	
 	for (OAi=0;OAi<objlen;OAi=OAi+1) begin
 		RecordNew(newFBr);
@@ -297,21 +337,11 @@ begin
 			
 			for (CAi=0;CAi<curlen;CAi=CAi+1) begin
 			  curstr = CurArr[CAi]; 
-
-			  /*if (accstr=="13/101/GL") then begin
-    		  LogText(0,"SRT to extrude " & objstr &":"& curstr & ";" & accstr);
-    		  LogText(0,"RepVectTot to extrude " & RepVectTot[objstr &":"& curstr & ";" & accstr]);
-    		end;*/
 			  
 			  if (AccHolder[objstr &":"& curstr]==true) then begin
 			    indexstr = objstr &":"& curstr & ";" & accstr;
 			    valuestr = RepVectTot[indexstr]; 
 			    if (NonBlank(valuestr)) then begin
-			      /*if (accstr=="13/101/GL") then begin
-        		  LogText(0,"SRT in extrude " & objstr &":"& curstr & ";" & accstr);
-        		  LogText(0,"RepVectTot in extrude " & RepVectTot[objstr &":"& curstr & ";" & accstr]);
-        		end;*/
-			      //Logtext(0,"valuestr" & valuestr);
   			    pos = 0;
   			    ExtractObjWithSeparator(";",valuestr,false,pos,tstr);
     			  if (blank(tstr)) then begin
@@ -368,22 +398,17 @@ begin
     					//if (mesnr!=0) then begin Logtext(0,USetStr(mesnr)); end;
     					i = i + 1;
     				end; 
-			    end;
-  				
-  				/*if (NonBlank(valuestr)) then begin
-			      Logtext(0,"value---" & curcredval & ";" & curdebval & ";" & credval & ";" & debval);
-			    end;*/
-  				 
-			  end;
-			end;
-		end; //Logtext(0,"OAi  " & OAi & " t  " & GetCurTick-time1);
-
+  			  end;
+  			end;
+			end; //Logtext(0,"OAi  " & OAi & " t  " & GetCurTick-time1);
+		end; 
+  
     if nonblankFB then begin
-    	//Logtext(0,"newFBr.SerNr" & newFBr.SerNr);
+    	Logtext(0,"newFBr.SerNr" & newFBr.SerNr);
     	FBSumup(newFBr);
       RecordStore(newFBr,true);
     end;
-	end;
+  end;
 	
 	ResetCompany(curcomp);
 return;
