@@ -10,6 +10,10 @@ external function Integer GetVATLaw();
 forward function Boolean FindLocationAccRow(string,row LocationAccBlock);
 external function Boolean GetAccName(string,var string,Integer);
 external procedure GetUserIDCode(string,var string);
+external function Boolean PUVc_PasteArtCode(var record PUVc,Integer,var string,var string); //Edit----------------------Dima  18.03.2016
+external function Integer PUVc_PasteQuant(var record PUVc,Integer);//Edit----------------------Dima  18.03.2016
+external function Boolean PUVc_PasteVECode(var record PUVc);
+
 
 global
 function roundmode DefaultRoundMode()
@@ -1596,3 +1600,114 @@ begin
 return;
 end;
 
+
+//This maintanance is based on the NewInvValRn report
+global updating procedure CreationPUsMn(record RcVc RepSpec)	//Edit----------------------Dima  18.03.2016
+begin
+  record INVc INr;
+  record ItemHistVc IHr,IH2r;
+  record ItemStatusVc ISr,IS2r;
+  record PUVc PUr,vecPUr;
+  row PUVc vecPUrw;
+  boolean TrHs,testf,TrHs1,testf1,print;
+  string 255 tstr;
+  integer i,pos,itemqty,rownr,curCompany;
+  string 20 IHkey;
+	record SerBalVc SerBalr;	
+	vector record PUVc PUs;
+	vector boolean PUunique;
+	array string 100 vectorKeys;
+	string 100 key; //key = Vendor:Curncy:Rate
+	string 255 warning,inwarn;
+	
+	curCompany = CurrentCompany;
+  
+  	
+  	RepSpec.ArtMode = 1; //Detailed
+  
+  if (blankdate(RepSpec.d1)) then begin
+		IHkey = "ActiveQty";	
+	end;
+	
+  	TrHs = true;
+  	INr.Code = "";
+	while (LoopMain(INr,1,TrHs)) begin
+		testf = true;
+
+		if (INr.ItemType!=kItemTypeStocked) then begin testf = false; end;
+		if (testf) then begin
+					
+			TrHs1 = true;
+			print = false;
+			IHr.ArtCode = INr.Code;
+			while (LoopKey(IHkey,IHr,1,TrHs1)) begin
+				testf1 = true;
+				if (IHr.ArtCode!=INr.Code) then begin TrHs1 = false; testf1 = false; end;
+				if (NonBlank(RepSpec.f2) and !SetInSet(IHr.Location,RepSpec.f2)) then begin testf1 = false; end; 
+				if (nonblankdate(RepSpec.d1) and RepSpec.d1<IHr.TransDate) then begin testf1 = false; end;
+				if (IHr.StockAffectf!=1) then begin testf1 = false; end;
+				if (testf1) then begin
+
+	    			print = true;
+	    			if (RepSpec.ArtMode==1) then begin
+	    				if (blankdate(RepSpec.d1)) then begin
+	    				
+	    					SerBalr.Item = IHr.ArtCode;							
+	    					SerBalr.Location = IHr.Location;
+	    					SerBalr.Serial = IHr.SerialNr;
+	    					if ((ReadFirstMain(SerBalr,3,true) and (SerBalr.Quant>0)) or INr.SerNrf==0) then begin
+	    						
+	    						PUr.SerNr = IHr.InSerNr;
+	    						ReadFirstMain(PUr,1,true);    						
+	    						
+	    						key = PUr.VECode & ":" & IHr.PUCurncyCode & ":" & PUr.FrRate;
+	    						if (PUunique[key]==false) then begin
+										RecordNew(vecPUr);										
+										vecPUr.VECode = PUr.VECode;
+										PUVc_PasteVECode(vecPUr);
+										vecPUr.CurncyCode = IHr.PUCurncyCode;
+										vecPUr.FrRate = PUr.FrRate;
+										vecPUr.ToRateB1 = 1;
+										vecPUr.Comment = "from " & IHr.Location;
+										PUunique[key]=true;
+										
+									end else begin	
+										vecPUr = PUs[key];
+									end;
+									
+									vecPUrw.ArtCode = INr.Code;									
+									rownr = MatRowCnt(vecPUr);
+									MatRowPut(vecPUr,rownr,vecPUrw);
+									PUVc_PasteArtCode(vecPUr,rownr,warning,inwarn);
+									MatRowGet(vecPUr,rownr,vecPUrw);
+									vecPUrw.SerialNr = IHr.SerialNr;					
+									vecPUrw.UPrice = AbsoluteVal(IHr.TotCostPriceCurncy/IHr.Qty);				
+									vecPUrw.Quant = IHr.RemQty;
+									PUVc_PasteQuant(vecPUr,rownr);
+									MatRowPut(vecPUr,rownr,vecPUrw);    						
+	    						PUs[key] = vecPUr;
+	    					end else begin	
+	    						print = false;
+	    					end;
+	    				end;
+	    			end;					
+				end;
+			end; RESETLOOP(IHr);
+
+			
+		end;	
+	end;
+
+	
+	if (SetCompany(RepSpec.flags[1],false)) then begin
+		GetVectorTags(PUs,vectorKeys);
+		for(i=0;i<vectorKeys.length;i=i+1) begin
+			vecPUr = PUs[vectorKeys[i]];
+			vecPUr.SerNr = NextSerNr("PUVc",CurrentDate,-1,false,"");
+			RecordStore(vecPUr,true);
+			LogText(0,vectorKeys[i] & "  " & vecPUr.SerNr & "  rows: " & MatRowCnt(vecPUr));
+		end;
+	end;
+	ResetCompany(curCompany);	
+  
+end;

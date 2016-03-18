@@ -3376,9 +3376,9 @@ begin
   Tile(tilenr,220,true,tilenr,Math); tilenr = tilenr + 1;
   v = 24;
   if (HasSerialNumbers) then begin
-    MatrixBegin(4,v,-50,-50,-,199);
+    MatrixBegin(4,v,-50,-50,-,999);
   end else begin
-    MatrixBegin(4,v,-25,-50,-,199);
+    MatrixBegin(4,v,-25,-50,-,999);
   end;
   MatTypedRow(stp);
   MatOverStrike(ovst);
