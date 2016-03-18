@@ -15,7 +15,7 @@ external procedure KreditorkaReportEn();
 //------------------------------------------------------------------------------------------------------------------------------
 global updating procedure AutoRun()
 begin
-integer iStore,iTek,Textera,Technomedia,AService,WD,MMR,iCenter,Samsung;
+integer iStore,iTek,Textera,Technomedia,AService,WD,MMR,iCenter,Samsung,Gilliver;
 record RcVc RepSpec;
 
 iStore = 1;
@@ -27,6 +27,7 @@ MMR = 6;
 Technomedia = 7;//Technomedia
 AService = 8;
 Samsung = 9;
+Gilliver = 10;
 
   if (SetCompany(iStore,false)) then begin
   	logtext(0,currentcompany & " FullStockEn");
@@ -41,6 +42,18 @@ Samsung = 9;
     BuhExportEn; //Edit***************************Sasha2,9:44 16.01.2015
     logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
+  end;
+  
+  if (SetCompany(Gilliver,false)) then begin
+  	logtext(0,currentcompany & " FullStockEn");
+    FullStockEn;
+		logtext(0,currentcompany & " SalesReportEn");
+    SalesReportEn;
+    logtext(0,currentcompany & " ManagersFullStockEn");
+    ManagersFullStockEn;
+    logtext(0,currentcompany & " DebitorkaReportEn");
+    RetailSalesEn;// Edit ************************** Tuesday, 17 February 2015 09:55:38
+    BuhExportEn; //Edit***************************Sasha2,9:44 16.01.2015
   end;
   
   

@@ -428,11 +428,12 @@ begin
       WindowFieldGotoForTouchScreen(mwn,-1,"ivcashcommand",false);
       KeyPadEnter(mwn);
     case "IVCashDClass":// Edit ************************** Tuesday, 8 December 2015 13:54:32
-    	if(currentcompany==4)then begin
+    	CloseWindow(wn);// Edit ************************** Wednesday, 16 March 2016 17:52:09
+    	/*if(currentcompany==4)then begin
     		CloseWindow(wn);// Edit ************************** Tuesday, 8 December 2015 13:55:07
     	end else begin
     		PasteFromSysList(wn,30);
-    	end;
+    	end;*/
     		// Edit ************************** Tuesday, 8 December 2015 13:50:59
     otherwise
       PasteFromSysList(wn,30);

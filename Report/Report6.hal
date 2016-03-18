@@ -231,6 +231,13 @@ integer compno;
               openexportfile("Stock/ISStockFull.xls",true);
               MyItemReportRn(RepSpec);
               RunProgram("Stock/ISStockFull.sh", "");
+      
+      case 10: delete_file("Stock/GLStockFull.xls");
+      				CreateFile("Stock/GLStockFull.xls");
+              closefile;
+              openexportfile("Stock/GLStockFull.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/GLStockFull.sh", "");
               
       case 2: delete_file("Stock/ITEKUAStockFull.xls");
       				CreateFile("Stock/ITEKUAStockFull.xls");
@@ -305,7 +312,7 @@ record RcVc RepSpec;
 integer compno;
   compno = CurrentCompany;
       switch (compno) begin
-      case 1: RepSpec.f1 = "INV#1,INV#1_LV,INV#1_LVST,INV#1_GL,INV#1_GL_ST";
+      case 1: RepSpec.f1 = "INV#1,INV#1_LV,INV#1_LVST";
               RepSpec.f2 = "RRPD,RRPD1";
       				delete_file("Stock/iStoreStockFullManagers.xls");
       				CreateFile("Stock/iStoreStockFullManagers.xls");
@@ -313,6 +320,15 @@ integer compno;
               openexportfile("Stock/iStoreStockFullManagers.xls",true);
               MyItemReportRn(RepSpec);
               RunProgram("Stock/iStoreStockFullManagers.sh", "");
+              
+      case 10: RepSpec.f1 = "INV1_GL,INV1_GLST";
+              RepSpec.f2 = "RRP_T";
+      				delete_file("Stock/GulliverStockFullManagers.xls");
+      				CreateFile("Stock/GulliverStockFullManagers.xls");
+              closefile;
+              openexportfile("Stock/GulliverStockFullManagers.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/GulliverStockFullManagers.sh", "");
       
       case 2: delete_file("Stock/ITEKUAStockFullManagers.xls");
       				CreateFile("Stock/ITEKUAStockFullManagers.xls");

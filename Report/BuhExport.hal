@@ -232,6 +232,11 @@ string 50 filename;
               closefile;
               millisleep(100);
               ExportCashInvoicesEn(RepSpec);
+              
+              //RunProgram("Buh/BuhExportiStore.sh", "");  
+              
+      case 10: RepSpec.d1=addday(CurrentDate,-1);
+              
               RepSpec.f1 = "GL";
               filename = "Buh/" & RepSpec.f1 & ".txt";
               RepSpec.f2 = filename;
@@ -240,7 +245,7 @@ string 50 filename;
               millisleep(100);
               ExportCashInvoicesEn(RepSpec);
               
-              RunProgram("Buh/BuhExportiStore.sh", "");  
+              RunProgram("Buh/BuhExportiStore.sh", "");
               
       case 4: RepSpec.d1=addday(CurrentDate,-1);
               RepSpec.f1 = "D1";
