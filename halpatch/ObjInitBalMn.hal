@@ -136,6 +136,7 @@ begin
 		testf = true;
 		if (mainr.TransDate > ed) then begin testf = false; end;
 		if (AccAllow[mainr.AccNumber]==false) then begin testf = false; end;
+		if (mainr.TransDate < sd) then begin testf = false; end;
 		
 		if (testf) then begin
 			TRr.IntYc = mainr.IntYc;
