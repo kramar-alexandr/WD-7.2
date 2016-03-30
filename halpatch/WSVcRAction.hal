@@ -52,6 +52,7 @@ external procedure GetLocationAcc(string,var string,var string);
 external function longint GetUserSerNrSeries(longint);// Edit ************************** Thursday, 13 February 2014 17:29:44
 remote updating procedure CreateIVFromWS(record WSVc,var LongInt,var record IVVc); //Edit***************************Sasha2,11:46 10.06.2015
 external function boolean CheckUserLocation(string);//Edit----------------------Dima  09.12.2015
+external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
 
 procedure GetWSStockAcc(Integer ItemGroupAccounts,string location,string MainStock,string itcode,string accusageacc,var string stockacc,var string locobjstr)
 begin  
@@ -783,27 +784,32 @@ begin
                 res = -1;
                 goto LWSVcRecordCheck;
               end;
+              if (IsEnoughRemQtyInHist(WSrw.ArtCode,location,WSp.TransDate,prev,WSrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+                RecordCheckError(31063,": " & WSrw.ArtCode,i,"ArtCode");      
+                res = -1;
+                goto LWSVcRecordCheck;
+              end; //Edit***************************Sasha2,10:45 04.03.2016 }
               
             // Edit Start ---------------------------------------------- Edit Start
 	//Tuesday, 25 October 2011 11:56:21
-	          if(WSp.OKFlag==0)then begin
-              if(WSp.PrelOK!=0)then begin
-                if ((ISr.Instock-ISr.RsrvQty)<prev) then begin
-                  RecordCheckError(1247,"",i,"Quant");      
-                  res = -1;
-                  goto LWSVcRecordCheck;
+  	          if(WSp.OKFlag==0)then begin
+                if(WSp.PrelOK!=0)then begin
+                  if ((ISr.Instock-ISr.RsrvQty)<prev) then begin
+                    RecordCheckError(1247,"",i,"Quant");      
+                    res = -1;
+                    goto LWSVcRecordCheck;
+                  end;
                 end;
               end;
-            end;
-            
-            if(WSp.OKFlag!=0)then begin
-              if(WSp.PrelOK==0)then begin
-                if ((ISr.Instock-ISr.RsrvQty)<prev) then begin
-                  RecordCheckError(1247,"",i,"Quant");      
-                  res = -1;
-                  goto LWSVcRecordCheck;
+              
+              if(WSp.OKFlag!=0)then begin
+                if(WSp.PrelOK==0)then begin
+                  if ((ISr.Instock-ISr.RsrvQty)<prev) then begin
+                    RecordCheckError(1247,"",i,"Quant");      
+                    res = -1;
+                    goto LWSVcRecordCheck;
+                  end;
                 end;
-              end;
             end;
 	// Edit End ---------------------------------------------- Edit End              
               

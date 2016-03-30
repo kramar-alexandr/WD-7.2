@@ -662,10 +662,10 @@ LWSDClassActiveEditField:;
         end;
       end;
   end;
-  /*
+
   if(currentuser=="SA")then begin
   	res = true;
-  end;*/
+  end;
   
   switch (fieldname) begin
     case "SalesGroup": res = true;
