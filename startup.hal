@@ -111,6 +111,7 @@ begin
 	Maintenance("Find RetSM costprice",MyVClass,FixStockMovMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
 	
 	Maintenance("FixUUID",MyVClass,FixUUIDMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
+	Maintenance("AddBalance CUVc",MyAddBalanceVClass,MyAddBalaceMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
 
 
 	Maintenance("Add SVO Serial Hist",MyVClass,FillSVOHistSerialMn,modSVO);

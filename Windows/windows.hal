@@ -1599,3 +1599,31 @@ begin
   EditField(h,v+=vs,150,"Компания для создания",Normal,flags[1],false,Companies2SClass);
   EndWindow;
 end;
+
+
+window MyAddBalanceVClass:1// Edit ************************** Friday, 4 March 2016 16:58:27
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+  WindowBegin("Создание поступлений",MyAddBalanceVClass,CGMnt,RcType);
+  SetWRect(20,80,400,400);
+  h = 150;
+  vs = 25;
+
+  //EditField(h,v+=vs,150,"FileName",Normal,f1,false,0);
+  EditField(h,v+=vs,150,"Date",Normal,d1,false,0);
+  EditField(h,v+=vs,150,"Customer",Normal,f1,false,CUSclass);
+  EditField(h,v+=vs,150,"v1",Normal,vals0,false,0);
+  EditField(h,v+=vs,150,"Curncy",Normal,f2,false,0);
+  /*EditField(h,v+=vs,150,"v2",Normal,vals1,false,0);
+  EditField(h,v+=vs,150,"col3",Normal,f4,false,0);
+  EditField(h,v+=vs,150,"v3",Normal,vals2,false,0);
+  EditField(h,v+=vs,150,"col4",Normal,f5,false,0);
+  EditField(h,v+=vs,150,"v4",Normal,vals3,false,0);
+  EditField(h,v+=vs,150,"col5",Normal,f3,false,0);
+  EditField(h,v+=vs,150,"v5",Normal,vals4,false,0);
+  EditField(h,v+=vs,150,"col6",Normal,f3,false,0);
+  EditField(h,v+=vs,150,"v6",Normal,vals5,false,0);*/
+  EndWindow;
+end;
+
