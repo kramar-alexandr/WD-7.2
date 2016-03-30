@@ -532,6 +532,7 @@ begin
   val t;
   record SMVc fwdCurTotalsr;  //addcurencytotals
   string 255 repspeccurncy;
+  string 20 tempcur;
 
 	
   BlockLoad(BCb);
@@ -616,7 +617,9 @@ begin
   end;
   CUr.Code = frcc;
   TrHs = true;
+  tempcur = RepSpec.CurncyCode;// Edit ************************** Monday, 28 March 2016 10:03:01
   while (LoopMain(CUr,1,TrHs)) begin
+  	
     if (nonblank(tocc)) then begin
       if (CUr.Code>tocc) then begin
         TrHs = false;
@@ -660,6 +663,7 @@ begin
         end;
       end;
       if (testf) then begin
+      	RepSpec.CurncyCode = tempcur;// Edit ************************** Monday, 28 March 2016 10:03:24
         if (RepSpec.flags[2]==0) then begin
           basecurf = true;
         end else begin
@@ -677,31 +681,37 @@ begin
             if (notfullmonthf) then begin
               CUGetStartBalance(CUr,"salesinclvat",RepSpec.CurncyCode,RepSpec.sStartDate,StartBal,false);
               CUGetStartBalance(CUr,"paidvalue",RepSpec.CurncyCode,RepSpec.sStartDate,v,false);  
-              StartBal = StartBal + v;              
+              StartBal = StartBal + v;  
+              logtext(0,"StartBal1 " & StartBal);            
               CUGetEndBalance(CUr,"salesinclvat",RepSpec.CurncyCode,RepSpec.sEndDate,EndBal,false);
               CUGetEndBalance(CUr,"paidvalue",RepSpec.CurncyCode,RepSpec.sEndDate,v,false);
             end else begin
               CUGetStartBalance(CUr,"salesinclvat",RepSpec.CurncyCode,RepSpec.sStartDate,StartBal,blank(CUr.CurncyCode) or CUr.CurncyCode==BCb.BaseCur1);
               CUGetStartBalance(CUr,"paidvalue",RepSpec.CurncyCode,RepSpec.sStartDate,v,blank(CUr.CurncyCode) or CUr.CurncyCode==BCb.BaseCur1);  
               StartBal = StartBal + v;
-              
+              logtext(0,"StartBal2 " & StartBal); 
               CUGetEndBalance(CUr,"salesinclvat",RepSpec.CurncyCode,RepSpec.sEndDate,EndBal,blank(CUr.CurncyCode) or CUr.CurncyCode==BCb.BaseCur1);
               CUGetEndBalance(CUr,"paidvalue",RepSpec.CurncyCode,RepSpec.sEndDate,v,blank(CUr.CurncyCode) or CUr.CurncyCode==BCb.BaseCur1);
-//              EndBal = GetBalance(CUr,"salesinclvat",RepSpec.sEndDate);
-//              v = GetBalance(CUr,"paidvalue",RepSpec.sEndDate);  
+//            EndBal = GetBalance(CUr,"salesinclvat",RepSpec.sEndDate);
+//            v = GetBalance(CUr,"paidvalue",RepSpec.sEndDate);  
             end;
+            
+            
+            
             EndBal = EndBal + v;            
 //            DiffBal = EndBal + StartBal;
             DiffBal = EndBal - StartBal;
           end else begin
-            RepSpec.CurncyCode = repspeccurncy;
+            RepSpec.CurncyCode = repspeccurncy;// Edit ************************** Monday, 28 March 2016 10:17:42
             if (notfullmonthf) then begin
 //              CUGetStartBalance(CUr,"balance",RepSpec.CurncyCode,AddDay(RepSpec.sStartDate,-1),StartBal,basecurf);//need to exclude start day
               CUGetStartBalance(CUr,"balance",RepSpec.CurncyCode,AddDay(RepSpec.sStartDate,0),StartBal,basecurf);//need to exclude start day, which is done inside CUGetStartBalance
               CUGetEndBalance(CUr,"balance",RepSpec.CurncyCode,RepSpec.sEndDate,EndBal,basecurf);
+            	logtext(0,"StartBal3 " & StartBal);  
             end else begin
               CUGetStartBalance(CUr,"balance",RepSpec.CurncyCode,RepSpec.sStartDate,StartBal,basecurf);
               CUGetEndBalance(CUr,"balance",RepSpec.CurncyCode,RepSpec.sEndDate,EndBal,basecurf);
+            	logtext(0,"StartBal4 " & StartBal);  
             end;
             DiffBal = EndBal - StartBal;
             if (RepSpec.ArtMode==0) then begin

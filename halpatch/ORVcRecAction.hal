@@ -788,7 +788,7 @@ begin
 	//Friday, July 11, 2014 at 11:16:33
 	
   if(ORr.Closed==0)then begin
-    if (blank(ORr.ShipMode) and (currentcompany!=3 and currentcompany!=8 and currentcompany!=1)) then begin
+    if (blank(ORr.ShipMode) and (currentcompany!=3 and currentcompany!=8 and currentcompany!=1 and currentcompany!=11)) then begin
         RecordCheckError(1058,"",-1,"ShipMode");      
         res = -1;
         goto LORVcRecordCheck;

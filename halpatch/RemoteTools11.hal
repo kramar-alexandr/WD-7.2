@@ -1333,6 +1333,7 @@ begin
     ld.day = 1;
     ed = AddDay(sd,-1);
     v = v + CUGetStartBalanceNotFullMonth(CUr,colns,curncy,ld,ed,basecurf,v);
+    logtext(0,"v1 " & v);
   end else begin
     ld = AddDay(sd,-1);
 //    v = GetBalance(CUr,colns,ld);
@@ -1343,6 +1344,9 @@ begin
     	//CUr.CurncyCode = "USD";// Edit ************************** Tuesday, 24 November 2015 14:23:15
     end;
     v = GetBalance(CSr,colns,ld);
+    logtext(0,"v2 " & v & ld);
+    
+    
 /*    
 StartFormat(15);    
  OutString(0,0,"aa1",false);
@@ -1351,6 +1355,8 @@ StartFormat(15);
 EndFormat;
 */	
   end;
+  logtext(0,"v " & v);
+  
   return;
 end;
 
