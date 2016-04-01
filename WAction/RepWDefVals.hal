@@ -72,3 +72,25 @@ BEGIN
   SelectWindow(wn);
   RETURN;
 END;
+
+global
+procedure SaleWeekByVERClassReportDefaults(Integer wn)
+BEGIN
+  record RcVc RepSpec;
+  Integer dateId;
+  date curdate;
+  
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  ReportDefaults(RepSpec,"SaleWeekByVERClass");
+  curdate = CurrentDate;
+  dateId = GetDateId(curdate);
+  RepSpec.sEndDate = addday(curdate,-dateId);
+  RepSpec.sStartDate = addday(RepSpec.sEndDate,-6);
+  RepSpec.Period2Str = RepSpec.sStartDate & ":" & RepSpec.sEndDate;
+  //RepSpec.f4 = "ERC,ASBIS";
+  //RepSpec.f7 = "EXB_GL";
+  PutWindowRecord(wn,RepSpec);
+  SelectWindow(wn);
+  RETURN;
+END;

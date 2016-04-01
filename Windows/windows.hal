@@ -1627,3 +1627,20 @@ begin
   EndWindow;
 end;
 
+window SaleWeekByVERClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+
+	WindowBegin("Звіт по продажам і залишкам за тиждень",SaleWeekByVERClass,CGRcW,RcType);
+		SetWRect(20,120,350,300);
+		h=100; v=10;
+		PeriodField(h,v,"Період");
+		EditField(h,v+=20,150,"Товар",Normal,f3,false,INSClass);
+		EditField(h,v+=20,150,"Постачальник",Normal,f4,false,VESClass);
+		EditField(h,v+=20,150,"Склади",Normal,f7,false,LocationSClass);
+	
+	EndWindow;
+return;
+end;
