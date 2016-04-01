@@ -216,8 +216,15 @@ BEGIN
   record LocationVc ToLocr;
   val serqty;
   string 255 serialnr,errofield;
+  date operatedate; //Edit***************************Sasha2,10:40 01.04.2016
   
   logtext(0,"CheckStockMovRow " & 0);
+  
+  if (NonBlankDate(SMp.SentTransDate)) then begin //Edit***************************Sasha2,10:40 01.04.2016 {
+    operatedate = SMp.SentTransDate;
+  end else begin
+    operatedate = SMp.TransDate;
+  end; //Edit***************************Sasha2,10:40 01.04.2016 }
   
   ToLocr.Code = tolocation;
   if (ReadFirstMain(ToLocr,1,true)) then begin
@@ -259,27 +266,23 @@ BEGIN
     goto LCheckStockMovRow;
 //Edit-------------------Vitalii 10:41 09.12.2015
   end else begin
-	if ((StockMovrw.Quant!=StockMovrw.SentQuant) and nonblank(SMp.ThrouLocation) and (SMp.OKFlag!=0)) or ((StockMovrw.Quant!=StockMovrw.OrdQuant) and blank(SMp.ThrouLocation) and (SMp.OKFlag!=0)) then begin
-		error = 1008;
-		errorstr = "";
-		errorrownr = rownr;
-		fieldstr = "Quant";           
-		res = 1008;
-		goto LCheckStockMovRow;
-	end;
-	
-	if ((StockMovrw.OrdQuant!=StockMovrw.SentQuant) and blank(SMp.ThrouLocation) and (SMp.SentOKFlag!=0)) then begin
-		error = 1008;
-		errorstr = "";
-		errorrownr = rownr;
-		fieldstr = "SendQuant";           
-		res = 1008;
-		goto LCheckStockMovRow;
-	end;
-	
-	
-	
-	
+  	if ((StockMovrw.Quant!=StockMovrw.SentQuant) and nonblank(SMp.ThrouLocation) and (SMp.OKFlag!=0)) or ((StockMovrw.Quant!=StockMovrw.OrdQuant) and blank(SMp.ThrouLocation) and (SMp.OKFlag!=0)) then begin
+  		error = 1008;
+  		errorstr = "";
+  		errorrownr = rownr;
+  		fieldstr = "Quant";           
+  		res = 1008;
+  		goto LCheckStockMovRow;
+  	end;
+  	
+  	if ((StockMovrw.OrdQuant!=StockMovrw.SentQuant) and blank(SMp.ThrouLocation) and (SMp.SentOKFlag!=0)) then begin
+  		error = 1008;
+  		errorstr = "";
+  		errorrownr = rownr;
+  		fieldstr = "SendQuant";           
+  		res = 1008;
+  		goto LCheckStockMovRow;
+  	end;
   end;
   if (((INr.SerNrf>0) and (INr.SerNrf<3)) and (MSb.NoSerOnPU==0)) then begin
     if (ToLocr.Type==1) then begin
@@ -345,7 +348,7 @@ BEGIN
 						res = 1247;
 						goto LCheckStockMovRow;
 					end;
-					if (IsEnoughRemQtyInHist(StockMovrw.ArtCode,frlocation,SMp.SentTransDate,prev,StockMovrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+					if (IsEnoughRemQtyInHist(StockMovrw.ArtCode,frlocation,operatedate,prev,StockMovrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
             error = 31063;
             errorstr = ": " & StockMovrw.ArtCode;
             errorrownr = rownr;
