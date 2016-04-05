@@ -25,12 +25,15 @@ integer compnr;
         openexportfile(filename,true);
         ReportDefaults(RepSpec,"IPRClass");
         repdate = addday(Currentdate,-1);
+        if(compnr==2)then begin
+        	repdate = addday(Currentdate,-2);// Edit ************************** Monday, 4 April 2016 09:40:46
+        end;
         if(GetDateID(currentdate)==1)then begin
           repdate = addday(Currentdate,-3);
         end;
 
         RepSpec.sStartDate = repdate;
-        RepSpec.sEndDate = repdate;
+        RepSpec.sEndDate = currentdate;
         RepSpec.flags[1] = 0;
         RepSpec.flags[2] = 1;
         switch(compnr)begin
