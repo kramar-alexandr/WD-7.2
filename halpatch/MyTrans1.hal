@@ -626,14 +626,24 @@ global //Edit***************************Sasha2,16:38 03.03.2016 {
 function Boolean IsEnoughRemQtyInHist(string code,string location,date docdate,val qty,string serialnumber)
 begin
   record ItemHistvc IHr;
+  record INVc INr;
   Boolean TrHs,testf;
-  val remval;
+  val remval,checkedqty;
   Boolean res;
     
     res = false;
     LogText(0,"IsEnoughRemQtyInHist:" & "Code:" & code & "," & "Loc:" & location & "," & "Date:" & docdate & "," & "Qty:" & qty & "," & "Serial:" & serialnumber);
     if (blank(code) or blank(location) or blankdate(docdate)) then begin
       goto LIsEnoughRemQtyInHist;
+    end;
+    
+    INr.Code = code;
+    ReadFirstMain(INr,1,true);
+    
+    if (INr.SerNrf>0) then begin
+      checkedqty = 1;
+    end else begin
+      checkedqty = qty;
     end;
 
     IHr.ArtCode = code;
@@ -648,7 +658,7 @@ begin
         remval = remval + IHr.RemQty;
       end;
     end;
-    if (qty<=remval) then begin
+    if (checkedqty<=remval) then begin
       res = true;
     end;
 
