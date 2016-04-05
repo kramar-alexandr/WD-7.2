@@ -631,6 +631,7 @@ begin
   Boolean res;
     
     res = false;
+    LogText(0,"IsEnoughRemQtyInHist:" & "Code:" & code & "," & "Loc:" & location & "," & "Date:" & docdate & "," & "Qty:" & qty & "," & "Serial:" & serialnumber);
     if (blank(code) or blank(location) or blankdate(docdate)) then begin
       goto LIsEnoughRemQtyInHist;
     end;
