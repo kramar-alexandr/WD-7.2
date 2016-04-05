@@ -1146,7 +1146,7 @@ begin
     	                        goto LSHVcRecordCheck;
     	                      end;
                           end; //Edit***************************Sasha2,17:55 28.08.2014 }
-                          if (IsEnoughRemQtyInHist(SHrw.ArtCode,SHp.Location,SHp.ShipDate,prev,SHrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+                          if (IsEnoughRemQtyInHist(SHrw.ArtCode,loc2,SHp.ShipDate,prev,SHrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
                             error = 31063;
   	                        errorstr = ": " & SHrw.ArtCode;
   	                        rownr = i;
@@ -1188,7 +1188,7 @@ begin
     	                      goto LSHVcRecordCheck;
     	                    end;
               					end; //Edit***************************Sasha2,17:55 28.08.2014 }
-              					if (IsEnoughRemQtyInHist(SHrw.ArtCode,SHp.Location,SHp.ShipDate,prev,SHrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+              					if (IsEnoughRemQtyInHist(SHrw.ArtCode,loc2,SHp.ShipDate,prev,SHrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
                           error = 31063;
 	                        errorstr = ": " & SHrw.ArtCode;
 	                        rownr = i;
@@ -1260,7 +1260,7 @@ begin
     	            goto LSHVcRecordCheck;
     	          end;
               end; //Edit***************************Sasha2,17:55 28.08.2014 }
-              if (IsEnoughRemQtyInHist(SHrw.ArtCode,SHp.Location,SHp.ShipDate,prev,SHrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+              if (IsEnoughRemQtyInHist(SHrw.ArtCode,loc2,SHp.ShipDate,prev,SHrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
                 error = 31063;
                 errorstr = ": " & SHrw.ArtCode;
                 rownr = i;
