@@ -70,6 +70,23 @@ begin
   rnd.mode = kRoundingModeHalfUp; 
   
 	startreportnoheaderjob("Звіт по продажам і залишкам за тиждень");
+	
+		startformat(15);
+		  pos = 0;
+		  outstring(pos,0,"Період:",false); pos = pos + 70;
+		  outstring(pos,0,sd & " : " & ed,false); pos = pos + 70;
+		endformat;  
+		startformat(15);
+		  pos = 0;
+		  outstring(pos,0,"Постачальник:",false); pos = pos + 70;
+		  outstring(pos,0,RepSpec.f4,false); pos = pos + 70;
+		endformat;
+		startformat(15);
+		  pos = 0;
+			outstring(pos,0,"Склади:",false); pos = pos + 70;
+			outstring(pos,0,RepSpec.f7,false); pos = pos + 70;
+		endformat;
+	
 		startformat(15);
 		  pos = 0;
 		  outstring(pos,0,"Постачальник",false); pos = pos + 70;
@@ -274,3 +291,67 @@ LSaleWeekByVERn:;
 return;
 end;
 
+global procedure SaleWeekByVEEn()
+begin
+
+	record RcVc RepSpec;
+string 50 filename;
+date repdate;
+integer compnr;
+  
+      compnr = currentcompany;
+      
+      if(GetDateId(currentdate)==1)then begin
+      
+        switch(compnr)begin
+        	case 1: filename = "Reports/1/IstoreSaleWeek.xls";
+        	case 10: filename = "Reports/10/GulliverSaleWeek.xls";
+
+        end;
+        recordnew(RepSpec);
+        
+        delete_file(filename);
+        CreateFile(filename);
+        closefile;
+        millisleep(150);
+        openexportfile(filename,true);
+        ReportDefaults(RepSpec,"SaleWeekByVERClass");
+        repdate = addday(Currentdate,-7);
+        
+        RepSpec.sStartDate = repdate;
+        RepSpec.sEndDate = currentdate;
+        RepSpec.f4 = "ERC_IS,ASBIS";
+        switch compnr begin
+        	case 1:RepSpec.f7 = "EXB_LV,EXB_LV_ST,INV#1_LV,INV#1_LVST,INV#1";
+        	case 10 :RepSpec.f7 = "EXB_GL,EXB_GL_ST,INV1_GL,INV1_GLST";
+        end;
+        
+        RepSpec.Media = 20;
+        SaleWeekByVERn(RepSpec);
+                
+        
+        closefile;
+        millisleep(100);
+        switch(compnr)begin
+        	case 1: RunProgram("Reports/1/IstoreSaleWeek.sh","");
+        	case 10: RunProgram("Reports/10/GulliverSaleWeek.sh","");
+        end;
+			end;
+return;
+end;
+
+global webpublic procedure WebSaleWeekByVEEn()
+begin
+	
+	  if (SetCompany(1,false)) then begin
+	  	SaleWeekByVEEn;
+	  	resetcompany(1);
+	  end;
+	  if (SetCompany(10,false)) then begin
+	  	SaleWeekByVEEn;
+	  	resetcompany(10);
+	  end;
+
+
+return;
+end;
