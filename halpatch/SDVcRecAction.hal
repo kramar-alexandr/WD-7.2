@@ -966,6 +966,7 @@ begin
   if (blank(location)) then begin
     location = MSb.MainStock;
   end;
+  
   if (nonblank(location)) then begin
     LocRec.Code = location;
     if (ReadFirstMain(LocRec,1,true)==false) then begin
@@ -1178,7 +1179,7 @@ begin
                   res = -1;
                   goto LSDVcRecordCheck;
                 end;
-                if (IsEnoughRemQtyInHist(SDrw.ArtCode,location,SDp.TransDate,prev,SDrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+                if (IsEnoughRemQtyInHist(SDrw.ArtCode,loc2,SDp.TransDate,prev,SDrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
                   RecordCheckError(31063,": " & SDrw.ArtCode,i,"ArtCode");      
                   res = -1; 
                   goto LSDVcRecordCheck;
