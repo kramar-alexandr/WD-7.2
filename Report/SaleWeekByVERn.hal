@@ -9,6 +9,45 @@ external procedure CollectCostMyInvoice(record IVVc,integer,var array val,var ar
 
 SetLangMode(LangUkrainian,"UKR",0);
 
+function string 255 GetIStoreVendor(string vendor,string code,string serialnr)
+begin
+  record ItemHistVc IHr;
+  record PUVc PUr;
+  string 20 outvendor;
+  Integer currcomp;
+  Boolean TrHs,testf;
+    
+    outvendor = vendor;
+    if (blank(code) or blank(serialnr)) then begin
+      goto LGetIStoreVendor;
+    end;
+    currcomp = CurrentCompany;
+    if (SetCompany(1,false)) then begin
+      IHr.ArtCode = code;
+      IHr.SerialNr = serialnr;
+      IHr.TransDate = CurrentDate;
+      TrHs = true;
+      while (LoopBackKey("CodeSerialNrArtCode",IHr,2,TrHs)) begin
+        testf = true;
+        if (IHr.ArtCode!=code or IHr.SerialNr!=serialnr) then begin TrHs = false; testf = false; end;
+        if (IHr.StockAffectf==0) then begin testf = false; end;
+        if (testf) then begin
+          PUr.SerNr = IHr.InSerNr;
+	        ReadFirstMain(PUr,1,true);
+	        outvendor = PUr.VECode;
+	        TrHs = false;
+	        testf = false;
+        end;
+      end;
+      resetcompany(currcomp);
+    end;
+    
+LGetIStoreVendor:;
+
+    GetIStoreVendor = outvendor;
+  return;
+end;
+
 global procedure SaleWeekByVERn(record RcVc RepSpec)
 begin
 	integer i,mtrw;
@@ -143,6 +182,9 @@ begin
   					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo,realcostbase,realcostuah,
   					                     realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb);		
   				
+  					if (CurrentCompany==10 and vecode[j]=="ISMART" and INr.SerNrf>0) then begin
+  					  vecode[j] = GetIStoreVendor(vecode[j],IVrw.ArtCode,IVrw.SerialNr);
+  					end;
   					foundqty = 0;
   					For(j=0;j<ressize;j=j+1) begin
   						foundqty = foundqty + qty[j];
@@ -228,12 +270,16 @@ begin
 									if (ReadFirstMain(ISr,2,true) and ISr.Instock>0) then begin
 										PUr.SerNr = IHr.InSerNr;
 	                  ReadFirstMain(PUr,1,true);
-                    if (nonblank(RepSpec.f4) and nonblank(PUr.VECode) and setinset(PUr.VECode,RepSpec.f4)) then begin
+	                  vecode[0] = PUr.VECode;
+	                  if (CurrentCompany==10 and PUr.VECode=="ISMART" and INr.SerNrf>0) then begin
+          					  vecode[0] = GetIStoreVendor(PUr.VECode,SerBalr.Item,SerBalr.Serial);
+          					end;
+                    if (nonblank(RepSpec.f4) and nonblank(vecode[0]) and setinset(vecode[0],RepSpec.f4)) then begin
                       if (itemInList[IHr.ArtCode]==false) then begin
             					  itemlist[itemlist.length] = IHr.ArtCode;
             					  itemInList[IHr.ArtCode] = true;
             					end;
-                      leftitems[PUr.VECode & INr.Code] = leftitems[PUr.VECode & INr.Code] + IHr.RemQty;
+                      leftitems[vecode[0] & INr.Code] = leftitems[vecode[0] & INr.Code] + IHr.RemQty;
                     end;
 									end;
 								end else begin
