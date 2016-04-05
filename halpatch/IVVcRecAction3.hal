@@ -1259,7 +1259,7 @@ not needed any more
                             goto L99;
                           end;
                         end;
-                        if (IsEnoughRemQtyInHist(IVrw.ArtCode,location,IVp.InvDate,prev,IVrw.SerialNr)==false) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
+                        if ((prev>0) and (IsEnoughRemQtyInHist(IVrw.ArtCode,location,IVp.InvDate,prev,IVrw.SerialNr)==false)) then begin //Edit***************************Sasha2,10:45 04.03.2016 {
                           RecordCheckError(31063,": " & IVrw.ArtCode,i,"ArtCode");      
                           res = -1; 
                           goto L99;
