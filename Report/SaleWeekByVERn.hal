@@ -182,9 +182,6 @@ begin
   					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo,realcostbase,realcostuah,
   					                     realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb);		
   				
-  					if (CurrentCompany==10 and vecode[j]=="ISMART" and INr.SerNrf>0) then begin
-  					  vecode[j] = GetIStoreVendor(vecode[j],IVrw.ArtCode,IVrw.SerialNr);
-  					end;
   					foundqty = 0;
   					For(j=0;j<ressize;j=j+1) begin
   						foundqty = foundqty + qty[j];
@@ -192,6 +189,9 @@ begin
   					
   					For(j=0;j<ressize;j=j+1) begin
   						filter = true;
+  						if (CurrentCompany==10 and vecode[j]=="ISMART" and INr.SerNrf>0) then begin
+    					  vecode[j] = GetIStoreVendor(vecode[j],IVrw.ArtCode,IVrw.SerialNr);
+    					end;
   						if(nonblank(RepSpec.f3) and RepSpec.f3!=IVrw.ArtCode)then begin filter = false; end;
   						if(nonblank(RepSpec.f4) and (!setinset(vecode[j],RepSpec.f4) or blank(vecode[j])))then begin filter = false; end;
   						if(filter)then begin
@@ -212,6 +212,9 @@ begin
   					
   					if(foundqty*cred<IVrw.Quant)then begin
   						filter = true;
+  						if (CurrentCompany==10 and vecode[j]=="ISMART" and INr.SerNrf>0) then begin
+    					  vecode[j] = GetIStoreVendor(vecode[j],IVrw.ArtCode,IVrw.SerialNr);
+    					end;
   						if(nonblank(RepSpec.f3) and RepSpec.f3!=IVrw.ArtCode)then begin filter = false; end;
   						if(nonblank(RepSpec.f4) and (!setinset(vecode[j],RepSpec.f4) or blank(vecode[j])))then begin filter = false; end;
   						if(filter)then begin
