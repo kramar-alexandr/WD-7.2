@@ -579,6 +579,11 @@ BEGIN
       if (printf) then begin
         StartFormat(15);
         OutString(inpos,dblstr,INp.Code & variety,false);
+        
+        if(RepSpec.Media==mtExcel)then begin
+        	OutString(0,0,INp.BarCode,false);// Edit ************************** Tuesday, 12 April 2016 09:31:56
+        end;
+        
         if (nonblank(variety)) then begin
           ReadFirstItem(INp.Code & variety,lINr,true,false);
           OutString(2,0,lINr.Name,false);
@@ -637,6 +642,9 @@ BEGIN
       if (RepSpec.PocketPC == 0) then begin
         StartFormat(15);
         OutString(inpos,dblstr,INp.Code & variety,false);
+        if(RepSpec.Media==mtExcel)then begin
+        	OutString(0,0,INp.BarCode,false);// Edit ************************** Tuesday, 12 April 2016 09:31:56
+        end;
         if (nonblank(variety)) then begin
           ReadFirstItem(INp.Code & variety,lINr,true,false);
           OutStringID(2,"DblINVc",lINr.Name,false,INp.Code);
@@ -651,6 +659,9 @@ BEGIN
       end else begin
         StartFormat(15);
         OutString(inpos,dblstr,INp.Code & variety,false);
+        if(RepSpec.Media==mtExcel)then begin
+        	OutString(inpos,dblstr,INp.BarCode & variety,false);// Edit ************************** Tuesday, 12 April 2016 09:31:56
+        end;
         OutString(2,0,left(INp.Name,15),false);
         OutVal(3,0,instock,M4UVal,true);
       end;
@@ -1541,6 +1552,9 @@ begin
     if (RepSpec.PocketPC==0) then begin
       StartFormat(15);
       OutString(0,0,USetStr(2325),false);
+      if(RepSpec.Media==mtExcel)then begin
+				OutString(0,0,"Bar Code",false);// Edit ************************** Tuesday, 12 April 2016 09:31:56
+			end;
       OutString(2,0,USetStr(2326),false);
       if (RepSpec.Media==mtFile or RepSpec.Media==mtExcel) then begin
         OutString(2,0,"",false);

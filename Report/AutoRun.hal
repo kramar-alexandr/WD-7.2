@@ -43,6 +43,8 @@ Gilliver = 10;
     BuhExportEn; //Edit***************************Sasha2,9:44 16.01.2015
     logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
+    logtext(0,currentcompany & " SaleWeekByVEEn"); 
+    SaleWeekByVEEn;
   end;
   
   if (SetCompany(Gilliver,false)) then begin
