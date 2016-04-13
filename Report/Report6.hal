@@ -72,7 +72,9 @@ begin
   
   startformat(15);
     outstring(0,0,"Товар",false);
-    outstring(0,0,"Штрих-код",false);
+    if(currentcompany==9)then begin
+    	outstring(0,0,"Штрих-код",false);
+    end;
     outstring(0,0,"Назва",false);
     outstring(0,0,"Класифікація",false);
     if(RepSpec.flags[0]==1)then begin
@@ -118,7 +120,9 @@ begin
     		if(RepSpec.ArtMode==0)then begin
     			StartFormat(15)
     				OutString(0,0,ISr.Code,false);
-    				outstring(0,0,INr.BarCode,false);
+    				if(currentcompany==9)then begin
+							outstring(0,0,INr.BarCode,false);
+    				end;
     				OutString(1,0,INr.Name,false);
     				outstring(0,0,INr.DispGroups,false);
     				OutString(2,0,ISr.Instock,false);
@@ -159,7 +163,9 @@ begin
         		if(testf1)then begin 
         			StartFormat(15)
   						OutString(0,0,ISr.Code,false);
-  						outstring(0,0,INr.BarCode,false);
+  						if(currentcompany==9)then begin
+								outstring(0,0,INr.BarCode,false);
+  						end;
   						OutString(1,0,INr.Name,false);
   						outstring(0,0,INr.DispGroups,false);
   						if(RepSpec.flags[0]==1)then begin

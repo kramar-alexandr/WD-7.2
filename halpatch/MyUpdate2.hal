@@ -1,3 +1,5 @@
+external procedure ExtractObj(string,var Integer,var string);
+external function Boolean SetInSet2(string,string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -221,3 +223,75 @@ begin
 
 return;
 end;
+
+
+
+global //Edit***************************Sasha2,17:37 15.04.2015 {
+updating procedure ImportWebItemsIn()
+begin
+string 100 artcode,classtoadd,classtodel,tempstr,newdisps;
+record INVc INr;
+record DIVc DIr;
+boolean testf;
+integer cnt,pos;
+record WebSyncRegVc WSRr;
+
+	cnt = 0;
+	while (TestEOF()==false) begin
+		artcode = ImportField;
+		classtoadd = ImportField; 
+		classtodel = ImportField;
+		
+		if(nonblank(artcode))then begin
+			WSRr.ArtCode = artcode;
+			if(readfirstmain(WSRr,1,true))then begin
+			  testf = false;
+			  
+			  logtext(0,WSRr.ArtCode);
+			  
+			  if (NonBlank(classtodel)) then begin
+			    testf = true;
+			              
+  			  pos = 0;
+  			  newdisps = "";
+          ExtractObj(WSRr.Available,pos,tempstr);
+          while (nonblank(tempstr)) begin
+            if (SetInSet2(tempstr,classtodel)==false) then begin
+              if (Blank(newdisps)) then begin
+                newdisps = tempstr;
+              end else begin
+                newdisps = newdisps & "," & tempstr;
+              end;
+            end;
+            ExtractObj(WSRr.Available,pos,tempstr);
+          end; 
+          if (NonBlank(newdisps)) then begin
+            WSRr.Available = newdisps; 
+          end;
+			  end;
+			  
+			  if (NonBlank(classtoadd)) then begin
+			    testf = true;
+			    			    
+  			  if (NonBlank(WSRr.Available)) then begin
+  			  	if(!setinset(classtoadd,WSRr.Available))then begin
+							WSRr.Available = WSRr.Available & "," & classtoadd;
+  				  end;
+  				end else begin
+  				  WSRr.Available = classtoadd;
+  				end;
+			  end; 
+
+				if (testf) then begin
+				  recordStore(WSRr,true);
+				end;
+ LSomeErrorInDI:; 			
+			end;
+		end;
+	NextImportLine(true);   
+  end; 
+
+LImportNewItemsWithClassIn:;
+	
+return;
+end; //Edit***************************Sasha2,17:37 15.04.2015 }

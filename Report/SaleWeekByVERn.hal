@@ -173,65 +173,71 @@ begin
   				if(IVrw.stp==kInvoiceRowTypeNormal and nonblank(IVrw.ArtCode))then begin
   					INr.Code = IVrw.ArtCode;
   					readfirstmain(INr,1,true);
-  					location = "";
-  					if(nonblank(IVrw.Location))then begin
-  						location = IVrw.Location;
-  					end else begin
-  						location = IVr.Location;
-  					end;
-  					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo,realcostbase,realcostuah,
-  					                     realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb);		
-  				
-  					foundqty = 0;
-  					For(j=0;j<ressize;j=j+1) begin
-  						foundqty = foundqty + qty[j];
-  					end;
+  					testf = true;
   					
-  					For(j=0;j<ressize;j=j+1) begin
-  						filter = true;
-  						if (CurrentCompany==10 and vecode[j]=="ISMART" and INr.SerNrf>0) then begin
-    					  vecode[j] = GetIStoreVendor(vecode[j],IVrw.ArtCode,IVrw.SerialNr);
-    					end;
-  						if(nonblank(RepSpec.f3) and RepSpec.f3!=IVrw.ArtCode)then begin filter = false; end;
-  						if(nonblank(RepSpec.f4) and (!setinset(vecode[j],RepSpec.f4) or blank(vecode[j])))then begin filter = false; end;
-  						if(filter)then begin
-  						  index = vecode[j] & IVrw.ArtCode;
-  							if (itemInList[IVrw.ArtCode]==false) then begin
-  							  itemlist[itemlist.length] = IVrw.ArtCode;
-  							  itemInList[IVrw.ArtCode] = true;
-  							end;
-  							
-  							if (qty[j]>0) then begin
-  							  saleditems[index] = saleditems[index] + qty[j];
-  							end else begin
-  							  returneditems[index] = returneditems[index] + qty[j];
-  							end;
-  							
-  						end;
-  					end;
+  					if (nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group) then begin testf = false; end;
+  					if(testf)then begin
   					
-  					if(foundqty*cred<IVrw.Quant)then begin
-  						filter = true;
-  						if (CurrentCompany==10 and vecode[j]=="ISMART" and INr.SerNrf>0) then begin
-    					  vecode[j] = GetIStoreVendor(vecode[j],IVrw.ArtCode,IVrw.SerialNr);
-    					end;
-  						if(nonblank(RepSpec.f3) and RepSpec.f3!=IVrw.ArtCode)then begin filter = false; end;
-  						if(nonblank(RepSpec.f4) and (!setinset(vecode[j],RepSpec.f4) or blank(vecode[j])))then begin filter = false; end;
-  						if(filter)then begin
-  						  index = vecode[j] & IVrw.ArtCode;
-  							if (itemInList[IVrw.ArtCode]==false) then begin
-  							  itemlist[itemlist.length] = IVrw.ArtCode;
-  							  itemInList[IVrw.ArtCode] = true;
-  							end;
-  							
-  							if (qty[j]>0) then begin
-  							  saleditems[index] = saleditems[index] + (IVrw.Quant*cred - foundqty);
-  							end else begin
-  							  returneditems[index] = returneditems[index] + (IVrw.Quant*cred - foundqty);
-  							end;
-  							
-  						end;
-  					end;
+							location = "";
+							if(nonblank(IVrw.Location))then begin
+								location = IVrw.Location;
+							end else begin
+								location = IVr.Location;
+							end;
+							CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo,realcostbase,realcostuah,
+																	 realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb);		
+					
+							foundqty = 0;
+							For(j=0;j<ressize;j=j+1) begin
+								foundqty = foundqty + qty[j];
+							end;
+						
+							For(j=0;j<ressize;j=j+1) begin
+								filter = true;
+								if (CurrentCompany==10 and vecode[j]=="ISMART" and INr.SerNrf>0) then begin
+									vecode[j] = GetIStoreVendor(vecode[j],IVrw.ArtCode,IVrw.SerialNr);
+								end;
+								if(nonblank(RepSpec.f3) and RepSpec.f3!=IVrw.ArtCode)then begin filter = false; end;
+								if(nonblank(RepSpec.f4) and (!setinset(vecode[j],RepSpec.f4) or blank(vecode[j])))then begin filter = false; end;
+								if(filter)then begin
+									index = vecode[j] & IVrw.ArtCode;
+									if (itemInList[IVrw.ArtCode]==false) then begin
+										itemlist[itemlist.length] = IVrw.ArtCode;
+										itemInList[IVrw.ArtCode] = true;
+									end;
+								
+									if (qty[j]>0) then begin
+										saleditems[index] = saleditems[index] + qty[j];
+									end else begin
+										returneditems[index] = returneditems[index] - qty[j];
+									end;
+								
+								end;
+							end;
+						
+							if(foundqty*cred<IVrw.Quant)then begin
+								filter = true;
+								if (CurrentCompany==10 and vecode[j]=="ISMART" and INr.SerNrf>0) then begin
+									vecode[j] = GetIStoreVendor(vecode[j],IVrw.ArtCode,IVrw.SerialNr);
+								end;
+								if(nonblank(RepSpec.f3) and RepSpec.f3!=IVrw.ArtCode)then begin filter = false; end;
+								if(nonblank(RepSpec.f4) and (!setinset(vecode[j],RepSpec.f4) or blank(vecode[j])))then begin filter = false; end;
+								if(filter)then begin
+									index = vecode[j] & IVrw.ArtCode;
+									if (itemInList[IVrw.ArtCode]==false) then begin
+										itemlist[itemlist.length] = IVrw.ArtCode;
+										itemInList[IVrw.ArtCode] = true;
+									end;
+								
+									if (qty[j]>0) then begin
+										saleditems[index] = saleditems[index] + (IVrw.Quant*cred - foundqty);
+									end else begin
+										returneditems[index] = returneditems[index] - (IVrw.Quant*cred - foundqty);
+									end;
+								
+								end;
+							end;
+						end;
   				end;	 
   			end; 
   	  end;
@@ -252,6 +258,9 @@ begin
   		if (NonBlank(RepSpec.f3) and !SetInSet(INr.Code,RepSpec.f3)) then begin testf = false; end;
   		if (INr.Terminated<>0) then begin testf = false; end;
   		if (INr.ItemType!=kItemTypeStocked) then begin testf = false; end;
+  		if (nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group) then begin testf = false; end;
+  		
+  		
   		if (testf) then begin
   			TrHs1 = true;
   			IHr.ArtCode = INr.Code;
@@ -369,6 +378,7 @@ integer compnr;
         
         RepSpec.sStartDate = repdate;
         RepSpec.sEndDate = currentdate;
+        RepSpec.f2 = "APPLE";
         RepSpec.f4 = "ERC_IS,ASBIS";
         switch compnr begin
         	case 1:RepSpec.f7 = "EXB_LV,EXB_LV_ST,INV#1_LV,INV#1_LVST,INV#1";

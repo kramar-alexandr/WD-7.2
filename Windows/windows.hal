@@ -1066,6 +1066,7 @@ begin
   RecordList(4,17,-21,-39);
   RlColKey(4,4,"Code",ArtCode,false,ArtCode);
   RlColKey(121,121, "Change date",DateChange,false,DateChange);
+  RlCol(191,191, "Available",Available,false);
   SearchField("Пошук");
   EndWindow;
   return;
@@ -1601,6 +1602,7 @@ begin
 end;
 
 
+
 window MyAddBalanceVClass:1// Edit ************************** Friday, 4 March 2016 16:58:27
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
@@ -1638,9 +1640,38 @@ begin
 		h=100; v=10;
 		PeriodField(h,v,"Період");
 		EditField(h,v+=20,150,"Товар",Normal,f3,false,INSClass);
+		EditField(h,v+=20,150,"Група",Normal,f2,false,ITSClass);
 		EditField(h,v+=20,150,"Постачальник",Normal,f4,false,VESClass);
 		EditField(h,v+=20,150,"Склади",Normal,f7,false,LocationSClass);
 	
 	EndWindow;
-return;
 end;
+
+
+window WebINImportIClass:1	//Edit***************************Sasha2,17:17 06.01.2016 {
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,v,vs;
+Integer i;
+  WindowBegin("Імпорт наявності товарів WEB",WebINImportIClass,CGIcW,-);
+  SetWRect(20,80,470,300);
+  i=1; //номер колонки
+  h=10;  v=15;
+  StaticText(h,v,"Формат імпорту",false);
+  h=20;  v=40;
+  StaticText(h,v,"Список колонок:",false);
+  v=v+30; vs=25;
+  StaticText(h,v, 	i & ". Код товара",false);
+	 StaticText(h+250,v,"Обов'язкове поле",false);
+	 i=i+1;
+  StaticText(h,v+=vs,i & ". Код складу який треба додати",false);
+	 StaticText(h+250,v,"Необов'язкове поле",false);
+	 i=i+1;
+  StaticText(h,v+=vs,i & ". Код складу який треба видалити",false);
+	 StaticText(h+250,v,"Необов'язкове поле",false);
+	 i=i+1;
+
+  StaticText(h,v+=40,"Примітка:   Всі стовбці розділені <Tab>",false);
+
+  EndWindow;
+end; //Edit***************************Sasha2,17:18 06.01.2016 }
