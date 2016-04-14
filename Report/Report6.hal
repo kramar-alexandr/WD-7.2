@@ -79,6 +79,9 @@ begin
     outstring(0,0,"Класифікація",false);
     if(RepSpec.flags[0]==1)then begin
     	outstring(0,0,"Постачальник",false);
+    	if(currentcompany==6)then begin// Edit ************************** Wednesday, 13 April 2016 14:21:23
+    		outstring(0,0,"Комментар",false);
+    	end;
     	outstring(0,0,"Дата надходження",false);
     	outstring(0,0,"Серiйний номер",false);
     end;
@@ -171,10 +174,17 @@ begin
   						if(RepSpec.flags[0]==1)then begin
   							PUr.SerNr = IHr.InSerNr;
   							if(readfirstmain(PUr,1,true) and IHr.InFileName=="PUVc")then begin
+  								
   								outstring(0,0,PUr.VECode,false);
+  								if(currentcompany==6)then begin// Edit ************************** Wednesday, 13 April 2016 14:21:23
+										outstring(0,0,PUr.Comment,false);
+									end;
   								outstring(0,0,PUr.TransDate,false);
   							end else begin
   								outstring(0,0,"",false);
+  								if(currentcompany==6)then begin// Edit ************************** Wednesday, 13 April 2016 14:21:23
+										outstring(0,0,"",false);
+									end;
   								outstring(0,0,"",false);
   							end;
   							outstring(0,0,IHr.SerialNr,false);
