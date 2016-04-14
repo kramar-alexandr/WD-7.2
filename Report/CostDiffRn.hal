@@ -288,7 +288,6 @@ begin
 		OutString(tab[9],0,"‘обґвартґсть по ґсторґ»",false);
 
 	EndFormat;
-	EndFormat;
 	Black_Divider(0,1);
 	
 	CollectNonStockedItems(NonStockedItems);	
@@ -297,6 +296,7 @@ begin
 
 //----------------------------------------  IVVc  ---------------------------------------	
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31071),false);	// Invoices
 	EndFormat;
 	Gray_Divider(0,1);
@@ -340,12 +340,14 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat; // new empty line
 	
 	//-------------------------  PUVc <--> POVc <--> VIVc -------------------------
 	
 	
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31072),false);		
 	OutString(tab[3],0,USetStr(31074),false);		//# PO
 	OutString(tab[10],0,USetStr(31075),false);	//# PU
@@ -423,6 +425,7 @@ begin
 		
 		end;
 	end;
+	StartFormat(15);
 	EndFormat;
 	ClearArray(recordsArray);
 	
@@ -430,6 +433,7 @@ begin
 
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31073),false);		//Returns to suppliers
 	OutString(tab[3],0,USetStr(31074),false);		//# PO
 	OutString(tab[10],0,USetStr(31076),false);	//# RetPU
@@ -506,6 +510,7 @@ begin
 				Gray_Divider(0,1);										
 		end;				
 	end;
+	StartFormat(15);
 	EndFormat;
 	ClearArray(recordsArray);
 	
@@ -516,6 +521,7 @@ begin
 
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31078),false);		//Stock Depreciations
 	EndFormat;
 	Gray_Divider(0,1);
@@ -566,12 +572,14 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat; 
 	
 	
 //-------------------------  SHVc -------------------------	
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31079),false);		//Deliveries
 	EndFormat;
 	Gray_Divider(0,1);
@@ -616,6 +624,7 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat;
 
 
@@ -624,6 +633,7 @@ begin
 //-------------------------  StockMovVc -------------------------	
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31080),false);		//Stock Movements
 	EndFormat;
 	Gray_Divider(0,1);
@@ -666,6 +676,7 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat;
 	
 
@@ -674,6 +685,7 @@ begin
 //-------------------------  RetVc -------------------------	
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31081),false);		//Returned Goods
 	EndFormat;
 	Gray_Divider(0,1);
@@ -718,6 +730,7 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat;
 	
 
@@ -726,6 +739,7 @@ begin
 
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31082),false);		//Stock Depreciations
 	EndFormat;
 	Gray_Divider(0,1);
@@ -735,6 +749,7 @@ begin
 	WSr.TransDate = RepSpec.sStartDate;
 	While(LoopKey("TransDate",WSr,1,TrHs)) begin
 		testf = false;
+		logtext(0,WSr.SerNr);
 		for (i=0;i<MatRowCnt(WSr);i=i+1) begin
 			MatRowGet(WSr,i,WSrw);
 			if (NonStockedItems[WSrw.ArtCode]==false and WSrw.stp==kInvoiceRowTypeNormal) then begin 
@@ -745,12 +760,17 @@ begin
 		if (WSr.OKFlag==0) then begin testf=false; end;
 				
 		if (testf) then begin
-		
+			
+			logtext(0,WSr.SerNr);
 			printDoc = false;								
 			transExist = GetCostFromTransaction(WSr.SerNr,WSYc,accPrefix,debit,credit);						
 			ihSerNr = GetCostFromItemHistory(WSr.SerNr,"WSVc",ihcost);
 			
-			if (ihSerNr==0 or transExist==false) then begin printDoc = true; end;
+			if (ihSerNr==0 or transExist==false) then begin 
+				if(ihcost!=0 and transExist==false)then begin
+					printDoc = true; 
+				end;
+			end;
 			if ((AbsoluteVal(ihcost-AbsoluteVal(credit))) > precision ) then begin printDoc = true; end;
 			
 			if (CheckEqualityOfDates(WSr.SerNr,"WSVc")==false) then begin printDoc = true; end;
@@ -771,6 +791,7 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat;
 	
 	
