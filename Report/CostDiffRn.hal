@@ -30,6 +30,46 @@ boolean TrHs;
 end;
 
 
+function boolean CheckEqualityOfDates(longint sernr, string filename)
+begin
+record TRVc TRr;
+record WSVc WSr;
+record ItemHistVc IHr;
+date recorddate,trDate,histDate;
+boolean res;
+
+	res = false;
+
+	switch(filename) begin
+	
+		case "WSVc":
+			WSr.SerNr = sernr;
+			ReadFirstMain(WSr,1,true);
+			recorddate = WSr.TransDate;
+	end;
+
+	TRr.Number = sernr;
+	TRr.IntYc = WSYc;
+	if (ReadFirstMain(TRr,2,true)) then begin
+		trDate = TRr.TransDate;
+	end;
+	
+	
+	IHr.FileName = filename;
+	IHr.TransNr = sernr;
+	if (ReadFirstKey("FNTransNr",IHr,2,true)) begin
+		histDate = IHr.TransDate;
+	end;
+	
+	if (recorddate==trDate and trDate==histDate and recorddate==histDate) then begin
+		res = true;
+	end;
+
+CheckEqualityOfDates = res;
+return;
+end;
+
+
 function boolean GetCostFromTransaction(longint sernr, integer intYc, string accPrefix, var val debit, var val credit)		//Edit--------Dima  17.02.2016
 begin
 	record TRVc TRr;
@@ -55,6 +95,63 @@ begin
 	end;
 
 GetCostFromTransaction = res;
+return;
+end;
+
+
+
+
+function boolean GetCostFromTransactionByRowSD(record SDVc SDr,  var val debit, var val credit)		//Edit----------------------Dima  14.04.2016
+begin
+	record TRVc TRr;
+	row TRVc TRrw;
+	boolean res;
+	row SDVc SDrw;
+	integer i;
+	vector boolean locations;
+	vector val creditTransactions,debitTransactions;
+	array string 50 accounts,locs;
+	string 15 obj,acc;
+
+	res = false;
+	debit = 0; credit = 0;
+	
+	if (blank(SDr.Location)) then begin
+		for (i=0;i<MatRowCnt(SDr);i=i+1) begin
+			MatRowGet(SDr,i,SDrw);
+			locations[SDrw.Location] = true;
+		end;
+	end else begin	
+			locations[SDr.Location] = true;
+	end;
+
+	///collect all locations' accounts from SD document			
+	GetVectorTags(locations,locs);
+	for(i=0;i<locs.length;i=i+1) begin
+		GetLocationAcc(locs[i],acc,obj);
+		accounts[i] = acc;
+	end;		
+			
+	//sum up all values by accounts	
+	TRr.Number = SDr.SerNr;
+	TRr.IntYc = SDYc;
+	if (ReadFirstMain(TRr,2,true)) then begin
+		for (i=0;i<MatRowCnt(TRr);i=i+1) begin
+			MatRowGet(TRr,i,TRrw);
+			if (TRrw.ovst==0) then begin
+				creditTransactions[TRrw.AccNumber] = creditTransactions[TRrw.AccNumber] + TRrw.CredVal;
+				debitTransactions[TRrw.AccNumber] = debitTransactions[TRrw.AccNumber] + TRrw.DebVal;
+			end;
+		end;
+		res = true;
+	end;		
+	
+	for(i=0;i<accounts.length;i=i+1) begin	
+		debit = debit + debitTransactions[accounts[i]];
+		credit = credit + creditTransactions[accounts[i]];
+	end;	
+
+GetCostFromTransactionByRowSD = res;
 return;
 end;
 
@@ -144,6 +241,8 @@ begin
 	record StockMovVc SMr;
 	record RetVc Retr;
 	row RetVc Retrw;
+	record WSVc WSr;
+	row WSVc WSrw;
 	boolean testf,TrHs,TrHs2,TrHs3,printDoc;
 	boolean transExist;
 	string 15 accPrefix,acc,obj;
@@ -189,7 +288,6 @@ begin
 		OutString(tab[9],0,"‘обґвартґсть по ґсторґ»",false);
 
 	EndFormat;
-	EndFormat;
 	Black_Divider(0,1);
 	
 	CollectNonStockedItems(NonStockedItems);	
@@ -198,6 +296,7 @@ begin
 
 //----------------------------------------  IVVc  ---------------------------------------	
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31071),false);	// Invoices
 	EndFormat;
 	Gray_Divider(0,1);
@@ -241,12 +340,14 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat; // new empty line
 	
 	//-------------------------  PUVc <--> POVc <--> VIVc -------------------------
 	
 	
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31072),false);		
 	OutString(tab[3],0,USetStr(31074),false);		//# PO
 	OutString(tab[10],0,USetStr(31075),false);	//# PU
@@ -324,6 +425,7 @@ begin
 		
 		end;
 	end;
+	StartFormat(15);
 	EndFormat;
 	ClearArray(recordsArray);
 	
@@ -331,6 +433,7 @@ begin
 
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31073),false);		//Returns to suppliers
 	OutString(tab[3],0,USetStr(31074),false);		//# PO
 	OutString(tab[10],0,USetStr(31076),false);	//# RetPU
@@ -407,6 +510,7 @@ begin
 				Gray_Divider(0,1);										
 		end;				
 	end;
+	StartFormat(15);
 	EndFormat;
 	ClearArray(recordsArray);
 	
@@ -417,6 +521,7 @@ begin
 
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31078),false);		//Stock Depreciations
 	EndFormat;
 	Gray_Divider(0,1);
@@ -430,7 +535,7 @@ begin
 		if (SDr.OKFlag==0) then begin testf=false; end;
 				
 		if (testf) then begin
-		
+		/*
 			location = SDr.Location;
 			if (blank(location)) then begin
 				if (MatRowCnt(SDr)>0) then begin
@@ -439,9 +544,12 @@ begin
 				end;
 			end;
 			GetLocationAcc(location,acc,obj);
+						transExist = GetCostFromTransaction(SDr.SerNr,SDYc,acc,debit,credit);
+			
+			*/
 		
 			printDoc = false;					
-			transExist = GetCostFromTransaction(SDr.SerNr,SDYc,acc,debit,credit);			
+			transExist = GetCostFromTransactionByRowSD(SDr,debit,credit);
 			ihSerNr = GetCostFromItemHistory(SDr.SerNr,"SDVc",ihcost);
 			
 			if (ihSerNr==0 or transExist==false) then begin printDoc = true; end;
@@ -464,12 +572,14 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat; 
 	
 	
 //-------------------------  SHVc -------------------------	
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31079),false);		//Deliveries
 	EndFormat;
 	Gray_Divider(0,1);
@@ -514,6 +624,7 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat;
 
 
@@ -522,6 +633,7 @@ begin
 //-------------------------  StockMovVc -------------------------	
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31080),false);		//Stock Movements
 	EndFormat;
 	Gray_Divider(0,1);
@@ -564,6 +676,7 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat;
 	
 
@@ -572,6 +685,7 @@ begin
 //-------------------------  RetVc -------------------------	
 
 	//Local header
+	StartFormat(15);
 	OutString(tab[1],0,USetStr(31081),false);		//Returned Goods
 	EndFormat;
 	Gray_Divider(0,1);
@@ -616,10 +730,77 @@ begin
 			
 		end;	
 	end;
+	StartFormat(15);
 	EndFormat;
+	
+
+
+//-------------------------  WSVc -------------------------	
+
+
+	//Local header
+	StartFormat(15);
+	OutString(tab[1],0,USetStr(31082),false);		//Stock Depreciations
+	EndFormat;
+	Gray_Divider(0,1);
+	
+	
+	TrHs = true;
+	WSr.TransDate = RepSpec.sStartDate;
+	While(LoopKey("TransDate",WSr,1,TrHs)) begin
+		testf = false;
+		logtext(0,WSr.SerNr);
+		for (i=0;i<MatRowCnt(WSr);i=i+1) begin
+			MatRowGet(WSr,i,WSrw);
+			if (NonStockedItems[WSrw.ArtCode]==false and WSrw.stp==kInvoiceRowTypeNormal) then begin 
+					testf = true; i = MatRowCnt(WSr);
+			end;
+		end;	
+		if (WSr.TransDate > RepSpec.sEndDate)	then begin TrHs = false; testf=false; end;
+		if (WSr.OKFlag==0) then begin testf=false; end;
+				
+		if (testf) then begin
+			
+			logtext(0,WSr.SerNr);
+			printDoc = false;								
+			transExist = GetCostFromTransaction(WSr.SerNr,WSYc,accPrefix,debit,credit);						
+			ihSerNr = GetCostFromItemHistory(WSr.SerNr,"WSVc",ihcost);
+			
+			if (ihSerNr==0 or transExist==false) then begin 
+				if(ihcost!=0 and transExist==false)then begin
+					printDoc = true; 
+				end;
+			end;
+			if ((AbsoluteVal(ihcost-AbsoluteVal(credit))) > precision ) then begin printDoc = true; end;
+			
+			if (CheckEqualityOfDates(WSr.SerNr,"WSVc")==false) then begin printDoc = true; end;
+				
+				
+			if (printDoc)	then begin
+				StartFormat(15);		
+					OutString(tab[1],0,GetRegisterDescription("WSVc"),false);	
+					OutString(tab[2],0,WSr.TransDate,false);					
+					OutStringID(tab[3],"DblWSVc",WSr.SerNr,false,WSr.SerNr);
+					OutString(tab[5],0,debit,false);
+					OutString(tab[6],0,credit,false);
+					OutStringID(tab[8],"DblItemHistVc",ihSerNr,false,ihSerNr);
+					OutString(tab[9],0,ihcost,false);
+				EndFormat;
+				Gray_Divider(0,1);										
+			end;
+			
+		end;	
+	end;
+	StartFormat(15);
+	EndFormat;
+	
 	
 
 	
 	EndJob;
 	
 end;	
+
+
+
+	

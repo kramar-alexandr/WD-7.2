@@ -265,9 +265,9 @@ record WebSyncRegVc WSRr;
             end;
             ExtractObj(WSRr.Available,pos,tempstr);
           end; 
-          if (NonBlank(newdisps)) then begin
+          //if (NonBlank(newdisps)) then begin
             WSRr.Available = newdisps; 
-          end;
+          //end;
 			  end;
 			  
 			  if (NonBlank(classtoadd)) then begin
@@ -283,6 +283,7 @@ record WebSyncRegVc WSRr;
 			  end; 
 
 				if (testf) then begin
+					WSRr.DateChange = currentdate;
 				  recordStore(WSRr,true);
 				end;
  LSomeErrorInDI:; 			
