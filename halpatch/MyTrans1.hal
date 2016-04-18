@@ -683,3 +683,31 @@ begin
 	
 return;
 end;
+
+global //Edit***************************Sasha2,17:28 18.04.2016 {
+function date GetDateOfSerial(string code,string serial)
+begin
+	date dt;
+	boolean testf,TrHs;
+	record ItemHistVc IHr;
+    
+    if (blank(code) or blank(serial)) then begin
+      goto LGetDateOfSerial;
+    end;
+    
+    IHr.ArtCode = code;
+    IHr.SerialNr = serial;
+    TrHs = true;
+    while (LoopKey("ArtCodeSerialNr",IHr,2,TrHs)) begin
+      testf = false;
+      if (IHr.ArtCode!=code or IHr.SerialNr!=serial) then begin TrHs = true; testf = false; end;
+      if (testf) then begin
+        //dt = 
+      end;
+    end;
+    
+LGetDateOfSerial:;
+	
+	GetDateOfSerial = dt;
+return;
+end; //Edit***************************Sasha2,17:28 18.04.2016 }
