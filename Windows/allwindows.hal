@@ -9624,4 +9624,19 @@ end;
   EndWindow;
 end;
 
-  
+
+window NotepadLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Notes",NotepadLClass,CGmlist,-);
+  SetWRect(20,80,620,298);
+  Sizeable(-1,-1,0,0);
+  SpawnClass(NotepadDClass);
+  UseView(NotepadVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"No.",SerNr,false,SerNr);
+  RlCol(120,120,"Lang.",LangCode,false);
+  RlCol(180,180,"Class.",Classification,false);
+  SearchField("Search");
+  EndWindow;
+end;
