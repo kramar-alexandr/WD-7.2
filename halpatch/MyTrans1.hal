@@ -685,27 +685,47 @@ return;
 end;
 
 global //Edit***************************Sasha2,17:28 18.04.2016 {
-function date GetDateOfSerial(string code,string serial)
+function date GetDateOfSerial(string artcode,string serial,date transdate)
 begin
 	date dt;
 	boolean testf,TrHs;
 	record ItemHistVc IHr;
     
-    if (blank(code) or blank(serial)) then begin
+    if (blank(artcode) or blank(serial)) then begin
       goto LGetDateOfSerial;
     end;
     
-    IHr.ArtCode = code;
+    dt = transdate;
+    
+    IHr.ArtCode = artcode;
     IHr.SerialNr = serial;
     TrHs = true;
     while (LoopKey("ArtCodeSerialNr",IHr,2,TrHs)) begin
       testf = false;
-      if (IHr.ArtCode!=code or IHr.SerialNr!=serial) then begin TrHs = true; testf = false; end;
+      if (IHr.ArtCode!=artcode or IHr.SerialNr!=serial) then begin TrHs = true; testf = false; end;
       if (testf) then begin
-        //dt = 
+        if(IHr.FileName=="PUVc")then begin
+        	dt = IHr.TransDate;
+        	goto LGetDateOfSerial;
+        end;
       end;
     end;
-    
+    resetloop(IHr);
+		
+		IHr.ArtCode = artcode;
+    IHr.SerialNr = serial;
+    TrHs = true;
+    while (LoopKey("ArtCodeSerialNr",IHr,2,TrHs)) begin
+      testf = false;
+      if (IHr.ArtCode!=artcode or IHr.SerialNr!=serial) then begin TrHs = true; testf = false; end;
+      if (testf) then begin
+        if(IHr.FileName=="IVVc" and IHr.Qty<0 and IHr.StockAffectf>0)then begin
+        	dt = IHr.TransDate;
+        	goto LGetDateOfSerial;
+        end;
+      end;
+    end;
+			    
 LGetDateOfSerial:;
 	
 	GetDateOfSerial = dt;
