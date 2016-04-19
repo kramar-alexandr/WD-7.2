@@ -1724,3 +1724,14 @@ begin
     EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
   EndWindow;
 end;
+
+window SamsungSendFilesByMailEXCELVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ begin
+ real h;
+WindowBegin("Вивантаження excel для Samsung",SamsungSendFilesByMailEXCELVClass,CGMnt,RcType);
+  SetWRect(20,120,360,220);
+  h=100;
+  PeriodField(h,20,"Період");
+  EndWindow;
+end;
