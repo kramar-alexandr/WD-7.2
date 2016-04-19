@@ -86,7 +86,7 @@ begin
 	if (ReadFirstMain(TRr,2,true)) then begin
 		for (i=0;i<MatRowCnt(TRr);i=i+1) begin
 			MatRowGet(TRr,i,TRrw);
-			if (Left(TRrw.AccNumber,accPrefixLen)==accPrefix  and TRrw.ovst==0) then begin
+			if (Left(TRrw.AccNumber,accPrefixLen)==accPrefix  and TRrw.ovst==0 and TRrw.stp==1) then begin
 				debit = debit + TRrw.DebVal;
 				credit = credit + TRrw.CredVal;
 			end;
@@ -207,7 +207,7 @@ longint ihSerNr;
 	IHr.FileName = filename;
 	IHr.TransNr = sernr;
 	while(LoopKey("FNTransNr",IHr,2,TrHs)) begin
-		if (IHr.TransNr != sernr or IHr.FileName!=filename) then begin TrHs=false; end;
+		if (IHr.TransNr!=sernr or IHr.FileName!=filename) then begin TrHs=false; end;
 		if (TrHs and IHr.StockAffectf) then begin
   		itemhistoryCost = itemhistoryCost + IHr.TotCostPrice;
   		ihSerNr = IHr.SerNr;
@@ -225,7 +225,6 @@ end;
 
 global procedure CostDiffRn(record RcVc RepSpec)
 begin
-
 	record IVVc IVr;
 	row IVVc IVrw;
 	record POVc POr;
@@ -255,6 +254,20 @@ begin
 	array longint recordsArray,availablePOs;
 	vector boolean POrders;
 	array integer tab;
+	record PDVc PDr;
+	vector string 5 paydealtype;
+	date lastrdate,bldate;
+	string 200 warntext;
+	
+	While(loopmain(PDr,1,true))begin
+		if(nonblank(PDr.Code))then begin
+			paydealtype[PDr.Code] = "NM";
+			if(PDr.PDType==kInvoiceTypeCredit)then begin
+				paydealtype[PDr.Code] = "CN";
+			end;
+		end;
+	end;
+	
 	
 	//--report's constants---
 	accPrefix = "13/"; //Accounts of warehouses in iStore, for example 13/101/D
@@ -303,6 +316,7 @@ begin
 	
 	TrHs = true;
 	IVr.TransDate = RepSpec.sStartDate;
+	lastrdate = bldate;
 	While(LoopKey("TransDate",IVr,1,TrHs)) begin
 		testf = false;
 		for (i=0;i<MatRowCnt(IVr);i=i+1) begin
@@ -373,14 +387,16 @@ begin
 
 			TrHs2 = true;
 			VIr.POSerNr = POr.SerNr;
+			lastrdate = bldate;
 			While(LoopKey("POSerNr",VIr,1,TrHs2)) begin
 				testf = true;
 				//LogText(0,"vivc   " & VIr.SerNr & "   ponr  " & VIr.POSerNr);
 				if (VIr.POSerNr!=POr.SerNr) then begin TrHs2 = false; testf = false; end;
-				if (VIr.CredInv>0 or VIr.PayDeal=="CN") then begin testf = false; end;
+				if (VIr.CredInv>0 or paydealtype[VIr.PayDeal]=="CN") then begin testf = false; end;
 				if (VIr.OKFlag==0) then begin testf = false; end;
 				if (testf) then begin
 						
+						lastrdate = POr.TransDate;
 						transExist = GetCostFromTransaction(VIr.SerNr,VIYc,accPrefix,debit,credit);
 						debitTot = debitTot + debit;
 						creditTot = creditTot + credit;
@@ -409,7 +425,7 @@ begin
 				pos = 0;
 				StartFormat(15);		
 					OutString(tab[1],0,GetRegisterDescription("PUVc"),false);	
-					OutString(tab[2],0,POr.TransDate,false);					
+					OutString(tab[2],0,lastrdate,false);					
 					OutStringID(tab[3],"DblPOVc",POr.SerNr,false,POr.SerNr);			
 					OutString(tab[5],0,debit,false);
 					OutString(tab[6],0,credit,false);					
@@ -439,7 +455,9 @@ begin
 	OutString(tab[10],0,USetStr(31076),false);	//# RetPU
 	EndFormat;
 	Gray_Divider(0,1);	
-
+	
+	warntext = "";
+	
 	TrHs = true;
 	RetPUr.TransDate = RepSpec.sStartDate;
 	While(LoopKey("TransDate",RetPUr,1,TrHs)) begin
@@ -463,13 +481,18 @@ begin
 		//LogText(0,currentPONr);
 		TrHs = true;
 		RetPUr.PONr = currentPONr;
+		lastrdate = bldate;
 		While(LoopKey("PONr",RetPUr,1,TrHs))  begin
 				if (RetPUr.PONr!=currentPONr) then begin TrHs = false; end;
 				if (TrHs) then begin	
     					ihSerNr = GetCostFromItemHistory(RetPUr.SerNr,"RetPUVc",ihcost);
 							ihcostTot = ihcostTot + ihcost;
-							recordsArray[recordsArray.length] = RetPUr.SerNr;			
-							if (ihSerNr==0) then begin printDoc = true; end;		
+							recordsArray[recordsArray.length] = RetPUr.SerNr;	
+							lastrdate = RetPUr.TransDate;
+							if (ihSerNr==0) then begin 
+								printDoc = true;
+								warntext = " No ItemHist ";
+							end;		
 							//LogText(0,currentPONr & "  ** " & RetPUr.SerNr);
 				end;
 		end;
@@ -480,24 +503,32 @@ begin
 		VIr.POSerNr = currentPONr;
 		While(LoopKey("POSerNr",VIr,1,TrHs)) begin
 				testf = false;		
-				if (VIr.CredInv>0 or VIr.PayDeal=="CN") then begin testf = true; end;			
+				if (VIr.CredInv>0 or paydealtype[VIr.PayDeal]=="CN") then begin testf = true; end;			
 				if (VIr.POSerNr!=currentPONr) then begin TrHs = false; testf = false; end;
+				if (VIr.OKFlag!=1) then begin testf = false; end;
 				if (testf) then begin	
 						transExist = GetCostFromTransaction(VIr.SerNr,VIYc,accPrefix,debit,credit);
-						//LogText(0,VIr.SerNr & "   deb " & debit & "   cred " & credit);
+						
+							//LogText(0,currentPONr & " ponr " & VIr.SerNr & "   deb " & debit & "   cred " & credit);
 						debitTot = debitTot + debit;
 						creditTot = creditTot + credit;
-						if (transExist==false) then begin printDoc = true; end;
+						if (transExist==false) then begin 
+							printDoc = true; 
+							warntext = warntext & " No Transaction " & VIr.SerNr;
+						end;
 				end;
 		end;
 		ResetLoop(VIr);
 			
-		if ((AbsoluteVal(ihcostTot-AbsoluteVal(debitTot-creditTot))) > precision ) then begin printDoc = true; end;
+		if ((AbsoluteVal(ihcostTot-AbsoluteVal(debitTot-creditTot))) > precision ) then begin 
+			printDoc = true; 
+			warntext = warntext & " trans/hist diff ";
+		end;
 	//LogText(0,	ihcostTot & "   deb   " & debitTot & "    cred  " &  creditTot);
 		if (printDoc)	then begin
 				StartFormat(15);		
 					OutString(tab[1],0,GetRegisterDescription("RetPUVc"),false);	
-					OutString(tab[2],0,RetPUr.TransDate,false);					
+					OutString(tab[2],0,lastrdate,false);					
 					OutStringID(tab[3],"DblPOVc",currentPONr,false,currentPONr);			
 					OutString(tab[5],0,debitTot,false);
 					OutString(tab[6],0,creditTot,false);					
@@ -506,6 +537,10 @@ begin
 					for(j=0;j<recordsArray.length;j=j+1) begin
 						OutStringID(tab[10],"DblRetPUVc",recordsArray[j],false,recordsArray[j]);
 					end;						
+				EndFormat;
+				
+				StartFormat(15);	
+					OutString(0,0,warntext,false);	
 				EndFormat;
 				Gray_Divider(0,1);										
 		end;				
@@ -749,7 +784,6 @@ begin
 	WSr.TransDate = RepSpec.sStartDate;
 	While(LoopKey("TransDate",WSr,1,TrHs)) begin
 		testf = false;
-		logtext(0,WSr.SerNr);
 		for (i=0;i<MatRowCnt(WSr);i=i+1) begin
 			MatRowGet(WSr,i,WSrw);
 			if (NonStockedItems[WSrw.ArtCode]==false and WSrw.stp==kInvoiceRowTypeNormal) then begin 
@@ -760,8 +794,6 @@ begin
 		if (WSr.OKFlag==0) then begin testf=false; end;
 				
 		if (testf) then begin
-			
-			logtext(0,WSr.SerNr);
 			printDoc = false;								
 			transExist = GetCostFromTransaction(WSr.SerNr,WSYc,accPrefix,debit,credit);						
 			ihSerNr = GetCostFromItemHistory(WSr.SerNr,"WSVc",ihcost);
@@ -769,11 +801,22 @@ begin
 			if (ihSerNr==0 or transExist==false) then begin 
 				if(ihcost!=0 and transExist==false)then begin
 					printDoc = true; 
+					if(ihcost==0 and transExist==false)then begin
+						printDoc = false; 
+					end;
 				end;
 			end;
+			
+			
+			
 			if ((AbsoluteVal(ihcost-AbsoluteVal(credit))) > precision ) then begin printDoc = true; end;
 			
-			if (CheckEqualityOfDates(WSr.SerNr,"WSVc")==false) then begin printDoc = true; end;
+			if (CheckEqualityOfDates(WSr.SerNr,"WSVc")==false) then begin 
+				printDoc = true; 
+				if(ihcost==0 and transExist==false)then begin
+					printDoc = false; 
+				end;
+			end;
 				
 				
 			if (printDoc)	then begin
