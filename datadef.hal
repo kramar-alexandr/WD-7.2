@@ -2384,6 +2384,7 @@ begin
   ArrayField(AlternateDeviceID,M4Str,30,0);
   ArrayField(MotherSecondarySerialNr,M4Str,30,0);
   ArrayField(MotherAlternateDeviceID,M4Str,30,0);
+  ArrayField(IMEI,M4Str,30,0); //Edit***************************Sasha2,14:25 15.04.2016
   EndArray;
   MainKeyBegin(SerNr,1);// Edit ************************** Wednesday, 22 July 2015 15:38:21
   StoreInBaseKey;
@@ -3980,6 +3981,22 @@ EndRecord;
   RecordField(Dec,M4Val,0,0); 
   EndRecord;  
 	  
+	BlockBegin(SamsungSettingsBlock,-,"" ) //Edit***************************Sasha2,10:01 12.04.2016 
+  //BlockInServer;
+  //BlockForAllCompanies;
+  RecordField(FileName,M4Str,100,0);
+  RecordField(DirName,M4Str,100,0);
+  RecordField(PLCode,M4Str,60,0);
+  RecordField(Locations,M4Str,60,0);
+  RecordField(Qty,M4Val,0,0);
+  RecordField(HostIP,M4Str,60,0);
+  RecordField(Port,M4Int,0,0);
+  RecordField(Login,M4Str,60,0);
+  RecordField(Password,M4Str,60,0);
+  RecordField(SenderCode,M4Str,60,0);
+  RecordField(SenderName,M4Str,60,0);
+  RecordField(SalesNextDocNum,M4Long,0,0);
+  EndBlock;
 		
 return;
 end;

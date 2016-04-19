@@ -427,3 +427,34 @@ begin
 return;
 end;
 
+
+global //Edit***************************Sasha2,13:50 19.04.2016 {
+procedure NotSamsungItemsRn(record RcVc RepSpec)
+begin
+  record INVc INr;
+  boolean testf,TrHs;
+  
+  startreportnoheaderjob("Товари, що не належать Samsung");
+  
+    startformat(15);
+      OutString(0,0,"Код",false);
+      OutString(60,0,"Найменування",false);
+    endformat;
+      
+    INr.Code = "";
+    TrHs = true;
+    while(loopmain(INr,1,TrHs)) begin
+      testf = true;
+      if (INr.Group=="SAMSU" or INr.Group=="SMG_A") then begin testf = false; end;
+      if (testf) then begin
+        startformat(15);
+          OutString(0,0,INr.Code,false);
+          OutString(60,0,INr.Name,false);
+        endformat;
+      end;
+    end;
+    
+    
+  endjob;
+return;
+end; //Edit***************************Sasha2,13:50 19.04.2016 }

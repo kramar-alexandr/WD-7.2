@@ -6393,6 +6393,7 @@ begin
   
   Flip(1);
   MatCol(t=1,194,"Найменування",0,Spec,false,0);
+  MatCol(t,-340,"IMEI",0,IMEI,false,0); //Edit***************************Sasha2,14:29 15.04.2016
   //if (UserCanAction("ShowSerialNronPOSInvoices",false)) then begin
   MatCol(t,-280,"Серійний №",0,SerialNr,false,SerialNrSClass); //Edit***************************Sasha2,12:22 13.01.2015
   //end;

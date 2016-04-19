@@ -1675,3 +1675,52 @@ Integer i;
 
   EndWindow;
 end; //Edit***************************Sasha2,17:18 06.01.2016 }
+
+window SamsungFtpSettingsTClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+  WindowBegin("Налаштування вивантаження для Samsung EDI",SamsungFtpSettingsTClass,CGSbl,-);
+  SetBlid(SamsungSettingsBlock);
+  //SetWRect(10,80,470,270);
+  //v = 6; vs = 20; h = 180;
+  //EditField(h=250,v,-40,"Название исходящего файла для сохранения",Normal,FileName,false,0);
+
+  SetWRect(10,80,370,270);
+  v = 6; vs = 20; h = 150;
+  /*StaticText(h-5,v+7,"Название исходящего",true);
+  StaticText(h-5,v+18,"файла для сохранения",true);
+  EditField(h,v,-40,"",Normal,FileName,false,0);*/
+
+  EditField(h,v+=vs,-40,"Почтова адреса",Normal,DirName,false,0);
+  EditField(h,v+=vs,-40,"Склад",Normal,Locations,false,LocationSClass);
+  EditField(h,v+=vs,100,"Код магазину",Normal,SenderCode,false,0);
+  EditField(h,v+=vs,100,"Назва магазину",Normal,SenderName,false,0);
+  /*StaticText(h-5,v+vs+9,"Наступний номер док-та",true);
+  StaticText(h-5,v+vs+18,"для відправки продажів",true);
+  EditField(h,v+=vs,100,"",Normal,SalesNextDocNum,false,0);
+  //EditField(h,v+=vs,100,"Прейскурант",Normal,PLCode,false,PLDefSClass);
+  //EditField(h,v+=vs,50,"Указывать количество",Normal,Qty,true,0); //Edit***************************Sasha2,11:43 14.01.2015
+  StaticText(h,v+=vs*3,"Налаштування FTP-сервера:",true);
+  EditField(h,v+=10,100,"IP адреса FTP-сервера",Normal,HostIP,false,0);
+  EditField(h,v+=vs,50,"Порт FTP-сервера",Normal,Port,false,0);
+  EditField(h,v+=vs,100,"Логін",Normal,Login,false,0);
+  EditField(h,v+=vs,100,"Пароль",Normal,Password,false,0);*/
+
+  EndWindow;
+end;
+
+window NotSamsungItemsRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+	
+  WindowBegin("Вивести товари не Samsung",NotSamsungItemsRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    h=100;
+    /*PeriodField(h,20,"Період");
+    EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
+    EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
+  EndWindow;
+end;

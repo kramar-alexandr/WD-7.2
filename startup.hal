@@ -70,7 +70,7 @@ begin
 	Report("Переміщення по складу користувача",CurUserStockMovsRClass,CurrentUserStockMovsRn,0,modIN);//Edit----------------------Dima  08.12.2015	
 	Report("Звіт по дисбалансу проводок",TRDiffRClass,TRDiffRn,0,modNL); //Увше***************************Ыфырф2б15:27 21.12.2015
 	Report("Звіт-порівняння історії товарів та транзакцій",CostDiffRClass,CostDiffRn,0,modNL);//Edit----------------------Dima  16.02.2016
-	
+	Report("Вивести товари не Samsung",NotSamsungItemsRClass,NotSamsungItemsRn,0,modIN); //Edit***************************Sasha2,14:16 19.04.2016
 	
 	Setting("Валюта ЕККА",POSCurncyTClass,modPOS); //Edit***************************Sasha2,17:25 11.09.2014
 	Setting("Рахунки продавців",LocalMachineAccTClass,modPOS); //Edit***************************Sasha2,17:26 11.09.2014
@@ -86,6 +86,7 @@ begin
   Setting("Дефекти",DefectLClass,modSVO);
   Setting("Serials",SVOHistSerialLClass,modSVO);// Edit ************************** Tuesday, 2 June 2015 20:28:50
   Setting("Налаштування принтера чеків",TermoPrinterTClass,modUserSet);	//Edit----------------------Dima  18.09.2015
+  Setting("Налаштування експорта для Samsung EDI",SamsungFtpSettingsTClass,modSY); //Edit***************************Sasha2,11:25 12.04.2016
 	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
   //Document("Етикетки партій (надходження)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
@@ -101,31 +102,22 @@ begin
   
   Import("Імпорт наявності товарів WEB",WebINImportIClass,ImportWebItemsIn,modSO);
 	
+	Maintenance("SamsungSendFilesByMailEXCELMn",MyVClass,SamsungSendFilesByMailEXCELMn,modIN);
 	Maintenance("Перенос начального сальдо по объектам",ObjInitBalVClass,ObjInitBalMn,modNL);// Edit ************************** Friday, 4 March 2016 16:57:53
-
-	
 	Maintenance("RecalcORShops",MyShopsRecalcVClass,RecalcShopsItemsMn,modSO); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Gigient to IN",MyVClass,FillINFromGigieneMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
-	
-	
 	//Maintenance("ExportCustomersMn",MyVClass,ExportCustomersMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
-	
 	Maintenance("Find RetIV costprice",MyVClass,UpdateRetIVCash,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
 	Maintenance("Find RetSM costprice",MyVClass,FixStockMovMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
-	
 	Maintenance("FixUUID",MyVClass,FixUUIDMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
 	Maintenance("AddBalance CUVc",MyAddBalanceVClass,MyAddBalaceMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
-
-
 	Maintenance("Add SVO Serial Hist",MyVClass,FillSVOHistSerialMn,modSVO);
-
 	Maintenance("ClearOldINVcPLVc",MyVClass,ClearINPLMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Поменять размер этикеток в карточках товаов",MyVClass,INChangeSizeMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Перенесення етикеток в регістр товарів",CopyFrINToMyLabelItemVClass,CopyFrINToMyLabelItemMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Створення актів/накладних із накладних ЕККА",IVCashToIVVClass,IVCash_To_IVMn,modPOS);	//Edit----------------------Dima 15.01.2015
 	Maintenance("BuhReport",MyFullStockRClass,BuhExportEn,modPOS); //Edit***************************Sasha2,17:26 15.01.2015
 	Maintenance("Знищити віртуальни товари WEB",DellZerroWebSyncRegVClass,DellZerroWebSyncRegMn,modSO);// Edit ************************** Thursday, 26 March 2015 10:50:19
-	
 	Maintenance("Створити товари синхронізації WEB",MyCrWebSync1VClass,SyncWebRegMn,modSO);// Edit ************************** Thursday, 26 March 2015 10:50:20
 	Maintenance("Перерахувати товари синхронізації WEB",MyCrWebSync2VClass,RecalcWebRegMn,modSO);// Edit ************************** Thursday, 26 March 2015 10:50:20
 	Maintenance("Поновити товари синхронізації WEB",MyCrWebSync3VClass,UpdateWebRegMn,modSO); // Edit ************************** Thursday, 26 March 2015 10:50:21
