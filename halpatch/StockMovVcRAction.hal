@@ -217,9 +217,7 @@ BEGIN
   val serqty;
   string 255 serialnr,errofield;
   date operatedate; //Edit***************************Sasha2,10:40 01.04.2016
-  
-  logtext(0,"CheckStockMovRow " & 0);
-  
+    
   if (NonBlankDate(SMp.SentTransDate)) then begin //Edit***************************Sasha2,10:40 01.04.2016 {
     operatedate = SMp.SentTransDate;
   end else begin
@@ -1726,7 +1724,6 @@ BEGIN
       end;
     end;
     if (transsendf or checksendf) then begin
-    logtext(0,"CheckStockMovRow " & 1);
       errcode = CheckStockMovRow(SMp,StockMovrw,INr,MSb,SNrb,i,SMp.FrLocation,SMp.ThrouLocation,true,check,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
       if (errcode!=0) then begin 
         res = -1;
@@ -1735,10 +1732,8 @@ BEGIN
     end else begin
       if (transreceivef or checkreceivef) then begin
         if (blank(SMp.ThrouLocation)) then begin
-        	logtext(0,"CheckStockMovRow " & 2);
           errcode = CheckStockMovRow(SMp,StockMovrw,INr,MSb,SNrb,i,SMp.FrLocation,SMp.ToLocation,false,check,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
         end else begin
-        	logtext(0,"CheckStockMovRow " & 3);
           errcode = CheckStockMovRow(SMp,StockMovrw,INr,MSb,SNrb,i,SMp.ThrouLocation,SMp.ToLocation,false,check,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
         end;
         if (errcode!=0) then begin 
@@ -1815,7 +1810,6 @@ BEGIN
       end;
     end;
     if (transsendf or (transsendf and UnOKedCheckSerialf)) then begin
-    	logtext(0,"CheckStockMovRow " & 4);
       errcode = CheckStockMovRowFromPosition(SMp,StockMovrw,LocFrRec,INr,i,true,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);  
       if (errcode!=0) then begin 
         res = -1;
@@ -1823,7 +1817,6 @@ BEGIN
       end;
     end else begin
       if (transreceivef or (transreceivef and UnOKedCheckSerialf)) then begin
-      	logtext(0,"CheckStockMovRow " & 5);
         errcode = CheckStockMovRowFromPosition(SMp,StockMovrw,LocFrRec,INr,i,false,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
         if (errcode!=0) then begin 
           res = -1;
@@ -1841,7 +1834,7 @@ already checked few lines above
           goto LCheckStockMovRecord;
         end;
       end;
-*/     logtext(0,"CheckStockMovRow " & 6);
+*/    
       errcode = CheckStockMovRowToPosition(SMp,StockMovrw,LocToRec,INr,i,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
       if (errcode!=0) then begin 
         res = -1;

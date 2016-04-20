@@ -258,7 +258,8 @@ begin
 					end;
 				
 					t = blankval;
-					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,cost[ressize],"UAH",t,SetRoundModeD(5));
+					//CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,cost[ressize],"UAH",t,SetRoundModeD(5));
+					CurValToOtherCur(IVr.InvDate,BCb.BaseCur1,cost[ressize],"UAH",t,SetRoundModeD(5));
 					realcostuah[ressize] = t;
 					t = blankval;
 					CurValToOtherCur(IVr.InvDate,IVr.CurncyCode,IVrw.Price,"UAH",t,SetRoundModeD(5));

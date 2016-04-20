@@ -4991,7 +4991,11 @@ begin
   Tile(0,74,false,"",SerNr);
   v = 6; vs = 20;
   EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
-  EditField(75,v+=20,95,"Постачальник",ViewOnly,VECode,false,0);
+  if(currentuser=="SA1")then begin
+		EditField(75,v+=20,95,"Постачальник",Normal,VECode,false,0);
+  end else begin
+  	EditField(75,v+=20,95,"Постачальник",ViewOnly,VECode,false,0);
+  end;
   EditField(h=255,v=vm,-40,"Найм.",ViewOnly,VEName,false,0);
   if (HasOfficialSerNr) then begin
   EditField(h,vm=(v+=20),135,"Official No.",Normal,OfficialSerNr,false,LegalInvNrSClass); //!!PRODTRANSLATE
@@ -5021,7 +5025,11 @@ begin
   if (IsEnterprise) then begin
   EditField(h1,v+=vs,82,"Причина",Normal,Reason,false,StandProblemsSClass);  
   end;
-  EditField(h2,v=vm,125, "Номер замовлення",ViewOnly,PONr,false,0);
+  if(currentuser=="SA1")then begin
+		EditField(h2,v=vm,125, "Номер замовлення",normal,PONr,false,0);
+  end else begin
+		EditField(h2,v=vm,125, "Номер замовлення",ViewOnly,PONr,false,0);
+  end;
   if (StandardHansa==false) then begin
   EditField(h2,v+=vs,125,"Маршрут",Normal,Sorting,false,DelRouteSClass);
   end;
