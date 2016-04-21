@@ -450,7 +450,11 @@ begin
       if (INr.Terminated==1) then begin  testf = false; end;
       if (testf) then begin
         startformat(15);
-          OutString(0,0,INr.Code,false);
+        	if(blank(INr.EUCodex))then begin
+          	OutString(0,0,INr.Code,false);
+          end else begin
+          	OutString(0,0,INr.EUCodex,false);
+          end;
           OutString(60,0,INr.Name,false);
           OutString(150,0,INr.Group,false);
         endformat;

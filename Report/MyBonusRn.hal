@@ -313,6 +313,7 @@ begin
 	array string 5 uahpurate,uahcurrate;
 	array string 100 comment;
 	longint worksheet;
+	integer cred;
 	
 	blockload(BCb);
 
@@ -392,6 +393,11 @@ begin
         if(IVr.OKFlag==1 and IVr.Invalid!=1)then begin
           sum = IVr.Sum4;
           
+          cred = 1;
+          if(IVr.InvType==kInvoiceTypeCredit)then begin
+          	cred =-1;
+          end;
+          
           curncy = IVr.CurncyCode;
           enddate = "";
           invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
@@ -464,7 +470,6 @@ begin
 								end;
                 
                 if(nonblank(IVrw.FIFO) and (IVrw.FIFO!=0)) then begin
-                  //OutVal(20,0,IVrw.FIFO,M4Val,false);
                   MyCost = IVrw.FIFO;
                 end else begin
                   if(IVr.OrderNr>0) then begin
@@ -472,14 +477,12 @@ begin
                     TrHs1 = true;
                     While(loopkey("OrderKey",SHr,1,TrHs1)) begin
                       If(SHr.OrderNr==IVr.OrderNr) then begin
-                     // MessageBox(0,SHr.OrderNr);
                         mtrwsh = matrowcnt(SHr);
                         For(g=0;g<mtrwsh;g=g+1) begin
                           MatRowGet(Shr,g,SHrw);
                           if(SHrw.OrdRow==IVrw.OrdRow) then begin
                             MyCost = SHrw.FIFORowVal/SHrw.Ship;
                             if(MyCost==0) then begin
-                             //goto COSTZERO;
                             end;
                           end;
                         end; 
@@ -535,16 +538,14 @@ begin
 											notenr = notenr + 1;
 										end;
       //COSTZERO:;
-                    if(MyCost==0) then begin
-                      //MyCost = IVrw.BasePrice;
-                    end;
+
                   end;
                 end;
-                CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
+                CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
       					foundqty = 0;
       					For(j=0;j<ressize;j=j+1) begin
       						foundqty = foundqty + qty[j]; 
-      					end; //LogText(0, "foundqty " & foundqty & " ressize " & ressize);
+      					end; 
       					For(j=0;j<ressize;j=j+1) begin //Edit***************************Sasha2,15:54 23.04.2015 }
                   if (Left(IVr.CurncyCode,3)=="UAH") then begin
     							  sumcur = CalcSumForSales(IVrw.Sum,IVrw.Quant,qty[j],1,1,1,foundqty,false);
@@ -718,6 +719,11 @@ l1:;
           if(testf2 and IPrs2r.TransType==0 and IPrs2r.TransNr!=IPrs2r.IVNr)then begin
             newIVr.SerNr = IPrs2r.TransNr;
             if(readfirstmain(newIVr,1,true))then begin
+            	cred = 1;
+            	if(newIVr.InvType==kInvoiceTypeCredit)then begin
+            		cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
+            	end;
+            	
               invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
         			invto1 = IVr.ToRateB1;
         			if(IVr.CurncyCode==BCb.BaseCur2)then begin
@@ -857,7 +863,7 @@ l1:;
                           end;
                         end;
                       end;
-                      CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
+                      CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
             					foundqty = 0;
             					For(j=0;j<ressize;j=j+1) begin
             						foundqty = foundqty + qty[j];
@@ -964,55 +970,6 @@ l1:;
           							  end;
           							end;
           							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,1,foundqty,true);
-      						      /*startformat(15);
-      						        OutString(pos[0],0,newIVr.CustCode,false);
-                          OutString(pos[1],0,newIVr.Addr0,false);
-                          OutString(pos[2],0,newIVr.InvDate,false);
-                          OutString(pos[3],0,newIVr.PayDate,false);
-                          if (blankdate(enddate)) then begin
-                            OutDate(pos[4],0,newIVr.PayDate,false);
-                          end else begin
-                            OutDate(pos[4],0,enddate,false);
-                          end;
-                          OutString(pos[5],0,newIVr.SerNr,false);
-                          OutString(pos[6],0,group,false);
-                          OutString(pos[6],0,newIVrw.ArtCode,false);
-                          OutString(pos[7],0,newIVrw.Spec,false);
-                          quant = newIVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
-                          OutString(pos[8],0,-quant,false);
-                          salesprice = sumusd/quant;
-                          priceorig = sumcur/quant;
-                          OutVal(pos[9],0,-salesprice,M4Val,false);
-                          OutVal(pos[9],0,-priceorig,M4Val,false);
-                          OutVal(pos[10],0,-MyCost,M4Val,false);
-                          curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
-                          if(curorig==0)then begin
-                            curorig = 1;
-                          end;
-                          costorig = MyCost*curorig;
-                          OutVal(pos[10],0,-costorig,M4Val,false);
-                          salessum = sumusd;
-                          sumorig = sumcur;
-                          OutVal(pos[11],0,-salessum,M4Val,false);
-                          OutVal(pos[11],0,-sumorig,M4Val,false);
-                          OutVal(pos[12],0,-MyCost*quant,M4Val,false);
-                          sumcostorig = costorig*quant;
-                          OutVal(pos[12],0,-sumcostorig,M4Val,false);
-                          OutVal(pos[13],0,-(salessum-(MyCost*quant)),M4Val,false);
-                          gporig = sumorig - sumcostorig;
-                          OutVal(pos[13],0,-gporig,M4Val,false);
-                          OutString(pos[14],0,"",false); //Edit***************************Sasha2,11:34 27.04.2015
-                          OutString(pos[15],0,"",false); //Edit***************************Sasha2,11:34 27.04.2015
-                          OutString(pos[16],0,ValToMyString(invfr/invto1,3),false); //Edit***************************Sasha2,11:34 27.04.2015
-                          OutString(pos[17],0,newIVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015
-                          If(NonBlank(CUr.Code)) then begin
-                            OutString(pos[18],0,CUr.SalesMan,false);
-                          end; 
-                          OutString(pos[19],0,newIVr.SalesMan,false);
-                          OutString(pos[20],0,enginer,false);
-                          OutString(pos[21],0,newIVr.SVONr,false);
-													OutString(pos[23],0,newIVr.OrderNr,false);
-      						      endformat;*/
       					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
 	                 end;
                 end; 
