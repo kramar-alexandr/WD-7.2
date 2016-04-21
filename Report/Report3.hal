@@ -445,7 +445,8 @@ begin
     TrHs = true;
     while(loopmain(INr,1,TrHs)) begin
       testf = true;
-      if (INr.Group=="SAMSU" or INr.Group=="SMG_A") then begin testf = false; end;
+      if (RepSpec.flags[0]==0 and (INr.Group=="SAMSU" or INr.Group=="SMG_A")) then begin testf = false; end;
+      if (INr.Terminated==1) then begin  testf = false; end;
       if (testf) then begin
         startformat(15);
           OutString(0,0,INr.Code,false);

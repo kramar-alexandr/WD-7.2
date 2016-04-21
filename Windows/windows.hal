@@ -1718,7 +1718,8 @@ begin
 	
   WindowBegin("Вивести товари не Samsung",NotSamsungItemsRClass,CGRcW,RcType);
     SetWRect(20,120,350,300);
-    h=100;
+    h=50;
+    CheckBox(h,20,0,"Вивести всі товари",flags[0]);
     /*PeriodField(h,20,"Період");
     EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
     EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
