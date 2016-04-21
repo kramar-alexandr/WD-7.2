@@ -439,6 +439,7 @@ begin
     startformat(15);
       OutString(0,0,"Код",false);
       OutString(60,0,"Найменування",false);
+      OutString(150,0,"Група",false);
     endformat;
       
     INr.Code = "";
@@ -451,6 +452,7 @@ begin
         startformat(15);
           OutString(0,0,INr.Code,false);
           OutString(60,0,INr.Name,false);
+          OutString(150,0,INr.Group,false);
         endformat;
       end;
     end;
