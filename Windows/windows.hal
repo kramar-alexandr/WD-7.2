@@ -1736,3 +1736,22 @@ WindowBegin("Вивантаження excel для Samsung",SamsungSendFilesByMailEXCELVClass,C
   PeriodField(h,20,"Період");
   EndWindow;
 end;
+
+
+window SamsungItemsTClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,f,v;
+  WindowBegin("Настройка WEB matrix",SamsungItemsTClass,CGHbl,-);
+    SetBlid(SamsungItemsBlock);
+    SetWRect(64,80,400,600);
+    Sizeable(-1,-1,0,0);
+    h=100;f=200;v=6;
+      MatrixBegin(5,16,-20,-20,-,1000);
+        MatCol(1,24,"Код",0,ArtCode,false,0);
+        MatCol(1,120,"Назва",0,Name,false,0);
+        MatCol(1,200,"EAN",0,EAN,false,0);
+      EndMatrix;
+  EndWindow;
+  return;
+end;

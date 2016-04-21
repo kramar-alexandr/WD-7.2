@@ -4217,6 +4217,16 @@ EndRecord;
   KeySegment(OfficialSerNr2);
   KeySegment(SerNr);
   EndRecord;
-		
+	
+	
+	BlockBegin(SamsungItemsBlock,-,"");
+		RecordField(Math,M4Matrix,0,0);
+		ArrayBegin(Math,-,1);
+		ArrayField(ArtCode,M4Str,200,0);
+    ArrayField(Name,M4Str,200,0);
+    ArrayField(EAN,M4Str,200,0);
+		EndArray;
+	EndBlock;
+			
 return;
 end;
