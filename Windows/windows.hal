@@ -1752,7 +1752,7 @@ real h,f,v;
     SetWRect(64,80,400,600);
     Sizeable(-1,-1,0,0);
     h=100;f=200;v=6;
-      MatrixBegin(5,16,-20,-20,-,1000);
+      MatrixBegin(5,16,-20,-20,-,2000);
         MatCol(1,24,"Код",0,ArtCode,false,0);
         MatCol(1,120,"Назва",0,Name,false,0);
         MatCol(1,200,"EAN",0,EAN,false,0);
