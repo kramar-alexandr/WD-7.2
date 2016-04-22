@@ -231,6 +231,11 @@ BEGIN
       end;
   end;
 LIVCashDClassActiveEditField:;  
+
+  switch (fieldname) begin //Edit***************************Sasha2,15:15 21.04.2016 {
+    case "IMEI": res = true;
+  end;  //Edit***************************Sasha2,15:15 21.04.2016 }
+  
   IVCashDClassActiveEditField = res;
 return;
 end;

@@ -3996,6 +3996,9 @@ EndRecord;
   RecordField(SenderCode,M4Str,60,0);
   RecordField(SenderName,M4Str,60,0);
   RecordField(SalesNextDocNum,M4Long,0,0);
+  RecordField(SalesNextDocNum2,M4Long,0,0);
+  RecordField(SalesNextDocNum3,M4Long,0,0);
+  RecordField(LocationCode,M4Str,60,0);
   EndBlock;
   
   RecordBegin(SHVc,-,"ship1");

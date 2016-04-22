@@ -4170,6 +4170,7 @@ begin
       MatCol(1,-180,"Назва одиниці",0,UnitComment,false,0);
     end;
   end else begin
+  MatCol(1,-410,"IMEI",0,IMEI,false,0);//Edit***************************Sasha2,15:35 21.04.2016
   MatCol(1,-350,"Сер. номер",0,SerialNr,false,SerialNrSClass);
   EnterSkip(SerialNr); //Edit***************************Sasha2,15:45 19.09.2014
   MatCol(1,-250,"Термін придат.",0,BestBefore,false,0);
