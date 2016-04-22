@@ -228,6 +228,7 @@ begin
 	SString(31080,"Переміщення товарів:");
 	SString(31081,"Повернення товарів:");
 	SString(31082,"Таблиці робіт:");
+	SString(31083,"Код товару або виробника не відповідає Samsung");
 
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */

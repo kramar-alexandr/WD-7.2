@@ -433,6 +433,18 @@ procedure NotSamsungItemsRn(record RcVc RepSpec)
 begin
   record INVc INr;
   boolean testf,TrHs;
+  record SamsungItemsBlock SIb;
+  row SamsungItemsBlock SIrw;
+  integer i,mtrw;
+  vector boolean findf;
+  string 100 codefind;
+  
+  blockload(SIb);
+  mtrw = matrowcnt(SIb);
+  For(i=0;i<mtrw;i=i+1) begin
+	  matrowget(SIb,i,SIrw);
+	  findf[SIrw.ArtCode] = true;
+	end; 
   
   startreportnoheaderjob("Товари, що не належать Samsung");
   
@@ -440,6 +452,7 @@ begin
       OutString(0,0,"Код",false);
       OutString(60,0,"Найменування",false);
       OutString(150,0,"Група",false);
+      OutString(350,0,"Помилка товара Самсунг",false);
     endformat;
       
     INr.Code = "";
@@ -452,11 +465,24 @@ begin
         startformat(15);
         	if(blank(INr.EUCodex))then begin
           	OutString(0,0,INr.Code,false);
+          	codefind = INr.Code;
           end else begin
           	OutString(0,0,INr.EUCodex,false);
+          	codefind = INr.EUCodex;
           end;
           OutString(60,0,INr.Name,false);
           OutString(150,0,INr.Group,false);
+          
+          if(INr.Group=="SAMSU" or INr.Group=="SMG_A")then begin
+          	if(findf[codefind]==false)then begin
+          		OutString(350,0,"Такий код відсутній",false);
+          	end else begin
+          		OutString(350,0,"",false);
+          	end;
+          end else begin
+          	OutString(350,0,"",false);
+          end;
+          
         endformat;
       end;
     end;
