@@ -265,6 +265,52 @@ string 50 filename;
         RunProgram("Stock/ISTORCreditorka.sh","");
     	end;
     	
+    	if(currentcompany==10)then begin
+    		CreateFile("Stock/GULLIVERCreditorka.xls");
+        closefile;
+        openexportfile("Stock/GULLIVERCreditorka.xls",true);
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/GULLIVERCreditorka.sh","");
+    	end;
+    	
+    	if(currentcompany==11)then begin
+      
+        CreateFile("Stock/idistribuEstCreditorkaOFI.xls");
+        closefile;
+        openexportfile("Stock/idistribuEstCreditorkaOFI.xls",true);
+        RepSpec.ObjStr = "OFI";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/idistribuEstCreditorkaOFI.sh","");
+        
+        CreateFile("Stock/idistribuEstCreditorkaOII.xls");
+        closefile;
+        openexportfile("Stock/idistribuEstCreditorkaOII.xls",true);
+        RepSpec.ObjStr = "OII";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/idistribuEstCreditorkaOII.sh","");
+        
+        CreateFile("Stock/idistribuEstCreditorkaICC.xls");
+        closefile;
+        openexportfile("Stock/idistribuEstCreditorkaICC.xls",true);
+        RepSpec.ObjStr = "ICC";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/idistribuEstCreditorkaICC.sh","");
+        
+        CreateFile("Stock/idistribuEstCreditorkaPR.xls");
+        closefile;
+        openexportfile("Stock/idistribuEstCreditorkaPR.xls",true);
+        RepSpec.ObjStr = "PR";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/idistribuEstCreditorkaPR.sh","");
+        
+                
+      end;
+    	
       if(currentcompany==3)then begin
       
         CreateFile("Stock/WDCreditorkaOFI.xls");
@@ -307,9 +353,13 @@ end;
 global webpublic Procedure WebKreditorkaReportEn() //Edit***************************Sasha2,15:18 04.07.2014
 begin
 
-	if (SetCompany(3,false)) then begin
+	if (SetCompany(10,false)) then begin
 		KreditorkaReportEn;		
-		ResetCompany(3);  
+		ResetCompany(10);  
+	end;
+	if (SetCompany(11,false)) then begin
+		KreditorkaReportEn;		
+		ResetCompany(11);  
 	end;
 return;
 end;
