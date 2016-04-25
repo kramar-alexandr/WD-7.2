@@ -9,9 +9,52 @@ remote updating procedure CreateNewINinStore(record INVc);
 remote updating procedure CreateNewINiPoint(record INVc);
 remote updating procedure CreateNewINTNM(record INVc);
 remote updating procedure CreateNewINinSMG(record INVc);
+remote updating procedure SamsungSendFilesToFtpMn(record RcVc); //Edit***************************Sasha2,11:51 25.04.2016
 
 	SetLangMode(LangUkrainian,"UKR",0);
 
+
+global //Edit***************************Sasha2,11:48 25.04.2016 { 
+updating procedure CustTimeTableAction()
+begin
+  record RcVc RepSpec;
+  time t1,t2,t3,t4,t5,t6,t7,t8,t9,curt,curtnew;
+  string 5 hr,mn;
+  integer minute, curcomp;
+
+    t1 = StringToTime("22:50");
+    //t2 = StringToTime("10:00");
+    //t3 = StringToTime("12:00");
+    //t4 = StringToTime("14:00");
+    //t5 = StringToTime("16:00");
+    //t6 = StringToTime("18:00");
+    //t7 = StringToTime("20:00");
+    //t8 = StringToTime("22:00");
+    //t9 = StringToTime("00:00");
+    
+    curt = CurrentTime; 
+    hr = GetHour(curt);
+    if (len(hr)==1) then begin
+    	hr = "0" & hr;
+    end;
+    mn = GetMinute(curt);
+    minute = StringToInt(mn);
+    if (len(mn)==1) then begin
+    	mn = "0" & mn;
+    end;
+    curtnew = StringToTime(hr & ":" & mn);
+
+    curcomp = CurrentCompany;
+    if (curtnew==t1 and SetCompany(9,false)) then begin
+    	LogText(0,"SamsungSendFilesToFtpMn at planned time: " & curtnew);
+    	RepSpec.sStartDate = CurrentDate;
+    	RepSpec.sEndDate = RepSpec.sStartDate;
+    	SamsungSendFilesToFtpMn(RepSpec);
+    	ResetCompany(curcomp); 
+    end;
+
+return;
+end; //Edit***************************Sasha2,11:48 25.04.2016 }
 
 
 global
