@@ -1030,7 +1030,7 @@ begin
 	array string 100 comment;
 	longint worksheet;
 	val totSum,totCost,totGP;
-	
+	integer cred;
 	
 	blockload(BCb);
 
@@ -1081,6 +1081,10 @@ begin
         IVr.SerNr=IPrsr.IVNr;
         ReadFirstMain(IVr,1,true);
         if(IVr.OKFlag==1 and IVr.Invalid!=1) then begin
+        	cred = 1;
+					if(IVr.InvType==kInvoiceTypeCredit)then begin
+						cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
+					end;
           sum = IVr.Sum4;
           curncy = IVr.CurncyCode;
           enddate = "";
@@ -1229,7 +1233,7 @@ begin
                 end;
                 
                if (enginer == CurrentUser or (blank(enginer) and IVr.SalesMan==CurrentUser)) then begin  
-                CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
+                CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
       					foundqty = 0;
       					For(j=0;j<ressize;j=j+1) begin
       						foundqty = foundqty + qty[j]; 
@@ -1324,6 +1328,10 @@ l1:;
           if(testf2 and IPrs2r.TransType==0 and IPrs2r.TransNr!=IPrs2r.IVNr)then begin
             newIVr.SerNr = IPrs2r.TransNr;
             if(readfirstmain(newIVr,1,true))then begin
+            	cred = 1;
+            	if(newIVr.InvType==kInvoiceTypeCredit)then begin
+            		cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
+            	end;
               invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
         			invto1 = IVr.ToRateB1;
         			if(IVr.CurncyCode==BCb.BaseCur2)then begin
@@ -1467,7 +1475,7 @@ l1:;
                       end;
                       
                       if (enginer == CurrentUser or (blank(enginer) and newIVr.SalesMan==CurrentUser)) then begin
-												CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,1,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
+												CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
 												foundqty = 0;
 												For(j=0;j<ressize;j=j+1) begin
 													foundqty = foundqty + qty[j];
