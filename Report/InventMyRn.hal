@@ -96,6 +96,7 @@ L1:;
 					if(SBr.Item!=ISr.Code)then begin testf = false; end;
 					if(SBr.Location==RepSpec.f1 and SBr.Quant>=1 and testf)then begin
 						OR1rw.ArtCode = SBr.Item;
+						OR1rw.UnitComment = INr.Name;// Edit ************************** Friday, 29 April 2016 13:42:15
 						OR1rw.Quant = SBr.Quant;
 						OR1rw.SerialNr = SBr.Serial;
 						OR1rw.Spec = "Недостача";
@@ -106,7 +107,8 @@ L1:;
 				end;
 				resetloop(SBr);
       end else begin
-      		OR1rw.ArtCode = ISr.Code;
+				OR1rw.ArtCode = ISr.Code;
+				OR1rw.UnitComment = INr.Name;// Edit ************************** Friday, 29 April 2016 13:42:15
 				OR1rw.Quant = ISr.Instock;
 				OR1rw.SerialNr = "";
 				OR1rw.Spec = "Недостача";
@@ -130,9 +132,11 @@ L1:;
 				if(ORrw.SerialNr==OR1rw.SerialNr)then begin
 					if(ORrw.Quant==OR1rw.Quant)then begin
 						OR1rw.Spec = "Норма";
+						OR1rw.UnitComment = INr.Name;
 						OR1rw.Shipd1 = ORrw.Quant;
 					end else begin
 						OR1rw.Shipd1 = ORrw.Quant;
+						OR1rw.UnitComment = INr.Name;
 						OR1rw.Spec = "Пересорт (задвоение)";
 					end;
 					OR1rw.Salesmen = INr.Group;
@@ -145,13 +149,16 @@ L1:;
 					if(ORrw.Quant==OR1rw.Quant)then begin
 						OR1rw.Spec = "Норма";
 						OR1rw.Shipd1 = ORrw.Quant;
+						OR1rw.UnitComment = INr.Name;
 					end else begin
 						if(ORrw.Quant>OR1rw.Quant)then begin
 							OR1rw.Spec = "Лишний";
 							OR1rw.Shipd1 = ORrw.Quant;
+							OR1rw.UnitComment = INr.Name;
 						end else begin
 							OR1rw.Spec = "Недостача";
 							OR1rw.Shipd1 = ORrw.Quant;
+							OR1rw.UnitComment = INr.Name;
 						end;
 					end;
 					OR1rw.Salesmen = INr.Group;
@@ -164,6 +171,7 @@ L1:;
 L2:;   
     if(findf==false)then begin
       OR1rw.ArtCode = ORrw.ArtCode;
+      OR1rw.UnitComment = INr.Name;
       OR1rw.Quant = ORrw.Quant;
       OR1rw.SerialNr = ORrw.SerialNr;
       OR1rw.Shipd1 = ORrw.Quant;
