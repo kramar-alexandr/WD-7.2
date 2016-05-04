@@ -9144,9 +9144,10 @@ end;
   EditField(h3+260,v,-20,"Мінім. прейскур-т",Normal,MinPLCode,false,PLDefSClass);
   end;
   EditField(h,v+=vs,65,"Склад",Normal,Location,false,LocationSClass);
-  EditField(h3,v,120,"Відділ",Normal,Department,false,DepSClass);
+  EditField(h3,v,-20,"Додаткові склади",Normal,AdditionalLocations,false,LocationSClass);
   if (StandardHansa==false) then begin
   EditField(h,v+=vs,65,"Сервісний склад",Normal,ServLocation,false,LocationSClass);
+  EditField(h3,v,120,"Відділ",Normal,Department,false,DepSClass);
   EditField(h,v+=vs,65,"Проміжний склад",Normal,ThroughLocation,false,LocationSClass);	//Edit----------------------Dima  10.12.2015
   EditField(h3,v,120,"Телефон",Normal,Phone1,false,0);
   EditField(h,v+=vs,65,"Склад резерв-ня замовл.",Normal,ReservLocation,false,LocationSClass);

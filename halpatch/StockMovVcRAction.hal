@@ -2032,7 +2032,7 @@ BEGIN
   LongInt oldnr,newnr;
   string 255 oldOfficialSerNr;
   LongInt error;
-  string 255 errorstr,fieldstr;
+  string 255 errorstr,fieldstr,allUserLocations;
   Integer rownr;
   Boolean UnOKedCheckSerialf;
   record UserVc Userr;//Edit-------------------Vitalii 11:01 04.12.2015
@@ -2054,14 +2054,19 @@ BEGIN
 		end;
 	end;
   	
-  if (CurrentCompany==8) then begin
+  if (CurrentCompany==8) then begin								//Edit----------------------Dima  04.05.2016
 		Userr.Code = CurrentUser;
 		if(ReadFirstMain(Userr,1,true))then begin
 			if ((SM2p.OKFlag==0) and (SMp.OKFlag!=0)) then begin
-				if(nonblank(Userr.Location) and Userr.Location!=SMp.ToLocation) then begin
-					RecordCheckError(31055,"",-1,"ToLocation");
-					res = -1;
-					goto LStockMovVcRecordCheck;
+				
+				
+				if (nonblank(Userr.Location) or nonblank(Userr.AdditionalLocations)) then begin
+					allUserLocations = Userr.Location & "," & Userr.AdditionalLocations;
+					if (SetInSet(SMp.ToLocation,allUserLocations)==false) then begin
+						RecordCheckError(31055,"",-1,"ToLocation");
+						res = -1;
+						goto LStockMovVcRecordCheck;
+					end;
 				end;
 				
 				if(blank(Userr.Location))	then begin	
@@ -2073,12 +2078,15 @@ BEGIN
 				end;
 			end;
 			
-			if ((SM2p.OrdFlag==0) and (SMp.OrdFlag!=0)) then begin
-				if (nonblank(Userr.Location) and Userr.Location!=SMp.FrLocation) then begin
-					RecordCheckError(31054,"",-1,"FrLocation");
-					res = -1;
-					goto LStockMovVcRecordCheck;
-				end;
+			if ((SM2p.OrdFlag==0) and (SMp.OrdFlag!=0)) then begin			
+				if (nonblank(Userr.Location) or nonblank(Userr.AdditionalLocations)) then begin
+					allUserLocations = Userr.Location & "," & Userr.AdditionalLocations;
+					if (SetInSet(SMp.FrLocation,allUserLocations)==false) then begin
+						RecordCheckError(31055,"",-1,"FrLocation");
+						res = -1;
+						goto LStockMovVcRecordCheck;
+					end;
+				end;				
 				
 				if(blank(Userr.Location))	then begin	
 					if (CheckUserLocation(SMp.FrLocation)==false) then begin
@@ -2090,7 +2098,7 @@ BEGIN
 								
 			end;			
 		end;
-	end;
+	end;					//Edit------------------------------------------------------------Dima  04.05.2016
 	
 	
 	

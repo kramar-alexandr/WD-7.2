@@ -3649,6 +3649,7 @@ EndRecord;
   RecordField(ExpiryDate,M4Date,0,0);
   RecordField(SortCode,M4Str,10,0);
   RecordField(ThroughLocation,M4Str,10,0);	//Edit----------------------Dima  10.12.2015
+  RecordField(AdditionalLocations,M4Str,200,0);	//Edit----------------------Dima  10.12.2015
   ArrayBegin(Math,-,1);
   ArrayField(Code,M4Code,5,0);
   ArrayField(PRCode,M4Code,20,PRVc);
