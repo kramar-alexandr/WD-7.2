@@ -73,6 +73,7 @@ BEGIN
     GetWindowRecord(wn,MoveForServicer);
     MatRowGet(MoveForServicer,rownr,MoveForServicerw);
     MoveForServicerw.SendUser = CurrentUser;
+    MoveForServicerw.SendDate = CurrentDate;
     MatRowPut(MoveForServicer,rownr,MoveForServicerw);
     PutWindowRecord(wn,MoveForServicer);    
   end;
@@ -91,6 +92,7 @@ BEGIN
     GetWindowRecord(wn,MoveForServicer);
     MatRowGet(MoveForServicer,rownr,MoveForServicerw);
     MoveForServicerw.ReceivedUser = CurrentUser;
+    MoveForServicerw.ReceivedDate = CurrentDate;
     MatRowPut(MoveForServicer,rownr,MoveForServicerw);
     PutWindowRecord(wn,MoveForServicer);    
   end;
@@ -109,6 +111,7 @@ BEGIN
     GetWindowRecord(wn,MoveForServicer);
     MatRowGet(MoveForServicer,rownr,MoveForServicerw);
     MoveForServicerw.SendBackUser = CurrentUser;
+    MoveForServicerw.SendBackDate = CurrentDate;
     MatRowPut(MoveForServicer,rownr,MoveForServicerw);
     PutWindowRecord(wn,MoveForServicer);    
   end;
@@ -127,6 +130,7 @@ BEGIN
     GetWindowRecord(wn,MoveForServicer);
     MatRowGet(MoveForServicer,rownr,MoveForServicerw);
     MoveForServicerw.ReceivedBackUser = CurrentUser;
+    MoveForServicerw.ReceivedBackDate = CurrentDate;
     MatRowPut(MoveForServicer,rownr,MoveForServicerw);
     PutWindowRecord(wn,MoveForServicer);    
   end;
@@ -203,8 +207,14 @@ BEGIN
   if (res) then begin
     if (rownr>-1) then begin
       switch (fieldname) begin
-        case "ArtCode":
-          //res = false;
+        case "Comment":
+        case "ServiceSerialNr":
+          if (wnst==Rs_update) then begin
+            MatRowGet(MoveForService2r,rownr,MoveForService2rw);
+            if (MoveForService2rw.ReceivedQuant>0) then begin
+              res = false;
+            end;
+          end;
         case "SendQuant":
           if (wnst==Rs_update) then begin
             MatRowGet(MoveForService2r,rownr,MoveForService2rw);
@@ -234,7 +244,12 @@ BEGIN
             end;
           end;
         otherwise
-          
+          if (wnst==Rs_update) then begin
+            MatRowGet(MoveForService2r,rownr,MoveForService2rw);
+            if (MoveForService2rw.SendQuant>0 or MoveForService2rw.ReceivedQuant>0 or MoveForService2rw.SendBackQuant>0 or MoveForService2rw.ReceivedBackQuant>0) then begin
+              res = false;
+            end;
+          end;
       end;
     end;
   end;
@@ -303,12 +318,18 @@ begin
   Integer updatemode;
   
   updatemode = 2;//Rs_normal
-  res = true;
+  res = true;  LogText(0,"MoveForServiceDClassDeleteRowTest");
   switch (WindowState(wn)) begin
     case Rs_update:
       GetPrevWindowRecord(wn,MoveForServicer);    
       if (MoveForServicer.Closed!=0) then begin
         res = false;
+      end;
+      if (rownr>-1) then begin
+        MatRowGet(MoveForServicer,rownr,MoveForServicerw);
+        if (MoveForServicerw.SendQuant>0 or MoveForServicerw.ReceivedQuant>0 or MoveForServicerw.SendBackQuant>0 or MoveForServicerw.ReceivedBackQuant>0) then begin
+          res = false;
+        end;
       end;
     case Rs_insert:
       GetWindowRecord(wn,MoveForServicer);
@@ -319,10 +340,18 @@ begin
       GetWindowRecord(wn,MoveForServicer);
       if (MoveForServicer.Closed!=0) then begin
         res = false;
-      end;     
+      end; 
+      if (rownr>-1) then begin 
+        MatRowGet(MoveForServicer,rownr,MoveForServicerw);
+        if (MoveForServicerw.SendQuant>0 or MoveForServicerw.ReceivedQuant>0 or MoveForServicerw.SendBackQuant>0 or MoveForServicerw.ReceivedBackQuant>0) then begin
+          res = false;
+        end;
+      end;  
   end;
   if (res) then begin
   end;
+  
+LMoveForServiceDClassDeleteRowTest:;  
   
   MoveForServiceDClassDeleteRowTest = res;
   return;

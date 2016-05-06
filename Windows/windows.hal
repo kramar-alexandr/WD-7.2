@@ -1778,10 +1778,16 @@ begin
   EditField(h1,vm=(v=6),95,"№ докум.",Normal,SerNr,false,0);
   EditField(h1,v+=vs,95,"Дата",Normal,TransDate,false,PasteCurDate);
   EditField(h2,v=vm,-40,"Коментар",Normal,Comment,false,0);
-  EditField(h2,v+=vs,150,"З компанії",Normal,FromCompName,false,CompNamesSClass); //EditField(h2 + 160,v,50,"#",Normal,FromCompNr,false,0);
+  EditField(h2,v+=vs,150,"З компанії",Normal,FromCompName,false,CompNamesSClass);
+  if (CurrentUser=="SA" or CurrentUser=="SA1") then begin
+    EditField(h2 + 160,v,50,"#",Normal,FromCompNr,false,0);  
+  end;
   //EditFieldTL(h2+60,v,150,"",M4Str,ViewOnly,100,FromCompName,false,0);
   CheckBox(h4=-100,v,0,"Закрито",Closed);
-  EditField(h2,v+=vs,150,"В компанію",Normal,ToCompName,false,CompNamesSClass); //EditField(h2 + 160,v,50,"#",Normal,ToCompNr,false,0);
+  EditField(h2,v+=vs,150,"В компанію",Normal,ToCompName,false,CompNamesSClass);
+  if (CurrentUser=="SA" or CurrentUser=="SA1") then begin
+    EditField(h2 + 160,v,50,"#",Normal,ToCompNr,false,0);
+  end;
   v = v + vs;
 
   tilenr = 1;
@@ -1794,10 +1800,10 @@ begin
   MatrixBegin(4,v,-50,-35,-,200);
   Flip(0);
   MatCol(1,22,"Товар",0,ArtCode,false,ForSaleINSClass);
-  MatCol(1,134,"Найменування",0,Spec,false,0);
+  MatCol(1,105,"Найменування",0,Spec,false,0);
   flipnr = 1;
   Flip(flipnr); flipnr = flipnr + 1;
-  MatCol(1,-540,"Сер.номер",0,SerialNr,false,SerialNrSClass);
+  MatCol(1,-570,"Сер.номер",0,SerialNr,false,SerialNrSClass);
   MatCol(1,-450,"Відпр-но",0,SendQuant,false,0);
   MatColTL(1,-400,"Ким",0,M4UStr,ViewOnly,0,SendUser,false,0);
   //MatCol(1,-400,"Ким",0,SendUser,false,0);
@@ -1810,6 +1816,18 @@ begin
   MatCol(1,-120,"Підтв.повер.",0,ReceivedBackQuant,false,0);
   MatColTL(1,-60,"Ким",0,M4UStr,ViewOnly,0,ReceivedBackUser,false,0);
   //MatCol(1,-60,"Ким",0,ReceivedBackUser,false,0);
+  Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(1,-570,"Сер.номер сервиса",0,ServiceSerialNr,false,0);
+  MatCol(1,-450,"Відпр-но",0,SendQuant,false,0);
+  MatColTL(1,-400,"Коли",0,M4Date,ViewOnly,0,SendDate,false,0);
+  MatCol(1,-340,"Принято",0,ReceivedQuant,false,0);
+  MatColTL(1,-290,"Коли",0,M4Date,ViewOnly,0,ReceivedDate,false,0);
+  MatCol(1,-230,"Повер-то",0,SendBackQuant,false,0);
+  MatColTL(1,-180,"Коли",0,M4Date,ViewOnly,0,SendBackDate,false,0);
+  MatCol(1,-120,"Підтв.повер.",0,ReceivedBackQuant,false,0);
+  MatColTL(1,-60,"Коли",0,M4Date,ViewOnly,0,ReceivedBackDate,false,0);
+  Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(1,-450,"Коментар",0,Comment,false,0);
   InsertRowTest;
   DeleteRowTest;
   EndMatrix;
