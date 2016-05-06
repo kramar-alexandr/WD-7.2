@@ -1780,14 +1780,16 @@ begin
   EditField(h2,v=vm,-40,"Коментар",Normal,Comment,false,0);
   EditField(h2,v+=vs,150,"З компанії",Normal,FromCompName,false,CompNamesSClass);
   if (CurrentUser=="SA" or CurrentUser=="SA1") then begin
-    EditField(h2 + 160,v,50,"#",Normal,FromCompNr,false,0);  
+    EditField(h2 + 160,v,25,"#",Normal,FromCompNr,false,0);  
   end;
+  EditField(h2 + 260,v,100,"Зі складу",Normal,FromLocation,false,LocationSClass); 
   //EditFieldTL(h2+60,v,150,"",M4Str,ViewOnly,100,FromCompName,false,0);
   CheckBox(h4=-100,v,0,"Закрито",Closed);
   EditField(h2,v+=vs,150,"В компанію",Normal,ToCompName,false,CompNamesSClass);
   if (CurrentUser=="SA" or CurrentUser=="SA1") then begin
-    EditField(h2 + 160,v,50,"#",Normal,ToCompNr,false,0);
+    EditField(h2 + 160,v,25,"#",Normal,ToCompNr,false,0);
   end;
+  EditField(h2 + 260,v,100,"На склад",Normal,ToLocation,false,LocationSClass); 
   v = v + vs;
 
   tilenr = 1;

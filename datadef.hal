@@ -4244,6 +4244,8 @@ EndRecord;
     RecordField(StockMovSerNr,M4Long,0,0);
     RecordField(SVOSerNr,M4Long,0,0);
     RecordField(Math,M4Matrix,0,0);
+    RecordField(FromLocation,M4Code,10,LocationVc);
+    RecordField(ToLocation,M4Code,10,LocationVc);
       ArrayBegin(Math,-,1);
       ArrayField(ArtCode,M4Code,20,INVc);
       ArrayField(Spec,M4Str,100,0);

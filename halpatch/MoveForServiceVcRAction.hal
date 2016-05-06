@@ -55,6 +55,21 @@ BEGIN
         res = -1;
         goto LMoveForServiceVcRecordCheck;
       end;
+      if (MoveForServicerw.ReceivedQuant>0 and Blank(MoveForServicerw.ServiceSerialNr)) then begin
+        RecordCheckError(1854,"",i,"ServiceSerialNr");      
+        res = -1;
+        goto LMoveForServiceVcRecordCheck;
+      end;
+      if (MoveForServicerw.SendQuant>0 and Blank(MoveForServicep.FromLocation)) then begin
+        RecordCheckError(1854,"",-1,"FromLocation");      
+        res = -1;
+        goto LMoveForServiceVcRecordCheck;
+      end;
+      if (MoveForServicerw.ReceivedQuant>0 and Blank(MoveForServicep.ToLocation)) then begin
+        RecordCheckError(1854,"",-1,"ToLocation");      
+        res = -1;
+        goto LMoveForServiceVcRecordCheck;
+      end;
       /*if (MoveForServicerw.ReceivedQuant>0 and MoveForServicerw.SendQuant<1) then begin
         RecordCheckError(1854,"",i,"SendQuant");      
         res = -1;
