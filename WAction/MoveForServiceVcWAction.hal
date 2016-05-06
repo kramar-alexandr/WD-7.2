@@ -232,7 +232,7 @@ BEGIN
         case "SendBackQuant":
           if (wnst==Rs_update) then begin
             MatRowGet(MoveForService2r,rownr,MoveForService2rw);
-            if (MoveForService2rw.ReceivedBackQuant>0) then begin
+            if (MoveForService2rw.ReceivedBackQuant>0 or (NonBlank(MoveForService2rw.SendBackUser) and MoveForService2rw.SendBackUser!=CurrentUser)) then begin
               res = false;
             end;
           end;
