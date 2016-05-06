@@ -312,7 +312,7 @@ begin
 	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
 	array string 5 uahpurate,uahcurrate;
 	array string 100 comment;
-	longint worksheet;
+	longint worksheet,CredNo;
 	integer cred;
 	
 	blockload(BCb);
@@ -531,16 +531,19 @@ begin
                       end;
                     end;
                     
-                    notenr = 1;
-										while (ReadRecordLink(IVr,notenr,WSr,RLr)) begin
-											enginer = WSr.EMCode;
-											worksheet = WSr.SerNr;
-											notenr = notenr + 1;
-										end;
+                    
       //COSTZERO:;
 
                   end;
                 end;
+                
+                notenr = 1;
+								while (ReadRecordLink(IVr,notenr,WSr,RLr)) begin
+									enginer = WSr.EMCode;
+									worksheet = WSr.SerNr;
+									notenr = notenr + 1;
+								end;
+                
                 CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
       					foundqty = 0;
       					For(j=0;j<ressize;j=j+1) begin
@@ -722,6 +725,14 @@ l1:;
             	cred = 1;
             	if(newIVr.InvType==kInvoiceTypeCredit)then begin
             		cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
+            		CredNo = -1;
+            		mtrw = matrowcnt(newIVr);
+            		For(i=0;i<mtrw;i=i+1) begin
+	  							Matrowget(newIVr,i,newIVrw);
+	  							if(newIVrw.stp==kInvoiceRowTypeCredit)then begin
+	  								CredNo = newIVrw.OrdRow;
+	  							end;
+								end;             		
             	end;
             	
               invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
@@ -851,18 +862,55 @@ l1:;
                               notenr1=notenr1+1;
                             end;
                           end;
-                          
-                          notenr = 1;
-													while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
-														enginer = WSr.EMCode;
-														worksheet = WSr.SerNr;
-														notenr = notenr + 1;
-													end;
-          //  COSTZERO:;
-                          if(MyCost==0) then begin
-                          end;
                         end;
                       end;
+                      
+                      notenr = 1;
+											while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
+												enginer = WSr.EMCode;
+												worksheet = WSr.SerNr;
+												notenr = notenr + 1;
+											end;
+											
+											if(CredNo>-1)then begin
+												IVr.SerNr = CredNo;
+												if(readfirstmain(IVr,1,true))then begin
+													trhs2=true;
+                          notenr = 1;
+                          while (ReadRecordLink(IVr,notenr,SVOr,RLr) and trhs2) begin
+                            notenr1=1;
+                            while (ReadRecordLink(SVOr,notenr1,WOr,RLr) and trhs2) begin
+                              notenr2=1;
+                                while (ReadRecordLink(WOr,notenr2,WSr,RLr) and trhs2) begin
+                                  mtws = matrowcnt(WSr);
+                                  for(z=0;z<mtws;z=z+1) begin
+                                    MatRowGet(WSr,z,WSrw);
+                                    if(WSrw.ArtCode==newIVrw.ArtCode)then begin
+                                      enginer = WSr.EMCode;
+                                      trhs2 = false;
+                                    end;
+                                  end;
+                                  notenr2=notenr2+1;
+                                end;
+                              notenr1=notenr1+1;
+                            end;
+                            notenr = notenr + 1;
+                            notenr1 = 1;
+                            while (ReadRecordLink(SVOr,notenr1,WSr,RLr) and trhs2) begin
+                              mtws = matrowcnt(WSr);
+                              for(z=0;z<mtws;z=z+1) begin
+                                MatRowGet(WSr,z,WSrw);
+                                if(WSrw.ArtCode==newIVrw.ArtCode)then begin
+                                  enginer = WSr.EMCode;
+                                  trhs2 = false;
+                                end;
+                              end;
+                              notenr1=notenr1+1;
+                            end;
+                          end;
+												end;
+											end;
+                      
                       CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
             					foundqty = 0;
             					For(j=0;j<ressize;j=j+1) begin
@@ -1028,7 +1076,7 @@ begin
 	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
 	array string 5 uahpurate,uahcurrate;
 	array string 100 comment;
-	longint worksheet;
+	longint worksheet,CredNo;
 	val totSum,totCost,totGP;
 	integer cred;
 	
@@ -1084,6 +1132,14 @@ begin
         	cred = 1;
 					if(IVr.InvType==kInvoiceTypeCredit)then begin
 						cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
+						CredNo = -1;
+						mtrw = matrowcnt(newIVr);
+						For(i=0;i<mtrw;i=i+1) begin
+							Matrowget(newIVr,i,newIVrw);
+							if(newIVrw.stp==kInvoiceRowTypeCredit)then begin
+								CredNo = newIVrw.OrdRow;
+							end;
+						end;
 					end;
           sum = IVr.Sum4;
           curncy = IVr.CurncyCode;
@@ -1219,18 +1275,17 @@ begin
                       end;
                     end;
                     
-                    notenr = 1;
-										while (ReadRecordLink(IVr,notenr,WSr,RLr)) begin
-											enginer = WSr.EMCode;
-											worksheet = WSr.SerNr;
-											notenr = notenr + 1;
-										end;
-      //COSTZERO:;
-                    if(MyCost==0) then begin
-                      //MyCost = IVrw.BasePrice;
-                    end;
+                   
+
                   end;
                 end;
+                
+                notenr = 1;
+								while (ReadRecordLink(IVr,notenr,WSr,RLr)) begin
+									enginer = WSr.EMCode;
+									worksheet = WSr.SerNr;
+									notenr = notenr + 1;
+								end;
                 
                if (enginer == CurrentUser or (blank(enginer) and IVr.SalesMan==CurrentUser)) then begin  
                 CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
@@ -1331,6 +1386,14 @@ l1:;
             	cred = 1;
             	if(newIVr.InvType==kInvoiceTypeCredit)then begin
             		cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
+            		CredNo = -1;
+								mtrw = matrowcnt(newIVr);
+								For(i=0;i<mtrw;i=i+1) begin
+									Matrowget(newIVr,i,newIVrw);
+									if(newIVrw.stp==kInvoiceRowTypeCredit)then begin
+										CredNo = newIVrw.OrdRow;
+									end;
+								end;
             	end;
               invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
         			invto1 = IVr.ToRateB1;
@@ -1473,6 +1536,53 @@ l1:;
                           end;
                         end;
                       end;
+                      
+                      
+                      notenr = 1;
+											while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
+												enginer = WSr.EMCode;
+												worksheet = WSr.SerNr;
+												notenr = notenr + 1;
+											end;
+											
+											if(CredNo>-1)then begin
+												IVr.SerNr = CredNo;
+												if(readfirstmain(IVr,1,true))then begin
+													trhs2=true;
+                          notenr = 1;
+                          while (ReadRecordLink(IVr,notenr,SVOr,RLr) and trhs2) begin
+                            notenr1=1;
+                            while (ReadRecordLink(SVOr,notenr1,WOr,RLr) and trhs2) begin
+                              notenr2=1;
+                                while (ReadRecordLink(WOr,notenr2,WSr,RLr) and trhs2) begin
+                                  mtws = matrowcnt(WSr);
+                                  for(z=0;z<mtws;z=z+1) begin
+                                    MatRowGet(WSr,z,WSrw);
+                                    if(WSrw.ArtCode==newIVrw.ArtCode)then begin
+                                      enginer = WSr.EMCode;
+                                      trhs2 = false;
+                                    end;
+                                  end;
+                                  notenr2=notenr2+1;
+                                end;
+                              notenr1=notenr1+1;
+                            end;
+                            notenr = notenr + 1;
+                            notenr1 = 1;
+                            while (ReadRecordLink(SVOr,notenr1,WSr,RLr) and trhs2) begin
+                              mtws = matrowcnt(WSr);
+                              for(z=0;z<mtws;z=z+1) begin
+                                MatRowGet(WSr,z,WSrw);
+                                if(WSrw.ArtCode==newIVrw.ArtCode)then begin
+                                  enginer = WSr.EMCode;
+                                  trhs2 = false;
+                                end;
+                              end;
+                              notenr1=notenr1+1;
+                            end;
+                          end;
+												end;
+											end;
                       
                       if (enginer == CurrentUser or (blank(enginer) and newIVr.SalesMan==CurrentUser)) then begin
 												CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
