@@ -364,6 +364,7 @@ boolean usedf,negf;
 string 100 tstr;
 val S3p,S4p,S5p,S6p,Pp,Ep;
 
+
 	if (RepSpec.flags[10]==0) then begin
 		ALPB2ResGr(RepSpec,PLf,UserDefRepLinesr,Accp,anru,S3bp,Pbp,Ebp,S4bp,S5bp,S6bp,addflag,goms,headflagp,resUseAccum,AccumStartDate,printf);
 	
@@ -454,7 +455,8 @@ begin
       Nitem2 = "";
     end;
     
-    RecordNew(MonthsStructSum);
+    
+    
         
     Accr.AccNumber = Nitem;
     if (blank(Nitem2)) then begin
@@ -523,11 +525,12 @@ BEGIN
   Ebp = 0;
   headflag = false;
   
+  RecordNew(MonthsStructSum);
 
 	/*
 	//Edit----------------------Dima  12.02.2016
 	Body of this function was transfered into	AccListPerBalResGr_inner, 
-	because it repeats 3 times 	for different fields.
+	because it repeats 3 times 	for different fields (UserDefRepLinesr.Desc,Desc2,Desc3).
 	But in future, it would be better if combine these fields into one: Str = UserDefRepLinesr.Desc + UserDefRepLinesr.Desc2 + UserDefRepLinesr.Desc3;
 	Now sum of lenght's of these fields is 300, but max length of string type is 255;
 	*/  
