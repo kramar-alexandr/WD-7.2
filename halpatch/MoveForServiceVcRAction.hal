@@ -35,7 +35,7 @@ BEGIN
   for (i = 0;i<rwcnt;i=i+1) begin
     MatRowGet(MoveForServicep,i,MoveForServicerw);
     if (nonblank(MoveForServicerw.ArtCode)) then begin
-      if (ReadFirstItem(MoveForServicerw.ArtCode,INr,true,true)==false) then begin
+      if (CurrentCompany!=8 and ReadFirstItem(MoveForServicerw.ArtCode,INr,true,true)==false) then begin
         RecordCheckError(1120,MoveForServicerw.ArtCode,i,"ArtCode");      
         res = -1;
         goto LMoveForServiceVcRecordCheck;
