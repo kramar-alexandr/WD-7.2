@@ -4231,6 +4231,43 @@ EndRecord;
     ArrayField(EAN,M4Str,200,0);
 		EndArray;
 	EndBlock;
+	
+	RecordBegin(MoveForServiceVc,-,"MoveForServiceVc"); //Edit***************************Sasha2,11:15 04.05.2016 {
+    RecordField(SerNr,M4Long,0,0);
+    RecordField(TransDate,M4Date,0,0);
+    RecordField(FromCompNr,M4Str,5,0);
+    RecordField(ToCompNr,M4Str,5,0);
+    RecordField(FromCompName,M4Str,100,0);
+    RecordField(ToCompName,M4Str,100,0);
+    RecordField(Closed,M4Mark,0,0);
+    RecordField(Comment,M4Str,200,0);
+    RecordField(StockMovSerNr,M4Long,0,0);
+    RecordField(SVOSerNr,M4Long,0,0);
+    RecordField(Math,M4Matrix,0,0);
+      ArrayBegin(Math,-,1);
+      ArrayField(ArtCode,M4Code,20,INVc);
+      ArrayField(Spec,M4Str,100,0);
+      ArrayField(SerialNr,M4Str,30,0);
+      ArrayField(SendQuant,M4UVal,0,0);
+      ArrayField(ReceivedQuant,M4UVal,0,0);
+      ArrayField(SendBackQuant,M4UVal,0,0);
+      ArrayField(ReceivedBackQuant,M4UVal,0,0);
+      ArrayField(SendUser,M4UStr,60,UserVc);
+      ArrayField(ReceivedUser,M4UStr,60,UserVc);
+      ArrayField(SendBackUser,M4UStr,60,UserVc);
+      ArrayField(ReceivedBackUser,M4UStr,60,UserVc);
+      ArrayField(Comment,M4Str,200,0);
+      EndArray;
+    MainKeyBegin(SerNr,1);
+    StoreInBaseKey;
+    AppendFieldToKeyName(FromCompNr);
+    KeySegment(SerNr);
+    SubsetKeyBegin2(FromCompNr);
+    StoreInBaseKey;
+    AppendFieldToKeyName(FromCompNr);
+    KeySegment(FromCompNr);
+    KeySegment(SerNr);
+  EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
 			
 return;
 end;

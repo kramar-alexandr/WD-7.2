@@ -89,6 +89,7 @@ begin
   Setting("Налаштування експорта для Samsung EDI",SamsungFtpSettingsTClass,modSY); //Edit***************************Sasha2,11:25 12.04.2016
 	
 	Setting("Товари Samsung",SamsungItemsTClass,modIN);	
+	Setting("Переміщення товара для обслуговування",MoveForServiceLClass,modIN);	
 	
 	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
@@ -517,6 +518,7 @@ begin
   StrSetText(ApproveSchedImport,"Затвердити запланований імпорт");
   StrSetText(ApproveSchedMaint,"Затвердити заплановане обслуговування"); 
   StrSetText(AllowSetPUOKFlag,"Дозволяти ставити ОК в надходженнях"); //Edit***************************Sasha2,17:05 08.01.2015
+  StrSetText(AllowUnCloseMoveForServiceVc,"Дозволяти знімати \"Закрито\" в рухах товара для обслуговування"); //Edit***************************Sasha2,17:05 08.01.2015
   EndStrSet;
 
 	return;

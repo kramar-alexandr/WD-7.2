@@ -1760,3 +1760,99 @@ real h,f,v;
   EndWindow;
   return;
 end;
+
+window MoveForServiceDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+
+  WindowBegin("Переміщення товара для обслуговування",MoveForServiceDClass,CGview,-);
+  SetWRect(20,80,900,460);
+  Sizeable(-1,-1,0,0);
+  UseView(MoveForServiceVc);
+  vs = 20;
+  h1 = 75;
+  h2 = 270;
+  Tile(0,90,false,"",SerNr);
+  EditField(h1,vm=(v=6),95,"№ докум.",Normal,SerNr,false,0);
+  EditField(h1,v+=vs,95,"Дата",Normal,TransDate,false,PasteCurDate);
+  EditField(h2,v=vm,-40,"Коментар",Normal,Comment,false,0);
+  EditField(h2,v+=vs,150,"З компанії",Normal,FromCompName,false,CompNamesSClass); //EditField(h2 + 160,v,50,"#",Normal,FromCompNr,false,0);
+  //EditFieldTL(h2+60,v,150,"",M4Str,ViewOnly,100,FromCompName,false,0);
+  CheckBox(h4=-100,v,0,"Закрито",Closed);
+  EditField(h2,v+=vs,150,"В компанію",Normal,ToCompName,false,CompNamesSClass); //EditField(h2 + 160,v,50,"#",Normal,ToCompNr,false,0);
+  v = v + vs;
+
+  tilenr = 1;
+  
+  TileButton(tilenr,"Товари"); tilenr = tilenr + 1; 
+
+  tilenr = 1;
+  Tile(tilenr,190,true,tilenr,Math); tilenr = tilenr + 1;
+  v = 20;
+  MatrixBegin(4,v,-50,-35,-,200);
+  Flip(0);
+  MatCol(1,22,"Товар",0,ArtCode,false,ForSaleINSClass);
+  MatCol(1,134,"Найменування",0,Spec,false,0);
+  flipnr = 1;
+  Flip(flipnr); flipnr = flipnr + 1;
+  MatCol(1,-540,"Сер.номер",0,SerialNr,false,SerialNrSClass);
+  MatCol(1,-450,"Відпр-но",0,SendQuant,false,0);
+  MatColTL(1,-400,"Ким",0,M4UStr,ViewOnly,0,SendUser,false,0);
+  //MatCol(1,-400,"Ким",0,SendUser,false,0);
+  MatCol(1,-340,"Принято",0,ReceivedQuant,false,0);
+  MatColTL(1,-290,"Ким",0,M4UStr,ViewOnly,0,ReceivedUser,false,0);
+  //MatCol(1,-290,"Ким",0,ReceivedUser,false,0);
+  MatCol(1,-230,"Повер-то",0,SendBackQuant,false,0);
+  MatColTL(1,-180,"Ким",0,M4UStr,ViewOnly,0,SendBackUser,false,0);
+  //MatCol(1,-180,"Ким",0,SendBackUser,false,0);
+  MatCol(1,-120,"Підтв.повер.",0,ReceivedBackQuant,false,0);
+  MatColTL(1,-60,"Ким",0,M4UStr,ViewOnly,0,ReceivedBackUser,false,0);
+  //MatCol(1,-60,"Ким",0,ReceivedBackUser,false,0);
+  InsertRowTest;
+  DeleteRowTest;
+  EndMatrix;
+  vs = 22;
+  v = v + 1;
+  if (flipnr>2) then begin
+    for (f=1;f<flipnr;f=f+1) begin
+      VTab(-35,v,-16,v+vs,ToolFlip,f,chr(asc("A") + f - 1));
+      v = v + vs;
+    end;
+  end;
+
+  EndWindow;
+end;
+
+window MoveForServiceLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Переміщення товара для обслуговування",MoveForServiceLClass,CGmlist,SHView);
+  SpawnClass(MoveForServiceDClass);
+  SetWRect(20,80,880,298);
+  Sizeable(-1,-1,0,0);
+  UseView(MoveForServiceVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Номер",SerNr,false,SerNr);
+  RlColKey(80,80,"Дата",TransDate,false,OKFlag);
+  RlColKey(150,150,"С комп.",FromCompName,false,ShipDate);
+  RlColKey(280,280,"В комп.",ToCompName,false,OrderKey); 
+  RlColKey(-400,-400,"Коментар",Comment,false,Comment);
+  SearchField("Пошук");
+  EndWindow;
+end;
+
+window CompNamesSClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,iPad")
+begin
+  WindowBegin("Оберіть компанію",CompNamesSClass,CGother,HBlRecType);
+  if (GuiType==kGuiiPhone) then begin
+    PopoverWindow;
+  end;
+  SetWRect(240,80,640,298);
+  Sizeable(-1,-1,-1,0);
+  StringList(9,9,-23,-10);
+  SearchField("Найти");
+  EndWindow;
+end;

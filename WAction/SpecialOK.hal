@@ -1462,3 +1462,43 @@ begin
   RemoteCloudServerSClassOnOKWindow = res;
   return;
 end;
+
+global //Edit***************************Sasha2,12:57 04.05.2016 {
+procedure CompNamesSClassArrayOnOpen(var Array string astr,var Integer acnt)
+BEGIN
+  record CompaniesBlock CBb;
+  row CompaniesBlock CBrw;
+  Integer i,rwcnt;
+  
+  BlockLoad(CBb);
+  rwcnt = MatRowCnt(CBb);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(CBb,i,CBrw);
+    astr[acnt] = CBrw.CompName;
+    //astr[acnt] = astr[acnt] & VATCoderw.Comment;
+    acnt = acnt + 1;
+  end;
+  RETURN;
+END; //Edit***************************Sasha2,12:58 04.05.2016 }
+
+global //Edit***************************Sasha2,12:58 04.05.2016 {
+function Boolean CompNamesSClassOnOpenWindow(Integer wn)
+begin
+  Array string 255 astr;
+  Integer i,acnt;
+  
+  CompNamesSClassArrayOnOpen(astr,acnt);
+  for (i=0;i<acnt;i=i+1) begin
+    SetListString(wn,len(astr[i]),astr[i],false);    
+  end;
+  CompNamesSClassOnOpenWindow = false;
+  return;
+end; //Edit***************************Sasha2,12:58 04.05.2016 }
+
+global //Edit***************************Sasha2,12:58 04.05.2016 {
+function Boolean CompNamesSClassOnOKWindow(Integer wn)
+begin
+  PasteFromSysList(wn,-2);
+  CompNamesSClassOnOKWindow = false;
+  return;
+end; //Edit***************************Sasha2,12:58 04.05.2016 }

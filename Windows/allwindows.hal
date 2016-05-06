@@ -4814,6 +4814,7 @@ begin
     end;
   end;
   SpecialMenu("Оновити ціни в замовленні клієнта (+9%)",'',10,"UpdatePricesInORFromStockMovDsm");
+  SpecialMenu("Передати товари в A-Service",'',10,"CreateMoveForServiceFromStockMovDsm"); //Edit***************************Sasha2,9:43 05.05.2016
   if (CurrentCompany == 4) then begin//Edit-------------------Vitalii 17:25 07.12.2015
 	SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");
   end;

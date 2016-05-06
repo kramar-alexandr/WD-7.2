@@ -33,6 +33,7 @@ external function LongInt DateDiff(Date,Date);
 external procedure DisplayStrArray(array string);
 remote function string 20 FindCustRouteByLocation(string,string,string);
 remote updating procedure HandleUpdatePricesInORFromStockMov(record StockMovVc,var string); //Edit***************************Sasha2,14:32 28.07.2015
+remote updating procedure CreateMoveForServiceFromStockMov(var record MoveForServiceVc,record StockMovVc,var string); //Edit***************************Sasha2,9:47 05.05.2016
 
 global
 procedure CalcNewPrice(val oldprice,string extra,var val newprice)
@@ -1421,3 +1422,29 @@ BEGIN
 
   RETURN;
 END;
+
+global //Edit***************************Sasha2,9:44 05.05.2016 {
+updating procedure CreateMoveForServiceFromStockMovDsm()
+begin
+	record StockMovVc SMr;
+	record MoveForServiceVc MoveForServicer;
+	longint wn,nwn;
+	string 255 error;
+
+  	wn = CurWindow;
+  	GetWindowRecord(wn,SMr);
+  	if (WindowState(wn) == Rs_normal) then begin
+	  	CreateMoveForServiceFromStockMov(MoveForServicer,SMr,error);
+	  	if (Blank(error)) then begin
+	  	   nwn = OpenWindow("MoveForServiceDClass",1,0,"","",MoveForServicer);
+      end else begin
+        MessageBox(0,error);
+      end;
+	  end else begin
+	    if (WindowState(wn)!=Rs_normal) then begin
+	      error = USetStr(1356);
+	    end;  
+    end;
+
+  return;
+end; //Edit***************************Sasha2,9:44 05.05.2016 }
