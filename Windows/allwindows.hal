@@ -9652,3 +9652,185 @@ begin
   SearchField("Search");
   EndWindow;
 end;
+
+window IVJRClass:3
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer") 
+begin
+  real h,h2,hs,v,v3,vm,vs,l;
+
+  WindowBegin("Визначте журнал актів/накладних",IVJRClass,CGRcW,RcType);
+   SetWRect(20,80,520,390);
+   vs = 20;
+   hs=148;
+   if (IsEnterprise) then begin
+    if (HasLocalization("ARG,HRV,LTU,LVA,POL,PRT,RUS") or (HasOfficialSerNr and HasPreferedOfficialSerNr==false))  then begin
+      Tile(0,40,false,"",f1); 
+    end else begin
+   Tile(0,20,false,"",f1);
+   end;
+  end;
+
+  v = 6; h = 150;
+  if (HasPreferedOfficialSerNr) then begin
+    EditFieldTL(h,v,150,"Офіц номер",M4UStr,Normal,41,f6,false,0);
+    v = v + 20;
+    if (HasLocalization("POL,PRT")==false)  then begin 
+      EditFieldTL(h,v,150,"Номер акт/накл.",M4Str,Normal,30,f1,false,0);
+      v = v + 20;
+    end;
+   end else begin
+    EditFieldTL(h,v,150,"Номер акт/накладна",M4Str,Normal,30,f1,false,0);
+    v = v + 20;
+      if (HasOfficialSerNr) then begin
+        EditFieldTL(h,v,150,"Official No.",M4UStr,Normal,41,f6,false,0);
+        v = v + 20;
+    end;
+  end;
+
+   if (IsEnterprise) then begin
+   TileButtons(v,2);
+   Tile(1,380,false,"1",f2);
+   v = 6;
+     vm = v;
+   end;
+   PeriodField(h,v,"Період"); 
+   EditFieldTL(h,v+=vs, 150,"Період кредит-ноти",M4UStr,Normal,21,Period2Str2,false,PerSClass); 
+   EditFieldTL(h,v+=vs ,150,"Клієнт",M4UStr,Normal,50,f2,false,CUSClass);
+  if (HasCategories) then begin
+   EditFieldTL(h,v+=vs ,70,"Категорія",M4UStr,Normal,5,f3,false,CCatSClass);
+   end;
+   if (HasContactClassification) then begin
+   EditFieldTL(h,v+=vs ,70,"Види класифікації",M4UStr,Normal,60,f5,false,CTypeSClass);
+   EditFieldTL(h,v+=vs ,70,"Класифікація",M4UStr,Normal,30,f4,false,CClassSClass);
+   end;
+  if (HasSalesman) then begin
+    EditFieldTL(h,v+=vs ,70,"Продавець",M4UStr,Normal,10,AccStr,false,UserSClass); 
+   end;
+   if (HasObjects) then begin
+   EditFieldTL(h,v+=vs,150,"Об'єкт",M4UStr,Normal,60,ObjStr,false,ObjSClass);
+   EditFieldTL(h,v+=vs,50,"Тип об'єкту",M4UStr,Normal,5,ObjType,false,OTSClass);
+    EditFieldTL(h,v+=vs,150,"Об'єкти (з рядка)",M4UStr,Normal,60,f11,false,ObjSClass);
+   end;
+   if (HasModTS) then begin
+   EditFieldTL(h,v+=vs,50,"Проект",M4UStr,Normal,20,FirstAcc,false,PRSClass);
+   end;
+   if (HasMultiLocations) then begin
+    EditFieldTL(h,v+=vs,70,"Склад",M4UStr,Normal,60,LastAcc,false,LocationSClass);
+   end;
+   if (IsEnterprise) then begin
+   EditFieldTL(h,v+=vs,50,"Умови сплати",M4UStr,Normal,5,TransStr,false,PDSClass);
+    EditFieldTL(h,v+=vs,50,"Клієнт",M4Code,Normal,20,f12,false,CUSClass);
+  end;
+  if (IsEnterprise) then begin
+   EditFieldTL(h,v3=(v+=vs),50,"Мін. сума",M4Val,Normal,0,vals0,false,0);
+   end;
+   if (IsEnterprise) then begin
+     h = 320;
+     v = vm + 10;
+   end else begin
+     v = v + 40;
+     v3 = v + 20;
+     vm = v;
+   end;
+   ButtonFrame(h,v,123,5,"Статус");
+   CheckBox(h,v,0,"незатверджені",flags[1]);
+   CheckBox(h,v+=16,0,"затверджені",flags[2]);
+   if (IsEnterprise) then begin
+   RadioButton(h,v+=16,0,0,"врах. суперечливі",flags[7]);
+   RadioButton(h,v+=16,1,0,"викл. суперечливі",flags[7]);
+   RadioButton(h,v+=16,2,0,"лише суперечливі",flags[7]); 
+   
+   RadioButton(h,v+=26,0,0,"всі",flags[21]); //Edit***************************Sasha2,15:37 20.05.2016 {
+   RadioButton(h,v+=16,1,0,"що оновлюють склад",flags[21]);
+   RadioButton(h,v+=16,2,0,"що не оновлюють склад",flags[21]); //Edit***************************Sasha2,15:37 20.05.2016 }
+   end;
+   EndFrame;
+
+   v3 = v3 + 41;
+   v = v3;
+   if (IsEnterprise) then begin
+     vm = v;
+   end;
+   ButtonFrame(h=148,v,123,3,"Функція"); 
+   RadioButton(h,v,0,0,"зведений",ArtMode);
+   RadioButton(h,v+=16,1,0,"докладний",ArtMode);
+   if (HasMultiCurrency) then begin
+   RadioButton(h,v+=16,4,0,"зведений з валютою",ArtMode);
+   end;
+   EndFrame;
+   if (IsEnterprise==false and HasBase2) then begin
+     CheckBox(h,v+=42,0,"Show Base Currency 1 & 2 Totals",flags[12]); //!!PRODTRANSLATE
+   end;
+
+   if (IsEnterprise) then begin
+     h2 = 320;
+     l = 160;
+   end else begin
+     h2 = h + 148;
+    l = 160;
+   end;
+   ButtonFrame(h2,v=vm,l,5,"Сортувати за"); 
+   if (HasModNL) then begin
+   RadioButton(h2,v,0,0,"датою операції",flags[10]);
+   end else begin
+     RadioButton(h2,v,0,0,"Invoice Date",flags[10]); //!!PRODTRANSLATE
+   end;
+   if (HasLocalization("POL")) then begin //!!PRODTRANSLATE
+     RadioButton(h2,v+=16,5,0,"№ акту/накл.",flags[10]);
+   end else begin
+     RadioButton(h2,v+=16,1,0,"Invoice No.",flags[10]); //!!PRODTRANSLATE
+   end;
+  if (HasMultiLocations) then begin
+   RadioButton(h2,v+=16,2,0,"складом",flags[10]);
+  end;
+  if (HasOfficialSerNr) then begin
+   RadioButton(h2,v+=16,3,0,"звед. з офіц. №",flags[10]);
+  end;
+  if (IsEnterprise) then begin
+   RadioButton(h2,v+=16,4,0,"датою акту/накл.",flags[10]);
+   end;
+   EndFrame;
+   if (IsEnterprise) then begin
+   Tile(2,330,false,"2",Stext);
+   v = 6;
+   EditFieldTL(h=150,v,100,"Група товарів",M4UStr,Normal,21,Stext,false,ITSClass);
+    EditFieldTL(h,v+=vs,100,"Товар",M4UStr,Normal,41,f10,false,INSClass);
+   EditFieldTL(h=150,v+=vs,100,"Рахунок реалізації",M4UStr,Normal,21,f7,false,AccSClass);
+   EditFieldTL(h=150,v+=vs,100,"Рахунок дебіторів",M4UStr,Normal,21,f8,false,AccSClass);
+    if (StandardHansa==false) then begin
+   EditFieldTL(h=150,v+=vs,100,"Осн. партнер",M4UStr,Normal,20,f9,false,CUSClass);
+    end;
+//    EditFieldTL(h,v+=vs,50,"Order Class",M4UStr,Normal,5,Stext,false,OrderClassSClass); // no more strings to use....
+   ButtonFrame(h=50,vm = (v+=40),123,4,"Види актів/накл.");
+   CheckBox(h,v,0,"звичайні",flags[3]);
+   CheckBox(h,v+=16,0,"готівкові платежі",flags[4]);
+   CheckBox(h,v+=16,0,"кредитові",flags[5]);
+   CheckBox(h,v+=16,0,"пені",flags[6]);
+   CheckBox(h,v+=26,0,"Лише акти/накл., щр вплив. на продажі",flags[19]);
+   StaticText(h+17,v+=30,"(не врахов. види актів/накл.)",false);
+   CheckBox(h=220,v=vm,0,"Віображати Коментар",flags[11]);
+   CheckBox(h,v+=16,0,"Суми в осн. валюті 1 і 2",flags[12]);
+    if (StandardHansa==false) then begin
+   CheckBox(h,v+=16,0,"Тільки фіскальні",flags[13]);
+    end;
+   CheckBox(h,v+=16,0,"Відображати анульовані",flags[14]);
+   CheckBox(h,v+=16,0,"Відображати ПДВ",flags[15]);
+   CheckBox(h,v+=16,0,"Лише нероздруковані акти/накл.",flags[17]);
+   CheckBox(h,v+=16,0,"Вкюч. орг. клієнта",flags[18]);
+    CheckBox(h,v+=16,0,"Акт/накл. з нульовою сумою",flags[20]);
+   CheckBox(h+=hs,v=vm,0,"Відображати офіційні серійні №",flags[16]);
+   end else begin
+     ButtonFrame(h+=148,v+=41,123,3,"Тип акта/накл."); 
+     CheckBox(h,v,0,"Актв/накл.",flags[3]); 
+     CheckBox(h,v+=16,0,"Готівковий платіж",flags[4]); 
+     CheckBox(h,v+=16,0,"Кредит-нота",flags[5]); 
+    if (HasLocalization("PRT")) then begin
+      CheckBox(h,v+=16,0,"I_nterest Inv.",flags[6]);
+    end;
+    EndFrame;
+    if (HasLocalization("PRT")) then begin
+      CheckBox(h,v+=24,0,"Акт/накл. з нульовою сумою",flags[20]);
+    end;
+   end;
+   EndWindow;
+end;
