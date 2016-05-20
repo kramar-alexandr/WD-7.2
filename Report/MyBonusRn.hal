@@ -318,8 +318,6 @@ begin
 	blockload(BCb);
 
   startreportnoheaderjob("Bonus");
-  IPrsr.TransDate = RepSpec.sStartDate;
-  TrHs = true;
   //paydatenew = "";
   pos[0] = 0;
   pos[1] = 1;
@@ -352,9 +350,15 @@ begin
     OutString(pos[3],0,"Paym. term.",false);
     OutString(pos[4],0,"Paym. date",false);
     OutString(pos[5],0,"Inv. #",false);
+    if(currentcompany==2)then begin
+			OutString(pos[23],0,"Sale Order",false);
+		end;
     OutString(pos[6],0,"Group",false);
     OutString(pos[6],0,"ArtCode",false);
     OutString(pos[7],0,"Name",false);
+    if(currentcompany==2)then begin
+    	OutString(pos[7],0,"Serial #",false);
+    end;
     OutString(pos[8],0,"Q-ty",false);
     OutString(pos[9],0,"Price",false);
     OutString(pos[9],0,"Price UAH",false);
@@ -372,15 +376,20 @@ begin
     OutString(pos[17],0,"Inv.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
     OutString(pos[18],0,"SalesMan",false);
     OutString(pos[19],0,"Inv. SalesMan",false);
-    OutString(pos[20],0,"ServiceMan",false);
-    OutString(pos[21],0,"Service Order",false);
-    OutString(pos[23],0,"Sale Order",false);
+    if(currentcompany!=2)then begin
+			OutString(pos[20],0,"ServiceMan",false);
+			OutString(pos[21],0,"Service Order",false);
+			OutString(pos[23],0,"Sale Order",false);
+		end;	
+		
+    
   EndFormat;
   
+  TrHs = true;
+  IPrsr.TransDate = RepSpec.sStartDate;
   while (LoopKey("TransDate",IPrsr,1,TrHs)) begin
     testf = true;
     if(IPrsr.TransDate>RepSpec.sEndDate)then begin TrHs = false; end;
-    //if(IPrsr.TransType!=0)then begin testf = false; end;
     
     if(testf)then begin
     
@@ -596,9 +605,15 @@ begin
                       OutDate(pos[4],0,enddate,false);
                     end;
                     OutString(pos[5],0,IVr.SerNr,false);
+                    if(currentcompany==2)then begin
+											OutString(pos[23],0,IVr.OrderNr,false);
+										end;
                     OutString(pos[6],0,group,false);
                     OutString(pos[6],0,IVrw.ArtCode,false);
                     OutString(pos[7],0,IVrw.Spec,false);
+                    if(currentcompany==2)then begin
+											OutString(pos[7],0,serial[j],false);
+										end;
                     quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
                     OutString(pos[8],0,quant,false);
                     salesprice = realpricebase[j];
@@ -632,9 +647,12 @@ begin
                       OutString(pos[18,0,CUr.SalesMan,false);
                     end; 
                     OutString(pos[19],0,IVr.SalesMan,false);
-                    OutString(pos[20],0,enginer,false);
-                    OutString(pos[21],0,IVr.SVONr,false);
-										OutString(pos[23],0,IVr.OrderNr,false);
+                    if(currentcompany!=2)then begin
+											OutString(pos[20],0,enginer,false);
+											OutString(pos[21],0,IVr.SVONr,false);
+											OutString(pos[23],0,IVr.OrderNr,false);
+                    end;
+										
                   endformat;
                 end; //Edit***************************Sasha2,15:52 23.04.2015
                 if(foundqty<IVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
@@ -663,9 +681,15 @@ begin
                       OutDate(pos[4],0,enddate,false);
                     end;
                     OutString(pos[5],0,IVr.SerNr,false);
+                    if(currentcompany==2)then begin
+											OutString(pos[23],0,IVr.OrderNr,false);
+										end;
                     OutString(pos[6],0,group,false);
                     OutString(pos[6],0,IVrw.ArtCode,false);
                     OutString(pos[7],0,IVrw.Spec,false);
+                    if(currentcompany==2)then begin
+											OutString(pos[7],0,serial[j],false);
+										end;
                     quant = IVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
                     OutString(pos[8],0,quant,false);
                     salesprice = sumusd/quant;
@@ -698,9 +722,12 @@ begin
                       OutString(pos[18],0,CUr.SalesMan,false);
                     end; 
                     OutString(pos[19],0,IVr.SalesMan,false);
-                    OutString(pos[20],0,enginer,false);
-                    OutString(pos[21],0,newIVr.SVONr,false);
-										OutString(pos[23],0,newIVr.OrderNr,false);
+                    if(currentcompany!=2)then begin
+											OutString(pos[20],0,enginer,false);
+											OutString(pos[21],0,newIVr.SVONr,false);
+											OutString(pos[23],0,newIVr.OrderNr,false);
+                    end;
+										
 						      endformat;
 					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
               end;
@@ -713,6 +740,7 @@ begin
       end;
       
 l1:;
+
       if(nonblank(enddate) and sum<=0)then begin
         IPrs2r.IVNr = IPrsr.IVNr;
         testf2 = true;
@@ -962,9 +990,15 @@ l1:;
                             OutDate(pos[4],0,enddate,false);
                           end;
                           OutString(pos[5],0,newIVr.SerNr,false);
+                          if(currentcompany==2)then begin
+                          	OutString(pos[23],0,newIVr.OrderNr,false);
+                          end;
                           OutString(pos[6],0,group,false);
                           OutString(pos[6],0,newIVrw.ArtCode,false);
                           OutString(pos[7],0,newIVrw.Spec,false);
+                          if(currentcompany==2)then begin
+														OutString(pos[7],0,serial[j],false);
+													end;
                           quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
                           OutString(pos[8],0,quant,false);
                           salesprice = realsumbase[j];
@@ -998,9 +1032,12 @@ l1:;
                             OutString(pos[18],0,CUr.SalesMan,false);
                           end; 
                           OutString(pos[19],0,newIVr.SalesMan,false);
-                          OutString(pos[20],0,enginer,false);
-                          OutString(pos[21],0,newIVr.SVONr,false);
-													OutString(pos[23],0,newIVr.OrderNr,false);
+                          if(currentcompany!=2)then begin
+														OutString(pos[20],0,enginer,false);
+														OutString(pos[21],0,newIVr.SVONr,false);
+														OutString(pos[23],0,newIVr.OrderNr,false);
+                          end;
+													
                         endformat;
                       end; //Edit***************************Sasha2,15:52 23.04.2015
                       if(foundqty<newIVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
@@ -1292,7 +1329,7 @@ begin
       					foundqty = 0;
       					For(j=0;j<ressize;j=j+1) begin
       						foundqty = foundqty + qty[j]; 
-      					end; //LogText(0, "foundqty " & foundqty & " ressize " & ressize);
+      					end;
       					For(j=0;j<ressize;j=j+1) begin //Edit***************************Sasha2,15:54 23.04.2015 }
 
                   StartFormat(15);

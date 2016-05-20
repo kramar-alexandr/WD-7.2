@@ -204,7 +204,7 @@ begin
 					if(IVr.CurncyCode==BCb.BaseCur2)then begin
 						uahpurate[ressize] = IVr.BaseRate2;
 						uahcurrate[ressize] = IVr.BaseRate2;
-						realcostuah[ressize] = cost[ressize] * IVr.BaseRate2 / IVr.BaseRate1 * cred;
+						realcostuah[ressize] = cost[ressize] * IVr.BaseRate2 / IVr.BaseRate1;
 						realpricebase[ressize] = IVrw.Price * IVr.BaseRate1 / IVr.BaseRate2;
 						realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize] * IVr.BaseRate1 / IVr.BaseRate2;
 					end;

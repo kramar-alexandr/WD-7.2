@@ -621,11 +621,14 @@ begin
   end;
   lstartdate = startdate;
   lenddate = enddate;
-//StopAlert("lstartdate " & lstartdate & " lenddate " & lenddate);
+  
+  
+  logtext(0,lstartdate & " > " & lenddate);
   if (lstartdate>lenddate) then begin
+  	
     goto LDepreciationCalculation;
   end;
-
+		
   switch (lComparison) begin
     case 0:    
       lstartdate.day = 1;
@@ -643,7 +646,7 @@ begin
       lastdprd = LastDprDate(enddate,ATUnitr.InventoryNr,Model,0,revinitdeprval);
       assetrevaluatedf = nonblankdate(lastdprd);
   end;
-
+    
   while (GetNextData_Asset(Model,ATUnitr,DMr,lstartdate,lenddate,lComparison,assetrevaluatedf,nexted,nextdmcode,nextstartval,nextresval,nextinitdeprval,wrofd,nextwrofqty,nextwrdpr,stopdprf)) begin
     qdeductedf = false;
     nwrdpr = 0;
@@ -811,6 +814,7 @@ begin
       goto LDepreciationCalculation;
     end;
   end;
+    
 LDepreciationCalculation:;  
   totacumdpr = totacumdpr + acumdpr;
   totrevacumdpr = totrevacumdpr + revacumdpr;
@@ -992,6 +996,7 @@ BEGIN
   end;
 
   DepreciationCalculation(Model,Comparison,ArtMode,PrintPeriodVals,mode,InclRevDpr,SkipDisposed,ATUnitr,DMr,purchval,startval,resval,stdprdate,enddatebef,invdprbef,invrevdprbef,acumdpr,revacumdpr,assetqty,wrofqty,wrofsum,wrofdprsum,lastrevval,revbef);
+  
   if (blank(revinitdeprval)==false) then begin
 //    invdprbef = revinitdeprval;
   end;
@@ -1082,8 +1087,8 @@ BEGIN
     end;
   end; 
 //StopAlert(" invdprv " & invdprv & " invdprbef " & invdprbef & " t " & t & " startval " & startval);  
-
 LSKIPASSET:; 
+
   RETURN;
 END;
 
@@ -1199,6 +1204,7 @@ BEGIN
   val totwrofdprsum;
   val partswrofqty,partswrofsum,partswrofdprsum,partspurchval,partsstartval,partsinvdprv,partsinvdprbef,partsinvrevdprv,partsinvrevdprbef,partsrevbef,partsfwdassetqty,partsassetqty,partsthestartval;
   
+  
   frinv = FirstInRange(RepSpec.f2,30);    
   toinv = LastInRange(RepSpec.f2,30);    
   frcat = FirstInRange(RepSpec.f1,30);    
@@ -1281,6 +1287,9 @@ BEGIN
         testf = blank(ATUnitr.MotherInvNr);
       end;
     end;
+    
+    
+    
     found = TrHs and testf;
     if (found) then begin
       assetqtynegf = false;
@@ -1309,7 +1318,8 @@ BEGIN
             end;
           end;
         end;
-      end;     
+      end;        
+         
       if (blank(commentstr)) then begin
         commentstr = ATUnitr.InventoryNr;
       end;
@@ -1330,10 +1340,12 @@ BEGIN
       invdprbef = blankval;
       invrevdprv = blankval;
       invrevdprbef = blankval;
+
       OneInventoryNrDepreciation(ATUnitr,mode,RepSpec.ArtMode,RepSpec.sStartDate,RepSpec.sEndDate,
                                  RepSpec.flags[1],RepSpec.flags[7],RepSpec.flags[3],RepSpec.Comparison,RepSpec.flags[5],
                                  RepSpec.flags[10],RepSpec.flags[11],
                                  wrofqty,wrofsum,wrofdprsum,purchval,startval,invdprv,invdprbef,invrevdprv,invrevdprbef,revbef,fwdassetqty,assetqty,thestartval);
+
       if (wrofqty!=0) then begin
         if (RepSpec.ArtMode!=0) begin
           StartFormat(15);
@@ -1364,7 +1376,8 @@ BEGIN
       classwrofsum = classwrofsum + wrofsum;
       classwrofdprsum = classwrofdprsum + wrofdprsum;
       classpurchval = classpurchval + purchval*ATUnitr.Quantity;
-      classstartval = classstartval + thestartval*ATUnitr.Quantity;      
+      classstartval = classstartval + thestartval*ATUnitr.Quantity;   
+         
       if (mode==1) then begin  
         totinitdprval = totinitdprval + InitDeprVal;
         totrevbef = totrevbef + revbef;
@@ -1396,6 +1409,7 @@ BEGIN
         end;
         if (RepSpec.ArtMode==0) then begin
           if (mode!=0) then begin  
+          	      
             switch (RepSpec.flags[12]) begin
               case 1:
                 t = invdprv + partsinvdprv;
@@ -1452,7 +1466,8 @@ BEGIN
         totwrofdprsum = totwrofdprsum + wrofdprsum; 
         wrofsum = blankval;
       end;
-      if (mode!=1) then begin       
+      if (mode!=1) then begin 
+      	logtext(0,"|_" & ATUnitr.InventoryNr & " invdprv " & invdprv & " invrevdprv " & invrevdprv & " ResVal " & ATUnitr.ResVal);
         AddSMDprRowRows(RepSpec,ATUnitr,invdprv,invrevdprv,mode,SMr,commentstr);
         if (mode==0) then begin
           MaintTrace(ATUnitr.InventoryNr);
