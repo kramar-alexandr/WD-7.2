@@ -383,11 +383,18 @@ begin
 	SVOr.SerNr = evaltoval(sernr);
 	if(readfirstmain(SVOr,1,true))then begin
 		if(SVOr.Kontinfo1==phone)then begin
-			if(nonblank(SVOr.PlanShip))then begin
+			switch(SVOr.OrderStatus)begin
+				case 0:WeboutString("В очікуванні");
+				case 1:WeboutString("Діагностиа завершена");
+				case 4:WeboutString("На узгодженні");
+				case 3:WeboutString("Очікує запчастини");
+				case 2:WeboutString("Ремонт виконано");
+			end;
+			/*if(nonblank(SVOr.PlanShip))then begin
 				WeboutString("Ваш ремонт готов");
 			end else begin
 				WeboutString("Ваш ремонт на диагностике");
-			end;
+			end;*/
 		end else begin
 			WeboutString("Не верный номер телефна");
 		end;
