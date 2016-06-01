@@ -31,7 +31,9 @@ begin
 	string 5 curncy;
 	record ItemHistVc IHr;
 	boolean testf,TrHs;
-	record IVVc IVr;	
+	record IVVc IVr;
+	boolean IHLoop,IHfoundf;
+	longint IHSernr;
 	
 	recordcopy(IVr,cIVr);
 	
@@ -40,6 +42,48 @@ begin
 	//newcostblockbegin*****************
 	if(blank(PUr.CurncyCode))then begin
 		if(nonblank(IVrw.SerialNr))then begin
+			
+			IHr.ArtCode = IVrw.ArtCode;
+			IHr.SerialNr = IVrw.SerialNr;
+			IHr.FileName = "IVVc";
+			IHLoop = true;
+			IHSernr = -1;
+			while(loopkey("ArtCodeSerialNr",IHr,3,IHLoop))begin
+				if(IHr.ArtCode!=IVrw.ArtCode)then begin IHLoop=false; end;
+				if(IHr.SerialNr!=IVrw.SerialNr)then begin IHLoop=false; end;
+				if(IHr.FileName!="IVVc")then begin IHLoop=false; end;
+				
+				if(IVr.SerNr==IHr.TransNr and IHLoop)then begin
+					IHLoop = false;
+					IHSernr = IHr.SerNr;
+				end;
+			end;
+			resetloop(IHr);
+			IHfoundf = false;
+			
+			if(IHSernr>-1)then begin
+				IHr.ArtCode = IVrw.ArtCode;
+				IHr.SerialNr = IVrw.SerialNr;
+				IHr.FileName = "PUVc";
+				IHLoop = true;
+				while(loopbackkey("ArtCodeSerialNr",IHr,3,IHLoop))begin
+					if(IHr.ArtCode!=IVrw.ArtCode)then begin IHLoop=false; end;
+					if(IHr.SerialNr!=IVrw.SerialNr)then begin IHLoop=false; end;
+					if(IHr.FileName!="PUVc")then begin IHLoop=false; end;
+					
+					if(IHr.SerNr<IHSernr and IHLoop)then begin
+						IHLoop = false;
+						IHfoundf = true;
+						PUr.SerNr = IHr.TransNr;
+						cost[ressize] = IHr.TotCostPrice;
+						readfirstmain(PUr,1,true);
+						goto lStartNewCalcCostAndPrice;
+					end;
+					
+				end;
+				resetloop(IHr);
+			end;
+			
 			IHr.ArtCode = IVrw.ArtCode;
 			IHr.SerialNr = IVrw.SerialNr;
 			IHr.FileName = "PUVc";
