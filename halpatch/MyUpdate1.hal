@@ -391,9 +391,44 @@ begin
       end; //Edit***************************Sasha2,14:35 26.06.2014 }
     end;
   end;
+return;
+end;
+
+
+global updating procedure UpdatePricesInWebSyncReg()
+begin
+	record PLVc PLr;
+	record WebSyncBlock WSBb;
+	boolean TrHs,testf;
+	record WebSyncRegVc WSRr;
+	
+	
+	blockload(WSBb);
+	
+	PLr.PLCode = WSBb.DefPriceList;
+	
+	TrHs = true;
+	while(loopmain(PLr,1,TrHs))begin
+		if(PLr.PLCode!=WSBb.DefPriceList)then begin TrHs = false; end;
+		
+		if(TrHs)then begin
+			WSRr.ArtCode = PLr.ArtCode;
+			if(readfirstmain(WSRr,1,true))then begin
+				if(WSRr.Price!=PLr.ExVatPrice)then begin
+					logtext(0,WSRr.ArtCode & " WebChangePrice " & WSRr.Price & " -> " & PLr.ExVatPrice);
+					WSRr.Price = PLr.ExVatPrice;
+          WSRr.DateChange = currentdate;
+          recordstore(WSRr,true); 
+				end;
+			end;
+		end;
+		
+	end;
+
 
 return;
 end;
+
 
 global
 updating function LongInt ItemStatusVcRecordSaveAfter(var record ItemStatusVc ISr,record ItemStatusVc IS2r,LongInt stat,LongInt long4)
