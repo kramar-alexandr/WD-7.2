@@ -573,11 +573,14 @@ begin
 		IHr.FileName = "IVVc";
 		IHr.TransNr = IVr.SerNr;
 		IHr.Row = rownr;
+		
 		while(loopkey("FNTransNr",IHr,3,TrHs)) begin
 			testf = true;
 			if(IHr.FileName!="IVVc")then begin TrHs = false; testf = false; end;
 			if(IHr.TransNr!=IVr.SerNr)then begin TrHs = false; testf = false; end;
 			if(IHr.Row!=rownr)then begin TrHs = false; testf = false; end;
+			if(IHr.ArtCode!=IVrw.ArtCode)then begin testf = false; end;
+			
 			
 			if(testf)then begin
 				cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty);
@@ -1229,6 +1232,7 @@ begin
 					end else begin
 						location = IVr.Location;
 					end;
+					
 					CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb);		
 				
 					foundqty = 0;
