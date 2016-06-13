@@ -682,14 +682,12 @@ begin
               CUGetStartBalance(CUr,"salesinclvat",RepSpec.CurncyCode,RepSpec.sStartDate,StartBal,false);
               CUGetStartBalance(CUr,"paidvalue",RepSpec.CurncyCode,RepSpec.sStartDate,v,false);  
               StartBal = StartBal + v;  
-              logtext(0,"StartBal1 " & StartBal);            
               CUGetEndBalance(CUr,"salesinclvat",RepSpec.CurncyCode,RepSpec.sEndDate,EndBal,false);
               CUGetEndBalance(CUr,"paidvalue",RepSpec.CurncyCode,RepSpec.sEndDate,v,false);
             end else begin
               CUGetStartBalance(CUr,"salesinclvat",RepSpec.CurncyCode,RepSpec.sStartDate,StartBal,blank(CUr.CurncyCode) or CUr.CurncyCode==BCb.BaseCur1);
               CUGetStartBalance(CUr,"paidvalue",RepSpec.CurncyCode,RepSpec.sStartDate,v,blank(CUr.CurncyCode) or CUr.CurncyCode==BCb.BaseCur1);  
               StartBal = StartBal + v;
-              logtext(0,"StartBal2 " & StartBal); 
               CUGetEndBalance(CUr,"salesinclvat",RepSpec.CurncyCode,RepSpec.sEndDate,EndBal,blank(CUr.CurncyCode) or CUr.CurncyCode==BCb.BaseCur1);
               CUGetEndBalance(CUr,"paidvalue",RepSpec.CurncyCode,RepSpec.sEndDate,v,blank(CUr.CurncyCode) or CUr.CurncyCode==BCb.BaseCur1);
 //            EndBal = GetBalance(CUr,"salesinclvat",RepSpec.sEndDate);
@@ -707,11 +705,9 @@ begin
 //              CUGetStartBalance(CUr,"balance",RepSpec.CurncyCode,AddDay(RepSpec.sStartDate,-1),StartBal,basecurf);//need to exclude start day
               CUGetStartBalance(CUr,"balance",RepSpec.CurncyCode,AddDay(RepSpec.sStartDate,0),StartBal,basecurf);//need to exclude start day, which is done inside CUGetStartBalance
               CUGetEndBalance(CUr,"balance",RepSpec.CurncyCode,RepSpec.sEndDate,EndBal,basecurf);
-            	logtext(0,"StartBal3 " & StartBal);  
             end else begin
               CUGetStartBalance(CUr,"balance",RepSpec.CurncyCode,RepSpec.sStartDate,StartBal,basecurf);
               CUGetEndBalance(CUr,"balance",RepSpec.CurncyCode,RepSpec.sEndDate,EndBal,basecurf);
-            	logtext(0,"StartBal4 " & StartBal);  
             end;
             DiffBal = EndBal - StartBal;
             if (RepSpec.ArtMode==0) then begin

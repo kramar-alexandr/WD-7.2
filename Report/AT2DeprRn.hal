@@ -1467,7 +1467,6 @@ BEGIN
         wrofsum = blankval;
       end;
       if (mode!=1) then begin 
-      	logtext(0,"|_" & ATUnitr.InventoryNr & " invdprv " & invdprv & " invrevdprv " & invrevdprv & " ResVal " & ATUnitr.ResVal);
         AddSMDprRowRows(RepSpec,ATUnitr,invdprv,invrevdprv,mode,SMr,commentstr);
         if (mode==0) then begin
           MaintTrace(ATUnitr.InventoryNr);

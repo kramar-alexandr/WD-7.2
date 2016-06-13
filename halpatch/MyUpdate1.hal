@@ -523,9 +523,9 @@ Lfindnoter:;
       OldNoter.FromRecidStr = Noter.FromRecidStr;
       OldNoter.CompanyNr = Noter.CompanyNr;
       RecordClear(Noter);
-      if (RecordStore(Noter,true)) then begin  end;
+      //if (RecordStore(Noter,true)) then begin  end;// Edit ************************** Monday, 13 June 2016 11:42:58
       recordCopy(Noter,OldNoter);
-      
+      Noter.SerNr = NextSerNr("NotepadVc",CurrentDate,-1,false,"");// Edit ************************** Monday, 13 June 2016 11:43:54
       AddTextToNote(Noter,tstr);// Edit ************************** Wednesday, 8 June 2011 11:45:42
       if (RecordStore(Noter,true)) then begin  end;
     end else begin

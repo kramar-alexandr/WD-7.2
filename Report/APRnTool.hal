@@ -477,13 +477,11 @@ L11:;
             end else begin
               if (nonblank(VEp.VECurncyCode)) then begin
                 rvalp = rvalp + APPayHistr.Val*rate;
-                logtext(0,"rvalp " & rate & " " &  rvalp);
               end else begin
                 rvalp = rvalp + APPayHistr.BookVal;
               end;
               if (nonblank(RepSpec.CurncyCode)) then begin// Edit ************************** Thursday, 3 December 2015 18:05:48
 								sump = sump + APPayHistr.Val*rate;
-								logtext(0,"sump " & rate & " " &  sump);
               end else begin
               	sump = sump + APPayHistr.BookVal;
               end;
@@ -562,17 +560,14 @@ L11:;
             end else begin                                                   
               AddCurncyTotals(acur,av1,curcnt,APPayHistr.CurncyCode,-APPayHistr.Val);
               t = APPayHistr.BookVal;
-              logtext(0,"rvalp0 " & VEp.VECurncyCode);
               if (nonblank(VEp.VECurncyCode)) then begin
                 rvalp = rvalp - APPayHistr.Val;
-                logtext(0,"rvalp0 " & rvalp);
               end else begin
                 rvalp = rvalp - APPayHistr.BookVal;
               end;
               
               if (nonblank(RepSpec.CurncyCode)) then begin// Edit ************************** Thursday, 3 December 2015 18:05:34
 								sump = sump - APPayHistr.Val;
-								logtext(0,"sump " & sump);
               end else begin
               	sump = sump - APPayHistr.BookVal;
               end;

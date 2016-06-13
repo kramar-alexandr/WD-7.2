@@ -1252,9 +1252,7 @@ BEGIN
       end;
     end;
   end;
-	
-	logtext(0,"PasteOrdInInv 1");
-	
+		
   IVp.UpdStockFlag = ARAccRec.InvUpdStock;
   IVp.OrderNr = ORp.SerNr;
   IVp.SVONr = -1;
@@ -1307,9 +1305,7 @@ L20PasteOrdInInv:;
     if (ReadFirstMain(CUr,1,true)) then begin  
     end;
   end;
-  
-  logtext(0,"PasteOrdInInv 2");
-  
+    
   GetARAcc(IVp.CustCode,tstr);
   IVp.ARAcc = tstr;
   IVp.ClientContact = ORp.CustContact;
@@ -1398,9 +1394,7 @@ L20PasteOrdInInv:;
   if (blank(ORp.InvoiceToCode)) then begin
     if (CUr.IntRate!=0) then begin IVp.IntCode = CUr.IntRate; end;
   end;
-  
-  logtext(0,"PasteOrdInInv 3");
-  
+    
   if (blank(ORp.InvoiceToCode) and blank(IVp.BankCode)) then begin
     IVp.BankCode = CUr.AccOperator;
   end;
@@ -1932,12 +1926,9 @@ begin
       goto LRecordAction_raPasteOrdInInv;
     end;
   end;
-  
-  logtext(0,"PasteOrdInInv");
-  
+    
   testf = PasteOrdInInv(IVp,ORr,false,"-1",RepSpec,t,true,true,NLCostOnShipTestf,res,false,aXSrsr,axsrscnt);
   
-  logtext(0,"PasteOrdInInv " & IVp.SerNr & " " & matrowcnt(IVp));
   if (IVp.SerNr==-1) then begin
     BlockLoad(SRRec);
     newnr = GetCurUserLastNr("IVVc");

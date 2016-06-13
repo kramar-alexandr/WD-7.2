@@ -828,7 +828,6 @@ BEGIN
         found = ReadFirstMain(APPayHistr,2,true);
       end;
       vipayval = VIp.PayVal - VIp.WithHoldingTax;
-      logtext(0,"VIVc_PastePrepayNr " & vipayval);// Edit ************************** Friday, 27 November 2015 13:17:43
       rwcnt = MatRowCnt(VIp);
       for (i=0;i<rwcnt;i=i+1) begin
         if (i!=rownr) then begin
@@ -847,7 +846,6 @@ BEGIN
       CalcVATBaseVAT(VATr,0,VIp.NoTAXonVAT,vcrwcnt,vat,tax1);
       vipayval_vat = vipayval_vat + vat;
       vibookrval = MulRateToBase1(VIp.CurncyCode,vipayval,VIp.FrRate,VIp.ToRateB1,VIp.ToRateB2,VIp.BaseRate1,VIp.BaseRate2,DefaultCurRoundOff);
-      logtext(0,"vibookrval " & vibookrval);
       if (vibookrval>=OPPr.BookRVal) then begin
         CurValToOtherCur(VIp.TransDate,OPPr.CurncyCode,OPPr.PPVal,VIp.CurncyCode,prepval,DefaultCurRoundOff);
         vatt = OPPr.VATVal;        
@@ -870,21 +868,15 @@ BEGIN
           end;
 //          bookrval = vibookrval;//how come ? 
           bookrval = (OPPr.BookRVal*prepval)/OPPr.PPVal;
-          logtext(0,"bookrval1 " & bookrval);
-          logtext(0,"BookRVal " & OPPr.BookRVal);
-          logtext(0,"PPVal " & OPPr.PPVal);
         end;
       end;      
       if (bookrval>OPPr.BookRVal) then begin
         bookrval = OPPr.BookRVal;
-        logtext(0,"bookrval " & bookrval);
       end;
       VIrw.VATCode = OPPr.VATCode;
       VIrw.PrepayAmount = prepval;
       VIrw.VATVal = vatt;
       VIrw.Sum = Round(bookrval,SetRoundModeD(2));
-      
-      logtext(0,"prepval bookrval " & prepval & " " & bookrval);
       VIrw.AccNumber = APPayHistr.APAcc;
     end;
   end else begin
