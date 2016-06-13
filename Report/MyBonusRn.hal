@@ -395,10 +395,9 @@ begin
     
       if(true/*IPrsr.IVNr==IPrsr.TransNr*/) then begin
       //----------------------------------------------------------------SALE
-        IVr.SerNr=IPrsr.IVNr;
-        //logtext(0,"IPrsr.TransDate " & IPrsr.TransDate);
-        //logtext(0,"IVr.SerNr " & IVr.SerNr);
-        ReadFirstMain(IVr,1,true);
+        IVr.SerNr=IPrsr.IVNr;       
+        ReadFirstMain(IVr,1,true);       
+        
         if(IVr.OKFlag==1 and IVr.Invalid!=1)then begin
           sum = IVr.Sum4;
           
@@ -420,6 +419,23 @@ begin
     				invto1 = 1;
     			end; //Edit***************************Sasha2,16:00 23.04.2015 }
           GetIVSumAndDate(IPrsr,IVr,enddate,sum,curncy);
+          
+          if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** Monday, 13 June 2016 16:02:42
+						newIVr.SerNr = IPrsr.TransNr;
+						if(readfirstmain(newIVr,1,true))then begin
+							if(blankdate(enddate) or enddate<RepSpec.sStartDate)then begin
+								enddate = newIVr.InvDate;
+								cred = 1;
+								if(newIVr.InvType==kInvoiceTypeCredit)then begin
+									cred =-1;
+								end;
+								sum = cred * newIVr.Sum4;
+								goto l1;
+							end;
+						end;
+					end;
+          
+          
           if(nonblank(enddate) and sum<=0) then begin
             mtrw = matrowcnt(IVr);
             For(i=0;i<mtrw;i=i+1) begin
@@ -749,7 +765,7 @@ l1:;
           if(IPrs2r.IVNr!=IPrsr.IVNr)then begin testf2=false; end;
           if(testf2 and IPrs2r.TransType==0 and IPrs2r.TransNr!=IPrs2r.IVNr)then begin
             newIVr.SerNr = IPrs2r.TransNr;
-            if(readfirstmain(newIVr,1,true))then begin
+            if(readfirstmain(newIVr,1,true) and (newIVr.InvDate>=RepSpec.sStartDate and newIVr.InvDate<=RepSpec.sEndDate) or newIVr.InvDate<enddate)then begin// Edit ************************** Monday, 13 June 2016 15:29:47
             	cred = 1;
             	if(newIVr.InvType==kInvoiceTypeCredit)then begin
             		cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
