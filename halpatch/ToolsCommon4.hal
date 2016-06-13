@@ -533,7 +533,6 @@ begin
   CostAcc = "";
   if (SVOItemType==0) begin
     res = GetCOGSAcc(defcostacc,custcode,location,ARb,INr,itemgroupaccount,findnewf,SVOItemType,CostAcc,tstr);
-    logtext(0,CostAcc & " **1");
   end else begin
     switch (SVOItemType) begin
       case 1: CostAcc = INr.SVOInvbleCostAcc;
