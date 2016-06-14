@@ -218,7 +218,7 @@ BEGIN
         case "SendQuant":
           if (wnst==Rs_update) then begin
             MatRowGet(MoveForService2r,rownr,MoveForService2rw);
-            if (MoveForService2rw.ReceivedQuant>0) then begin
+            if (MoveForService2rw.ReceivedQuant>0 or (NonBlank(MoveForService2rw.SendUser) and MoveForService2rw.SendUser!=CurrentUser)) then begin
               res = false;
             end;
           end;
