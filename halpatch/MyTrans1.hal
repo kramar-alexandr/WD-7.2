@@ -714,10 +714,9 @@ LIsEnoughRemQtyInHist:;
   return;
 end; //Edit***************************Sasha2,16:39 03.03.2016 }
 
-global updating procedure MyAddBalaceMn(record RcVc RepSpec)
+global updating procedure MyAddBalaceCUMn(record RcVc RepSpec)
 begin
 	record CSVc CSr;
-	
 	
 	CSr.CustCode = RepSpec.f1;
   //CSr.BranchID = "";
@@ -728,9 +727,22 @@ begin
   AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"balance",RepSpec.vals0,"",0);
   AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"paidvalue",RepSpec.vals0,"",0);
   
-  
+return;
+end;
 
+global updating procedure MyAddBalaceVEMn(record RcVc RepSpec)
+begin
+	record VSVc CSr;
 	
+	CSr.VECode = RepSpec.f1;
+  //CSr.BranchID = "";
+  //CSr.Class = "";
+  CSr.CurncyCode = RepSpec.f2; 
+	readfirstmain(CSr,1,true);
+	logtext(0,RepSpec.vals0);
+  AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"vebalance",RepSpec.vals0,"",0);
+  AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"vepaidvalue",RepSpec.vals0,"",0);
+  
 return;
 end;
 

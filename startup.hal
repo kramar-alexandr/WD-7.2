@@ -114,7 +114,9 @@ begin
 	Maintenance("Find RetIV costprice",MyVClass,UpdateRetIVCash,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
 	Maintenance("Find RetSM costprice",MyVClass,FixStockMovMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
 	Maintenance("FixUUID",MyVClass,FixUUIDMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
-	Maintenance("AddBalance CUVc",MyAddBalanceVClass,MyAddBalaceMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
+	Maintenance("AddBalance Customer",MyAddBalanceVClass,MyAddBalaceCUMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
+	Maintenance("AddBalance Vendors",MyAddBalanceVClass,MyAddBalaceVEMn,modDBMain);// Edit ************************** Monday, 10 August 2015 16:15:54
+	
 	Maintenance("Add SVO Serial Hist",MyVClass,FillSVOHistSerialMn,modSVO);
 	Maintenance("ClearOldINVcPLVc",MyVClass,ClearINPLMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 	Maintenance("Поменять размер этикеток в карточках товаов",MyVClass,INChangeSizeMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014

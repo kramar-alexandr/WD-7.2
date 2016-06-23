@@ -468,7 +468,9 @@ BEGIN
     OPrw.TAX1Sum = blankval;
   end; 
   MatRowPut(OPp,rownr,OPrw);
-  OPVc_PasteToRateB1BankVal(OPp,rownr);
+  if (HasLocalization("POL")) then begin// Edit ************************** Wednesday, 22 June 2016 11:15:41
+		OPVc_PasteToRateB1BankVal(OPp,rownr);
+  end;
   OPSumup(OPp,true);
   RETURN;
 END;
