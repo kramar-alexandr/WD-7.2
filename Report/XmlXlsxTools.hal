@@ -593,3 +593,33 @@ BEGIN
   end;
   RETURN;
 END;
+
+global
+function boolean GetPartFileToArea(string filename,var longint arealen, var area resarea)
+BEGIN
+  area filearea,tmparea2;
+  boolean res;
+  
+  setareazerosize(resarea);
+  res = false;
+  addfiletoarea(filename,filearea,false);
+  if getarealength(filearea)<=arealen then begin
+    res = true;
+    setareazerosize(resarea);
+    getareafromarea(filearea,0,getarealength(filearea),resarea);
+    arealen = 0;
+    delete_file(filename);
+  end else begin
+    GetAreaFromArea(filearea,0,arealen,resarea);
+    GetAreaFromArea(filearea,arealen,getarealength(filearea)-(arealen),tmparea2);
+    
+    if getarealength(tmparea2)<arealen then begin
+      arealen = getarealength(tmparea2);
+    end;
+    writeareatofile(tmparea2,filename,0);
+  end;
+  
+  GetPartFileToArea = res;
+  
+  RETURN;
+END;

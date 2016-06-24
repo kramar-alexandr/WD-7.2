@@ -2391,7 +2391,7 @@ email not working yet
   SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
   SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
   
-  SpecialMenu("Видаткова накладна Excell",'',16,"ORtoExcell1Dsm");
+  SpecialMenu("Видаткова накладна Excel",'',16,"ORtoExcel1Dsm");
 
   end;
   EndWindow;

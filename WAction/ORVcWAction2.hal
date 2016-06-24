@@ -47,8 +47,8 @@ external procedure GetCurncyRoundoff(string,string,string,var roundmode,var roun
 external function Integer GetVATLaw();
 remote function Boolean ORVc_AllowSales(record ORVc,var Integer,var LongInt);
 external function Boolean UserCanChangePendingRecord(Integer);
-remote procedure ORtoExcell1Remote(record ORVc,var area);// Edit ************************** Thursday, 11 February 2016 10:23:08
-
+remote procedure ORtoExcel1Remote(record ORVc,var string);// Edit ************************** Thursday, 11 February 2016 10:23:08
+remote function boolean GetPartFileToArea(string,var longint,var area);
 
 
 	SetLangMode(LangUkrainian,"UKR",0);
@@ -2267,13 +2267,15 @@ end;
 
 
 
-global procedure ORtoExcell1Dsm()
+global procedure ORtoExcel1Dsm()
 begin
 	integer wn;
 	record ORVc ORr;
 	integer wst;
-  string 255 filename,tstr;
-	area fileToSave;
+  string 255 filename,tstr,fnserv;
+  boolean EOF;
+  LongInt arealen;
+  area tmparea;
 	
 	wn = curwindow;
 	
@@ -2281,7 +2283,7 @@ begin
 	
 	if(wst==Rs_insert or wst==Rs_update)then begin
 		messagebox(0,"‡бережґть запис перед цґ№ю операцґ№ю");
-		goto lORtoExcell1Dsm;
+		goto lORtoExcel1Dsm;
 	end;
 	
 	if(wst==Rs_normal)then begin
@@ -2289,18 +2291,22 @@ begin
 		tstr = "‚идаткова накладна Ь " & ORr.SerNr;
   filename = SaveFileDialog(tstr,"","xlsx");
   if ((filename!=tstr) and nonblank(filename)) then begin
-    ORtoExcell1Remote(ORr,fileToSave);
+    ORtoExcel1Remote(ORr,fnserv);
     if(fileexists(filename))then begin
       delete_file(filename);
     end;
-    writeareatofile(fileToSave,filename,0);
+    arealen = 102400;
+    while (!EOF) begin
+      EOF = GetPartFileToArea(fnserv,arealen,tmparea);
+      writeareatofile(tmparea,filename,1);
+    end;
     Messagebox(0,"Done!");
   end;
 		
 	end;
 	
 
-lORtoExcell1Dsm:;
+lORtoExcel1Dsm:;
 
 return;
 end;
