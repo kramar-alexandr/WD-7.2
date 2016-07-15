@@ -640,6 +640,13 @@ BEGIN
               res = -1;
               goto LRetVcRecordCheck;
             end;
+            if (Retrw.Quant!=0) then begin //Edit***************************Sasha2,15:45 15.07.2016 {
+              if (SerialNrAvail2(Retrw.ArtCode,Retrw.SerialNr,Retrw.Quant)==true) then begin
+                RecordCheckError(1242,"",i,"SerialNr");      
+                res = -1;
+                goto LRetVcRecordCheck;
+              end;
+            end; //Edit***************************Sasha2,15:45 15.07.2016 }
             if (SerialNrOnThisRet(Retp,Retrw.ArtCode,Retrw.SerialNr)>1) then begin
               RecordCheckError(1242,"",i,"Quant");      
               res = -1;
