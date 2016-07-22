@@ -2082,7 +2082,7 @@ BEGIN
 				if (nonblank(Userr.Location) or nonblank(Userr.AdditionalLocations)) then begin
 					allUserLocations = Userr.Location & "," & Userr.AdditionalLocations;
 					if (SetInSet(SMp.FrLocation,allUserLocations)==false) then begin
-						RecordCheckError(31055,"",-1,"FrLocation");
+						RecordCheckError(31054,"",-1,"FrLocation");
 						res = -1;
 						goto LStockMovVcRecordCheck;
 					end;
@@ -2090,7 +2090,7 @@ BEGIN
 				
 				if(blank(Userr.Location))	then begin	
 					if (CheckUserLocation(SMp.FrLocation)==false) then begin
-						RecordCheckError(31055,"",-1,"FrLocation");
+						RecordCheckError(31054,"",-1,"FrLocation");
 						res = -1;
 						goto LStockMovVcRecordCheck;
 					end;
@@ -2120,7 +2120,7 @@ BEGIN
 				if (nonblank(Userr.Location) or nonblank(Userr.AdditionalLocations)) then begin
 					allUserLocations = Userr.Location & "," & Userr.AdditionalLocations;
 					if (SetInSet(SMp.FrLocation,allUserLocations)==false) then begin
-						RecordCheckError(31055,"",-1,"FrLocation");
+						RecordCheckError(31054,"",-1,"FrLocation");
 						res = -1;
 						goto LStockMovVcRecordCheck;
 					end;
