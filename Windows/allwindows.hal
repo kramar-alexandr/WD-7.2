@@ -7155,7 +7155,18 @@ begin
   checkbox(200,v-20,0,"Товар від партнера з поверненням",ItemFrPartner); //Edit***************************Sasha2,14:19 08.12.2015
  	EditField(h=100,v,200,"Власник",Normal,Vlastnik,false,0);EditField(h+300,v,-5,"SN Зареєст.",Normal,CustomField8,false,0);
  	EditField(h,v+=vs,-20,"Прийнято від",Normal,Priynato,false,0);	
-	EditField(h,v+=vs,-20,"Контактна інф.",Normal,Kontinfo1,false,0);	
+ 	
+ 	
+ 	
+	EditField(h,v+=vs,200,"Контактна інф.",Normal,Kontinfo1,false,0);	
+	
+	HalPushButton(h+220,v-3,h+280,v+15,"CallToClientDsm","Дзвінок");
+	
+	EditField(h+400,v,40,"Пост.Кл.",Normal,CustomField9,false,0);	// Edit ************************** Thursday, 30 June 2016 10:21:49
+	HalPushButton(h+310+150,v-3,h+360+150,v+15,"ServClientOrderDsm","Звіт");
+	
+	
+	
 	EditField(h,v+=vs,-20,"e-mail",Normal,Kontinfo2,false,0);	
 	EditField(h,v+=vs,-20,"Адреса клієнта",Normal,Kontinfo3,false,0);
   v=v+10;
@@ -7517,13 +7528,15 @@ window SVOLClass:1
 begin
   WindowBegin("Замовлення на обслуговування",SVOLClass,CGmlist,SVOView);
   SpawnClass(SVODClass);
-  SetWRect(20,80,900,298);
+  SetWRect(20,80,1000,298);
   Sizeable(-1,-1,0,0);
   UseView(SVOVc);
   ToolBar;
 		HalPushButton(250,16,350,16+10,"SVOLClassOpenSVO1LClass","Без сер.мен.");
 		HalPushButton(360,16,460,16+10,"SVOLClassOpenSVO2LClass","Всі в роботі");
 		HalPushButton(470,16,570,16+10,"SVOLClassOpenSVO3LClass","Свої");
+		HalPushButton(580,16,630,16+10,"RunSVODateOff3RepRn","3 Дні!");
+		HalPushButton(640,16,700,16+10,"RunSVODateOff14RepRn","14 Днів!");
   EndToolBar;
   FormName(PrintSVOL);
   

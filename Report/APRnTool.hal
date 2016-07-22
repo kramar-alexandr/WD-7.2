@@ -542,7 +542,6 @@ L11:;
             VEp.VECurncyCode=RepSpec.CurncyCode;// Edit ************************** Thursday, 3 December 2015 18:03:27
           end;
           if (testf) then begin
-          	logtext(0,44);
             if (RepSpec.ArtMode==4) or (RepSpec.ArtMode==6) begin
               sumcurncy = sumcurncy + APPayHistr.Val;
               t = APPayHistr.BookVal;

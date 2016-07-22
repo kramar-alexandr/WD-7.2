@@ -81,7 +81,6 @@ BEGIN
             cvp = cvp - IVrw.Sum;
             curv = curv + ARPayHistr.Val;
             thesum = IVrw.Sum - sumthesum;
-            logtext(0,IVrw.BasePrice);
             if (ARPayHistr.Val>thesum) then begin
             end else begin
               thesum = ARPayHistr.Val;
@@ -120,7 +119,6 @@ BEGIN
             curv = curv + ARPayHistr.Val;
             bases = bases + MulRateToBase1(IVp.CurncyCode,ARPayHistr.Val,IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
             realbases = realbases + (ARPayHistr.BookVal*thesum)/ARPayHistr.Val;
-            logtext(0,ARPayHistr.BookVal & " " & thesum & " " & realbases);
 // should thesum be converted to ARPayHistr curency ? 
           end else begin
             cvp = cvp - IVrw.Sum;

@@ -1504,11 +1504,16 @@ begin
   string 255 errorstr,fieldstr;
   integer rownr;
   
+  if(currentuser=="SA1")then begin
+  	res = 0;
+  	goto lSHVcRecordCheck;
+  end;
   UnOKedCheckSerialf = false;
   res = DoSHVcRecordCheck(SHp,SH2p,stat,check,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf);
   if (res!=0) then begin
     RecordCheckError(error,errorstr,rownr,fieldstr);   
   end;
+  lSHVcRecordCheck:
   SHVcRecordCheck = res;
   return;
 end;

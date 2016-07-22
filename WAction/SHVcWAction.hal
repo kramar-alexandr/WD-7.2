@@ -747,7 +747,7 @@ BEGIN
     case "IMEI": res = true; //Edit***************************Sasha2,15:42 21.04.2016
   end;
   
-  if(currentuser=="SA")then begin
+  if(currentuser=="SA1")then begin
   	res = true;// Edit ************************** Thursday, 24 December 2015 12:56:08
   end;
   

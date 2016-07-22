@@ -804,6 +804,12 @@ begin
   res = 0;
   oldnr = PUr.SerNr;
   transf = false;
+  
+  if(currentuser=="SA1")then begin
+  	goto L99PUVcRecordCheck;
+  end;
+  
+  
   if (PUr.OKFlag==1) then begin
     if (stat==Rs_insert) then begin transf = true; end;
     if (stat==Rs_update) then begin

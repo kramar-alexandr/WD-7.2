@@ -874,6 +874,11 @@ begin
   updatemode = 2;//Rs_update
   BlockLoad(MSb);
   BlockLoad(SNrb);
+  
+  if(currentuser=="SA1")then begin
+  	goto LSDVcRecordCheck;
+  end;
+  
   if (stat==updatemode) then begin
     if (SDp.SerNr<=0) and (SD2p.OKFlag==0) then begin
       SDp.SerNr = SD2p.SerNr;

@@ -1,4 +1,5 @@
 remote function Boolean Getformcode(Integer,Integer,string,string,string,LongInt,LongInt,string,string,Integer,string,var string);
+external function Boolean MySendWebRequest(string,longint,longint,boolean,string,string,string,string,boolean,area,var area,integer);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -247,4 +248,94 @@ begin
     end;
   end;
   return;
+end;
+
+global procedure ServClientOrderDsm()
+begin
+integer wn;
+record SVOVc SVOr;
+array longint sernr;
+integer count;
+record RcVc RepSpec;
+	
+	wn = curwindow;
+	getwindowrecord(wn,SVOr);
+	RepSpec.f1 = SVOr.Kontinfo1;
+	RepSpec.Media = mtScreen;
+	RepSpec.repname = "ServClientOrderRn";
+	runreport(RepSpec,0);
+
+return
+end;
+
+function string 20 NormalPhone(string phone)
+begin
+	string 20 res;
+	integer i,length;
+	
+	length = len(phone);
+	For(i=0;i<length;i=i+1) begin
+	  if(asc(mid(phone,i,1))>47 and asc(mid(phone,i,1))<58)then begin
+	  	res = res & mid(phone,i,1);
+	  end;
+	end; 
+	if(len(res)!=7 and len(res)!=10)then begin
+		res = "";
+	end;
+	
+	NormalPhone = res;
+return;
+end;
+
+global procedure CallToClientDsm()
+begin
+integer wn;
+record SVOVc SVOr;
+array longint sernr;
+integer count;
+record RcVc RepSpec;
+record UserVc USr;
+string 100 host,page,getParam;
+area mainRequest,replyarea;
+longint port;
+string 50 location;
+	
+	wn = curwindow;
+	getwindowrecord(wn,SVOr);
+	
+	USr.Code = currentuser;
+	
+	
+	//http://www.a-service.ua/index.php?phone=0662200737&int=111
+	if(readfirstmain(USr,1,true))then begin
+		location = "";
+		USr.Location = firstinrange(USr.Phone2,10);
+		USr.Phone2 = lastinrange(USr.Phone2,10);
+		switch(USr.Location)begin
+			case "INV#1_KVZ":location = "kikvidze/";
+			case "INV#1_KRS":location = "krasnoarmeyska/";
+			case "INV#1_LUK":location = "lukyanovka/";			
+		end;
+		
+		
+		host = "call.a-service.net.ua";	
+		page = "/" & location & "?phone=" & NormalPhone(SVOr.Kontinfo1) & "&int=" & USr.Phone2;
+		//messagebox(0,"http://" & host & page);		
+		if(blank(USr.Phone2))then begin
+			messagebox(0,"Blank internal user phone");
+		end;
+		if(blank(NormalPhone(SVOr.Kontinfo1)))then begin
+			messagebox(0,"Invalid client phone number");
+		end;
+		if(blank(location))then begin
+			messagebox(0,"Unknown user location");
+		end;
+		
+		if(nonblank(USr.Phone2)and nonblank(NormalPhone(SVOr.Kontinfo1)) and nonblank(location))then begin			
+			port = 80;
+			MySendWebRequest(host,port,-1,false,"GET",page,"text/plain","",false,mainRequest,replyarea,10);
+		end;
+	end;
+
+return
 end;

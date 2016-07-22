@@ -114,10 +114,12 @@ BEGIN
       PrintValue("F_MISSING",OffHirerw.MissingQty,M4UVal,LangNrr,SysFormatRec,false);
       PrintValue("F_SCRAPPED",OffHirerw.ScrapedQty,M4UVal,LangNrr,SysFormatRec,false);
       if (NonBlank(OffHirerw.Location)) then begin
-        PrintLocationInformation(OffHirerw.Location);
+      	OUTFORMFIELD("MYF_LOCATION",OffHirerw.Location);
+        //PrintLocationInformation(OffHirerw.Location);
       end else begin
         if (NonBlank(OffHirer.Location)) then begin
-          PrintLocationInformation(OffHirer.Location);
+        	OUTFORMFIELD("MYF_LOCATION",OffHirer.Location);
+          //PrintLocationInformation(OffHirer.Location);
         end;
       end; //Edit***************************Sasha2,11:29 23.06.2016 }
       EndFormRow;

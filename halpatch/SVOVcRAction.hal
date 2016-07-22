@@ -16,6 +16,9 @@ remote function Boolean PasteCUInSVO(var record SVOVc,string,var string);// Edit
 remote procedure SENDSMS(record SVOVc,record SVOVc);
 remote procedure SENDFIRSTSMS(record SVOVc);
 external updating procedure CreateNoterChangeInSVO(record SVOVc,string,string);
+external function Boolean FindStringInString(string,string);// Edit ************************** Thursday, 30 June 2016 10:55:59
+remote procedure CountNumberRepeatPhone(string,var array longint,var integer );
+
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -264,6 +267,7 @@ BEGIN
   SVOr.CustomField3 = ""; 
   SVOr.CustomField4 = ""; 
   SVOr.CustomField5 = ""; 
+  SVOr.CustomField8 = ""; // Edit ************************** Monday, 11 July 2016 17:04:41
   
   SVOr.Batary = ""; 
   SVOr.Zaryadka = ""; 
@@ -597,6 +601,28 @@ LFindOpenActTrans:;
   return;
 end;
 
+
+global procedure CountNumberRepeatPhone(string phone,var array longint sernr,var integer count)
+begin
+record SVOVc SVOr;
+boolean testf;
+record LetVc Letr;
+
+	
+	count = 0;
+	while(loopmain(SVOr,1,true))begin
+		recordnew(Letr);
+		AddToText(SVOr.Kontinfo1,Letr);
+		if(StringInText(phone,Letr))then begin
+			logtext(0,SVOr.SerNr);
+			sernr[count] = SVOr.SerNr;
+			count = count + 1;
+		end;	
+	end;
+	
+return
+end;
+
 global
 function LongInt SVOVcRecordCheck(var record SVOVc SVOr,record SVOVc SVO2r,LongInt stat,LongInt check)
 BEGIN
@@ -611,6 +637,8 @@ BEGIN
   record CUVc CUr;
   record LocationVc Locr;
   record SVOAccBlock SVOAccRec;
+  array longint sernr;// Edit ************************** Thursday, 30 June 2016 10:53:51
+  integer count;// Edit ************************** Thursday, 30 June 2016 10:53:49
 
   res = 0;
   
@@ -664,6 +692,20 @@ BEGIN
     end;
   end;      
   transf = false;
+  
+  if(stat==Rs_insert and nonblank(SVOr.Kontinfo1))then begin
+  	CountNumberRepeatPhone(SVOr.Kontinfo1,sernr,count);
+  	if(count>0)then begin
+  		SVOr.CustomField9 = count;
+  	end;
+  end;
+  if(stat==Rs_update and nonblank(SVOr.Kontinfo1) and (SVOr.Kontinfo1!=SVO2r.Kontinfo1))then begin
+  	CountNumberRepeatPhone(SVOr.Kontinfo1,sernr,count);
+  	if(count>0)then begin
+  		SVOr.CustomField9 = count;
+  	end;
+  end;
+  
   if (SVOr.DoneMark==1) then begin
     if (stat==Rs_insert) then begin transf = true; end;
     if (stat==Rs_update) then begin

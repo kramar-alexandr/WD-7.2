@@ -1,10 +1,14 @@
-
 external procedure HTSOrdStatus(Integer, Integer, Integer,var string);
 external procedure HTWOrder(longint, longint,var string);
 external procedure HTDetailLevel(Integer,var string);
 external procedure HTCusts(string, string,var string);
 external procedure HTStdProb(string,var string );
 external procedure HT2Per(Date, Date , var string);
+remote procedure CountNumberRepeatPhone(string,var array longint,var integer );
+external function LongInt CountWorkingDays(Date,Date,string,string);
+external function LongInt DateDiff(Date,Date);
+
+
 
 procedure HTSWOrdStat(Integer notm,Integer parm,Integer mad, var string res)
 begin
@@ -307,3 +311,144 @@ begin
   return;
 end;
 
+SetLangMode(LangUkrainian,"UKR",0);
+
+global procedure ServClientOrderRn(record RcVc RepSpec)
+begin
+record SVOVc SVOr;
+array longint sernr;
+integer count;
+integer i;
+		
+	CountNumberRepeatPhone(RepSpec.f1,sernr,count);
+  startreportnoheaderjob("Інформація по телефону клієнта");
+	
+	startformat(15);
+		outstring(0,0,"№",false);
+		outstring(50,0,"Дата",false);
+		outstring(100,0,"Контакт",false);
+	endformat;
+	if(count>0)then begin
+		For(i=0;i<count;i=i+1) begin
+	  
+			SVOr.SerNr = sernr[i];
+			if(readfirstmain(SVOr,1,true))then begin
+				startformat(15);
+					outstring(0,"DblSVOVc",SVOr.SerNr,false);
+					outstring(50,0,SVOr.TransDate,false);
+					outstring(100,0,SVOr.Priynato,false);
+				endformat;
+			end;
+		end;
+	end;
+	
+	endjob;
+	
+return
+end;
+
+
+global procedure SVODateOff3RepRn(record RcVc RepSpec)
+begin
+	record SVOVc SVOr;
+	record UserVc USr;
+	boolean testf;
+	integer countwdays;
+	
+	StartReportNoHeaderJob("Просрочені в діагностиці замовлення");
+		USr.Code = CurrentUser;
+		readfirstmain(USr,1,true);
+		
+		if(nonblank(RepSpec.f1))then begin
+			startformat(15);
+				outstring(0,"Dbl3RepRnAll","Показати всі просрочені в діагностиці замовлення",false);
+			endformat;
+		
+			gray_divider(0,100);
+		end;
+		startformat(15);
+			outstring(0,0,"Номер",false);
+			outstring(50,0,"Дата",false);
+			outstring(90,0,"Проср.роб.днів",false);
+			outstring(150,0,"Власн.",false);
+			outstring(250,0,"Серв.майстр.",false);
+		endformat;
+		
+		while(loopkey("AllUnServTransDate",SVOr,1,true))begin
+			testf = true;	
+			if(USr.SalesGroup!=SVOr.SalesGroup)then begin testf = false; end;
+			if(SVOr.DoneMark>0)then begin testf = false; end;
+			if(SVOr.OrderStatus>0)then begin testf = false; end;
+			if(nonblank(RepSpec.f1) and SVOr.ServiceManager!=RepSpec.f1)then begin testf = false; end;
+			countwdays = CountWorkingDays(SVOr.TransDate,Currentdate,"","UA");
+			if(countwdays<3)then begin testf = false; end;
+			
+			
+			if(testf)then begin
+				startformat(15);
+					outstring(0,"DblSVOVc",SVor.SerNr,false);
+					outstring(50,0,SVOr.TransDate,false);
+					outstring(90,0,countwdays,false);
+					outstring(150,0,SVOr.Vlastnik,false);
+					outstring(250,0,SVOr.ServiceManager,false);
+				endformat;
+			end;
+		end;
+		
+	endjob;
+	
+return;
+end;
+
+global procedure SVODateOff14RepRn(record RcVc RepSpec)
+begin
+	record SVOVc SVOr;
+	record UserVc USr;
+	boolean testf;
+	integer countwdays;
+	
+	StartReportNoHeaderJob("Просрочені в ремонті замовлення");
+		USr.Code = CurrentUser;
+		readfirstmain(USr,1,true);
+		
+		if(nonblank(RepSpec.f1))then begin
+			startformat(15);
+				outstring(0,"Dbl14RepRnAll","Показати всі просрочені в ремонті замовлення",false);
+			endformat;
+		
+			gray_divider(0,100);
+		end;
+		
+		startformat(15);
+			outstring(0,0,"Номер",false);
+			outstring(50,0,"Дата",false);
+			outstring(90,0,"Проср.календ.днів",false);
+			outstring(150,0,"Власн.",false);
+			outstring(250,0,"Серв.майстр.",false);
+		endformat;
+		
+		while(loopkey("AllUnServTransDate",SVOr,1,true))begin
+			testf = true;	
+			if(USr.SalesGroup!=SVOr.SalesGroup)then begin testf = false; end;
+			if(SVOr.DoneMark>0)then begin testf = false; end;
+			if(SVOr.OrderStatus==2)then begin testf = false; end;
+			if(nonblank(RepSpec.f1) and SVOr.ServiceManager!=RepSpec.f1)then begin testf = false; end;
+			countwdays = datediff(currentdate,SVOr.TransDate);
+			if(countwdays<14)then begin testf = false; end;
+			
+			
+			if(testf)then begin
+				startformat(15);
+					outstring(0,"DblSVOVc",SVor.SerNr,false);
+					outstring(50,0,SVOr.TransDate,false);
+					outstring(90,0,countwdays,false);
+					outstring(150,0,SVOr.Vlastnik,false);
+					outstring(250,0,SVOr.ServiceManager,false);
+				endformat;
+			end;
+		end;
+		
+	endjob;
+	
+return;
+end;

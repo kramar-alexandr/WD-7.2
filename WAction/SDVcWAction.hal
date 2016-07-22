@@ -381,7 +381,7 @@ BEGIN
       end;
   end;
   
-  if (CurrentUser=="SA" and fieldname=="LocOKNr") then begin		//Edit----------------------Dima  21.01.2016
+  if (CurrentUser=="SA1") then begin		//Edit----------------------Dima  21.01.2016
 			res = true;
 	end;    
   

@@ -23,6 +23,7 @@ begin
 	Setting("Prepayments VE",OPPLClass,modDBMain);// Edit ************************** Wednesday, 2 December 2015 17:15:29
 	
 	Report("Ћ’чет по истории товаров технический ",FindErrorInIHRClass,FindErrorInIHRn,0,modDBMain);
+	Report("Ћтчет по телефонам клиентов",ServClientOrderRClass,ServClientOrderRn,0,modSVO);// Edit ************************** Monday, 4 July 2016 17:52:38
 	
 	Report("§сторґЯ продажґв по клґ№нтам ",CUSalesRepRClass,CustSalesReportRn,0,modSO);
 	Report("‡вiт по продажах",SalesReportRClass,SalesReportRn,0,modSL);

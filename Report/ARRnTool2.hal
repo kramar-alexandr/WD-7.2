@@ -1606,7 +1606,7 @@ BEGIN
     end;
     pos = 0;
   end; //Edit***************************Sasha2,10:43 30.11.2015 }
-
+		
   if (backdate==false) then begin
     found = true;
     ARPayr.CustCode = custcode;

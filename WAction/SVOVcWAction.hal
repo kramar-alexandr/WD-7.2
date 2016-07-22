@@ -1526,3 +1526,56 @@ begin
 	
 return;
 end;
+
+
+global //Edit***************************Sasha2,10:52 29.04.2016 {
+procedure DblItemHistVc(string dblstr,string l,Integer currepwn)
+begin
+   Integer wn;
+   record ItemHistVc ItemHistr;
+   string 255 tstr;
+   
+   ItemHistr.SerNr = dblstr;
+   if (ReadFirstMain(ItemHistr,1,true)) then begin
+     wn = OpenWindow("ItemHistDClass",1,0,"","",ItemHistr);
+   end;   
+   return;
+   
+   return;
+end; //Edit***************************Sasha2,10:52 29.04.2016 }
+
+global procedure RunSVODateOff3RepRn()
+begin
+record RcVc RepSpec;
+	RepSpec.repname = "SVODateOff3RepRn";
+	RepSpec.f1 = currentuser;
+	RunReport(RepSpec,0);
+return;
+end;
+
+global procedure Dbl3RepRnAll()
+begin
+record RcVc RepSpec;
+	RepSpec.repname = "SVODateOff3RepRn";
+	RepSpec.f1 = "";
+	RunReport(RepSpec,0);
+return;
+end;
+
+global procedure RunSVODateOff14RepRn()
+begin
+record RcVc RepSpec;
+	RepSpec.repname = "SVODateOff14RepRn";
+	RepSpec.f1 = currentuser;
+	RunReport(RepSpec,0);
+return;
+end;
+
+global procedure Dbl14RepRnAll()
+begin
+record RcVc RepSpec;
+	RepSpec.repname = "SVODateOff14RepRn";
+	RepSpec.f1 = "";
+	RunReport(RepSpec,0);
+return;
+end;

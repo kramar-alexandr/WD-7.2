@@ -622,10 +622,7 @@ begin
   lstartdate = startdate;
   lenddate = enddate;
   
-  
-  logtext(0,lstartdate & " > " & lenddate);
-  if (lstartdate>lenddate) then begin
-  	
+  if (lstartdate>lenddate) then begin  	
     goto LDepreciationCalculation;
   end;
 		

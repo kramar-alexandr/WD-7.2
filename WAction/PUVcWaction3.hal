@@ -110,6 +110,11 @@ BEGIN
 			res = true;
 			goto LPUDClassActiveEditField;
 	end;
+	
+	if (CurrentUser=="SA1") then begin		// Edit ************************** Friday, 1 July 2016 16:44:47
+			res = true;
+			goto LPUDClassActiveEditField;
+	end;
   
   if (rownr==-1) then begin
     res = PUVcEFActiveCheck(fieldname,wn,wnst);

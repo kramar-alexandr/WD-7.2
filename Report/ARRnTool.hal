@@ -793,7 +793,7 @@ BEGIN
   string 20 curobj; //Edit***************************Sasha2,10:50 30.11.2015
   string 255 newobjlist; //Edit***************************Sasha2,10:53 30.11.2015
   Integer pos; //Edit***************************Sasha2,14:10 30.11.2015
-  
+    
   if (nonblank(RepSpec.ObjStr)) then begin //Edit***************************Sasha2,10:43 30.11.2015 {
     pos = 0;
     ExtractObj(RepSpec.ObjStr,pos,curobj);
@@ -1317,7 +1317,7 @@ LSkipOnAcc:;
                 end;
               end;
 
-              sump = sump - t;          
+              sump = sump - t;   
               lossv = blankval;
   /*
   ARPayHistr.BookVal is not same as On AccAcc posting in NL now so we need calculation for losses findings
