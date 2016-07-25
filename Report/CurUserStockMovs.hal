@@ -10,7 +10,7 @@ begin
 	boolean testf,TrHs;
 	string 5 okChar;
 	integer key;
-	
+		
 	Userr.Code = CurrentUser;
 	ReadFirstMain(Userr,1,true);
 	

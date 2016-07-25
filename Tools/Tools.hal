@@ -665,11 +665,26 @@ end;
 
 global function string 50 CurrentUserOnServer()
 begin
-
+	
 	CurrentUserOnServer = currentuser;
 
 return;
 end;
+
+global function string 50 TestCurrentUserOnServer()
+begin
+	record UserVc User;
+	string 20 res;
+	
+	res = "";
+	User.Code = currentuser;
+	if(readfirstmain(User,1,true))then begin
+		res = User.Location;
+	end;
+	TestCurrentUserOnServer = res;
+return;
+end;
+
 
 global
 updating procedure CreateNoterChangeInSVO(record SVOVc SVOr, string tstr, string comment)
