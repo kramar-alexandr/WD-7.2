@@ -1106,6 +1106,8 @@ begin
   string 20 oldcust;
   record LocalMachineBlock lmr;
   integer err;
+  string 20 oldcur,curcode;// Edit ************************** Tuesday, 26 July 2016 11:04:13
+  val fr,to1,to2,br1,br2;// Edit ************************** Tuesday, 26 July 2016 11:04:27
 
   BlockLoad(lmr);
   pricechange = false;
@@ -1127,7 +1129,16 @@ begin
       IVCashr.LCMLevel = LoyaltyCardr.LCMLevel;
       IVCashr.Points = 0;      
       if (IVCashr.CustCode<>oldcust) then begin 
-        if (IVCashVc_PasteCustCode(IVCashr,oldcust,lmr.DefLocation,lmr.PLCode,err,warning)) then begin
+        /*if (IVCashVc_PasteCustCode(IVCashr,oldcust,lmr.DefLocation,lmr.PLCode,err,warning)) then begin// Edit ************************** Tuesday, 26 July 2016 10:44:13
+          if (nonblank(warning)) then begin
+            MessageBox(0,warning);
+          end;
+          if (err!=0) then begin
+            MessageBox(0,err);
+          end;
+        end;*/
+        oldcur = IVCashr.CurncyCode;// Edit ************************** Tuesday, 26 July 2016 11:04:48
+        if (IVCashVc_PasteCustCode(IVCashr,oldcust,IVCashr.Location,IVCashr.PriceList,err,warning)) then begin// Edit ************************** Tuesday, 26 July 2016 10:44:13
           if (nonblank(warning)) then begin
             MessageBox(0,warning);
           end;
@@ -1135,6 +1146,21 @@ begin
             MessageBox(0,err);
           end;
         end;
+        // Edit Start ---------------------------------------------- Edit Start
+	//Tuesday, 26 July 2016 11:04:51
+	
+        IVCashr.CurncyCode = oldcur;
+        oldcur = IVCashr.CurncyCode;
+				GetFullCurncyRate(curcode,IVCashr.InvDate,fr,to1,to2,br1,br2);
+				IVCashr.CurncyCode = oldcur;
+				IVCashr.FrRate = fr;
+				IVCashr.ToRateB1 = to1;
+				IVCashr.ToRateB2 = to2;
+				IVCashr.BaseRate1 = br1;
+				IVCashr.BaseRate2 = br2;
+        
+	// Edit End ---------------------------------------------- Edit End
+	
       end;
       IVCashr.LoyaltyCardNr = LoyaltyCardr.SerNr;
       IVCashr.LCMLevel = LoyaltyCardr.LCMLevel;
