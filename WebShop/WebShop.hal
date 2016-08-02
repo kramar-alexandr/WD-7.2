@@ -490,7 +490,7 @@ begin
 	
 	WeboutString("<BR>" & cucnt);
 	
-	weboutarea(xmlarea);
+	//weboutarea(xmlarea);
 	    
 ResetCompany(4);
 
