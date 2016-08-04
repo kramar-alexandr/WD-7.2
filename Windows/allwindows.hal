@@ -9923,3 +9923,40 @@ begin
   SpecialMenu("Додати нарахування",' ',0,"OffHireChargeDsm");
   EndWindow;
 end;
+
+window NotepadDClass:2
+   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,android,android_tab")
+begin
+  real h;
+  WindowBegin("Нотатка",NotepadDClass,CGview,NotepadView);
+  UseView(NotepadVc);
+  SetWRect(130,80,570,350);
+  BrowseButtons(false);
+  Sizeable(-1,-1,0,0);
+  MailBackground;
+//  EditField(60,6,82,"No.",ViewOnly,SerNr,false,TSerSClass);
+  if (GuiType==kGuiCocoa) then begin
+    SoftEditField(65,6,-17,"Коментар",Normal,"NotepadRLinkComment",false,0,M4Str,255);
+    SoftEditField(65,26,-17,"Шаблон",Normal,"standartproblem",false,StandProblemsSClass,M4Str,255);
+
+    TextField(0,49,-1,-1,Math,0);
+    if (HasStandardCRM) then begin
+    BeginDrawer(200,300);
+    h = 100;
+    EditField(h,6,82,"Мова",Normal,LangCode,false,LangSClass);
+    EditField(h,26,82,"Класифікація",Normal,Classification,false,0);
+    EndDrawer;
+    end;
+  end else begin
+    TextField(10,6,-21,-90,Math,0);
+    h = 100;
+    SoftEditField(h,-83,-40,"Коментар",Normal,"NotepadRLinkComment",false,0,M4Str,255);
+   	SoftEditField(h,-63,-17,"Шаблон",Normal,"standartproblem",false,StandProblemsSClass,M4Str,255);
+
+    if (HasStandardCRM) then begin
+			EditField(h,-43,82,"Мова",Normal,LangCode,false,LangSClass);
+			EditField(h,-23,82,"Класифікація",Normal,Classification,false,0);
+		end;
+  end;
+  EndWindow;
+end;

@@ -1579,3 +1579,51 @@ record RcVc RepSpec;
 	RunReport(RepSpec,0);
 return;
 end;
+
+
+
+global function Boolean NotepadDClassstandartproblemOnEnterKey(Integer wn,Integer rownr)
+begin
+  Boolean res;
+  record NotepadVc Noter;
+  record StandProblemVc SPr;
+  string 100 input;
+		
+  input = GetWindowString(wn,"standartproblem");
+  PutWindowString(wn,"standartproblem","");
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,Noter);
+	
+	SPr.Code = input;
+	if(readfirstmain(SPr,1,true))then begin
+		if(nonblank(SPr.Comment1))then begin
+			AddToText(SPr.Comment1,Noter);
+		end;
+		if(nonblank(SPr.Comment2))then begin
+			AddToText(SPr.Comment2,Noter);
+		end;
+		if(nonblank(SPr.Comment3))then begin
+			AddToText(SPr.Comment3,Noter);
+		end;
+	end;
+  
+  putwindowrecord(wn,Noter);    
+  WindowFieldGoto(wn,Noter,-1,"standartproblem",false);
+  
+  NotepadDClassstandartproblemOnEnterKey = false;
+  return;
+end;
+
+global
+function Boolean NotepadDClassOnEnterKey(Integer wn,string fieldname,Integer fn,Integer rownr)
+BEGIN
+  Boolean res;
+
+	res = true;
+	switch (fieldname) begin
+		case "standartproblem":
+			res = NotepadDClassstandartproblemOnEnterKey(wn,rownr);
+	end;
+  NotepadDClassOnEnterKey = res;
+  RETURN;
+END;

@@ -82,9 +82,11 @@ BEGIN
     end;
   end;
   
-  if ((CBrw.Mode==kProgramModeLocal or CBrw.Mode==kProgramModeClient) and currentuser!="POSSRV") then begin// Edit ************************** Thursday, 16 July 2015 11:27:23
-		res = false;
-		goto LIVCashDClassActiveEditField;
+  if(currentuser!="SA")then begin
+		if ((CBrw.Mode==kProgramModeLocal or CBrw.Mode==kProgramModeClient) and currentuser!="POSSRV") then begin// Edit ************************** Thursday, 16 July 2015 11:27:23
+			res = false;
+			goto LIVCashDClassActiveEditField;
+		end;
   end;
   
   if (wnst==updatemode) then begin  

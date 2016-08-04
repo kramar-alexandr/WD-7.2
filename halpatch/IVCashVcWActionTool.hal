@@ -237,6 +237,7 @@ BEGIN
     MatRowGet(IVCashp,i,IVCashrw);
     if (nonblank(IVCashrw.ArtCode)) then begin
       IVCashrw.Price = blankval;
+      vreb = blankval;// Edit ************************** Wednesday, 3 August 2016 11:08:00
       if (GetItemPriceDiscount3(IVCashrw.ArtCode,IVCashrw.Quant,INr,IVCashp.CurncyCode,
         IVCashp.FrRate,IVCashp.ToRateB1,IVCashp.ToRateB2,IVCashp.BaseRate1,IVCashp.BaseRate2,
         IVCashp.LangCode,IVCashp.CustCat,IVCashp.PriceList,IVCashp.RebCode,
@@ -1150,7 +1151,8 @@ begin
 	//Tuesday, 26 July 2016 11:04:51
 	
         IVCashr.CurncyCode = oldcur;
-        oldcur = IVCashr.CurncyCode;
+        //oldcur = IVCashr.CurncyCode;
+        curcode = oldcur;
 				GetFullCurncyRate(curcode,IVCashr.InvDate,fr,to1,to2,br1,br2);
 				IVCashr.CurncyCode = oldcur;
 				IVCashr.FrRate = fr;
