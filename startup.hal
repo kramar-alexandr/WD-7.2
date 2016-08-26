@@ -72,7 +72,8 @@ begin
 	Report("‡â´ò ïî äèñáàëàíñó ïðîâîäîê",TRDiffRClass,TRDiffRn,0,modNL); //“âøå***************************›ôûðô2á15:27 21.12.2015
 	Report("‡â´ò-ïîð´âíßííß ´ñòîð´» òîâàð´â òà òðàíçàêö´é",CostDiffRClass,CostDiffRn,0,modNL);//Edit----------------------Dima  16.02.2016
 	Report("‚èâåñòè òîâàðè íå Samsung",NotSamsungItemsRClass,NotSamsungItemsRn,0,modIN); //Edit***************************Sasha2,14:16 19.04.2016
-	
+	Report("ðîñòðî÷åí´ ïåðåì´ùåííß äëß ñåðâ´ñó",ExpiredMoveForServRClass,ExpiredMoveForServRn,0,modIN); //Edit-------------------Vitalii 15:36 25.08.2016
+  
 	Setting("‚àëþòà …ŠŠ€",POSCurncyTClass,modPOS); //Edit***************************Sasha2,17:25 11.09.2014
 	Setting("àõóíêè ïðîäàâö´â",LocalMachineAccTClass,modPOS); //Edit***************************Sasha2,17:26 11.09.2014
 	Setting("àëàøòóâàííß ô´ñêàëüíîãî ïðèíòåðà",SerPrintCustomTClass,modPOS); //Edit***************************Sasha2,9:35 03.10.2014
@@ -90,7 +91,7 @@ begin
   Setting("àëàøòóâàííß åêñïîðòà äëß Samsung EDI",SamsungFtpSettingsTClass,modSY); //Edit***************************Sasha2,11:25 12.04.2016
 	
 	Setting("’îâàðè Samsung",SamsungItemsTClass,modIN);	
-	Setting("åðåì´ùåííß òîâàðà äëß îáñëóãîâóâàííß",MoveForServiceLClass,modIN);	
+	Setting("åðåì´ùåííß òîâàðó äëß îáñëóãîâóâàííß",MoveForServiceLClass,modIN);	
 	
 	//Setting("Žïèñ òîâàð´â",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("„ðóê òîâàðó",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014

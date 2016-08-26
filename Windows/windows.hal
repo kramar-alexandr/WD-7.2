@@ -1767,7 +1767,7 @@ begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
 
-  WindowBegin("Переміщення товара для обслуговування",MoveForServiceDClass,CGview,-);
+  WindowBegin("Переміщення товару для обслуговування",MoveForServiceDClass,CGview,-);
   SetWRect(20,80,900,460);
   Sizeable(-1,-1,0,0);
   UseView(MoveForServiceVc);
@@ -1848,7 +1848,7 @@ end;
 window MoveForServiceLClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
-  WindowBegin("Переміщення товара для обслуговування",MoveForServiceLClass,CGmlist,SHView);
+  WindowBegin("Переміщення товару для обслуговування",MoveForServiceLClass,CGmlist,SHView);
   SpawnClass(MoveForServiceDClass);
   SetWRect(20,80,880,298);
   Sizeable(-1,-1,0,0);

@@ -541,3 +541,96 @@ begin
   endjob;
 return;
 end; //Edit***************************Sasha2,13:50 19.04.2016 }
+
+
+global
+procedure ExpiredMoveForServRn(record RcVc RepSpec)
+begin
+  record MoveForServiceVc MFSr;
+  row MoveForServiceVc MFSrw;
+  integer i,mtrw,days;
+  boolean TrHs,printf;
+  
+  if (RepSpec.flags[1]!=0) then begin
+    days = RepSpec.flags[1]*(-1);
+  end else begin
+    days = -80;
+  end;
+  startreportnoheaderjob("Прострочені переміщення для сервісу");
+  StartFormat(15);
+    OutString(0,0,"№ докум.",false);
+    OutString(40,0,"Дата",false);
+    OutString(90,0,"З компанії",false);
+    OutString(140,0,"В компанію",false);
+    OutString(190,0,"Товар",false);
+  EndFormat;
+  Black_Divider(0,1);
+  if CurrentCompany==8 then begin
+    TrHs = true;
+    while loopmain(MFSr,1,TrHs) begin
+      if (MFSr.TransDate<AddDay(CurrentDate,days) and (MFSr.Closed!=1)) then begin
+        printf = true;
+        mtrw = matrowcnt(MFSr);
+        for(i=0;i<mtrw;i=i+1)begin
+          matrowget(MFSr,i,MFSrw);
+          if (MFSrw.SendQuant!=MFSrw.ReceivedBackQuant) then begin
+            StartFormat(15);
+              if (printf) then begin
+                printf = false;
+                OutString(0,"DblMoveForServiceVc",MFSr.SerNr,false);
+                OutString(40,0,MFSr.TransDate,false);
+                OutString(90,0,MFSr.FromCompName,false);
+                OutString(140,0,MFSr.ToCompName,false);
+              end else begin
+                OutString(0,0,"",false);
+                OutString(40,0,"",false);
+                OutString(90,0,"",false);
+                OutString(140,0,"",false);
+              end;
+              OutString(190,0,MFSrw.ArtCode & " - " & MFSrw.Spec,false);
+            EndFormat;
+          end;
+        end;
+        if !printf then begin
+          Gray_Divider(0,1);
+        end;
+      end;
+    end;
+  end else begin
+    TrHs = true;
+    MFSr.FromCompNr = CurrentCompany & "";
+    while loopkey("FromCompNr",MFSr,1,TrHs) begin
+      if (MFSr.FromCompNr!=CurrentCompany & "") then begin TrHs = false; end;
+      if (TrHs and (MFSr.TransDate<AddDay(CurrentDate,days)) and (MFSr.Closed!=1)) then begin
+        printf = true;
+        mtrw = matrowcnt(MFSr);
+        for(i=0;i<mtrw;i=i+1)begin
+          matrowget(MFSr,i,MFSrw);
+          if (MFSrw.SendQuant!=MFSrw.ReceivedBackQuant) then begin
+            StartFormat(15);
+              if (printf) then begin
+                printf = false;
+                OutString(0,"DblMoveForServiceVc",MFSr.SerNr,false);
+                OutString(40,0,MFSr.TransDate,false);
+                OutString(90,0,MFSr.FromCompName,false);
+                OutString(140,0,MFSr.ToCompName,false);
+              end else begin
+                OutString(0,0,"",false);
+                OutString(40,0,"",false);
+                OutString(90,0,"",false);
+                OutString(140,0,"",false);
+              end;
+              OutString(190,0,MFSrw.ArtCode & " - " & MFSrw.Spec,false);
+            EndFormat;
+          end;
+          if !printf then begin
+            Gray_Divider(0,1);
+          end;
+        end;
+      end;
+    end;
+  end;
+  endjob;
+  
+  return;
+end;

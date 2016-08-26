@@ -806,3 +806,18 @@ begin
   ReadRecordIdStrkonto5 = BuildRecordIdStr(Accr,compnr);
   return;
 end;*/
+
+global
+function integer ExpiredMoveForServDays()//Edit-------------------Vitalii 12:21 26.08.2016
+begin
+	record UserVc User;
+	integer res;
+	
+	res = 0;
+	User.Code = currentuser;
+	if(readfirstmain(User,1,true))then begin
+		res = User.ServDays;
+	end;
+	ExpiredMoveForServDays = res;
+return;
+end;

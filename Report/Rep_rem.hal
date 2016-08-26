@@ -493,6 +493,18 @@ PutWindowRecord(wn,RepSpec);
 return;
 end;
 
+global //Edit-------------------Vitalii 13:46 26.08.2016
+procedure ExpiredMoveForServRClassReportDefaults(Integer wn)
+begin
+  record RcVc RepSpec;  
+
+  GetwindowRecord(wn,RepSpec);
+  RepSpec.flags[1] = 80;
+  PutWindowRecord(wn,RepSpec);
+  
+  return;
+end;
+
 
 global procedure MyGarRn(record RcVc RepSpec)
 begin

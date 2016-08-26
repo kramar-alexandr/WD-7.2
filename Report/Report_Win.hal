@@ -374,6 +374,10 @@ begin
     SetWRect(20,120,350,300);
     CheckBox(80,20,0,"Виводити затверджені документи",flags[1]);
   EndWindow;
-
+  
+  WindowBegin("Прострочені переміщення для сервісу",ExpiredMoveForServRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    EditField(h,20,150,"Кількість днів",Normal,flags[1],false,0);
+  EndWindow;
   return;
   end;

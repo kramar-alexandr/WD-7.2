@@ -9175,7 +9175,9 @@ end;
   EditField(h,v+=vs,-20,"E-mail",Normal,emailAddr,false,0);
   EditField(h,v+=vs,-20,"‘пецифґкацґЯ",Normal,Spec,false,0);
   EditField(h,v+=vs,-20,"Љоментар",Normal,Comment,false,0);
-//  EditField(h,v+=vs,65,"ђахунок видач",Normal,CostAcc,false,AccSClass);
+  EditField(h,v+=vs,40,"",Normal,ServDays,false,0);//Edit-------------------Vitalii 13:27 26.08.2016
+  StaticText(h3+55,v+12,"днґв на сервґсний ремонт партнерґв (звґт)",true);
+  //  EditField(h,v+=vs,65,"ђахунок видач",Normal,CostAcc,false,AccSClass);
   Tile(tilenr,50,false,tilenr,PersAcc);  tilenr = tilenr + 1;
   EditField(h,vm=(v=6),65,"ђахунок",Normal,PersAcc,false,AccSClass);
   EditField(h3,v,120,"Ћб'№кт",Normal,PersObjx,false,ObjSClass);

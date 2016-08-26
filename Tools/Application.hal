@@ -22,6 +22,7 @@ external updating procedure InitAvailClientIdleTask();
 external updating procedure InitAvailableVersionVcIdleTasks();
 external updating procedure InitCloudControllerNewVersionsIdleTask();
 remote function string 50 TestCurrentUserOnServer();// Edit ************************** Friday, 11 December 2015 15:46:26
+remote function integer ExpiredMoveForServDays();//Edit-------------------Vitalii 11:12 26.08.2016
 
 // Same GetFeatureUsage as in IntEnabCl.hal
 updating procedure GetFeatureUsage(record InternetEnablerBlock IEr,Boolean automatic,string hwaddress,Integer hwport,LongInt fcnt)
@@ -424,6 +425,7 @@ begin
   Integer wn;
   Integer pt;
   record UserVc User;// Edit ************************** Thursday, 10 December 2015 16:05:12
+  integer days;//Edit-------------------Vitalii 13:09 26.08.2016
 
   if (CompileType!=ctWindowsCE and CompileType!=ctSeries80 and CompileType!=ctSeries60 and CompileType!=ctNokiaE90 and CompileType!=ctBPadCE and CompileType!=ctWindowsCELandscape) then begin
 //CurrentUser is blank here
@@ -481,7 +483,17 @@ begin
 				RepSpec.repname = "CurrentUserStockMovsRn";
 				RunReport(RepSpec,0);
 			end;
-		end;  
+		end;
+    days = ExpiredMoveForServDays;
+    if (days!=0) then begin
+      recordnew(RepSpec);
+			ReportDefaults(RepSpec,"ExpiredMoveForServRn");
+      millisleep(100);
+      RepSpec.flags[1] = days;
+      RepSpec.Media = mtScreen;
+      RepSpec.repname = "ExpiredMoveForServRn";
+      RunReport(RepSpec,0);
+    end;
 	end;
   return;
 end;

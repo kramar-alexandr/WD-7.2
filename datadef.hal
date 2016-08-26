@@ -3650,6 +3650,7 @@ EndRecord;
   RecordField(SortCode,M4Str,10,0);
   RecordField(ThroughLocation,M4Str,10,0);	//Edit----------------------Dima  10.12.2015
   RecordField(AdditionalLocations,M4Str,200,0);	//Edit----------------------Dima  10.12.2015
+  RecordField(ServDays,M4Int,0,0);//Edit-------------------Vitalii 12:21 26.08.2016
   ArrayBegin(Math,-,1);
   ArrayField(Code,M4Code,5,0);
   ArrayField(PRCode,M4Code,20,PRVc);
@@ -4275,7 +4276,7 @@ EndRecord;
     KeySegment(FromCompNr);
     KeySegment(SerNr);
   EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
-  
+			
   RecordBegin(SamsungSendLog1Vc,-,""); //Edit***************************Sasha2,11:15 04.05.2016 {
     RecordField(SerNr,M4Long,0,0);
     RecordField(TransDate,M4Date,0,0);
@@ -4290,6 +4291,5 @@ EndRecord;
     KeySegment(TransDate);
     KeySegment(SerNr);
   EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
-			
 return;
 end;

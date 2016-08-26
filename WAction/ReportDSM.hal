@@ -34,4 +34,22 @@ begin
    return;
 end;
 
+global 
+procedure DblMoveForServiceVc(string dblstr,string l,Integer currepwn)
+begin
+  Integer wn;
+  record MoveForServiceVc MFSr;
+  string 255 tstr;
 
+  tstr = l; 
+  if (blank(tstr)) then begin
+    tstr = dblstr; 
+  end;
+    
+  MFSr.SerNr = FirstInRange(tstr,10);
+  if (ReadFirstMain(MFSr,1,true)) then begin
+    wn = OpenWindow("MoveForServiceDClass",1,0,"","",MFSr);
+  end;
+   
+   return;
+end;
