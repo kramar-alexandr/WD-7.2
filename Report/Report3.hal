@@ -1,5 +1,6 @@
 external procedure APRn(record RcVc);
 external procedure ARRn(record RcVc);
+external function longint DateDiff(date,date);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -557,12 +558,18 @@ begin
     days = -80;
   end;
   startreportnoheaderjob("Прострочені переміщення для сервісу");
+  SetRepCol(2,70);
+	SetRepCol(3,140);
+	SetRepCol(4,180);
+	SetRepCol(5,250);
+	SetRepCol(6,320);
   StartFormat(15);
     OutString(0,0,"№ докум.",false);
-    OutString(40,0,"Дата",false);
-    OutString(90,0,"З компанії",false);
-    OutString(140,0,"В компанію",false);
-    OutString(190,0,"Товар",false);
+    OutString(2,0,"Дата",false);
+    OutString(3,0,"Дні",false);
+    OutString(4,0,"З компанії",false);
+    OutString(5,0,"В компанію",false);
+    OutString(6,0,"Товар",false);
   EndFormat;
   Black_Divider(0,1);
   if CurrentCompany==8 then begin
@@ -578,16 +585,18 @@ begin
               if (printf) then begin
                 printf = false;
                 OutString(0,"DblMoveForServiceVc",MFSr.SerNr,false);
-                OutString(40,0,MFSr.TransDate,false);
-                OutString(90,0,MFSr.FromCompName,false);
-                OutString(140,0,MFSr.ToCompName,false);
+                OutString(2,0,MFSr.TransDate,false);
+                OutString(3,0,DateDiff(CurrentDate,MFSr.TransDate),false);
+                OutString(4,0,MFSr.FromCompName,false);
+                OutString(5,0,MFSr.ToCompName,false);
               end else begin
                 OutString(0,0,"",false);
-                OutString(40,0,"",false);
-                OutString(90,0,"",false);
-                OutString(140,0,"",false);
+                OutString(2,0,"",false);
+                OutString(3,0,"",false);
+                OutString(4,0,"",false);
+                OutString(5,0,"",false);
               end;
-              OutString(190,0,MFSrw.ArtCode & " - " & MFSrw.Spec,false);
+              OutString(6,0,MFSrw.ArtCode & " - " & MFSrw.Spec,false);
             EndFormat;
           end;
         end;
@@ -611,16 +620,18 @@ begin
               if (printf) then begin
                 printf = false;
                 OutString(0,"DblMoveForServiceVc",MFSr.SerNr,false);
-                OutString(40,0,MFSr.TransDate,false);
-                OutString(90,0,MFSr.FromCompName,false);
-                OutString(140,0,MFSr.ToCompName,false);
+                OutString(2,0,MFSr.TransDate,false);
+                OutString(3,0,DateDiff(CurrentDate,MFSr.TransDate),false);
+                OutString(4,0,MFSr.FromCompName,false);
+                OutString(5,0,MFSr.ToCompName,false);
               end else begin
                 OutString(0,0,"",false);
-                OutString(40,0,"",false);
-                OutString(90,0,"",false);
-                OutString(140,0,"",false);
+                OutString(2,0,"",false);
+                OutString(3,0,"",false);
+                OutString(4,0,"",false);
+                OutString(5,0,"",false);
               end;
-              OutString(190,0,MFSrw.ArtCode & " - " & MFSrw.Spec,false);
+              OutString(6,0,MFSrw.ArtCode & " - " & MFSrw.Spec,false);
             EndFormat;
           end;
           if !printf then begin
