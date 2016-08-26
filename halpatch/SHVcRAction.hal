@@ -393,7 +393,7 @@ begin
     goto LSHVcRecordCheck;
   end;  
 
-  if (CurrentUser != "SA" and CurrentUser != "KUDINA" and SHp.ShipDate<CurrentDate) then begin
+  if (CurrentUser != "SA1" and CurrentUser != "KUDINA" and SHp.ShipDate<CurrentDate) then begin
   	if (stat==Rs_update) then begin		//Edit----------------------Dima  08.09.2015
   		if(SHp.OKFlag!=0 and SH2p.OKFlag==0) then begin	
   	    error = 31043;
@@ -1841,7 +1841,7 @@ begin
   record ORVc ORr;
 
   res = 0;
-  if (CurrentUser=="SA") then begin //Edit***************************Sasha2,13:07 04.02.2016
+  if (CurrentUser=="SA1") then begin //Edit***************************Sasha2,13:07 04.02.2016
     res = 1;
     goto LSHVcRecordRemoveTest;
   end;

@@ -64,7 +64,7 @@ begin
   	end;
   end;
   
-  if (currentcompany==2) then begin //Edit***************************Sasha2,10:41 12.02.2016 {
+  if (currentcompany==2 and RepSpec.flags[1]==0) then begin //Edit***************************Sasha2,10:41 12.02.2016 {
     showclientf = true;
   end; //Edit***************************Sasha2,10:41 12.02.2016 }
   
@@ -76,7 +76,9 @@ begin
     	outstring(0,0,"Штрих-код",false);
     end;
     outstring(0,0,"Назва",false);
-    outstring(0,0,"Класифікація",false);
+    if(RepSpec.flags[1]==0)then begin
+			outstring(0,0,"Класифікація",false);
+    end;
     if(RepSpec.flags[0]==1)then begin
     	outstring(0,0,"Постачальник",false);
     	if(currentcompany==6 or currentcompany==2)then begin// Edit ************************** Wednesday, 13 April 2016 14:21:23
@@ -90,14 +92,17 @@ begin
       outstring(0,0,"Клиент",false);
     end; //Edit***************************Sasha2,10:18 12.02.2016 }
     if(RepSpec.ArtMode==0)then begin
-			outstring(0,0,"Доступно",false);
+    	if(RepSpec.flags[1]==0)then begin
+				outstring(0,0,"Доступно",false);
+			end;
     end;
     if(RepSpec.flags[0]==1)then begin
 			outstring(0,0,"Собівартість",false);
 			outstring(0,0,"Сума",false);
     end;
-    outstring(0,0,"Склад",false);
-    
+    if(RepSpec.flags[1]==0)then begin
+			outstring(0,0,"Склад",false);
+    end;
     For(i=0;i<plcnt;i=i+1) begin
 	  	OutString(4,0,"Ціна " & plcode[i],false);
 		end; 
@@ -127,10 +132,14 @@ begin
 							outstring(0,0,INr.BarCode,false);
     				end;
     				OutString(1,0,INr.Name,false);
-    				outstring(0,0,INr.DispGroups,false);
+    				if(RepSpec.flags[1]==0)then begin// Edit ************************** Friday, 19 August 2016 14:38:49
+							outstring(0,0,INr.DispGroups,false);
+    				end;
     				OutString(2,0,ISr.Instock,false);
     				if(RepSpec.ArtMode==0)then begin
-    					OutString(3,0,ISr.Instock-ISr.RsrvQty-ISr.StockRsrvQty,false);
+							if(RepSpec.flags[1]==0)then begin
+								OutString(3,0,ISr.Instock-ISr.RsrvQty-ISr.StockRsrvQty,false);
+    					end;
     				end;
     				if(RepSpec.flags[0]==1)then begin
     				
@@ -150,7 +159,9 @@ begin
     					OutString(1,0,INr.InPrice/ISr.Instock,false);
     					OutString(1,0,INr.InPrice,false);
     				end;
-    				OutString(4,0,ISr.Location,false);
+    				if(RepSpec.flags[1]==0)then begin// Edit ************************** Friday, 19 August 2016 14:39:04
+							OutString(4,0,ISr.Location,false);
+    				end;
     				For(i=0;i<plcnt;i=i+1) begin
     					OutString(4,0,price[i],false);
     				end; 
@@ -170,7 +181,9 @@ begin
 								outstring(0,0,INr.BarCode,false);
   						end;
   						OutString(1,0,INr.Name,false);
-  						outstring(0,0,INr.DispGroups,false);
+  						if(RepSpec.flags[1]==0)then begin// Edit ************************** Friday, 19 August 2016 14:39:15
+								outstring(0,0,INr.DispGroups,false);
+  						end;
   						if(RepSpec.flags[0]==1)then begin
   							PUr.SerNr = IHr.InSerNr;
   							if(readfirstmain(PUr,1,true) and IHr.InFileName=="PUVc")then begin
@@ -216,8 +229,9 @@ begin
   							OutString(1,0,IHr.RemCostPrice / IHr.RemQty,false);
   							OutString(1,0,IHr.RemCostPrice,false);
   						end;
-  						
-  						OutString(4,0,ISr.Location,false);
+  						if(RepSpec.flags[1]==0)then begin// Edit ************************** Friday, 19 August 2016 14:39:43
+								OutString(4,0,ISr.Location,false);
+  						end;
   						For(i=0;i<plcnt;i=i+1) begin
   							OutString(4,0,price[i],false);
   						end; 
@@ -357,6 +371,19 @@ integer compno;
               MyItemReportRn(RepSpec);
               RepSpec.ArtMode=0;
               RunProgram("Stock/ITEKUAStockFullManagers.sh", "");
+              
+              if(GetDateID(currentdate)!=6 and GetDateID(currentdate)!=7)then begin              
+								RepSpec.f1 = "INV#2";
+								RepSpec.f2 = "VIP";
+								RepSpec.flags[1] = 1;
+								delete_file("Stock/ITEKUAStockFullManagersINV2.xls");
+								CreateFile("Stock/ITEKUAStockFullManagersINV2.xls");
+								closefile;
+								openexportfile("Stock/ITEKUAStockFullManagersINV2.xls",true);
+								RepSpec.ArtMode=0;
+								MyItemReportRn(RepSpec);
+								RunProgram("Stock/ITEKUAStockFullManagersINV2.sh", "");
+              end;
               
       case 4: delete_file("Stock/ICStockFullManagers.xls");
       				CreateFile("Stock/ICStockFullManagers.xls");

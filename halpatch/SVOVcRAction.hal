@@ -614,7 +614,6 @@ record LetVc Letr;
 		recordnew(Letr);
 		AddToText(SVOr.Kontinfo1,Letr);
 		if(StringInText(phone,Letr))then begin
-			logtext(0,SVOr.SerNr);
 			sernr[count] = SVOr.SerNr;
 			count = count + 1;
 		end;	

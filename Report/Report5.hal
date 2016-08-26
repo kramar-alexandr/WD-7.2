@@ -90,20 +90,20 @@ begin
 												turncost = turncost - IHr.TotCostPrice * s;
 					case "RetVc": turnqty = turnqty - IHr.Qty;
 												turncost = turncost - IHr.TotCostPrice * s;
-					case "SDVc": 		For(i=0;i<mtrw;i=i+1) begin
-													matrowget(LMAb,i,LMArw);
-													if(IHr.Location==LMArw.DefLoc)then begin
-														turnqty = turnqty - IHr.Qty;
-														turncost = turncost + IHr.TotCostPrice * s;
-													end;
-												end;
-					case "PUVc": 		For(i=0;i<mtrw;i=i+1) begin
+					/*case "SDVc": 		For(i=0;i<mtrw;i=i+1) begin
 													matrowget(LMAb,i,LMArw);
 													if(IHr.Location==LMArw.DefLoc)then begin
 														turnqty = turnqty - IHr.Qty;
 														turncost = turncost - IHr.TotCostPrice * s;
 													end;
-												end;
+												end;*/
+					/*case "PUVc": 		For(i=0;i<mtrw;i=i+1) begin
+													matrowget(LMAb,i,LMArw);
+													if(IHr.Location==LMArw.DefLoc)then begin
+														turnqty = turnqty - IHr.Qty;
+														turncost = turncost - IHr.TotCostPrice * s;
+													end;
+												end;*/
 					case "WSVc": 	turnqty = turnqty - IHr.Qty;
 												turncost = turncost - IHr.TotCostPrice * s;
 				end;

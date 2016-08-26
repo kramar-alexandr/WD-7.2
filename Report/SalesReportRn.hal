@@ -814,7 +814,7 @@ begin
 							shmtrw = Matrowcnt(WSr);
 							For(shi=0;shi<shmtrw;shi=shi+1) begin
 								matrowget(WSr,shi,WSrw);
-								if(WSrw.ArtCode==IVrw.ArtCode and WSrw.Invd-WSrw.Returned>0)then begin
+								if(WSrw.ArtCode==IVrw.ArtCode and WSrw.Invd-WSrw.Returned>=0 and WSrw.SerialNr==IVrw.SerialNr)then begin
 									IHr.FileName = "WSVc";
 									IHr.TransNr = WSr.SerNr;
 									IHr.Row = shi;

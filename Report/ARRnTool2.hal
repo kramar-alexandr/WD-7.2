@@ -1249,8 +1249,11 @@ BEGIN
     pos = 0;
   end; //Edit***************************Sasha2,10:43 30.11.2015 }
 	
+	if(custcode=="INERNET"and backdate==false)then begin
+		RepSpec.d1=currentdate;
+	end;
 	
-  if (backdate==false) then begin 
+  if (backdate==false and custcode!="INERNET") then begin 
     found = true;
     ARPayr.CustCode = custcode;
     while LoopKey("CustCode",ARPayr,1,found) begin
@@ -1606,8 +1609,10 @@ BEGIN
     end;
     pos = 0;
   end; //Edit***************************Sasha2,10:43 30.11.2015 }
-		
-  if (backdate==false) then begin
+	if(custcode=="INERNET" and backdate==false)then begin
+		RepSpec.d1 = currentdate;
+	end;
+  if (backdate==false and custcode!="INERNET") then begin
     found = true;
     ARPayr.CustCode = custcode;
     while LoopKey("CustCode",ARPayr,1,found) begin

@@ -106,16 +106,11 @@ BEGIN
     end;
   end;
   
-  if (CurrentUser=="SA" and fieldname=="LocOKNr") then begin		//Edit----------------------Dima  21.01.2016
+  if (CurrentUser=="SA1" and fieldname=="LocOKNr") then begin		//Edit----------------------Dima  21.01.2016
 			res = true;
 			goto LPUDClassActiveEditField;
 	end;
-	
-	if (CurrentUser=="SA1") then begin		// Edit ************************** Friday, 1 July 2016 16:44:47
-			res = true;
-			goto LPUDClassActiveEditField;
-	end;
-  
+	  
   if (rownr==-1) then begin
     res = PUVcEFActiveCheck(fieldname,wn,wnst);
   end else begin

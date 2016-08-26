@@ -422,7 +422,7 @@ begin
     
   res = 0;
   
-  if(currentuser=="SA")then begin
+  if(currentuser=="SA1")then begin
   	goto LWSVcRecordCheck;
   end;
   

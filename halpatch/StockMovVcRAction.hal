@@ -698,7 +698,7 @@ BEGIN
   end; 
    
   
-  if (CurrentUser != "SA" and CurrentUser != "KUDINA" and (SMp.OKFlag!=0 and SMp.TransDate<CurrentDate)) then begin
+  if (CurrentUser != "SA1" and CurrentUser != "KUDINA" and (SMp.OKFlag!=0 and SMp.TransDate<CurrentDate)) then begin
   	if (stat==Rs_update) then begin																																								//Edit----------------------Dima  08.09.2015
   		if(SMp.OKFlag!=0 and SM2p.OKFlag==0) then begin	
   	    error = 31043;
@@ -721,7 +721,7 @@ BEGIN
   	end; 
   end;    
   
-  if (CurrentUser != "SA" and CurrentUser != "KUDINA" and (SMp.SentOKFlag!=0 and SMp.SentTransDate<CurrentDate)) then begin
+  if (CurrentUser != "SA1" and CurrentUser != "KUDINA" and (SMp.SentOKFlag!=0 and SMp.SentTransDate<CurrentDate)) then begin
   	if (stat==Rs_update) then begin																																							//Edit----------------------Dima  08.09.2015
   		if(SMp.SentOKFlag!=0 and SM2p.SentOKFlag==0) then begin	
   	    error = 31043;
@@ -2135,7 +2135,6 @@ BEGIN
 		oldnr = SMp.SerNr;
 		oldOfficialSerNr = SMp.OfficialSerNr;
 		UnOKedCheckSerialf = false;
-		logtext(0,1);
 		if (CheckStockMovRecord(SMp,SM2p,stat,check,true,error,errorstr,rownr,fieldstr,UnOKedCheckSerialf)!=0) then begin
 			logtext(0,error & " " & errorstr & " " & rownr & " " & fieldstr);
 			res = -1;

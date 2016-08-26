@@ -540,7 +540,7 @@ BEGIN
   
   res = true;
   
-  if (CurrentUser=="SA") then begin //Edit***************************Sasha2,12:10 01.12.2015 {
+  if (CurrentUser=="SA1") then begin //Edit***************************Sasha2,12:10 01.12.2015 {
     goto LOPDClassUpdateTest;
   end; //Edit***************************Sasha2,12:10 01.12.2015 }
   
@@ -679,7 +679,7 @@ BEGIN
   
   res = true;
   
-  if (CurrentUser=="SA") then begin //Edit***************************Sasha2,12:10 01.12.2015 {
+  if (CurrentUser=="SA1") then begin //Edit***************************Sasha2,12:10 01.12.2015 {
     goto LOPDClassActiveEditField;
   end; //Edit***************************Sasha2,12:10 01.12.2015 }
   

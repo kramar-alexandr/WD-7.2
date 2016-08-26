@@ -478,7 +478,6 @@ LBREAKPULab:;
         SetPrinter(FDrw.PrintGroupCode);  
         formisopen = true;
       end;
-      logtext(0,formcode);
       DoPULabFormPrint(RepSpec,formcode,FDrw.PrintGroupCode);// Edit ************************** среда, 23 июня 2010 г. 11:43:31
       if (formisopen) then begin
         CloseForm;

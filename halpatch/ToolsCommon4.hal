@@ -566,7 +566,6 @@ begin
     end;
     if (blank(CostAcc)) then begin
       res = GetCOGSAcc(defcostacc,custcode,location,ARb,INr,itemgroupaccount,findnewf,SVOItemType,CostAcc,tstr);
-      logtext(0,CostAcc & " **2");
     end;
   end;
   GetCOSAcc = res;
@@ -1704,7 +1703,6 @@ begin
 			vecPUr = PUs[vectorKeys[i]];
 			vecPUr.SerNr = NextSerNr("PUVc",CurrentDate,-1,false,"");
 			RecordStore(vecPUr,true);
-			LogText(0,vectorKeys[i] & "  " & vecPUr.SerNr & "  rows: " & MatRowCnt(vecPUr));
 		end;
 	end;
 	ResetCompany(curCompany);	

@@ -1093,7 +1093,7 @@ BEGIN
  
   res = false;
   
-  if (CurrentUser=="SA") then begin //Edit***************************Sasha2,12:10 01.12.2015 {
+  if (CurrentUser=="SA1") then begin //Edit***************************Sasha2,12:10 01.12.2015 {
     res = true;
     goto LVIDClassActiveEditField;
   end; //Edit***************************Sasha2,12:10 01.12.2015 }

@@ -413,7 +413,6 @@ LActPrintNote1:;
 		OUTFORMFIELD("F_KOMMENTAR",SVOr.Comment2);
 		OUTFORMFIELD("F_KOMMENTAR",SVOr.Comment3);
 		OUTFORMFIELD("F_KOMMENTAR",SVOr.Comment4);
-		logtext(0,SVOr.Comment1);
 		          // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 7 April 2010 1:09:35 PM
 		OUTFORMFIELD("MY_KOMMENTAR1",SVOr.Comment1);

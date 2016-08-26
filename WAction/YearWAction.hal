@@ -27,7 +27,7 @@ BEGIN
   record YearBlock Yearb;
 
   res = false;
-  if(currentuser=="SA" or currentuser=="LADA" or currentuser=="KUDINA")then begin
+  if(currentuser=="SA1" or currentuser=="LADA" or currentuser=="KUDINA")then begin
   	res = true;
   end;
   YearTClassInsertRowTest = res;
@@ -69,7 +69,7 @@ begin
   if (rownr<(MatRowCnt(Year2b)-1)) then begin
     res = false;
   end;
-  if(currentuser=="SA" or currentuser=="LADA" or currentuser=="KUDINA")then begin
+  if(currentuser=="SA1" or currentuser=="LADA" or currentuser=="KUDINA")then begin
   	res = true;
   end;
   /*

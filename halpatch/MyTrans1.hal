@@ -20,10 +20,12 @@ begin
   record RcVc RepSpec;
   time t1,t2,t3,t4,t5,t6,t7,t8,t9,curt,curtnew;
   string 5 hr,mn;
-  integer minute, curcomp;
+  integer minute, curcomp, days,i,min;
+  date startdate;
+  record SamsungSendLog1Vc SSLr;
 
     t1 = StringToTime("22:50");
-    //t2 = StringToTime("10:00");
+    t2 = StringToTime("23:00");
     //t3 = StringToTime("12:00");
     //t4 = StringToTime("14:00");
     //t5 = StringToTime("16:00");
@@ -45,13 +47,41 @@ begin
     curtnew = StringToTime(hr & ":" & mn);
 
     curcomp = CurrentCompany;
-    if (curtnew==t1 and SetCompany(9,false)) then begin
-    	LogText(0,"SamsungSendFilesToFtpMn at planned time: " & curtnew);
-    	RepSpec.sStartDate = CurrentDate;
-    	RepSpec.sEndDate = RepSpec.sStartDate;
-    	SamsungSendFilesToFtpMn(RepSpec);
+    
+    
+    min = getminute(CurrentTime);
+    if(right(min,1)=="5" and currentdate>stringtodate("25/08/2016"))then begin
+			if (SetCompany(9,false)) then begin
+				SSLr.TransDate = addday(currentdate,-1);
+				if(!Readfirstkey("TransDate",SSLr,1,true))then begin
+					goto lCustTimeTableActionRun;
+				end;
+			end;
+    end;
+    
+    if (curtnew>=t1 and curtnew<t2 and SetCompany(9,false)) then begin
+lCustTimeTableActionRun:;
+			startdate = addday(currentdate,-2);
+			
+			if(currentdate>=stringtodate("25/08/2016"))then begin
+				For(i=0;i<3;i=i+1) begin
+					LogText(0,"SamsungSendFilesToFtpMn at planned time: " & curtnew);
+					RepSpec.sStartDate = startdate;
+					RepSpec.sEndDate = RepSpec.sStartDate;
+					SamsungSendFilesToFtpMn(RepSpec);
+					startdate = addday(startdate,1);
+				end; 
+			end else begin
+				LogText(0,"SamsungSendFilesToFtpMn at planned time: " & curtnew);
+				RepSpec.sStartDate = currentdate;
+				RepSpec.sEndDate = RepSpec.sStartDate;
+				SamsungSendFilesToFtpMn(RepSpec);
+				startdate = addday(startdate,1);
+			end;
+			
     	ResetCompany(curcomp); 
     end;
+    
 
 return;
 end; //Edit***************************Sasha2,11:48 25.04.2016 }
@@ -723,7 +753,6 @@ begin
   //CSr.Class = "";
   CSr.CurncyCode = RepSpec.f2; 
 	readfirstmain(CSr,1,true);
-	logtext(0,RepSpec.vals0);
   AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"balance",RepSpec.vals0,"",0);
   AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"paidvalue",RepSpec.vals0,"",0);
   
@@ -739,7 +768,6 @@ begin
   //CSr.Class = "";
   CSr.CurncyCode = RepSpec.f2; 
 	readfirstmain(CSr,1,true);
-	logtext(0,RepSpec.vals0);
   AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"vebalance",RepSpec.vals0,"",0);
   AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"vepaidvalue",RepSpec.vals0,"",0);
   

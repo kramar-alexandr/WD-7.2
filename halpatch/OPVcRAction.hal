@@ -1101,7 +1101,7 @@ begin
   LongInt oldnr,newnr;
 
   res = 0;
-  if(currentuser!="SA")then begin
+  if(currentuser!="SA1")then begin
 		res = 0;
 		if (ValidatePaymentRecord(OPp,OP2p,stat,check,true)!=0) then begin
 			res = -1;

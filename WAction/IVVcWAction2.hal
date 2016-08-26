@@ -82,7 +82,7 @@ BEGIN
     end;
   end;
   
-  if(currentuser!="SA")then begin
+  if(currentuser!="SA1")then begin
 		if ((CBrw.Mode==kProgramModeLocal or CBrw.Mode==kProgramModeClient) and currentuser!="POSSRV") then begin// Edit ************************** Thursday, 16 July 2015 11:27:23
 			res = false;
 			goto LIVCashDClassActiveEditField;
@@ -902,11 +902,11 @@ BEGIN
     end;
   end;
 LIVDClassActiveEditField:;
-	if(currentuser=="SA" and fieldname=="BaseSum4")then begin// Edit ************************** Wednesday, 11 November 2015 16:16:15
+	if(currentuser=="SA1" and fieldname=="BaseSum4")then begin// Edit ************************** Wednesday, 11 November 2015 16:16:15
 		res = true;
 	end;
 	
-	if(currentuser=="SA")then begin// Edit ************************** Wednesday, 11 November 2015 16:16:15
+	if(currentuser=="SA1")then begin// Edit ************************** Wednesday, 11 November 2015 16:16:15
 		res = true;
 	end;
 	

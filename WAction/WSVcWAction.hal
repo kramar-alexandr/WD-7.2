@@ -663,7 +663,7 @@ LWSDClassActiveEditField:;
       end;
   end;
 
-  if(currentuser=="SA")then begin
+  if(currentuser=="SA1")then begin
   	res = true;
   end;
   

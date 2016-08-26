@@ -185,7 +185,7 @@ L12:;
   if (check==false) then begin
     goto LIPVcRecordCheck_GenTrans;
   end;
-  if(currentuser!="SA")then begin
+  if(currentuser!="SA1")then begin
 		if (Date2Test("IPVc",IPp.TransDate,"TransDate",-1)==false) then begin
 			res = -1;
 			goto LIPVcRecordCheck;
@@ -494,7 +494,7 @@ some mistery code, what if customer has Sales Currency Defined?
             nrofprepay = nrofprepay + 1;
             ARHistr.CUPNr = IPrw.CUPNr;
             ARHistr.FileName = "IPVc";
-            if(currentuser!="SA")then begin
+            if(currentuser!="SA1")then begin
 							if (ReadFirstMain(ARHistr,2,true)) then begin
 								if (ARAccRec.ForceUniquePP!=0) then begin
 									temp = blankval;

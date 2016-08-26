@@ -1393,7 +1393,6 @@ begin
 
       
       if (testf) then begin
-      	logtext(0,nextIHr.SerNr);
         qusebefdat = QtyUsedBeforeDate(nextIHr,true,td);
         nextqty = nextIHr.Qty - qusebefdat;
         outqty = outqty - nextIHr.Qty - qusebefdat;

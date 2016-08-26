@@ -246,9 +246,7 @@ record WebSyncRegVc WSRr;
 			WSRr.ArtCode = artcode;
 			if(readfirstmain(WSRr,1,true))then begin
 			  testf = false;
-			  
-			  logtext(0,WSRr.ArtCode);
-			  
+			  			  
 			  if (NonBlank(classtodel)) then begin
 			    testf = true;
 			              

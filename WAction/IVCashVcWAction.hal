@@ -2678,10 +2678,26 @@ BEGIN
   Boolean res;
   record IVCashVc IVCashr;
   Integer normalmode,updatemode;
+  record CompaniesBlock CBb;
+  row CompaniesBlock CBrw;
+  
+  blockload(CBb);
+  if(matrowcnt(CBb)>0)then begin
+  	matrowget(CBb,currentcompany-1,CBrw);
+  end;
  
   res = true;
   normalmode = 0;//Rs_normal
   updatemode = 2;//Rs_update
+  
+  
+  if(currentuser!="SA1")then begin
+		if ((CBrw.Mode==kProgramModeLocal or CBrw.Mode==kProgramModeClient) and currentuser!="POSSRV") then begin// Edit ************************** Thursday, 16 July 2015 11:27:23
+			res = false;
+			goto lIVCashDClassOKFlagButtonAction;
+		end;
+  end;
+  
   if (WindowState(wn)==normalmode) then begin
     GetWindowRecord(wn,IVCashr);
     if (IVCashr.OKFlag!=0) then begin
@@ -2701,11 +2717,12 @@ BEGIN
     end;
   end; 
 	
+lIVCashDClassOKFlagButtonAction:;
+	
   if(currentuser=="POSSRV")then begin// Edit ************************** Thursday, 8 January 2015 10:54:03
     res = true;// Edit ************************** Thursday, 8 January 2015 10:54:03
   end;// Edit ************************** Thursday, 8 January 2015 10:54:04
   
-	
   IVCashDClassOKFlagButtonAction = res;
   RETURN;
 END;

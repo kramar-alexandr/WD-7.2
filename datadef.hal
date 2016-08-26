@@ -4275,6 +4275,21 @@ EndRecord;
     KeySegment(FromCompNr);
     KeySegment(SerNr);
   EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
+  
+  RecordBegin(SamsungSendLog1Vc,-,""); //Edit***************************Sasha2,11:15 04.05.2016 {
+    RecordField(SerNr,M4Long,0,0);
+    RecordField(TransDate,M4Date,0,0);
+    RecordField(CurDate,M4Date,0,0);
+    RecordField(TransTime,M4Time,0,0);
+    RecordField(FileName1,M4Str,100,0);
+    RecordField(FileName2,M4Str,100,0);
+    RecordField(FileName3,M4Str,100,0);
+    MainKeyBegin(SerNr,0);
+    KeySegment(SerNr);
+    KeyBegin(TransDate);
+    KeySegment(TransDate);
+    KeySegment(SerNr);
+  EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
 			
 return;
 end;

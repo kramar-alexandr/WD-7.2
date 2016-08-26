@@ -35,7 +35,7 @@ BEGIN
     res = 0;
   end;
   
-  if(currentuser=="SA")then begin
+  if(currentuser=="SA1")then begin
   	res = 1;// Edit ************************** Wednesday, 4 May 2016 15:07:10
   end;	
   
