@@ -550,28 +550,14 @@ begin
   record MoveForServiceVc MFSr;
   row MoveForServiceVc MFSrw;
   integer i,mtrw,days;
-  boolean TrHs,printf;
+  boolean TrHs,printf,headerf;
   
   if (RepSpec.flags[1]!=0) then begin
     days = RepSpec.flags[1]*(-1);
   end else begin
     days = -80;
   end;
-  startreportnoheaderjob("Прострочені переміщення для сервісу");
-  SetRepCol(2,70);
-	SetRepCol(3,140);
-	SetRepCol(4,180);
-	SetRepCol(5,250);
-	SetRepCol(6,320);
-  StartFormat(15);
-    OutString(0,0,"№ докум.",false);
-    OutString(2,0,"Дата",false);
-    OutString(3,0,"Дні",false);
-    OutString(4,0,"З компанії",false);
-    OutString(5,0,"В компанію",false);
-    OutString(6,0,"Товар",false);
-  EndFormat;
-  Black_Divider(0,1);
+  headerf = true;
   if CurrentCompany==8 then begin
     TrHs = true;
     while loopmain(MFSr,1,TrHs) begin
@@ -581,6 +567,24 @@ begin
         for(i=0;i<mtrw;i=i+1)begin
           matrowget(MFSr,i,MFSrw);
           if (MFSrw.SendQuant!=MFSrw.ReceivedBackQuant) then begin
+            if (headerf) then begin
+              headerf = false;
+              startreportnoheaderjob("Прострочені переміщення для сервісу");
+              SetRepCol(2,70);
+              SetRepCol(3,140);
+              SetRepCol(4,180);
+              SetRepCol(5,250);
+              SetRepCol(6,320);
+              StartFormat(15);
+                OutString(0,0,"№ докум.",false);
+                OutString(2,0,"Дата",false);
+                OutString(3,0,"Дні",false);
+                OutString(4,0,"З компанії",false);
+                OutString(5,0,"В компанію",false);
+                OutString(6,0,"Товар",false);
+              EndFormat;
+              Black_Divider(0,1);
+            end;
             StartFormat(15);
               if (printf) then begin
                 printf = false;
@@ -616,6 +620,24 @@ begin
         for(i=0;i<mtrw;i=i+1)begin
           matrowget(MFSr,i,MFSrw);
           if (MFSrw.SendQuant!=MFSrw.ReceivedBackQuant) then begin
+            if (headerf) then begin
+              headerf = false;
+              startreportnoheaderjob("Прострочені переміщення для сервісу");
+              SetRepCol(2,70);
+              SetRepCol(3,140);
+              SetRepCol(4,180);
+              SetRepCol(5,250);
+              SetRepCol(6,320);
+              StartFormat(15);
+                OutString(0,0,"№ докум.",false);
+                OutString(2,0,"Дата",false);
+                OutString(3,0,"Дні",false);
+                OutString(4,0,"З компанії",false);
+                OutString(5,0,"В компанію",false);
+                OutString(6,0,"Товар",false);
+              EndFormat;
+              Black_Divider(0,1);
+            end;
             StartFormat(15);
               if (printf) then begin
                 printf = false;
@@ -641,7 +663,9 @@ begin
       end;
     end;
   end;
-  endjob;
+  if (!headerf) then begin
+    endjob;
+  end;
   
   return;
 end;
