@@ -115,6 +115,22 @@ BEGIN
         case "Price":
           BlockLoad(CDb);
           if (UserCanAction("ChangeUnitPrices",CDb.CashSalesToFiscalControlUnit==0)==false) then begin res = false; end;
+          // Edit Start ---------------------------------------------- Edit Start
+	//Monday, 5 September 2016 14:22:03
+	
+          if(res==false)then begin
+          	MatRowGet(IVCashr,rownr,IVCashrw);
+						switch (IVCashrw.ArtCode) begin
+							case "WARANTY_SE": res = true;
+							case "WARRANTY_6": res = true;
+							case "WARRANTY_6_PL": res = true;
+							case "WARRANTY_CPU": res = true;
+							case "SRV_OTHER": res = true;
+						end;
+          end;
+          
+	// Edit End ---------------------------------------------- Edit End
+	
         case "vRebate":
           if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;
         case "Sum":
@@ -226,6 +242,21 @@ BEGIN
         case "DownPaidSum": if (IVCashrw.OrdQuant==0) then begin res = false; end;
         case "Price":
           if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;
+          // Edit Start ---------------------------------------------- Edit Start
+	//Monday, 5 September 2016 14:22:03
+	
+          if(res==false)then begin
+          	MatRowGet(IVCashr,rownr,IVCashrw);
+						switch (IVCashrw.ArtCode) begin
+							case "WARANTY_SE": res = true;
+							case "WARRANTY_6": res = true;
+							case "WARRANTY_6_PL": res = true;
+							case "WARRANTY_CPU": res = true;
+							case "SRV_OTHER": res = true;
+						end;
+          end;
+          
+	// Edit End ---------------------------------------------- Edit End
 				case "vRebate":
           if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;// Edit ************************** Monday, 1 August 2016 15:16:07
 				case "Sum":
