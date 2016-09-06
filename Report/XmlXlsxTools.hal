@@ -595,31 +595,63 @@ BEGIN
 END;
 
 global
-function boolean GetPartFileToArea(string filename,var longint arealen, var area resarea)
+function boolean GetPartFileToArea(string filename, var area resarea)
 BEGIN
-  area filearea,tmparea2;
+  area filearea,tmparea;
   boolean res;
+  longint arealen;
   
+  arealen = 102400;
   setareazerosize(resarea);
   res = false;
   addfiletoarea(filename,filearea,false);
   if getarealength(filearea)<=arealen then begin
     res = true;
     setareazerosize(resarea);
-    getareafromarea(filearea,0,getarealength(filearea),resarea);
-    arealen = 0;
-    delete_file(filename);
+    GetAreaFromArea(filearea,0,getarealength(filearea),resarea);
+    
   end else begin
     GetAreaFromArea(filearea,0,arealen,resarea);
-    GetAreaFromArea(filearea,arealen,getarealength(filearea)-(arealen),tmparea2);
+    setareazerosize(tmparea);
+    GetAreaFromArea(filearea,arealen,getarealength(filearea)-(arealen),tmparea);
     
-    if getarealength(tmparea2)<arealen then begin
-      arealen = getarealength(tmparea2);
+    if getarealength(tmparea)<arealen then begin
+      arealen = getarealength(tmparea);
     end;
-    writeareatofile(tmparea2,filename,0);
+    writeareatofile(tmparea,filename,0);
   end;
   
   GetPartFileToArea = res;
   
+  RETURN;
+END;
+
+global
+procedure DeleteXLSXJunk(string filename)
+BEGIN
+	string 225 foldername,backupfilename;
+  
+  delete_file(filename);
+  foldername = PathCorrection(filename);
+	deletefolder(foldername);
+  backupfilename = foldername & "_backup.xlsx";
+	delete_file(backupfilename);
+  
+	RETURN;
+END;
+
+global
+procedure BackupXLSX(string filename)
+BEGIN
+	CopyFile(filename,PathCorrection(filename) & "_backup.xlsx");
+  RETURN;
+END;
+
+global
+procedure RecoverXLSX(string filename, string rep)
+BEGIN
+  logtext(0,"XLSX RECOVER: " & rep);
+  delete_file(filename);
+	CopyFile(PathCorrection(filename) & "_backup.xlsx",filename);
   RETURN;
 END;
