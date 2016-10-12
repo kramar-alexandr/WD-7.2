@@ -75,7 +75,7 @@ BEGIN
             bases = bases + MulRateToBase1(IVp.CurncyCode,ARPayHistr.Val,IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
             realbases = realbases + Round((ARPayHistr.BookVal*thesum)/ARPayHistr.Val,DefaultCurRoundOff);// Edit ************************** Tuesday, 29 December 2015 10:29:48
            	//realbases = realbases + Round(thesum/Round(ARPayHistr.Val/ARPayHistr.BookVal,DefaultCurRoundOff),DefaultCurRoundOff);// Edit ************************** Tuesday, 29 December 2015 10:29:44
-
+					
 // should thesum be converted to ARPayHistr curency ? 
           end else begin
             cvp = cvp - IVrw.Sum;

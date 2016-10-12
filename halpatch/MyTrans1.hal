@@ -789,10 +789,12 @@ begin
     
     IHr.ArtCode = artcode;
     IHr.SerialNr = serial;
+    IHr.FileName = "PUVc";
     TrHs = true;
-    while (LoopKey("ArtCodeSerialNr",IHr,2,TrHs)) begin
+    while (LoopKey("ArtCodeSerialNr",IHr,3,TrHs)) begin
       testf = false;
-      if (IHr.ArtCode!=artcode or IHr.SerialNr!=serial) then begin TrHs = true; testf = false; end;
+      if (IHr.ArtCode!=artcode or IHr.SerialNr!=serial) then begin TrHs = false; testf = false; end;
+      if(IHr.FileName!="PUVc")then begin TrHs = false; testf = false; end;
       if (testf) then begin
         if(IHr.FileName=="PUVc")then begin
         	dt = IHr.TransDate;
@@ -804,10 +806,12 @@ begin
 		
 		IHr.ArtCode = artcode;
     IHr.SerialNr = serial;
+    IHr.FileName = "IVVc";
     TrHs = true;
-    while (LoopKey("ArtCodeSerialNr",IHr,2,TrHs)) begin
+    while (LoopKey("ArtCodeSerialNr",IHr,3,TrHs)) begin
       testf = false;
-      if (IHr.ArtCode!=artcode or IHr.SerialNr!=serial) then begin TrHs = true; testf = false; end;
+      if (IHr.ArtCode!=artcode or IHr.SerialNr!=serial) then begin TrHs = false; testf = false; end;
+      if(IHr.FileName!="IVVc")then begin TrHs = false; testf = false; end;
       if (testf) then begin
         if(IHr.FileName=="IVVc" and IHr.Qty<0 and IHr.StockAffectf>0)then begin
         	dt = IHr.TransDate;

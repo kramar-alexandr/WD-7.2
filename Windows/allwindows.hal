@@ -2618,6 +2618,7 @@ if (HasTouchScreenLook==false) then begin
   MatCol(t,94,"Сума",0,Sum,true,0);
   MatCol(t,198,"Спос. оплати",0,PayMode,true,PMSClass);
   MatCol(t,250,"Опис",0,Spec,false,0);
+  MatCol(t,-140,"курс.",0,FrRate,false,0); // Edit ************************** Wednesday, 14 September 2016 15:22:19
   MatCol(t,-70,"Вал.",0,CurncyCode,false,0); // Edit ************************** Wednesday, 14 September 2016 15:22:19
   MatText(t=kInvoiceRowTypeLoyaltyPointsPayment,32,"ОББ",true);
   MatCol(t,68,"Сума",0,Sum,true,0);
@@ -2631,8 +2632,8 @@ if (HasTouchScreenLook==false) then begin
   MatCol(t,94,"Сума",0,Sum,true,0);
   MatCol(t,198,"Спос. оплати",0,PayMode,true,PMSClass);
   MatCol(t,250,"Вибр.",0,Spec,false,0);
-  MatCol(t,-280,"",0,CreditCard,false,CreditCardSClass);
-  MatCol(t,-84,"Авторизація",0,AuthorizationCode,false,0);
+  MatCol(t,-280,"",0,CurncyCode,false,0);// Edit ************************** Wednesday, 14 September 2016 15:36:42
+  MatCol(t,-84,"Авторизація",0,FrRate,false,0);// Edit ************************** Wednesday, 14 September 2016 15:38:42
   MatText(t=kInvoiceRowTypeHeader,32,"Заголовок",true);
   MatCol(t,100,"",0,Spec,false,0);
   MatText(t=kInvoiceRowType18,28,"Зарезервовано",true); // Don't use this number

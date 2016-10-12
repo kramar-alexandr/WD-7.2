@@ -1428,11 +1428,10 @@ LCUPer_PrintReceiptLoop:;
                   end;
                   
 	// Edit End ---------------------------------------------- Edit End
-	
                   
                   if ((bascur.BaseCur1==IPrw.BankCurncy) and (IPrw.BankCurncy<>IPrw.InvCurncy)) then begin
-                    if (RepSpec.flags[2]==0) then begin
-                      basecurval = IPrw.BankVal; //must show same as on prepayment account
+                    if (RepSpec.flags[2]==0 and basecurval>0) then begin// Edit ************************** Friday, 23 September 2016 13:08:56
+                      basecurval = IPrw.BankVal; //must show same as on prepayment account                      
                     end;
                   end;
                   if (nonblank(IPrw.B1BankVal)) then begin
@@ -1450,6 +1449,7 @@ LCUPer_PrintReceiptLoop:;
                   end;
                 end;
               end;
+
               if (RepSpec.flags[2]==0) then begin
                 cuscurval = basecurval;
                 t = cuscurval;
