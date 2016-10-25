@@ -530,7 +530,7 @@ begin
     end;
   end;
   
-  if (RepSpec.flags[9]==1) then begin
+  if (RepSpec.flags[10]==1) then begin
     TrHs = true;
     while(loopmain(PPr,1,TrHs)) begin
       testf = true;
