@@ -294,3 +294,258 @@ LImportNewItemsWithClassIn:;
 	
 return;
 end; //Edit***************************Sasha2,17:37 15.04.2015 }
+
+global //Edit***************************Sasha2,15:57 24.10.2016 {
+updating procedure RemoveSecondCurFromRegistersMn(record RcVc RepSpec)
+begin
+  record IVVc IVr;
+  row IVVc IVrw;
+  record IPVc IPr;
+  row IPVc IPrw;
+  record POVc POr;
+  record VIVc VIr;
+  record OPVc OPr;
+  row OPVc OPrw;
+  record PUVc PUr;
+  record RetVc Retr;
+  record RetPUVc RetPUr;
+  record StockMovVc StockMovr;
+  record ExpVc Expr;
+  record PPVc PPr;
+  boolean TrHs,testf;
+  integer mtrw,i;
+
+  if (RepSpec.flags[0]==1) then begin
+    TrHs = true;
+    while(loopmain(IVr,1,TrHs)) begin
+      testf = true;
+      if(IVr.BaseRate1==BlankVal or IVr.BaseRate2==BlankVal)then begin testf = false; end;
+      if(testf)then begin
+        if (IVr.CurncyCode=="UAH") then begin
+          mtrw = matrowcnt(IVr);
+          for(i=0;i<mtrw;i=i+1) begin
+            matrowget(IVr,i,IVrw);
+            if (IVrw.CurncyCode=="UAH") then begin
+              IVrw.FrRate = IVr.BaseRate2;
+              IVrw.ToRateB1 = IVr.BaseRate1;
+            end;
+            IVrw.BasePriceB2 = BlankVal;
+            IVrw.ToRateB2 = BlankVal;
+            IVrw.BaseRate1 = BlankVal;
+            IVrw.BaseRate2 = BlankVal;
+            matrowput(IVr,i,IVrw);
+          end; 
+          IVr.FrRate = IVr.BaseRate2;
+          IVr.ToRateB1 = IVr.BaseRate1;
+        end;
+        IVr.ToRateB2 = BlankVal;
+        IVr.BaseRate1 = BlankVal;
+        IVr.BaseRate2 = BlankVal;
+        RECORDSTORE(IVr,true);
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[1]==1) then begin
+    TrHs = true;
+    while(loopmain(IPr,1,TrHs)) begin
+      testf = true;
+      if(testf)then begin
+        mtrw = matrowcnt(IPr);
+        if (mtrw>0) then begin
+          for(i=0;i<mtrw;i=i+1) begin
+            matrowget(IPr,i,IPrw);
+            if (IPrw.stp==kReceiptRowTypeNormal) then begin
+              if (IPrw.BankCurncy=="UAH") then begin
+                IPrw.FrRateBankVal = IPrw.BaseRate2BankVal;
+                IPrw.ToRateB1BankVal = IPrw.BaseRate1BankVal;
+              end;
+              IPrw.ToRateB2BankVal = BlankVal;
+              IPrw.BaseRate1BankVal = BlankVal;
+              IPrw.BaseRate2BankVal = BlankVal;
+              IPrw.B2BankVal = BlankVal;
+              matrowput(IPr,i,IPrw);
+            end;
+          end; 
+          RECORDSTORE(IPr,true);
+        end; 
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[2]==1) then begin
+    TrHs = true;
+    while(loopmain(POr,1,TrHs)) begin
+      testf = true;
+      if(POr.BaseRate1==BlankVal or POr.BaseRate2==BlankVal)then begin testf = false; end;
+      if(testf)then begin
+        if (POr.CurncyCode=="UAH") then begin 
+          POr.FrRate = POr.BaseRate2;
+          POr.ToRateB1 = POr.BaseRate1;
+        end;
+        POr.ToRateB2 = BlankVal;
+        POr.BaseRate1 = BlankVal;
+        POr.BaseRate2 = BlankVal;
+        RECORDSTORE(POr,true);
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[3]==1) then begin
+    TrHs = true;
+    while(loopmain(VIr,1,TrHs)) begin
+      testf = true;
+      if(VIr.BaseRate1==BlankVal or VIr.BaseRate2==BlankVal)then begin testf = false; end;
+      if(testf)then begin
+        if (VIr.CurncyCode=="UAH") then begin 
+          VIr.FrRate = VIr.BaseRate2;
+          VIr.ToRateB1 = VIr.BaseRate1;
+          VIr.VATFrRate = VIr.VATBaseRate2;
+          VIr.VATToRateB1 = VIr.VATBaseRate1;
+        end;
+        VIr.ToRateB2 = BlankVal;
+        VIr.BaseRate1 = BlankVal;
+        VIr.BaseRate2 = BlankVal;
+        VIr.VATToRateB2 = BlankVal;
+        VIr.VATBaseRate1 = BlankVal;
+        VIr.VATBaseRate2 = BlankVal;
+        RECORDSTORE(VIr,true);
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[4]==1) then begin
+    TrHs = true;
+    while(loopmain(OPr,1,TrHs)) begin
+      testf = true;
+      if(testf)then begin
+        mtrw = matrowcnt(OPr);
+        if (mtrw>0) then begin
+          for(i=0;i<mtrw;i=i+1) begin
+            matrowget(OPr,i,OPrw);
+            if (OPrw.stp==kReceiptRowTypeNormal) then begin
+              if (OPrw.BankCurncy=="UAH") then begin
+                OPrw.FrRateBankVal = OPrw.BaseRate2BankVal;
+                OPrw.ToRateB1BankVal = OPrw.BaseRate1BankVal;
+              end;
+              OPrw.ToRateB2BankVal = BlankVal;
+              OPrw.BaseRate1BankVal = BlankVal;
+              OPrw.BaseRate2BankVal = BlankVal;
+              OPrw.B2BankVal = BlankVal;
+              matrowput(OPr,i,OPrw);
+            end;
+          end; 
+          RECORDSTORE(OPr,true);
+        end; 
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[5]==1) then begin
+    TrHs = true;
+    while(loopmain(PUr,1,TrHs)) begin
+      testf = true;
+      if(PUr.BaseRate1==BlankVal or PUr.BaseRate2==BlankVal)then begin testf = false; end;
+      if(testf)then begin
+        if (PUr.CurncyCode=="UAH") then begin 
+          PUr.FrRate = PUr.BaseRate2;
+          PUr.ToRateB1 = PUr.BaseRate1;
+        end;
+        PUr.ToRateB2 = BlankVal;
+        PUr.BaseRate1 = BlankVal;
+        PUr.BaseRate2 = BlankVal;
+        RECORDSTORE(PUr,true);
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[6]==1) then begin
+    TrHs = true;
+    while(loopmain(StockMovr,1,TrHs)) begin
+      testf = true;
+      if(StockMovr.BaseRate1==BlankVal or StockMovr.BaseRate2==BlankVal)then begin testf = false; end;
+      if(testf)then begin
+        if (StockMovr.CurncyCode=="UAH") then begin 
+          StockMovr.FrRate = StockMovr.BaseRate2;
+          StockMovr.ToRateB1 = StockMovr.BaseRate1;
+        end;
+        StockMovr.ToRateB2 = BlankVal;
+        StockMovr.BaseRate1 = BlankVal;
+        StockMovr.BaseRate2 = BlankVal;
+        RECORDSTORE(StockMovr,true);
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[7]==1) then begin
+    TrHs = true;
+    while(loopmain(Retr,1,TrHs)) begin
+      testf = true;
+      if(Retr.BaseRate1==BlankVal or Retr.BaseRate2==BlankVal)then begin testf = false; end;
+      if(testf)then begin
+        if (Retr.CurncyCode=="UAH") then begin 
+          Retr.FrRate = Retr.BaseRate2;
+          Retr.ToRateB1 = Retr.BaseRate1;
+        end;
+        Retr.ToRateB2 = BlankVal;
+        Retr.BaseRate1 = BlankVal;
+        Retr.BaseRate2 = BlankVal;
+        RECORDSTORE(Retr,true);
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[8]==1) then begin
+    TrHs = true;
+    while(loopmain(RetPUr,1,TrHs)) begin
+      testf = true;
+      if(RetPUr.BaseRate1==BlankVal or RetPUr.BaseRate2==BlankVal)then begin testf = false; end;
+      if(testf)then begin
+        if (RetPUr.CurncyCode=="UAH") then begin 
+          RetPUr.FrRate = RetPUr.BaseRate2;
+          RetPUr.ToRateB1 = RetPUr.BaseRate1;
+        end;
+        RetPUr.ToRateB2 = BlankVal;
+        RetPUr.BaseRate1 = BlankVal;
+        RetPUr.BaseRate2 = BlankVal;
+        RECORDSTORE(RetPUr,true);
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[9]==1) then begin
+    TrHs = true;
+    while(loopmain(Expr,1,TrHs)) begin
+      testf = true;
+      if(testf)then begin
+        if (Expr.CurncyCode=="UAH") then begin
+          Expr.FrRate = Expr.BaseRate2;
+          Expr.ToRateB1 = Expr.BaseRate1;
+        end;
+        Expr.ToRateB2 = BlankVal;
+        Expr.BaseRate1 = BlankVal;
+        Expr.BaseRate2 = BlankVal;
+        RECORDSTORE(Expr,true);
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[9]==1) then begin
+    TrHs = true;
+    while(loopmain(PPr,1,TrHs)) begin
+      testf = true;
+      if(testf)then begin
+        if (PPr.CurncyCode=="UAH") then begin
+          PPr.FrRate = PPr.BaseRate2;
+          PPr.ToRateB1 = PPr.BaseRate1;
+        end;
+        PPr.ToRateB2 = BlankVal;
+        PPr.BaseRate1 = BlankVal;
+        PPr.BaseRate2 = BlankVal;
+        RECORDSTORE(PPr,true);
+      end;
+    end;
+  end;
+
+return;
+end; //Edit***************************Sasha2,15:57 24.10.2016 }

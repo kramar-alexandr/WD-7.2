@@ -1876,3 +1876,27 @@ begin
   SearchField("Найти");
   EndWindow;
 end;
+
+window RemoveSecondCurFromRegistersVClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("Прибрати другу базову валюту в документах",RemoveSecondCurFromRegistersVClass,CGMnt,RcType);
+  SetWRect(20,80,500,220);
+  UseView(RcVc);
+  v = 10; vs = 20; h = 120;
+  //PeriodField(h,v,"Период");
+  CheckBox(h,v+=20,0,"Акт/накладна клієнту",flags[0]);
+  CheckBox(h,v+=20,0,"Платіж клієнта",flags[1]);
+  CheckBox(h,v+=20,0,"Замовлення пост.",flags[2]);
+  CheckBox(h,v+=20,0,"Акт/накладна постачальника",flags[3]);
+  CheckBox(h,v+=20,0,"Платіж постачальнику",flags[4]);
+  CheckBox(h,v+=20,0,"Надходження",flags[5]);
+  CheckBox(h,v+=20,0,"Переміщення",flags[6]);
+  CheckBox(h,v+=20,0,"Повернення товарів від кл.",flags[7]);
+  CheckBox(h,v+=20,0,"Повернення товарів постач.",flags[8]);
+  CheckBox(h,v+=20,0,"Авансовий звіт",flags[9]);
+  CheckBox(h,v+=20,0,"Виплати персоналу",flags[10]);
+  
+  EndWindow;
+end;

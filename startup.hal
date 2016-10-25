@@ -136,6 +136,7 @@ begin
 	  Maintenance("Поставити Closed для Контактів(CARD) та Накопичувальних карт",MyVClass,SetClosedCUCARDAndLoyaltyCardMn,modDBMain); //Edit***************************Sasha2,15:15 10.02.2016
 	end;
 	Maintenance("Створити надходження в компанії",CreationPUsVClass,CreationPUsMn,modDBMain);	//Edit----------------------Dima  18.03.2016
+	Maintenance("Прибрати другу баз.валюту (UAH) в регістрах",RemoveSecondCurFromRegistersVClass,RemoveSecondCurFromRegistersMn,modDBMain); //Edit***************************Sasha2,16:44 24.10.2016
 	
 	Import("Импорт Item/Group",INITImportIClass,ImportNewItemsWithGroupIn,modIN); //Edit***************************Sasha2,15:52 21.01.2016
   
