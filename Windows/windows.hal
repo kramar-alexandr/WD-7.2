@@ -1886,7 +1886,9 @@ begin
   UseView(RcVc);
   v = 10; vs = 20; h = 120;
   //PeriodField(h,v,"Период");
-  CheckBox(h,v+=20,0,"Акт/накладна клієнту",flags[0]);
+  CheckBox(h,v+=20,0,"Прибрати другу базову валюту в курсах",flags[15]);
+
+  CheckBox(h,v+=40,0,"Акт/накладна клієнту",flags[0]);
   CheckBox(h,v+=20,0,"Платіж клієнта",flags[1]);
   CheckBox(h,v+=20,0,"Замовлення пост.",flags[2]);
   CheckBox(h,v+=20,0,"Акт/накладна постачальника",flags[3]);
@@ -1897,6 +1899,10 @@ begin
   CheckBox(h,v+=20,0,"Повернення товарів постач.",flags[8]);
   CheckBox(h,v+=20,0,"Авансовий звіт",flags[9]);
   CheckBox(h,v+=20,0,"Виплати персоналу",flags[10]);
+  CheckBox(h,v+=20,0,"Рахунки клієнтів",flags[11]);
+  CheckBox(h,v+=20,0,"Замовлення на обслуговування",flags[12]);
+  CheckBox(h,v+=20,0,"Таблиці робіт",flags[13]);
+  CheckBox(h,v+=20,0,"Записи операцій по таблицям робіт",flags[14]);
   
   EndWindow;
 end;

@@ -1,5 +1,6 @@
 external procedure ExtractObj(string,var Integer,var string);
 external function Boolean SetInSet2(string,string);
+external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -312,8 +313,37 @@ begin
   record StockMovVc StockMovr;
   record ExpVc Expr;
   record PPVc PPr;
+  
+  record ORVc ORr;
+  record SVOVc SVOr;
+  record WSVc WSr;
+  record WSIVVc WSIVr;
+  
+  record BaseCurBlock BCb;
+  record BaseERVc BaseERr;
+  record ERVc ERr;
+  val fr,to1,to2,br1,br2;
   boolean TrHs,testf;
   integer mtrw,i;
+  
+  if (RepSpec.flags[15]==1) then begin
+    blockload(BCb);
+    BCb.BaseCur2 = "";
+    BlockStore(BCb);
+    TrHs = true;
+    while (loopmain(BaseERr,1,TrHs)) begin
+      if (TrHs) then begin
+        recordnew(ERr);
+        ERr.CurncyCode = "UAH";
+        ERr.Date = BaseERr.Date;
+        ERr.FrRate = BaseERr.Rate2;
+        ERr.ToRate1 = BaseERr.Rate1;
+        recordStore(ERr,true);
+        RecordDelete(BaseERr);
+        StepBack(BaseERr);
+      end;  
+    end;
+  end;
 
   if (RepSpec.flags[0]==1) then begin
     TrHs = true;
@@ -546,6 +576,74 @@ begin
       end;
     end;
   end;
-
+  
+  if (RepSpec.flags[11]==1) then begin
+     TrHs = true;
+    while (loopmain(ORr,1,TrHs)) begin
+      if (TrHs) then begin
+        GetFullCurncyRate(ORr.CurncyCode,ORr.OrdDate,fr,to1,to2,br1,br2);
+        ORr.BaseRate1 = blankval;
+        ORr.BaseRate2 = blankval;
+        if (ORr.CurncyCode == "UAH") then begin
+          ORr.FrRate = to1;
+          ORr.ToRateB1 = fr;
+          ORr.ToRateB2 = blankval;
+          recordStore(ORr,true);
+        end;
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[12]==1) then begin
+    TrHs = true;
+    while (loopmain(SVOr,1,TrHs)) begin
+      if (TrHs) then begin
+        GetFullCurncyRate(SVOr.CurncyCode,SVOr.TransDate,fr,to1,to2,br1,br2);
+        SVOr.BaseRate1 = blankval;
+        SVOr.BaseRate2 = blankval;
+        if (SVOr.CurncyCode == "UAH") then begin
+          SVOr.FrRate = to1;
+          SVOr.ToRateB1 = fr;
+          SVOr.ToRateB2 = blankval;
+          recordStore(SVOr,true);
+        end;
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[13]==1) then begin
+    TrHs = true;
+    while (loopmain(WSr,1,TrHs)) begin
+      if (TrHs) then begin
+        GetFullCurncyRate(WSr.CurncyCode,WSr.TransDate,fr,to1,to2,br1,br2);
+        WSr.BaseRate1 = blankval;
+        WSr.BaseRate2 = blankval;
+        if (WSr.CurncyCode == "UAH") then begin
+          WSr.FrRate = to1;
+          WSr.ToRateB1 = fr;
+          WSr.ToRateB2 = blankval;
+          recordStore(WSr,true);
+        end;
+      end;
+    end;
+  end;
+  
+  if (RepSpec.flags[14]==1) then begin
+    TrHs = true;
+    while (loopmain(WSIVr,1,TrHs)) begin
+      if (TrHs) then begin
+        GetFullCurncyRate(WSIVr.CurncyCode,WSIVr.TransDate,fr,to1,to2,br1,br2);
+        WSIVr.BaseRate1 = blankval;
+        WSIVr.BaseRate2 = blankval;
+        if (WSIVr.CurncyCode == "UAH") then begin
+          WSIVr.FrRate = to1;
+          WSIVr.ToRateB1 = fr;
+          WSIVr.ToRateB2 = blankval;
+          recordStore(WSIVr,true);
+        end;
+      end;
+    end;
+  end;
+  
 return;
 end; //Edit***************************Sasha2,15:57 24.10.2016 }
