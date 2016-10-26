@@ -31,13 +31,34 @@ integer compnr;
         if(GetDateID(currentdate)==1)then begin
           repdate = addday(Currentdate,-3);
         end;
-
+				
+				
+				
+				
         RepSpec.sStartDate = repdate;
         RepSpec.sEndDate = currentdate;
+        
+        
+        if(compnr==4)then begin
+        	if(getday(Currentdate)>1)then begin
+						RepSpec.sStartDate = addday(Currentdate,-getday(Currentdate)+1);
+						RepSpec.sEndDate = CurrentDate;
+					end else begin
+						if(getmonth(Currentdate)==1)then begin
+							RepSpec.sStartDate = stringtodate("1/12/" & getyear(Currentdate)-1);
+							RepSpec.sEndDate = stringtodate("31/12/" & getyear(Currentdate)-1);
+						end else begin
+							RepSpec.sStartDate = stringtodate("1/" & getmonth(Currentdate)-1 & "/" & getyear(Currentdate));
+							RepSpec.sEndDate = addday(Currentdate,-1);
+						end;
+					end;
+        end;
+        
         RepSpec.flags[1] = 0;
         RepSpec.flags[2] = 1;
         switch(compnr)begin
         	case 2: RepSpec.f3 = "";//ITEK// Edit ************************** Monday, 29 February 2016 16:07:32
+        	case 4: RepSpec.f3 = "60";//ICENTER
           case 5: RepSpec.f3 = "24";//TXT
           case 7: RepSpec.f3 = "24";//tntm
         end;

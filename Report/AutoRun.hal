@@ -45,8 +45,8 @@ idistribuEsti = 11;
     BuhExportEn; //Edit***************************Sasha2,9:44 16.01.2015
     logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
-    logtext(0,currentcompany & " SaleWeekByVEEn"); 
-    SaleWeekByVEEn;
+    //logtext(0,currentcompany & " SaleWeekByVEEn"); 
+    //SaleWeekByVEEn;// Edit ************************** Thursday, 20 October 2016 13:51:14
   end;
   
   if (SetCompany(Gilliver,false)) then begin
@@ -59,8 +59,8 @@ idistribuEsti = 11;
     logtext(0,currentcompany & " DebitorkaReportEn");
     RetailSalesEn;// Edit ************************** Tuesday, 17 February 2015 09:55:38
     BuhExportEn; //Edit***************************Sasha2,9:44 16.01.2015
-    logtext(0,currentcompany & " SaleWeekByVEEn"); 
-    SaleWeekByVEEn;
+    //logtext(0,currentcompany & " SaleWeekByVEEn"); 
+    //SaleWeekByVEEn;
     logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
   end;
