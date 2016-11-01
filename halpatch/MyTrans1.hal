@@ -10,6 +10,7 @@ remote updating procedure CreateNewINiPoint(record INVc);
 remote updating procedure CreateNewINTNM(record INVc);
 remote updating procedure CreateNewINinSMG(record INVc);
 remote updating procedure SamsungSendFilesToFtpMn(record RcVc); //Edit***************************Sasha2,11:51 25.04.2016
+external updating procedure AutoRun();// Edit ************************** Tuesday, 1 November 2016 11:19:27
 
 	SetLangMode(LangUkrainian,"UKR",0);
 
@@ -26,7 +27,7 @@ begin
 
     t1 = StringToTime("22:50");
     t2 = StringToTime("23:00");
-    //t3 = StringToTime("12:00");
+    t3 = StringToTime("10:00");
     //t4 = StringToTime("14:00");
     //t5 = StringToTime("16:00");
     //t6 = StringToTime("18:00");
@@ -48,7 +49,10 @@ begin
 
     curcomp = CurrentCompany;
     
-    
+    if (curtnew==t3) then begin
+    	AutoRun;// Edit ************************** Tuesday, 1 November 2016 11:19:29
+    end;
+        
     min = getminute(CurrentTime);
     if(right(min,1)=="5" and currentdate>stringtodate("25/08/2016"))then begin
 			if (SetCompany(9,false)) then begin
@@ -58,6 +62,8 @@ begin
 				end;
 			end;
     end;
+    
+    
     
     if (curtnew>=t1 and curtnew<t2 and SetCompany(9,false)) then begin
 lCustTimeTableActionRun:;

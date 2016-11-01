@@ -903,6 +903,11 @@ BEGIN
 		res = true;// Edit ************************** Thursday, 3 September 2015 10:10:38
 	end;
   
+  
+  if(currentuser=="SA1")then begin
+  	res = true;
+  end;
+  
   StockMovDClassActiveEditField = res;
   RETURN;
 END;
