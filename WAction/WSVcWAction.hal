@@ -626,11 +626,11 @@ BEGIN
         case "PriceList": 
           res = UserCanAction("ChangePrices",true);
         case "Price": 
-          res = UserCanAction("ChangeUnitPrices",true);
+          //res = UserCanAction("ChangeUnitPrices",true);// Edit ************************** Wednesday, 2 November 2016 12:37:02
         case "vRebate": 
-          res = UserCanAction("ChangeUnitPrices",true);
+          //res = UserCanAction("ChangeUnitPrices",true);// Edit ************************** Wednesday, 2 November 2016 12:37:03
         case "Sum": 
-          res = UserCanAction("ChangeUnitPrices",true);      
+          //res = UserCanAction("ChangeUnitPrices",true); // Edit ************************** Wednesday, 2 November 2016 12:37:03     
       end;
       goto LWSDClassActiveEditField;
     end;
@@ -642,11 +642,11 @@ BEGIN
       case "PriceList": 
         res = UserCanAction("ChangePrices",true);
       case "Price": 
-        res = UserCanAction("ChangeUnitPrices",true);
+        //res = UserCanAction("ChangeUnitPrices",true);// Edit ************************** Wednesday, 2 November 2016 12:37:14
       case "vRebate": 
-        res = UserCanAction("ChangeUnitPrices",true);
+        //res = UserCanAction("ChangeUnitPrices",true);// Edit ************************** Wednesday, 2 November 2016 12:37:15
       case "Sum": 
-        res = UserCanAction("ChangeUnitPrices",true);      
+        //res = UserCanAction("ChangeUnitPrices",true);  // Edit ************************** Wednesday, 2 November 2016 12:37:15    
     end;
   end;
 LWSDClassActiveEditField:;  
