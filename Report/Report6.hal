@@ -354,7 +354,7 @@ integer compno;
               MyItemReportRn(RepSpec);
               RunProgram("Stock/iStoreStockFullManagers.sh", "");
               
-      case 10: RepSpec.f1 = "INV1_GL,INV1_GLST";
+      case 10: RepSpec.f1 = "INV#1,OFFICE";
               RepSpec.f2 = "RRP_T";
       				delete_file("Stock/GulliverStockFullManagers.xls");
       				CreateFile("Stock/GulliverStockFullManagers.xls");

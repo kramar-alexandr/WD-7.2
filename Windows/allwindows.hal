@@ -9964,3 +9964,25 @@ begin
   end;
   EndWindow;
 end;
+
+window LoyaltyCardDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,h3,v,vm,vs;
+  WindowBegin("Накопичувальна картка",LoyaltyCardDClass,CGview,-);
+  SetWRect(64,80,640,230);
+  UseView(LoyaltyCardVc);
+  ActiveFieldOnNew("CustCode");
+  v = 16; vs = 20; h = 120; h2 = 300; h3 = 440;
+  EditField(h,vm=v, 80,"№",St_i,SerNr,false,0);
+  EditField(h,v+=20,80, "Клієнт",Normal,CustCode,false,CUSClass);
+  EnterSkip(StartDate);
+  EditField(h2,v,-40, "Наймен.",Normal,CustName,false,0);
+  EditField(h,v+=20,70,"Дата початку",Normal,StartDate,false,PasteCurDate);
+  EditField(h2,v,70,"Дійсна до",Normal,ExpiryDate,false,PasteCurDate);
+  EditField(h,v+=20,80,"Програма лояльності",Normal,LCMLevel,false,LCMemberLevelSClass);
+  EditField(h2,v,70,"Балів",Normal,PointsBalance,true,0);
+  EditField(h3,v,-40,"Балів до",Normal,PointsTo,false,LoyaltyCardSClass);
+  CheckBox(h,v+=20,0,"Закрита",Closed);
+  EndWindow;
+end;

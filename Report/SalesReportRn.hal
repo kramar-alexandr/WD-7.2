@@ -942,7 +942,7 @@ begin
 			    end;
 			    if(!findf)then begin
 						com = "Simple IV NOHIST ";
-						
+						serial[ressize] = IVrw.SerialNr;
 						if(currentcompany==8)then begin
 							if(left(INr.LastPurchCurncyCode,3)=="UAH")then begin
 								if(INr.LastPurchPrice2/IVrw.BasePrice>7)then begin

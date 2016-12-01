@@ -110,7 +110,14 @@ begin
 
   Maintenance("Conver 2 base cur to 1",MyVClass,RecalcRegisters2CurValMn,modDBMain);  //Edit**********Dima, 28.01.2014
   Maintenance("Fix FB",MyVClass,FixFBVcMn,modDBMain);  //Edit**********Dima, 28.01.2014
-
+  
+  Maintenance("Поновити синх. цін",UpdPLSyncVClass,UpdateSyncPricesMn,modDI); 
+  Maintenance("Поновити синх. сер.ном.",UpdSerSyncVClass,UpdateSerialsPricesMn,modDI); 
+  Maintenance("Поновити синх. товарів",UpdINSyncVClass,UpdateSyncItemsMn,modDI);  
+  
+  Maintenance("Поновити синх. цін",UpdPLSyncVClass,UpdateSyncPricesMn,modPOS); 
+  Maintenance("Поновити синх. сер.ном.",UpdSerSyncVClass,UpdateSerialsPricesMn,modPOS);
+	Maintenance("Поновити синх. товарів",UpdINSyncVClass,UpdateSyncItemsMn,modPOS); 
 
 	Maintenance("Файли для Samsung FTP",SamsungSendFilesByMailEXCELVClass,SamsungSendFilesToFtpMn,modIN); //to delete
 	Maintenance("Перенос начального сальдо по объектам",ObjInitBalVClass,ObjInitBalMn,modNL);// Edit ************************** Friday, 4 March 2016 16:57:53
@@ -245,6 +252,7 @@ begin
 	SString(31083,"Код товару або виробника не відповідає Samsung");
 	
 	SString(31084,"Перевірте нову групу в записах таблиць знижок та прейскурантів");
+	SString(31085,"Не складируемый товар с серийным номером!");
 
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */

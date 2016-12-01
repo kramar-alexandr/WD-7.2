@@ -647,3 +647,58 @@ begin
   
 return;
 end; //Edit***************************Sasha2,15:57 24.10.2016 }
+
+
+
+global updating procedure UpdateSyncPricesMn()
+begin
+	record PLVc PLr,oldPLr;
+	string 200 comment;
+	
+	while(loopmain(PLr,1,true))begin
+		comment = PLr.Comment;
+		recordcopy(oldPLr,PLr);
+			PLr.Comment = PLr.Comment & " ";
+		recordUpdate(oldPLr,PLr,true);
+		PLr.Comment = comment;
+		recordStore(PLr,true);
+	end;
+
+return;
+end;
+
+global updating procedure UpdateSerialsPricesMn()
+begin
+	record SerBalVc SBr,oldSBr;
+	val quant;
+	
+	while(loopmain(SBr,1,true))begin
+		if(SBr.Quant>0)then begin
+			quant = SBr.Quant;
+			recordcopy(oldSBr,SBr);
+				SBr.Quant = SBr.Quant + 1;
+			recordUpdate(oldSBr,SBr,true);
+			SBr.Quant = quant;
+			recordStore(SBr,true);
+		end;
+	end;
+
+return;
+end;
+
+global updating procedure UpdateSyncItemsMn()
+begin
+	record INVc INr,oldINr;
+	string 200 comment;
+	
+	while(loopmain(INr,1,true))begin
+		comment = INr.Name;
+		recordcopy(oldINr,INr);
+			INr.Name = INr.Name & " ";
+		recordUpdate(oldINr,INr,true);
+		INr.Name = comment;
+		recordStore(INr,true);
+	end;
+
+return;
+end;

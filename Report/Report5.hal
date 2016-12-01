@@ -1,12 +1,13 @@
 external function val GetStockQty(string,string,Date,Boolean);
 external function LongInt DateDiff(Date,Date);
 external function roundmode SetRoundModeD(Integer);
+external procedure ExtractObj(string,var Integer,var string);
 
 // Аналіз оборотності товарів
 
 SetLangMode(LangUkrainian,"UKR",0);
 
-global procedure FindCostAndQty(record INVc INr,record LocalMachineAccBlock LMAb,date sd,date ed,var val qty,var val eqty,var val cost,var val ecost,var val midcost,var val midqty,string location,var val turncost, var val turnqty)
+global procedure FindCostAndQty(record INVc INr,record LocalMachineAccBlock LMAb,date sd,date ed,var val qty,var val eqty,var val cost,var val ecost,var val midcost,var val midqty,string location,var val turncost, var val turnqty, var val toserv,var val puqty)
 begin
 	record ItemHistVc IHr;
 	string 100 key;
@@ -18,9 +19,13 @@ begin
 	boolean half1,half2;
 	integer difdat,mtrw,i;
 	row LocalMachineAccBlock LMArw;
+	val totincost,totinqty;
+	record StockMovVc SMr;
 	
 	mtrw = matrowcnt(LMAb);
-	
+
+	puqty = 0;
+	toserv = 0;
 	qty = 0;
 	cost = 0;
 	eqty = 0;
@@ -106,6 +111,17 @@ begin
 												end;*/
 					case "WSVc": 	turnqty = turnqty - IHr.Qty;
 												turncost = turncost - IHr.TotCostPrice * s;
+					case "StockMovVc": SMr.SerNr = IHr.TransNr;
+															if(readfirstmain(SMr,1,true))then begin
+																if(left(SMr.ToLocation,3)=="SRV")then begin
+																	toserv = toserv - IHr.Qty;
+																end;
+															end;	
+															if(IHr.Qty>0 and SMr.FrLocation=="TRWH")then begin
+																puqty = puqty + IHr.Qty;
+															end;
+					case "PUVc": puqty = puqty + IHr.Qty;
+					case "RetPUVc": puqty = puqty + IHr.Qty;
 				end;
 			end;
 		end;
@@ -131,18 +147,22 @@ begin
 	record INVc INr;
 	record ITVc ITr;
 	date sd,ed;
-	val qty,cost,eqty,ecost,midcost,midqty,turncost,turnqty;
-	string 50 location,group,artcode;
+	val qty,cost,eqty,ecost,midcost,midqty,turncost,turnqty,toserv,puqty;
+	string 50 location,group,artcode,loc;
 	record LocalMachineAccBlock LMAb;
 	string 10 key;
 	integer kynum;
 	boolean TrHs,testf;
 	record LocationVc Locr;
+	integer pos;
 	
 	blockload(LMAb);
 	
 	sd = RepSpec.sStartDate;
 	ed = RepSpec.sEndDate;
+	if(ed>currentdate)then begin
+		ed = currentdate;
+	end;
 	location = RepSpec.f3;
 	group = RepSpec.f2;
 	artcode = RepSpec.f1;
@@ -162,12 +182,18 @@ begin
 		outstring(0,0,"Група",false);
 		outstring(0,0,"Артикул",false);
 		outstring(70,0,"Найменування",false);
+		outstring(70,0,"Середня собівартість",false);
+		outstring(70,0,"Переміщення на сервіс",false);
+		outstring(70,0,"Залишок на початок періоду",false);
+		outstring(70,0,"Надходження в заданий період",false);
+		
 		outstring(140,0,"Товарообіг ($)",false);
 		outstring(210,0,"Товарообіг (шт.)",false);
-		outstring(1,0,"Залишки на кiнець перiоду ($)",true);
+		//outstring(1,0,"Залишки на кiнець перiоду ($)",true);
 		outstring(1,0,"Залишки на кiнець перiоду (шт.)",true);
-		outstring(280,0,"Середній запас ($)",false);
+		//outstring(280,0,"Середній запас ($)",false);
 		outstring(350,0,"Середній запас (шт.)",false);
+		outstring(350,0,"Середній запас (шт.)30дн.",false);
 		outstring(420,0,"Оборотність (днів)",false);
 		outstring(480,0,"Оборотність (раз)",false);
 		outstring(1,0,"Рівень запасів товару (днів)",true);
@@ -201,22 +227,35 @@ begin
 			if(nonblank(group) and INr.Group!=group and key=="Group")then begin TrHs=false; testf=false; end;
 		
 			if(testf)then begin
-				FindCostAndQty(INr,LMAb,sd,ed,qty,eqty,cost,ecost,midcost,midqty,location,turncost,turnqty);
-				startformat(15);
-					outstring(0,0,INr.Group,false);
-					outstring(0,0,INr.Code,false);
-					outstring(70,0,INr.Name,false);
-					OutVal(140,0,round(turncost,SetRoundModeD(3)),M4Val,false);
-					OutVal(210,0,round(turnqty,SetRoundModeD(3)),M4Val,false);
-					OutVal(1,0,round(ecost,SetRoundModeD(3)),M4Val,false);
-					OutVal(1,0,round(eqty,SetRoundModeD(3)),M4Val,false);
-					OutVal(280,0,round(midcost,SetRoundModeD(3)),M4Val,false);
-					OutVal(350,0,round(midqty,SetRoundModeD(3)),M4Val,false);
-					OutVal(420,0,round(midcost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
-					OutVal(480,0,round(midqty/turnqty,SetRoundModeD(3)),M4Val,false);
-					OutVal(1,0,round(ecost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
-					outstring(1,0,location,false);
-				endformat;
+				pos = 0;
+				loc = "";
+				ExtractObj(location,pos,loc);
+				while(nonblank(loc))begin
+					if(nonblank(loc))then begin
+						FindCostAndQty(INr,LMAb,sd,ed,qty,eqty,cost,ecost,midcost,midqty,loc,turncost,turnqty,toserv,puqty);
+						startformat(15);
+							outstring(0,0,INr.Group,false);
+							outstring(0,0,INr.Code,false);
+							outstring(70,0,INr.Name,false);
+							OutVal(70,0,ecost/eqty,M4Val,false);
+							OutVal(70,0,toserv,M4Val,false);
+							OutVal(70,0,qty,M4Val,false);
+							OutVal(70,0,puqty,M4Val,false);
+							OutVal(140,0,round(turncost,SetRoundModeD(3)),M4Val,false);
+							OutVal(210,0,round(turnqty,SetRoundModeD(3)),M4Val,false);
+							//OutVal(1,0,round(ecost,SetRoundModeD(3)),M4Val,false);
+							OutVal(1,0,round(eqty,SetRoundModeD(3)),M4Val,false);
+							//OutVal(280,0,round(midcost,SetRoundModeD(3)),M4Val,false);
+							OutVal(350,0,round(midqty,SetRoundModeD(3)),M4Val,false);
+							OutVal(350,0,round(midqty*30,SetRoundModeD(0)),M4Val,false);
+							OutVal(420,0,round(midcost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
+							OutVal(480,0,round(midqty/turnqty,SetRoundModeD(3)),M4Val,false);
+							OutVal(1,0,round(ecost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
+							outstring(1,0,loc,false);
+						endformat;
+					end;
+					ExtractObj(location,pos,loc);
+				end;
 			end;
 		end;
 		resetloop(INr);
@@ -246,17 +285,22 @@ begin
 			
 			if(testf)then begin
 				location = "";
-				FindCostAndQty(INr,LMAb,sd,ed,qty,eqty,cost,ecost,midcost,midqty,location,turncost,turnqty);
+				FindCostAndQty(INr,LMAb,sd,ed,qty,eqty,cost,ecost,midcost,midqty,location,turncost,turnqty,toserv,puqty);
 				startformat(15);
 					outstring(0,0,INr.Group,false);
 					outstring(0,0,INr.Code,false);
 					outstring(70,0,INr.Name,false);
+					OutVal(70,0,ecost/eqty,M4Val,false);
+					OutVal(70,0,toserv,M4Val,false);
+					OutVal(70,0,qty,M4Val,false);
+					OutVal(70,0,puqty,M4Val,false);
 					OutVal(140,0,round(turncost,SetRoundModeD(3)),M4Val,false);
 					OutVal(210,0,round(turnqty,SetRoundModeD(3)),M4Val,false);
-					OutVal(1,0,round(ecost,SetRoundModeD(3)),M4Val,false);
+					//OutVal(1,0,round(ecost,SetRoundModeD(3)),M4Val,false);
 					OutVal(1,0,round(eqty,SetRoundModeD(3)),M4Val,false);
-					OutVal(280,0,round(midcost,SetRoundModeD(3)),M4Val,false);
+					//OutVal(280,0,round(midcost,SetRoundModeD(3)),M4Val,false);
 					OutVal(350,0,round(midqty,SetRoundModeD(3)),M4Val,false);
+					OutVal(350,0,round(midqty*30,SetRoundModeD(0)),M4Val,false);
 					OutVal(420,0,round(midcost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
 					OutVal(480,0,round(midqty/turnqty,SetRoundModeD(3)),M4Val,false);
 					OutVal(1,0,round(ecost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
@@ -265,18 +309,23 @@ begin
 				Locr.Code = "";
 				while(loopmain(Locr,1,true))begin
 					location = Locr.Code;
-					FindCostAndQty(INr,LMAb,sd,ed,qty,eqty,cost,ecost,midcost,midqty,location,turncost,turnqty);
+					FindCostAndQty(INr,LMAb,sd,ed,qty,eqty,cost,ecost,midcost,midqty,location,turncost,turnqty,toserv,puqty);
 					if(turncost!=0 or turnqty!=0 or midcost!=0 or midqty!=0 or ecost!=0)then begin
 						startformat(15);
 							outstring(0,0,INr.Group,false);
 							outstring(0,0,INr.Code,false);
 							outstring(70,0,INr.Name,false);
+							OutVal(70,0,ecost/eqty,M4Val,false);
+							OutVal(70,0,toserv,M4Val,false);
+							OutVal(70,0,qty,M4Val,false);
+							OutVal(70,0,puqty,M4Val,false);
 							OutVal(140,0,round(turncost,SetRoundModeD(3)),M4Val,false);
 							OutVal(210,0,round(turnqty,SetRoundModeD(3)),M4Val,false);
-							OutVal(1,0,round(ecost,SetRoundModeD(3)),M4Val,false);
+							//OutVal(1,0,round(ecost,SetRoundModeD(3)),M4Val,false);
 							OutVal(1,0,round(eqty,SetRoundModeD(3)),M4Val,false);
-							OutVal(280,0,round(midcost,SetRoundModeD(3)),M4Val,false);
+							//OutVal(280,0,round(midcost,SetRoundModeD(3)),M4Val,false);
 							OutVal(350,0,round(midqty,SetRoundModeD(3)),M4Val,false);
+							OutVal(350,0,round(midqty*30,SetRoundModeD(0)),M4Val,false);
 							OutVal(420,0,round(midcost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
 							OutVal(480,0,round(midqty/turnqty,SetRoundModeD(3)),M4Val,false);
 							OutVal(1,0,round(ecost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);

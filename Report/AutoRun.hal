@@ -157,7 +157,7 @@ idistribuEsti = 11;
   end;
   
   if (SetCompany(Textera,false)) then begin//textera
-  	logtext(0,currentcompany & " FullStockEn");
+  	/*logtext(0,currentcompany & " FullStockEn");
     FullStockEn;
     logtext(0,currentcompany & " FullStockTRWH2En"); //Edit***************************Sasha2,11:40 22.09.2014
     FullStockTRWH2En; //Edit***************************Sasha2,11:40 22.09.2014
@@ -177,7 +177,7 @@ idistribuEsti = 11;
     SalesReportEn;
     logtext(0,currentcompany & " SalesReportForManagersEn");
     SalesReportForManagersEn;
-    ResetCompany(Textera);  
+    ResetCompany(Textera);  */
   end;
   
   

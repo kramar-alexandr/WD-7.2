@@ -329,10 +329,10 @@ BEGIN
   row TRVc TRrw;// Edit ************************** Thursday, 15 October 2015 18:11:40
 	
 	
-	/*if(currentuser=="SA")then begin
+	if(currentuser=="SA1")then begin
 		res = 0;
 		goto L999;
-	end;*/
+	end;
   if (long4==3) then begin TouchScreenFinishButtonf = true; end;
   res = 0;
   curcomp = CurrentCompany;    
@@ -507,6 +507,46 @@ BEGIN
     end;
   end;
   rwcnt = MatRowCnt(IVp);
+  // Edit Start ---------------------------------------------- Edit Start
+	//Wednesday, 23 November 2016 10:43:47
+	if(stat==insertmode and IVp.OKFlag==1)then begin
+		if(IVp.UpdStockFlag==1)then begin
+			For(i=0;i<rwcnt;i=i+1) begin
+				matrowget(IVp,i,IVrw);
+				if(IVrw.stp==1 and nonblank(IVrw.ArtCode))then begin
+					INr.Code = IVrw.ArtCode;
+					if(readfirstmain(INr,1,true))then begin
+						if(INr.ItemType!=1 and nonblank(IVrw.SerialNr))then begin
+							RecordCheckError(31085,"",i,"SerialNr");
+							res = -1;
+							goto L99;
+						end;
+					end;
+				end;
+			end; 
+		end;
+	end;
+	
+	if(stat==updatemode)then begin
+		if(IVp.OKFlag==1 and IV2p.OKFlag==0 and IVp.UpdStockFlag==1)then begin
+			For(i=0;i<rwcnt;i=i+1) begin
+				matrowget(IVp,i,IVrw);
+				if(IVrw.stp==1 and nonblank(IVrw.ArtCode))then begin
+					INr.Code = IVrw.ArtCode;
+					if(readfirstmain(INr,1,true))then begin
+						if(INr.ItemType!=1 and nonblank(IVrw.SerialNr))then begin
+							RecordCheckError(31085,"",i,"SerialNr");
+							res = -1;
+							goto L99;
+						end;
+					end;
+				end;
+			end; 
+		end;
+	end;
+  
+	// Edit End ---------------------------------------------- Edit End
+	
   if ((IVp.OKFlag!=0 or TouchScreenFinishButtonf) and ((rwcnt==0) or (blank(IVp.Sum4)))) then begin
     RecordCheckError(1030,"",0,"ArtCode");      
     res = -1;
