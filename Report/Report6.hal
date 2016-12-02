@@ -1,5 +1,5 @@
 external procedure ExtractObj(string,var Integer,var string);
-
+external function LongInt CountWorkingDays(Date,Date,string,string);// Edit ************************** Friday, 2 December 2016 10:19:42
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -750,5 +750,53 @@ startreportnoheaderjob("ErrorFix");
 
 endjob;
 
+return;
+end;
+
+
+global procedure FuturePaymentVERn(record RcVc RepSpec)
+begin
+	record VIVc VIr;
+	record APVc APr;
+	boolean TrHs,testf;
+	
+	startreportnoheaderjob("Звіт по майбутнім платежам постачальникам");
+	
+		startformat(15);
+			outstring(0,0,"Код постачальника",false);
+			outstring(50,0,"Назва",false);
+			outstring(100,0,"№ акта",false);
+			outstring(150,0,"Дата акта",false);
+			outstring(200,0,"Дата сплати",false);
+			outstring(250,0,"Заборгованість",false);
+			outstring(300,0,"Валюта",false);
+		endformat;
+	
+	
+		APr.DueDate = currentdate;
+		TrHs = true;
+		while(loopkey("DueDate",APr,1,TrHs))begin
+			testf = true;
+			if(CountWorkingDays(currentdate,APr.DueDate,"","UA")>RepSpec.flags[0])then begin testf = false; end;
+		
+			if(testf)then begin
+				VIr.SerNr = APr.SerNr;
+				if(readfirstmain(VIr,1,true))then begin
+					startformat(15);
+						outstring(0,0,VIr.VECode,false);
+						outstring(50,0,VIr.VEName,false);
+						outstring(100,0,VIr.SerNr,false);
+						outdate(150,0,VIr.TransDate,false);
+						outdate(200,0,VIr.DueDate,false);
+						outval(250,0,APr.BookRVal,M4Val,false);
+						outstring(300,0,APr.CurncyCode,false);
+					endformat;
+				end;
+			end;
+		
+		end;
+	
+	endjob;
+	
 return;
 end;

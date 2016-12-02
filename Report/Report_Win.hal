@@ -379,5 +379,14 @@ begin
     SetWRect(20,120,350,300);
     EditField(h,20,150,"Кількість днів",Normal,flags[1],false,0);
   EndWindow;
+  
+  v=20;
+  WindowBegin("Звіт по майбутнім платежам постачальникам",FuturePaymentVERClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    EditField(h,v,150,"Днів",Normal,flags[0],false,0);
+    //EditField(h,60,150,"Група",Normal,f2,false,ITSClass);
+    //EditField(h,80,150,"Склад",Normal,f3,false,LocationSClass);
+  EndWindow;
+  
   return;
   end;

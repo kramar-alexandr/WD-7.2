@@ -890,6 +890,7 @@ begin
   UseView(APVc);
   vs = 20; h=50; h1=100; h2=220;
   EditField(h=80,v=10, 70, "InvoiceNr",Normal,InvoiceNr,false,0);
+  EditField(h,v+=20, 82, "SerNr",Normal,SerNr,false,0);
   EditField(h,v+=20, 82, "Date",Normal,DueDate,false,0);
   EditField(h,v+=20, 82, "RVal",Normal,RVal,false,0);
   EditField(h,v+=20, 82, "VECode",Normal,VECode,false,0);
@@ -913,6 +914,7 @@ begin
   UseView(APVc);
   RecordList(4,17,-21,-39);
   RlColKey(4,4,"Номер",InvoiceNr,false,InvoiceNr); 
+  RlColKey(40,40,"SerNr",SerNr,false,SerNr); 
   RlColKey(111,111,"Дата сч/ф",DueDate,false,DueDate); 
   RlColKey(220,200,"Клиент",VEName,false,VEName); 
   SearchField("Поиск"); 
