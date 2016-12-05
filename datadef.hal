@@ -4291,5 +4291,27 @@ EndRecord;
     KeySegment(TransDate);
     KeySegment(SerNr);
   EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
+  
+  RecordBegin(AvailableItemVc,-,""); //Edit***************************Sasha2,11:15 04.05.2016 {
+    RecordField(SerNr,M4Long,0,0);
+    RecordField(SupplyDate,M4Date,0,0);
+    RecordField(Vendor,M4Code,20,0);
+    RecordField(ArtCode,M4Code,20,INVc);
+    RecordField(Location,M4Code,20,0);
+    RecordField(SerialNr,M4Str,60,0);
+    RecordField(Quant,M4UVal,0,0);
+    RecordField(TotCost,M4Val,0,0);
+    RecordField(CurncyCode,M4Code,20,0);
+    RecordField(FrRate,M4Rate,0,0); 
+    RecordField(ToRateB1,M4Rate,0,0);
+    RecordField(BaseCur,M4Code,20,0);
+    MainKeyBegin(SerNr,0);
+    KeySegment(SerNr);
+    KeyBegin(Vendor);
+    KeySegment(Vendor);
+    KeySegment(CurncyCode);
+    KeySegment(FrRate);
+  EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
+  
 return;
 end;

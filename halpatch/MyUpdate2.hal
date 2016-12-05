@@ -1,6 +1,12 @@
 external procedure ExtractObj(string,var Integer,var string);
 external function Boolean SetInSet2(string,string);
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
+external function Boolean PUVc_PasteArtCode(var record PUVc,Integer,var string,var string);
+external function Integer PUVc_PasteQuant(var record PUVc,Integer);
+external procedure PUDClassSumEFAfterRemote(var record PUVc,Integer);
+external function Integer PUVc_PasteSerialNr(record PUVc,Integer);
+external procedure PUVc_PasteLocation(var record PUVc,Integer);
+external function Boolean PUVc_PasteVECode(var record PUVc);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -702,3 +708,857 @@ begin
 
 return;
 end;
+
+//Edit***************************Sasha2,13:30 29.11.2016 {
+updating procedure TransferBlocks_FirstSet(record RcVc RepSpec,Integer sourceComp,Integer targetComp)
+begin
+  //Фінанси
+  record TRGenBlock TRGenBl;//Записи з підсистем
+  record VATCodeBlock VATCodeBl;//Коди ПДВ
+  record SLAccBlock SLAccBl;//Контроль рахунків підсистем
+  record OTCheckBlock OTCheckBl;//Контроль типів об'єктів
+  record CYBlock CYBl;//Настройки записів операцій (Представлення сальдо)
+  record ReconBlock ReconBl;//Настройки звірок
+  record NLRateBlock NLRateBl;//Облік курсових різниць
+  record TaxTemplateBlock TaxTemplateBl;//ПДВ код по рядках операцій
+  record TRSerBlock TRSerBl;//Серії номерів - Записи операцій
+  record SMSerBlock SMSerBl;//Серії номерів - Симуляції
+  record YearBlock YearBl;//Фінансові роки
+    //Необоротні активи
+  record AT2DispGroupBlock AT2DispGroupBl;//Групи відображення - Активи
+  record AC2Block AC2Bl;//Класи активів
+  record AT2AccBlock AT2AccBl;//Настройка записів - активи
+  record AT2WrofSerBlock AT2WrofSerBl;//Серії номерів - Вибуття активів
+  record AT2DprSerBlock AT2DprSerBl;//Серії номерів - Переоцінка
+  record AT2TakeSerBlock AT2TakeSerBl;//Серії номерів - Статус активів
+  record AT2RevSerBlock AT2RevSerBl;//Серії номерів - Коефіцієнти переоцінки
+    //Підзвітні особи
+  record ExpTBlock ExpTBl;//Настройка авансових звітів
+  record DABlock DABl;//Настройки добових
+  record WLSettingsBlock WLSettingsBl;//Настройки дорожньго листа
+  record DASerBlock DASerBl;//Серії номерів - Добові
+  record ExpSerBlock ExpSerBl;//Серії номерів - Авансові звіти
+  record PPersSerBlock PPersSerBl;//Серії номерів - Виплати
+  record WayListSerBlock WayListSerBl;//Серії номерів - Подорожні листи
+  record WLPetroilBlock WLPetroilBl;//Типи палива
+    //Каса/Кассовая книга
+  record MainCLBlock MainCLBl;//Настройки каси
+  record LegalCLInNrBlock LegalCLInNrBl;//Номери прибуткових касових ордерів
+  record CLInSerBlock CLInSerBl;//Серії номерів - Надходження
+  record CLOutSerBlock CLOutSerBl;//Серії номерів - Видачі
+  record ForexTRSerBlock ForexTRSerBl;//Серії номерів - Операції Forex
+  record PMBlock PMBl;//Способи сплати
+    //ЕККА/Кассовый терминал
+  record VolumBarcodeBlock VolumBarcodeBl;//Динамічні штрих-коди
+  record POSCommandsBlock POSCommandsBl;//Команди ЕККА
+  record SupervisorBlock SupervisorBl;//Контролери
+  record GCBlock GCBl;//Настройка подарункового сертифікату
+  record CashierDefBlock CashierDefBl;//Настройки ЕККА
+  record DeferCCBlock DeferCCBl;//Настройки правила відкладених операцій з кредитними картками
+  record NPTSNewCUFieldsBlock NPTSNewCUFieldsBl;//Поля для створення нового клієнта
+  record DefCCTransBlock DefCCTransBl;//Правила відкладених операцій з кредитними картками
+  record LocalMachineAccBlock LocalMachineAccBl;//Рахунки продавців
+  record CashSerBlock CashSerBl;//Серії номерів - події каси
+  record CouponSerBlock CouponSerBl;//Серії номерів - купони
+  record DefCCTransSerBlock DefCCTransSerBl;//Серії номерів - відкладені операції з кредитними картками
+  record GiftReceiptSerBlock GiftReceiptSerBl;//Серії номерів - подарункові чеки
+  record GCSerBlock GCSerBl;//Серії номерів - подарункові ваучери
+  record GCRSerBlock GCRSerBl;//Серії номерів - подарункові ваучери отримані
+  record POSBalanceSerBlock POSBalanceSerBl;//Серії номерів - баланси ЕККА
+  record IVCashSerBlock IVCashSerBl;//Серії номерів - накладні ЕККА
+  record POSEventSerBlock POSEventSerBl;//Серії номерів - сесії ЕККА
+  record DefCashBlock DefCashBl;//Способи оплати за замовчуванням
+  record RestPMBlock RestPMBl;//Способи сплати локальної машини
+  record LCMLevelSetBlock LCMLevelSetBl;//Структура програми лояльності накопичув. картки
+  record CashPrintBlock CashPrintBl;//Тексти для касових принтерів
+  record RahaxiBlock RahaxiBl;//Термінал локальної кред. картки
+    //Розрахунки з постачальниками
+  record ECInSetBlock ECInSetBl;//Eurocard настройки імпорту
+  record IntrastatVIBlock IntrastatVIBl;//Intrastat Purchase
+  record BankFileBlock BankFileBl;//Банківські перекази
+  record VATVITypeBlock VATVITypeBl;//Види документів, под. накл. отримані
+  record APAccBlock APAccBl;//Настройка записів
+  record OPTBlock OPTBl;//Настройка платежів
+  record VITBlock VITBl;//Настройки актів/накл. постачальників
+  record VATBlock VATBl;//Рахунки ПДВ
+  record VISerBlock VISerBl;//Серії номерів - Акти/накл. постачальників
+  record VATVISerBlock VATVISerBl;//Серії номерів - Корекції ПДВ (придбання)
+  record OPSerBlock OPSerBl;//Серії номерів - Платежі постачальникам
+  record FEVISerBlock FEVISerBl;//Серії номерів - Податкові накл. (кр)
+  record WHTaxBlock WHTaxBl;//Утримання
+    //Розразунки з клієнтами
+  //record GCRSerBlock GCRSerBl;//Number Series - Подарункові ваучери отримані
+  record VATIVTypeBlock VATIVTypeBl;//Види документів, под. накл. видані
+  record FactoringBlock FactoringBl;//Експорт факторингу
+  record TaxAuthIDBlock TaxAuthIDBl;//Ідент.номер
+  record CreditLimitBlock CreditLimitBl;//Ліміт кредиту
+  record AccBlock AccBl;//Настройка записів
+  //record GCBlock GCBl;//Настройка подарункового ваучера
+  record IVTBlock IVTBl;//Настройки актів/накладних
+  record CustomerSettingBlock CustomerSettingBl;//Настройки клієнтів
+  record IVMailBlock IVMailBl;//Настройки листів накладних
+  record IPTBlock IPTBl;//Настройки платежа клієнта
+  record VATIVTBlock VATIVTBl;//Настройки податкових накладних
+  record PDSalesAccBlock PDSalesAccBl;//Настройки рахунку продажу умов сплати
+  record ItemStatusSettBlock ItemStatusSettBl;//Настройки статусу товару
+  record ItemSettingBlock ItemSettingBl;//Настройки товарів
+  record LegalInvNrBlock LegalInvNrBl;//Номери офіційних актів/накладних
+  record IVOfficialSerBlock IVOfficialSerBl;//Офіційні номери актів/накл.
+  record RegDefBlock RegDefBl;//Параметри реєстрації стандартно
+  record VATZoneLabelBlock VATZoneLabelBl;//ПДВ
+  record IIBlock IIBl;//Пеня
+  record AgedBlock AgedBl;//Періоди заборгованості
+  record RepaBlock RepaBl;//Податок
+  record FreightWeightBlock FreightWeightBl;//Розрахунок по вазі/фрахту
+  record IVSerBlock IVSerBl;//Серії номерів - Акти/накладні
+  record IntIVSerBlock IntIVSerBl;//Серії номерів - Внутрішні акти/накл.
+  record CUSerBlock CUSerBl;//Серії номерів - Контакти
+  record IPSerBlock IPSerBl;//Серії номерів - Платежі клієнтів
+  record FEIVSerBlock FEIVSerBl;//Серії номерів - Податкові накл. (зв.)
+  record VATIVSerBlock VATIVSerBl;//Серії номерів - Податкові накладні видані
+  record CUDocTypeBlock CUDocTypeBl;//Типи контактних документів
+  record FreightBlock FreightBl;//Фрахт
+  record EInvoiceLayoutBlock EInvoiceLayoutBl;//Шаблон ел. накладних
+    //Замовлення постачальникам
+  record PriceRangeBlock PriceRangeBl;//Діапазон цін
+  record IntORSettingBlock IntORSettingBl;//Настройки внутрішніх замовлень
+  record POSettingBlock POSettingBl;//Настройки замовлень постачальникам
+  record POMailBlock POMailBl;//Пошта по замовленням постачальникам
+  record IntORSerBlock IntORSerBl;//Серії номерів - Внутрішні замовлення
+  record POCQStatSerBlock POCQStatSerBl;//Серії номерів - Процеси по замовленням постачальникам
+  record POQTSerBlock POQTSerBl;//Серії номерів - Пропозиції по зам. постач.
+  record POSerBlock POSerBl;//Серії номерів - Замовлення постачальникам
+    //Рахунки клієнтам
+  record DownPayBlock DownPayBl;//Авансові платежі
+  record FunctionsOnWebBlock FunctionsOnWebBl;//Доступ до функций через Web
+  record PlanDeliveryBlock PlanDeliveryBl;//Заплановане відвантаження
+  record OrdSettBlock OrdSettBl;//Настройки замовлень
+  record StockReservBlock StockReservBl;//Настройки резервування складу
+  record WebSyncBlock WebSyncBl;//Настройки синхронізації з WEB
+  record ORSerBlock ORSerBl;//Серії номерів - Рахунки клієнтам
+  
+    if (SetCompany(sourceComp,false)) then begin
+        BlockLoad(TRGenBl);
+        BlockLoad(VATCodeBl);
+        BlockLoad(SLAccBl);
+        BlockLoad(OTCheckBl);
+        BlockLoad(CYBl);
+        BlockLoad(ReconBl);
+        BlockLoad(NLRateBl);
+        BlockLoad(TaxTemplateBl);
+        BlockLoad(TRSerBl);
+        BlockLoad(SMSerBl);
+        BlockLoad(YearBl);
+        BlockLoad(AT2DispGroupBl);
+        BlockLoad(AC2Bl);
+        BlockLoad(AT2AccBl);
+        BlockLoad(AT2WrofSerBl);
+        BlockLoad(AT2DprSerBl);
+        BlockLoad(AT2TakeSerBl);
+        BlockLoad(AT2RevSerBl);
+        BlockLoad(ExpTBl);
+        BlockLoad(DABl);
+        BlockLoad(WLSettingsBl);
+        BlockLoad(DASerBl);
+        BlockLoad(ExpSerBl);
+        BlockLoad(PPersSerBl);
+        BlockLoad(WayListSerBl);
+        BlockLoad(WLPetroilBl);
+        BlockLoad(MainCLBl);
+        BlockLoad(LegalCLInNrBl);
+        BlockLoad(CLInSerBl);
+        BlockLoad(CLOutSerBl);
+        BlockLoad(ForexTRSerBl);
+        BlockLoad(PMBl);
+        BlockLoad(VolumBarcodeBl);
+        BlockLoad(POSCommandsBl);
+        BlockLoad(SupervisorBl);
+        BlockLoad(GCBl);
+        BlockLoad(CashierDefBl);
+        BlockLoad(DeferCCBl);
+        BlockLoad(NPTSNewCUFieldsBl);
+        BlockLoad(DefCCTransBl);
+        BlockLoad(LocalMachineAccBl);
+        BlockLoad(CashSerBl);
+        BlockLoad(CouponSerBl);
+        BlockLoad(DefCCTransSerBl);
+        BlockLoad(GiftReceiptSerBl);
+        BlockLoad(GCSerBl);
+        BlockLoad(GCRSerBl);
+        BlockLoad(POSBalanceSerBl);
+        BlockLoad(IVCashSerBl);
+        BlockLoad(POSEventSerBl);
+        BlockLoad(DefCashBl);
+        BlockLoad(RestPMBl);
+        BlockLoad(LCMLevelSetBl);
+        BlockLoad(CashPrintBl);
+        BlockLoad(RahaxiBl);
+        BlockLoad(ECInSetBl);
+        BlockLoad(IntrastatVIBl);
+        BlockLoad(BankFileBl);
+        BlockLoad(VATVITypeBl);
+        BlockLoad(APAccBl);
+        BlockLoad(OPTBl);
+        BlockLoad(VITBl);
+        BlockLoad(VATBl);
+        BlockLoad(VISerBl);
+        BlockLoad(VATVISerBl);
+        BlockLoad(OPSerBl);
+        BlockLoad(FEVISerBl);
+        BlockLoad(WHTaxBl);
+        BlockLoad(VATIVTypeBl);
+        BlockLoad(FactoringBl);
+        BlockLoad(TaxAuthIDBl);
+        BlockLoad(CreditLimitBl);
+        BlockLoad(AccBl);
+        BlockLoad(GCBl);
+        BlockLoad(IVTBl);
+        BlockLoad(CustomerSettingBl);
+        BlockLoad(IVMailBl);
+        BlockLoad(IPTBl);
+        BlockLoad(VATIVTBl);
+        BlockLoad(PDSalesAccBl);
+        BlockLoad(ItemStatusSettBl);
+        BlockLoad(ItemSettingBl);
+        BlockLoad(LegalInvNrBl);
+        BlockLoad(IVOfficialSerBl);
+        BlockLoad(RegDefBl);
+        BlockLoad(VATZoneLabelBl);
+        BlockLoad(IIBl);
+        BlockLoad(AgedBl);
+        BlockLoad(RepaBl);
+        BlockLoad(FreightWeightBl);
+        BlockLoad(IVSerBl);
+        BlockLoad(IntIVSerBl);
+        BlockLoad(CUSerBl);
+        BlockLoad(IPSerBl);
+        BlockLoad(FEIVSerBl);
+        BlockLoad(VATIVSerBl);
+        BlockLoad(CUDocTypeBl);
+        BlockLoad(FreightBl);
+        BlockLoad(EInvoiceLayoutBl);
+        BlockLoad(PriceRangeBl);
+        BlockLoad(IntORSettingBl);
+        BlockLoad(POSettingBl);
+        BlockLoad(POMailBl);
+        BlockLoad(IntORSerBl);
+        BlockLoad(POCQStatSerBl);
+        BlockLoad(POQTSerBl);
+        BlockLoad(POSerBl);
+        BlockLoad(DownPayBl);
+        BlockLoad(FunctionsOnWebBl);
+        BlockLoad(PlanDeliveryBl);
+        BlockLoad(OrdSettBl);
+        BlockLoad(StockReservBl);
+        BlockLoad(WebSyncBl);
+        BlockLoad(ORSerBl);
+        
+        ResetCompany(targetComp);
+        BlockStore(TRGenBl);
+        BlockStore(VATCodeBl);
+        BlockStore(SLAccBl);
+        BlockStore(OTCheckBl);
+        BlockStore(CYBl);
+        BlockStore(ReconBl);
+        BlockStore(NLRateBl);
+        BlockStore(TaxTemplateBl);
+        BlockStore(TRSerBl);
+        BlockStore(SMSerBl);
+        BlockStore(YearBl);
+        BlockStore(AT2DispGroupBl);
+        BlockStore(AC2Bl);
+        BlockStore(AT2AccBl);
+        BlockStore(AT2WrofSerBl);
+        BlockStore(AT2DprSerBl);
+        BlockStore(AT2TakeSerBl);
+        BlockStore(AT2RevSerBl);
+        BlockStore(ExpTBl);
+        BlockStore(DABl);
+        BlockStore(WLSettingsBl);
+        BlockStore(DASerBl);
+        BlockStore(ExpSerBl);
+        BlockStore(PPersSerBl);
+        BlockStore(WayListSerBl);
+        BlockStore(WLPetroilBl);
+        BlockStore(MainCLBl);
+        BlockStore(LegalCLInNrBl);
+        BlockStore(CLInSerBl);
+        BlockStore(CLOutSerBl);
+        BlockStore(ForexTRSerBl);
+        BlockStore(PMBl);
+        BlockStore(VolumBarcodeBl);
+        BlockStore(POSCommandsBl);
+        BlockStore(SupervisorBl);
+        BlockStore(GCBl);
+        BlockStore(CashierDefBl);
+        BlockStore(DeferCCBl);
+        BlockStore(NPTSNewCUFieldsBl);
+        BlockStore(DefCCTransBl);
+        BlockStore(LocalMachineAccBl);
+        BlockStore(CashSerBl);
+        BlockStore(CouponSerBl);
+        BlockStore(DefCCTransSerBl);
+        BlockStore(GiftReceiptSerBl);
+        BlockStore(GCSerBl);
+        BlockStore(GCRSerBl);
+        BlockStore(POSBalanceSerBl);
+        BlockStore(IVCashSerBl);
+        BlockStore(POSEventSerBl);
+        BlockStore(DefCashBl);
+        BlockStore(RestPMBl);
+        BlockStore(LCMLevelSetBl);
+        BlockStore(CashPrintBl);
+        BlockStore(RahaxiBl);
+        BlockStore(ECInSetBl);
+        BlockStore(IntrastatVIBl);
+        BlockStore(BankFileBl);
+        BlockStore(VATVITypeBl);
+        BlockStore(APAccBl);
+        BlockStore(OPTBl);
+        BlockStore(VITBl);
+        BlockStore(VATBl);
+        BlockStore(VISerBl);
+        BlockStore(VATVISerBl);
+        BlockStore(OPSerBl);
+        BlockStore(FEVISerBl);
+        BlockStore(WHTaxBl);
+        BlockStore(VATIVTypeBl);
+        BlockStore(FactoringBl);
+        BlockStore(TaxAuthIDBl);
+        BlockStore(CreditLimitBl);
+        BlockStore(AccBl);
+        BlockStore(GCBl);
+        BlockStore(IVTBl);
+        BlockStore(CustomerSettingBl);
+        BlockStore(IVMailBl);
+        BlockStore(IPTBl);
+        BlockStore(VATIVTBl);
+        BlockStore(PDSalesAccBl);
+        BlockStore(ItemStatusSettBl);
+        BlockStore(ItemSettingBl);
+        BlockStore(LegalInvNrBl);
+        BlockStore(IVOfficialSerBl);
+        BlockStore(RegDefBl);
+        BlockStore(VATZoneLabelBl);
+        BlockStore(IIBl);
+        BlockStore(AgedBl);
+        BlockStore(RepaBl);
+        BlockStore(FreightWeightBl);
+        BlockStore(IVSerBl);
+        BlockStore(IntIVSerBl);
+        BlockStore(CUSerBl);
+        BlockStore(IPSerBl);
+        BlockStore(FEIVSerBl);
+        BlockStore(VATIVSerBl);
+        BlockStore(CUDocTypeBl);
+        BlockStore(FreightBl);
+        BlockStore(EInvoiceLayoutBl);
+        BlockStore(PriceRangeBl);
+        BlockStore(IntORSettingBl);
+        BlockStore(POSettingBl);
+        BlockStore(POMailBl);
+        BlockStore(IntORSerBl);
+        BlockStore(POCQStatSerBl);
+        BlockStore(POQTSerBl);
+        BlockStore(POSerBl);
+        BlockStore(DownPayBl);
+        BlockStore(FunctionsOnWebBl);
+        BlockStore(PlanDeliveryBl);
+        BlockStore(OrdSettBl);
+        BlockStore(StockReservBl);
+        BlockStore(WebSyncBl);
+        BlockStore(ORSerBl);
+      end;
+  
+return;
+end; //Edit***************************Sasha2,13:30 29.11.2016 }
+
+//Edit***************************Sasha2,13:51 29.11.2016 {
+updating procedure TransferBlocks_SecondSet(record RcVc RepSpec,Integer sourceComp,Integer targetComp)
+begin
+    //Склад
+  record StructPrintBlock StructPrintBl;//Настройки друку структур
+  record MainStockBlock MainStockBl;//Настройки переоцінки складу
+  record VARMaskBlock VARMaskBl;//Маски різновидів товарів
+  record RetGoodsBlock RetGoodsBl;//Настройки повернення товарів
+  record VarietyBlock VarietyBl;//Настройки різновидів
+  record CostAccBlock CostAccBl;//Облік вартості
+  record ExtraCostLabelBlock ExtraCostLabelBl;//Поля що задає корист. - Накладні витрати
+  record LocationAccBlock LocationAccBl;//Рахунки склада
+  record SHSerBlock SHSerBl;//Серії номерів - Відвантаження
+  record StockTakeSerBlock StockTakeSerBl;//Серії номерів - Інвентаризація
+  record PUSerBlock PUSerBl;//Серії номерів - Надходження
+  record StockMovSerBlock StockMovSerBl;//Серії номерів - Переміщення товарів
+  record SRSerBlock SRSerBl;//Серії номерів - Переоцінка товарів
+  record RetSerBlock RetSerBl;//Серії номерів - Повернення товарів
+  record RetPUSerBlock RetPUSerBl;//Серії номерів - Повернення товарів постачальникам
+  record SDSerBlock SDSerBl;//Серії номерів - Списання зі складу
+  record SerNrTrackBlock SerNrTrackBl;//Серійні номери
+  record SamsungItemsBlock SamsungItemsBl;//Товари Samsung
+    //Система
+  record AutoActionBlock AutoActionBl;//Автодрук документів
+  record UnOkWarnBlock UnOkWarnBl;//Глобальні попередження на незатвердж. записах
+  record CalDispGroupBlock CalDispGroupBl;//Групи відображення
+  record DBLockBlock DBLockBl;//Закриття періодів
+  record PeriodBlock PeriodBl;//Звітні періоди
+  record ConvActTypeBlock ConvActTypeBl;//Конвертація - види діяльності
+  record ConvMasterBlock ConvMasterBl;//Конвертація - виконання
+  record ConvQuoteClassBlock ConvQuoteClassBl;//Конвертація - Класи комерц. пропозицій
+  record ConvCustClassBlock ConvCustClassBl;//Конвертація - класифікації контактів
+  record ConvCurncyCodeBlock ConvCurncyCodeBl;//Конвертація - коди валют
+  record ConvCustBlock ConvCustBl;//Конвертація - контакти
+  record ConvUserBlock ConvUserBl;//Конвертація - користувачі
+  record ConvObjBlock ConvObjBl;//Конвертація - об'єкти
+  record ConvVendBlock ConvVendBl;//Конвертація - постачальники
+  record ConvAccBlock ConvAccBl;//Конвертація - рахунки та код ПДВ
+  record ConvLocationBlock ConvLocationBl;//Конвертація - склади
+  record ConvItemBlock ConvItemTCl;//Конвертація - товари
+  //record SLAccBlock SLAccBl;//Контроль рахунків підсистем
+  record VATMaskBlock VATMaskBl;//Маска шаблону ІПН
+  record LangBlock LangBl;//Мови
+  record BackupSettingsBlock BackupSettingsBl;//Настройки бекапу
+  record EInvoiceBlock EInvoiceBl;//Настройки ел. актів/накл.
+  record GeneralOptionBlock GeneralOptionBl;//Настройки знижок
+  record ERBlock ERBl;//Настройки курсів обміну
+  record PasswdSetBlock PasswdSetBl;//Настройки пароля
+  record FormBlock FormBl;//Настройки форм
+  record RoundBlock RoundBl;//Округлення
+  record CurncyRoundOffBlock CurncyRoundOffBl;//Округлення валют
+  record BaseCurBlock BaseCurBl;//Основні валюти
+  record PageSetupDefBlock PageSetupDefBl;//Параметри сторінки
+  record PrintGroupBlock PrintGroupBl;//Принтери
+  record SRBlock SRBl;//Серійні номери
+  record SysFormatBlock SysFormatBl;//Формат дати і чисел компанії
+    //Технічні параметри
+  record CRMLimitsBlock CRMLimitsBl;//CRM обмеження
+  record FaxSettingsBlock FaxSettingsBl;//Настройки факсу
+    //Обслуговування та ремонт
+  //record PlanDeliveryBlock PlanDeliveryBl;//Заплановане відвант.
+  record GSXSettingsBlock GSXSettingsBl;//Настройки Apple GSX
+  record SVOAccBlock SVOAccBl;//Настройки записів
+  record QCTestRulesBlock QCTestRulesBl;//Правила контролю якості партії
+  record ObjectsAccBlock ObjectsAccBl;//Рахунки об'єктів
+  record SVOSerBlock SVOSerBl;//Серії номерів - Замовлення на обслуговування
+  record WOSerBlock WOSerBl;//Серії номерів - Замовлення на роботу
+  record SVGMSerBlock SVGMSerBl;//Серії номерів - Записи операцій обслуговування
+  record WSSerBlock WSSerBl;//Серії номерів - Таблиці робіт
+  
+    if (SetCompany(sourceComp,false)) then begin
+        BlockLoad(VARMaskBl);
+        BlockLoad(StructPrintBl);
+        BlockLoad(MainStockBl);
+        BlockLoad(RetGoodsBl);
+        BlockLoad(VarietyBl);
+        BlockLoad(CostAccBl);
+        BlockLoad(ExtraCostLabelBl);
+        BlockLoad(LocationAccBl);
+        BlockLoad(SHSerBl);
+        BlockLoad(StockTakeSerBl);
+        BlockLoad(PUSerBl);
+        BlockLoad(StockMovSerBl);
+        BlockLoad(SRSerBl);
+        BlockLoad(RetSerBl);
+        BlockLoad(RetPUSerBl);
+        BlockLoad(SDSerBl);
+        BlockLoad(SerNrTrackBl);
+        BlockLoad(SamsungItemsBl);
+        BlockLoad(AutoActionBl);
+        BlockLoad(UnOkWarnBl);
+        BlockLoad(CalDispGroupBl);
+        BlockLoad(DBLockBl);
+        BlockLoad(PeriodBl);
+        BlockLoad(ConvActTypeBl);
+        BlockLoad(ConvMasterBl);
+        BlockLoad(ConvQuoteClassBl);
+        BlockLoad(ConvCustClassBl);
+        BlockLoad(ConvCurncyCodeBl);
+        BlockLoad(ConvCustBl);
+        BlockLoad(ConvUserBl);
+        BlockLoad(ConvObjBl);
+        BlockLoad(ConvVendBl);
+        BlockLoad(ConvAccBl);
+        BlockLoad(ConvLocationBl);
+        BlockLoad(ConvItemTCl);
+        //BlockLoad(SLAccBl);
+        BlockLoad(VATMaskBl);
+        BlockLoad(LangBl);
+        BlockLoad(BackupSettingsBl);
+        BlockLoad(EInvoiceBl);
+        BlockLoad(GeneralOptionBl);
+        BlockLoad(ERBl);
+        BlockLoad(PasswdSetBl);
+        BlockLoad(FormBl);
+        BlockLoad(RoundBl);
+        BlockLoad(CurncyRoundOffBl);
+        BlockLoad(BaseCurBl);
+        BlockLoad(PageSetupDefBl);
+        BlockLoad(PrintGroupBl);
+        BlockLoad(SRBl);
+        BlockLoad(SysFormatBl);
+        BlockLoad(CRMLimitsBl);
+        BlockLoad(FaxSettingsBl);
+        //BlockLoad(PlanDeliveryBl);
+        BlockLoad(GSXSettingsBl);
+        BlockLoad(SVOAccBl);
+        BlockLoad(QCTestRulesBl);
+        BlockLoad(ObjectsAccBl);
+        BlockLoad(SVOSerBl);
+        BlockLoad(WOSerBl);
+        BlockLoad(SVGMSerBl);
+        BlockLoad(WSSerBl);
+        
+        ResetCompany(targetComp);
+        BlockStore(VARMaskBl);
+        BlockStore(StructPrintBl);
+        if (NonBlank(RepSpec.f2)) then begin
+          MainStockBl.MainStock = RepSpec.f2;
+        end;
+        BlockStore(MainStockBl);
+        BlockStore(RetGoodsBl);
+        BlockStore(VarietyBl);
+        BlockStore(CostAccBl);
+        BlockStore(ExtraCostLabelBl);
+        BlockStore(LocationAccBl);
+        BlockStore(SHSerBl);
+        BlockStore(StockTakeSerBl);
+        BlockStore(PUSerBl);
+        BlockStore(StockMovSerBl);
+        BlockStore(SRSerBl);
+        BlockStore(RetSerBl);
+        BlockStore(RetPUSerBl);
+        BlockStore(SDSerBl);
+        BlockStore(SerNrTrackBl);
+        BlockStore(SamsungItemsBl);
+        BlockStore(AutoActionBl);
+        BlockStore(UnOkWarnBl);
+        BlockStore(CalDispGroupBl);
+        BlockStore(DBLockBl);
+        BlockStore(PeriodBl);
+        BlockStore(ConvActTypeBl);
+        BlockStore(ConvMasterBl);
+        BlockStore(ConvQuoteClassBl);
+        BlockStore(ConvCustClassBl);
+        BlockStore(ConvCurncyCodeBl);
+        BlockStore(ConvCustBl);
+        BlockStore(ConvUserBl);
+        BlockStore(ConvObjBl);
+        BlockStore(ConvVendBl);
+        BlockStore(ConvAccBl);
+        BlockStore(ConvLocationBl);
+        BlockStore(ConvItemTCl);
+        //BlockStore(SLAccBl);
+        BlockStore(VATMaskBl);
+        BlockStore(LangBl);
+        BlockStore(BackupSettingsBl);
+        BlockStore(EInvoiceBl);
+        BlockStore(GeneralOptionBl);
+        BlockStore(ERBl);
+        BlockStore(PasswdSetBl);
+        BlockStore(FormBl);
+        BlockStore(RoundBl);
+        BlockStore(CurncyRoundOffBl);
+        BlockStore(BaseCurBl);
+        BlockStore(PageSetupDefBl);
+        BlockStore(PrintGroupBl);
+        BlockStore(SRBl);
+        BlockStore(SysFormatBl);
+        BlockStore(CRMLimitsBl);
+        BlockStore(FaxSettingsBl);
+        //BlockStore(PlanDeliveryBl);
+        BlockStore(GSXSettingsBl);
+        BlockStore(SVOAccBl);
+        BlockStore(QCTestRulesBl);
+        BlockStore(ObjectsAccBl);
+        BlockStore(SVOSerBl);
+        BlockStore(WOSerBl);
+        BlockStore(SVGMSerBl);
+        BlockStore(WSSerBl);     
+      end;
+  
+return;
+end; //Edit***************************Sasha2,13:30 29.11.2016 }
+
+global //Edit***************************Sasha2,15:57 24.10.2016 {
+updating procedure TransferBlocksFromCompToCurCompMn(record RcVc RepSpec)
+begin
+  Integer curComp,sourceComp;
+  
+  
+    sourceComp = RepSpec.ArtMode;
+    if (sourceComp>0) then begin
+      curComp = CurrentCompany;
+      TransferBlocks_FirstSet(RepSpec,sourceComp,curComp);
+      TransferBlocks_SecondSet(RepSpec,sourceComp,curComp);
+      LogText(0,"Blocks transfer is done");
+    end;
+
+return;
+end;//Edit***************************Sasha2,15:57 24.10.2016 }
+
+global //Edit***************************Sasha2,15:57 24.10.2016 {
+updating procedure ExportRegistersFromCurCompEn(record RcVc RepSpec)
+begin
+  
+  ExportFormat;
+  RegisterExport("ITVc");
+  RegisterExport("UnitVc");
+  RegisterExport("CTypeVc");
+  RegisterExport("CCatVc");
+  RegisterExport("INVc");
+  RegisterExport("CUVc");
+  RegisterExport("DIVc");
+  //RegisterExport("LocationVc");
+  RegisterExport("ObjVc");
+  RegisterExport("CurncyCodeVc");
+  RegisterExport("ERVc");
+  RegisterExport("RebVc");
+  RegisterExport("AccVc");
+
+return;
+end;//Edit***************************Sasha2,15:57 24.10.2016 }
+
+global //Edit***************************Sasha2,11:21 30.11.2016 {
+updating procedure PopulateAvailableItemsMn(string fromLocations)
+begin
+  record AvailableItemVc AvailableItemr;
+  record ItemHistVc IHr,IH2r;
+  record BaseCurBlock BCb;
+  record PUVc PUr;
+  Boolean testf,TrHs,testf1,TrHs1,foundPU;
+  string 20 vendor,currency;
+  val fr,to1;
+  date suppDate;
+  longint recCount;
+    
+    BlockLoad(BCb);
+    recCount = 0;
+    
+    if (CountRecords("AvailableItemVc")>0) then begin
+      AvailableItemr.SerNr = -1;
+      while (LoopMain(AvailableItemr,1,true)) begin
+        RecordDelete(AvailableItemr);
+        StepBack(AvailableItemr);
+      end;
+    end;
+    
+    
+    IHr.ArtCode = "";
+    TrHs = true;
+    while (LoopKey("ActiveQty",IHr,1,TrHs)) begin
+      testf = true;
+      if (NonBlank(fromLocations) and SetInSet(IHr.Location,fromLocations)==false) then begin testf = false; end;
+      if (Blank(IHr.ArtCode)) then begin testf = false; end;
+      if (testf) then begin
+        testf = false;
+        if (IHr.InSerNr>0 and IHr.InFileName=="PUVc") then begin testf = true; PUr.SerNr = IHr.InSerNr; end;
+        if (testf==false and IHr.FileName=="PUVc") then begin testf = true; PUr.SerNr = IHr.TransNr; end;
+        if (testf) then begin
+          testf = false;
+          if (ReadFirstMain(PUr,1,true)) then begin
+            vendor = PUr.VECode;
+            currency = PUr.CurncyCode;
+            suppDate = PUr.TransDate;
+            fr = PUr.FrRate;
+            if (fr==0) then begin
+              fr = 1;
+            end;
+            to1 = PUr.ToRateB1;
+            if (to1==0) then begin
+              to1 = 1;
+            end;
+            fr = fr/to1;
+            testf = true;
+          end;
+        end else begin
+          foundPU = false;
+          if (NonBlank(IHr.SerialNr)) then begin
+            RESETLOOP(IH2r);
+            IH2r.SerialNr = IHr.SerialNr;
+            IH2r.ArtCode = IHr.ArtCode;
+            IH2r.TransDate = IHr.TransDate;
+            TrHs1 = true;
+            while (LoopBackKey("CodeSerialNrArtCode",IH2r,3,TrHs1)) begin
+              testf1 = true;
+              if (IH2r.SerialNr!=IHr.SerialNr or IH2r.ArtCode!=IHr.ArtCode) then begin TrHs1 = false; testf1 = false; 
+end;
+              if (IH2r.FileName!="PUVc") then begin testf1 = false; end;
+              if (testf1) then begin
+                PUr.SerNr = IHr.TransNr;
+                if (ReadFirstMain(PUr,1,true)) then begin
+                  vendor = PUr.VECode;
+                  currency = PUr.CurncyCode;
+                  suppDate = PUr.TransDate;
+                  fr = PUr.FrRate;
+                  if (fr==0) then begin
+                    fr = 1;
+                  end;
+                  to1 = PUr.ToRateB1;
+                  if (to1==0) then begin
+                    to1 = 1;
+                  end;
+                  fr = fr/to1;
+                  TrHs1 = false;
+                  testf1 = false;
+                  foundPU = true;
+                end;
+              end;
+            end;
+          end;
+          if (foundPU==false) then begin
+            vendor = "";
+            currency = BCb.BaseCur1;
+            suppDate = CurrentDate;
+            fr = 1;
+          end;
+          LogText(0,"PopulateAvailableItemsMn (uncertain PUVc source; company #" & CurrentCompany & "): IHr.SerNr: " & 
+IHr.SerNr);
+        end;
+        if (testf) then begin
+          RecordNew(AvailableItemr);
+          if (AvailableItemr.SerNr<0) then begin
+            AvailableItemr.SerNr = NextSerNr("AvailableItemVc",CurrentDate,-1,false,"");
+          end;
+          AvailableItemr.SupplyDate = suppDate;
+          AvailableItemr.Vendor = vendor;
+          AvailableItemr.ArtCode = IHr.ArtCode;
+          AvailableItemr.Location = IHr.Location;
+          AvailableItemr.SerialNr = IHr.SerialNr;
+          AvailableItemr.Quant = IHr.RemQty;
+          AvailableItemr.TotCost = IHr.RemCostPrice;
+          AvailableItemr.CurncyCode = currency;
+          AvailableItemr.FrRate = fr;
+          AvailableItemr.ToRateB1 = 1;
+          AvailableItemr.BaseCur = BCb.BaseCur1;
+          RECORDINSERT(AvailableItemr,true);
+          recCount = recCount + 1;
+        end;
+      end;
+    end;
+    LogText(0,"Saved AvailableItemVc records: " & recCount);
+    
+  return;
+end; //Edit***************************Sasha2,11:21 30.11.2016 }
+
+
+global //Edit***************************Sasha2,11:21 30.11.2016 {
+updating procedure GetLeftOverFromAnotherCompMn(record RcVc RepSpec)
+begin
+  string 255 warning,inwarn;
+  Integer curComp,sourceComp,i;
+  record AvailableItemVc AvailableItemr;
+  record PUVc PUr;
+  record BaseCurBlock BCb;
+  row PUVc PUrw;
+  boolean TrHs,testf,firstLoop;
+  string 20 fromLoc,toLoc,vendor,currency;
+  val fr;
+    
+    fromLoc = RepSpec.f1;
+    toLoc = RepSpec.f2;
+    sourceComp = RepSpec.ArtMode;
+    
+    if (NonBlank(fromLoc) and NonBlank(toLoc) and sourceComp>0) then begin
+      BlockLoad(BCb);
+      curComp = CurrentCompany;
+      RECORDNEW(PUr);
+      PUr.Location = toLoc;
+      PUVc_PasteLocation(PUr,-1);
+      if (SetCompany(sourceComp,false)) then begin
+        PopulateAvailableItemsMn(fromLoc);
+        if (CountRecords("AvailableItemVc")>0) then begin
+          AvailableItemr.Vendor = "";
+          TrHs = true;
+          i = 0;
+          while (LoopKey("Vendor",AvailableItemr,1,TrHs)) begin
+            if (firstLoop==false) then begin
+              firstLoop = true;
+              vendor = AvailableItemr.Vendor;
+              currency = AvailableItemr.CurncyCode;
+              fr = AvailableItemr.FrRate;
+              
+              PUr.VECode = vendor;
+              PUVc_PasteVECode(PUr);
+              PUr.CurncyCode = currency;
+              if (PUr.CurncyCode!=BCb.BaseCur1) then begin
+                PUr.FrRate = fr;
+                PUr.ToRateB1 = 1;
+              end;
+            end;
+            if (vendor!=AvailableItemr.Vendor or currency!=AvailableItemr.CurncyCode or fr!=AvailableItemr.FrRate) 
+then begin
+              vendor = AvailableItemr.Vendor;
+              currency = AvailableItemr.CurncyCode;
+              fr = AvailableItemr.FrRate;
+              ResetCompany(curComp);
+              if (PUr.SerNr<0) then begin
+                PUr.SerNr = NextSerNr("PUVc",PUr.TransDate,-1,false,"");
+              end;
+              RECORDINSERT(PUr,true);
+              RECORDNEW(PUr);
+              PUr.VECode = vendor;
+              PUVc_PasteVECode(PUr);
+              PUr.CurncyCode = currency;
+              if (PUr.CurncyCode!=BCb.BaseCur1) then begin
+                PUr.FrRate = fr;
+                PUr.ToRateB1 = 1;
+              end;
+              PUr.Location = toLoc;
+              PUVc_PasteLocation(PUr,-1);
+              SetCompany(sourceComp,false);
+              i = 0;
+            end;
+            if (NonBlank(AvailableItemr.ArtCode)) then begin
+              ClearRow(PUr,PUrw,1);
+              PUrw.ArtCode = AvailableItemr.ArtCode;
+              MatRowPut(PUr,i,PUrw);
+              PUVc_PasteArtCode(PUr,i,warning,inwarn);
+              MatRowGet(PUr,i,PUrw);
+              if (NonBlank(AvailableItemr.SerialNr)) then begin
+                PUrw.SerialNr = AvailableItemr.SerialNr;
+                MatRowPut(PUr,i,PUrw);
+                PUVc_PasteSerialNr(PUr,i);
+                MatRowGet(PUr,i,PUrw);
+              end;
+              PUrw.Quant = AvailableItemr.Quant;
+              MatRowPut(PUr,i,PUrw);
+              PUVc_PasteQuant(PUr,i);
+              MatRowGet(PUr,i,PUrw);
+              PUrw.Sum = AvailableItemr.TotCost;
+              MatRowPut(PUr,i,PUrw);
+              PUDClassSumEFAfterRemote(PUr,i);
+              i = i + 1;
+            end;
+            if (i>998) then begin
+              ResetCompany(curComp);
+              if (PUr.SerNr<0) then begin
+                PUr.SerNr = NextSerNr("PUVc",PUr.TransDate,-1,false,"");
+              end;
+              RECORDINSERT(PUr,true);
+              RECORDNEW(PUr);
+              PUr.VECode = vendor;
+              PUVc_PasteVECode(PUr);
+              PUr.CurncyCode = currency;
+              if (PUr.CurncyCode!=BCb.BaseCur1) then begin
+                PUr.FrRate = fr;
+                PUr.ToRateB1 = 1;
+              end;
+              PUr.Location = toLoc;
+              PUVc_PasteLocation(PUr,-1);
+              SetCompany(sourceComp,false);
+              i = 0;
+            end;
+          end;
+        end;
+        ResetCompany(curComp);
+        if (matrowcnt(PUr)>0) then begin
+          if (PUr.SerNr<0) then begin
+            PUr.SerNr = NextSerNr("PUVc",PUr.TransDate,-1,false,"");
+          end;
+          RECORDINSERT(PUr,true);
+        end;
+      end;
+    end;
+    
+    
+  return;
+end; //Edit***************************Sasha2,11:21 30.11.2016 }

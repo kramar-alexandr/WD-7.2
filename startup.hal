@@ -107,6 +107,7 @@ begin
 	Import("Імпорт регистрів З ПЕРЕЗАПИСОМ",ImportOfRegisterRewriteIClass,ImportOfRegisterRewriting,modDBMain);
 
   Export("Register Export",ExpRegEClass,ExpRegEn,modPOS);
+  Export("Експорт певних регістрів",ExportRegistersFromCurCompEClass,ExportRegistersFromCurCompEn,modSY); //Edit***************************Sasha2,17:57 01.12.2016
   
   Import("Імпорт наявності товарів WEB",WebINImportIClass,ImportWebItemsIn,modSO);
 
@@ -150,6 +151,8 @@ begin
 	end;
 	Maintenance("Створити надходження в компанії",CreationPUsVClass,CreationPUsMn,modDBMain);	//Edit----------------------Dima  18.03.2016
 	Maintenance("Прибрати другу баз.валюту (UAH) в регістрах",RemoveSecondCurFromRegistersVClass,RemoveSecondCurFromRegistersMn,modDBMain); //Edit***************************Sasha2,16:44 24.10.2016
+	Maintenance("Перенесення налаштувань з іншої компанії",TransferBlocksFromCompToCurCompVClass,TransferBlocksFromCompToCurCompMn,modSY);//Edit***************************Sasha2,11:00 18.11.2016
+  Maintenance("Перенесення стану складу з іншої компанії",GetLeftOverFromAnotherCompVClass,GetLeftOverFromAnotherCompMn,modSY); //Edit***************************Sasha2,11:07 01.12.2016
 	
 	Import("Импорт Item/Group",INITImportIClass,ImportNewItemsWithGroupIn,modIN); //Edit***************************Sasha2,15:52 21.01.2016
   
