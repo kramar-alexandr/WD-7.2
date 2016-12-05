@@ -1379,8 +1379,7 @@ begin
             TrHs1 = true;
             while (LoopBackKey("CodeSerialNrArtCode",IH2r,3,TrHs1)) begin
               testf1 = true;
-              if (IH2r.SerialNr!=IHr.SerialNr or IH2r.ArtCode!=IHr.ArtCode) then begin TrHs1 = false; testf1 = false; 
-end;
+              if (IH2r.SerialNr!=IHr.SerialNr or IH2r.ArtCode!=IHr.ArtCode) then begin TrHs1 = false; testf1 = false; end;
               if (IH2r.FileName!="PUVc") then begin testf1 = false; end;
               if (testf1) then begin
                 PUr.SerNr = IHr.TransNr;
@@ -1410,8 +1409,7 @@ end;
             suppDate = CurrentDate;
             fr = 1;
           end;
-          LogText(0,"PopulateAvailableItemsMn (uncertain PUVc source; company #" & CurrentCompany & "): IHr.SerNr: " & 
-IHr.SerNr);
+          LogText(0,"PopulateAvailableItemsMn (uncertain PUVc source; company #" & CurrentCompany & "): IHr.SerNr: " & IHr.SerNr);
         end;
         if (testf) then begin
           RecordNew(AvailableItemr);
@@ -1484,8 +1482,7 @@ begin
                 PUr.ToRateB1 = 1;
               end;
             end;
-            if (vendor!=AvailableItemr.Vendor or currency!=AvailableItemr.CurncyCode or fr!=AvailableItemr.FrRate) 
-then begin
+            if (vendor!=AvailableItemr.Vendor or currency!=AvailableItemr.CurncyCode or fr!=AvailableItemr.FrRate) then begin
               vendor = AvailableItemr.Vendor;
               currency = AvailableItemr.CurncyCode;
               fr = AvailableItemr.FrRate;
