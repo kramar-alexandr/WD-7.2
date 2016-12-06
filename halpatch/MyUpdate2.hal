@@ -1304,10 +1304,10 @@ begin
   RegisterExport("UnitVc");
   RegisterExport("CTypeVc");
   RegisterExport("CCatVc");
-  RegisterExport("INVc");
+  //RegisterExport("INVc");
   RegisterExport("CUVc");
   RegisterExport("DIVc");
-  //RegisterExport("LocationVc");
+  RegisterExport("LocationVc");
   RegisterExport("ObjVc");
   RegisterExport("CurncyCodeVc");
   RegisterExport("ERVc");
