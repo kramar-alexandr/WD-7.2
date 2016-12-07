@@ -1313,6 +1313,7 @@ begin
   RegisterExport("ERVc");
   RegisterExport("RebVc");
   RegisterExport("AccVc");
+  RegisterExport("UserDefRepLinesVc");
 
 return;
 end;//Edit***************************Sasha2,15:57 24.10.2016 }
