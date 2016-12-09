@@ -114,6 +114,8 @@ begin
   Maintenance("Conver 2 base cur to 1",MyVClass,RecalcRegisters2CurValMn,modDBMain);  //Edit**********Dima, 28.01.2014
   Maintenance("Fix FB",MyVClass,FixFBVcMn,modDBMain);  //Edit**********Dima, 28.01.2014
   
+  Maintenance("Move SHOPS",MyVClass,MoveShopsToCompMn,modDBMain);// Edit ************************** Friday, 9 December 2016 11:45:08
+  
   Maintenance("Поновити синх. цін",UpdPLSyncVClass,UpdateSyncPricesMn,modDI); 
   Maintenance("Поновити синх. сер.ном.",UpdSerSyncVClass,UpdateSerialsPricesMn,modDI); 
   Maintenance("Поновити синх. товарів",UpdINSyncVClass,UpdateSyncItemsMn,modDI);  

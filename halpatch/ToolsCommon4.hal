@@ -1708,3 +1708,53 @@ begin
 	ResetCompany(curCompany);	
   
 end;
+
+
+global updating procedure MoveShopsToCompMn(record RcVc RepSpec)
+begin
+	record ORVc ORr;
+	record StockMovVc SMr;
+	record ItemHistVc IHr;
+	record RetVc Retr;
+	integer curcompany,destcompany;
+	
+	curcompany = currentcompany;
+	destcompany = 11;//RepSpec.flags[1];
+	
+	while(loopkey("ActiveQty",IHr,1,true))begin
+		if(IHr.Location=="INV_OUT")then begin
+			if(IHr.FileName=="StockMovVc" or IHr.FileName=="RetVc")then begin
+				switch(IHr.FileName)begin
+					case "StockMovVc":SMr.SerNr = IHr.TransNr;
+														if(readfirstmain(SMr,1,true))then begin
+															ORr.SerNr = SMr.OrderNr;
+															if(readfirstmain(ORr,1,true))then begin
+																logtext(0,ORr.OrderClass & " " & ORr.SerNr);
+																setcompany(destcompany,false);
+																	recordstore(SMr,false);
+																	recordstore(ORr,false);
+																	createrecordlink(SMr,destcompany,ORr,destcompany);
+																	createrecordlink(ORr,destcompany,SMr,destcompany);
+																resetcompany(curcompany);
+															end;
+														end;
+					case "RetVc":	Retr.SerNr = IHr.TransNr;
+												if(readfirstmain(Retr,1,true))then begin
+													ORr.SerNr = Retr.OrdNr;
+													if(readfirstmain(ORr,1,true))then begin
+														logtext(0,ORr.OrderClass & " " & ORr.SerNr);
+														setcompany(destcompany,false);
+															recordstore(Retr,false);
+															recordstore(ORr,false);
+															createrecordlink(Retr,destcompany,ORr,destcompany);
+															createrecordlink(ORr,destcompany,Retr,destcompany);
+														resetcompany(curcompany);
+													end;
+												end;
+				end;
+			end;
+		end;
+	end;
+	
+return;
+end;
