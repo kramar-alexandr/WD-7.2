@@ -1375,24 +1375,26 @@ BEGIN
     DeselectWindow(wn,false);
     if (rn>=rwcnt2) then begin
       MatRowGet(TRr,rn,TRrw);
-      switch(fieldName) begin
-        case "CurDebVal":
-          if (TRrw.CurDebVal>0) then begin
-            TRrw.CurDebVal = 0;
-            foundFieldF = true;
-          end;
-        case "CurCredVal":
-          if (TRrw.CurCredVal>0) then begin
-            TRrw.CurCredVal = 0;
-            foundFieldF = true;
-          end;
-        otherwise
-          MessageBox(28615,"");
-      end;
-      if (foundFieldF) then begin 
-        MatRowPut(TRr,rn,TRrw);
-        TRSumup(TRr,t);
-        PutWindowRecord(wn,TRr); 
+      if (TRrw.stp==1) then begin
+        switch(fieldName) begin
+          case "CurDebVal":
+            if (TRrw.CurDebVal>0) then begin
+              TRrw.CurDebVal = 0;
+              foundFieldF = true;
+            end;
+          case "CurCredVal":
+            if (TRrw.CurCredVal>0) then begin
+              TRrw.CurCredVal = 0;
+              foundFieldF = true;
+            end;
+          otherwise
+            MessageBox(28615,"");
+        end;
+        if (foundFieldF) then begin 
+          MatRowPut(TRr,rn,TRrw);
+          TRSumup(TRr,t);
+          PutWindowRecord(wn,TRr); 
+        end;
       end;
     end else begin
       MessageBox(31086,"");
