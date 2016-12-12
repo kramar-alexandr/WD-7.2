@@ -1746,10 +1746,11 @@ begin
 														if(readfirstmain(SMr,1,true))then begin
 															ORr.SerNr = SMr.OrderNr;
 															if(readfirstmain(ORr,1,true))then begin
-																	if(ORr.OrderClass=="SHOPS")then begin
+																	if(true)then begin
 																	logtext(0,ORr.OrderClass & " " & ORr.SerNr);
 																	setcompany(destcompany,false);
 																		RecordInsert(SMr,false);
+																		ORr.Location = "INV_OUT";
 																		RecordInsert(ORr,false);
 																		createrecordlink(SMr,destcompany,ORr,destcompany);
 																		createrecordlink(ORr,destcompany,SMr,destcompany);
@@ -1761,10 +1762,11 @@ begin
 												if(readfirstmain(Retr,1,true))then begin
 													ORr.SerNr = Retr.OrdNr;
 													if(readfirstmain(ORr,1,true))then begin
-														if(ORr.OrderClass=="SHOPS")then begin
+														if(true)then begin
 															logtext(0,ORr.OrderClass & " " & ORr.SerNr);
 															setcompany(destcompany,false);
 																RecordInsert(Retr,false);
+																ORr.Location = "INV_OUT";
 																RecordInsert(ORr,false);
 																createrecordlink(Retr,destcompany,ORr,destcompany);
 																createrecordlink(ORr,destcompany,Retr,destcompany);
