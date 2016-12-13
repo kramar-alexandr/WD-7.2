@@ -13,7 +13,10 @@ external procedure GetUserIDCode(string,var string);
 external function Boolean PUVc_PasteArtCode(var record PUVc,Integer,var string,var string); //Edit----------------------Dima  18.03.2016
 external function Integer PUVc_PasteQuant(var record PUVc,Integer);//Edit----------------------Dima  18.03.2016
 external function Boolean PUVc_PasteVECode(var record PUVc);
-
+external updating procedure RecalcShopsItemsMn(record RcVc);
+external procedure StockMovSumUp(var record StockMovVc); //Edit***************************Sasha2,12:15 13.12.2016
+external procedure RetSumUp(var record RetVc); //Edit***************************Sasha2,12:23 13.12.2016
+external procedure ORSumup(var record ORVc); //Edit***************************Sasha2,13:06 13.12.2016
 
 global
 function roundmode DefaultRoundMode()
@@ -1713,71 +1716,191 @@ end;
 global updating procedure MoveShopsToCompMn(record RcVc RepSpec)
 begin
 	record ORVc ORr;
+	row ORVc ORrw;
 	record StockMovVc SMr;
+	row StockMovVc SMrw;
 	record ItemHistVc IHr;
 	record RetVc Retr;
-	integer curcompany,destcompany;
+	row RetVc Retrw;
+	record RcVc RepSpec2;
+	integer curcompany,sourceCompany,rwcnt,i,realRowNr;
+	Boolean TrHs,testf,TrHs2,testf2,deleteRowF,recordIsModifiedF;
+	string 20 shopsLocation;
 	
 	curcompany = currentcompany;
-	destcompany = 11;//RepSpec.flags[1];
-	setcompany(destcompany,false);
-		while(loopmain(SMr,1,true))begin
-			recorddelete(SMr);
-			stepback(SMr);
-		end;
-		while(loopmain(ORr,1,true))begin
-			recorddelete(ORr);
-			stepback(ORr);
-		end;
-		while(loopmain(Retr,1,true))begin
-			recorddelete(Retr);
-			stepback(Retr);
-		end;
-		resetloop(SMr);
-		resetloop(Retr);
-		resetloop(ORr);
-		
-	resetcompany(curcompany);
-	while(loopkey("ActiveQty",IHr,1,true))begin
-		if(IHr.Location=="INV_OUT")then begin
-			if(IHr.FileName=="StockMovVc" or IHr.FileName=="RetVc")then begin
-				switch(IHr.FileName)begin
-					case "StockMovVc":SMr.SerNr = IHr.TransNr;
-														if(readfirstmain(SMr,1,true))then begin
-															ORr.SerNr = SMr.OrderNr;
-															if(readfirstmain(ORr,1,true))then begin
-																	if(true)then begin
-																	logtext(0,ORr.OrderClass & " " & ORr.SerNr);
-																	setcompany(destcompany,false);
-																		RecordInsert(SMr,false);
-																		ORr.Location = "INV_OUT";
-																		RecordInsert(ORr,false);
-																		createrecordlink(SMr,destcompany,ORr,destcompany);
-																		createrecordlink(ORr,destcompany,SMr,destcompany);
-																	resetcompany(curcompany);
-																end;
-															end;
-														end;
-					case "RetVc":	Retr.SerNr = IHr.TransNr;
-												if(readfirstmain(Retr,1,true))then begin
-													ORr.SerNr = Retr.OrdNr;
-													if(readfirstmain(ORr,1,true))then begin
-														if(true)then begin
-															logtext(0,ORr.OrderClass & " " & ORr.SerNr);
-															setcompany(destcompany,false);
-																RecordInsert(Retr,false);
-																ORr.Location = "INV_OUT";
-																RecordInsert(ORr,false);
-																createrecordlink(Retr,destcompany,ORr,destcompany);
-																createrecordlink(ORr,destcompany,Retr,destcompany);
-															resetcompany(curcompany);
-														end;
-													end;
-												end;
-				end;
-			end;
-		end;
+	sourceCompany = 4;//RepSpec.f1;
+
+	while(loopmain(SMr,1,true))begin
+		recorddelete(SMr);
+		stepback(SMr);
 	end;
+	while(loopmain(ORr,1,true))begin
+		recorddelete(ORr);
+		stepback(ORr);
+	end;
+	while(loopmain(Retr,1,true))begin
+		recorddelete(Retr);
+		stepback(Retr);
+	end;
+	resetloop(SMr);
+	resetloop(Retr);
+	resetloop(ORr);
+	
+	shopsLocation = "INV_OUT";
+	
+	if (setcompany(sourceCompany,false)) then begin
+  	while(loopkey("ActiveQty",IHr,1,true)) begin
+  		if(IHr.Location==shopsLocation)then begin
+  			if(IHr.FileName=="StockMovVc" or IHr.FileName=="RetVc")then begin
+  				switch(IHr.FileName) begin
+  					case "StockMovVc":SMr.SerNr = IHr.TransNr;
+  														if(readfirstmain(SMr,1,true))then begin
+  															ORr.SerNr = SMr.OrderNr;
+  															if(SMr.OrderNr>-1 and readfirstmain(ORr,1,true))then begin
+  																if(ORr.OrderClass=="Shops")then begin
+																	  resetcompany(curcompany);
+																	  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
+																		RecordInsert(SMr,false);
+																		ORr.Location = shopsLocation;
+																		RecordInsert(ORr,false);
+																		createrecordlink(SMr,curcompany,ORr,curcompany);
+																		createrecordlink(ORr,curcompany,SMr,curcompany);
+  																	setcompany(sourceCompany,false);
+  																end;
+  															end;
+  														end;
+  					case "RetVc":	Retr.SerNr = IHr.TransNr;
+  												if(readfirstmain(Retr,1,true))then begin
+  													ORr.SerNr = Retr.OrdNr;
+  													if(Retr.OrdNr>-1 and readfirstmain(ORr,1,true))then begin
+  														if(ORr.OrderClass=="Shops")then begin
+															  resetcompany(curcompany);
+															  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
+																RecordInsert(Retr,false);
+																ORr.Location = shopsLocation;
+																RecordInsert(ORr,false);
+																createrecordlink(Retr,curcompany,ORr,curcompany);
+																createrecordlink(ORr,curcompany,Retr,curcompany);
+  															setcompany(sourceCompany,false);
+  														end;
+  													end;
+  												end;
+  				end;
+  			end;
+  		end;
+  	end; RESETLOOP(IHr);
+  	
+  	resetcompany(curcompany);
+  	
+  	//Remove rows in StockMovVc with zero leftover in source company ItemHistVc
+  	SMr.SerNr = -1;
+  	TrHs = true;
+  	while (LoopMain(SMr,1,TrHs)) begin
+  	  setcompany(sourceCompany,false);
+  	  rwcnt = MatRowCnt(SMr);
+  	  realRowNr = 0;
+  	  recordIsModifiedF = false;
+  	  for (i=0;i<rwcnt;i=i+1) begin
+  	    MatRowGet(SMr,i,SMrw);
+  	    deleteRowF = true;
+  	    
+  	    IHr.FileName = "StockMovVc";
+  	    IHr.TransNr = SMr.SerNr;
+  	    IHr.Row = realRowNr;
+  	    TrHs2 = true;
+  	    while (LoopKey("FNTransNr",IHr,3,TrHs2)) begin
+  	      testf2 = true;
+  	      if (IHr.FileName!="StockMovVc" or IHr.TransNr!=SMr.SerNr or IHr.Row!=realRowNr) then begin TrHs2 = false; testf2 = false; end;
+  	      if (IHr.Location!=SMr.ToLocation) then begin testf2 = false; end;
+  	      if (testf2) then begin
+  	        if (IHr.RemQty>0) then begin
+  	          deleteRowF = false;
+  	          TrHs2 = false;
+  	        end;
+  	      end;
+  	    end; RESETLOOP(IHr);
+  	    if (deleteRowF) then begin
+  	      MatRowDelete(SMr,i);
+  	      i = i - 1;
+          rwcnt = rwcnt - 1;
+  	      recordIsModifiedF = true;
+  	    end;
+  	    
+  	    realRowNr = realRowNr + 1;
+  	  end;
+  	  resetcompany(curcompany);
+  	  if (recordIsModifiedF) then begin
+  	    StockMovSumUp(SMr);
+  	    RECORDSTORE(SMr,true);
+  	  end;
+  	end;
+  	
+  	//Remove rows in RetVc with zero leftover in source company ItemHistVc
+  	Retr.SerNr = -1;
+  	TrHs = true;
+  	while (LoopMain(Retr,1,TrHs)) begin
+  	  setcompany(sourceCompany,false);
+  	  rwcnt = MatRowCnt(Retr);
+  	  realRowNr = 0;
+  	  recordIsModifiedF = false;
+  	  for (i=0;i<rwcnt;i=i+1) begin
+  	    MatRowGet(Retr,i,Retrw);
+  	    deleteRowF = true;
+  	    
+  	    IHr.FileName = "RetVc";
+  	    IHr.TransNr = Retr.SerNr;
+  	    IHr.Row = realRowNr;
+  	    if (ReadFirstKey("FNTransNr",IHr,3,true) and IHr.Location==Retr.Location) then begin
+  	      if (IHr.RemQty>0) then begin
+	          deleteRowF = false;
+	        end;
+  	    end;
+  	    if (deleteRowF) then begin
+  	      MatRowDelete(SMr,i);
+  	      i = i - 1;
+          rwcnt = rwcnt - 1;
+  	      recordIsModifiedF = true;
+  	    end;
+  	    
+  	    realRowNr = realRowNr + 1;
+  	  end;
+  	  resetcompany(curcompany);
+  	  if (recordIsModifiedF) then begin
+  	    RetSumUp(Retr);
+  	    RECORDSTORE(Retr,true);
+  	  end;
+  	end;
+  	
+  	//Recalculate ORVc to update SHOPS statuses in rows
+  	RECORDNEW(RepSpec2);
+  	RecalcShopsItemsMn(RepSpec2);
+  	
+  	//in ORVc set to zero Quant in rows with no SHOPS lefover
+  	ORr.SerNr = -1;
+  	TrHs = true;
+  	while (LoopMain(ORr,1,TrHs)) begin
+  	  testf = true;
+  	  if (ORr.OrderClass!="Shops") then begin testf = false; end;
+  	  if (ORr.Location!=shopsLocation) then begin testf = false; end;
+  	  if (testf) then begin
+  	    recordIsModifiedF = false;
+  	    rwcnt = MatRowCnt(ORr);
+  	    for (i=0;i<rwcnt;i=i+1) begin
+  	      MatRowGet(ORr,i,ORrw);
+  	      if (nonblank(ORrw.ArtCode) and ORrw.Shopd<=0) then begin
+  	        ORrw.Quant = 0;
+  	        MatRowPut(ORr,i,ORrw);
+  	        recordIsModifiedF = true;
+  	      end;
+  	    end;
+  	    if (recordIsModifiedF) then begin
+  	      ORSumup(ORr);
+  	      RECORDSTORE(ORr,true);
+  	    end;
+  	  end;
+  	end;
+	end;
+
 	
 return;
 end;

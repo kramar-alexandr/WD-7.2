@@ -1974,3 +1974,17 @@ begin
   //CheckBox(h=50,v+=20,70,"Экспортировать порядковые номера",flags[0]);
   EndWindow;
 end;
+
+window MoveShopsToCompVClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+	
+  WindowBegin("Перенесення SHOPS з іншої компанії",MoveShopsToCompVClass,CGMnt,RcType);
+    SetWRect(20,120,350,300);
+    h=100; v = 6; vs = 20;
+    EditField(h,v,150,"З компанії",Normal,f1,false,0);
+    //EditField(h,v+=vs,150,"Основний склад",Normal,f2,false,LocationSClass);
+  EndWindow;
+end;
