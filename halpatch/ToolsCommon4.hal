@@ -1717,10 +1717,10 @@ global updating procedure MoveShopsToCompMn(record RcVc RepSpec)
 begin
 	record ORVc ORr;
 	row ORVc ORrw;
-	record StockMovVc SMr;
+	record StockMovVc SMr,oldSMr;
 	row StockMovVc SMrw;
 	record ItemHistVc IHr;
-	record RetVc Retr;
+	record RetVc Retr,oldRetr;
 	row RetVc Retrw;
 	record RcVc RepSpec2;
 	integer curcompany,sourceCompany,rwcnt,i,realRowNr;
@@ -1772,6 +1772,7 @@ begin
 																	  SMr.ToThrouLocOKNr = blankval;
 																	  
 																		RecordInsert(SMr,false);
+																		
 																		ORr.Location = shopsLocation;
 																		RecordInsert(ORr,false);
 																		createrecordlink(SMr,curcompany,ORr,curcompany);
@@ -1787,13 +1788,14 @@ begin
   														if(ORr.OrderClass=="Shops")then begin
 															  resetcompany(curcompany);
 															  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
-															  
+															  Retr.OKFlag = 0;
 															  Retr.LocOKNr = blankval;
 															  Retr.TransDate = currentdate;
 															  Retr.TransDate = currentdate;
 																RecordInsert(Retr,false);
 																ORr.Location = shopsLocation;
 																RecordInsert(ORr,false);
+																
 																createrecordlink(Retr,curcompany,ORr,curcompany);
 																createrecordlink(ORr,curcompany,Retr,curcompany);
   															setcompany(sourceCompany,false);
@@ -1847,6 +1849,10 @@ begin
   	  if (recordIsModifiedF) then begin
   	    StockMovSumUp(SMr);
   	    RECORDSTORE(SMr,true);
+  	    recordcopy(oldSMr,SMr);
+				SMr.OKFlag = 1;
+				SMr.OrdFlag = 1;
+				recordupdate(oldSMr,SMr,true);
   	  end;
   	end;
   	
@@ -1883,6 +1889,9 @@ begin
   	  if (recordIsModifiedF) then begin
   	    RetSumUp(Retr);
   	    RECORDSTORE(Retr,true);
+  	    RecordCopy(oldRetr,Retr);
+				Retr.OKFlag = 1;
+				RecordUpdate(oldRetr,Retr,true);
   	  end;
   	end;
   	
