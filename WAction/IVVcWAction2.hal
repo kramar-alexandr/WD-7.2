@@ -65,6 +65,7 @@ BEGIN
   record CashierDefBlock CDb;
   record CompaniesBlock CBb;
   row CompaniesBlock CBrw;
+  record INVc INr;// Edit ************************** Tuesday, 20 December 2016 09:45:44
   
   blockload(CBb);
   if(matrowcnt(CBb)>0)then begin
@@ -120,12 +121,20 @@ BEGIN
 	
           if(res==false)then begin
           	MatRowGet(IVCashr,rownr,IVCashrw);
+          	INr.Code = IVCashrw.ArtCode;
+          	if(readfirstmain(INr,1,true))then begin
+          		if(INr.Group=="WARRA")then begin
+          			res = true;
+          		end;
+          	end;
 						switch (IVCashrw.ArtCode) begin
 							case "WARANTY_SE": res = true;
 							case "WARRANTY_6": res = true;
 							case "WARRANTY_6_PL": res = true;
 							case "WARRANTY_CPU": res = true;
 							case "SRV_OTHER": res = true;
+							case "WARRANTY_7": res = true;
+							case "WARRANTY_7_PL": res = true;
 						end;
           end;
           
@@ -247,12 +256,20 @@ BEGIN
 	
           if(res==false)then begin
           	MatRowGet(IVCashr,rownr,IVCashrw);
+          	INr.Code = IVCashrw.ArtCode;
+          	if(readfirstmain(INr,1,true))then begin
+          		if(INr.Group=="WARRA")then begin
+          			res = true;
+          		end;
+          	end;
 						switch (IVCashrw.ArtCode) begin
 							case "WARANTY_SE": res = true;
 							case "WARRANTY_6": res = true;
 							case "WARRANTY_6_PL": res = true;
 							case "WARRANTY_CPU": res = true;
 							case "SRV_OTHER": res = true;
+							case "WARRANTY_7": res = true;
+							case "WARRANTY_7_PL": res = true;
 						end;
           end;
           

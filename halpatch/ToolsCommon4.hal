@@ -1760,6 +1760,17 @@ begin
   																if(ORr.OrderClass=="Shops")then begin
 																	  resetcompany(curcompany);
 																	  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
+																	  SMr.FrLocation = "INV_OUT_TM";
+																	  SMr.ThrouLocation = "";
+																	  SMr.OrdTransDate = currentdate;
+																	  SMr.TransDate = currentdate;
+																	  SMr.OKFlag = 0;
+																	  SMr.OrdFlag = 0;
+																	  SMr.SentOKFlag = 0;
+																	  SMr.FrLocOKNr = blankval;
+																	  SMr.ToLocOKNr = blankval;
+																	  SMr.ToThrouLocOKNr = blankval;
+																	  
 																		RecordInsert(SMr,false);
 																		ORr.Location = shopsLocation;
 																		RecordInsert(ORr,false);
@@ -1776,6 +1787,10 @@ begin
   														if(ORr.OrderClass=="Shops")then begin
 															  resetcompany(curcompany);
 															  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
+															  
+															  Retr.LocOKNr = blankval;
+															  Retr.TransDate = currentdate;
+															  Retr.TransDate = currentdate;
 																RecordInsert(Retr,false);
 																ORr.Location = shopsLocation;
 																RecordInsert(ORr,false);
@@ -1889,6 +1904,14 @@ begin
   	      MatRowGet(ORr,i,ORrw);
   	      if (nonblank(ORrw.ArtCode) and ORrw.Shopd<=0) then begin
   	        ORrw.Quant = 0;
+  	        MatRowPut(ORr,i,ORrw);
+  	        recordIsModifiedF = true;
+  	      end;
+  	      if (nonblank(ORrw.ArtCode) and ORrw.Shopd>0) then begin
+  	        ORrw.Quant = ORrw.Shopd;
+  	        ORrw.Shipd1 = blankval;
+  	        ORrw.Shipd2 = blankval;
+  	        ORrw.Invd = blankval;
   	        MatRowPut(ORr,i,ORrw);
   	        recordIsModifiedF = true;
   	      end;

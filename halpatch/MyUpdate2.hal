@@ -1282,15 +1282,29 @@ global //Edit***************************Sasha2,15:57 24.10.2016 {
 updating procedure TransferBlocksFromCompToCurCompMn(record RcVc RepSpec)
 begin
   Integer curComp,sourceComp;
+  record INVc INr;
   
-  
+		curComp = CurrentCompany;
     sourceComp = RepSpec.ArtMode;
     if (sourceComp>0) then begin
-      curComp = CurrentCompany;
+      
       TransferBlocks_FirstSet(RepSpec,sourceComp,curComp);
       TransferBlocks_SecondSet(RepSpec,sourceComp,curComp);
       LogText(0,"Blocks transfer is done");
     end;
+    
+    logtext(0,"Transfer INVc");
+    
+    if (SetCompany(sourceComp,false)) then begin
+			while(loopmain(INr,1,true))begin
+				if (SetCompany(curComp,false)) then begin
+					recordstore(INr,false);
+				end;
+				resetcompany(sourceComp);
+			end;
+    end;
+    resetcompany(curComp);
+    
 
 return;
 end;//Edit***************************Sasha2,15:57 24.10.2016 }
