@@ -17,6 +17,7 @@ external updating procedure RecalcShopsItemsMn(record RcVc);
 external procedure StockMovSumUp(var record StockMovVc); //Edit***************************Sasha2,12:15 13.12.2016
 external procedure RetSumUp(var record RetVc); //Edit***************************Sasha2,12:23 13.12.2016
 external procedure ORSumup(var record ORVc); //Edit***************************Sasha2,13:06 13.12.2016
+external procedure ORVc_PasteQuant(var record ORVc,Integer,Boolean,var Boolean);
 
 global
 function roundmode DefaultRoundMode()
@@ -1724,7 +1725,7 @@ begin
 	row RetVc Retrw;
 	record RcVc RepSpec2;
 	integer curcompany,sourceCompany,rwcnt,i,realRowNr;
-	Boolean TrHs,testf,TrHs2,testf2,deleteRowF,recordIsModifiedF;
+	Boolean TrHs,testf,TrHs2,testf2,deleteRowF,recordIsModifiedF,chsum;
 	string 20 shopsLocation;
 	
 	curcompany = currentcompany;
@@ -1770,7 +1771,6 @@ begin
 																	  SMr.FrLocOKNr = blankval;
 																	  SMr.ToLocOKNr = blankval;
 																	  SMr.ToThrouLocOKNr = blankval;
-																	  
 																		RecordInsert(SMr,false);
 																		
 																		ORr.Location = shopsLocation;
@@ -1793,9 +1793,9 @@ begin
 															  Retr.TransDate = currentdate;
 															  Retr.TransDate = currentdate;
 																RecordInsert(Retr,false);
+																
 																ORr.Location = shopsLocation;
 																RecordInsert(ORr,false);
-																
 																createrecordlink(Retr,curcompany,ORr,curcompany);
 																createrecordlink(ORr,curcompany,Retr,curcompany);
   															setcompany(sourceCompany,false);
@@ -1914,10 +1914,14 @@ begin
   	      if (nonblank(ORrw.ArtCode) and ORrw.Shopd<=0) then begin
   	        ORrw.Quant = 0;
   	        MatRowPut(ORr,i,ORrw);
+  	        ORVc_PasteQuant(ORr,i,true,chsum);
   	        recordIsModifiedF = true;
   	      end;
   	      if (nonblank(ORrw.ArtCode) and ORrw.Shopd>0) then begin
   	        ORrw.Quant = ORrw.Shopd;
+  	        MatRowPut(ORr,i,ORrw);
+  	        ORVc_PasteQuant(ORr,i,true,chsum);
+  	        MatRowGet(ORr,i,ORrw);
   	        ORrw.Shipd1 = blankval;
   	        ORrw.Shipd2 = blankval;
   	        ORrw.Invd = blankval;

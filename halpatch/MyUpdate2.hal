@@ -1414,6 +1414,7 @@ begin
                   TrHs1 = false;
                   testf1 = false;
                   foundPU = true;
+                  testf = true; //Edit***************************Sasha2,15:37 20.12.2016
                 end;
               end;
             end;
@@ -1423,6 +1424,7 @@ begin
             currency = BCb.BaseCur1;
             suppDate = CurrentDate;
             fr = 1;
+            testf = true; //Edit***************************Sasha2,15:37 20.12.2016
           end;
           LogText(0,"PopulateAvailableItemsMn (uncertain PUVc source; company #" & CurrentCompany & "): IHr.SerNr: " & IHr.SerNr);
         end;
@@ -1482,9 +1484,10 @@ begin
           AvailableItemr.Vendor = "";
           TrHs = true;
           i = 0;
+          firstLoop = true;
           while (LoopKey("Vendor",AvailableItemr,1,TrHs)) begin
-            if (firstLoop==false) then begin
-              firstLoop = true;
+            if (firstLoop) then begin
+              firstLoop = false;
               vendor = AvailableItemr.Vendor;
               currency = AvailableItemr.CurncyCode;
               fr = AvailableItemr.FrRate;

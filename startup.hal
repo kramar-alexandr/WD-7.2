@@ -107,7 +107,7 @@ begin
 	Import("§мпорт регистрґв ‡ Џ…ђ…‡ЂЏ€‘ЋЊ",ImportOfRegisterRewriteIClass,ImportOfRegisterRewriting,modDBMain);
 
   Export("Register Export",ExpRegEClass,ExpRegEn,modPOS);
-  Export("…кспорт певних регґстрґв",ExportRegistersFromCurCompEClass,ExportRegistersFromCurCompEn,modSY); //Edit***************************Sasha2,17:57 01.12.2016
+  Export("…кспорт певних регґстрґв",ExportRegistersFromCurCompEClass,ExportRegistersFromCurCompEn,modDBMain); //Edit***************************Sasha2,17:57 01.12.2016
   
   Import("§мпорт наЯвностґ товарґв WEB",WebINImportIClass,ImportWebItemsIn,modSO);
 
