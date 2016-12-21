@@ -1333,17 +1333,20 @@ return;
 end;//Edit***************************Sasha2,15:57 24.10.2016 }
 
 global //Edit***************************Sasha2,11:21 30.11.2016 {
-updating procedure PopulateAvailableItemsMn(string fromLocations)
+updating procedure PopulateAvailableItemsMn(string fromLocations,record RcVc RepSpec)
 begin
   record AvailableItemVc AvailableItemr;
   record ItemHistVc IHr,IH2r;
   record BaseCurBlock BCb;
   record PUVc PUr;
+  record ORVc ORr;
+  record RetVc Retr;
   Boolean testf,TrHs,testf1,TrHs1,foundPU;
   string 20 vendor,currency;
-  val fr,to1;
+  val fr,to1,shopsRetVcTotCost;
   date suppDate;
   longint recCount;
+  integer shopsRetVcTotQty;
     
     BlockLoad(BCb);
     recCount = 0;
@@ -1356,13 +1359,25 @@ begin
       end;
     end;
     
-    
     IHr.ArtCode = "";
     TrHs = true;
     while (LoopKey("ActiveQty",IHr,1,TrHs)) begin
       testf = true;
       if (NonBlank(fromLocations) and SetInSet(IHr.Location,fromLocations)==false) then begin testf = false; end;
       if (Blank(IHr.ArtCode)) then begin testf = false; end;
+      if (testf and RepSpec.flags[0]==1 and IHr.FileName=="RetVc") then begin
+        Retr.SerNr = IHr.TransNr;
+        if (ReadFirstMain(Retr,1,true)) then begin
+          if (Retr.OrdNr>-1) then begin
+            ORr.SerNr = Retr.OrdNr;
+            if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops") then begin
+              testf = false;
+              shopsRetVcTotQty = shopsRetVcTotQty + IHr.RemQty;
+              shopsRetVcTotCost = shopsRetVcTotCost + (IHr.TotCostPrice/IHr.Qty)*IHr.RemQty;
+            end;
+          end;
+        end;
+      end;
       if (testf) then begin
         testf = false;
         if (IHr.InSerNr>0 and IHr.InFileName=="PUVc") then begin testf = true; PUr.SerNr = IHr.InSerNr; end;
@@ -1386,6 +1401,7 @@ begin
           end;
         end else begin
           foundPU = false;
+          testf = true; //Edit***************************Sasha2,15:37 20.12.2016
           if (NonBlank(IHr.SerialNr)) then begin
             RESETLOOP(IH2r);
             IH2r.SerialNr = IHr.SerialNr;
@@ -1414,7 +1430,6 @@ begin
                   TrHs1 = false;
                   testf1 = false;
                   foundPU = true;
-                  testf = true; //Edit***************************Sasha2,15:37 20.12.2016
                 end;
               end;
             end;
@@ -1424,7 +1439,6 @@ begin
             currency = BCb.BaseCur1;
             suppDate = CurrentDate;
             fr = 1;
-            testf = true; //Edit***************************Sasha2,15:37 20.12.2016
           end;
           LogText(0,"PopulateAvailableItemsMn (uncertain PUVc source; company #" & CurrentCompany & "): IHr.SerNr: " & IHr.SerNr);
         end;
@@ -1439,7 +1453,7 @@ begin
           AvailableItemr.Location = IHr.Location;
           AvailableItemr.SerialNr = IHr.SerialNr;
           AvailableItemr.Quant = IHr.RemQty;
-          AvailableItemr.TotCost = IHr.RemCostPrice;
+          AvailableItemr.TotCost = (IHr.TotCostPrice/IHr.Qty)*IHr.RemQty;
           AvailableItemr.CurncyCode = currency;
           AvailableItemr.FrRate = fr;
           AvailableItemr.ToRateB1 = 1;
@@ -1450,6 +1464,9 @@ begin
       end;
     end;
     LogText(0,"Saved AvailableItemVc records: " & recCount);
+    if (shopsRetVcTotQty>0) then begin
+      LogText(0,"Skipped RetVc records: Qty:" & shopsRetVcTotQty & "; Cost:" & shopsRetVcTotCost);
+    end;
     
   return;
 end; //Edit***************************Sasha2,11:21 30.11.2016 }
@@ -1479,7 +1496,7 @@ begin
       PUr.Location = toLoc;
       PUVc_PasteLocation(PUr,-1);
       if (SetCompany(sourceComp,false)) then begin
-        PopulateAvailableItemsMn(fromLoc);
+        PopulateAvailableItemsMn(fromLoc,RepSpec);
         if (CountRecords("AvailableItemVc")>0) then begin
           AvailableItemr.Vendor = "";
           TrHs = true;

@@ -1955,11 +1955,12 @@ begin
   Integer tilenr,f,flipnr;
 	
   WindowBegin("Перенесення стану складу з іншої компанії",GetLeftOverFromAnotherCompVClass,CGMnt,RcType);
-    SetWRect(20,120,350,300);
+    SetWRect(20,120,500,300);
     h=200; v = 10; vs = 20;
     EditField(h,v,50,"З компанії",Normal,ArtMode,false,0);
     EditField(h,v+=vs,100,"Зі складу (компанія-джерело)",Normal,f1,false,0);
     EditField(h,v+=vs,100,"На склад (поточна компанія)",Normal,f2,false,LocationSClass);
+    CheckBox(h-180,v+=vs,0,"Склад-джерело являється shops (не переносити Поверення від клієнта shops)",flags[0]);
   EndWindow;
 end;
 
