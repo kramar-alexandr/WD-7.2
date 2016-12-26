@@ -1189,18 +1189,22 @@ BEGIN
       warning = USetStr(1120) & PUrw.ArtCode;
     end;
   end;
-  if (chrsum) then begin
-    PUCalcCostPrice(PUrw.ArtCode,PUrw.UPrice,PUr.InclVAT,PUr.NoTAXonVAT,PUrw.Extra,PUr.CurncyCode,
-                    PUr.FrRate,PUr.ToRateB1,PUr.ToRateB2,PUr.BaseRate1,PUr.BaseRate2,
-                    PUrw.ShipCost,PUrw.RowCost1,PUrw.RowCost2,PUrw.RowCost3,PUrw.RowCost4,PUrw.RowCost5,
-                    PUrw.CustomsCost,p,PUrw.Quant,s,PUrw.VATCode,PUr.ExportFlag);
-    PUrw.CostPrice = p;
-    PUrw.Sum = s;
-    chsum = true;
+  if(ISMAINTENANCE==false)then begin
+		if (chrsum) then begin
+			PUCalcCostPrice(PUrw.ArtCode,PUrw.UPrice,PUr.InclVAT,PUr.NoTAXonVAT,PUrw.Extra,PUr.CurncyCode,
+											PUr.FrRate,PUr.ToRateB1,PUr.ToRateB2,PUr.BaseRate1,PUr.BaseRate2,
+											PUrw.ShipCost,PUrw.RowCost1,PUrw.RowCost2,PUrw.RowCost3,PUrw.RowCost4,PUrw.RowCost5,
+											PUrw.CustomsCost,p,PUrw.Quant,s,PUrw.VATCode,PUr.ExportFlag);
+			PUrw.CostPrice = p;
+			PUrw.Sum = s;
+			chsum = true;
+		end;
   end;
   MatRowPut(PUr,rownr,PUrw);    
-  if (chsum) then begin
-    PUSumUp(PUr);
+  if(ISMAINTENANCE==false)then begin// Edit ************************** Monday, 26 December 2016 15:15:17
+		if (chsum) then begin
+			PUSumUp(PUr);
+		end;
   end;
 LPUVc_PasteArtCode:; 
   PUVc_PasteArtCode = res;

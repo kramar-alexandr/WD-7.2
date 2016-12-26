@@ -7,6 +7,8 @@ external procedure PUDClassSumEFAfterRemote(var record PUVc,Integer);
 external function Integer PUVc_PasteSerialNr(record PUVc,Integer);
 external procedure PUVc_PasteLocation(var record PUVc,Integer);
 external function Boolean PUVc_PasteVECode(var record PUVc);
+external procedure PUSumUp(var record PUVc);
+
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -1365,6 +1367,7 @@ begin
   record ItemHistVc IHr,IH2r;
   record BaseCurBlock BCb;
   record PUVc PUr;
+  row PUVc PUrw;
   record ORVc ORr;
   record RetVc Retr;
   Boolean testf,TrHs,testf1,TrHs1,foundPU;
@@ -1372,7 +1375,10 @@ begin
   val fr,to1,shopsRetVcTotCost;
   date suppDate;
   longint recCount;
-  integer shopsRetVcTotQty;
+  integer shopsRetVcTotQty,purwcnt;
+  val uprice,pusum,pucost,totsum,totcnt;
+  record SerBalVc SerBalr;
+  record INVc INr;
     
     BlockLoad(BCb);
     recCount = 0;
@@ -1388,6 +1394,12 @@ begin
     IHr.ArtCode = "";
     TrHs = true;
     while (LoopKey("ActiveQty",IHr,1,TrHs)) begin
+    	uprice = blankval;
+    	pusum = blankval;
+    	pucost = blankval;
+    	vendor = "";
+    	currency = "";
+    	
       testf = true;
       if (NonBlank(fromLocations) and SetInSet(IHr.Location,fromLocations)==false) then begin testf = false; end;
       if (Blank(IHr.ArtCode)) then begin testf = false; end;
@@ -1404,16 +1416,40 @@ begin
           end;
         end;
       end;
+      if (IHr.StockAffectf!=1) then begin testf = false; end;
+      INr.Code = IHr.ArtCode;
+      if(readfirstmain(INr,1,true))then begin
+      	if (INr.ItemType!=kItemTypeStocked) then begin testf = false; end;
+				SerBalr.Item = IHr.ArtCode;							//Edit----------------------Dima  09.09.2015
+				SerBalr.Location = IHr.Location;
+				SerBalr.Serial = IHr.SerialNr;
+				if ((ReadFirstMain(SerBalr,3,true) and (SerBalr.Quant>0)) or INr.SerNrf==0) then begin
+			
+				end else begin
+					testf = false;
+				end;
+			end;
+      
       if (testf) then begin
         testf = false;
-        if (IHr.InSerNr>0 and IHr.InFileName=="PUVc") then begin testf = true; PUr.SerNr = IHr.InSerNr; end;
-        if (testf==false and IHr.FileName=="PUVc") then begin testf = true; PUr.SerNr = IHr.TransNr; end;
+        if (IHr.InSerNr>0 and IHr.InFileName=="PUVc") then begin testf = true; 
+        	PUr.SerNr = IHr.InSerNr; 
+        	purwcnt = IHr.InRow;
+        end;
+        if (testf==false and IHr.FileName=="PUVc") then begin testf = true; 
+        	PUr.SerNr = IHr.TransNr; 
+        	purwcnt = IHr.Row;
+        end;
         if (testf) then begin
           testf = false;
           if (ReadFirstMain(PUr,1,true)) then begin
+          	matrowget(PUr,purwcnt,PUrw);
             vendor = PUr.VECode;
             currency = PUr.CurncyCode;
             suppDate = PUr.TransDate;
+            uprice = PUrw.UPrice;
+            pusum = PUrw.Sum;
+            pucost = PUrw.CostPrice;
             fr = PUr.FrRate;
             if (fr==0) then begin
               fr = 1;
@@ -1439,11 +1475,16 @@ begin
               if (IH2r.SerialNr!=IHr.SerialNr or IH2r.ArtCode!=IHr.ArtCode) then begin TrHs1 = false; testf1 = false; end;
               if (IH2r.FileName!="PUVc") then begin testf1 = false; end;
               if (testf1) then begin
-                PUr.SerNr = IHr.TransNr;
+                PUr.SerNr = IH2r.TransNr;
+                purwcnt = IH2r.Row;
                 if (ReadFirstMain(PUr,1,true)) then begin
+									matrowget(PUr,purwcnt,PUrw);
                   vendor = PUr.VECode;
                   currency = PUr.CurncyCode;
                   suppDate = PUr.TransDate;
+                  uprice = PUrw.UPrice;
+									pusum = PUrw.Sum;
+									pucost = PUrw.CostPrice;
                   fr = PUr.FrRate;
                   if (fr==0) then begin
                     fr = 1;
@@ -1479,7 +1520,12 @@ begin
           AvailableItemr.Location = IHr.Location;
           AvailableItemr.SerialNr = IHr.SerialNr;
           AvailableItemr.Quant = IHr.RemQty;
-          AvailableItemr.TotCost = (IHr.TotCostPrice/IHr.Qty)*IHr.RemQty;
+          AvailableItemr.TotCostSum = (IHr.TotCostPrice/IHr.Qty)*IHr.RemQty;
+          totcnt = totcnt + IHr.RemQty;
+          totsum = totsum + AvailableItemr.TotCostSum;
+          AvailableItemr.TotUPrice = uprice;
+          AvailableItemr.TotCost = IHr.TotCostPrice/IHr.Qty;
+          
           AvailableItemr.CurncyCode = currency;
           AvailableItemr.FrRate = fr;
           AvailableItemr.ToRateB1 = 1;
@@ -1493,7 +1539,7 @@ begin
     if (shopsRetVcTotQty>0) then begin
       LogText(0,"Skipped RetVc records: Qty:" & shopsRetVcTotQty & "; Cost:" & shopsRetVcTotCost);
     end;
-    
+     LogText(0,"TOTSUM " & totsum & " TOTQTY " & totcnt);
   return;
 end; //Edit***************************Sasha2,11:21 30.11.2016 }
 
@@ -1509,7 +1555,8 @@ begin
   row PUVc PUrw;
   boolean TrHs,testf,firstLoop;
   string 20 fromLoc,toLoc,vendor,currency;
-  val fr;
+  val fr,totsum,totcnt,totsumbyrow,totcntbyrow;
+  longint cntrec;
     
     fromLoc = RepSpec.f1;
     toLoc = RepSpec.f2;
@@ -1529,6 +1576,7 @@ begin
           i = 0;
           firstLoop = true;
           while (LoopKey("Vendor",AvailableItemr,1,TrHs)) begin
+          	cntrec = cntrec + 1;
             if (firstLoop) then begin
               firstLoop = false;
               vendor = AvailableItemr.Vendor;
@@ -1551,6 +1599,10 @@ begin
               if (PUr.SerNr<0) then begin
                 PUr.SerNr = NextSerNr("PUVc",PUr.TransDate,-1,false,"");
               end;
+              logtext(0,PUr.SerNr & " cntrec " & cntrec);
+              PUSumUp(PUr);
+              totsum = totsum + PUr.PayVal;
+              totcnt = totcnt + PUr.SumQuant;
               RECORDINSERT(PUr,true);
               RECORDNEW(PUr);
               PUr.VECode = vendor;
@@ -1573,17 +1625,31 @@ begin
               MatRowGet(PUr,i,PUrw);
               if (NonBlank(AvailableItemr.SerialNr)) then begin
                 PUrw.SerialNr = AvailableItemr.SerialNr;
-                MatRowPut(PUr,i,PUrw);
-                PUVc_PasteSerialNr(PUr,i);
-                MatRowGet(PUr,i,PUrw);
+                //MatRowPut(PUr,i,PUrw);
+                //PUVc_PasteSerialNr(PUr,i);
+                //MatRowGet(PUr,i,PUrw);
               end;
               PUrw.Quant = AvailableItemr.Quant;
-              MatRowPut(PUr,i,PUrw);
+              PUrw.UPrice = AvailableItemr.TotUPrice;
+              PUrw.CostPrice = AvailableItemr.TotCost;
+              PUrw.Sum = AvailableItemr.TotCostSum;
+              totsumbyrow = totsumbyrow + AvailableItemr.TotCostSum;
+              totcntbyrow = totcntbyrow + AvailableItemr.Quant;
+              /*if(PUrw.UPrice==0 and PUrw.Sum>0)then begin
+              	MatRowPut(PUr,i,PUrw);
+              	PUDClassSumEFAfterRemote(PUr,i);
+              	MatRowGet(PUr,i,PUrw);
+              end;*/
+              
+              
+              /*MatRowPut(PUr,i,PUrw);
+              PUrw.Cost = AvailableItemr.TotCost/AvailableItemr.Quant;
+              PUrw.Cost = AvailableItemr.TotCost/AvailableItemr.Quant;
               PUVc_PasteQuant(PUr,i);
               MatRowGet(PUr,i,PUrw);
-              PUrw.Sum = AvailableItemr.TotCost;
+              PUrw.Sum = AvailableItemr.TotCost;*/
               MatRowPut(PUr,i,PUrw);
-              PUDClassSumEFAfterRemote(PUr,i);
+              //PUDClassSumEFAfterRemote(PUr,i);
               i = i + 1;
             end;
             if (i>998) then begin
@@ -1591,6 +1657,10 @@ begin
               if (PUr.SerNr<0) then begin
                 PUr.SerNr = NextSerNr("PUVc",PUr.TransDate,-1,false,"");
               end;
+              logtext(0,PUr.SerNr & " cntrec " & cntrec);
+              PUSumUp(PUr);
+              totsum = totsum + PUr.PayVal;
+              totcnt = totcnt + PUr.SumQuant;
               RECORDINSERT(PUr,true);
               RECORDNEW(PUr);
               PUr.VECode = vendor;
@@ -1612,11 +1682,17 @@ begin
           if (PUr.SerNr<0) then begin
             PUr.SerNr = NextSerNr("PUVc",PUr.TransDate,-1,false,"");
           end;
+          logtext(0,PUr.SerNr & " cntrec " & cntrec);
+          PUSumUp(PUr);
+          totsum = totsum + PUr.PayVal;
+          totcnt = totcnt + PUr.SumQuant;
           RECORDINSERT(PUr,true);
         end;
       end;
     end;
     
+    logtext(0,"TOTSUM  " & totsum & " TOCNT " & totcnt);
+    logtext(0,"TOTSUM  byrow" & totsumbyrow & " TOCNTbyrow " & totcntbyrow);
     
   return;
 end; //Edit***************************Sasha2,11:21 30.11.2016 }

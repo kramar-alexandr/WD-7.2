@@ -4305,12 +4305,16 @@ EndRecord;
     RecordField(FrRate,M4Rate,0,0); 
     RecordField(ToRateB1,M4Rate,0,0);
     RecordField(BaseCur,M4Code,20,0);
+    RecordField(TotUPrice,M4Val,0,0);
+    RecordField(TotCostSum,M4Val,0,0);
+    
     MainKeyBegin(SerNr,0);
     KeySegment(SerNr);
     KeyBegin(Vendor);
     KeySegment(Vendor);
     KeySegment(CurncyCode);
     KeySegment(FrRate);
+    KeySegment(SerNr);
   EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
   
 return;
