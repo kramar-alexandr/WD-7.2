@@ -1969,10 +1969,27 @@ window ExportRegistersFromCurCompEClass:1
 begin
   real h,v,vs;
   WindowBegin("Специфікація: експорт певних регістрів",ExportRegistersFromCurCompEClass,CGEcW,RcType);
-  SetWRect(20,80,400,250);
-  v = 6; vs = 20; h = 120;
+  SetWRect(20,80,400,400);
+  //v = 6; vs = 20; h = 120;
   //EditFieldTL(h,v, 150,"Vc код",   M4Str,Normal,100,f1,false,0);
   //CheckBox(h=50,v+=20,70,"Экспортировать порядковые номера",flags[0]);
+  v = 10; vs = 20; h = 40;
+  Statictext(h,v+=10,"Вивантажити регістри:",false);
+  CheckBox(h,v+=vs,1,"ITVc",flags[0]);
+  CheckBox(h,v+=vs,1,"UnitVc",flags[1]);
+  CheckBox(h,v+=vs,1,"CTypeVc",flags[2]);
+  CheckBox(h,v+=vs,1,"CCatVc",flags[3]);
+  CheckBox(h,v+=vs,1,"INVc",flags[4]);
+  CheckBox(h,v+=vs,1,"CUVc",flags[5]);
+  CheckBox(h,v+=vs,1,"DIVc",flags[6]);
+  CheckBox(h,v+=vs,1,"LocationVc",flags[7]);
+  CheckBox(h,v+=vs,1,"ObjVc",flags[8]);
+  CheckBox(h,v+=vs,1,"CurncyCodeVc",flags[9]);
+  CheckBox(h,v+=vs,1,"ERVc",flags[10]);
+  CheckBox(h,v+=vs,1,"RebVc",flags[11]);
+  CheckBox(h,v+=vs,1,"AccVc",flags[12]);
+  CheckBox(h,v+=vs,1,"UserDefRepLinesVc",flags[13]);
+
   EndWindow;
 end;
 

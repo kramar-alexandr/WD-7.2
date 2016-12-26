@@ -1314,20 +1314,48 @@ updating procedure ExportRegistersFromCurCompEn(record RcVc RepSpec)
 begin
   
   ExportFormat;
-  RegisterExport("ITVc");
-  RegisterExport("UnitVc");
-  RegisterExport("CTypeVc");
-  RegisterExport("CCatVc");
-  //RegisterExport("INVc");
-  RegisterExport("CUVc");
-  RegisterExport("DIVc");
-  RegisterExport("LocationVc");
-  RegisterExport("ObjVc");
-  RegisterExport("CurncyCodeVc");
-  RegisterExport("ERVc");
-  RegisterExport("RebVc");
-  RegisterExport("AccVc");
-  RegisterExport("UserDefRepLinesVc");
+  if (RepSpec.flags[0]==1) then begin
+    RegisterExport("ITVc");
+  end;
+  if (RepSpec.flags[1]==1) then begin
+    RegisterExport("UnitVc");
+  end;
+  if (RepSpec.flags[2]==1) then begin
+    RegisterExport("CTypeVc");
+  end;
+  if (RepSpec.flags[3]==1) then begin
+    RegisterExport("CCatVc");
+  end;
+  if (RepSpec.flags[4]==1) then begin
+    RegisterExport("INVc");
+  end;
+  if (RepSpec.flags[5]==1) then begin
+    RegisterExport("CUVc");
+  end;
+  if (RepSpec.flags[6]==1) then begin
+    RegisterExport("DIVc");
+  end;
+  if (RepSpec.flags[7]==1) then begin
+    RegisterExport("LocationVc");
+  end;
+  if (RepSpec.flags[8]==1) then begin
+    RegisterExport("ObjVc");
+  end;
+  if (RepSpec.flags[9]==1) then begin
+    RegisterExport("CurncyCodeVc");
+  end;
+  if (RepSpec.flags[10]==1) then begin
+    RegisterExport("ERVc");
+  end;
+  if (RepSpec.flags[11]==1) then begin
+    RegisterExport("RebVc");
+  end;
+  if (RepSpec.flags[12]==1) then begin
+    RegisterExport("AccVc");
+  end;
+  if (RepSpec.flags[13]==1) then begin
+    RegisterExport("UserDefRepLinesVc");
+  end;
 
 return;
 end;//Edit***************************Sasha2,15:57 24.10.2016 }
