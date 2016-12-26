@@ -1293,8 +1293,6 @@ begin
       LogText(0,"Blocks transfer is done");
     end;
     
-    logtext(0,"Transfer INVc");
-    
     if (SetCompany(sourceComp,false)) then begin
 			while(loopmain(INr,1,true))begin
 				if (SetCompany(curComp,false)) then begin
