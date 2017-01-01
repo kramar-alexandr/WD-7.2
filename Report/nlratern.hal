@@ -109,7 +109,6 @@ begin
         CurObjBalr.AccNumber = Accr.AccNumber;
         //CurObjBalr.Object = RU;// Edit ************************** Friday, 11 November 2016 17:27:59
         CurObjBalr.Object = Accr.AccNumber;
-        logtext(0,RepSpec.CurncyCode);
       //RepSpec.CurncyCode = "UAH";
         CurObjbals = ReadFirstMain(CurObjBalr,2,true);        
         if ((Accr.AccType==0) or (Accr.AccType==1) or (Accr.AccType==2)) begin
