@@ -101,7 +101,7 @@ BEGIN
               StockMovrw.SentQuant = 1;
             end;
             if (IntORRec.QuantToStockMov==1) then begin
-            	if(currentcompany!=4)then begin// Edit ************************** Wednesday, 16 December 2015 10:56:02
+            	if(currentcompany!=4 and CurrentCompany!=14 and CurrentCompany!=15 and CurrentCompany!=16)then begin// Edit ************************** Wednesday, 16 December 2015 10:56:02
               	StockMovrw.Quant = 1;// Edit ************************** Wednesday, 16 December 2015 10:55:16
               end else begin
               	StockMovrw.Quant = 0;// Edit ************************** Wednesday, 16 December 2015 10:55:16
@@ -140,7 +140,7 @@ BEGIN
             StockMovrw.SentQuant = IntORrw.Quant - IntORrw.Shipd1;
           end;
           if (IntORRec.QuantToStockMov==1) then begin
-          	if(currentcompany!=4)then begin// Edit ************************** Wednesday, 16 December 2015 10:56:02
+          	if(currentcompany!=4 and CurrentCompany!=14 and CurrentCompany!=15 and CurrentCompany!=16)then begin// Edit ************************** Wednesday, 16 December 2015 10:56:02
 							StockMovrw.Quant = IntORrw.Quant - IntORrw.Shipd1;
             end else begin
             	StockMovrw.Quant = 0;

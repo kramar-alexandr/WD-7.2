@@ -268,7 +268,7 @@ BEGIN
             ClearRow(StockMovp,StockMovrw,1);   
             StockMovrw.IntORRow = i;
             StockMovrw.ArtCode = ORrw.ArtCode;
-            if (CurrentCompany!=4) then begin
+            if (CurrentCompany!=4 and CurrentCompany!=14 and CurrentCompany!=15 and CurrentCompany!=16) then begin
             	StockMovrw.Quant = 1;//ORrw.Quant;//-----------------------------------Customize
             end else begin	
             	StockMovrw.Quant = 0;

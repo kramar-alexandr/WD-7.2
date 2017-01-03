@@ -1288,12 +1288,12 @@ begin
   
 		curComp = CurrentCompany;
     sourceComp = RepSpec.ArtMode;
-    if (sourceComp>0) then begin
+    /*if (sourceComp>0) then begin
       
       TransferBlocks_FirstSet(RepSpec,sourceComp,curComp);
       TransferBlocks_SecondSet(RepSpec,sourceComp,curComp);
       LogText(0,"Blocks transfer is done");
-    end;
+    end;*/
     
     if (SetCompany(sourceComp,false)) then begin
 			while(loopmain(INr,1,true))begin
@@ -1524,7 +1524,8 @@ begin
           totcnt = totcnt + IHr.RemQty;
           totsum = totsum + AvailableItemr.TotCostSum;
           AvailableItemr.TotUPrice = uprice;
-          AvailableItemr.TotCost = IHr.TotCostPrice/IHr.Qty;
+          AvailableItemr.TotCost = uprice/fr;
+          //AvailableItemr.TotCost = IHr.TotCostPrice/IHr.Qty;
           
           AvailableItemr.CurncyCode = currency;
           AvailableItemr.FrRate = fr;
@@ -1550,7 +1551,7 @@ begin
   string 255 warning,inwarn;
   Integer curComp,sourceComp,i;
   record AvailableItemVc AvailableItemr;
-  record PUVc PUr;
+  record PUVc PUr,oldPUr;
   record BaseCurBlock BCb;
   row PUVc PUrw;
   boolean TrHs,testf,firstLoop;
@@ -1566,6 +1567,7 @@ begin
       BlockLoad(BCb);
       curComp = CurrentCompany;
       RECORDNEW(PUr);
+      PUr.TransDate = stringtodate("31/12/2016");
       PUr.Location = toLoc;
       PUVc_PasteLocation(PUr,-1);
       if (SetCompany(sourceComp,false)) then begin
@@ -1604,7 +1606,11 @@ begin
               totsum = totsum + PUr.PayVal;
               totcnt = totcnt + PUr.SumQuant;
               RECORDINSERT(PUr,true);
+              recordcopy(oldPUr,PUr);
+              PUr.OKFlag = 1;
+              recordupdate(oldPUr,PUr,true);
               RECORDNEW(PUr);
+              PUr.TransDate = stringtodate("31/12/2016");
               PUr.VECode = vendor;
               PUVc_PasteVECode(PUr);
               PUr.CurncyCode = currency;
@@ -1662,7 +1668,11 @@ begin
               totsum = totsum + PUr.PayVal;
               totcnt = totcnt + PUr.SumQuant;
               RECORDINSERT(PUr,true);
+              recordcopy(oldPUr,PUr);
+              PUr.OKFlag = 1;
+              recordupdate(oldPUr,PUr,true);
               RECORDNEW(PUr);
+              PUr.TransDate = stringtodate("31/12/2016");
               PUr.VECode = vendor;
               PUVc_PasteVECode(PUr);
               PUr.CurncyCode = currency;
@@ -1687,6 +1697,9 @@ begin
           totsum = totsum + PUr.PayVal;
           totcnt = totcnt + PUr.SumQuant;
           RECORDINSERT(PUr,true);
+          recordcopy(oldPUr,PUr);
+					PUr.OKFlag = 1;
+					recordupdate(oldPUr,PUr,true);
         end;
       end;
     end;

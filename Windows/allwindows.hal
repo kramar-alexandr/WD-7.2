@@ -4798,7 +4798,7 @@ begin
   EditField(h,v+=vs,-40,"",Normal,ToAddr4,false,0);
   SpecialMenu("Собівартість у старій ціні за од.",'=',0,"StockMovFillFIFODsm");
   SpecialMenu("Статус товару",'I',1,"ItemStatusStockMovDsm");
-  if (CurrentCompany == 4) then begin//Edit-------------------Vitalii 17:25 07.12.2015
+  if (CurrentCompany==4 or CurrentCompany==14 or CurrentCompany==15 or CurrentCompany==16) then begin//Edit-------------------Vitalii 17:25 07.12.2015
 	SpecialMenu("Пошук товару",'',1,"ItemSearchDsm");
   end else begin
 	SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
@@ -4817,7 +4817,7 @@ begin
   end;
   SpecialMenu("Оновити ціни в замовленні клієнта (+9%)",'',10,"UpdatePricesInORFromStockMovDsm");
   SpecialMenu("Передати товари в A-Service",'',10,"CreateMoveForServiceFromStockMovDsm"); //Edit***************************Sasha2,9:43 05.05.2016
-  if (CurrentCompany == 4) then begin//Edit-------------------Vitalii 17:25 07.12.2015
+  if (CurrentCompany==4 or CurrentCompany==14 or CurrentCompany==15 or CurrentCompany==16) then begin//Edit-------------------Vitalii 17:25 07.12.2015
 	SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");
   end;
   EndWindow;
@@ -6304,7 +6304,7 @@ begin
   end;
   MatCol(t,190,"Ціна",0,Price,true,0);
   MatCol(t,250,"Опис",0,Spec,false,0);
-  if(currentcompany==4)then begin// Edit ************************** Wednesday, 25 November 2015 17:47:46
+  if(CurrentCompany==4 or CurrentCompany==14 or CurrentCompany==15 or CurrentCompany==16)then begin// Edit ************************** Wednesday, 25 November 2015 17:47:46
 		MatCol(t,-195,"Сер. №",0,SerialNr,false,0);
   end else begin
   	MatCol(t,-195,"Сер. №",0,SerialNr,false,SerialNrSClass);// Edit ************************** Wednesday, 25 November 2015 17:47:48

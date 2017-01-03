@@ -422,7 +422,7 @@ begin
   
   logtext(0,"WebCreateCustomeriCenter");
   
-  SetCompany(4,false);
+  SetCompany(14,false);
 	ri = 0;
 	WEBGETPOSTDATA(xmlarea);
 	writeareatofile(xmlarea,"webcricentr.txt",0);
@@ -492,7 +492,7 @@ begin
 	
 	//weboutarea(xmlarea);
 	    
-ResetCompany(4);
+ResetCompany(14);
 
 return;
 end;

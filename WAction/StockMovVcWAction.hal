@@ -116,7 +116,7 @@ BEGIN
   	MatRowGet(StockMovr,rownr,StockMovrw);// Edit ************************** Tuesday, 21 April 2015 14:56:37
     if(blank(StockMovrw.Quant))then begin
     
-    	if(CurrentCompany!=4) then begin 
+    	if(CurrentCompany!=4 and CurrentCompany!=14 and CurrentCompany!=15 and CurrentCompany!=16) then begin 
     		StockMovrw.Quant = 1; 
     	end else begin
     		StockMovrw.Quant = 0; 
