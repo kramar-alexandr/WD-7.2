@@ -8,6 +8,7 @@ external function Integer PUVc_PasteSerialNr(record PUVc,Integer);
 external procedure PUVc_PasteLocation(var record PUVc,Integer);
 external function Boolean PUVc_PasteVECode(var record PUVc);
 external procedure PUSumUp(var record PUVc);
+external function roundmode SetRoundModeD(Integer);
 
 
 SetLangMode(LangUkrainian,"UKR",0);
@@ -1379,6 +1380,7 @@ begin
   val uprice,pusum,pucost,totsum,totcnt;
   record SerBalVc SerBalr;
   record INVc INr;
+  val checkdif;
     
     BlockLoad(BCb);
     recCount = 0;
@@ -1523,10 +1525,20 @@ begin
           AvailableItemr.TotCostSum = (IHr.TotCostPrice/IHr.Qty)*IHr.RemQty;
           totcnt = totcnt + IHr.RemQty;
           totsum = totsum + AvailableItemr.TotCostSum;
-          AvailableItemr.TotUPrice = uprice;
-          AvailableItemr.TotCost = uprice/fr;
-          //AvailableItemr.TotCost = IHr.TotCostPrice/IHr.Qty;
-          
+          if(fr!=1)then begin
+						AvailableItemr.TotUPrice = uprice;
+						AvailableItemr.TotCost = uprice/fr;
+						
+						checkdif = AvailableItemr.TotCost - IHr.TotCostPrice/IHr.Qty;
+						if(round(checkdif,SetRoundModeD(2))>1 or round(checkdif,SetRoundModeD(2))<-1)then begin
+							AvailableItemr.TotCost = IHr.TotCostPrice/IHr.Qty;
+						end;
+						
+          end else begin
+						AvailableItemr.TotUPrice = IHr.TotCostPrice/IHr.Qty;
+						AvailableItemr.TotCost = IHr.TotCostPrice/IHr.Qty;
+          end;
+           
           AvailableItemr.CurncyCode = currency;
           AvailableItemr.FrRate = fr;
           AvailableItemr.ToRateB1 = 1;
