@@ -331,7 +331,9 @@ begin
   Integer keys;
   Boolean foundf,testf,TrHs;// Edit ************************** Monday, 7 September 2015 13:42:51
   val res,adjv,t,takenqty,remcost,skippedqty,lqty;
-  
+  boolean IVfoundf;
+  integer curcom;
+    
   lqty = -qty;
   res = blankval;
   takenqty = 0;
@@ -377,6 +379,7 @@ begin
   end;
   
   if(res==0)then begin// Edit ************************** Monday, 7 September 2015 13:41:07
+  	IVfoundf = false;
   	sourceIHr.SerialNr = serialnr;
 		sourceIHr.ArtCode = INr.Code;
 		TrHs = true;
@@ -391,9 +394,38 @@ begin
 				if(res<0)then begin
 					res = -res;
 				end;
+				IVfoundf = true;
 				testf = false;
 				TrHs = false;
 			end;
+		end;
+		
+		curcom = currentcompany;
+		if(curcom!=4)then begin
+			if(setcompany(4,false))then begin
+				resetloop(sourceIHr);
+				IVfoundf = false;
+				sourceIHr.SerialNr = serialnr;
+				sourceIHr.ArtCode = INr.Code;
+				TrHs = true;
+				while(loopbackkey("CodeSerialNrArtCode",sourceIHr,2,TrHs))begin
+					testf = true;
+					if(sourceIHr.SerialNr!=serialnr)then begin TrHs = false; testf = false; end;
+					if(sourceIHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
+					if(sourceIHr.StockAffectf==0)then begin testf = false; end;
+			
+					if(testf)then begin
+						res = sourceIHr.TotCostPrice/sourceIHr.Qty*qty;
+						if(res<0)then begin
+							res = -res;
+						end;
+						IVfoundf = true;
+						testf = false;
+						TrHs = false;
+					end;
+				end;
+			end;
+			resetcompany(curcom);
 		end;
 
   end;
@@ -1384,6 +1416,8 @@ begin
 	integer srow;
 	val frrate,torateb1;
 	boolean TrHs,testf;
+	boolean IVfoundf;
+	integer curcom;
 	
 	
 	blockload(BCb);// Edit ************************** Friday, 5 June 2015 13:12:36
@@ -1512,6 +1546,7 @@ begin
   									end;
   								end;
 		case	"IVVc":	IVr.SerNr = transnr;
+									IVfoundf = false;
 									if(INr.SerNrf>0)then begin
 										sourceIHr.SerialNr = serialnr;
 										sourceIHr.ArtCode = INr.Code;
@@ -1536,12 +1571,52 @@ begin
 														IHr.TotCostPrice = -IHr.TotCostPrice;
 														IHr.RemCostPrice = -IHr.RemCostPrice;
 													end;
+													IVfoundf = true;
 												end;
 												testf = false;
 												TrHs = false;
 											end;
 										end;
-
+										
+										if(IVfoundf==false)then begin
+											curcom = currentcompany;
+											if(curcom!=4)then begin
+												if(setcompany(4,false))then begin
+													resetloop(sourceIHr);
+													sourceIHr.SerialNr = serialnr;
+													sourceIHr.ArtCode = INr.Code;
+													sourceIHr.TransDate = IHr.TransDate;
+													TrHs = true;
+													while(loopbackkey("CodeSerialNrArtCode",sourceIHr,3,TrHs))begin
+														testf = true;
+														if(sourceIHr.SerialNr!=serialnr)then begin TrHs = false; testf = false; end;
+														if(sourceIHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
+														if(sourceIHr.StockAffectf==0)then begin testf = false; end;
+											
+														if(testf)then begin
+															curncy = sourceIHr.PUCurncyCode;
+															totcostpricecurncy = sourceIHr.TotCostPriceCurncy;
+															sfilename = "IVVc";
+															ssernr = transnr;
+															srow = rownr;
+															if(IHr.TotCostPrice==0)then begin
+																IHr.TotCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*IHr.Qty;
+																IHr.RemCostPrice = sourceIHr.TotCostPrice/sourceIHr.Qty*IHr.Qty;
+																if(IHr.TotCostPrice<0)then begin
+																	IHr.TotCostPrice = -IHr.TotCostPrice;
+																	IHr.RemCostPrice = -IHr.RemCostPrice;
+																end;
+																IVfoundf = true;
+															end;
+															testf = false;
+															TrHs = false;
+														end;
+													end;
+												end;
+												resetcompany(curcom);
+											end;
+											
+										end;
 										
 										curncy = INr.LastPurchCurncyCode;
 										totcostpricecurncy = INr.LastPurchPrice2 * IHr.Qty;
