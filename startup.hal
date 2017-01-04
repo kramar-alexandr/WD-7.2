@@ -153,6 +153,7 @@ begin
 	Maintenance("Перенесення налаштувань з іншої компанії",TransferBlocksFromCompToCurCompVClass,TransferBlocksFromCompToCurCompMn,modDBMain);//Edit***************************Sasha2,11:00 18.11.2016
   Maintenance("Перенесення стану складу з іншої компанії",GetLeftOverFromAnotherCompVClass,GetLeftOverFromAnotherCompMn,modDBMain); //Edit***************************Sasha2,11:07 01.12.2016
   Maintenance("Перенесення SHOPS з іншої компанії",MoveShopsToCompVClass,MoveShopsToCompMn,modDBMain);// Edit ************************** Friday, 9 December 2016 11:45:08
+  Maintenance("Відкрити карти лояльн. для клієнтів \"Card\"",MyVClass,OpenLoyaltyCardsMn,modDBMain); //Edit***************************Sasha2,11:25 04.01.2017
 	
 	Import("Импорт Item/Group",INITImportIClass,ImportNewItemsWithGroupIn,modIN); //Edit***************************Sasha2,15:52 21.01.2016
   

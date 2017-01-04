@@ -612,3 +612,35 @@ DuplicateSVOSerial = tstr;
 
 return;
 end;
+
+global //Edit***************************Sasha2,11:14 04.01.2017 {
+updating procedure OpenLoyaltyCardsMn(record RcVc RepSpec)
+begin
+  record LoyaltyCardVc LCr,oldLCr;
+	record CUVc CUr;
+	Boolean testf,TrHs;
+  
+		CUr.CustCat = "CARD";
+		TrHs = true;
+		while (LoopKey("Group",CUr,1,TrHs)) begin
+		  testf = true;
+		  if (CUr.CustCat!="CARD") then begin TrHs = false; testf = false; end;
+		  if (CUr.Code==CUr.Name) then begin testf = false; end;
+		  if (testf) then begin
+		    LCr.SerNr = CUr.Code;
+		    if (ReadFirstMain(LCr,1,true)) then begin
+		      if (LCr.Closed==1) then begin
+		        RecordCopy(oldLCr,LCr);
+            LCr.Closed = 0;
+            if (RecordUpdate(oldLCr,LCr,true)==0) then begin 
+              LogText(0,"Successfully opened card #" & LCr.SerNr);
+            end else begin
+              LogText(0,"Opening error in card #" & LCr.SerNr);
+            end;
+		      end;
+		    end;
+		  end;
+		end;    
+
+return;
+end; //Edit***************************Sasha2,11:14 04.01.2017 }
