@@ -67,6 +67,88 @@ external function Boolean SerNrTestSHVc(LongInt,Date,var Boolean);
 external function val FindPUBaseRate2forSerialNr(string,string);
 remote updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
 external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
+external function roundmode SetRoundModeD(Integer); //Edit***************************Sasha2,16:46 04.01.2017
+external procedure ORVc_PastePrice(var record ORVc,Integer,var Boolean); //Edit***************************Sasha2,16:46 04.01.2017
+external procedure ORDchsum(var record ORVc,Integer); //Edit***************************Sasha2,16:47 04.01.2017
+external procedure ORSumup(var record ORVc); //Edit***************************Sasha2,16:49 04.01.2017
+
+//Edit***************************Sasha2,15:50 04.01.2017 {
+updating procedure UpdateORPricesViaCUInnerMarkUp(record SHVc originalSHr)
+begin
+  record ORVc ORr;
+  record CUVc CUr;
+  record SHVc SHr;
+  row SHVc SHrw,SH2rw;
+  row ORVc ORrw;
+  integer rwcnt,i,j;
+  Boolean modifiedF,chsum;
+  val fifoVal,fr,to1;
+  record BaseCurBlock BCb;
+  
+    BlockLoad(BCb);
+    RecordCopy(SHr,originalSHr);
+    
+    if (SHr.OrderNr>-1) then begin
+      ORr.SerNr = SHr.OrderNr;
+      if (ReadFirstMain(ORr,1,true) ORr.CustCode==SHr.CustCode) then begin
+        if (ORr.CurncyCode!=BCb.BaseCur1) then begin
+          fr = ORr.FrRate;
+          to1 = ORr.ToRateB1;
+        end else begin
+          fr = 1;
+          to1 = 1;
+        end;
+        CUr.Code = ORr.CustCode;
+        if (ReadFirstMain(CUr,1,true) and CUr.TurnOnInnerMarkUp==1) then begin
+          rwcnt = MatRowCnt(SHr);
+          if (rwcnt>0) then begin
+            for (i=1;i<rwcnt;i=i+1) begin
+              MatRowGet(SHr,i,SHrw);
+              if (NonBlank(SHrw.ArtCode)) then begin
+                for (j=0;j<i;j=j+1) begin
+                  MatRowGet(SHr,j,SH2rw);
+                  if (SHrw.OrdRow==SH2rw.OrdRow and SHrw.ArtCode==SH2rw.ArtCode) then begin
+                    SH2rw.Ship = SH2rw.Ship + SHrw.Ship;
+                    SH2rw.FIFORowVal = SH2rw.FIFORowVal + SHrw.FIFORowVal;
+                    MatRowPut(SHr,j,SH2rw);
+                    j = i;
+                    MatRowDelete(SHr,i);
+                    i = i - 1;
+                    rwcnt = rwcnt - 1;
+                  end;
+                end;
+              end;
+            end;
+            modifiedF = false;
+            for (i=0;i<rwcnt;i=i+1) begin
+              MatRowGet(SHr,i,SHrw);
+              fifoVal = SHrw.FIFORowVal/SHrw.Ship;
+              if (SHrw.OrdRow>-1) then begin
+                MatRowGet(ORr,SHrw.OrdRow,ORrw);
+                if (SHrw.ArtCode==ORrw.ArtCode) then begin
+                  ORrw.Price = fifoVal + fifoVal/100*CUr.InnerMarkUp;
+                  ORrw.Price = Round(ORrw.Price*fr/to1,SetRoundModeD(2));
+                  MatRowPut(ORr,SHrw.OrdRow,ORrw);
+                  ORVc_PastePrice(ORr,SHrw.OrdRow,chsum);
+                  if (chsum) then begin
+                    ORDchsum(ORr,SHrw.OrdRow);
+                  end;
+                  modifiedF = true;
+                end;
+              end;
+            end;
+            if (modifiedF) then begin
+              ORSumup(ORr);
+              RECORDSTORE(ORr,true);
+              LogText(0,"Prices were updated in ORVc #" & ORr.SerNr);
+            end;
+          end;
+        end;
+      end;
+    end;
+  
+  return;
+end; //Edit***************************Sasha2,15:50 04.01.2017 }
 
 function Boolean StockMovOKedForSH(LongInt shnr,var LongInt stmovnr)
 begin
@@ -1660,6 +1742,7 @@ begin
 
   if (SHr.OKFlag!=0) then begin
     SHUpdateItemHist(SHr);
+    UpdateORPricesViaCUInnerMarkUp(SHr); //Edit***************************Sasha2,17:02 04.01.2017
     SHUpdateSerialNr(SHr,false,true);
     SHUpdateStock(SHr,false,false);
     UpdateProjFromShip(SHr);
@@ -1783,6 +1866,7 @@ begin
 //    SHOKStockMovemnts(SHr.SerNr);
     if (ihef==false) then begin
       SHUpdateItemHist(SHr);
+      UpdateORPricesViaCUInnerMarkUp(SHr); //Edit***************************Sasha2,17:02 04.01.2017
     end;
     SHUpdateSerialNr(SHr,false,true);
     SHUpdateInShipment(SH2r,true,SHr,false,true); // What does this function do??
@@ -1808,8 +1892,8 @@ begin
 	  	ORr.SerNr = SHr.OrderNr;
 	  	if (ReadFirstMain(ORr,1,true) and ORr.OrderClass=="Shops") then begin
 	  		RecalcORShops(ORr.SerNr & "");
-		end;
-	end; //Edit***************************Sasha2,17:48 31.10.2014 }
+  		end;
+  	end; //Edit***************************Sasha2,17:48 31.10.2014 }
 	
   end;
   if ((SH2r.OKFlag==0) and (SHr.OKFlag==0)) then begin

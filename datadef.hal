@@ -795,6 +795,8 @@ begin
   RecordField(Math2,M4TextField,0,0);
   RecordField(TaxCondition,M4Int,0,0);
   RecordField(Partner,M4Mark,0,0); //Edit***************************Sasha2,10:03 09.12.2015
+  RecordField(InnerMarkUp,M4Val,0,0); //Edit***************************Sasha2,14:30 04.01.2017
+  RecordField(TurnOnInnerMarkUp,M4Mark,0,0); //Edit***************************Sasha2,10:03 09.12.2015
   MainKeyBegin(Code,1);
   StoreInBaseKey;
   AppendFieldToKeyName(SalesGroup);
