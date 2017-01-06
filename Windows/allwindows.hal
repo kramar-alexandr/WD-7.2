@@ -4415,6 +4415,7 @@ begin
   if (IsEnterprise) then begin
     if (StandardHansa==false) then begin
   SpecialMenu("Зареєструв. електрон. відв-ня",' ',9,"EShipRegisterDsm");
+  SpecialMenu("Вставити серійки",' ',8,"PasteSerialsTOSHDsm");
     end;
     if (GuiType==kGuiiPhone) then begin
       SpecialMenu("Підпис",' ',10,"SignSHDsm");

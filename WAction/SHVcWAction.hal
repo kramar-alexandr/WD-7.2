@@ -866,3 +866,61 @@ TaxAdminServSeal is in SHVc record
   return;
 end;
 */
+
+global procedure PasteSerialsTOSHDsm()
+begin
+	integer wn,i,mtrw,rwcnt,j;
+	record SHVc SHr;
+	row SHVc SHrw;
+	record NotepadVc Noter;
+	integer notenr;
+	record SerBalVc SBr;
+	string 100 tstr;
+	boolean serialfoundf,TrHs,testf;
+  record RLinkVc RLr;
+
+	
+	wn = curwindow;
+	getwindowrecord(wn,SHr);
+	mtrw = matrowcnt(SHr);
+	notenr = 1;
+	while (ReadRecordLink(SHr,notenr,Noter,RLr)) begin
+		if ("SER"==Noter.Classification) then begin
+			
+			rwcnt = LineTextCnt(Noter);
+			for (i=0;i<rwcnt;i=i+1) begin
+				tstr = LineTextGet(Noter,i);
+				if(nonblank(tstr))then begin
+					serialfoundf = false;
+					TrHs = true;
+					resetloop(SBr);
+					SBr.Serial = tstr;
+					while(loopkey("Serial",SBr,1,TrHs))begin
+						if(SBr.Serial!=tstr)then begin TrHs = false; end;
+						
+						if(TrHs)then begin
+							For(j=0;j<mtrw;j=j+1) begin
+	  						matrowget(SHr,j,SHrw);
+	  						if(SHrw.ArtCode==SBr.Item and blank(SHrw.SerialNr))then begin
+	  							SHrw.SerialNr = SBr.Serial;
+	  							TrHs = false;
+	  							serialfoundf = true;
+	  							matrowput(SHr,j,SHrw);
+	  						end;
+							end; 
+						end;
+					end;
+					
+					if(serialfoundf==false)then begin
+						messagebox(0,"Unknown serial " & tstr);
+					end;
+				end;
+			end;  
+			
+		end;
+		notenr = notenr + 1;
+	end;
+	putwindowrecord(wn,SHr);
+	
+return;
+end;
