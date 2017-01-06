@@ -906,6 +906,7 @@ begin
 	  							TrHs = false;
 	  							serialfoundf = true;
 	  							matrowput(SHr,j,SHrw);
+	  							j=mtrw;
 	  						end;
 							end; 
 						end;
