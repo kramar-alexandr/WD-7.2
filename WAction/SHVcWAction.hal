@@ -17,6 +17,7 @@ remote procedure RefillShipment(var record SHVc,record SHVc);
 remote procedure SetDelAddr(string,string,var string,var string,var string,var string,var string,var string,var string,var string,var string,var string,var Integer,var string);
 remote updating procedure OkAllStockMovementsSHr(record RcVc);
 remote function string 20 FindCustRoute(string,string,string);
+remote updating procedure MakeInnerSaleToAnotherComp(longint,Integer); //Edit***************************Sasha2,15:56 05.01.2017
 
 	SetLangMode(LangUkrainian,"UKR",0);
 
@@ -972,3 +973,61 @@ begin
 	
 return;
 end;
+
+
+global //Edit***************************Sasha2,15:36 05.01.2017 {
+procedure MakeInnerSaleToAnotherCompDsm()
+BEGIN
+  record SHVc SHr;
+  record RcVc RepSpec;
+  record CompaniesBlock Compb;
+  row CompaniesBlock Comprw;
+  integer wn,rwcnt,i;
+
+  wn = CurWindow;
+  if (WindowState(wn)==Rs_normal) then begin
+    if (GetWindowFileName(wn)=="SHVc") then begin
+      GetWindowRecord(wn,SHr);
+      DeselectWindow(wn,false);
+      if (/*SHr.OKFlag==1*/true) then begin  
+        RECORDNEW(RepSpec);
+        RepSpec.long1 = SHr.SerNr;
+        RepSpec.ArtMode = 14;
+        BlockLoad(Compb);
+        rwcnt = MatRowCnt(Compb);
+        for (i=0;i<rwcnt;i=i+1) begin
+          MatRowGet(Compb,i,Comprw);
+          if (StringToInt(Comprw.CompCode)==RepSpec.ArtMode) then begin
+            RepSpec.f1 = Comprw.CompName;
+            i = rwcnt;
+          end;
+        end;
+        OpenWindow("ConfirmInnerSaleTClass",0,wn,"","",RepSpec);
+      end else begin
+        MessageBox(0,UsetStr(31087));
+      end;
+    end;
+  end else begin
+    MessageBox(0,UsetStr(1356));
+  end;
+  
+  
+  RETURN
+END; //Edit***************************Sasha2,15:36 05.01.2017 }
+
+global //Edit***************************Sasha2,15:36 05.01.2017 {
+updating procedure ProceedInnerSaleTClass()
+BEGIN
+  integer wn;
+  record RcVc RepSpec;
+  
+  wn = CurWindow;
+  if (GetWindowFileName(wn)=="RcVc") then begin
+    GetWindowRecord(wn,RepSpec);
+    DeselectWindow(wn,false);
+    MakeInnerSaleToAnotherComp(RepSpec.long1,RepSpec.ArtMode);
+  end;
+  CloseWindow(wn);
+
+  RETURN
+END; //Edit***************************Sasha2,15:36 05.01.2017 }

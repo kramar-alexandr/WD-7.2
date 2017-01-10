@@ -1,4 +1,14 @@
 external procedure ExtractObj(string,var Integer,var string);
+remote function Boolean POVc_PasteVECode(var record POVc,Boolean);
+remote function Boolean POVc_PasteLocation(var record POVc);
+remote procedure POSumup(var record POVc );
+remote function Boolean POVc_PasteArtCode(var record POVc,Integer,Boolean);
+remote procedure POVc_PasteQuant(var record POVc,Integer);
+remote procedure POVc_PastePrice(var record POVc,Integer);
+remote updating function Integer PasteRowToPU(record POSettingBlock,record CostAccBlock,record MainStockBlock,record PUVc,record POVc,row POVc,Integer,record INVc,val,var Integer);
+external procedure PUSumUp(var record PUVc);
+remote updating function Integer CreateVIFromPO(LongInt,record RcVc,var record VIVc);
+external procedure GetItemVATCode(string,Integer,var string,Boolean);
 
 global updating procedure RecalcWebRegMn()
 begin
@@ -644,3 +654,241 @@ begin
 
 return;
 end; //Edit***************************Sasha2,11:14 04.01.2017 }
+
+//Edit***************************Sasha2,17:26 05.01.2017 {
+procedure CollapseSHByItems(record SHVc SHr, var record SHVc collapsedSHr,var record SHVc serialsHolderSHr)
+begin
+  Integer rwcnt,i,j,rownr;
+  row SHVc SHrw,SH2rw,SH3rw;
+  Boolean notFoundRowF;
+    
+    rownr = 0;
+    RecordCopy(collapsedSHr,SHr);
+    RecordNew(serialsHolderSHr);
+    rwcnt = MatRowCnt(collapsedSHr);
+    if (rwcnt>0) then begin
+    
+      MatRowGet(SHr,rownr,SHrw);
+      ClearRow(serialsHolderSHr,SH3rw,1);
+      SH3rw.OrdRow = rownr;
+      SH3rw.SerialNr = SHrw.SerialNr;
+      MatRowPut(serialsHolderSHr,rownr,SH3rw);
+      rownr = rownr + 1;
+      
+      for (i=1;i<rwcnt;i=i+1) begin
+        MatRowGet(collapsedSHr,i,SHrw);
+        if (NonBlank(SHrw.ArtCode)) then begin
+          notFoundRowF = true;
+          for (j=i-1;j>=0;j=j-1) begin
+            MatRowGet(collapsedSHr,j,SH2rw);
+            if (SHrw.OrdRow==SH2rw.OrdRow and SHrw.ArtCode==SH2rw.ArtCode) then begin
+              SH2rw.Ship = SH2rw.Ship + SHrw.Ship;
+              //SH2rw.FIFORowVal = SH2rw.FIFORowVal + SHrw.FIFORowVal;
+              MatRowPut(collapsedSHr,j,SH2rw);
+              
+              ClearRow(serialsHolderSHr,SH3rw,1);
+              SH3rw.OrdRow = j;
+              SH3rw.SerialNr = SHrw.SerialNr;
+              MatRowPut(serialsHolderSHr,rownr,SH3rw);
+              rownr = rownr + 1;
+              
+              j = -1;
+              MatRowDelete(collapsedSHr,i);
+              i = i - 1;
+              rwcnt = rwcnt - 1;
+              notFoundRowF = false;
+            end;
+          end;
+          
+          if (notFoundRowF) then begin
+            ClearRow(serialsHolderSHr,SH3rw,1);
+            SH3rw.OrdRow = i;
+            SH3rw.SerialNr = SHrw.SerialNr;
+            MatRowPut(serialsHolderSHr,rownr,SH3rw);
+            rownr = rownr + 1;
+          end;
+          
+        end;
+      end;
+    end;
+  
+  return;
+end; //Edit***************************Sasha2,17:26 05.01.2017 }
+
+global //Edit***************************Sasha2,15:55 05.01.2017 {
+updating procedure MakeInnerSaleToAnotherComp(longint SHSerNr,Integer targetComp)
+begin
+  record ORVc ORr;
+  row ORVc ORrw;
+  record SHVc SHr,collapsedSHr,serialsHolderSHr;
+  row SHVc SHrw;
+  record POVc POr;
+  row POVc POrw;
+  record PUVc PUr;
+  row PUVc PUrw;
+  record VIVc VIr;
+  record INVc INr;
+  record CUVc CUr;
+  record POSettingBlock POSetb;
+  record MainStockBlock MainStockRec;
+  record CostAccBlock CAb;
+  record SerNrTrackBlock SNrb;
+  record RcVc RepSpec;
+  Integer curComp,i,j,rwcnt,rwcnt1,rownr,lastIndex,err;
+  string 255 tstr;
+    
+    LogText(0,"MakeInnerSaleToAnotherComp");
+    
+    BlockLoad(POSetb);
+    BlockLoad(MainStockRec);
+    BlockLoad(CAb);
+    BlockLoad(SNrb);
+    if (SHSerNr>-1) then begin
+      SHr.SerNr = SHSerNr;
+      if (ReadFirstMain(SHr,1,true) and SHr.OrderNr>-1 and MatRowCnt(SHr)>0) then begin
+        ORr.SerNr = SHr.OrderNr;
+        if (ReadFirstMain(ORr,1,true)) then begin
+          CUr.Code = ORr.CustCode;
+          ReadFirstMain(CUr,1,true);
+          curComp = CurrentCompany;
+          if (SetCompany(targetComp,false)) then begin
+            RecordNew(POr);
+            POr.VECode = CUr.PurchaseVECode;
+            POVc_PasteVECode(POr,true);
+            POr.Addr0 = POr.Addr0 & " (inner sale from comp. #" & curComp & ", order #" & ORr.SerNr & ")";
+            POr.Comment = POr.Comment & " Inner sale from comp. #" & curComp & ", order #" & ORr.SerNr;
+            POr.Location = CUr.PurchaseLocation;
+            POVc_PasteLocation(POr);
+            if (blank(POr.PayDeal)) then begin
+              POr.PayDeal = "0"; //Hard coding
+            end;
+            if (blank(POr.POClass)) then begin
+              POr.POClass = "PURCH"; //Hard coding
+            end;
+            POr.CurncyCode = ORr.CurncyCode;
+            POr.ToRateB1 = ORr.ToRateB1;
+            POr.ToRateB2 = ORr.ToRateB2;
+            POr.BaseRate1 = ORr.BaseRate1;
+            POr.BaseRate2 = ORr.BaseRate2;
+            CollapseSHByItems(SHr,collapsedSHr,serialsHolderSHr);
+            rwcnt = MatRowCnt(collapsedSHr);
+            rownr = 0;
+            for (i=0;i<rwcnt;i=i+1) begin
+              MatRowGet(collapsedSHr,i,SHrw);
+              if (NonBlank(SHrw.ArtCode) and SHrw.OrdRow>-1) then begin
+                MatRowGet(ORr,SHrw.OrdRow,ORrw);
+                if (SHrw.ArtCode==ORrw.ArtCode) then begin
+                  ClearRow(POr,POrw,1);
+                  POrw.ArtCode = ORrw.ArtCode;
+                  MatRowPut(POr,rownr,POrw);
+                  POVc_PasteArtCode(POr,rownr,false);
+                  MatRowGet(POr,rownr,POrw);
+                  if (blank(POrw.VATCode)) then begin
+                    GetItemVATCode(PUrw.ArtCode,POr.ExportFlag,tstr,false);
+                    POrw.VATCode = tstr;
+                    if (blank(POrw.VATCode)) then begin
+                      POrw.VATCode = "0"; //Hard coding
+                    end;
+                  end;
+                  POrw.Quant = SHrw.Ship;
+                  MatRowPut(POr,rownr,POrw);
+                  POVc_PasteQuant(POr,rownr);
+                  MatRowGet(POr,rownr,POrw);
+                  POrw.Price = ORrw.Price;
+                  MatRowPut(POr,rownr,POrw);
+                  POVc_PastePrice(POr,rownr);
+                  
+                  rownr = rownr + 1;
+                end;
+              end;
+            end;
+            //POSumup(POr);
+            if (POr.SerNr<0) then begin
+              POr.SerNr = NextSerNr("POVc",POr.TransDate,-1,false,"");
+            end;
+            if (RECORDINSERT(POr,true)) then begin
+              LogText(0,"POVc #" & POr.SerNr & " was sucessfully stored");
+              
+              //PUVc creation
+              RecordNew(PUr);
+              PUr.PONr = POr.SerNr;
+              PUr.PUClass = POr.POClass;
+              PUr.POCOSerNr = POr.POCOSerNr;
+              PUr.VECode = POr.VECode;
+              PUr.VEName = POr.Addr0;
+              PUr.Location = POr.Location;
+              PUr.Objects = POr.Objects;
+              PUr.LangCode = POr.LangCode;
+              PUr.Comment = POr.Comment;
+              PUr.VEVATCode = POr.VEVATCode;
+              PUr.NoTAXonVAT = POr.NoTAXonVAT;
+              PUr.InclVAT = POr.InclVAT;
+              PUr.ExtraCostsCalculation = POr.ExtraCostsCalculation;
+              PUr.CurncyCode = POr.CurncyCode;
+              PUr.FrRate = POr.FrRate;
+              PUr.ToRateB1 = POr.ToRateB1;
+              PUr.ToRateB2 = POr.ToRateB2;
+              PUr.BaseRate1 = POr.BaseRate1;
+              PUr.BaseRate2 = POr.BaseRate2;
+              rwcnt = MatRowCnt(POr);
+              rwcnt1 = MatRowCnt(serialsHolderSHr);
+              rownr = 0;
+              lastIndex = 0;
+              for (i=0;i<rwcnt;i=i+1) begin
+                MatRowGet(POr,i,POrw);
+                if (NonBlank(POrw.ArtCode)) then begin
+                  INr.Code = POrw.ArtCode;
+                  if (ReadFirstMain(INr,1,true)) then begin
+                    if (INr.SerNrf==1) then begin
+                      for (j=lastIndex;j<rwcnt1;j=j+1) begin
+                        MatRowGet(serialsHolderSHr,j,SHrw);
+                        if (SHrw.OrdRow==i) then begin
+                          PasteRowToPU(POSetb,CAb,MainStockRec,PUr,POr,POrw,i,INr,1,rownr);
+                          MatRowGet(PUr,rownr-1,PUrw);
+                          PUrw.SerialNr = SHrw.SerialNr;
+                          MatRowPut(PUr,rownr-1,PUrw);
+                        end;
+                        if (SHrw.OrdRow>i) then begin
+                          lastIndex = j;
+                          j = rwcnt1;
+                        end;
+                      end;
+                    end else begin
+                      PasteRowToPU(POSetb,CAb,MainStockRec,PUr,POr,POrw,i,INr,POrw.Quant,rownr);
+                    end;
+                  end;
+                end;
+              end;
+              PUSumUp(PUr);
+              if (PUr.SerNr==-1) then begin
+                PUr.SerNr = NextSerNr("PUVc",PUr.TransDate,-1,false,"");
+              end;
+              if (PUr.SerNr!=-1) then begin
+                if (RecordInsert(PUr,true)) then begin 
+                  LogText(0,"PUVc #" & PUr.SerNr & " was sucessfully stored");
+                  CreateRecordLink(PUr,CurrentCompany,POr,CurrentCompany);  
+                  CreateRecordLink(POr,CurrentCompany,PUr,CurrentCompany);  
+                end;
+              end;
+              
+              //VIVc creation
+              ReportDefaults(RepSpec,"VIFromPOVClass");
+              RepSpec.repname = "";
+              RepSpec.FirstVer = POr.SerNr;
+              RepSpec.flags[0] = 1;
+              err = CreateVIFromPO(RepSpec.FirstVer,RepSpec,VIr);
+              if (err!=0) begin
+                LogText(0,"VIVc #" & VIr.SerNr & " was not stored. Error:" & USetStr(err));
+              end else begin
+                LogText(0,"VIVc #" & VIr.SerNr & " was sucessfully stored");
+              end;
+              
+            end;
+            ResetCompany(curComp);
+          end;
+        end;
+      end;
+    end;
+  
+  return;  
+end; //Edit***************************Sasha2,15:55 05.01.2017 }

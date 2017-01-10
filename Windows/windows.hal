@@ -2006,3 +2006,27 @@ begin
     //EditField(h,v+=vs,150,"Основний склад",Normal,f2,false,LocationSClass);
   EndWindow;
 end;
+
+window ConfirmInnerSaleTClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,iPad")  
+begin
+  real h,h2,v,vs;
+  WindowBegin("Підтвердити внутр. продаж",ConfirmInnerSaleTClass,CGother,RcType);  
+  Modality(kModalityGlobal);
+  UseView(RcVc);
+  SetWRect(80,200,530,440);
+  h = 20; h2 = 170; v=10; vs=20;
+   
+  StaticText(h,v+=vs,"В іншій компанії будуть створені наступні документи:",false);
+  StaticText(h,v+=vs,"- Замовлення постачальнику",false);
+  StaticText(h,v+=vs,"- Надходження",false);
+  StaticText(h,v+=vs,"- Акт/накладна постачальника",false);
+  v = v + vs;
+  h = 200;
+  
+  EditField(h,v+=vs,30,"Здійснити продаж в компанію",ViewOnly,ArtMode,false,0);
+  EditField(h+40,v,200,"",ViewOnly,f1,false,0);
+    
+  ColourPushButton(h+=80,v+=2*vs,h+160,v+30,"ProceedInnerSaleTClass","Продовжити",2);
+  EndWindow;
+end;

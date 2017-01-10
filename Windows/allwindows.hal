@@ -4379,49 +4379,50 @@ begin
       SpecialMenu("Повернення товарів",'B',5,"RetFromSHSpec");
     end;
   end else begin
-  SpecialMenu("Роздрукувати етикетки фрахту",'l',0,"PrintSHLabSHDsm");
-  if (IsEnterprise) then begin
-  SpecialMenu("Розрахувати вагу",'w',1,"SHCalcWeightDsm");
-  end;
-  SpecialMenu("Статус товару",'I',2,"ItemStatusSHDsm");
-  if (HasModNL) then begin
-  SpecialMenu("Відкрити запис операції",'t',3,"OpenTRFromSH");
-  end;
-  if (HasLocalization("SWE")) then begin 
-  SpecialMenu("ASG Export",' ',4,"ASGEnSHDsm"); /* Specific for Sweden */
-  end;
-  if (HasLocalization("NOR")) then begin 
-  SpecialMenu("Winedi Export",' ',4,"WinEDIEnSHDsm"); /* Specific for Norway */
-  end;
-  if (IsEnterprise or HasLocalization("PRT")) then begin
-  SpecialMenu("Повернення товарів",'B',5,"RetFromSHSpec");
-  end;
-  if (HasLocalization("PRT")) then begin 
-    if (HasETaxDocuments) then begin
-      SpecialMenu("Send to Tax Authorities",'',10,"EShipPRTDsm");
+    SpecialMenu("Роздрукувати етикетки фрахту",'l',0,"PrintSHLabSHDsm");
+    if (IsEnterprise) then begin
+    SpecialMenu("Розрахувати вагу",'w',1,"SHCalcWeightDsm");
     end;
+    SpecialMenu("Статус товару",'I',2,"ItemStatusSHDsm");
+    if (HasModNL) then begin
+    SpecialMenu("Відкрити запис операції",'t',3,"OpenTRFromSH");
+    end;
+    if (HasLocalization("SWE")) then begin 
+    SpecialMenu("ASG Export",' ',4,"ASGEnSHDsm"); /* Specific for Sweden */
+    end;
+    if (HasLocalization("NOR")) then begin 
+    SpecialMenu("Winedi Export",' ',4,"WinEDIEnSHDsm"); /* Specific for Norway */
+    end;
+    if (IsEnterprise or HasLocalization("PRT")) then begin
+    SpecialMenu("Повернення товарів",'B',5,"RetFromSHSpec");
+    end;
+    if (HasLocalization("PRT")) then begin 
+      if (HasETaxDocuments) then begin
+        SpecialMenu("Send to Tax Authorities",'',10,"EShipPRTDsm");
+      end;
+    end;
+    if (IsEnterprise) then begin
+    SpecialMenu("Задати сер.№ партії",' ',6,"INBatchSHSpec");
+      if (StandardHansa==false) then begin
+    SpecialMenu("Розділити рядок",' ',7,"SplitRowSHDsm");
+      end;
+    end;
+    if (HasModWHM) then begin
+    SpecialMenu("Прийняти переміщення по складу",' ',8,"OKStockMovSHrDsm");
+    SpecialMenu("Роздрукувати комплектувальну відомість",' ',9,"PickingListDsm");
+    end;
+  //  SpecialMenu("Розрахувати вручну",' ',10,"CalcSHMan"); /* Specific for one customer in Portugal, you may comment it out */
+    if (IsEnterprise) then begin
+      if (StandardHansa==false) then begin
+        SpecialMenu("Зареєструв. електрон. відв-ня",' ',9,"EShipRegisterDsm");
+        SpecialMenu("Вставити серійки",' ',8,"PasteSerialsTOSHDsm");
+      end;
+      if (GuiType==kGuiiPhone) then begin
+        SpecialMenu("Підпис",' ',10,"SignSHDsm");
+      end;
+    end;
+    SpecialMenu("Здійснити внутрішній продаж в іншу компанію",' ',10,"MakeInnerSaleToAnotherCompDsm"); //Edit***************************Sasha2,10:59 05.01.2017
   end;
-  if (IsEnterprise) then begin
-  SpecialMenu("Задати сер.№ партії",' ',6,"INBatchSHSpec");
-    if (StandardHansa==false) then begin
-  SpecialMenu("Розділити рядок",' ',7,"SplitRowSHDsm");
-    end;
-  end;
-  if (HasModWHM) then begin
-  SpecialMenu("Прийняти переміщення по складу",' ',8,"OKStockMovSHrDsm");
-  SpecialMenu("Роздрукувати комплектувальну відомість",' ',9,"PickingListDsm");
-  end;
-//  SpecialMenu("Розрахувати вручну",' ',10,"CalcSHMan"); /* Specific for one customer in Portugal, you may comment it out */
-  if (IsEnterprise) then begin
-    if (StandardHansa==false) then begin
-  SpecialMenu("Зареєструв. електрон. відв-ня",' ',9,"EShipRegisterDsm");
-  SpecialMenu("Вставити серійки",' ',8,"PasteSerialsTOSHDsm");
-    end;
-    if (GuiType==kGuiiPhone) then begin
-      SpecialMenu("Підпис",' ',10,"SignSHDsm");
-    end;
-    end;
-end;
   EndWindow;
 end;
 
@@ -8815,6 +8816,7 @@ begin
   EditField(h,v+=vs,80,"Продавець",Normal,SalesMan,false,UserSClass);
   end;
   EditField(h,v+=vs,80,"Товари за визн.",Normal,CompItemCode,false,CompItemSClass);
+  EditField(h,v+=vs,80,"Постач.внутр.продажу",Normal,PurchaseVECode,false,0); //Edit***************************Sasha2,14:45 06.01.2017
   EditField(h2,v=6,80,"Валюта (придб.)",Normal,VECurncyCode,false,CurncyCodeSClass);
   EditField(h2,v+=2*vs ,80, "Таблиця знижок (постач.)",Normal,VERebCode,false,RebSClass);
   if (StandardHansa==false) then begin
@@ -8822,8 +8824,9 @@ begin
   end else begin
     v = v + vs; //Edit***************************Sasha2,14:35 04.01.2017
   end;
-  EditField(h2,v+=vs,50,"Націнка внутр.продажів",Normal,InnerMarkUp,false,0); //Edit***************************Sasha2,14:35 04.01.2017
+  EditField(h2+10,v+=vs,50,"Націнка внутр.продажів,%",Normal,InnerMarkUp,false,0); //Edit***************************Sasha2,14:35 04.01.2017
   CheckBox(h3,v,0,"Увімкнути націнку",TurnOnInnerMarkUp); //Edit***************************Sasha2,14:38 04.01.2017
+  EditField(h2,v+=vs,80,"Склад внутр.продажу",Normal,PurchaseLocation,false,0); //Edit***************************Sasha2,14:35 04.01.2017
   ButtonFrame(h5,v=24,150,3,"Ціна на дату");
   RadioButton(h5,v,0,0,"замовлення",PriceBasedOn);
   RadioButton(h5,v+=16,1,0,"заплан. відвантаження",PriceBasedOn);
