@@ -989,7 +989,7 @@ BEGIN
     if (GetWindowFileName(wn)=="SHVc") then begin
       GetWindowRecord(wn,SHr);
       DeselectWindow(wn,false);
-      if (/*SHr.OKFlag==1*/true) then begin  
+      if (SHr.OKFlag==1) then begin  
         RECORDNEW(RepSpec);
         RepSpec.long1 = SHr.SerNr;
         RepSpec.ArtMode = 14;
