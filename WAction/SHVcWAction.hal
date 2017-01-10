@@ -18,6 +18,9 @@ remote procedure SetDelAddr(string,string,var string,var string,var string,var s
 remote updating procedure OkAllStockMovementsSHr(record RcVc);
 remote function string 20 FindCustRoute(string,string,string);
 
+	SetLangMode(LangUkrainian,"UKR",0);
+
+
 procedure SHChangeShip(record SHVc SHr,Integer rownr)
 BEGIN
   SHVc_PasteShip(SHr,rownr);
@@ -867,18 +870,30 @@ TaxAdminServSeal is in SHVc record
 end;
 */
 
-global procedure PasteSerialsTOSHDsm()
+updating procedure AddTextToNote(var record NotepadVc Noter,string tstr)
+BEGIN
+    AddToText(tstr,Noter);
+    AddToText(Chr(13) & Chr(10),Noter);
+    
+  RETURN;
+END;
+
+global updating procedure PasteSerialsTOSHDsm()
 begin
 	integer wn,i,mtrw,rwcnt,j;
 	record SHVc SHr;
 	row SHVc SHrw;
-	record NotepadVc Noter;
+	record NotepadVc Noter,newNoter;
 	integer notenr;
 	record SerBalVc SBr;
 	string 100 tstr;
 	boolean serialfoundf,TrHs,testf;
   record RLinkVc RLr;
-
+  boolean notercreate,skip;
+	
+	recordnew(newNoter);
+	
+	notercreate = false;
 	
 	wn = curwindow;
 	getwindowrecord(wn,SHr);
@@ -901,7 +916,11 @@ begin
 						if(TrHs)then begin
 							For(j=0;j<mtrw;j=j+1) begin
 	  						matrowget(SHr,j,SHrw);
-	  						if(SHrw.ArtCode==SBr.Item and blank(SHrw.SerialNr))then begin
+	  						skip = true;
+	  						if(SHrw.SerialNr==tstr)then begin
+	  							skip = false;
+	  						end;
+	  						if(SHrw.ArtCode==SBr.Item and blank(SHrw.SerialNr) and skip)then begin
 	  							SHrw.SerialNr = SBr.Serial;
 	  							TrHs = false;
 	  							serialfoundf = true;
@@ -913,7 +932,8 @@ begin
 					end;
 					
 					if(serialfoundf==false)then begin
-						messagebox(0,"Unknown serial " & tstr);
+						notercreate = true;
+						AddTextToNote(newNoter,tstr);// Edit ************************** Wednesday, 8 June 2011 11:45:46
 					end;
 				end;
 			end;  
@@ -921,6 +941,33 @@ begin
 		end;
 		notenr = notenr + 1;
 	end;
+	
+	For(i=0;i<mtrw;i=i+1) begin
+	  matrowget(SHr,i,SHrw);
+	  if(blank(SHrw.SerialNr))then begin
+	  	matrowdelete(SHr,i);
+	  	i=i-1;
+	  	mtrw = mtrw - 1;
+	  end;
+	end; 
+	
+	if(notercreate)then begin
+		messagebox(0,"Есть неизвестные серийки. См. нотатки!!!");
+		newNoter.SerNr = NextSerNr("NotepadVc",CurrentDate,-1,false,"");
+		newNoter.Classification = "NOS";
+		if (RecordStore(newNoter,false)) then begin
+			CreateRecordLink(SHr,CurrentCompany,newNoter,CurrentCompany);  
+			notenr = 1;
+			while (ReadRecordLink(SHr,notenr,newNoter,RLr)) begin
+				notenr = notenr + 1;
+			end;
+			if (ReadRecordLink(SHr,notenr-1,newNoter,RLr)) then begin
+				RLr.Comment = "UnknowSerials";//"Printed Docs";   
+				if (RecordStore(RLr,true)) then begin  end;
+			end;
+		end;
+	end;
+	
 	putwindowrecord(wn,SHr);
 	
 return;
