@@ -8827,6 +8827,7 @@ begin
   EditField(h2+10,v+=vs,50,"Націнка внутр.продажів,%",Normal,InnerMarkUp,false,0); //Edit***************************Sasha2,14:35 04.01.2017
   CheckBox(h3,v,0,"Увімкнути націнку",TurnOnInnerMarkUp); //Edit***************************Sasha2,14:38 04.01.2017
   EditField(h2,v+=vs,80,"Склад внутр.продажу",Normal,PurchaseLocation,false,0); //Edit***************************Sasha2,14:35 04.01.2017
+  EditField(h2+250,v,20,"Компанія внутр.продажу",Normal,PurchaseCompany,false,0); //Edit***************************Sasha2,14:35 04.01.2017
   ButtonFrame(h5,v=24,150,3,"Ціна на дату");
   RadioButton(h5,v,0,0,"замовлення",PriceBasedOn);
   RadioButton(h5,v+=16,1,0,"заплан. відвантаження",PriceBasedOn);

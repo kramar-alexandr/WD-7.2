@@ -9,6 +9,7 @@ remote updating function Integer PasteRowToPU(record POSettingBlock,record CostA
 external procedure PUSumUp(var record PUVc);
 remote updating function Integer CreateVIFromPO(LongInt,record RcVc,var record VIVc);
 external procedure GetItemVATCode(string,Integer,var string,Boolean);
+external procedure VICalcEReb(record VIVc);
 
 global updating procedure RecalcWebRegMn()
 begin
@@ -722,7 +723,7 @@ begin
   row ORVc ORrw;
   record SHVc SHr,collapsedSHr,serialsHolderSHr;
   row SHVc SHrw;
-  record POVc POr;
+  record POVc POr,oldPOr;
   row POVc POrw;
   record PUVc PUr;
   row PUVc PUrw;
@@ -753,6 +754,7 @@ begin
           curComp = CurrentCompany;
           if (SetCompany(targetComp,false)) then begin
             RecordNew(POr);
+            POr.TransDate = SHr.ShipDate;
             POr.VECode = CUr.PurchaseVECode;
             POVc_PasteVECode(POr,true);
             POr.Addr0 = POr.Addr0 & " (inner sale from comp. #" & curComp & ", order #" & ORr.SerNr & ")";
@@ -807,82 +809,92 @@ begin
               POr.SerNr = NextSerNr("POVc",POr.TransDate,-1,false,"");
             end;
             if (RECORDINSERT(POr,true)) then begin
-              LogText(0,"POVc #" & POr.SerNr & " was sucessfully stored");
-              
-              //PUVc creation
-              RecordNew(PUr);
-              PUr.PONr = POr.SerNr;
-              PUr.PUClass = POr.POClass;
-              PUr.POCOSerNr = POr.POCOSerNr;
-              PUr.VECode = POr.VECode;
-              PUr.VEName = POr.Addr0;
-              PUr.Location = POr.Location;
-              PUr.Objects = POr.Objects;
-              PUr.LangCode = POr.LangCode;
-              PUr.Comment = POr.Comment;
-              PUr.VEVATCode = POr.VEVATCode;
-              PUr.NoTAXonVAT = POr.NoTAXonVAT;
-              PUr.InclVAT = POr.InclVAT;
-              PUr.ExtraCostsCalculation = POr.ExtraCostsCalculation;
-              PUr.CurncyCode = POr.CurncyCode;
-              PUr.FrRate = POr.FrRate;
-              PUr.ToRateB1 = POr.ToRateB1;
-              PUr.ToRateB2 = POr.ToRateB2;
-              PUr.BaseRate1 = POr.BaseRate1;
-              PUr.BaseRate2 = POr.BaseRate2;
-              rwcnt = MatRowCnt(POr);
-              rwcnt1 = MatRowCnt(serialsHolderSHr);
-              rownr = 0;
-              lastIndex = 0;
-              for (i=0;i<rwcnt;i=i+1) begin
-                MatRowGet(POr,i,POrw);
-                if (NonBlank(POrw.ArtCode)) then begin
-                  INr.Code = POrw.ArtCode;
-                  if (ReadFirstMain(INr,1,true)) then begin
-                    if (INr.SerNrf==1) then begin
-                      for (j=lastIndex;j<rwcnt1;j=j+1) begin
-                        MatRowGet(serialsHolderSHr,j,SHrw);
-                        if (SHrw.OrdRow==i) then begin
-                          PasteRowToPU(POSetb,CAb,MainStockRec,PUr,POr,POrw,i,INr,1,rownr);
-                          MatRowGet(PUr,rownr-1,PUrw);
-                          PUrw.SerialNr = SHrw.SerialNr;
-                          MatRowPut(PUr,rownr-1,PUrw);
+              RecordCopy(oldPOr,POr);
+              POr.Comment = POr.Comment & " ";
+              if (RecordUpdate(oldPOr,POr,true)==0) then begin
+                LogText(0,"POVc #" & POr.SerNr & " was sucessfully stored");
+                
+                //PUVc creation
+                RecordNew(PUr);
+                PUr.TransDate = POr.TransDate;
+                PUr.PONr = POr.SerNr;
+                PUr.PUClass = POr.POClass;
+                PUr.POCOSerNr = POr.POCOSerNr;
+                PUr.VECode = POr.VECode;
+                PUr.VEName = POr.Addr0;
+                PUr.Location = POr.Location;
+                PUr.Objects = POr.Objects;
+                PUr.LangCode = POr.LangCode;
+                PUr.Comment = POr.Comment;
+                PUr.VEVATCode = POr.VEVATCode;
+                PUr.NoTAXonVAT = POr.NoTAXonVAT;
+                PUr.InclVAT = POr.InclVAT;
+                PUr.ExtraCostsCalculation = POr.ExtraCostsCalculation;
+                PUr.CurncyCode = POr.CurncyCode;
+                PUr.FrRate = POr.FrRate;
+                PUr.ToRateB1 = POr.ToRateB1;
+                PUr.ToRateB2 = POr.ToRateB2;
+                PUr.BaseRate1 = POr.BaseRate1;
+                PUr.BaseRate2 = POr.BaseRate2;
+                rwcnt = MatRowCnt(POr);
+                rwcnt1 = MatRowCnt(serialsHolderSHr);
+                rownr = 0;
+                lastIndex = 0;
+                for (i=0;i<rwcnt;i=i+1) begin
+                  MatRowGet(POr,i,POrw);
+                  if (NonBlank(POrw.ArtCode)) then begin
+                    INr.Code = POrw.ArtCode;
+                    if (ReadFirstMain(INr,1,true)) then begin
+                      if (INr.SerNrf==1) then begin
+                        for (j=lastIndex;j<rwcnt1;j=j+1) begin
+                          MatRowGet(serialsHolderSHr,j,SHrw);
+                          if (SHrw.OrdRow==i) then begin
+                            PasteRowToPU(POSetb,CAb,MainStockRec,PUr,POr,POrw,i,INr,1,rownr);
+                            MatRowGet(PUr,rownr-1,PUrw);
+                            PUrw.SerialNr = SHrw.SerialNr;
+                            MatRowPut(PUr,rownr-1,PUrw);
+                          end;
+                          if (SHrw.OrdRow>i) then begin
+                            lastIndex = j;
+                            j = rwcnt1;
+                          end;
                         end;
-                        if (SHrw.OrdRow>i) then begin
-                          lastIndex = j;
-                          j = rwcnt1;
-                        end;
+                      end else begin
+                        PasteRowToPU(POSetb,CAb,MainStockRec,PUr,POr,POrw,i,INr,POrw.Quant,rownr);
                       end;
-                    end else begin
-                      PasteRowToPU(POSetb,CAb,MainStockRec,PUr,POr,POrw,i,INr,POrw.Quant,rownr);
                     end;
                   end;
                 end;
-              end;
-              PUSumUp(PUr);
-              if (PUr.SerNr==-1) then begin
-                PUr.SerNr = NextSerNr("PUVc",PUr.TransDate,-1,false,"");
-              end;
-              if (PUr.SerNr!=-1) then begin
-                if (RecordInsert(PUr,true)) then begin 
-                  LogText(0,"PUVc #" & PUr.SerNr & " was sucessfully stored");
-                  CreateRecordLink(PUr,CurrentCompany,POr,CurrentCompany);  
-                  CreateRecordLink(POr,CurrentCompany,PUr,CurrentCompany);  
+                PUSumUp(PUr);
+                if (PUr.SerNr==-1) then begin
+                  PUr.SerNr = NextSerNr("PUVc",PUr.TransDate,-1,false,"");
                 end;
-              end;
-              
-              //VIVc creation
-              ReportDefaults(RepSpec,"VIFromPOVClass");
-              RepSpec.repname = "";
-              RepSpec.FirstVer = POr.SerNr;
-              RepSpec.flags[0] = 1;
-              err = CreateVIFromPO(RepSpec.FirstVer,RepSpec,VIr);
-              if (err!=0) begin
-                LogText(0,"VIVc #" & VIr.SerNr & " was not stored. Error:" & USetStr(err));
+                if (PUr.SerNr!=-1) then begin
+                  if (RecordInsert(PUr,true)) then begin 
+                    LogText(0,"PUVc #" & PUr.SerNr & " was sucessfully stored");
+                    CreateRecordLink(PUr,CurrentCompany,POr,CurrentCompany);  
+                    CreateRecordLink(POr,CurrentCompany,PUr,CurrentCompany);  
+                  end;
+                end;
+                
+                //VIVc creation
+                ReportDefaults(RepSpec,"VIFromPOVClass");
+                RepSpec.repname = "";
+                RepSpec.FirstVer = POr.SerNr;
+                RepSpec.flags[0] = 1;
+                err = CreateVIFromPO(RepSpec.FirstVer,RepSpec,VIr);
+                if (err!=0) begin
+                  LogText(0,"VIVc #" & VIr.SerNr & " was not stored. Error:" & USetStr(err));
+                end else begin
+                  VIr.InvDate = POr.TransDate;
+                  VIr.TransDate = VIr.InvDate;
+                  VICalcEReb(VIr);
+                  RECORDSTORE(VIr,true);
+                  LogText(0,"VIVc #" & VIr.SerNr & " was sucessfully stored");
+                end;
               end else begin
-                LogText(0,"VIVc #" & VIr.SerNr & " was sucessfully stored");
+                LogText(0,"POVc #" & POr.SerNr & " was not stored");
               end;
-              
             end;
             ResetCompany(curComp);
           end;

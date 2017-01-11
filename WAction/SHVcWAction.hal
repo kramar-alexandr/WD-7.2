@@ -980,6 +980,7 @@ procedure MakeInnerSaleToAnotherCompDsm()
 BEGIN
   record SHVc SHr;
   record RcVc RepSpec;
+  record CUVc CUr;
   record CompaniesBlock Compb;
   row CompaniesBlock Comprw;
   integer wn,rwcnt,i;
@@ -989,10 +990,12 @@ BEGIN
     if (GetWindowFileName(wn)=="SHVc") then begin
       GetWindowRecord(wn,SHr);
       DeselectWindow(wn,false);
-      if (SHr.OKFlag==1) then begin  
+      if (SHr.OKFlag==1) then begin
+        CUr.Code = SHr.CustCode ;
+        ReadFirstMain(CUr,1,true); 
         RECORDNEW(RepSpec);
         RepSpec.long1 = SHr.SerNr;
-        RepSpec.ArtMode = 14;
+        RepSpec.ArtMode = CUr.PurchaseCompany;
         BlockLoad(Compb);
         rwcnt = MatRowCnt(Compb);
         for (i=0;i<rwcnt;i=i+1) begin

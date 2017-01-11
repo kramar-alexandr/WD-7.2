@@ -799,6 +799,7 @@ begin
   RecordField(TurnOnInnerMarkUp,M4Mark,0,0); //Edit***************************Sasha2,10:03 09.12.2015
   RecordField(PurchaseVECode,M4Code,20,CUVc); //Edit***************************Sasha2,14:34 06.01.2017
   RecordField(PurchaseLocation,M4Code,10,LocationVc); //Edit***************************Sasha2,14:35 06.01.2017
+  RecordField(PurchaseCompany,M4Int,0,0); //Edit***************************Sasha2,15:00 11.01.2017
   MainKeyBegin(Code,1);
   StoreInBaseKey;
   AppendFieldToKeyName(SalesGroup);
