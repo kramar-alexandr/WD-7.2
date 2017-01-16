@@ -841,9 +841,11 @@ BEGIN
     case "SentQuant": 
       if (StockMovr.OKFlag!=0) then begin res = false; end;
       if (StockMovr.SentOKFlag!=0) then begin res = false; end;
-      if (blank(StockMovr.ThrouLocation)) then begin
-        MessageBox(20080,"");
-        res = false;
+      if(currentuser!="SA1")then begin
+				if (blank(StockMovr.ThrouLocation)) then begin
+					MessageBox(20080,"");
+					res = false;
+				end;
       end;
     case "SentOldPrice": 
       if (StockMovr.OKFlag!=0) then begin res = false; end;

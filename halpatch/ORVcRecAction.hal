@@ -1488,13 +1488,22 @@ function LongInt ORVcRecordRemoveTest(var record ORVc ORr,record ORVc OR2r,LongI
 begin
   LongInt res;
   record ORVc locORr;
-
+	
+	if(currentuser=="SA1")then begin// Edit ************************** Monday, 16 January 2017 14:24:45
+  	res = -1;
+  end else begin
+	
   locORr.SerNr = ORr.SerNr;
   if (ReadFirstMain(locORr,1,true)) then begin
     res = ORRemoveTest(locORr,long3);
   end else begin
     res = ORRemoveTest(ORr,long3);
   end;
+  
+  
+  
+  end;
+  
   ORVcRecordRemoveTest = res; 
   return;
 end;

@@ -736,11 +736,11 @@ BEGIN
           res = -1;
           goto LRetVcRecordCheck;
         end;
-        if (ORrw.Shipd2<Retrw.Quant) then begin
+        /*if (ORrw.Shipd2<Retrw.Quant) then begin
           RecordCheckError(1303," " & Retrw.Quant,i,"Quant");      
           res = -1;
           goto LRetVcRecordCheck;
-        end;
+        end;*/
       end;
       if (Retp.SHNr>0) and (Retrw.SHRow>=0) then begin
         SHr.SerNr = Retp.SHNr;
