@@ -34,6 +34,7 @@ begin
 	record IVVc IVr;
 	boolean IHLoop,IHfoundf;
 	longint IHSernr;
+	longint lastpu;
 	
 	recordcopy(IVr,cIVr);
 	
@@ -60,7 +61,6 @@ begin
 			end;
 			resetloop(IHr);
 			IHfoundf = false;
-			
 			if(IHSernr>-1)then begin
 				IHr.ArtCode = IVrw.ArtCode;
 				IHr.SerialNr = IVrw.SerialNr;
@@ -76,7 +76,26 @@ begin
 						IHfoundf = true;
 						PUr.SerNr = IHr.TransNr;
 						cost[ressize] = IHr.TotCostPrice;
+						lastpu = IHr.SerNr;
 						readfirstmain(PUr,1,true);
+							resetloop(IHr);
+							IHr.ArtCode = IVrw.ArtCode;
+							IHr.SerialNr = IVrw.SerialNr;
+							IHr.FileName = "SRVc";
+							IHLoop = true;
+							while(loopbackkey("ArtCodeSerialNr",IHr,3,IHLoop))begin
+								if(IHr.ArtCode!=IVrw.ArtCode)then begin IHLoop=false; end;
+								if(IHr.SerialNr!=IVrw.SerialNr)then begin IHLoop=false; end;
+								if(IHr.FileName!="SRVc")then begin IHLoop=false; end;
+					
+								if(IHr.SerNr<IHSernr and IHLoop)then begin
+									if(IHr.SerNr>lastpu)then begin
+									cost[ressize] = IHr.TotCostPrice;
+									goto lStartNewCalcCostAndPrice;
+									end;
+								end;
+							end;
+						
 						goto lStartNewCalcCostAndPrice;
 					end;
 					
@@ -1481,7 +1500,7 @@ begin
 			disbalanscost = disbalanscost - totcost;
 			
 			
-			if((round(disbalanssale,SetRoundModeD(2))!=0 or round(disbalanscost,SetRoundModeD(2))!=0)and (currentuser=="SA" or currentuser=="FCUA"))then begin
+			if((round(disbalanssale,SetRoundModeD(2))!=0 or round(disbalanscost,SetRoundModeD(2))!=0)and (currentuser=="SA1" or currentuser=="FCUA"))then begin
 				startformat(15);
 					outstring(0,0,"„исбаланс с проводкой",false);
 					outstring(0,0,"",false);

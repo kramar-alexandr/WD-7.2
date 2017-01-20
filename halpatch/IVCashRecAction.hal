@@ -1870,7 +1870,13 @@ LIVCashVcRecordCheck:;
   
   end else begin// Edit ************************** Thursday, 8 January 2015 10:49:27
     res = 0;// Edit ************************** Thursday, 8 January 2015 10:49:27
-  end;// Edit ************************** Thursday, 8 January 2015 10:49:28
+  end else begin// Edit ************************** Thursday, 8 January 2015 10:49:28
+		if (IVCashr.SerNr<=0) then begin
+			RecordCheckError(2246,"",-1,"SerNr");      
+			res = -1;
+			goto LIVCashVcRecordCheck;
+		end;
+  end;
   
   IVCashVcRecordCheck = res;
 

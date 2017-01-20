@@ -974,6 +974,176 @@ begin
 return;
 end;
 
+global updating procedure CreateNoterToSGDsm()
+begin
+	integer wn,i,mtrw,rwcnt,j;
+	record SHVc SHr;
+	row SHVc SHrw;
+	record NotepadVc Noter,newNoter;
+	integer notenr;
+	record SerBalVc SBr;
+	string 100 tstr;
+	boolean serialfoundf,TrHs,testf;
+  record RLinkVc RLr;
+  boolean notercreate,skip;
+	
+	wn = curwindow;
+	getwindowrecord(wn,SHr);
+	
+	recordnew(newNoter);
+	newNoter.SerNr = NextSerNr("NotepadVc",CurrentDate,-1,false,"");
+	newNoter.Classification = "SER";
+	if (RecordStore(newNoter,false)) then begin
+		CreateRecordLink(SHr,CurrentCompany,newNoter,CurrentCompany); 
+		CreateRecordLink(newNoter,CurrentCompany,SHr,CurrentCompany);   
+		notenr = 1;
+		while (ReadRecordLink(SHr,notenr,newNoter,RLr)) begin
+			notenr = notenr + 1;
+		end;
+		if (ReadRecordLink(SHr,notenr-1,newNoter,RLr)) then begin
+			RLr.Comment = "Serials";
+			if (RecordStore(RLr,true)) then begin  end;
+		end;
+		OpenWindow("NotepadDClass",1,wn,"","",newNoter);
+	end else begin
+		messagebox(0,"Error store note");
+	end;
+
+return;
+end;
+
+global updating procedure PasteSerialsTOSMDsm()
+begin
+	integer wn,i,mtrw,rwcnt,j;
+	record StockMovVc SMr;
+	row StockMovVc SMrw;
+	record NotepadVc Noter,newNoter;
+	integer notenr;
+	record SerBalVc SBr;
+	string 100 tstr;
+	boolean serialfoundf,TrHs,testf;
+  record RLinkVc RLr;
+  boolean notercreate,skip;
+	
+	recordnew(newNoter);
+	
+	notercreate = false;
+	
+	wn = curwindow;
+	getwindowrecord(wn,SMr);
+	mtrw = matrowcnt(SMr);
+	notenr = 1;
+	while (ReadRecordLink(SMr,notenr,Noter,RLr)) begin
+		if ("SER"==Noter.Classification) then begin
+			
+			rwcnt = LineTextCnt(Noter);
+			for (i=0;i<rwcnt;i=i+1) begin
+				tstr = LineTextGet(Noter,i);
+				if(nonblank(tstr))then begin
+					serialfoundf = false;
+					TrHs = true;
+					resetloop(SBr);
+					SBr.Serial = tstr;
+					while(loopkey("Serial",SBr,1,TrHs))begin
+						if(SBr.Serial!=tstr)then begin TrHs = false; end;
+						
+						if(TrHs)then begin
+							For(j=0;j<mtrw;j=j+1) begin
+	  						matrowget(SMr,j,SMrw);
+	  						skip = true;
+	  						if(SMrw.SerialNr==tstr)then begin
+	  							skip = false;
+	  						end;
+	  						if(SMrw.ArtCode==SBr.Item and blank(SMrw.SerialNr) and skip)then begin
+	  							SMrw.SerialNr = SBr.Serial;
+	  							TrHs = false;
+	  							serialfoundf = true;
+	  							matrowput(SMr,j,SMrw);
+	  							j=mtrw;
+	  						end;
+							end; 
+						end;
+					end;
+					
+					if(serialfoundf==false)then begin
+						notercreate = true;
+						AddTextToNote(newNoter,tstr);// Edit ************************** Wednesday, 8 June 2011 11:45:46
+					end;
+				end;
+			end;  
+			
+		end;
+		notenr = notenr + 1;
+	end;
+	
+	For(i=0;i<mtrw;i=i+1) begin
+	  matrowget(SMr,i,SMrw);
+	  if(blank(SMrw.SerialNr))then begin
+	  	matrowdelete(SMr,i);
+	  	i=i-1;
+	  	mtrw = mtrw - 1;
+	  end;
+	end; 
+	
+	if(notercreate)then begin
+		messagebox(0,"Есть неизвестные серийки. См. нотатки!!!");
+		newNoter.SerNr = NextSerNr("NotepadVc",CurrentDate,-1,false,"");
+		newNoter.Classification = "NOS";
+		if (RecordStore(newNoter,false)) then begin
+			CreateRecordLink(SMr,CurrentCompany,newNoter,CurrentCompany);  
+			notenr = 1;
+			while (ReadRecordLink(SMr,notenr,newNoter,RLr)) begin
+				notenr = notenr + 1;
+			end;
+			if (ReadRecordLink(SMr,notenr-1,newNoter,RLr)) then begin
+				RLr.Comment = "UnknowSerials";//"Printed Docs";   
+				if (RecordStore(RLr,true)) then begin  end;
+			end;
+		end;
+	end;
+	
+	putwindowrecord(wn,SMr);
+	
+return;
+end;
+
+global updating procedure CreateNoterToSMDsm()
+begin
+	integer wn,i,mtrw,rwcnt,j;
+	record StockMovVc SMr;
+	row StockMovVc SMrw;
+	record NotepadVc Noter,newNoter;
+	integer notenr;
+	record SerBalVc SBr;
+	string 100 tstr;
+	boolean serialfoundf,TrHs,testf;
+  record RLinkVc RLr;
+  boolean notercreate,skip;
+	
+	wn = curwindow;
+	getwindowrecord(wn,SMr);
+	
+	recordnew(newNoter);
+	newNoter.SerNr = NextSerNr("NotepadVc",CurrentDate,-1,false,"");
+	newNoter.Classification = "SER";
+	if (RecordStore(newNoter,false)) then begin
+		CreateRecordLink(SMr,CurrentCompany,newNoter,CurrentCompany); 
+		CreateRecordLink(newNoter,CurrentCompany,SMr,CurrentCompany);   
+		notenr = 1;
+		while (ReadRecordLink(SMr,notenr,newNoter,RLr)) begin
+			notenr = notenr + 1;
+		end;
+		if (ReadRecordLink(SMr,notenr-1,newNoter,RLr)) then begin
+			RLr.Comment = "Serials";
+			if (RecordStore(RLr,true)) then begin  end;
+		end;
+		OpenWindow("NotepadDClass",1,wn,"","",newNoter);
+	end else begin
+		messagebox(0,"Error store note");
+	end;
+
+return;
+end;
 
 global //Edit***************************Sasha2,15:36 05.01.2017 {
 procedure MakeInnerSaleToAnotherCompDsm()

@@ -104,6 +104,7 @@ begin
 	array string 255 combarr;
 	integer combcnt;
 	string 255 indexstr,valuestr;
+	string 20 requireacc;
 	
 
 	objcode = RepSpec.ObjStr;// must 1be nonblank 
@@ -111,29 +112,29 @@ begin
 	ed = RepSpec.sEndDate;
 	comptoadd = StringToInt(RepSpec.f1);
 	curcomp = CurrentCompany;
+	requireacc = RepSpec.f2;
 	
   SetCompany(comptoadd,false);
   TrHs = true;
+  Accr.AccNumber = requireacc;
   while(loopmain(Accr,1,TrHs)) begin
-    AccAllow[Accr.AccNumber] = true;
+  	if(nonblank(requireacc) and Accr.AccNumber!=requireacc)then begin TrHs = false; end;
+  	
+  	if(TrHs)then begin
+			AccAllow[Accr.AccNumber] = true;
+    end;
   end;
   
-  //Delete FBVc in comptoadd
-  /*while (LoopMain(FBr,1,true)) begin
-    RECORDREMOVE(FBr);
-    StepBack(FBr);
-  end;*/
-  
   ResetCompany(curcomp); 
-	
+
 	AAi = 0;
 	CAi = 0;
 	OAi = 0;
 	TrHs = true;
-	//mainr.TransDate = sd;
-	mainr.AccNumber = "";
+	mainr.AccNumber = requireacc;
 	while (loopmain(mainr,1,TrHs)) begin
 		testf = true;
+		if(nonblank(requireacc) and mainr.AccNumber!=requireacc)then begin TrHs = false; testf = false; end;
 		if (mainr.TransDate > ed) then begin testf = false; end;
 		if (AccAllow[mainr.AccNumber]==false) then begin testf = false; end;
 		if (mainr.TransDate < sd) then begin testf = false; end;

@@ -1609,6 +1609,7 @@ begin
   PeriodField(h,v=6,"Период");
   EditFieldTL(h,v+=vs,150,"Объект",M4UStr,Normal,60,ObjStr,false,ObjSClass);
   EditField(h,v+=vs,150,"Компания для переноса",Normal,f1,false,Companies2SClass);
+  EditField(h,v+=vs,150,"Рахунок",Normal,f2,false,AccSClass);
   EndWindow;
 end;
 

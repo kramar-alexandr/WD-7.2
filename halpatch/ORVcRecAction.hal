@@ -1262,11 +1262,15 @@ begin
                   end;// Edit ************************** Monday, July 7, 2014 at 12:18:24
                   if ((orsrv)>(ISr.Instock-ISr.RsrvQty+orsrved)) then begin // StockRsrvQty ?
                     if(ORr.OrderClass!="SHOPS")then begin
-											RecordCheckError(20011,"",i,"Quant");      
-											res = -1;
-											goto LORVcRecordCheck;
+                    	if(currentuser!="SA1")then begin
+												RecordCheckError(20011,"",i,"Quant");      
+												res = -1;
+												goto LORVcRecordCheck;
+											end;
                     end else begin
-                    	Messagebox(20011," " & ORrw.ArtCode & " " & USetStr(6716) & " " & i);// Edit ************************** Monday, 6 April 2015 10:25:33
+                    	if(currentuser!="SA1")then begin
+												Messagebox(20011," " & ORrw.ArtCode & " " & USetStr(6716) & " " & i);// Edit ************************** Monday, 6 April 2015 10:25:33
+                    	end;
                     end;
                   end;
                 case 2:

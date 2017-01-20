@@ -4415,12 +4415,14 @@ begin
     if (IsEnterprise) then begin
       if (StandardHansa==false) then begin
         SpecialMenu("Зареєструв. електрон. відв-ня",' ',9,"EShipRegisterDsm");
-        SpecialMenu("Вставити серійки",' ',8,"PasteSerialsTOSHDsm");
+        
       end;
       if (GuiType==kGuiiPhone) then begin
         SpecialMenu("Підпис",' ',10,"SignSHDsm");
       end;
     end;
+    SpecialMenu("Створити нотатку для серійок",' ',8,"CreateNoterToSGDsm");
+    SpecialMenu("Вставити серійки",' ',8,"PasteSerialsTOSHDsm");
     SpecialMenu("Здійснити внутрішній продаж в іншу компанію",' ',10,"MakeInnerSaleToAnotherCompDsm"); //Edit***************************Sasha2,10:59 05.01.2017
   end;
   EndWindow;
@@ -4821,6 +4823,8 @@ begin
   SpecialMenu("Передати товари в A-Service",'',10,"CreateMoveForServiceFromStockMovDsm"); //Edit***************************Sasha2,9:43 05.05.2016
   if (CurrentCompany==4 or CurrentCompany==14 or CurrentCompany==15 or CurrentCompany==16) then begin//Edit-------------------Vitalii 17:25 07.12.2015
 	SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");
+	SpecialMenu("Створити нотатку для серійок",' ',8,"CreateNoterToSMDsm");
+  SpecialMenu("Вставити серійки",' ',8,"PasteSerialsTOSMDsm");
   end;
   EndWindow;
 end;
