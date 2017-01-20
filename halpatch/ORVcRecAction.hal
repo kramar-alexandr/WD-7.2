@@ -1262,7 +1262,11 @@ begin
                   end;// Edit ************************** Monday, July 7, 2014 at 12:18:24
                   if ((orsrv)>(ISr.Instock-ISr.RsrvQty+orsrved)) then begin // StockRsrvQty ?
                     if(ORr.OrderClass!="SHOPS")then begin
-											RecordCheckError(20011,"",i,"Quant");      
+                      if (ISr.RsrvQty==0) then begin
+                        RecordCheckError(20011,"",i,"Quant");
+                      end else begin
+                        RecordCheckError(31088,ISr.RsrvQty,i,"Quant");
+                      end;
 											res = -1;
 											goto LORVcRecordCheck;
                     end else begin
