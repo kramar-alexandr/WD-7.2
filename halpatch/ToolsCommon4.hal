@@ -1981,34 +1981,35 @@ begin
 	longint ordnum;
 	vector longint ordnumnew;
 	
-	
-	ORr.SerNr = 0;
-	TrHs = true;
-	while(loopmain(ORr,1,TrHs))begin
-		if(ORr.SerNr>334)then begin TrHs = false; end;
+	if(currentcompany==15)then begin
+		ORr.SerNr = 0;
+		TrHs = true;
+		while(loopmain(ORr,1,TrHs))begin
+			if(ORr.SerNr>334)then begin TrHs = false; end;
 		
-		if(TrHs)then begin
-			rwcnt = MatRowCnt(ORr);
-			for (i=0;i<rwcnt;i=i+1) begin
-				MatRowGet(ORr,i,ORrw);
-				if (nonblank(ORrw.ArtCode) and ORrw.Shopd>0) then begin
-					ORrw.Quant = ORrw.Shopd;
-					MatRowPut(ORr,i,ORrw);
-					ORVc_PasteQuant(ORr,i,true,chsum);
+			if(TrHs)then begin
+				rwcnt = MatRowCnt(ORr);
+				for (i=0;i<rwcnt;i=i+1) begin
 					MatRowGet(ORr,i,ORrw);
-					ORrw.Shipd1 = blankval;
-					ORrw.Shipd2 = blankval;
-					ORrw.Invd = blankval;
-					MatRowPut(ORr,i,ORrw);
-					recordIsModifiedF = true;
+					if (nonblank(ORrw.ArtCode) and ORrw.Shopd>0 and ORrw.Quant==0) then begin
+						ORrw.Quant = ORrw.Shopd;
+						MatRowPut(ORr,i,ORrw);
+						ORVc_PasteQuant(ORr,i,true,chsum);
+						/*MatRowGet(ORr,i,ORrw);
+						ORrw.Shipd1 = blankval;
+						ORrw.Shipd2 = blankval;
+						ORrw.Invd = blankval;
+						MatRowPut(ORr,i,ORrw);
+						recordIsModifiedF = true;*/
+					end;
+				end;
+				if (recordIsModifiedF) then begin
+					ORSumup(ORr);
+					RECORDSTORE(ORr,true);
 				end;
 			end;
-			if (recordIsModifiedF) then begin
-				ORSumup(ORr);
-				RECORDSTORE(ORr,true);
-			end;
-		end;
 		
+		end;
 	end;
 
 return;
