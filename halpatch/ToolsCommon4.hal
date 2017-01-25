@@ -2000,7 +2000,8 @@ begin
 						ORrw.Shipd2 = blankval;
 						ORrw.Invd = blankval;
 						MatRowPut(ORr,i,ORrw);
-						recordIsModifiedF = true;*/
+						*/
+						recordIsModifiedF = true;
 					end;
 				end;
 				if (recordIsModifiedF) then begin
