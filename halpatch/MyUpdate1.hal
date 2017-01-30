@@ -11,6 +11,9 @@ remote updating function Integer CreateVIFromPO(LongInt,record RcVc,var record V
 external procedure GetItemVATCode(string,Integer,var string,Boolean);
 external procedure VICalcEReb(record VIVc);
 
+	SetLangMode(LangUkrainian,"UKR",0);
+
+
 global updating procedure RecalcWebRegMn()
 begin
 	record WebSyncRegVc WSRr;
@@ -1079,13 +1082,18 @@ begin
 	end;
 	CollectLocationBalancesToDate(locHistBalances,locAccBalances,todate,locations);
 	
-	startreportnoheaderjob("");
+	startreportnoheaderjob("Розбіжність клада з рахунком!");
 		startformat(15);
-			outstring(0,0,"Loc",false);
-			outstring(50,0,"Cost",false);
-			outstring(150,0,"Bal",false);
-			outstring(200,0,"Dif",false);
-			outstring(250,0,"Acc",false);
+			outstring(0,0,"Дата",false);
+			outstring(50,0,todate,false);
+		endformat;
+		black_divider(0,100);
+		startformat(15);
+			outstring(0,0,"Склад",false);
+			outstring(80,0,"Вартість складу",false);
+			outstring(160,0,"На рахунку",false);
+			outstring(240,0,"Різниця",false);
+			outstring(320,0,"Рахунок скдаду",false);
 		endformat;
 		
 		
@@ -1093,10 +1101,10 @@ begin
 			if(locHistBalances[Locr.Code]!=0 and locAccBalances[Locr.Code]!=0)then begin
 				startformat(15);
 					outstring(0,0,Locr.Code,false);
-					outstring(50,0,locHistBalances[Locr.Code],false);
-					outstring(150,0,locAccBalances[Locr.Code],false);
-					outstring(200,0,locHistBalances[Locr.Code] - locAccBalances[Locr.Code],false);
-					outstring(250,0,Locr.StockAcc,false);
+					outstring(80,0,locHistBalances[Locr.Code],false);
+					outstring(160,0,locAccBalances[Locr.Code],false);
+					outstring(240,0,locHistBalances[Locr.Code] - locAccBalances[Locr.Code],false);
+					outstring(320,0,Locr.StockAcc,false);
 				endformat;
 			end;
 		end;
