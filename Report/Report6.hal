@@ -293,6 +293,13 @@ integer compno;
               MyItemReportRn(RepSpec);
               RunProgram("Stock/DreamStockFull.sh", "");
               
+      case 15: delete_file("Stock/IDStockFull.xls");
+      				CreateFile("Stock/IDStockFull.xls");
+              closefile;
+              openexportfile("Stock/IDStockFull.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/IDStockFull.sh", "");
+              
       case 5: delete_file("Stock/TXTStockFull.xls");
       				CreateFile("Stock/TXTStockFull.xls");
               closefile;
@@ -418,6 +425,13 @@ integer compno;
               RepSpec.f2 = "RRPD,RRPD1";
               MyItemReportRn(RepSpec);
               RunProgram("Stock/D1ICStockFullManagers.sh", "");
+              
+      case 15: delete_file("Stock/IDStockFullManagers.xls");
+      				CreateFile("Stock/IDStockFullManagers.xls");
+              closefile;
+              openexportfile("Stock/IDStockFullManagers.xls",true);
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/IDStockFullManagers.sh", "");
               
       case 5: delete_file("Stock/TXTStockFullManagers.xls");
       				CreateFile("Stock/TXTStockFullManagers.xls");

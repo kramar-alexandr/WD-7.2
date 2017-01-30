@@ -126,6 +126,7 @@ string 50 filename;
           //case 6: filename = "Stock/ITEKMDDebitorka.xls";
           case 7: filename = "Stock/TNMDebitorka.xls";
           //case 8: filename = "Stock/A-SRVDebitorka.xls";
+          case 15: filename = "Stock/IDDebitorka.xls";//PPhL
         end;
         
         delete_file(filename);
@@ -152,6 +153,7 @@ string 50 filename;
           //case 6: RunProgram("Stock/ITEKMDDebitorka.sh","");
           case 7: RunProgram("Stock/TNMDebitorka.sh","");
           //case 8: RunProgram("Stock/A-SRVDebitorka.sh","");
+          case 15: RunProgram("Stock/IDDebitorka.sh","");//PPhL
         end;
       end;
 return;

@@ -15,6 +15,7 @@ integer compnr;
         	case 4: filename = "Reports/4/ICPayments.xls";
           case 5: filename = "Reports/5/TXTPayments.xls";
           case 7: filename = "Reports/7/TNMPayments.xls";
+          case 15: filename = "Reports/15/IDPayments.xls";
         end;
         recordnew(RepSpec);
         
@@ -61,6 +62,7 @@ integer compnr;
         	case 4: RepSpec.f3 = "60";//ICENTER
           case 5: RepSpec.f3 = "24";//TXT
           case 7: RepSpec.f3 = "24";//tntm
+          case 15: RepSpec.f3 = "60";//ID
         end;
         RepSpec.Media = 20;
         IPRn(RepSpec);
@@ -73,6 +75,7 @@ integer compnr;
         	case 4: RunProgram("Reports/4/ICPayments.sh","");
           case 5: RunProgram("Reports/5/TXTPayments.sh","");
           case 7: RunProgram("Reports/7/TNMPayments.sh","");
+          case 15: RunProgram("Reports/15/IDPayments.sh","");
         end;
 return;
 end;

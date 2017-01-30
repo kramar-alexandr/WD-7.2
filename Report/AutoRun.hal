@@ -158,11 +158,24 @@ ID = 15;
     ResetCompany(iTek);  
   end;*/
   
-  if (SetCompany(Dream,false)) then begin//iCenter
+  if (SetCompany(Dream,false)) then begin//iCenter_Dream
   	logtext(0,currentcompany & " FullStockEn");
     FullStockEn;//*
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;//*
+  end;
+  
+  if (SetCompany(ID,false)) then begin//iCenter_ID
+  	logtext(0,currentcompany & " FullStockEn");
+    FullStockEn;//*
+    logtext(0,currentcompany & " ManagersFullStockEn");
+    ManagersFullStockEn;//*
+    logtext(0,currentcompany & " ShopsReportEn");
+    ShopsReportEn;
+    logtext(0,currentcompany & " IPEn"); 
+    IPEn;
+    logtext(0,currentcompany & " DebitorkaReportEn");
+    DebitorkaReportEn(currentcompany);
   end;
   
   if (SetCompany(Textera,false)) then begin//textera
