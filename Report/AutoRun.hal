@@ -175,7 +175,7 @@ ID = 15;
     logtext(0,currentcompany & " IPEn"); 
     IPEn;
     logtext(0,currentcompany & " DebitorkaReportEn");
-    DebitorkaReportEn(currentcompany);
+    DebitorkaReportEn(iCenter);
   end;
   
   if (SetCompany(Textera,false)) then begin//textera
