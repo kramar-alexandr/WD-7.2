@@ -16,7 +16,7 @@ external procedure SaleWeekByVEEn();
 //------------------------------------------------------------------------------------------------------------------------------
 global updating procedure AutoRun()
 begin
-integer iStore,iTek,Textera,Technomedia,AService,WD,MMR,iCenter,Samsung,Gilliver,idistribuEsti;
+integer iStore,iTek,Textera,Technomedia,AService,WD,MMR,iCenter,Samsung,Gilliver,idistribuEsti,Dream,ID;
 record RcVc RepSpec;
 
 iStore = 1;
@@ -30,6 +30,8 @@ AService = 8;
 Samsung = 9;
 Gilliver = 10;
 idistribuEsti = 11;
+Dream = 14;
+ID = 15;
 
 
   if (SetCompany(iStore,false)) then begin
@@ -130,7 +132,7 @@ idistribuEsti = 11;
     	ResetCompany(WD);  
 		end;
   
-   if (SetCompany(iCenter,false)) then begin//iCenter
+   /*if (SetCompany(iCenter,false)) then begin//iCenter
   	logtext(0,currentcompany & " IPEn"); 
     IPEn; //**
   	logtext(0,currentcompany & " SalesReportEn");
@@ -154,6 +156,13 @@ idistribuEsti = 11;
     BuhExportEn; //Edit***************************Sasha2,9:44 16.01.2015
     RetailSalesEn;// Edit ************************** Tuesday, 17 February 2015 09:55:38
     ResetCompany(iTek);  
+  end;*/
+  
+  if (SetCompany(Dream,false)) then begin//iCenter
+  	logtext(0,currentcompany & " FullStockEn");
+    FullStockEn;//*
+    logtext(0,currentcompany & " ManagersFullStockEn");
+    ManagersFullStockEn;//*
   end;
   
   if (SetCompany(Textera,false)) then begin//textera
