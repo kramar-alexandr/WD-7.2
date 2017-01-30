@@ -162,7 +162,7 @@ begin
   
  	Maintenance("Обновити ціни для Web",MyVClass,UpdatePricesInWebSyncReg,modSO);
 	
-	Maintenance("Заокеить перемещения на шопс",MyVClass,ChkCollectLocationBalancesToDate,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
+	Maintenance("Заокеить перемещения на шопс",MyVClass,OkStockMovMn,modDBMain); //Edit***************************Sasha2,18:17 22.10.2014
 
   
 	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
