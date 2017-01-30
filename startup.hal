@@ -63,6 +63,9 @@ begin
 	Report("Клиенты с карточками",POSClientRClass,POSClientRn,0,modPOS);
 	
 	Report("Аналiз оборотностi товарiв",ItemTurnoverRClass,ItemTurnoverRn,0,modSO);
+	
+	Report("Розбіжність складу з балансом",StockBalDiffRClass,StockBalDiffRn,0,modIN);
+	Report("Розбіжність складу з балансом",StockBalDiffRClass,StockBalDiffRn,0,modNL);
 
 	
 	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);

@@ -1062,3 +1062,45 @@ begin
 
   return;
 end;*/ //Edit***************************Sasha2,11:10 27.01.2017 }
+
+global procedure StockBalDiffRn(record RcVc RepSpec)
+begin
+	vector val locHistBalances;
+	vector val locAccBalances;
+	date endDate;
+	string 200 locations;
+	record LocationVc Locr;
+	date todate;
+	
+	if(nonblank(RepSpec.d1))then begin
+		todate = RepSpec.d1;
+	end else begin
+		todate = currentdate;
+	end;
+	CollectLocationBalancesToDate(locHistBalances,locAccBalances,todate,locations);
+	
+	startreportnoheaderjob("");
+		startformat(15);
+			outstring(0,0,"Loc",false);
+			outstring(50,0,"Cost",false);
+			outstring(150,0,"Bal",false);
+			outstring(200,0,"Dif",false);
+			outstring(250,0,"Acc",false);
+		endformat;
+		
+		
+		while(loopmain(Locr,1,true))begin
+			if(locHistBalances[Locr.Code]!=0 and locAccBalances[Locr.Code]!=0)then begin
+				startformat(15);
+					outstring(0,0,Locr.Code,false);
+					outstring(50,0,locHistBalances[Locr.Code],false);
+					outstring(150,0,locAccBalances[Locr.Code],false);
+					outstring(200,0,locHistBalances[Locr.Code] - locAccBalances[Locr.Code],false);
+					outstring(250,0,Locr.StockAcc,false);
+				endformat;
+			end;
+		end;
+	endjob;
+
+return;
+end;

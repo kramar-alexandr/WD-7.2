@@ -388,5 +388,11 @@ begin
     //EditField(h,80,150,"Склад",Normal,f3,false,LocationSClass);
   EndWindow;
   
+   WindowBegin("Розбіжність складу з балансом",StockBalDiffRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    EditFieldTL(h,v+=20,80,"На дату",M4Date,Normal,0,d1,false,PasteCurDate);
+  EndWindow;
+
+  
   return;
   end;
