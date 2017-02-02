@@ -1074,6 +1074,9 @@ begin
 	string 200 locations;
 	record LocationVc Locr;
 	date todate;
+	boolean Foundf;
+	record ActVc Act;
+	//record UserVc User;
 	
 	if(nonblank(RepSpec.d1))then begin
 		todate = RepSpec.d1;
@@ -1081,6 +1084,11 @@ begin
 		todate = currentdate;
 	end;
 	CollectLocationBalancesToDate(locHistBalances,locAccBalances,todate,locations);
+	
+	/*Actr.TransDate = currentdate;
+	while()begin
+	
+	end;*/
 	
 	startreportnoheaderjob("Розбіжність клада з рахунком!");
 		startformat(15);

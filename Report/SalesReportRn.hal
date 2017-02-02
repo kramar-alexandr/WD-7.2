@@ -427,6 +427,8 @@ begin
 			end;
 		end;	
 	end;
+	realsumbase[ressize] = round(realsumbase[ressize],defaultcurroundoff);
+	realcostbase[ressize] = round(realcostbase[ressize],defaultcurroundoff);
 	//newcostblockend*****************		
 return;
 end;
@@ -1025,6 +1027,11 @@ lCollect:;
 			NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 			ressize = ressize + 1;
 	end;
+	
+	realsumbase[ressize-1] = round(realsumbase[ressize-1],defaultcurroundoff);
+	realcostbase[ressize-1] = round(realcostbase[ressize-1],defaultcurroundoff);
+	
+	
 return;
 end;
 
@@ -1101,7 +1108,7 @@ begin
 	record TRVc TRr;
 	row TRVc TRrw;
 	integer tri,trcred;
-	val disbalanscost,disbalanssale,totcost,totsale;
+	val disbalanscost,disbalanssale,totcost,totsale,totalrealGP;
 	longint shnr;
 	
 	
@@ -1314,7 +1321,7 @@ begin
 									outstring(i11,0,round(realpricebase[j],SetRoundModeD(2)),false);
 									outstring(i12,0,IVrw.vRebate,false);
 									outstring(i13,0,round(realsumuah[j],SetRoundModeD(2)),false);
-									outstring(i14,0,round(realsumbase[j],SetRoundModeD(2)),false);
+									outval(i14,0,round(realsumbase[j],SetRoundModeD(2)),m4val,false);
 									totalrealsum = totalrealsum + realsumbase[j];
 									outstring(i15,0,round(realcostuah[j],SetRoundModeD(2)),false);
 									outstring(i16,0,round(realcostbase[j],SetRoundModeD(2)),false);
@@ -1323,6 +1330,7 @@ begin
 									outstring(i18,0,round(realcostbase[j]*qty[j],SetRoundModeD(2)),false);
 									outstring(i19,0,ValToMyString((realsumuah[j] - realcostuah[j]*qty[j]),3),false);
 									outstring(i20,0,ValToMyString((realsumbase[j] - realcostbase[j]*qty[j]),3),false);
+									totalrealGP = totalrealGP + (realsumbase[j] - realcostbase[j]*qty[j]);
 									sumusd = realsumbase[j];
 									sumcostusd = realcostbase[j]*qty[j];
 								
@@ -1540,6 +1548,9 @@ begin
 			outval(0,0,totalrealcost,M4Val,false);
 			outstring(0,0,"TotalSum ",false);
 			outval(0,0,totalrealsum,M4Val,false);
+			outstring(0,0,"TotalGP ",false);
+			outval(0,0,totalrealGP,M4Val,false);
+			
 		endformat;
 	end;
 	
