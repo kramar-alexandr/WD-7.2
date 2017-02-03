@@ -1399,6 +1399,11 @@ BEGIN
     end;
   end;  
 LORDClassActiveEditField:;  
+
+if(fieldname=="SalesAcc")then begin// Edit ************************** Thursday, 2 February 2017 13:52:33
+	res = true;
+end;
+
   ORDClassActiveEditField = res;
   RETURN;
 END;
