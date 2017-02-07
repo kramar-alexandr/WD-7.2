@@ -1120,3 +1120,38 @@ begin
 
 return;
 end;
+
+global updating procedure StockBalDiffMn(string users)
+begin
+	record ActVc Actr;
+	record LocationVc Locr;
+	vector val locHistBalances;
+	vector val locAccBalances;
+	string 200 locations;
+	boolean foundf;
+  //record AcceptanceRulesVc Acptr;
+
+	
+	CollectLocationBalancesToDate(locHistBalances,locAccBalances,currentdate,locations);
+	foundf = false;
+	while(loopmain(Locr,1,true))begin
+		if(locHistBalances[Locr.Code]!=0 and locAccBalances[Locr.Code]!=0)then begin
+			foundf = true;
+		end;
+	end;
+	
+	if(foundf)then begin
+		recordnew(Actr);
+			Actr.Comment = "§сну№ розбґжнґсть складу з балансом на " & currentdate;
+			//Actr.AlarmType = kAlarmTypeMessage; //Edit-------------------Vitalii 11:31 23.12.2016
+      Actr.AlarmType = kAlarmTypeNone;
+			Actr.TodoFlag = kTodoFlagTodo;
+			//Actr.SymbNr = 3;
+			Actr.ActType = "MES";
+			Actr.MainPersons = users;
+			
+		recordstore(Actr,true);
+	end;
+	
+return;
+end;

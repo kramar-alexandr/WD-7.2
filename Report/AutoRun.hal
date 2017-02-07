@@ -12,6 +12,7 @@ external procedure BuhExportEn();//Edit***************************Sasha2,17:16 1
 external procedure RetailSalesEn();
 external procedure KreditorkaReportEn();
 external procedure SaleWeekByVEEn();
+external updating procedure StockBalDiffMn(string); 
 
 //------------------------------------------------------------------------------------------------------------------------------
 global updating procedure AutoRun()
@@ -163,6 +164,7 @@ ID = 15;
     FullStockEn;//*
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;//*
+    StockBalDiffMn("SA,KUDINA,NATA");
   end;
   
   if (SetCompany(ID,false)) then begin//iCenter_ID
@@ -176,6 +178,7 @@ ID = 15;
     IPEn;
     logtext(0,currentcompany & " DebitorkaReportEn");
     DebitorkaReportEn(iCenter);
+    StockBalDiffMn("SA,KUDINA,NATA");
   end;
   
   if (SetCompany(Textera,false)) then begin//textera
