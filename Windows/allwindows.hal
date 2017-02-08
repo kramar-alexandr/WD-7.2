@@ -4564,7 +4564,7 @@ begin
   if(currentuser=="SA" or currentuser=="LADA" or currentuser=="KUDINA" or currentuser=="FILATIEV")then begin
 		EditField(h3,v+VS,80,"Order No.",Normal,OrderNr,false,0); //Edit***************************Sasha2,18:13 03.11.2014
   end else begin
-  	EditField(h3,v+VS,80,"Order No.",ViewOnly,OrderNr,false,0); //Edit***************************Sasha2,18:13 03.11.2014
+  	EditField(h3,v+VS,80,"Order No.",Normal,OrderNr,false,0); //Edit***************************Sasha2,18:13 03.11.2014
   end;
   end;
   tilenr = 1;
