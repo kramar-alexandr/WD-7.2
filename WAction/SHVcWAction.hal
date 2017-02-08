@@ -891,6 +891,11 @@ begin
 	boolean serialfoundf,TrHs,testf;
   record RLinkVc RLr;
   boolean notercreate,skip;
+  vector LongInt SerialNrOrdRowBundleV;
+  record ORVc ORr;
+  record StockMovVc SMr;
+  row StockMovVc SMrw;
+  LongInt longTemp;
 	
 	recordnew(newNoter);
 	
@@ -911,7 +916,7 @@ begin
 					TrHs = true;
 					resetloop(SBr);
 					SBr.Serial = tstr;
-					while(loopkey("Serial",SBr,1,TrHs))begin
+					while(loopkey("Serial",SBr,1,TrHs)) begin
 						if(SBr.Serial!=tstr)then begin TrHs = false; end;
 						
 						if(TrHs)then begin
@@ -938,10 +943,30 @@ begin
 					end;
 				end;
 			end;  
-			
 		end;
 		notenr = notenr + 1;
 	end;
+	
+	if (SHr.OrderNr>-1) then begin //Edit***************************Sasha2,15:58 08.02.2017 {
+	  ORr.SerNr = SHr.OrderNr;
+	  ReadFirstMain(ORr,1,true);
+	  SMr.OrderNr = SHr.OrderNr;
+	  TrHs = true;
+	  while (LoopKey("OrderNr",SMr,1,TrHs)) begin
+	    testf = true;
+	    if (SMr.OrderNr!=SHr.OrderNr) then begin TrHs = false; testf = false; end;
+	    if (ORr.Location!=SMr.ToLocation) then begin testf = false; end;
+	    if (testf) then begin
+	      rwcnt = MatRowCnt(SMr);
+	      for (i=0;i<rwcnt;i=i+1) begin
+	        matrowget(SMr,i,SMrw);
+	        if (NonBlank(SMrw.SerialNr) and SMrw.ORRow>-1) then begin
+	          SerialNrOrdRowBundleV[SMrw.SerialNr] = SMrw.ORRow;
+	        end;
+	      end;
+	    end;
+	  end;
+	end; //Edit***************************Sasha2,15:58 08.02.2017 }
 	
 	For(i=0;i<mtrw;i=i+1) begin
 	  matrowget(SHr,i,SHrw);
@@ -949,7 +974,13 @@ begin
 	  	matrowdelete(SHr,i);
 	  	i=i-1;
 	  	mtrw = mtrw - 1;
-	  end;
+	  end else begin //Edit***************************Sasha2,16:44 08.02.2017 {
+	    longTemp = SerialNrOrdRowBundleV[SHrw.SerialNr];
+	    if (longTemp>-1 and longTemp!=SHrw.OrdRow) then begin
+	      SHrw.OrdRow =longTemp;
+	      matrowput(SHr,i,SHrw);
+	    end;
+	  end; //Edit***************************Sasha2,16:44 08.02.2017 }
 	end; 
 	
 	if(notercreate)then begin
