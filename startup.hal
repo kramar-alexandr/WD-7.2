@@ -67,6 +67,8 @@ begin
 	Report("Розбіжність складу з балансом",StockBalDiffRClass,StockBalDiffRn,0,modIN);
 	Report("Розбіжність складу з балансом",StockBalDiffRClass,StockBalDiffRn,0,modNL);
  	Maintenance("Розбіжність складу з балансом",MyVClass,StockBalDiffMn,modIN);
+ 	
+ 	Maintenance("Fix SO SalesAcc",MyVClass,FixItemCostAndSaleAccMn,modSO);
 
 	
 	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);

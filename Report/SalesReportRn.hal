@@ -98,7 +98,45 @@ begin
 						
 						goto lStartNewCalcCostAndPrice;
 					end;
+				end;
+				resetloop(IHr);
+				
+				IHr.ArtCode = IVrw.ArtCode;
+				IHr.SerialNr = IVrw.SerialNr;
+				IHr.FileName = "RetVc";
+				IHLoop = true;
+				while(loopbackkey("ArtCodeSerialNr",IHr,3,IHLoop))begin
+					if(IHr.ArtCode!=IVrw.ArtCode)then begin IHLoop=false; end;
+					if(IHr.SerialNr!=IVrw.SerialNr)then begin IHLoop=false; end;
+					if(IHr.FileName!="RetVc")then begin IHLoop=false; end;
 					
+					if(IHr.SerNr<IHSernr and IHLoop)then begin
+						IHLoop = false;
+						IHfoundf = true;
+						cost[ressize] = IHr.TotCostPrice;
+						lastpu = IHr.SerNr;
+						resetloop(IHr);
+						IHr.ArtCode = IVrw.ArtCode;
+						IHr.SerialNr = IVrw.SerialNr;
+						IHr.FileName = "SRVc";
+						IHLoop = true;
+						PUr.CurncyCode = "USD";
+						PUr.TransDate = IHr.TransDate;
+						while(loopbackkey("ArtCodeSerialNr",IHr,3,IHLoop))begin
+							if(IHr.ArtCode!=IVrw.ArtCode)then begin IHLoop=false; end;
+							if(IHr.SerialNr!=IVrw.SerialNr)then begin IHLoop=false; end;
+							if(IHr.FileName!="SRVc")then begin IHLoop=false; end;
+				
+							if(IHr.SerNr<IHSernr and IHLoop)then begin
+								if(IHr.SerNr>lastpu)then begin
+								cost[ressize] = IHr.TotCostPrice;
+								goto lStartNewCalcCostAndPrice;
+								end;
+							end;
+						end;
+						
+						goto lStartNewCalcCostAndPrice;
+					end;
 				end;
 				resetloop(IHr);
 			end;
@@ -158,16 +196,6 @@ begin
 			end;
 		end else begin
 			if(BCb.BaseCur1==left(IVr.CurncyCode,3))then begin
-				/*curncy = "USD";
-				GetFullCurncyRate (curncy,IVr.InvDate,fr,to1,to2,br1,br2);
-				uahcurrate[ressize] = to1;
-				uahpurate[ressize] = to1;
-				realcostuah[ressize] = IVrw.BasePrice;
-				realcostbase[ressize] = IVrw.BasePrice;
-				realpriceuah[ressize] = IVrw.Price/fr*to1;
-				realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/fr*to1;
-				realpricebase[ressize] = IVrw.Price;
-				realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize]/fr*to1;*/
 				realpricebase[ressize] = IVrw.Price;
 				realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
 				realcostbase[ressize] = cost[ressize];

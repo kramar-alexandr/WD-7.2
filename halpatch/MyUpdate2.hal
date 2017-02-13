@@ -9,7 +9,9 @@ external procedure PUVc_PasteLocation(var record PUVc,Integer);
 external function Boolean PUVc_PasteVECode(var record PUVc);
 external procedure PUSumUp(var record PUVc);
 external function roundmode SetRoundModeD(Integer);
-
+external function Boolean GetItemPriceDiscount3(string,val,var record INVc,string,val,val,val,val,val,string,string,string,string,
+                                                var val,var string,var val,var string,var val,var string,Integer,var Boolean,Date,Time,
+                                                string,Boolean,var Boolean,string,var string,var val,string,string,var string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -1721,3 +1723,44 @@ begin
     
   return;
 end; //Edit***************************Sasha2,11:21 30.11.2016 }
+
+
+global updating procedure FixItemCostAndSaleAccMn()
+begin
+	record ORVc ORr;
+	row ORVc ORrw;
+	record INVc INr;
+	record ITVc ITr;
+	integer i,rwcnt;
+	boolean changed;
+	string 255 tstr;
+	val price,vrebate,baseprice,tax2prc;
+	Boolean dummyf;
+	string 2 vatcode;
+  string 10 salesacc,tax2code,location,taxtemplatecode;
+  Boolean calcprice,chsum;
+  Time blankt;
+	
+	while(loopmain(ORr,1,true))begin
+		changed = false;
+		rwcnt = matrowcnt(ORr);
+		For(i=0;i<rwcnt;i=i+1) begin
+	  	matrowget(ORr,i,ORrw);
+			if (GetItemPriceDiscount3(ORrw.ArtCode,ORrw.Quant,INr,ORr.CurncyCode,
+				ORr.FrRate,ORr.ToRateB1,ORr.ToRateB2,ORr.BaseRate1,ORr.BaseRate2,
+				ORr.LangCode,ORr.CustCat,ORr.PriceList,ORr.RebCode,
+				price,tstr,vrebate,vatcode,baseprice,
+				salesacc,ORr.ExportFlag,calcprice,ORr.OrdDate,blankt,ORr.CustCode,true,dummyf,ORr.PayDeal,tax2code,tax2prc,ORr.Region,location,taxtemplatecode)) then 
+			begin
+		
+				ORrw.SalesAcc = salesacc;
+				matrowput(ORr,i,ORrw);
+				logtext(0,ORr.SerNr & " " & ORrw.ArtCode & " " & salesacc);
+			end;
+		end; 
+		recordstore(ORr,true);
+	end;
+	
+	
+return;
+end;

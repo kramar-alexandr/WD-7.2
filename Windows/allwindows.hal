@@ -7366,7 +7366,12 @@ begin
   h1 = 75;h2 = 290; h3 = 470; vs = 20;
   Tile(0,70,false,"",CustCode); //!!PRODTRANSLATE
   EditField(75,vm=(v=6),95,"No.",Normal,SerNr,false,TSerSClass); //!!PRODTRANSLATE
-  EditField(75,v+=20,95,"Customer",Normal,CustCode,false,CUSClass); //!!PRODTRANSLATE
+  if(currentuser=="SA")then begin
+  	EditField(75,v+=20,95,"Customer",Normal,CustCode,false,CUSClass); //!!PRODTRANSLATE
+  end else begin
+		EditField(75,v+=20,95,"Customer",ViewOnly,CustCode,false,CUSClass); //!!PRODTRANSLATE
+  end;
+  
   EditField(h=240,v=vm,-40,"Name",Normal,Addr0,false,0); //!!PRODTRANSLATE
   v = v+vs;
   CheckBox(h4=-100,v,0,"OK",OKFlag); //!!PRODTRANSLATE
