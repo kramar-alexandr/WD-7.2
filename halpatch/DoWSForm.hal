@@ -40,6 +40,7 @@ BEGIN
   record INVc INr;
   val t;
   val vatprc,vatval,vatexclprc,vatinclprc;
+  record UnitVc Unitr;
   
   totaldiscount = blankval;
   rwcnt = MatRowCnt(WSr);
@@ -72,6 +73,16 @@ BEGIN
       OUTFORMFIELD("F_RECEPY",WSrw.Recepy);
       tstr = ValToString(WSrw.Invd,M4UVal,SysFormatRec.thousSep,SysFormatRec.decimalPt,LangNrr.CutDecimals);
       OUTFORMFIELD("F_INVOICED",tstr);
+      OUTFORMFIELD("F_ROWNR",i);
+      if(FIELDINFORM("F_UNITCOMMENT"))then begin
+      	Unitr.Code = INr.Unittext;
+      	if(readfirstmain(Unitr,1,true))then begin
+      		OUTFORMFIELD("F_UNITCOMMENT",Unitr.Comment);
+      	end else begin
+      		OUTFORMFIELD("F_UNITCOMMENT",INr.Unittext);
+      	end;
+      end;
+      
       EndFormRow;
       if (WSrw.vRebate!=0) then begin
         t = WSrw.Quant*WSrw.Price - WSrw.Sum;
