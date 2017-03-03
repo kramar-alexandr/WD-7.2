@@ -1096,6 +1096,21 @@ integer difflen; //Edit***************************Sasha2,10:14 16.02.2015
 return;
 end;
 
+function string 50 CustomerOrderNum(longint ordernr)
+begin
+	record ORVc ORr;
+	string 50 res;
+	
+	res = "";
+	
+	ORr.SerNr = ordernr;
+	if(readfirstmain(ORr,1,true))then begin
+		res = ORr.CustOrdNr;
+	end;
+	CustomerOrderNum = res;
+return;
+end;
+
 global procedure SalesReportRn(record RcVc RepSpec)
 begin
 	integer i0,i01,i02,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i91,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38;
@@ -1159,6 +1174,7 @@ begin
 			outstring(i3,0,"Найменування",false);
 			outstring(i4,0,"Дата продажу",false);
 			outstring(i1,0,"Акт",false);
+			outstring(i1,0,"№ рахунку",false);
 			outstring(i5,0,"Клієнт",false);
 			outstring(i6,0,"Склад",false);
 			outstring(i7,0,"Кіл-ть",false);
@@ -1315,6 +1331,7 @@ begin
 								outstring(i3,0,INr.Name,false);
 								outstring(i4,0,IVr.InvDate,false);
 								outstring(i1,0,IVr.SerNr,false);
+								outstring(i1,0,CustomerOrderNum(IVr.OrderNr),false);
 								outstring(i5,0,IVr.CustCode,false);
 								outstring(i6,0,IVr.Location,false);
 								outstring(i7,0,qty[j],false);
@@ -1420,6 +1437,7 @@ begin
 								outstring(i3,0,INr.Name,false);
 								outstring(i4,0,IVr.InvDate,false);
 								outstring(i1,0,IVr.SerNr,false);
+								outstring(i1,0,CustomerOrderNum(IVr.OrderNr),false);
 								outstring(i5,0,IVr.CustCode,false);
 								outstring(i6,0,IVr.Location,false);
 								outstring(i7,0,IVrw.Quant*cred - foundqty,false);
@@ -1662,6 +1680,7 @@ begin
 			outstring(i3,0,"Найменування",false);
 			outstring(i4,0,"Дата продажу",false);
 			outstring(i1,0,"Акт",false);
+			outstring(i1,0,"№ рахунку",false);
 			outstring(i5,0,"Клієнт",false);
 			outstring(i6,0,"Склад",false);
 			outstring(i7,0,"Кіл-ть",false);
@@ -1779,6 +1798,7 @@ begin
 								outstring(i3,0,INr.Name,false);
 								outstring(i4,0,IVr.InvDate,false);
 								outstring(i1,0,IVr.SerNr,false);
+								outstring(i1,0,CustomerOrderNum(IVr.OrderNr),false);
 								outstring(i5,0,IVr.CustCode,false);
 								outstring(i6,0,IVr.Location,false);
 								outstring(i7,0,qty[j],false);
@@ -1836,6 +1856,7 @@ begin
 								outstring(i3,0,INr.Name,false);
 								outstring(i4,0,IVr.InvDate,false);
 								outstring(i1,0,IVr.SerNr,false);
+								outstring(i1,0,CustomerOrderNum(IVr.OrderNr),false);
 								outstring(i5,0,IVr.CustCode,false);
 								outstring(i6,0,IVr.Location,false);
 								outstring(i7,0,(IVrw.Quant*cred - foundqty),false);
