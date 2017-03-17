@@ -10029,3 +10029,14 @@ begin
   SpecialMenu("Створити списання з вал. рах.",' ',0,"CreateUSDRemTRLsm");
   EndWindow;
 end;
+
+window SerBalDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,h3,v,vm,vs;
+  WindowBegin("SerBalDClass",SerBalDClass,CGview,-);
+  SetWRect(64,80,640,230);
+  UseView(SerBalVc);
+  
+  EndWindow;
+end;

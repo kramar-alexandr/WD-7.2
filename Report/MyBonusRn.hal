@@ -109,8 +109,6 @@ row CLInVc CLInrw;
               end;
             end;
           end;      
-          
-          
         end; 
       end;
       
@@ -284,14 +282,14 @@ begin
   row IVVc newIVrw;
   record IPrsVc IPrsr;
   record IPrsVc IPrs2r;
-  boolean TrHs,trhs2,testf,testf2,TRHS1;
+  boolean TrHs,trhs2,testf,testf2,TRHS1,checkf;
   record ORVc ORr;
   record SHVc SHr;
   row SHVc SHrw;
   integer mtrw,i,g,k,j,ivmtrw,mtrwsh;
   val MyCost,salesprice,salessum,sum;
   Record CUVc CUr;
-  date enddate;
+  date enddate,firstenddate;
   val TransNo;
   record RLinkVc RLr;
   Integer notenr,notenr1,notenr2,z,mtws;
@@ -408,6 +406,7 @@ begin
           
           curncy = IVr.CurncyCode;
           enddate = "";
+          firstenddate = "";
           invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
     			invto1 = IVr.ToRateB1;
     			if(IVr.CurncyCode==BCb.BaseCur2)then begin
@@ -419,6 +418,7 @@ begin
     				invto1 = 1;
     			end; //Edit***************************Sasha2,16:00 23.04.2015 }
           GetIVSumAndDate(IPrsr,IVr,enddate,sum,curncy);
+          firstenddate = enddate;
           
           if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** Monday, 13 June 2016 16:02:42
 						newIVr.SerNr = IPrsr.TransNr;
@@ -766,58 +766,188 @@ l1:;
           if(testf2 and IPrs2r.TransType==0 and IPrs2r.TransNr!=IPrs2r.IVNr)then begin
             newIVr.SerNr = IPrs2r.TransNr;
             if(readfirstmain(newIVr,1,true) and ((newIVr.InvDate>=RepSpec.sStartDate and newIVr.InvDate<=RepSpec.sEndDate) or newIVr.InvDate<enddate) and usedinvno[IPrs2r.TransNr]==false)then begin// Edit ************************** Monday, 13 June 2016 15:29:47
-            	usedinvno[newIVr.SerNr] = true;
-            	cred = 1;
-            	if(newIVr.InvType==kInvoiceTypeCredit)then begin
-            		cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
-            		CredNo = -1;
-            		mtrw = matrowcnt(newIVr);
-            		For(i=0;i<mtrw;i=i+1) begin
-	  							Matrowget(newIVr,i,newIVrw);
-	  							if(newIVrw.stp==kInvoiceRowTypeCredit)then begin
-	  								CredNo = newIVrw.OrdRow;
-	  							end;
-								end;             		
-            	end;
+            	checkf = true;
+            	if(((newIVr.InvDate>=RepSpec.sStartDate and newIVr.InvDate<=RepSpec.sEndDate) or newIVr.InvDate<enddate)==false)then begin checkf = false; end;
+            	if(usedinvno[IPrs2r.TransNr])then begin checkf = false; end;
+            	//if(newIVr.InvDate>enddate and newIVr.InvDat<)then begin checkf = false; end;
             	
-              invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
-        			invto1 = IVr.ToRateB1;
-        			if(IVr.CurncyCode==BCb.BaseCur2)then begin
-								invfr = IVr.BaseRate2;
-								invto1 = IVr.BaseRate1;
-							end;
-        			if(invfr==0 or invto1==0)then begin
-        				invfr = 1;
-        				invto1 = 1;
-        			end; //Edit***************************Sasha2,16:00 23.04.2015 }
-              mtrw = matrowcnt(newIVr);
-              Matrowget(newIVr,0,newIVrw);
-              if(newIVrw.stp==3)then begin// Edit ************************** Thursday, 31 December 2015 13:18:50
-              //if(false)then begin
-                For(i=1;i<mtrw;i=i+1) begin
-	                Matrowget(newIVr,i,newIVrw);
-	                 if(nonblank(newIVrw.ArtCode) and IVrw.stp==kInvoiceRowTypeNormal)then begin 
-	                    tstr = "";
-                      group = "";
-                      enginer = "";
-                      MyCost = 0;// Edit ************************** Wednesday, 8 December 2010 13:26:26
-                      GetItemGroup(newIVrw.ArtCode,tstr);
-                      GetItemGroupDescription(tstr,group);
-                      CUr.Code = newIVr.CustCode;
-                      If(readFirstmain(CUr,1,true)) then begin
-                      end; 
-                      if(nonblank(newIVrw.FIFO) and (newIVrw.FIFO!=0)) then begin
-                        //OutVal(20,0,IVrw.FIFO,M4Val,false);
-                        MyCost = newIVrw.FIFO;
-                      end else begin
-                      	
-                      	trhs2=true;
+            	if(checkf)then begin
+								usedinvno[newIVr.SerNr] = true;
+								cred = 1;
+								if(newIVr.InvType==kInvoiceTypeCredit)then begin
+									cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
+									CredNo = -1;
+									mtrw = matrowcnt(newIVr);
+									For(i=0;i<mtrw;i=i+1) begin
+										Matrowget(newIVr,i,newIVrw);
+										if(newIVrw.stp==kInvoiceRowTypeCredit)then begin
+											CredNo = newIVrw.OrdRow;
+										end;
+									end;             		
+								end;
+							
+								invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
+								invto1 = IVr.ToRateB1;
+								if(IVr.CurncyCode==BCb.BaseCur2)then begin
+									invfr = IVr.BaseRate2;
+									invto1 = IVr.BaseRate1;
+								end;
+								if(invfr==0 or invto1==0)then begin
+									invfr = 1;
+									invto1 = 1;
+								end; //Edit***************************Sasha2,16:00 23.04.2015 }
+								mtrw = matrowcnt(newIVr);
+								Matrowget(newIVr,0,newIVrw);
+								if(newIVrw.stp==3)then begin// Edit ************************** Thursday, 31 December 2015 13:18:50
+								//if(false)then begin
+									For(i=1;i<mtrw;i=i+1) begin
+										Matrowget(newIVr,i,newIVrw);
+										 if(nonblank(newIVrw.ArtCode) and IVrw.stp==kInvoiceRowTypeNormal)then begin 
+												tstr = "";
+												group = "";
+												enginer = "";
+												MyCost = 0;// Edit ************************** Wednesday, 8 December 2010 13:26:26
+												GetItemGroup(newIVrw.ArtCode,tstr);
+												GetItemGroupDescription(tstr,group);
+												CUr.Code = newIVr.CustCode;
+												If(readFirstmain(CUr,1,true)) then begin
+												end; 
+												if(nonblank(newIVrw.FIFO) and (newIVrw.FIFO!=0)) then begin
+													//OutVal(20,0,IVrw.FIFO,M4Val,false);
+													MyCost = newIVrw.FIFO;
+												end else begin
+												
+													trhs2=true;
+													notenr = 1;
+													while (ReadRecordLink(newIVr,notenr,SVOr,RLr) and trhs2) begin
+														notenr1=1;
+														while (ReadRecordLink(SVOr,notenr1,WOr,RLr) and trhs2) begin
+															notenr2=1;
+																while (ReadRecordLink(WOr,notenr2,WSr,RLr) and trhs2) begin
+																	mtws = matrowcnt(WSr);
+																	for(z=0;z<mtws;z=z+1) begin
+																		MatRowGet(WSr,z,WSrw);
+																		if(WSrw.ArtCode==newIVrw.ArtCode)then begin
+																			enginer = WSr.EMCode;
+																			trhs2 = false;
+																		end;
+																	end;
+																	notenr2=notenr2+1;
+																end;
+															notenr1=notenr1+1;
+														end;
+														notenr = notenr + 1;
+														notenr1 = 1;
+														while (ReadRecordLink(SVOr,notenr1,WSr,RLr) and trhs2) begin
+															mtws = matrowcnt(WSr);
+															for(z=0;z<mtws;z=z+1) begin
+																MatRowGet(WSr,z,WSrw);
+																if(WSrw.ArtCode==newIVrw.ArtCode)then begin
+																	enginer = WSr.EMCode;
+																	trhs2 = false;
+																end;
+															end;
+															notenr1=notenr1+1;
+														end;
+													end;
+													notenr = 1;
+													while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
+														enginer = WSr.EMCode;
+														worksheet = WSr.SerNr;
+														notenr = notenr + 1;
+													end;
+													if(newIVr.OrderNr>0) then begin
+														SHr.OrderNr = newIVr.OrderNr;
+														TrHs1 = true;
+														While(loopkey("OrderKey",SHr,1,TrHs1)) begin
+															If(SHr.OrderNr==newIVr.OrderNr) then begin
+														 // MessageBox(0,SHr.OrderNr);
+																mtrwsh = matrowcnt(SHr);
+																For(g=0;g<mtrwsh;g=g+1) begin
+																	MatRowGet(SHr,g,SHrw);
+																	if(SHrw.OrdRow==newIVrw.OrdRow) then begin // Edit ************************** Tuesday, 8 February 2011 10:28:19
+																		MyCost = SHrw.FIFORowVal/SHrw.Ship;
+																		if(MyCost==0) then begin
+																		 //goto COSTZERO;
+																		end;
+																	end;
+																end; 
+															end else begin
+																TrHs1 = false;
+															end;
+														end;
+														Resetloop(SHr);
+													end else begin
+														trhs2=true;
+														notenr = 1;
+														while (ReadRecordLink(newIVr,notenr,SVOr,RLr) and trhs2) begin
+															notenr1=1;
+															while (ReadRecordLink(SVOr,notenr1,WOr,RLr) and trhs2) begin
+																notenr2=1;
+																	while (ReadRecordLink(WOr,notenr2,WSr,RLr) and trhs2) begin
+																		mtws = matrowcnt(WSr);
+																		for(z=0;z<mtws;z=z+1) begin
+																			MatRowGet(WSr,z,WSrw);
+																			if(WSrw.ArtCode==newIVrw.ArtCode)then begin
+																				MyCost = WSrw.FIFO;
+																				enginer = WSr.EMCode;
+																				trhs2 = false;
+																			end;
+																		end;
+																		notenr2=notenr2+1;
+																	end;
+																notenr1=notenr1+1;
+															end;
+															notenr = notenr + 1;
+															notenr1 = 1;
+															while (ReadRecordLink(SVOr,notenr1,WSr,RLr) and trhs2) begin
+																mtws = matrowcnt(WSr);
+																for(z=0;z<mtws;z=z+1) begin
+																	MatRowGet(WSr,z,WSrw);
+																	if(WSrw.ArtCode==newIVrw.ArtCode)then begin
+																		MyCost = WSrw.FIFO;
+																		enginer = WSr.EMCode;
+																		trhs2 = false;
+																	end;
+																end;
+																notenr1=notenr1+1;
+															end;
+														end;
+													end;
+												end;
+											
 												notenr = 1;
-												while (ReadRecordLink(newIVr,notenr,SVOr,RLr) and trhs2) begin
-													notenr1=1;
-													while (ReadRecordLink(SVOr,notenr1,WOr,RLr) and trhs2) begin
-														notenr2=1;
-															while (ReadRecordLink(WOr,notenr2,WSr,RLr) and trhs2) begin
+												while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
+													enginer = WSr.EMCode;
+													worksheet = WSr.SerNr;
+													notenr = notenr + 1;
+												end;
+											
+												if(CredNo>-1)then begin
+													IVr.SerNr = CredNo;
+													if(readfirstmain(IVr,1,true))then begin
+														trhs2=true;
+														notenr = 1;
+														while (ReadRecordLink(IVr,notenr,SVOr,RLr) and trhs2) begin
+															notenr1=1;
+															while (ReadRecordLink(SVOr,notenr1,WOr,RLr) and trhs2) begin
+																notenr2=1;
+																	while (ReadRecordLink(WOr,notenr2,WSr,RLr) and trhs2) begin
+																		mtws = matrowcnt(WSr);
+																		for(z=0;z<mtws;z=z+1) begin
+																			MatRowGet(WSr,z,WSrw);
+																			if(WSrw.ArtCode==newIVrw.ArtCode)then begin
+																				enginer = WSr.EMCode;
+																				trhs2 = false;
+																			end;
+																		end;
+																		notenr2=notenr2+1;
+																	end;
+																notenr1=notenr1+1;
+															end;
+															notenr = notenr + 1;
+															notenr1 = 1;
+															while (ReadRecordLink(SVOr,notenr1,WSr,RLr) and trhs2) begin
 																mtws = matrowcnt(WSr);
 																for(z=0;z<mtws;z=z+1) begin
 																	MatRowGet(WSr,z,WSrw);
@@ -826,256 +956,137 @@ l1:;
 																		trhs2 = false;
 																	end;
 																end;
-																notenr2=notenr2+1;
-															end;
-														notenr1=notenr1+1;
-													end;
-													notenr = notenr + 1;
-													notenr1 = 1;
-													while (ReadRecordLink(SVOr,notenr1,WSr,RLr) and trhs2) begin
-														mtws = matrowcnt(WSr);
-														for(z=0;z<mtws;z=z+1) begin
-															MatRowGet(WSr,z,WSrw);
-															if(WSrw.ArtCode==newIVrw.ArtCode)then begin
-																enginer = WSr.EMCode;
-																trhs2 = false;
+																notenr1=notenr1+1;
 															end;
 														end;
-														notenr1=notenr1+1;
 													end;
 												end;
-												notenr = 1;
-												while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
-													enginer = WSr.EMCode;
-													worksheet = WSr.SerNr;
-													notenr = notenr + 1;
-												end;
-                        if(newIVr.OrderNr>0) then begin
-                          SHr.OrderNr = newIVr.OrderNr;
-                          TrHs1 = true;
-                          While(loopkey("OrderKey",SHr,1,TrHs1)) begin
-                            If(SHr.OrderNr==newIVr.OrderNr) then begin
-                           // MessageBox(0,SHr.OrderNr);
-                              mtrwsh = matrowcnt(SHr);
-                              For(g=0;g<mtrwsh;g=g+1) begin
-                                MatRowGet(SHr,g,SHrw);
-                                if(SHrw.OrdRow==newIVrw.OrdRow) then begin // Edit ************************** Tuesday, 8 February 2011 10:28:19
-                                  MyCost = SHrw.FIFORowVal/SHrw.Ship;
-                                  if(MyCost==0) then begin
-                                   //goto COSTZERO;
-                                  end;
-                                end;
-                              end; 
-                            end else begin
-                              TrHs1 = false;
-                            end;
-                          end;
-                          Resetloop(SHr);
-                        end else begin
-                          trhs2=true;
-                          notenr = 1;
-                          while (ReadRecordLink(newIVr,notenr,SVOr,RLr) and trhs2) begin
-                            notenr1=1;
-                            while (ReadRecordLink(SVOr,notenr1,WOr,RLr) and trhs2) begin
-                              notenr2=1;
-                                while (ReadRecordLink(WOr,notenr2,WSr,RLr) and trhs2) begin
-                                  mtws = matrowcnt(WSr);
-                                  for(z=0;z<mtws;z=z+1) begin
-                                    MatRowGet(WSr,z,WSrw);
-                                    if(WSrw.ArtCode==newIVrw.ArtCode)then begin
-                                      MyCost = WSrw.FIFO;
-                                      enginer = WSr.EMCode;
-                                      trhs2 = false;
-                                    end;
-                                  end;
-                                  notenr2=notenr2+1;
-                                end;
-                              notenr1=notenr1+1;
-                            end;
-                            notenr = notenr + 1;
-                            notenr1 = 1;
-                            while (ReadRecordLink(SVOr,notenr1,WSr,RLr) and trhs2) begin
-                              mtws = matrowcnt(WSr);
-                              for(z=0;z<mtws;z=z+1) begin
-                                MatRowGet(WSr,z,WSrw);
-                                if(WSrw.ArtCode==newIVrw.ArtCode)then begin
-                                  MyCost = WSrw.FIFO;
-                                  enginer = WSr.EMCode;
-                                  trhs2 = false;
-                                end;
-                              end;
-                              notenr1=notenr1+1;
-                            end;
-                          end;
-                        end;
-                      end;
-                      
-                      notenr = 1;
-											while (ReadRecordLink(newIVr,notenr,WSr,RLr)) begin
-												enginer = WSr.EMCode;
-												worksheet = WSr.SerNr;
-												notenr = notenr + 1;
-											end;
 											
-											if(CredNo>-1)then begin
-												IVr.SerNr = CredNo;
-												if(readfirstmain(IVr,1,true))then begin
-													trhs2=true;
-                          notenr = 1;
-                          while (ReadRecordLink(IVr,notenr,SVOr,RLr) and trhs2) begin
-                            notenr1=1;
-                            while (ReadRecordLink(SVOr,notenr1,WOr,RLr) and trhs2) begin
-                              notenr2=1;
-                                while (ReadRecordLink(WOr,notenr2,WSr,RLr) and trhs2) begin
-                                  mtws = matrowcnt(WSr);
-                                  for(z=0;z<mtws;z=z+1) begin
-                                    MatRowGet(WSr,z,WSrw);
-                                    if(WSrw.ArtCode==newIVrw.ArtCode)then begin
-                                      enginer = WSr.EMCode;
-                                      trhs2 = false;
-                                    end;
-                                  end;
-                                  notenr2=notenr2+1;
-                                end;
-                              notenr1=notenr1+1;
-                            end;
-                            notenr = notenr + 1;
-                            notenr1 = 1;
-                            while (ReadRecordLink(SVOr,notenr1,WSr,RLr) and trhs2) begin
-                              mtws = matrowcnt(WSr);
-                              for(z=0;z<mtws;z=z+1) begin
-                                MatRowGet(WSr,z,WSrw);
-                                if(WSrw.ArtCode==newIVrw.ArtCode)then begin
-                                  enginer = WSr.EMCode;
-                                  trhs2 = false;
-                                end;
-                              end;
-                              notenr1=notenr1+1;
-                            end;
-                          end;
+												CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
+												foundqty = 0;
+												For(j=0;j<ressize;j=j+1) begin
+													foundqty = foundqty + qty[j];
 												end;
-											end;
-                      
-                      CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
-            					foundqty = 0;
-            					For(j=0;j<ressize;j=j+1) begin
-            						foundqty = foundqty + qty[j];
-            					end;
-                      For(j=0;j<ressize;j=j+1) begin //Edit***************************Sasha2,15:54 23.04.2015 }
-                        if (Left(newIVr.CurncyCode,3)=="UAH") then begin
-          							  sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
-          							end else begin
-          							  CUr.Code = newIVr.CustCode;
-        			            readfirstmain(CUr,1,true);
-          							  if (newIVr.CurncyCode==BCb.BaseCur1) then begin
-          							    sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
-          							    CurValToOtherCur(indate[j],newIVr.CurncyCode,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
-          							    sumcur = t;
-          							  end else begin
-          							    if (Left(newIVr.CurncyCode,3)=="EUR") then begin
-          							      sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
-          							      CurValToOtherCur(indate[j],newIVr.CurncyCode,sumcur,BCb.BaseCur1,t,DefaultCurRoundOff);
-          							      sumcur = t;
-          							      CurValToOtherCur(indate[j],BCb.BaseCur1,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
-          							      sumcur = t; 
-          							    end;
-          							  end;
-          							end;
-          							if(curncyarr[j]==BCb.BaseCur1)then begin
-          								sumusd = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],invfr,invto1,1,foundqty,false);
-          							end else begin
-          								if(newIVr.CurncyCode==BCb.BaseCur1)then begin
-          									sumusd = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
-          								end else begin
-          									sumusd = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
-          									CurValToOtherCur(indate[j],newIVr.CurncyCode,sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);
-          									sumusd = t;
-          									If(vecode[j]=="ERC" and left(newIVr.CurncyCode,3)=="UAH")then begin
-          										CurValToOtherCur(currentdate,"UAH_E",sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
-        											sumusd = t;
-          									end;
-          								end;
-    							      end;
-                        StartFormat(15);
-                          OutString(pos[0],0,newIVr.CustCode,false);
-                          OutString(pos[1],0,newIVr.Addr0,false);
-                          OutString(pos[2],0,newIVr.InvDate,false);
-                          OutString(pos[3],0,newIVr.PayDate,false);
-                          if (blankdate(enddate)) then begin
-                            OutDate(pos[4],0,newIVr.PayDate,false);
-                          end else begin
-                            OutDate(pos[4],0,enddate,false);
-                          end;
-                          OutString(pos[5],0,newIVr.SerNr,false);
-                          if(currentcompany==2)then begin
-                          	OutString(pos[23],0,newIVr.OrderNr,false);
-                          end;
-                          OutString(pos[6],0,group,false);
-                          OutString(pos[6],0,newIVrw.ArtCode,false);
-                          OutString(pos[7],0,newIVrw.Spec,false);
-                          if(currentcompany==2)then begin
-														OutString(pos[7],0,serial[j],false);
+												For(j=0;j<ressize;j=j+1) begin //Edit***************************Sasha2,15:54 23.04.2015 }
+													if (Left(newIVr.CurncyCode,3)=="UAH") then begin
+														sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
+													end else begin
+														CUr.Code = newIVr.CustCode;
+														readfirstmain(CUr,1,true);
+														if (newIVr.CurncyCode==BCb.BaseCur1) then begin
+															sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
+															CurValToOtherCur(indate[j],newIVr.CurncyCode,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
+															sumcur = t;
+														end else begin
+															if (Left(newIVr.CurncyCode,3)=="EUR") then begin
+																sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
+																CurValToOtherCur(indate[j],newIVr.CurncyCode,sumcur,BCb.BaseCur1,t,DefaultCurRoundOff);
+																sumcur = t;
+																CurValToOtherCur(indate[j],BCb.BaseCur1,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
+																sumcur = t; 
+															end;
+														end;
 													end;
-                          quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
-                          OutString(pos[8],0,quant,false);
-                          salesprice = realsumbase[j];
-                          priceorig = realsumuah[j];
-                          MyCost = realcostbase[j];
-                          OutVal(pos[9],0,realpricebase[j],M4Val,false);
-													OutVal(pos[9],0,realpriceuah[j],M4Val,false);              
-                          OutVal(pos[10],0,MyCost,M4Val,false);
-                          curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
-                          if(curorig==0)then begin
-                            curorig = 1;
-                          end;
-                          costorig = realcostuah[j];
-                          OutVal(pos[10],0,costorig,M4Val,false);
-                          salessum = realsumbase[j];
-													sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }
-                          OutVal(pos[11],0,salessum,M4Val,false);
-                          OutVal(pos[11],0,sumorig,M4Val,false);
-                          OutVal(pos[12],0,MyCost*quant,M4Val,false);
-                          sumcostorig = realcostuah[j]*quant;
-                          OutVal(pos[12],0,sumcostorig,M4Val,false);
-                          OutVal(pos[13],0,(salessum-(MyCost*quant)),M4Val,false);
-                          gporig = sumorig - sumcostorig;
-                          OutVal(pos[13],0,gporig,M4Val,false);
-                          OutString(pos[14],0,uahpurate[j],false); 
-													OutString(pos[15],0,curncyarr[j],false); 
+													if(curncyarr[j]==BCb.BaseCur1)then begin
+														sumusd = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],invfr,invto1,1,foundqty,false);
+													end else begin
+														if(newIVr.CurncyCode==BCb.BaseCur1)then begin
+															sumusd = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
+														end else begin
+															sumusd = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
+															CurValToOtherCur(indate[j],newIVr.CurncyCode,sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);
+															sumusd = t;
+															If(vecode[j]=="ERC" and left(newIVr.CurncyCode,3)=="UAH")then begin
+																CurValToOtherCur(currentdate,"UAH_E",sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
+																sumusd = t;
+															end;
+														end;
+													end;
+													StartFormat(15);
+														if(currentuser!="SA")then begin
+															OutString(pos[0],0,newIVr.CustCode,false);
+														end else begin
+															OutString(pos[0],0,newIVr.CustCode & " " & firstenddate,false);
+														end;
+														OutString(pos[1],0,newIVr.Addr0,false);
+														OutString(pos[2],0,newIVr.InvDate,false);
+														OutString(pos[3],0,newIVr.PayDate,false);
+														if (blankdate(enddate)) then begin
+															OutDate(pos[4],0,newIVr.PayDate,false);
+														end else begin
+															OutDate(pos[4],0,enddate,false);
+														end;
+														OutString(pos[5],0,newIVr.SerNr,false);
+														if(currentcompany==2)then begin
+															OutString(pos[23],0,newIVr.OrderNr,false);
+														end;
+														OutString(pos[6],0,group,false);
+														OutString(pos[6],0,newIVrw.ArtCode,false);
+														OutString(pos[7],0,newIVrw.Spec,false);
+														if(currentcompany==2)then begin
+															OutString(pos[7],0,serial[j],false);
+														end;
+														quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
+														OutString(pos[8],0,quant,false);
+														salesprice = realsumbase[j];
+														priceorig = realsumuah[j];
+														MyCost = realcostbase[j];
+														OutVal(pos[9],0,realpricebase[j],M4Val,false);
+														OutVal(pos[9],0,realpriceuah[j],M4Val,false);              
+														OutVal(pos[10],0,MyCost,M4Val,false);
+														curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
+														if(curorig==0)then begin
+															curorig = 1;
+														end;
+														costorig = realcostuah[j];
+														OutVal(pos[10],0,costorig,M4Val,false);
+														salessum = realsumbase[j];
+														sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }
+														OutVal(pos[11],0,salessum,M4Val,false);
+														OutVal(pos[11],0,sumorig,M4Val,false);
+														OutVal(pos[12],0,MyCost*quant,M4Val,false);
+														sumcostorig = realcostuah[j]*quant;
+														OutVal(pos[12],0,sumcostorig,M4Val,false);
+														OutVal(pos[13],0,(salessum-(MyCost*quant)),M4Val,false);
+														gporig = sumorig - sumcostorig;
+														OutVal(pos[13],0,gporig,M4Val,false);
+														OutString(pos[14],0,uahpurate[j],false); 
+														OutString(pos[15],0,curncyarr[j],false); 
 													
-                          OutString(pos[16],0,uahcurrate[j],false); 
-                          OutString(pos[17],0,IVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015 }
-                          If(NonBlank(CUr.Code)) then begin
-                            OutString(pos[18],0,CUr.SalesMan,false);
-                          end; 
-                          OutString(pos[19],0,newIVr.SalesMan,false);
-                          if(currentcompany!=2)then begin
-														OutString(pos[20],0,enginer,false);
-														OutString(pos[21],0,newIVr.SVONr,false);
-														OutString(pos[23],0,newIVr.OrderNr,false);
-                          end;
+														OutString(pos[16],0,uahcurrate[j],false); 
+														OutString(pos[17],0,IVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015 }
+														If(NonBlank(CUr.Code)) then begin
+															OutString(pos[18],0,CUr.SalesMan,false);
+														end; 
+														OutString(pos[19],0,newIVr.SalesMan,false);
+														if(currentcompany!=2)then begin
+															OutString(pos[20],0,enginer,false);
+															OutString(pos[21],0,newIVr.SVONr,false);
+															OutString(pos[23],0,newIVr.OrderNr,false);
+														end;
 													
-                        endformat;
-                      end; //Edit***************************Sasha2,15:52 23.04.2015
-                      if(foundqty<newIVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
-      						      if (Left(newIVr.CurncyCode,3)=="UAH") then begin
-          							  sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,1,1,1,foundqty,true);
-          							end else begin
-          							  if (newIVr.CurncyCode==BCb.BaseCur1) then begin
-          							    sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,invto1,invfr,1,foundqty,true);
-          							  end else begin
-          							    if (Left(newIVr.CurncyCode,3)=="EUR") then begin
-          							      sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,invto1,invfr,1,foundqty,true);
-          							      CurValToOtherCur(newIVr.InvDate,BCb.BaseCur1,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
-          							      sumcur = t;
-          							    end;
-          							  end;
-          							end;
-          							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,1,foundqty,true);
-      					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
-	                 end;
-                end; 
-              end;
+													endformat;
+												end; //Edit***************************Sasha2,15:52 23.04.2015
+												if(foundqty<newIVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
+													if (Left(newIVr.CurncyCode,3)=="UAH") then begin
+														sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,1,1,1,foundqty,true);
+													end else begin
+														if (newIVr.CurncyCode==BCb.BaseCur1) then begin
+															sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,invto1,invfr,1,foundqty,true);
+														end else begin
+															if (Left(newIVr.CurncyCode,3)=="EUR") then begin
+																sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,invto1,invfr,1,foundqty,true);
+																CurValToOtherCur(newIVr.InvDate,BCb.BaseCur1,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
+																sumcur = t;
+															end;
+														end;
+													end;
+													sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,1,foundqty,true);
+												end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
+										 end;
+									end; 
+								end;
+							end;
             end;
           end;
         end; 
@@ -1781,3 +1792,133 @@ l1:;
 return;
 end;
 
+
+global procedure NewBonusRn(record RcVc RepSpec)
+begin
+  record ARVc ARr;
+  record IVVc IVr;
+  row IVVc IVrw;
+  record IVVc newIVr;
+  record IVVc new1IVr;
+  row IVVc newIVrw;
+  record IPrsVc IPrsr;
+  record IPrsVc IPrs2r;
+  boolean TrHs,trhs2,testf,testf2,TRHS1,checkf;
+  record ORVc ORr;
+  record SHVc SHr;
+  row SHVc SHrw;
+  integer mtrw,i,g,k,j,ivmtrw,mtrwsh;
+  val MyCost,salesprice,salessum,sum;
+  Record CUVc CUr;
+  date enddate,firstenddate;
+  val TransNo;
+  record RLinkVc RLr;
+  Integer notenr,notenr1,notenr2,z,mtws;
+  record SVOVc SVOr;
+  record WOVc WOr;
+  record WSVc WSr;
+  row WSVc WSrw;
+  string 50 enginer,tstr,group;
+  val priceorig,costorig,sumorig,sumcostorig,gporig,curorig;
+  string 10 curncy;
+  array val rate,qty,cost,curcost; //Edit***************************Sasha2,15:29 23.04.2015
+	array date indate; //Edit***************************Sasha2,15:29 23.04.2015
+	array string 100 vecode,serial,curncyarr; //Edit***************************Sasha2,15:29 23.04.2015
+	integer ressize,foundqty; //Edit***************************Sasha2,15:29 23.04.2015
+  val t,invfr,invto1,quant,sumcur,sumusd; //Edit***************************Sasha2,15:48 23.04.2015
+  array integer pos; //Edit***************************Sasha2,11:15 27.04.2015
+	record BaseCurBlock BCb;
+	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
+	array string 5 uahpurate,uahcurrate;
+	array string 100 comment;
+	longint worksheet,CredNo;
+	integer cred;
+	vector boolean usedinvno;
+	
+	blockload(BCb);
+
+  startreportnoheaderjob("Bonus");
+  //paydatenew = "";
+  pos[0] = 0;
+  pos[1] = 1;
+  pos[2] = 2;
+  pos[3] = 3;
+  pos[4] = 4;
+  pos[5] = 5;
+  pos[6] = 6;
+  pos[7] = 10;
+  pos[8] = 20;
+  pos[9] = 30;
+  pos[10] = 40;
+  pos[11] = 50;
+  pos[12] = 60;
+  pos[13] = 70;
+  pos[14] = 80;
+  pos[15] = 90;
+  pos[16] = 100;
+  pos[17] = 110;
+  pos[18] = 120;
+  pos[19] = 130;
+  pos[20] = 140;
+  pos[21] = 150;
+  pos[23] = 160;
+  
+  StartFormat(15);
+    OutString(pos[0],0,"Customer",false);
+    OutString(pos[1],0,"Cust. Name",false);
+    OutString(pos[2],0,"Inv. Date",false);
+    OutString(pos[3],0,"Paym. term.",false);
+    OutString(pos[4],0,"Paym. date",false);
+    OutString(pos[5],0,"Inv. #",false);
+    if(currentcompany==2)then begin
+			OutString(pos[23],0,"Sale Order",false);
+		end;
+    OutString(pos[6],0,"Group",false);
+    OutString(pos[6],0,"ArtCode",false);
+    OutString(pos[7],0,"Name",false);
+    if(currentcompany==2)then begin
+    	OutString(pos[7],0,"Serial #",false);
+    end;
+    OutString(pos[8],0,"Q-ty",false);
+    OutString(pos[9],0,"Price",false);
+    OutString(pos[9],0,"Price UAH",false);
+    OutString(pos[10],0,"Cost",false);
+    OutString(pos[10],0,"Cost UAH",false);
+    OutString(pos[11],0,"Sum",false);
+    OutString(pos[11],0,"Sum UAH",false);
+    OutString(pos[12],0,"SumCost",false);
+    OutString(pos[12],0,"SumCost UAH",false);
+    OutString(pos[13],0,"GP",false);
+    OutString(pos[13],0,"GP UAH.",false);
+    OutString(pos[14],0,"Rec.rate",false); //Edit***************************Sasha2,11:06 27.04.2015
+    OutString(pos[15],0,"Rec.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
+    OutString(pos[16],0,"Inv.rate",false); //Edit***************************Sasha2,11:06 27.04.2015
+    OutString(pos[17],0,"Inv.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
+    OutString(pos[18],0,"SalesMan",false);
+    OutString(pos[19],0,"Inv. SalesMan",false);
+    if(currentcompany!=2)then begin
+			OutString(pos[20],0,"ServiceMan",false);
+			OutString(pos[21],0,"Service Order",false);
+			OutString(pos[23],0,"Sale Order",false);
+		end;	
+		
+    
+  EndFormat;
+  
+  TrHs = true;
+  IPrsr.TransDate = RepSpec.sStartDate;
+  while (LoopKey("TransDate",IPrsr,1,TrHs)) begin
+    testf = true;
+    if(IPrsr.TransDate>RepSpec.sEndDate)then begin TrHs = false; end;
+    	
+    if(testf)then begin
+    	IVr.SerNr=IPrsr.IVNr;       
+			if(ReadFirstMain(IVr,1,true))then begin
+				logtext(0,IVr.SerNr);
+			end;
+    end; 
+  end;
+
+  endjob;
+return;
+end;

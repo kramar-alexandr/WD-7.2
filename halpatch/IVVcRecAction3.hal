@@ -1287,161 +1287,171 @@ not needed any more
           end;
         end;
         if ((check==true) and (nonblank(IVrw.ArtCode))) then begin
-        if ((IVp.UpdStockFlag!=0) and ((IVrw.OrdRow==-1) or (IVp.QTNr!=-1))) then begin
-          if (INr.SerNrf<3) then begin
-            if (INr.SerNrf>0) then begin  
-              if (blank(IVrw.SerialNr)) then begin
-                if (IVrw.NotUpdStockFlag==0) then begin
-                  if (IVrw.Quant!=0) then begin
-                     RecordCheckError(1239,"",i,"SerialNr");      
-                     res = -1; 
-                     goto L99;
-                   end;
-                 end;
-               end;
-              // is the serial number available at given location 
-              location = IVrw.Location;
-              if (blank(location)) then begin
-                location = IVp.Location;
-              end;
-              if (blank(location)) then begin          
-                location = MSb.MainStock;
-              end;
-              if (IVp.InvType==kInvoiceTypeCredit or IVp.InvType==kInvoiceTypeCreditSpecialSales) then begin
-                switch (IVrw.stp) begin
-                  case 11: quant = IVrw.Quant;
-                  otherwise quant = -IVrw.Quant;
-                end;
-              end else begin
-                quant = IVrw.Quant;
-              end;                
-              if (MSb.NoSerOnPU==0) then begin
-              if (quant>0) then begin
-                if (INr.SerNrf==1) then begin
-                  if (IVrw.NotUpdStockFlag==0) then begin
-                    if (SNrb.BulkSerialNos!=0) then begin
-                      serqty = blankval;
-                      serialnr = FirstInRange(IVrw.SerialNr,30);
-                      while (nonblank(serialnr)) begin
-                        if (SerialNrAvail(IVrw.ArtCode,serialnr,location,1.00)==false) then begin
-                          RecordCheckError(1240,"",i,"SerialNr");      
-                          res = -1; 
-                          goto L99;
-                        end;
-                        serqty = serqty + 1;
-                        serialnr = NextSerialNumber(IVrw.ArtCode,serialnr,SNrb);
-                        if (serqty>=IVrw.Quant) then begin serialnr = ""; end;
-                      end;
-                    end else begin
-                      if (quant>1) then begin
-                        RecordCheckError(1242,"",i,"SerialNr");      
-                        res = -1; 
-                        goto L99;
-                      end;
-                      if (SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr,location,quant)==false) then begin
-                        RecordCheckError(1240,"",i,"SerialNr");      
-                        res = -1; 
-                        goto L99;
-                      end;
-                    end;                    
-                  end;
-                end else begin  
-                  if (IVrw.NotUpdStockFlag==0) then begin
-                    prevsn = blankval;
-                    for (cnt=0;cnt<i;cnt=cnt+1) begin
-                      MatRowGet(IVp,cnt,IV2rw);
-                      testf = true;
-                      if (IV2rw.ArtCode!=IVrw.ArtCode) then begin testf = false; end;
-                      if (INr.SerNrf!=0) then begin
-                        if (IV2rw.SerialNr!=IVrw.SerialNr) then begin testf = false; end;
-                      end;
-                      if (testf) then begin
-                        prevsn = prevsn + IV2rw.Quant;
-                      end;
-                    end;
-                    prevsn = prevsn + IVrw.Quant;
-                    if (SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr,location,prevsn)==false) then begin
-                      RecordCheckError(1240,"",i,"SerialNr");      
-                      res = -1; 
-                      goto L99;
-                    end;
-                  end;
-                end;
-              end else begin
-                quant = -quant;
-                if (INr.SerNrf==1) then begin
-                  if (SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr,location,quant)==true) then begin
-                    RecordCheckError(1241,"",i,"SerialNr");      
-                    res = -1; 
-                    goto L99;
-                  end; 
-                  if (OverFlowStock_SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr)==true) then begin //Edit***************************Sasha2,13:22 25.03.2015 {
-                    RecordCheckError(31041,"",i,"SerialNr");      
-                    res = -1; 
-                    goto L99;
-                  end; //Edit***************************Sasha2,13:22 25.03.2015 }
-                end;  
-              end;
-              end;
-              if (INr.SerNrf==1) then begin
-                if (SNrb.BulkSerialNos!=0) then begin
-                  errcode = ValidateBulkSerialNoRow(SNrb,IVp,IVrw,i,gotofield,gotorow);
-                  if (errcode) then begin
-                    RecordCheckError(errcode,"",gotorow,gotofield);      
-                    res = -1;
-                    goto L99;
-                  end;
-                end else begin
-                  if (IVrw.Quant>1.00) then begin
-                    RecordCheckError(1242,"",i,"SerialNr");
-                    res = -1; 
-                    goto L99;
-                  end;
-                  for (j=0;j<i;j=j+1) begin
-                     MatRowGet(IVp,j,IV2rw);
-                     testf = true;
-                     if (IV2rw.ArtCode!=IVrw.ArtCode) then begin testf = false; end;
-                     if (INr.SerNrf!=0) then begin
-                       if (IV2rw.SerialNr!=IVrw.SerialNr) then begin testf = false; end;
-                     end;
-                     if (testf) then begin
-                       RecordCheckError(1242,"",i,"SerialNr");
-                       res = -1; 
-                       goto L99;
-                     end;
-                  end;
-                end;
-              end;
-            end;
-          end else begin
-            location = IVrw.Location;
-            if (blank(location)) then begin
-              location = IVp.Location;
-            end;
-            if (blank(location)) then begin
-              location = MSb.MainStock;
-            end;  
-            if (blank(IVrw.SerialNr)) then begin
-              if (IVrw.Quant!=0) then begin
-                RecordCheckError(1239,"",i,"SerialNr");      
-                res = -1; 
-                goto L99;
-              end;
-            end;
-            if (SerialNrOnThisIV(IVp,IVrw.ArtCode,IVrw.SerialNr)>1) then begin
-              RecordCheckError(1242,"",i,"SerialNr");      
-              res = -1; 
-              goto L99;
-            end;
-            quant = -IVrw.Quant;          
-            if (SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr,location,quant)==true) then begin
-              RecordCheckError(1241,"",i,"SerialNr");      
-              res = -1; 
-              goto L99;
-            end;          
-          end;
+					if ((IVp.UpdStockFlag!=0) and ((IVrw.OrdRow==-1) or (IVp.QTNr!=-1))) then begin
+						if (INr.SerNrf<3) then begin
+							if (INr.SerNrf>0) then begin  
+								if (blank(IVrw.SerialNr)) then begin
+									if (IVrw.NotUpdStockFlag==0) then begin
+										if (IVrw.Quant!=0) then begin
+											 RecordCheckError(1239,"",i,"SerialNr");      
+											 res = -1; 
+											 goto L99;
+										 end;
+									 end;
+								 end;
+								// is the serial number available at given location 
+								location = IVrw.Location;
+								if (blank(location)) then begin
+									location = IVp.Location;
+								end;
+								if (blank(location)) then begin          
+									location = MSb.MainStock;
+								end;
+								if (IVp.InvType==kInvoiceTypeCredit or IVp.InvType==kInvoiceTypeCreditSpecialSales) then begin
+									switch (IVrw.stp) begin
+										case 11: quant = IVrw.Quant;
+										otherwise quant = -IVrw.Quant;
+									end;
+								end else begin
+									quant = IVrw.Quant;
+								end;                
+								if (MSb.NoSerOnPU==0) then begin
+									if (quant>0) then begin
+										if (INr.SerNrf==1) then begin
+											if (IVrw.NotUpdStockFlag==0) then begin
+												if (SNrb.BulkSerialNos!=0) then begin
+													serqty = blankval;
+													serialnr = FirstInRange(IVrw.SerialNr,30);
+													while (nonblank(serialnr)) begin
+														if (SerialNrAvail(IVrw.ArtCode,serialnr,location,1.00)==false) then begin
+															RecordCheckError(1240,"",i,"SerialNr");      
+															res = -1; 
+															goto L99;
+														end;
+														serqty = serqty + 1;
+														serialnr = NextSerialNumber(IVrw.ArtCode,serialnr,SNrb);
+														if (serqty>=IVrw.Quant) then begin serialnr = ""; end;
+													end;
+												end else begin
+													if (quant>1) then begin
+														RecordCheckError(1242,"",i,"SerialNr");      
+														res = -1; 
+														goto L99;
+													end;
+													if (SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr,location,quant)==false) then begin
+														RecordCheckError(1240,"",i,"SerialNr");      
+														res = -1; 
+														goto L99;
+													end;
+												end;                    
+											end;
+										end else begin  
+											if (IVrw.NotUpdStockFlag==0) then begin
+												prevsn = blankval;
+												for (cnt=0;cnt<i;cnt=cnt+1) begin
+													MatRowGet(IVp,cnt,IV2rw);
+													testf = true;
+													if (IV2rw.ArtCode!=IVrw.ArtCode) then begin testf = false; end;
+													if (INr.SerNrf!=0) then begin
+														if (IV2rw.SerialNr!=IVrw.SerialNr) then begin testf = false; end;
+													end;
+													if (testf) then begin
+														prevsn = prevsn + IV2rw.Quant;
+													end;
+												end;
+												prevsn = prevsn + IVrw.Quant;
+												if (SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr,location,prevsn)==false) then begin
+													RecordCheckError(1240,"",i,"SerialNr");      
+													res = -1; 
+													goto L99;
+												end;
+											end;
+										end;
+									end else begin
+										quant = -quant;
+										if (INr.SerNrf==1) then begin
+											if (SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr,location,quant)==true) then begin
+												RecordCheckError(1241,"",i,"SerialNr");      
+												res = -1; 
+												goto L99;
+											end; 
+											if (OverFlowStock_SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr)==true) then begin //Edit***************************Sasha2,13:22 25.03.2015 {
+												RecordCheckError(31041,"",i,"SerialNr");      
+												res = -1; 
+												goto L99;
+											end; //Edit***************************Sasha2,13:22 25.03.2015 }
+										end;  
+									end;
+								end;
+								if (INr.SerNrf==1) then begin
+									if (SNrb.BulkSerialNos!=0) then begin
+										errcode = ValidateBulkSerialNoRow(SNrb,IVp,IVrw,i,gotofield,gotorow);
+										if (errcode) then begin
+											RecordCheckError(errcode,"",gotorow,gotofield);      
+											res = -1;
+											goto L99;
+										end;
+									end else begin
+										if (IVrw.Quant>1.00) then begin
+											RecordCheckError(1242,"",i,"SerialNr");
+											res = -1; 
+											goto L99;
+										end;
+										for (j=0;j<i;j=j+1) begin
+											 MatRowGet(IVp,j,IV2rw);
+											 testf = true;
+											 if (IV2rw.ArtCode!=IVrw.ArtCode) then begin testf = false; end;
+											 if (INr.SerNrf!=0) then begin
+												 if (IV2rw.SerialNr!=IVrw.SerialNr) then begin testf = false; end;
+											 end;
+											 if (testf) then begin
+												 RecordCheckError(1242,"",i,"SerialNr");
+												 res = -1; 
+												 goto L99;
+											 end;
+										end;
+									end;
+								end;
+							end;
+						end else begin
+							location = IVrw.Location;
+							if (blank(location)) then begin
+								location = IVp.Location;
+							end;
+							if (blank(location)) then begin
+								location = MSb.MainStock;
+							end;  
+							if (blank(IVrw.SerialNr)) then begin
+								if (IVrw.Quant!=0) then begin
+									RecordCheckError(1239,"",i,"SerialNr");      
+									res = -1; 
+									goto L99;
+								end;
+							end;
+							if (SerialNrOnThisIV(IVp,IVrw.ArtCode,IVrw.SerialNr)>1) then begin
+								RecordCheckError(1242,"",i,"SerialNr");      
+								res = -1; 
+								goto L99;
+							end;
+							quant = -IVrw.Quant;          
+							if (SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr,location,quant)==true) then begin
+								RecordCheckError(1241,"",i,"SerialNr");      
+								res = -1; 
+								goto L99;
+							end;          
+						end;
+					end;
         end;
+        
+        
+        if(INr.SerNrf==1 and IVp.UpdStockFlag!=0 and IVrw.Quant<0)then begin
+        	if (OverFlowStock_SerialNrAvail(IVrw.ArtCode,IVrw.SerialNr)==true) then begin //Edit***************************Sasha2,13:22 25.03.2015 {
+						RecordCheckError(31041,"",i,"SerialNr");      
+						res = -1; 
+						goto L99;
+					end;
         end;
+        
         if ((nonblank(IVrw.VATCode)) and (IsVATCodeDefined(IVrw.VATCode)==false)) then begin
           RecordCheckError(1120,IVrw.VATCode,i,"VATCode");      
           res = -1; 

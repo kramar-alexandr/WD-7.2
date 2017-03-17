@@ -258,6 +258,11 @@ begin
       SetWRect(20,120,360,280);
       PeriodField(150,45,"Џерґод");
     EndWindow;
+    
+    WindowBegin("Bonus",NewBonusRClass,CGRcW,RcType);
+      SetWRect(20,120,360,280);
+      PeriodField(150,45,"Џерґод");
+    EndWindow;
 
     WindowBegin("Ћтчет по Shops",MyShopsRecordRClass,CGRcW,RcType);
     SetWRect(20,120,350,300);

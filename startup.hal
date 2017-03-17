@@ -40,6 +40,8 @@ begin
 	Report("Відомість розрахунків з клієнтами (новий)",CuPer2RClass,MyCuPerRn,0,modSL); //Edit***************************Sasha2,11:25 09.09.2014 
 	Report("Відомість розрахунків з клієнтами (новий)",CuPer2RClass,MyCuPerRn,0,modSO); //Edit***************************Sasha2,11:25 09.09.2014
 	Report("Bonus",MyBonusRClass,MyBonusRn,0,modSL); //Edit***************************Sasha2,11:54 10.09.2014
+	Report("NewBonus",NewBonusRClass,NewBonusRn,0,modSL); //Edit***************************Sasha2,11:54 10.09.2014
+
 	Report("Bonus for ServiceMan",MyBonusCurUserRClass,MyBonusCurrentUserRn,0,modSL);//Edit----------------------Dima  29.10.2015
 	Report("Друк етикеток зі складу",LabelStockItemsRClass,LabelStockItemsRn,0,modLabPrint); //Edit***************************Sasha2,17:55 11.11.2014
 	Report("Звiт по продажах Retail Sales",RetailSalesRClass,RetailSalesRn,0,modSL); //Edit***************************Sasha2,12:10 29.01.2015
@@ -181,6 +183,8 @@ begin
 	Document("Форма для етикеток цінників" ,LabelItem8RClass,ItemLabForm8,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 8",LabelItem9RClass,ItemLabForm9,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Завершені замовлення партнерів",SVOPartnerFinishedRClass,SVOPartnerFinishedForm,MyLabelItemFClass,modSVO);
+		 
+	SString(964,"");
 		 
   SString(31000,"грн.");
   SString(31001,"Підготовлено у системі HansaWorld");
