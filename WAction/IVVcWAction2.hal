@@ -52,6 +52,7 @@ external function Integer GetArgIVType(integer,string,string,string);
 external function Boolean UserCanChangePendingRecord(Integer);
 remote procedure HandleWSReceiptPrinting(record WSVc,var area);//Edit----------------------Dima  21.09.2015
 remote procedure HandleIVReceiptPrinting(record IVVc,var area);//Edit----------------------Dima  21.09.2015
+remote procedure HandleIVCashReceiptPrinting(record IVCashVc,var area); //Edit***************************Sasha2,10:06 17.03.2017
 
 global
 function Boolean IVCashDClassActiveEditField(Integer wn,string fieldname,Integer fn,Integer wnst,Integer rownr,Integer changed)
@@ -2115,7 +2116,6 @@ begin
 		end; 
 end;
 
-
 global 
 updating procedure PrintIVReceiptDsm()		//Edit----------------------Dima  21.09.2015
 begin
@@ -2147,4 +2147,32 @@ begin
 end;
 
 
-
+global 
+updating procedure PrintIVCashReceiptDsm()	//Edit***************************Sasha2,9:50 17.03.2017
+begin
+	area aFile;
+	integer wn;
+	record IVCashVc IVCashr;
+	
+		wn = CurWindow;
+		if (WindowState(wn)==Rs_normal) then begin
+  		DeselectWindow(wn,false);
+  		GetWindowRecord(wn,IVCashr);
+   
+   		SetExportCodePage("CP1251");
+   		HandleIVCashReceiptPrinting(IVCashr,aFile);
+   		AddAreaToArea(aFile,aFile);
+     	PrintBixolonReceipt(aFile);
+     	//IVr.PrintedFlag = 1;
+     	//IVr.PrintedSum4 = IVr.Sum4;
+     	/*PutWindowRecord(wn,IVr);
+     	GetWindowRecord(wn,IVr);
+     	RECORDSTORE(IVr,true);
+     	PutWindowRecord(wn,IVr);*/
+     	PutWindowRecord(wn,IVCashr);
+     	RECORDSTORE(IVCashr,true);
+     	UpdateBrowses("IVCashVc");
+		end else begin
+		  MessageBox(1356,"");
+		end;
+end;

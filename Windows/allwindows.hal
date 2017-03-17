@@ -6530,6 +6530,9 @@ begin
 //  SpecialMenu("Pay",' ',11,"PayIVCashDsm");
     if (HasTaxMatrix) then begin
   SpecialMenu("Відкрити податкову матрицю",' ',25,"OpenVatMatrixIVCashDsm"); 
+  if (CurrentCompany==14) then begin 
+    SpecialMenu("Печатать чек",'p',26,"PrintIVCashReceiptDsm"); //Edit***************************Sasha2,9:53 17.03.2017
+  end;
   end;
   end;
   EndWindow;
