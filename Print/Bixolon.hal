@@ -270,9 +270,9 @@ begin
 	
 	rowLength = 32;
 
-	Name = "Dream Town";
-	Address = "Адрес";
-	Phone = "Телефон";		
+	Name = "ФОП Швець Костянтин Сергійович";
+	//Address = "Адрес";
+	//Phone = "Телефон";		
 
 	SetAreaZeroSize(aFile);
 
@@ -281,8 +281,8 @@ begin
 	addtexttoarea(SetMiddleAlignment,aFile);
 	addtexttoarea(Name & chr(13) & chr(10),aFile);
 	addtexttoarea(SetLeftAlignment,aFile);	
-	addtexttoarea(Address & chr(13) & chr(10),aFile);
-	addtexttoarea(Phone & chr(13) & chr(10) ,aFile);
+	//addtexttoarea(Address & chr(13) & chr(10),aFile);
+	//addtexttoarea(Phone & chr(13) & chr(10) ,aFile);
 	addtexttoarea("________________________________" & chr(13) & chr(10) ,aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);	
 	
@@ -309,7 +309,7 @@ begin
 	s3 = "Разом до сплати";	
 	M4PadString(ValToString(IVCashr.Sum4,M4Val,"",".",0),rowLength - Len(s1)," ",true,sTot);
 	sTot = s1 & sTot;
-	M4PadString(ValToString(IVCashr.Sum3,M4Val,"",".",0),rowLength - Len(s2)," ",true,sVAT);
+	M4PadString(ValToString(0,M4Val,"",".",0),rowLength - Len(s2)," ",true,sVAT);
 	sVAT = s2 & sVAT;
 	M4PadString(ValToString(IVCashr.Sum4,M4Val,"",".",0),rowLength - Len(s3)," ",true,sPay);
 	sPay = s3 & sPay;
