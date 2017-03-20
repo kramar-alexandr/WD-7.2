@@ -331,8 +331,14 @@ begin
 	addtexttoarea("’ξβΰπνθι χεκ ά " & IVCashr.SerNr & chr(13) & chr(10) ,aFile);
 	addtexttoarea("„ΰςΰ " & CurrentDate & chr(13) & chr(10) ,aFile);
 	addtexttoarea("—ΰρ " & CurrentTime & chr(13) & chr(10) ,aFile);	
+	
+	addtexttoarea(chr(13) & chr(10),aFile);
+	addtexttoarea(chr(13) & chr(10),aFile);
+	addtexttoarea("΄δοθρ οξκσοφί ______________" & chr(13) & chr(10) ,aFile);
+	addtexttoarea(chr(13) & chr(10),aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);
 	
+	addtexttoarea(chr(13) & chr(10),aFile);
 	addtexttoarea(SetMiddleAlignment,aFile);
 	addtexttoarea(BigLetterOn,aFile);
 	addtexttoarea("…”§‘€‹‰ —…" & chr(13) & chr(10) ,aFile);
