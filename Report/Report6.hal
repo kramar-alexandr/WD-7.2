@@ -79,7 +79,7 @@ begin
     if(RepSpec.flags[1]==0)then begin
 			outstring(0,0,"Класифікація",false);
     end;
-    if(RepSpec.flags[0]==1 or currentcompany==14)then begin
+    if(RepSpec.flags[0]==1 or RepSpec.flags[2]==1)then begin
     	outstring(0,0,"Постачальник",false);
     	if(currentcompany==6 or currentcompany==2)then begin// Edit ************************** Wednesday, 13 April 2016 14:21:23
     		outstring(0,0,"Комментар",false);
@@ -96,7 +96,7 @@ begin
 				outstring(0,0,"Доступно",false);
 			end;
     end;
-    if(RepSpec.flags[0]==1 or currentcompany==14)then begin
+    if(RepSpec.flags[0]==1 or RepSpec.flags[2]==1)then begin
 			outstring(0,0,"Собівартість",false);
 			outstring(0,0,"Сума",false);
     end;
@@ -184,11 +184,11 @@ begin
   						if(RepSpec.flags[1]==0)then begin// Edit ************************** Friday, 19 August 2016 14:39:15
 								outstring(0,0,INr.DispGroups,false);
   						end;
-  						if(RepSpec.flags[0]==1 or currentcompany==14)then begin
+  						if(RepSpec.flags[0]==1 or RepSpec.flags[2]==1)then begin
   							PUr.SerNr = IHr.InSerNr;
   							if(readfirstmain(PUr,1,true) and IHr.InFileName=="PUVc")then begin
   								
-  								if(currentcompany!=14 or RepSpec.flags[0]==1)then begin
+  								if(RepSpec.flags[2]==0 or RepSpec.flags[0]==1)then begin
 										outstring(0,0,PUr.VECode,false);
 										if(currentcompany==6 or currentcompany==2)then begin// Edit ************************** Wednesday, 13 April 2016 14:21:23
 											outstring(0,0,PUr.Comment,false);
@@ -242,8 +242,8 @@ begin
 									end; //Edit***************************Sasha2,10:25 12.02.2016 }
 								end;
   						end;
-  						if(RepSpec.flags[0]==1 or currentcompany==14)then begin
-  							if(currentcompany!=14 or RepSpec.flags[0]==1)then begin
+  						if(RepSpec.flags[0]==1 or RepSpec.flags[2]==1)then begin
+  							if(RepSpec.flags[2]==0 or RepSpec.flags[0]==1)then begin
 									OutString(1,0,IHr.RemCostPrice / IHr.RemQty,false);
 									OutString(1,0,IHr.RemCostPrice,false);
   							end else begin
@@ -448,11 +448,22 @@ integer compno;
               closefile;
               openexportfile("Stock/D1ICStockFullManagers.xls",true);
               RepSpec.ArtMode=1;
+              RepSpec.flags[2]=1;
               RepSpec.f1 = "INV#1_DT,INV#1_DTST,INV#1_SO,SRV_DT";
               RepSpec.f2 = "RRPD,RRPD1";
               MyItemReportRn(RepSpec);
               RepSpec.ArtMode=0;
+              RepSpec.flags[2]=0;
               RunProgram("Stock/D1ICStockFullManagers.sh", "");
+              
+              delete_file("Stock/DWEBICStockFullManagers.xls");
+      				CreateFile("Stock/DWEBICStockFullManagers.xls");
+              closefile;
+              openexportfile("Stock/DWEBICStockFullManagers.xls",true);
+              RepSpec.f1 = "INV#1_DT,INV#1_DTST,INV#1_SO,SRV_DT";
+              RepSpec.f2 = "RRPD,RRPD1";
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/DWEBICStockFullManagers.sh", "");
               
       case 15: delete_file("Stock/IDStockFullManagers.xls");
       				CreateFile("Stock/IDStockFullManagers.xls");

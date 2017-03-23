@@ -343,7 +343,6 @@ change does not increase invoice values
 	        end else begin
 	          outval(260,0,IV1rw.Price/IVr.FrRate,M4Val,false);
 	          outval(270,0,IV1rw.Sum/IVr.FrRate,M4Val,false);
-	        
 	        end;
 	        EndFormat;
         end;
@@ -675,7 +674,14 @@ change does not increase invoice values
         OutVal(4,0,cashv,M4Val,true);
         if (lossv==0) then begin lossv = blankval; end;
         OutVal(420,0,lossv,M4Val,true);
-      end;            
+      end; 
+      
+      if(currentuser=="SA" or currentuser=="SA1")then begin
+      	if(v!=0 and cashv!=0 and v!=cashv)then begin
+      		OutVal(430,0,v-cashv,M4Val,true);
+      	end;
+      end;
+                 
       if (RepSpec.Media==mtFile) or (RepSpec.Media==mtExcel) or (RepSpec.Media==mtClipboard) then begin
         OutString(8,0,"",true);
       end;

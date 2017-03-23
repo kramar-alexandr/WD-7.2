@@ -40,7 +40,7 @@ integer compnr;
         RepSpec.sEndDate = currentdate;
         
         
-        if(compnr==4)then begin
+        if(compnr==4 or compnr==15)then begin
         	if(getday(Currentdate)>1)then begin
 						RepSpec.sStartDate = addday(Currentdate,-getday(Currentdate)+1);
 						RepSpec.sEndDate = CurrentDate;
