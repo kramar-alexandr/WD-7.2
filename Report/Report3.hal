@@ -505,7 +505,8 @@ begin
       OutString(0,0,"Код",false);
       OutString(60,0,"Найменування",false);
       OutString(150,0,"Група",false);
-      OutString(350,0,"Помилка товара Самсунг",false);
+      OutString(200,0,"Помилка товара Самсунг",false);
+      OutString(250,0,"Код виробвника(SMG)",false);
     endformat;
       
     INr.Code = "";
@@ -513,6 +514,7 @@ begin
     while(loopmain(INr,1,TrHs)) begin
       testf = true;
       if (RepSpec.flags[0]==0 and (INr.Group=="SAMSU" or INr.Group=="SMG_A")) then begin testf = false; end;
+      if (RepSpec.flags[0]==1 and (INr.Group!="SAMSU" and INr.Group!="SMG_A")) then begin testf = false; end;
       if (INr.Terminated==1) then begin  testf = false; end;
       if (testf) then begin
         startformat(15);
@@ -520,7 +522,7 @@ begin
           	OutString(0,0,INr.Code,false);
           	codefind = INr.Code;
           end else begin
-          	OutString(0,0,INr.EUCodex,false);
+          	OutString(0,0,INr.Code,false);
           	codefind = INr.EUCodex;
           end;
           OutString(60,0,INr.Name,false);
@@ -531,6 +533,12 @@ begin
           		OutString(350,0,"Такий код відсутній",false);
           	end else begin
           		OutString(350,0,"",false);
+          	end;
+          	OutString(250,0,INr.EUCodex,false);
+          	if(INr.EUCodex!=INr.Code)then begin
+          		OutString(250,0,"Коди не співпадають",false);
+          	end else begin
+          		OutString(250,0,"",false);
           	end;
           end else begin
           	OutString(350,0,"",false);

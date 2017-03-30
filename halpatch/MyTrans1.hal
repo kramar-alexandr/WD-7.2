@@ -745,7 +745,11 @@ begin
     end;
 
 LIsEnoughRemQtyInHist:;
- 
+ 		
+ 		if(currentuser=="SA")then begin
+ 			res = true;
+ 		end;
+ 		
     IsEnoughRemQtyInHist = res;
   return;
 end; //Edit***************************Sasha2,16:39 03.03.2016 }
