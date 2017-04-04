@@ -400,32 +400,34 @@ begin
 			end;
 		end;
 		
-		curcom = currentcompany;
-		if(curcom!=4)then begin
-			if(setcompany(4,false))then begin
-				resetloop(sourceIHr);
-				IVfoundf = false;
-				sourceIHr.SerialNr = serialnr;
-				sourceIHr.ArtCode = INr.Code;
-				TrHs = true;
-				while(loopbackkey("CodeSerialNrArtCode",sourceIHr,2,TrHs))begin
-					testf = true;
-					if(sourceIHr.SerialNr!=serialnr)then begin TrHs = false; testf = false; end;
-					if(sourceIHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
-					if(sourceIHr.StockAffectf==0)then begin testf = false; end;
+		if(IVfoundf==false)then begin// Edit ************************** Monday, 3 April 2017 14:44:25
+			curcom = currentcompany;
+			if(curcom!=4)then begin
+				if(setcompany(4,false))then begin
+					resetloop(sourceIHr);
+					IVfoundf = false;
+					sourceIHr.SerialNr = serialnr;
+					sourceIHr.ArtCode = INr.Code;
+					TrHs = true;
+					while(loopbackkey("CodeSerialNrArtCode",sourceIHr,2,TrHs))begin
+						testf = true;
+						if(sourceIHr.SerialNr!=serialnr)then begin TrHs = false; testf = false; end;
+						if(sourceIHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
+						if(sourceIHr.StockAffectf==0)then begin testf = false; end;
 			
-					if(testf)then begin
-						res = sourceIHr.TotCostPrice/sourceIHr.Qty*qty;
-						if(res<0)then begin
-							res = -res;
+						if(testf)then begin
+							res = sourceIHr.TotCostPrice/sourceIHr.Qty*qty;
+							if(res<0)then begin
+								res = -res;
+							end;
+							IVfoundf = true;
+							testf = false;
+							TrHs = false;
 						end;
-						IVfoundf = true;
-						testf = false;
-						TrHs = false;
 					end;
 				end;
+				resetcompany(curcom);
 			end;
-			resetcompany(curcom);
 		end;
 
   end;
