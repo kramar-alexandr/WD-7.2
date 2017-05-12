@@ -145,6 +145,9 @@ BEGIN
           if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;
         case "Sum":
           if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;
+          	switch (IVCashrw.ArtCode) begin
+							case "APPLE-EURO": res = true;// Edit ************************** Friday, 14 April 2017 16:32:01
+						end;
         
         case "RebCode": 
           if (UserCanAction("ChangeDiscountMatrixonIVCash",false)==false) then begin res = false; end;
@@ -279,6 +282,9 @@ BEGIN
           if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;// Edit ************************** Monday, 1 August 2016 15:16:07
 				case "Sum":
           if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;// Edit ************************** Monday, 1 August 2016 15:16:08
+						switch (IVCashrw.ArtCode) begin
+							case "APPLE-EURO": res = true;// Edit ************************** Friday, 14 April 2017 16:32:01
+						end;
         case "PriceList": 
 					if (UserCanAction("ChangePrices",true)==false) then begin res = false; end;
       end;  

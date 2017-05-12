@@ -53,10 +53,10 @@ ID = 15;
   end;
   
   if (SetCompany(Gilliver,false)) then begin
-  	logtext(0,currentcompany & " FullStockEn");
-    FullStockEn;
-		logtext(0,currentcompany & " SalesReportEn");
-    SalesReportEn;
+  	//logtext(0,currentcompany & " FullStockEn");
+    //FullStockEn;
+		//logtext(0,currentcompany & " SalesReportEn");
+    //SalesReportEn;
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
     logtext(0,currentcompany & " DebitorkaReportEn");
