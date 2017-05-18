@@ -1,3 +1,6 @@
+external procedure CalcEANCHS(var string);
+external function LongInt CUVcRecordRemoveTest(var record CUVc,record CUVc,LongInt,LongInt);
+
 global
 function val GetLCardStartBalance(string card,string location,date tilldate)
 begin 
@@ -396,3 +399,172 @@ begin
   end;
   return;
 end; 
+
+global updating procedure CreateLoyaltyCardsMn(record RcVc RepSpec)
+begin
+	record CUVc CUr;
+	record LoyaltyCardVc LCr;
+	integer i,qty;
+	boolean okmask,created;
+	string 20 mask,c,cardnr;
+	
+	okmask = true;
+	qty = RepSpec.flags[1];
+	mask = RepSpec.f1;
+	
+	if(blank(mask))then begin
+		mask = getday(currentdate);
+		if(len(mask)==1)then begin
+			mask = "0" & mask;
+		end;
+		if(len(getmonth(currentdate))==1)then begin
+			mask = mask & "0" & getmonth(currentdate) & getyear(currentdate);
+		end else begin
+			mask = mask & getmonth(currentdate) & getyear(currentdate);
+		end;
+	end;
+	if(len(mask)!=8)then begin
+		okmask = false;
+	end;
+	For(i=0;i<len(mask);i=i+1) begin
+		c = mid(mask,i,1);
+		if(asc(c)<48 or asc(c)>57)then begin
+			okmask = false;
+			logtext(0,"FALSE " & asc(c) & "__" & c);
+		end;
+	end; 
+	logtext(0,"mask " & mask);
+	
+	if(okmask)then begin
+		For(i=0;i<qty;i=i+1) begin
+			created = true;
+			while(created)begin
+				cardnr = mask & Random(1000,9999);
+				logtext(0,"TryToCreate EAN " & cardnr);
+				CalcEANCHS(cardnr);
+				logtext(0,"TryToCreate Card " & cardnr);
+				CUr.Code = cardnr;
+				if(len(cardnr)!=13)then begin
+					created = false;
+				end;
+				if(!readfirstmain(CUr,1,true) and created)then begin
+					LCr.SerNr = cardnr;
+					if(!readfirstmain(LCr,1,true))then begin
+						created = false;
+						recordnew(CUr);
+						CUr.Code = cardnr;
+						CUr.Name = cardnr;
+						if(blank(RepSpec.f2))then begin
+							CUr.CustCat = "CARD";
+						end else begin
+							CUr.CustCat = RepSpec.f2;
+						end;
+						CUr.CUType = 1;
+						CUr.blockedFlag = 1;
+						CUr.RemndrFlag = 1;
+						CUr.InterestFlag = 1;
+						CUr.OnAccount = 1;
+						CUr.CurncyCode = "UAH";
+						CUr.PLCode = "";
+						CUr.SalesGroup = "POS";
+						CUr.DateCreated = currentdate;
+						CUr.VATCode = "0";
+						if(recordstore(CUr,true))then begin
+							LCr.SerNr = CUr.Code;
+							RECORDNEW(LCr);
+							LCr.SerNr = CUr.Code;
+							LCr.CustCode = CUr.Code; 
+							LCr.Closed = 1;
+							if(nonblank(RepSpec.f3))then begin
+								LCr.LCMLevel = RepSpec.f3;
+							end else begin
+								LCr.LCMLevel = "PROGRAM_1";
+							end;
+							RECORDSTORE(LCr,false);
+							logtext(0,"Create Done " & cardnr);
+						end;						
+					end;
+				end;
+				
+			end;
+		end; 
+	end;
+	
+return;
+end;
+
+
+global updating procedure DeleteLoyaltyCardsMn(record RcVc RepSpec)
+begin
+	record CUVc CUr;
+	record LoyaltyCardVc LCr;
+	boolean TrHs,testf,cudel;
+	string 20 mask;
+	
+	mask = RepSpec.f1;
+	LCr.SerNr = mask;
+	TrHs = true;
+	while(loopmain(LCr,1,TrHs)) begin
+		testf = true;
+		if(left(LCr.SerNr,len(mask))!=mask)then begin TrHs = false; testf = false; end;
+		if(LCr.Closed==0 and RepSpec.flags[1]==1)then begin testf = false; end;
+		if(LCr.PointsBalance>0)then begin testf = false; end;
+		
+		if(testf)then begin
+			CUr.Code = LCr.CustCode;
+			if(readfirstmain(CUr,1,true))then begin
+				cudel = true;
+				if(CUr.blockedFlag==0)then begin cudel = false; end;
+				if(CUVcRecordRemoveTest(CUr,CUr,0,0)==0)then begin end;
+				
+				if(cudel)then begin
+					recorddelete(LCr);
+					stepback(LCr);
+					recorddelete(CUr);
+				end;
+			end else begin
+				recorddelete(LCr);
+				stepback(LCr);
+			end;
+		end;
+	end;
+	
+return;
+end;
+
+
+
+global procedure LoyaltyCardListRn(record RcVc RepSpec)
+begin
+	record CUVc CUr;
+	record LoyaltyCardVc LCr;
+	boolean TrHs,testf,cudel;
+	string 20 mask;
+	
+	
+	startreportnoheaderjob("Loyalty Card List");
+		startformat(15);
+			outstring(0,0,"Card #",false);
+			outstring(70,0,"Customer",false);
+			outstring(130,0,"Name",false);
+			outstring(240,0,"Closed",false);
+			outstring(280,0,"Program",false);
+			outstring(340,0,"Category",false);
+			outstring(380,0,"Cust.Closed",false);
+		endformat;
+		while(loopmain(LCr,1,true))begin
+			CUr.Code = LCr.CustCode;
+			readfirstmain(CUr,1,true);
+			startformat(15);
+				outstring(0,0,LCr.SerNr,false);
+				outstring(70,0,CUr.Code,false);
+				outstring(130,0,CUr.Name,false);
+				outstring(240,0,LCr.Closed,false);
+				outstring(280,0,LCr.LCMLevel,false);
+				outstring(340,0,CUr.CustCat,false);
+				outstring(380,0,CUr.blockedFlag,false);
+			endformat;
+		end;
+	endjob;	
+return;
+end;

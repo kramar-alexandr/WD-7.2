@@ -476,7 +476,7 @@ begin
 		    end else begin
 		      RECORDNEW(LCr);
 		      LCr.SerNr = CUr.Code;
-		      LCr.CustName = CUr.Code; 
+		      LCr.CustCode = CUr.Code; 
 		      LCr.CustName = CUr.Name;
 		      LCr.LCMLevel = "PROGRAM_1";
 		      RECORDSTORE(LCr,false);

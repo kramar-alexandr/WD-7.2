@@ -2031,3 +2031,56 @@ begin
   ColourPushButton(h+=80,v+=2*vs,h+160,v+30,"ProceedInnerSaleTClass","Продовжити",2);
   EndWindow;
 end;
+
+
+window CreateLoyaltyCardsVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ begin
+ real h,h2,v,vs;
+WindowBegin("Maintenance",CreateLoyaltyCardsVClass,CGMnt,RcType);
+  SetWRect(20,120,360,220);
+  
+  h = 200;
+  v = 20;
+  vs = 20;
+  
+  EditField(h,v+=vs,70,"Кількість",Normal,flags[1],false,0);
+  EditField(h,v+=vs,70,"Шаблон 8 цифр",Normal,f1,false,0);
+  EditField(h,v+=vs,70,"Категорія клієнта (по зам. CARD)",Normal,f2,false,CCatSClass);
+  EditField(h,v+=vs,70,"Пр. лояльності (по зам. PROGRAM_1",Normal,f3,false,LCMemberLevelSClass);
+  
+  EndWindow;
+end;
+
+window DeleteLoyaltyCardsVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ begin
+ real h,h2,v,vs;
+WindowBegin("Maintenance",DeleteLoyaltyCardsVClass,CGMnt,RcType);
+  SetWRect(20,120,360,220);
+  
+  h = 200;
+  v = 20;
+  vs = 20;
+  
+  EditField(h,v+=vs,70,"Шаблон",Normal,f1,false,0);
+  CheckBox(h,v+=vs,1,"Усі (Зам.: тільки зак.)",flags[1]);
+  
+  EndWindow;
+end;
+
+window LoyaltyCardListRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+	
+  WindowBegin("Список карт лояльності",LoyaltyCardListRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    h=50;
+    //CheckBox(h,20,0,"Не самсунг/Самсунг",flags[0]);
+    /*PeriodField(h,20,"Період");
+    EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
+    EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
+  EndWindow;
+end;

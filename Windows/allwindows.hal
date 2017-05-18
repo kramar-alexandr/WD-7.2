@@ -10040,3 +10040,32 @@ begin
   
   EndWindow;
 end;
+
+window LocalMachineDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,v,vs;
+  WindowBegin("Локальна машина",LocalMachineDClass,CGview,-);
+  SetWRect(64,80,509,370);
+  UseView(LocalMachineVc);
+  v = 10; vs = 20; h = 100; h2 = 300;
+  EditField(h,v, 70,     "Код",Normal,Code,false,0);
+  EditField(h,v+=vs ,-40,"Опис",Normal,Comment,false,0);
+  EditField(h,v+=vs,-40,"Найменування",Normal,CompName,false,0);
+  EditField(h,v+=vs,-40,"Адреса",Normal,Addr0,false,0);
+  EditField(h,v+=vs,-40,"",Normal,Addr1,false,0);
+  EditField(h,v+=vs,-40,"",Normal,Addr2,false,0);
+  EditField(h,v+=vs,-40,"",Normal,Addr3,false,0);
+  EditField(h,v+=vs,-40,"",Normal,Addr4,false,0);
+  EditField(h,v+=vs,140,"Телефон",Normal,Tel,false,0);
+  EditField(h2,v,-40,"Факс",Normal,FaxNo,false,0);
+  EditField(h,v+=vs,140,"Reg. No",Normal,RegNr,false,0);
+  EditField(h2,v,-40,"ІПН",Normal,VATNo,false,0);
+  EditField(h,v+=vs,-20,"Пр. Ім'я",Normal,PrtText1,false,0);// Edit ************************** Friday, 12 May 2017 09:34:26
+  EditField(h,v+=vs,-20,"Пр. ІПН",Normal,PrtText2,false,0);// Edit ************************** Friday, 12 May 2017 09:34:26
+  EditField(h,v+=vs,-20,"Пр. Адреса",Normal,PrtText3,false,0);// Edit ************************** Friday, 12 May 2017 09:34:26
+  EditField(h,v+=vs,-20,"Дод.4",Normal,PrtText4,false,0);// Edit ************************** Friday, 12 May 2017 09:34:25
+  EditField(h,v+=vs,-20,"Дод.5",Normal,PrtText5,false,0);// Edit ************************** Friday, 12 May 2017 09:34:25
+  EditField(h,v+=vs,-20,"Дод.6",Normal,PrtText6,false,0);// Edit ************************** Friday, 12 May 2017 09:34:24
+  EndWindow;
+end;

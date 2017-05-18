@@ -373,7 +373,7 @@ area arr;
 return;
 end;
 
-global function CreateEAN13(var string str)
+global procedure CreateEAN13(var string str)
 begin
 integer lenth,i,c;
 string 5 c0,ci;

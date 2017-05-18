@@ -255,6 +255,25 @@ begin
 	integer rowLength,i,rwcnt;
 	row IVCashVc IVCashrw;
 	string 200 Name,Address,Phone,IPN;
+	record LocalMachineVc LMr;
+	record LocalMachineBlock LMb;
+	
+	
+	Name = "Швець Костянтин Сергійович";
+	IPN = "ІПН: 3205912934";
+	Address = "м.Київ, пр-т Оболонський 1Б";
+	
+	blockload(LMb);
+	if(nonblank(LMb.LocalMachineCode))then begin
+		LMr.Code = LMb.LocalMachineCode;
+		if(readfirstmain(LMr,1,true))then begin
+			if(nonblank(LMr.PrtText1))then begin
+				Name = LMr.PrtText1;
+				IPN = LMr.PrtText2;
+				Address = LMr.PrtText3;
+			end;
+		end;
+	end;
 	
 	SetLeftAlignment = chr(27) & chr(97) & "0";
 	SetMiddleAlignment = chr(27) & chr(97) & "1";
@@ -270,9 +289,7 @@ begin
 	
 	rowLength = 32;
 
-	Name = "Швець Костянтин Сергійович";
-	IPN = "ІПН: 3205912934";
-	Address = "м.Київ, пр-т Оболонський 1Б";
+	
 	//Phone = "Телефон";		
 
 	SetAreaZeroSize(aFile);

@@ -4322,5 +4322,33 @@ EndRecord;
     KeySegment(SerNr);
   EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
   
+  RecordBegin(LocalMachineVc,-,"LocalMachineVc2");
+  NewAutosyncRegister(kSyncDirectionToClient,true);
+  RecordField(Code,M4Code,20,0);
+  RecordField(Comment,M4Str,200,0);
+  RecordField(CompName,M4Str,60,0); 
+  RecordField(Addr0,M4Str,60,0); 
+  RecordField(Addr1,M4Str,60,0); 
+  RecordField(Addr2,M4Str,60,0); 
+  RecordField(Addr3,M4Str,60,0); 
+  RecordField(Addr4,M4Str,60,0); 
+  RecordField(Tel,M4Str,20,0);
+  RecordField(FaxNo,M4Str,20,0);
+  RecordField(RegNr,M4Str,30,0);
+  RecordField(VATNo,M4Str,20,0);
+  RecordField(SyncSumPOS,M4Int,0,0);
+  RecordField(PrtText1,M4Str,255,0); 
+  RecordField(PrtText2,M4Str,255,0); 
+  RecordField(PrtText3,M4Str,255,0); 
+  RecordField(PrtText4,M4Str,255,0); 
+  RecordField(PrtText5,M4Str,255,0); 
+  RecordField(PrtText6,M4Str,255,0);  
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+  KeyBegin(Comment);
+  KeySegment(Comment);
+  KeySegment(Code);
+  EndRecord;
+  
 return;
 end;
