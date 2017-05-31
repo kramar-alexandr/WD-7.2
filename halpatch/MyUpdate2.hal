@@ -1581,7 +1581,7 @@ begin
       BlockLoad(BCb);
       curComp = CurrentCompany;
       RECORDNEW(PUr);
-      PUr.TransDate = stringtodate("31/12/2016");
+      PUr.TransDate = stringtodate("1/06/2017");
       PUr.Location = toLoc;
       PUVc_PasteLocation(PUr,-1);
       if (SetCompany(sourceComp,false)) then begin
@@ -1620,11 +1620,11 @@ begin
               totsum = totsum + PUr.PayVal;
               totcnt = totcnt + PUr.SumQuant;
               RECORDINSERT(PUr,true);
-              recordcopy(oldPUr,PUr);
-              PUr.OKFlag = 1;
-              recordupdate(oldPUr,PUr,true);
+              //recordcopy(oldPUr,PUr);
+              //PUr.OKFlag = 1;
+              //recordupdate(oldPUr,PUr,true);
               RECORDNEW(PUr);
-              PUr.TransDate = stringtodate("31/05/2017");
+              PUr.TransDate = stringtodate("1/06/2017");
               PUr.VECode = vendor;
               PUVc_PasteVECode(PUr);
               PUr.CurncyCode = currency;
@@ -1682,11 +1682,11 @@ begin
               totsum = totsum + PUr.PayVal;
               totcnt = totcnt + PUr.SumQuant;
               RECORDINSERT(PUr,true);
-              recordcopy(oldPUr,PUr);
-              PUr.OKFlag = 1;
-              recordupdate(oldPUr,PUr,true);
+              //recordcopy(oldPUr,PUr);
+              //PUr.OKFlag = 1;
+              //recordupdate(oldPUr,PUr,true);
               RECORDNEW(PUr);
-              PUr.TransDate = stringtodate("31/05/2017");
+              PUr.TransDate = stringtodate("1/06/2017");
               PUr.VECode = vendor;
               PUVc_PasteVECode(PUr);
               PUr.CurncyCode = currency;
@@ -1711,9 +1711,9 @@ begin
           totsum = totsum + PUr.PayVal;
           totcnt = totcnt + PUr.SumQuant;
           RECORDINSERT(PUr,true);
-          recordcopy(oldPUr,PUr);
-					PUr.OKFlag = 1;
-					recordupdate(oldPUr,PUr,true);
+          //recordcopy(oldPUr,PUr);
+					//PUr.OKFlag = 1;
+					//recordupdate(oldPUr,PUr,true);
         end;
       end;
     end;
