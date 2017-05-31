@@ -1619,10 +1619,11 @@ begin
               PUSumUp(PUr);
               totsum = totsum + PUr.PayVal;
               totcnt = totcnt + PUr.SumQuant;
+              PUr.VEName = fromLoc & " -> " & PUr.VEName;
               RECORDINSERT(PUr,true);
-              //recordcopy(oldPUr,PUr);
-              //PUr.OKFlag = 1;
-              //recordupdate(oldPUr,PUr,true);
+              recordcopy(oldPUr,PUr);
+              PUr.OKFlag = 1;
+              recordupdate(oldPUr,PUr,true);
               RECORDNEW(PUr);
               PUr.TransDate = stringtodate("1/06/2017");
               PUr.VECode = vendor;
@@ -1645,9 +1646,9 @@ begin
               MatRowGet(PUr,i,PUrw);
               if (NonBlank(AvailableItemr.SerialNr)) then begin
                 PUrw.SerialNr = AvailableItemr.SerialNr;
-                //MatRowPut(PUr,i,PUrw);
-                //PUVc_PasteSerialNr(PUr,i);
-                //MatRowGet(PUr,i,PUrw);
+                MatRowPut(PUr,i,PUrw);
+                PUVc_PasteSerialNr(PUr,i);
+                MatRowGet(PUr,i,PUrw);
               end;
               PUrw.Quant = AvailableItemr.Quant;
               PUrw.UPrice = AvailableItemr.TotUPrice;
@@ -1681,10 +1682,11 @@ begin
               PUSumUp(PUr);
               totsum = totsum + PUr.PayVal;
               totcnt = totcnt + PUr.SumQuant;
+              PUr.VEName = fromLoc & " -> " & PUr.VEName;
               RECORDINSERT(PUr,true);
-              //recordcopy(oldPUr,PUr);
-              //PUr.OKFlag = 1;
-              //recordupdate(oldPUr,PUr,true);
+              recordcopy(oldPUr,PUr);
+              PUr.OKFlag = 1;
+              recordupdate(oldPUr,PUr,true);
               RECORDNEW(PUr);
               PUr.TransDate = stringtodate("1/06/2017");
               PUr.VECode = vendor;
@@ -1710,10 +1712,11 @@ begin
           PUSumUp(PUr);
           totsum = totsum + PUr.PayVal;
           totcnt = totcnt + PUr.SumQuant;
+          PUr.VEName = fromLoc & " -> " & PUr.VEName;
           RECORDINSERT(PUr,true);
-          //recordcopy(oldPUr,PUr);
-					//PUr.OKFlag = 1;
-					//recordupdate(oldPUr,PUr,true);
+          recordcopy(oldPUr,PUr);
+					PUr.OKFlag = 1;
+					recordupdate(oldPUr,PUr,true);
         end;
       end;
     end;
