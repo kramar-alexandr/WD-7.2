@@ -1624,7 +1624,7 @@ begin
               PUr.OKFlag = 1;
               recordupdate(oldPUr,PUr,true);
               RECORDNEW(PUr);
-              PUr.TransDate = stringtodate("31/12/2016");
+              PUr.TransDate = stringtodate("31/05/2017");
               PUr.VECode = vendor;
               PUVc_PasteVECode(PUr);
               PUr.CurncyCode = currency;
@@ -1686,7 +1686,7 @@ begin
               PUr.OKFlag = 1;
               recordupdate(oldPUr,PUr,true);
               RECORDNEW(PUr);
-              PUr.TransDate = stringtodate("31/12/2016");
+              PUr.TransDate = stringtodate("31/05/2017");
               PUr.VECode = vendor;
               PUVc_PasteVECode(PUr);
               PUr.CurncyCode = currency;
