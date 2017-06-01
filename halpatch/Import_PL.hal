@@ -46,7 +46,55 @@ begin
 end;
 	 
 
-	 
+Global updating procedure MoveItemsMyIn()
+begin
+	record PLVc PLr,PL2r;
+	Integer i;
+	array string 255 sfield;
+	record INVc INr,IN2r;
+	record PLDefVc PLDr;
+	val price;		
+	integer curcomp,destcomp;
+	
+	destcomp = 6;
+	curcomp = currentcompany;
+	
+	while (TestEOF()==false) begin
+	  for (i=0;i<2;i=i+1) begin
+			sfield[i]=ImportField;
+		end;
+		INr.Code = sfield[0];
+		if(readfirstmain(INr,1,true))then begin
+			if(SetCompany(destcomp,false))then begin
+				IN2r.Code = INr.Code;
+				if(readfirstmain(IN2r,1,true)==false)then begin
+					recordcopy(IN2r,INr);
+					RecordInsert(IN2r,true);
+					Logtext(0,"INsrtItem " & INr.Code);
+				end;
+				PLr.ArtCode = INr.Code;
+				PLr.PLCode = "P411";
+				if(readfirstmain(PLr,2,true))then begin
+					RecordCopy(PL2r,PLr);
+					PLr.ExVatPrice = evaltoval(sfield[1]);
+					Logtext(0,"Update price " & IN2r.Code);
+					RecordUpdate(PL2r,PLr,true);
+				end else begin
+					PLr.ArtCode = IN2r.Code;
+					PLr.PLCode = "P411";
+					PLr.Comment = IN2r.Name;
+					PLr.ExVatPrice = evaltoval(sfield[1]);
+					Logtext(0,"Insert price " & IN2r.Code);
+					RecordInsert(PLr,true);
+				end;
+			end;
+			ResetCompany(curcomp);
+		end;
+		NextImportLine(true);
+	end;
+
+ return;
+end;
 	
 	 
 Global updating procedure ImportPLInUUID()

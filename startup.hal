@@ -117,7 +117,9 @@ begin
 	Import("€мпорт стилей документов",ImportUniversalLClass,ImpStylesVc,modSY);
 	Import("§мпорт регистрґв Ѓ…‡ Џ…ђ…‡ЂЏ€‘“",ImportOfRegisterIClass,ImportOfRegister,modDBMain);	//Edit----------------------Dima  27.05.2015
 	Import("§мпорт регистрґв ‡ Џ…ђ…‡ЂЏ€‘ЋЊ",ImportOfRegisterRewriteIClass,ImportOfRegisterRewriting,modDBMain);
-
+	
+	Import("Џеренос товарґв „’ -> Ћлґмп",ImportPLClass,MoveItemsMyIn,modDBMain);
+	
   Export("Register Export",ExpRegEClass,ExpRegEn,modPOS);
   Export("…кспорт певних регґстрґв",ExportRegistersFromCurCompEClass,ExportRegistersFromCurCompEn,modDBMain); //Edit***************************Sasha2,17:57 01.12.2016
   
