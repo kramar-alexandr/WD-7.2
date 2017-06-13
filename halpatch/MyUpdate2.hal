@@ -1581,7 +1581,7 @@ begin
       BlockLoad(BCb);
       curComp = CurrentCompany;
       RECORDNEW(PUr);
-      PUr.TransDate = stringtodate("31/12/2016");
+      PUr.TransDate = stringtodate("1/06/2017");
       PUr.Location = toLoc;
       PUVc_PasteLocation(PUr,-1);
       if (SetCompany(sourceComp,false)) then begin
@@ -1619,12 +1619,13 @@ begin
               PUSumUp(PUr);
               totsum = totsum + PUr.PayVal;
               totcnt = totcnt + PUr.SumQuant;
+              PUr.VEName = fromLoc & " -> " & PUr.VEName;
               RECORDINSERT(PUr,true);
               recordcopy(oldPUr,PUr);
               PUr.OKFlag = 1;
               recordupdate(oldPUr,PUr,true);
               RECORDNEW(PUr);
-              PUr.TransDate = stringtodate("31/12/2016");
+              PUr.TransDate = stringtodate("1/06/2017");
               PUr.VECode = vendor;
               PUVc_PasteVECode(PUr);
               PUr.CurncyCode = currency;
@@ -1645,9 +1646,9 @@ begin
               MatRowGet(PUr,i,PUrw);
               if (NonBlank(AvailableItemr.SerialNr)) then begin
                 PUrw.SerialNr = AvailableItemr.SerialNr;
-                //MatRowPut(PUr,i,PUrw);
-                //PUVc_PasteSerialNr(PUr,i);
-                //MatRowGet(PUr,i,PUrw);
+                MatRowPut(PUr,i,PUrw);
+                PUVc_PasteSerialNr(PUr,i);
+                MatRowGet(PUr,i,PUrw);
               end;
               PUrw.Quant = AvailableItemr.Quant;
               PUrw.UPrice = AvailableItemr.TotUPrice;
@@ -1681,12 +1682,13 @@ begin
               PUSumUp(PUr);
               totsum = totsum + PUr.PayVal;
               totcnt = totcnt + PUr.SumQuant;
+              PUr.VEName = fromLoc & " -> " & PUr.VEName;
               RECORDINSERT(PUr,true);
               recordcopy(oldPUr,PUr);
               PUr.OKFlag = 1;
               recordupdate(oldPUr,PUr,true);
               RECORDNEW(PUr);
-              PUr.TransDate = stringtodate("31/12/2016");
+              PUr.TransDate = stringtodate("1/06/2017");
               PUr.VECode = vendor;
               PUVc_PasteVECode(PUr);
               PUr.CurncyCode = currency;
@@ -1710,6 +1712,7 @@ begin
           PUSumUp(PUr);
           totsum = totsum + PUr.PayVal;
           totcnt = totcnt + PUr.SumQuant;
+          PUr.VEName = fromLoc & " -> " & PUr.VEName;
           RECORDINSERT(PUr,true);
           recordcopy(oldPUr,PUr);
 					PUr.OKFlag = 1;
