@@ -900,7 +900,7 @@ begin
   end; 
   
   
-  if (CurrentUser != "SA1" and CurrentUser != "KUDINA" and SDp.TransDate<CurrentDate) then begin
+  if (CurrentUser != "SA" and CurrentUser != "SA1" and CurrentUser != "KUDINA" and SDp.TransDate<CurrentDate) then begin
   	if (stat==Rs_update) then begin		//Edit----------------------Dima  08.09.2015
   		if(SDp.OKFlag==1 and SD2p.OKFlag==0) then begin
   			RecordCheckError(31043,"",-1,"TransDate");

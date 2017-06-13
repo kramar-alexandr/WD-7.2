@@ -1729,11 +1729,11 @@ begin
 	integer curcompany,sourceCompany,rwcnt,i,realRowNr;
 	Boolean TrHs,testf,TrHs2,testf2,deleteRowF,recordIsModifiedF,chsum;
 	string 20 shopsLocation;
-	longint ordnum;
+	longint ordnum,firstsm,firstret,firstor;
 	vector longint ordnumnew;
 	
 	curcompany = currentcompany;
-	sourceCompany = 4;//RepSpec.f1;
+	sourceCompany = 2;//RepSpec.f1;
 
 	/*while(loopmain(SMr,1,true))begin
 		recorddelete(SMr);
@@ -1754,7 +1754,10 @@ begin
 	
 	shopsLocation = "INV_OUT";
 	
-	ordnum = 1;
+	ordnum = NextSerNr("ORVc",CurrentDate,-1,true,"");
+	if(ordnum<0)then begin
+		ordnum = ordnum;
+	end;
 	
 	if (setcompany(sourceCompany,false)) then begin
   	while(loopkey("ActiveQty",IHr,1,true)) begin
@@ -1772,11 +1775,16 @@ begin
   																if(ORr.OrderClass=="Shops")then begin
 																	  resetcompany(curcompany);
 																	  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
+																	  SMr.SerNr = NextSerNr("StockMovVc",CurrentDate,-1,true,"");
+																	  if(firstsm<0)then begin
+																	  	firstsm = SMr.SerNr;
+																	  end;
+																	  
 																	  SMr.FrLocation = "INV_OUTTM";
 																	  SMr.ThrouLocation = "";
-																	  SMr.OrdTransDate = stringtodate("31/12/2016");
+																	  SMr.OrdTransDate = stringtodate("1/6/2017");
 																	  SMr.SentTransDate = "";
-																	  SMr.TransDate = stringtodate("31/12/2016");
+																	  SMr.TransDate = stringtodate("1/6/2017");
 																	  SMr.OKFlag = 0;
 																	  SMr.OrdFlag = 0;
 																	  SMr.SentOKFlag = 0;
@@ -1807,10 +1815,14 @@ begin
   														if(ORr.OrderClass=="Shops")then begin
 															  resetcompany(curcompany);
 															  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
+															  Retr.SerNr = NextSerNr("StockMovVc",CurrentDate,-1,true,"");
+															  if(firstret<0)then begin
+																	firstret = SMr.SerNr;
+																end;															  
 															  Retr.OKFlag = 0;
 															  Retr.LocOKNr = blankval;
-															  Retr.TransDate = stringtodate("31/12/2016");
-															  Retr.TransDate = stringtodate("31/12/2016");
+															  Retr.TransDate = stringtodate("1/6/2017");
+															  Retr.TransDate = stringtodate("1/6/2017");
 															  Retr.OrdNr = ordnumnew[ORr.SerNr];
 																RecordStore(Retr,true);
 																
@@ -1832,7 +1844,7 @@ begin
   	resetcompany(curcompany);
   	
   	//Remove rows in StockMovVc with zero leftover in source company ItemHistVc
-  	SMr.SerNr = -1;
+  	SMr.SerNr = firstsm;
   	TrHs = true;
   	while (LoopMain(SMr,1,TrHs)) begin
   		if(SMr.OrderNr<ordnum)then begin
@@ -1881,7 +1893,7 @@ begin
   	end;
   	
   	//Remove rows in RetVc with zero leftover in source company ItemHistVc
-  	Retr.SerNr = -1;
+  	Retr.SerNr = firstret;
   	TrHs = true;
   	while (LoopMain(Retr,1,TrHs)) begin
   		if(Retr.OrdNr<ordnum)then begin
