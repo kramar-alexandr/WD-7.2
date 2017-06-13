@@ -1730,6 +1730,7 @@ begin
 	Boolean TrHs,testf,TrHs2,testf2,deleteRowF,recordIsModifiedF,chsum;
 	string 20 shopsLocation;
 	longint ordnum,firstsm,firstret,firstor;
+	longint lastsm,lastret,lastor;
 	vector longint ordnumnew;
 	
 	curcompany = currentcompany;
@@ -1755,8 +1756,8 @@ begin
 	shopsLocation = "INV_OUT";
 	
 	ordnum = NextSerNr("ORVc",CurrentDate,-1,true,"");
-	if(ordnum<0)then begin
-		ordnum = ordnum;
+	if(firstor<0)then begin
+		firstor = ordnum;
 	end;
 	
 	if (setcompany(sourceCompany,false)) then begin
@@ -1775,10 +1776,12 @@ begin
   																if(ORr.OrderClass=="Shops")then begin
 																	  resetcompany(curcompany);
 																	  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
+																	  SMr.OldShopsNr = SMr.SerNr;
 																	  SMr.SerNr = NextSerNr("StockMovVc",CurrentDate,-1,true,"");
 																	  if(firstsm<0)then begin
 																	  	firstsm = SMr.SerNr;
 																	  end;
+																	  lastsm = SMr.SerNr;
 																	  
 																	  SMr.FrLocation = "INV_OUTTM";
 																	  SMr.ThrouLocation = "";
@@ -1815,7 +1818,9 @@ begin
   														if(ORr.OrderClass=="Shops")then begin
 															  resetcompany(curcompany);
 															  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
+															  Retr.OldShopsNr = Retr.SerNr;
 															  Retr.SerNr = NextSerNr("StockMovVc",CurrentDate,-1,true,"");
+															  lastret = Retr.SerNr;
 															  if(firstret<0)then begin
 																	firstret = SMr.SerNr;
 																end;															  
@@ -1847,7 +1852,8 @@ begin
   	SMr.SerNr = firstsm;
   	TrHs = true;
   	while (LoopMain(SMr,1,TrHs)) begin
-  		if(SMr.OrderNr<ordnum)then begin
+  		if(SMr.SerNr>lastsm)then begin TrHs=false; end;
+  		if(SMr.OrderNr<ordnum and TrHs)then begin
 				setcompany(sourceCompany,false);
 				rwcnt = MatRowCnt(SMr);
 				realRowNr = 0;
@@ -1857,12 +1863,12 @@ begin
 					deleteRowF = true;
 				
 					IHr.FileName = "StockMovVc";
-					IHr.TransNr = SMr.SerNr;
+					IHr.TransNr = SMr.OldShopsNr;
 					IHr.Row = realRowNr;
 					TrHs2 = true;
 					while (LoopKey("FNTransNr",IHr,3,TrHs2)) begin
 						testf2 = true;
-						if (IHr.FileName!="StockMovVc" or IHr.TransNr!=SMr.SerNr or IHr.Row!=realRowNr) then begin TrHs2 = false; testf2 = false; end;
+						if (IHr.FileName!="StockMovVc" or IHr.TransNr!=SMr.OldShopsNr or IHr.Row!=realRowNr) then begin TrHs2 = false; testf2 = false; end;
 						if (IHr.Location!=SMr.ToLocation) then begin testf2 = false; end;
 						if (testf2) then begin
 							if (IHr.RemQty>0) then begin
@@ -1896,7 +1902,8 @@ begin
   	Retr.SerNr = firstret;
   	TrHs = true;
   	while (LoopMain(Retr,1,TrHs)) begin
-  		if(Retr.OrdNr<ordnum)then begin
+  		if(Retr.SerNr>lastret)then begin TrHs=false; end;
+  		if(Retr.OrdNr<ordnum and TrHs)then begin
 				setcompany(sourceCompany,false);
 				rwcnt = MatRowCnt(Retr);
 				realRowNr = 0;
@@ -1906,7 +1913,7 @@ begin
 					deleteRowF = true;
 				
 					IHr.FileName = "RetVc";
-					IHr.TransNr = Retr.SerNr;
+					IHr.TransNr = Retr.OldShopsNr;
 					IHr.Row = realRowNr;
 					if (ReadFirstKey("FNTransNr",IHr,3,true) and IHr.Location==Retr.Location) then begin
 						if (IHr.RemQty>0) then begin
@@ -1914,7 +1921,7 @@ begin
 						end;
 					end;
 					if (deleteRowF) then begin
-						MatRowDelete(SMr,i);
+						MatRowDelete(Retr,i);
 						i = i - 1;
 						rwcnt = rwcnt - 1;
 						recordIsModifiedF = true;
@@ -1938,10 +1945,13 @@ begin
   	RecalcShopsItemsMn(RepSpec2);
   	
   	//in ORVc set to zero Quant in rows with no SHOPS lefover
-  	ORr.SerNr = -1;
+  	ORr.SerNr = firstor;
   	TrHs = true;
   	while (LoopMain(ORr,1,TrHs)) begin
   	  testf = true;
+  	  
+  	  if(ORr.SerNr>firstor)then begin TrHs = false; testf = false; end;
+  	  
   	  if (ORr.OrderClass!="Shops") then begin testf = false; end;
   	  if (ORr.Location!=shopsLocation) then begin testf = false; end;
   	  if (testf) then begin
