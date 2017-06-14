@@ -1731,7 +1731,7 @@ begin
 	string 20 shopsLocation;
 	longint ordnum,firstsm,firstret,firstor;
 	longint lastsm,lastret,lastor;
-	vector longint ordnumnew;
+	vector longint ordnumnew,smnew,retnew;
 	
 	curcompany = currentcompany;
 	sourceCompany = 2;//RepSpec.f1;
@@ -1777,11 +1777,17 @@ begin
 																	  resetcompany(curcompany);
 																	  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
 																	  SMr.OldShopsNr = SMr.SerNr;
-																	  SMr.SerNr = NextSerNr("StockMovVc",CurrentDate,-1,true,"");
+																	  if(smnew[SMr.OldShopsNr]<0)then begin
+																	  	SMr.SerNr = NextSerNr("StockMovVc",CurrentDate,-1,true,"");
+																	  	smnew[SMr.OldShopsNr] = SMr.SerNr;
+																	  	lastsm = SMr.SerNr;
+																	  end else begin
+																	  	SMr.SerNr = smnew[SMr.OldShopsNr];
+																	  end;
 																	  if(firstsm<0)then begin
 																	  	firstsm = SMr.SerNr;
 																	  end;
-																	  lastsm = SMr.SerNr;
+																	  
 																	  
 																	  SMr.FrLocation = "INV_OUTTM";
 																	  SMr.ThrouLocation = "";
@@ -1801,6 +1807,7 @@ begin
 																		ORr.CustOrdNr = ORr.SerNr;
 																		ORr.SerNr = ordnumnew[ORr.SerNr];// Edit ************************** Monday, 16 January 2017 14:33:51
 																		RecordInsert(ORr,false);
+																		lastor = ORr.SerNr;
 																		createrecordlink(SMr,curcompany,ORr,curcompany);
 																		createrecordlink(ORr,curcompany,SMr,curcompany);
   																	setcompany(sourceCompany,false);
@@ -1819,7 +1826,13 @@ begin
 															  resetcompany(curcompany);
 															  logtext(0,ORr.OrderClass & " " & ORr.SerNr);
 															  Retr.OldShopsNr = Retr.SerNr;
-															  Retr.SerNr = NextSerNr("StockMovVc",CurrentDate,-1,true,"");
+															  if(retnew[Retr.OldShopsNr]<0)then begin
+																	Retr.SerNr = NextSerNr("RetVc",CurrentDate,-1,true,"");
+																	retnew[Retr.OldShopsNr] = Retr.SerNr;
+																	lastret = Retr.SerNr;
+																end else begin
+																	Retr.SerNr = retnew[Retr.OldShopsNr];
+																end;
 															  lastret = Retr.SerNr;
 															  if(firstret<0)then begin
 																	firstret = SMr.SerNr;
@@ -1835,6 +1848,7 @@ begin
 																ORr.CustOrdNr = ORr.SerNr;
 																ORr.SerNr = ordnumnew[ORr.SerNr];// Edit ************************** Monday, 16 January 2017 14:33:51
 																RecordInsert(ORr,false);
+																lastor = ORr.SerNr;
 																createrecordlink(Retr,curcompany,ORr,curcompany);
 																createrecordlink(ORr,curcompany,Retr,curcompany);
   															setcompany(sourceCompany,false);
@@ -1857,7 +1871,7 @@ begin
 				setcompany(sourceCompany,false);
 				rwcnt = MatRowCnt(SMr);
 				realRowNr = 0;
-				recordIsModifiedF = false;
+				recordIsModifiedF = true;
 				for (i=0;i<rwcnt;i=i+1) begin
 					MatRowGet(SMr,i,SMrw);
 					deleteRowF = true;
@@ -1902,12 +1916,13 @@ begin
   	Retr.SerNr = firstret;
   	TrHs = true;
   	while (LoopMain(Retr,1,TrHs)) begin
+  		
   		if(Retr.SerNr>lastret)then begin TrHs=false; end;
   		if(Retr.OrdNr<ordnum and TrHs)then begin
 				setcompany(sourceCompany,false);
 				rwcnt = MatRowCnt(Retr);
 				realRowNr = 0;
-				recordIsModifiedF = false;
+				recordIsModifiedF = true;
 				for (i=0;i<rwcnt;i=i+1) begin
 					MatRowGet(Retr,i,Retrw);
 					deleteRowF = true;
@@ -1935,7 +1950,7 @@ begin
 					RECORDSTORE(Retr,true);
 					RecordCopy(oldRetr,Retr);
 					Retr.OKFlag = 1;
-				//RecordUpdate(oldRetr,Retr,true);
+					RecordUpdate(oldRetr,Retr,true);
 				end;
   	  end;
   	end;
@@ -1950,7 +1965,7 @@ begin
   	while (LoopMain(ORr,1,TrHs)) begin
   	  testf = true;
   	  
-  	  if(ORr.SerNr>firstor)then begin TrHs = false; testf = false; end;
+  	  if(ORr.SerNr>lastor)then begin TrHs = false; testf = false; end;
   	  
   	  if (ORr.OrderClass!="Shops") then begin testf = false; end;
   	  if (ORr.Location!=shopsLocation) then begin testf = false; end;
@@ -1961,6 +1976,9 @@ begin
   	      MatRowGet(ORr,i,ORrw);
   	      if (nonblank(ORrw.ArtCode) and ORrw.Shopd<=0) then begin
   	        ORrw.Quant = 0;
+  	        ORrw.Shipd1 = blankval;
+  	        ORrw.Shipd2 = blankval;
+  	        ORrw.Invd = blankval;
   	        MatRowPut(ORr,i,ORrw);
   	        ORVc_PasteQuant(ORr,i,true,chsum);
   	        recordIsModifiedF = true;

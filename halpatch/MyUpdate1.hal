@@ -167,7 +167,9 @@ integer pos; //Edit***************************Sasha2,13:04 07.04.2016
         PLr.PLCode = WSBb.DefPriceList;
         PLr.ArtCode = ISr.Code;
         if(readfirstmain(PLr,2,true))then begin
-          WSRr.Price = PLr.ExVatPrice;
+					if(CurrentCompany!=6)then begin
+						WSRr.Price = PLr.ExVatPrice;
+          end;
         end;
         tempAvailable = WSRr.Available; //Edit***************************Sasha2,14:37 07.04.2016
         WSRr.Available = available;
@@ -181,7 +183,9 @@ integer pos; //Edit***************************Sasha2,13:04 07.04.2016
         PLr.PLCode = WSBb.DefPriceList;
         PLr.ArtCode = ISr.Code;
         if(readfirstmain(PLr,2,true))then begin
-          WSRr.Price = PLr.ExVatPrice;
+        	if(CurrentCompany!=6)then begin
+						WSRr.Price = PLr.ExVatPrice;
+          end;
         end;
         WSRr.Available = available;
         WSRr.DateChange = CurrentDate;
@@ -269,11 +273,15 @@ string 5 achar,char;
                 ExtractObj(WSRr.Available,pos,curID);
               end;
               if (Blank(otherLocsAvailable)) then begin
-                WSRr.Price = PLr.ExVatPrice;
+              	if(CurrentCompany!=6)then begin
+									WSRr.Price = PLr.ExVatPrice;
+                end;
               end;
             end;
           end else begin //Edit***************************Sasha2,13:01 24.05.2016 }
-            WSRr.Price = PLr.ExVatPrice;
+          	if(CurrentCompany!=6)then begin
+							WSRr.Price = PLr.ExVatPrice;
+            end;
           end;
         end;
         if(setinset(aval,WSRr.Available))then begin
@@ -326,10 +334,14 @@ string 5 achar,char;
       if(readfirstmain(PLr,2,true))then begin
         if (CurrentCompany==10 or CurrentCompany==12 or CurrentCompany==13 or CurrentCompany==6) then begin //Edit***************************Sasha2,13:01 24.05.2016 {
           if (INr.Group!="APPLE" or CurrentCompany==6) then begin
-            WSRr.Price = PLr.ExVatPrice;
+          	if(CurrentCompany!=6)then begin
+							WSRr.Price = PLr.ExVatPrice;
+            end;
           end;
         end else begin //Edit***************************Sasha2,13:01 24.05.2016 }
-          WSRr.Price = PLr.ExVatPrice;
+        	if(CurrentCompany!=6)then begin
+						WSRr.Price = PLr.ExVatPrice;
+          end;
         end;
       end;
       WSRr.Available = aval;
@@ -392,14 +404,18 @@ begin
           end;
         end;
         if (proceedf) then begin //Edit***************************Sasha2,13:01 24.05.2016 }
-          WSRr.Price = PLr.ExVatPrice;
+        	if(CurrentCompany!=6)then begin
+						WSRr.Price = PLr.ExVatPrice;
+          end;
           WSRr.DateChange = currentdate;
           recordstore(WSRr,true);  
         end;
       end else begin //Edit***************************Sasha2,14:34 26.06.2014 {
         recordnew(WSRr);// Edit ************************** четверг, 26 июня 2014 г., 16:50:36
         WSRr.ArtCode = PLr.ArtCode;
-        WSRr.Price = PLr.ExVatPrice;
+        if(CurrentCompany!=6)then begin
+					WSRr.Price = PLr.ExVatPrice;
+        end;
         WSRr.DateChange = currentdate;
         recordstore(WSRr,true);
       end; //Edit***************************Sasha2,14:35 26.06.2014 }
@@ -430,7 +446,9 @@ begin
 			if(readfirstmain(WSRr,1,true))then begin
 				if(WSRr.Price!=PLr.ExVatPrice)then begin
 					logtext(0,WSRr.ArtCode & " WebChangePrice " & WSRr.Price & " -> " & PLr.ExVatPrice);
-					WSRr.Price = PLr.ExVatPrice;
+					if(CurrentCompany!=6)then begin
+						WSRr.Price = PLr.ExVatPrice;
+					end;
           WSRr.DateChange = currentdate;
           recordstore(WSRr,true); 
 				end;
