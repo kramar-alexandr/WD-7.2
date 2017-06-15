@@ -473,7 +473,7 @@ begin
     NewPeriodicTask("CallRegisterAtPresenceServerIT","CallRegisterAtPresenceServerIT","CallRegisterAtPresenceServerIT","",10,"");
   end;
   millisleep(100);
-  if (!ServerMode) then begin
+  /*if (!ServerMode) then begin
 		if(CurrentCompany==4 or CurrentCompany==14 or CurrentCompany==15 or CurrentCompany==16) then begin //iCenter			//Edit----------------------Dima  10.12.2015
 			if(nonblank(TestCurrentUserOnServer))then begin
 				recordnew(RepSpec);
@@ -494,7 +494,7 @@ begin
       RepSpec.repname = "ExpiredMoveForServRn";
       RunReport(RepSpec,0);
     end;
-	end;
+	end;*/
   return;
 end;
 
