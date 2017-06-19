@@ -1767,3 +1767,32 @@ begin
 	
 return;
 end;
+
+global updating procedure UpdateNonSerialArtCode()
+begin
+	record INVc INr;
+	record ItemHistVc IHr;
+	record ItemStatusVc ISr;
+	boolean TrHs,testf;
+	
+	while(loopmain(INr,1,true))begin
+		if(INr.SerNrf==0)then begin
+			resetloop(IHr);
+			IHr.ArtCode = INr.Code;
+			IHr.TransDate = stringtodate("1/6/2017");
+			TrHs = true;
+			if(loopkey("ArtCode",IHr,2,TrHs))then begin
+				testf = true;
+				if(IHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
+				if(IHr.TransDate<stringtodate("1/6/2017"))then begin TrHs = false; testf = false; end;
+				if(IHr.StockAffectf==0)then begin testf = false; end;
+				
+				if(testf)then begin
+					logtext(0,IHr.ArtCode & ";;;" & IHr.FileName);
+				end;
+			end;
+		end;
+	end;
+
+return;
+end;
