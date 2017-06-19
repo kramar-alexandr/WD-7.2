@@ -1770,7 +1770,7 @@ end;
 
 global updating procedure UpdateNonSerialArtCode()
 begin
-	record INVc INr;
+	record INVc INr,altINr;
 	record ItemHistVc IHr;
 	record ItemStatusVc ISr;
 	boolean TrHs,testf;
@@ -1788,7 +1788,9 @@ begin
 				if(IHr.StockAffectf==0)then begin testf = false; end;
 				
 				if(testf)then begin
-					logtext(0,IHr.ArtCode & ";;;" & IHr.FileName);
+					altINr.Code = IHr.ArtCode & "_";
+					readfirstmain(altINr,1,true);
+					logtext(0,IHr.ArtCode & ";;;" & IHr.FileName & ";;;" & altINr.Code);
 				end;
 			end;
 		end;
