@@ -12,6 +12,7 @@ external function roundmode SetRoundModeD(Integer);
 external function Boolean GetItemPriceDiscount3(string,val,var record INVc,string,val,val,val,val,val,string,string,string,string,
                                                 var val,var string,var val,var string,var val,var string,Integer,var Boolean,Date,Time,
                                                 string,Boolean,var Boolean,string,var string,var val,string,string,var string);
+external updating procedure UpdateSerStock(string,string,string,val,val);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -1775,7 +1776,10 @@ begin
 	record ItemHistVc IHr;
 	record ItemStatusVc ISr;
 	record SerBalVc SerBalr;
-	boolean TrHs,testf;
+	record PUVc PUr;
+	row PUVc PUrw;
+	boolean TrHs,testf,proceedF;
+	string 30 serial;
 	
 	while(loopmain(INr,1,true))begin
 		if(INr.SerNrf==0)then begin
@@ -1791,8 +1795,52 @@ begin
 				if(testf)then begin
 					altINr.Code = IHr.ArtCode & "_";
 					//logtext(0,IHr.ArtCode & ";;;" & IHr.FileName & ";;;" & altINr.Code);
-					if (readfirstmain(altINr,1,true)) then begin
-					  switch () begin
+					if (readfirstmain(altINr,1,true) and altINr.SerNrf==1) then begin
+					  proceedF = false;
+					  serial = "";
+					  switch (IHr.FileName) begin
+					    case "PUVc":
+					      PUr.SerNr = IHr.TransNr;
+					      if (ReadFirstMain(PUr,1,true)) then begin
+					        MatRowGet(PUr,IHr.Row,PUrw);
+					        if (PUrw.ArtCode==INr.Code) then begin
+					          PUrw.ArtCode = altINr.Code;
+					          MatRowPut(PUr,IHr.Row,PUrw);
+					          serial = PUrw.SerialNr;
+					          if (RECORDSTORE(PUr,true)) then begin
+					            UpdateSerStock(PUrw.ArtCode,PUr.Location,serial,PUr.Quant,PUrw.CostPrice);
+					            proceedF = true;
+					          end;
+					        end;
+					      end;
+					      if (proceedF and IHr.RemQty>0) then begin
+					        ISr.Code = INr.Code;
+					        ISr.Location = IHr.Location;
+					        if (ReadFirstMain(ISr,2,true)) then begin
+					          ISr.Instock = ISr.Instock - IHr.RemQty;
+					          if (RECORDSTORE(ISr,true)) then begin
+  					          ISr.Code = altINr.Code;
+    					        ISr.Location = IHr.Location;
+    					        if (ReadFirstMain(ISr,2,true)) then begin
+    					          ISr.Instock = ISr.Instock + IHr.RemQty;
+    					          RECORDSTORE(ISr,true);
+    					        end else begin
+    					          RECORDNEW(ISr);
+    					          ISr.Code = altINr.Code;
+    					          ISr.Location = IHr.Location;
+    					          ISr.Instock = IHr.RemQty;
+    					          RECORDSTORE(ISr,true);
+    					        end;
+					          end;
+					        end;
+					      end;
+					  end;
+					  if (proceedF) then begin
+					    IHr.ArtCode = altINr.Code;
+					    if (NonBlank(serial) and IHr.SerialNr!=serial) then begin
+					      IHr.SerialNr = serial;
+					    end;
+					    RecordStore(IHr,true);
 					  end;
 					end;
 				end;
