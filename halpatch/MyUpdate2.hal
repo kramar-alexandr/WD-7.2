@@ -1791,13 +1791,13 @@ begin
 	
 	
 	INr.Code = RepSpec.f1;
-	while(loopmain(INr,1,true))begin
-	//if(nonblank(RepSpec.f1) and readfirstmain(INr,1,true))then begin
+	//while(loopmain(INr,1,true))begin
+	if(nonblank(RepSpec.f1) and readfirstmain(INr,1,true))then begin
 	logtext(0,"1 " & INr.Code);
 		if(INr.SerNrf==0)then begin
 			
 			logtext(0,INr.Code);
-			altINr.Code = INr.Code & "_";
+			altINr.Code = INr.Code & "_S";
 			if (readfirstmain(altINr,1,true) and altINr.SerNrf==1) then begin
 			
 				/*SBr.Item = INr.Code;
