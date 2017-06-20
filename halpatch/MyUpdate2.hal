@@ -1782,6 +1782,10 @@ begin
 	string 30 serial;
 	record StockMovVc SMr;
 	row StockMovVc SMrw;
+	record SerBalVc SBr,SB2r;
+	integer i,mtrw;
+	record ORVc ORr;
+	row ORVc ORrw;
 	
 	INr.Code = "I6NECKLACE21";
 	//while(loopmain(INr,1,true))begin
@@ -1793,97 +1797,153 @@ begin
 			IHr.TransDate = stringtodate("1/6/2017");
 			TrHs = true;
 			logtext(0,INr.Code);
-			while(loopkey("ArtCode",IHr,2,TrHs))begin
-				testf = true;
-				if(IHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
-				if(IHr.TransDate<stringtodate("1/6/2017"))then begin TrHs = false; testf = false; end;
-				if(IHr.StockAffectf==0)then begin testf = false; end;
-				if(testf)then begin
-					altINr.Code = IHr.ArtCode & "_";
-					logtext(0,IHr.ArtCode & ";;;" & IHr.FileName & ";;;" & altINr.Code);
-					if (readfirstmain(altINr,1,true) and altINr.SerNrf==1) then begin
-					  proceedF = false;
-					  serial = "";
-					  switch (IHr.FileName) begin
-					    case "PUVc":
-					      PUr.SerNr = IHr.TransNr;
-					      if (ReadFirstMain(PUr,1,true)) then begin
-					        MatRowGet(PUr,IHr.Row,PUrw);
-					        if (PUrw.ArtCode==INr.Code) then begin
-					          PUrw.ArtCode = altINr.Code;
-					          MatRowPut(PUr,IHr.Row,PUrw);
-					          serial = PUrw.SerialNr;
-					          if (RECORDSTORE(PUr,true)) then begin
-											//logtext(0,"RECORDSTORE PUr" & PUr.SerNr);
-					            proceedF = true;
-					          end;
-					        end;
-					      end;
-					      case "StockMovVc":
-					      SMr.SerNr = IHr.TransNr;
-					      if (ReadFirstMain(SMr,1,true)) then begin
-					        MatRowGet(SMr,IHr.Row,SMrw);
-					        if (SMrw.ArtCode==INr.Code) then begin
-					          SMrw.ArtCode = altINr.Code;
-					          MatRowPut(SMr,IHr.Row,SMrw);
-					          serial = SMrw.SerialNr;
-					          if (RECORDSTORE(SMr,true)) then begin
-					          	//logtext(0,"RECORDSTORE SMr" & SMr.SerNr);
-					            proceedF = true;
-					          end;
-					        end;
-					      end;
-					  end;
-					  proceedF = true;
-						if (proceedF and IHr.RemQty>0) then begin
-							UpdateSerStock(IHr.ArtCode,IHr.Location,IHr.SerialNr,IHr.RemQty,IHr.TotCostPrice);
-							ISr.Code = INr.Code;
-							ISr.Location = IHr.Location;
-							if (ReadFirstMain(ISr,2,true)) then begin
-								ISr.Instock = ISr.Instock - IHr.RemQty;
-								if (RECORDSTORE(ISr,true)) then begin
+			altINr.Code = IHr.ArtCode & "_";
+			if (readfirstmain(altINr,1,true) and altINr.SerNrf==1) then begin
+				while(loopkey("ArtCode",IHr,2,TrHs))begin
+					testf = true;
+					if(IHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
+					if(IHr.TransDate<stringtodate("1/6/2017"))then begin TrHs = false; testf = false; end;
+					if(IHr.StockAffectf==0)then begin testf = false; end;
+					if(testf)then begin
+					
+						logtext(0,IHr.ArtCode & ";;;" & IHr.FileName & ";;;" & altINr.Code);
+							proceedF = false;
+							serial = "";
+							switch (IHr.FileName) begin
+								case "PUVc":
+									PUr.SerNr = IHr.TransNr;
+									if (ReadFirstMain(PUr,1,true)) then begin
+										MatRowGet(PUr,IHr.Row,PUrw);
+										if (PUrw.ArtCode==INr.Code) then begin
+											PUrw.ArtCode = altINr.Code;
+											MatRowPut(PUr,IHr.Row,PUrw);
+											serial = PUrw.SerialNr;
+											if (RECORDSTORE(PUr,true)) then begin
+												//logtext(0,"RECORDSTORE PUr" & PUr.SerNr);
+												proceedF = true;
+											end;
+										end;
+									end;
+									case "StockMovVc":
+									SMr.SerNr = IHr.TransNr;
+									if (ReadFirstMain(SMr,1,true)) then begin
+										MatRowGet(SMr,IHr.Row,SMrw);
+										if (SMrw.ArtCode==INr.Code) then begin
+											SMrw.ArtCode = altINr.Code;
+											MatRowPut(SMr,IHr.Row,SMrw);
+											serial = SMrw.SerialNr;
+											if (RECORDSTORE(SMr,true)) then begin
+												//logtext(0,"RECORDSTORE SMr" & SMr.SerNr);
+												proceedF = true;
+											end;
+										end;
+									end;
+							end;
+							proceedF = true;
+							if (proceedF and IHr.RemQty>0) then begin
+								//UpdateSerStock(IHr.ArtCode,IHr.Location,IHr.SerialNr,IHr.RemQty,IHr.TotCostPrice);
+								SBr.Item = IHr.ArtCode;
+								SBr.Location = IHr.Location;
+								SBr.Serial = IHr.SerialNr;
+								if(readfirstmain(SBr,3,true))then begin
+									recordcopy(SB2r,SBr);
+									recorddelete(SBr);
+									SB2r.Item = altINr.Code;
+									recordstore(SB2r,true);
+								end;
+							
 								ISr.Code = INr.Code;
-								ISr.Location = ";;;";
-								readfirstmain(ISr,2,true);
-								ISr.Instock = ISr.Instock - IHr.RemQty;
-								recordstore(ISr,true);
-								
-									ISr.Code = altINr.Code;
-									ISr.Location = IHr.Location;
-									if (ReadFirstMain(ISr,2,true)) then begin
-										ISr.Instock = ISr.Instock + IHr.RemQty;
-										RECORDSTORE(ISr,true);
+								ISr.Location = IHr.Location;
+								if (ReadFirstMain(ISr,2,true)) then begin
+									ISr.Instock = ISr.Instock - IHr.RemQty;
+									if (RECORDSTORE(ISr,true)) then begin
 										ISr.Code = INr.Code;
 										ISr.Location = ";;;";
 										readfirstmain(ISr,2,true);
-										ISr.Instock = ISr.Instock + IHr.RemQty;
+										ISr.Instock = ISr.Instock - IHr.RemQty;
 										recordstore(ISr,true);
-									end else begin
-										RECORDNEW(ISr);
+								
 										ISr.Code = altINr.Code;
 										ISr.Location = IHr.Location;
-										ISr.Instock = IHr.RemQty;
-										RECORDSTORE(ISr,true);
-										RECORDNEW(ISr);
-										ISr.Code = altINr.Code;
-										ISr.Location = ";;;";
-										ISr.Instock = IHr.RemQty;
-										RECORDSTORE(ISr,true);
+										if (ReadFirstMain(ISr,2,true)) then begin
+											ISr.Instock = ISr.Instock + IHr.RemQty;
+											RECORDSTORE(ISr,true);
+											ISr.Code = altINr.Code;
+											ISr.Location = ";;;";
+											readfirstmain(ISr,2,true);
+											ISr.Instock = ISr.Instock + IHr.RemQty;
+											recordstore(ISr,true);
+										end else begin
+											RECORDNEW(ISr);
+											ISr.Code = altINr.Code;
+											ISr.Location = IHr.Location;
+											ISr.Instock = IHr.RemQty;
+											RECORDSTORE(ISr,true);
+											RECORDNEW(ISr);
+											ISr.Code = altINr.Code;
+											ISr.Location = ";;;";
+											ISr.Instock = IHr.RemQty;
+											RECORDSTORE(ISr,true);
+										end;
 									end;
 								end;
 							end;
-						end;
-					  if (proceedF) then begin
-					    IHr.ArtCode = altINr.Code;
-					    if (NonBlank(serial) and IHr.SerialNr!=serial) then begin
-					      IHr.SerialNr = serial;
-					    end;
-					    RecordStore(IHr,true);
-					    stepback(IHr);
-					    logtext(0,IHr.ArtCode);
-					  end;
+							if (proceedF) then begin
+								IHr.ArtCode = altINr.Code;
+								if (NonBlank(serial) and IHr.SerialNr!=serial) then begin
+									IHr.SerialNr = serial;
+								end;
+								RecordStore(IHr,true);
+								stepback(IHr);
+								logtext(0,IHr.ArtCode);
+							end;
 					end;
 				end;
+			
+				TrHs = true;
+				ORr.OrdDate = stringtodate("1/6/2017");
+				while(loopkey("OrdDate",ORr,1,TrHs))begin
+						proceedF = false;
+						if(ORr.OrdDate>=stringtodate("1/6/2017"))then begin
+							mtrw = matrowcnt(ORr);
+							For(i=0;i<mtrw;i=i+1) begin
+								matrowget(ORr,i,ORrw);
+								if(ORrw.ArtCode==INr.Code)then begin
+									ORrw.ArtCode = altINr.Code;
+									proceedF = true;
+									
+									ISr.Code = ORrw.ArtCode;
+									ISr.Location = ORr.Location;
+									if(readfirstmain(ISr,2,true))then begin
+										ISr.OrddOut = ISr.OrddOut - ORrw.Quant;
+									end;
+									ISr.Code = ORrw.ArtCode;
+									ISr.Location = ";;;";
+									if(readfirstmain(ISr,2,true))then begin
+										ISr.OrddOut = ISr.OrddOut - ORrw.Quant;
+									end;
+									
+									ISr.Code = altINr.Code;
+									ISr.Location = ";;;";
+									if(readfirstmain(ISr,2,true))then begin
+										ISr.OrddOut = ISr.OrddOut + ORrw.Quant;
+									end;
+									ISr.Code = altINr.Code;
+									ISr.Location = ORr.Location;
+									if(readfirstmain(ISr,2,true))then begin
+										ISr.OrddOut = ISr.OrddOut + ORrw.Quant;
+									end;
+									
+									
+								end;
+							end; 
+							if(proceedF)then begin
+								recordstore(ORr,true);
+							end;
+						end;
+				end;
+				resetloop(ORr);
+			
 			end;
 		end;
 	end;
