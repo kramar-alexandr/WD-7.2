@@ -1910,6 +1910,8 @@ begin
 								matrowget(ORr,i,ORrw);
 								if(ORrw.ArtCode==INr.Code)then begin
 									ORrw.ArtCode = altINr.Code;
+									matrowput(ORr,i,ORrw);
+									logtext(0,"ORr.SerNr" & ORr.SerNr & " " & INr.Code);
 									proceedF = true;
 									
 									ISr.Code = ORrw.ArtCode;
