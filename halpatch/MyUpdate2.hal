@@ -1797,7 +1797,7 @@ begin
 			altINr.Code = INr.Code & "_";
 			if (readfirstmain(altINr,1,true) and altINr.SerNrf==1) then begin
 			
-				SBr.Item = INr.Code;
+				/*SBr.Item = INr.Code;
 				TrHs = true;
 				while(loopmain(SBr,1,TrHs))begin
 					if(SBr.Item!=INr.Code)then begin TrHs = false; end;
@@ -1812,7 +1812,7 @@ begin
 							recordstore(SB2r,true);
 						end;
 					end;
-				end;
+				end;*/
 				
 				TrHs = true;
 				resetloop(IHr);
