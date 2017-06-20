@@ -1801,7 +1801,7 @@ begin
 				TrHs = true;
 				while(loopmain(SBr,1,TrHs))begin
 					if(SBr.Item!=INr.Code)then begin TrHs = false; end;
-					
+					logtext(0,"SBr " & SBr.Item);
 					if(TrHs)then begin
 						recordcopy(SB2r,SBr);
 						recorddelete(SBr);
