@@ -1786,6 +1786,9 @@ begin
 	integer i,mtrw;
 	record ORVc ORr;
 	row ORVc ORrw;
+	record RetVc Retr;
+	row RetVc Retrw;
+	
 	
 	INr.Code = RepSpec.f1;
 	//while(loopmain(INr,1,true))begin
@@ -1852,6 +1855,20 @@ begin
 											MatRowPut(SMr,IHr.Row,SMrw);
 											serial = SMrw.SerialNr;
 											if (RECORDSTORE(SMr,true)) then begin
+												//logtext(0,"RECORDSTORE SMr" & SMr.SerNr);
+												proceedF = true;
+											end;
+										end;
+									end;
+									case "RetVc":
+									Retr.SerNr = IHr.TransNr;
+									if (ReadFirstMain(Retr,1,true)) then begin
+										MatRowGet(Retr,IHr.Row,Retrw);
+										if (Retrw.ArtCode==INr.Code) then begin
+											Retrw.ArtCode = altINr.Code;
+											MatRowPut(Retr,IHr.Row,Retrw);
+											serial = Retrw.SerialNr;
+											if (RECORDSTORE(Retr,true)) then begin
 												//logtext(0,"RECORDSTORE SMr" & SMr.SerNr);
 												proceedF = true;
 											end;
