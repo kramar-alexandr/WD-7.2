@@ -1793,7 +1793,7 @@ begin
 			IHr.TransDate = stringtodate("1/6/2017");
 			TrHs = true;
 			logtext(0,INr.Code);
-			if(loopkey("ArtCode",IHr,2,TrHs))then begin
+			while(loopkey("ArtCode",IHr,2,TrHs))begin
 				testf = true;
 				if(IHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
 				if(IHr.TransDate<stringtodate("1/6/2017"))then begin TrHs = false; testf = false; end;
