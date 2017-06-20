@@ -1780,8 +1780,12 @@ begin
 	row PUVc PUrw;
 	boolean TrHs,testf,proceedF;
 	string 30 serial;
+	record StockMovVc SMr;
+	row StockMovVc SMrw;
 	
-	while(loopmain(INr,1,true))begin
+	INr.Code = "I6NECKLACE21";
+	//while(loopmain(INr,1,true))begin
+	if(readfirstmain(INr,1,true))then begin
 		if(INr.SerNrf==0)then begin
 			resetloop(IHr);
 			IHr.ArtCode = INr.Code;
@@ -1794,7 +1798,7 @@ begin
 				if(IHr.StockAffectf==0)then begin testf = false; end;
 				if(testf)then begin
 					altINr.Code = IHr.ArtCode & "_";
-					//logtext(0,IHr.ArtCode & ";;;" & IHr.FileName & ";;;" & altINr.Code);
+					logtext(0,IHr.ArtCode & ";;;" & IHr.FileName & ";;;" & altINr.Code);
 					if (readfirstmain(altINr,1,true) and altINr.SerNrf==1) then begin
 					  proceedF = false;
 					  serial = "";
@@ -1808,39 +1812,73 @@ begin
 					          MatRowPut(PUr,IHr.Row,PUrw);
 					          serial = PUrw.SerialNr;
 					          if (RECORDSTORE(PUr,true)) then begin
-					            UpdateSerStock(PUrw.ArtCode,PUr.Location,serial,PUrw.Quant,PUrw.CostPrice);
+											//logtext(0,"RECORDSTORE PUr" & PUr.SerNr);
 					            proceedF = true;
 					          end;
 					        end;
 					      end;
-					      if (proceedF and IHr.RemQty>0) then begin
-					        ISr.Code = INr.Code;
-					        ISr.Location = IHr.Location;
-					        if (ReadFirstMain(ISr,2,true)) then begin
-					          ISr.Instock = ISr.Instock - IHr.RemQty;
-					          if (RECORDSTORE(ISr,true)) then begin
-  					          ISr.Code = altINr.Code;
-    					        ISr.Location = IHr.Location;
-    					        if (ReadFirstMain(ISr,2,true)) then begin
-    					          ISr.Instock = ISr.Instock + IHr.RemQty;
-    					          RECORDSTORE(ISr,true);
-    					        end else begin
-    					          RECORDNEW(ISr);
-    					          ISr.Code = altINr.Code;
-    					          ISr.Location = IHr.Location;
-    					          ISr.Instock = IHr.RemQty;
-    					          RECORDSTORE(ISr,true);
-    					        end;
+					      case "StockMovVc":
+					      SMr.SerNr = IHr.TransNr;
+					      if (ReadFirstMain(SMr,1,true)) then begin
+					        MatRowGet(SMr,IHr.Row,SMrw);
+					        if (SMrw.ArtCode==INr.Code) then begin
+					          SMrw.ArtCode = altINr.Code;
+					          MatRowPut(SMr,IHr.Row,SMrw);
+					          serial = SMrw.SerialNr;
+					          if (RECORDSTORE(SMr,true)) then begin
+					          	//logtext(0,"RECORDSTORE SMr" & SMr.SerNr);
+					            proceedF = true;
 					          end;
 					        end;
 					      end;
 					  end;
+					  proceedF = true;
+						if (proceedF and IHr.RemQty>0) then begin
+							UpdateSerStock(IHr.ArtCode,IHr.Location,IHr.SerialNr,IHr.RemQty,IHr.TotCostPrice);
+							ISr.Code = INr.Code;
+							ISr.Location = IHr.Location;
+							if (ReadFirstMain(ISr,2,true)) then begin
+								ISr.Instock = ISr.Instock - IHr.RemQty;
+								if (RECORDSTORE(ISr,true)) then begin
+								ISr.Code = INr.Code;
+								ISr.Location = ";;;";
+								readfirstmain(ISr,2,true);
+								ISr.Instock = ISr.Instock - IHr.RemQty;
+								recordstore(ISr,true);
+								
+									ISr.Code = altINr.Code;
+									ISr.Location = IHr.Location;
+									if (ReadFirstMain(ISr,2,true)) then begin
+										ISr.Instock = ISr.Instock + IHr.RemQty;
+										RECORDSTORE(ISr,true);
+										ISr.Code = INr.Code;
+										ISr.Location = ";;;";
+										readfirstmain(ISr,2,true);
+										ISr.Instock = ISr.Instock + IHr.RemQty;
+										recordstore(ISr,true);
+									end else begin
+										RECORDNEW(ISr);
+										ISr.Code = altINr.Code;
+										ISr.Location = IHr.Location;
+										ISr.Instock = IHr.RemQty;
+										RECORDSTORE(ISr,true);
+										RECORDNEW(ISr);
+										ISr.Code = altINr.Code;
+										ISr.Location = ";;;";
+										ISr.Instock = IHr.RemQty;
+										RECORDSTORE(ISr,true);
+									end;
+								end;
+							end;
+						end;
 					  if (proceedF) then begin
 					    IHr.ArtCode = altINr.Code;
 					    if (NonBlank(serial) and IHr.SerialNr!=serial) then begin
 					      IHr.SerialNr = serial;
 					    end;
 					    RecordStore(IHr,true);
+					    stepback(IHr);
+					    logtext(0,IHr.ArtCode);
 					  end;
 					end;
 				end;
