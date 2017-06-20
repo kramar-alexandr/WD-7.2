@@ -1791,6 +1791,7 @@ begin
 			IHr.ArtCode = INr.Code;
 			IHr.TransDate = stringtodate("1/6/2017");
 			TrHs = true;
+			logtext(0,INr.Code);
 			if(loopkey("ArtCode",IHr,2,TrHs))then begin
 				testf = true;
 				if(IHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
