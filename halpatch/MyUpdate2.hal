@@ -1792,13 +1792,32 @@ begin
 	if(nonblank(RepSpec.f1) and readfirstmain(INr,1,true))then begin
 	logtext(0,"1 " & INr.Code);
 		if(INr.SerNrf==0)then begin
-			resetloop(IHr);
-			IHr.ArtCode = INr.Code;
-			IHr.TransDate = stringtodate("1/6/2017");
-			TrHs = true;
+			
 			logtext(0,INr.Code);
 			altINr.Code = IHr.ArtCode & "_";
 			if (readfirstmain(altINr,1,true) and altINr.SerNrf==1) then begin
+			
+				SBr.Item = INr.Code;
+				TrHs = true;
+				while(loopmain(SBr,1,TrHs))begin
+					if(SBr.Item!=INr.Code)then begin TrHs = false; end;
+					
+					if(TrHs)then begin
+						recordcopy(SB2r,SBr);
+						recorddelete(SBr);
+						stepback(SBr);
+						SB2r.Item = altINr.Code;
+						if(SBr.Quant>0)then begin
+							SB2r.Quant = 1;
+							recordstore(SB2r,true);
+						end;
+					end;
+				end;
+				
+				TrHs = true;
+				resetloop(IHr);
+				IHr.ArtCode = INr.Code;
+				IHr.TransDate = stringtodate("1/6/2017");
 				while(loopkey("ArtCode",IHr,2,TrHs))begin
 					testf = true;
 					if(IHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
