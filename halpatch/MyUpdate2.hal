@@ -1768,11 +1768,13 @@ begin
 return;
 end;
 
-global updating procedure UpdateNonSerialArtCode()
+global 
+updating procedure UpdateNonSerialArtCodeMn()
 begin
 	record INVc INr,altINr;
 	record ItemHistVc IHr;
 	record ItemStatusVc ISr;
+	record SerBalVc SerBalr;
 	boolean TrHs,testf;
 	
 	while(loopmain(INr,1,true))begin
@@ -1786,11 +1788,13 @@ begin
 				if(IHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
 				if(IHr.TransDate<stringtodate("1/6/2017"))then begin TrHs = false; testf = false; end;
 				if(IHr.StockAffectf==0)then begin testf = false; end;
-				
 				if(testf)then begin
 					altINr.Code = IHr.ArtCode & "_";
-					readfirstmain(altINr,1,true);
-					logtext(0,IHr.ArtCode & ";;;" & IHr.FileName & ";;;" & altINr.Code);
+					//logtext(0,IHr.ArtCode & ";;;" & IHr.FileName & ";;;" & altINr.Code);
+					if (readfirstmain(altINr,1,true)) then begin
+					  switch () begin
+					  end;
+					end;
 				end;
 			end;
 		end;
