@@ -1791,8 +1791,8 @@ begin
 	
 	
 	INr.Code = RepSpec.f1;
-	//while(loopmain(INr,1,true))begin
-	if(nonblank(RepSpec.f1) and readfirstmain(INr,1,true))then begin
+	while(loopmain(INr,1,true))begin
+	//if(nonblank(RepSpec.f1) and readfirstmain(INr,1,true))then begin
 	logtext(0,"1 " & INr.Code);
 		if(INr.SerNrf==0)then begin
 			
@@ -1945,11 +1945,6 @@ begin
 							For(i=0;i<mtrw;i=i+1) begin
 								matrowget(ORr,i,ORrw);
 								if(ORrw.ArtCode==INr.Code)then begin
-									ORrw.ArtCode = altINr.Code;
-									matrowput(ORr,i,ORrw);
-									logtext(0,"ORr.SerNr" & ORr.SerNr & " " & INr.Code);
-									proceedF = true;
-									
 									ISr.Code = ORrw.ArtCode;
 									ISr.Location = ORr.Location;
 									if(readfirstmain(ISr,2,true))then begin
@@ -1960,6 +1955,11 @@ begin
 									if(readfirstmain(ISr,2,true))then begin
 										ISr.OrddOut = ISr.OrddOut - ORrw.Quant;
 									end;
+									
+									ORrw.ArtCode = altINr.Code;
+									matrowput(ORr,i,ORrw);
+									logtext(0,"ORr.SerNr" & ORr.SerNr & " " & INr.Code);
+									proceedF = true;
 									
 									ISr.Code = altINr.Code;
 									ISr.Location = ";;;";
