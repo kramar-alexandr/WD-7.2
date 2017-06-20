@@ -1786,6 +1786,7 @@ begin
 	INr.Code = "I6NECKLACE21";
 	//while(loopmain(INr,1,true))begin
 	if(readfirstmain(INr,1,true))then begin
+	logtext(0,"1 " & INr.Code);
 		if(INr.SerNrf==0)then begin
 			resetloop(IHr);
 			IHr.ArtCode = INr.Code;
