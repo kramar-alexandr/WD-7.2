@@ -1901,6 +1901,7 @@ begin
 				end;
 			
 				TrHs = true;
+				logtext(0,"OrdDate");
 				ORr.OrdDate = stringtodate("1/6/2017");
 				while(loopkey("OrdDate",ORr,1,TrHs))begin
 						proceedF = false;
