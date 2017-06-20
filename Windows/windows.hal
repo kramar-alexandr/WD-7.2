@@ -455,6 +455,7 @@ window MyVClass:1 // Edit ************************** Friday, 17 October 2014 11:
  begin
 WindowBegin("Maintenance",MyVClass,CGMnt,RcType);
   SetWRect(20,120,360,220);
+  EditField(140,20,70,"f1",Normal,f1,false,0);  
   EndWindow;
 end;
 

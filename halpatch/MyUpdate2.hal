@@ -1770,7 +1770,7 @@ return;
 end;
 
 global 
-updating procedure UpdateNonSerialArtCodeMn()
+updating procedure UpdateNonSerialArtCodeMn(record RcVc RepSpec)
 begin
 	record INVc INr,altINr;
 	record ItemHistVc IHr;
@@ -1787,9 +1787,9 @@ begin
 	record ORVc ORr;
 	row ORVc ORrw;
 	
-	INr.Code = "I6NECKLACE21";
+	INr.Code = RepSpec.f1;
 	//while(loopmain(INr,1,true))begin
-	if(readfirstmain(INr,1,true))then begin
+	if(nonblank(RepSpec.f1) and readfirstmain(INr,1,true))then begin
 	logtext(0,"1 " & INr.Code);
 		if(INr.SerNrf==0)then begin
 			resetloop(IHr);
@@ -1901,11 +1901,9 @@ begin
 				end;
 			
 				TrHs = true;
-				logtext(0,"OrdDate");
 				ORr.SerNr = 1016982;
 				while(loopmain(ORr,1,TrHs))begin
 						proceedF = false;
-						logtext(0,"ORr " & ORr.SerNr & " " & INr.Code);
 						if(true)then begin
 							mtrw = matrowcnt(ORr);
 							For(i=0;i<mtrw;i=i+1) begin
