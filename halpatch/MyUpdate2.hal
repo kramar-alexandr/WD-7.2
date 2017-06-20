@@ -1808,7 +1808,7 @@ begin
 					          MatRowPut(PUr,IHr.Row,PUrw);
 					          serial = PUrw.SerialNr;
 					          if (RECORDSTORE(PUr,true)) then begin
-					            UpdateSerStock(PUrw.ArtCode,PUr.Location,serial,PUr.Quant,PUrw.CostPrice);
+					            UpdateSerStock(PUrw.ArtCode,PUr.Location,serial,PUrw.Quant,PUrw.CostPrice);
 					            proceedF = true;
 					          end;
 					        end;
