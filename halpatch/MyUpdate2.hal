@@ -1905,6 +1905,7 @@ begin
 				ORr.OrdDate = stringtodate("1/6/2017");
 				while(loopkey("OrdDate",ORr,1,TrHs))begin
 						proceedF = false;
+						logtext(0,"ORr " & ORr.SerNr & " " & INr.Code);
 						if(ORr.OrdDate>=stringtodate("1/6/2017"))then begin
 							mtrw = matrowcnt(ORr);
 							For(i=0;i<mtrw;i=i+1) begin
