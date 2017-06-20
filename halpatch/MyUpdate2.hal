@@ -1794,7 +1794,7 @@ begin
 		if(INr.SerNrf==0)then begin
 			
 			logtext(0,INr.Code);
-			altINr.Code = IHr.ArtCode & "_";
+			altINr.Code = INr.Code & "_";
 			if (readfirstmain(altINr,1,true) and altINr.SerNrf==1) then begin
 			
 				SBr.Item = INr.Code;
