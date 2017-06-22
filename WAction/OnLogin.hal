@@ -557,7 +557,7 @@ not ready yet
 
 LOnLogin:;
 
-	if (!ServerMode) then begin// Edit ************************** Thursday, 22 June 2017 09:27:36
+	/*if (!ServerMode) then begin// Edit ************************** Thursday, 22 June 2017 09:27:36
 		if(CurrentCompany==4 or CurrentCompany==14 or CurrentCompany==15 or CurrentCompany==16) then begin //iCenter			//Edit----------------------Dima  10.12.2015
 			if(nonblank(TestCurrentUserOnServer))then begin
 				recordnew(RepSpec);
@@ -578,7 +578,7 @@ LOnLogin:;
       RepSpec.repname = "ExpiredMoveForServRn";
       RunReport(RepSpec,0);
     end;
-	end;
+	end;*/
 
   OnLogin = res/* and (forcestockmaint==0)*/;//when offline records it should not open Master Control
   RETURN;
