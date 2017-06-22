@@ -558,16 +558,19 @@ not ready yet
 LOnLogin:;
 
 	if (!ServerMode) then begin// Edit ************************** Thursday, 22 June 2017 09:27:36
-		/*if(CurrentCompany==4 or CurrentCompany==14 or CurrentCompany==15 or CurrentCompany==16) then begin //iCenter			//Edit----------------------Dima  10.12.2015
-			if(nonblank(TestCurrentUserOnServer))then begin
-				recordnew(RepSpec);
-				ReportDefaults(RepSpec,"CurrentUserStockMovsRn");
-				millisleep(100);
-				RepSpec.Media = mtScreen;
-				RepSpec.repname = "CurrentUserStockMovsRn";
-				RunReport(RepSpec,0);
+			Userr.Code = currentuser;
+		if(CurrentCompany==4 or CurrentCompany==14 or CurrentCompany==15 or CurrentCompany==16) then begin //iCenter			//Edit----------------------Dima  10.12.2015
+			if(Readfirstmain(Userr,1,true) and nonblank(Userr.Location))then begin
+				//if(nonblank(TestCurrentUserOnServer))then begin
+					recordnew(RepSpec);
+					ReportDefaults(RepSpec,"CurrentUserStockMovsRn");
+					millisleep(100);
+					RepSpec.Media = mtScreen;
+					RepSpec.repname = "CurrentUserStockMovsRn";
+					RunReport(RepSpec,0);
+				//end;
 			end;
-		end;*/
+		end;
     days = ExpiredMoveForServDays;
     if (days!=0) then begin
       recordnew(RepSpec);
