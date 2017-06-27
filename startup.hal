@@ -283,7 +283,7 @@ begin
 	SString(31086,"Даний рядок не можна редагувати");
 	SString(31087,"Документ не проведений");
 	SString(31088,"Недостатньо товарів на складі. Товар у резерві ");
-
+	SString(31089,"Для даного документа не знайдене Замовлення клієнта Shops");
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */
   StrSetText(UnCloseAll,"Відкрити записи");// Edit ************************** Wednesday, 15 April 2015 17:21:45

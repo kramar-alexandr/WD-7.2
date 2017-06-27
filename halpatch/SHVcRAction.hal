@@ -71,6 +71,7 @@ external function roundmode SetRoundModeD(Integer); //Edit**********************
 external procedure ORVc_PastePrice(var record ORVc,Integer,var Boolean); //Edit***************************Sasha2,16:46 04.01.2017
 external procedure ORDchsum(var record ORVc,Integer); //Edit***************************Sasha2,16:47 04.01.2017
 external procedure ORSumup(var record ORVc); //Edit***************************Sasha2,16:49 04.01.2017
+remote function boolean DenyOperationForShopsLocation(string,LongInt); //Edit***************************Sasha2,14:05 27.06.2017
 
 //Edit***************************Sasha2,15:50 04.01.2017 {
 updating procedure UpdateORPricesViaCUInnerMarkUp(record SHVc originalSHr)
@@ -552,6 +553,14 @@ begin
   end;
 
   if (transf) then begin
+    if (DenyOperationForShopsLocation(SHp.Location,SHp.OrderNr)) then begin //Edit***************************Sasha2,14:11 27.06.2017 {
+      error = 31089;
+      errorstr = "";
+      rownr = -1;
+      fieldstr = "Location";        
+      res = -1; 
+      goto LSHVcRecordCheck;
+    end; //Edit***************************Sasha2,14:11 27.06.2017 }
     if (UserCanAction("SHOK",true)==false) then begin
       error = 1274;
       errorstr = StringFromStringSet(3,"SHOK");
