@@ -563,6 +563,7 @@ LOnLogin:;
 			if(Readfirstmain(Userr,1,true) and nonblank(Userr.Location))then begin
 				//if(nonblank(TestCurrentUserOnServer))then begin
 					recordnew(RepSpec);
+					messagebox(0,"CurrentUserStockMovsRn");
 					ReportDefaults(RepSpec,"CurrentUserStockMovsRn");
 					millisleep(100);
 					RepSpec.Media = mtScreen;
