@@ -42,13 +42,22 @@ begin
 	
   //SMr.TransDate = CurrentDate;
   SMr.SerNr = 9000000000;
-  SMr.FrLocation = Userr.Location;
+  if(Userr.Location!="K_TRANSIT")then begin
+  	SMr.FrLocation = Userr.Location;
+  end else begin
+  	SMr.FrLocation = "";
+  end;
+  
   
   TrHs = true;
   While(LoopBackKey("FrLocOK",SMr,key,TrHs)) begin
 
   	if (RepSpec.flags[1]==0 and SMr.OKFlag!=0) then begin TrHs = false; end;  	
-		if (SMr.FrLocation != Userr.Location) then begin TrHs = false; end;
+  	if(Userr.Location!="K_TRANSIT")then begin
+			if (SMr.FrLocation!=Userr.Location) then begin TrHs = false; end;
+		end else begin
+		
+		end;
 
 		if (TrHs) then begin
   		StartFormat(15);
