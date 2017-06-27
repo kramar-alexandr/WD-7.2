@@ -27,7 +27,7 @@ begin
     OutString(180,0,"Зі складу",true);
     OutString(260,0,"Через складу",true);
     OutString(340,0,"На склад",true);
-    OutString(-50,0,"Відправлено",true);
+    OutString(-90,0,"Відправлено",true);
     OutString(1,0,"Отримано",true);
   Endformat;
   Black_Divider(0,1);  
@@ -64,10 +64,10 @@ begin
   		  OutString(100,0,SMr.TransDate,true);
   		  OutString(180,0,SMr.FrLocation,true);
   		  OutString(260,0,SMr.ThrouLocation,true);
-  		  OutString(360,0,SMr.ToLocation,true);
+  		  OutString(340,0,SMr.ToLocation,true);
   		  
   		  if (SMr.SentOKFlag!=0) then begin
-					OutString(-50,0,okChar,true);
+					OutString(-90,0,okChar,true);
 				end;
  		    if (SMr.OKFlag!=0) then begin
 					OutString(1,0,okChar,true);
