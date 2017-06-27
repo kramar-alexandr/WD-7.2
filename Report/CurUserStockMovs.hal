@@ -42,7 +42,7 @@ begin
 	
   //SMr.TransDate = CurrentDate;
   SMr.SerNr = 9000000000;
-  if(Userr.Location!="K_TRANSIT")then begin
+  if(Userr.Location!="ZZZZZZZZZZ")then begin
   	SMr.FrLocation = Userr.Location;
   end else begin
   	SMr.FrLocation = "";
