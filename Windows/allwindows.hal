@@ -10043,6 +10043,7 @@ begin
   EditField(h,v+=vs,70,"Serial",Normal,Serial,false,0);
   EditField(h,v+=vs,70,"Location",Normal,Location,false,0);
   EditField(h,v+=vs,70,"CostPrice",Normal,CostPrice,false,0);
+  EditField(h,v+=vs,70,"Quant",Normal,Quant,false,0);
   
   EndWindow;
 end;
