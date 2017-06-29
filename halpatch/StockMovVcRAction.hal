@@ -54,6 +54,7 @@ external procedure FindStockValue(string,string,var record ItemStatusVc);
 external function Boolean Date2Test(string,Date,string,Integer);
 external function Boolean SerNrTestStockMovVc(LongInt,Date,var Boolean);
 external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
+remote function boolean DenyOperationForShopsLocation(string,LongInt); //Edit***************************Sasha2,14:05 27.06.2017
 
 function Integer CheckStockMovRowToPosition(record StockMovVc SMp,row StockMovVc StockMovrw,record LocationVc LocToRec,record INVc INr,
                                             Integer rownr,var LongInt error,var string errorstr,var integer errorrownr,var string fieldstr,boolean UnOKedCheckSerialf)
@@ -696,7 +697,33 @@ BEGIN
       end;
     end;
   end; 
-   
+  
+  if ((checksendf or checkreceivef) or transsendf or transreceivef ) then begin //Edit***************************Sasha2,14:33 27.06.2017 {
+    if (DenyOperationForShopsLocation(SMp.FrLocation,SMp.OrderNr)) then begin 
+      error = 31089;
+	    errorstr = "";
+	    rownr = -1;
+  	  fieldstr = "FrLocation";
+	    res = -1;
+	    goto LCheckStockMovRecord;
+    end; 
+    if (DenyOperationForShopsLocation(SMp.ThrouLocation,SMp.OrderNr)) then begin
+      error = 31089;
+	    errorstr = "";
+	    rownr = -1;
+  	  fieldstr = "ThrouLocation";
+	    res = -1;
+	    goto LCheckStockMovRecord;
+    end;
+    if (DenyOperationForShopsLocation(SMp.ToLocation,SMp.OrderNr)) then begin
+      error = 31089;
+	    errorstr = "";
+	    rownr = -1;
+  	  fieldstr = "ToLocation";
+	    res = -1;
+	    goto LCheckStockMovRecord;
+    end;
+  end; //Edit***************************Sasha2,14:33 27.06.2017 }
   
   if (CurrentUser != "SA" and CurrentUser != "SA1" and CurrentUser != "KUDINA" and (SMp.OKFlag!=0 and SMp.TransDate<CurrentDate)) then begin
   	if (stat==Rs_update) then begin																																								//Edit----------------------Dima  08.09.2015

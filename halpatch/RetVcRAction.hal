@@ -75,6 +75,7 @@ external function Boolean Date2Test(string,Date,string,Integer);
 external function Boolean SerNrTestRetVc(LongInt,Date,var Boolean);
 external function LongInt GetCurUserLastNr(string);
 remote updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
+remote function boolean DenyOperationForShopsLocation(string,LongInt); //Edit***************************Sasha2,14:05 27.06.2017
 
 function Integer ValidateBulkSerialNoRow(record SerNrTrackBlock SNrb,record RetVc Retr,row RetVc Retrw,Integer currow,var string gotofield,var Integer gotorow)
 begin
@@ -372,6 +373,11 @@ BEGIN
     end;
   end;
   if (transf) then begin
+    if (DenyOperationForShopsLocation(Retp.Location,Retp.OrdNr)) then begin //Edit***************************Sasha2,14:11 27.06.2017 {
+      RecordCheckError(31089,"",-1,"Location");  
+      res = -1;
+      goto LRetVcRecordCheck;
+    end; //Edit***************************Sasha2,14:11 27.06.2017 }
     if (HasLocalization("PRT")) then begin
       if (blank(Retp.OfficialSerNr)) then begin
         RecordCheckError(1058,"",-1,"OfficialSerNr");  

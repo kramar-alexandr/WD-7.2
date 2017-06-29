@@ -68,6 +68,7 @@ external procedure PUCalcCostPrice(string,val,Integer,Integer,string,string,
                                    string,var val,val,var val,string,Integer);
 external function Integer PUVc_PasteQuant(var record PUVc,Integer);// Edit ************************** Tuesday, 9 September 2014 13:57:09
 external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
+remote function boolean DenyOperationForShopsLocation(string,LongInt); //Edit***************************Sasha2,14:05 27.06.2017
 
 procedure SetSDAcceptanceFlag(var record SDVc SDr,record SDVc prevSDr,LongInt stat)
 begin
@@ -960,6 +961,11 @@ begin
     goto LSDVcRecordCheck;
   end;
   if (transf) then begin
+    if (DenyOperationForShopsLocation(SDp.Location,-1)) then begin //Edit***************************Sasha2,14:11 27.06.2017 {
+      RecordCheckError(31089,"",-1,"Location");  
+      res = -1;
+      goto LSDVcRecordCheck;
+    end; //Edit***************************Sasha2,14:11 27.06.2017 }
     if (UserCanAction("SDOK",true)==false) then begin
       RecordCheckError(1274,StringFromStringSet(3,"SDOK"),-1,"SerNr");      
       res = -1; 
