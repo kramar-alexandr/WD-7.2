@@ -10038,6 +10038,12 @@ begin
   SetWRect(64,80,640,230);
   UseView(SerBalVc);
   
+  h = 50; v = 20; vs = 20;
+  EditField(h,v,70,"Item",Normal,Item,false,0);
+  EditField(h,v+=vs,70,"Serial",Normal,Serial,false,0);
+  EditField(h,v+=vs,70,"Location",Normal,Location,false,0);
+  EditField(h,v+=vs,70,"CostPrice",Normal,CostPrice,false,0);
+  
   EndWindow;
 end;
 
