@@ -363,6 +363,7 @@ begin
   StrSetText(PositionStatusChanging,"Дозволяти зміну статусу місця");
   StrSetText(AllowWSUpdateStockChange,"Дозволити зміну таблиці робіт обновлення скада");
   StrSetText(DiffHalcust,"Порівняти halcust & halpatch");
+  StrSetText(ViewTRWHNotOKSM,"Показувати звіт по незавершеним транзитам");// Edit ************************** Monday, 3 July 2017 13:32:38
   StrSetText(CompletingServiceOrders,"Завершення замовлення на обслуговув."); 
   StrSetText(InvToCO,"Контракт з актом/накладною");
   StrSetText(RoyaltyRepToCO,"Contract from Royalty Sales records");

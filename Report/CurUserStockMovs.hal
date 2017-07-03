@@ -49,6 +49,9 @@ begin
   	SMr.FrLocation = "";
   end;
   
+  if(blank(Userr.Location) and usercanaction("ViewTRWHNotOKSM",false))then begin
+  	Userr.Location = "TRWH";
+  end;
   
   TrHs = true;
   SMr.OKFlag = 0;
