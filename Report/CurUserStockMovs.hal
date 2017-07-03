@@ -15,7 +15,11 @@ begin
 	ReadFirstMain(Userr,1,true);
 	
 	okChar = UChr(10003);
-
+	
+	if(blank(Userr.Location) and usercanaction("ViewTRWHNotOKSM",false))then begin
+  	Userr.Location = "K_TRANSIT";
+  end;
+  
   StartReportJob("Переміщення " & CurrentUser);
    rw = 1;	
 	 Header(rw,"Всі переміщення для складу " & Userr.Location,1);
@@ -49,9 +53,7 @@ begin
   	SMr.FrLocation = "";
   end;
   
-  if(blank(Userr.Location) and usercanaction("ViewTRWHNotOKSM",false))then begin
-  	Userr.Location = "TRWH";
-  end;
+  
   
   TrHs = true;
   SMr.OKFlag = 0;
