@@ -1431,7 +1431,7 @@ BEGIN
   end;
   if (stat==updatemode) then begin
     if ((CUr.CUType==0) and (CU2r.CUType!=0)) then begin
-      if (CSVcExists(CUr.Code,false)) then begin
+      if (CSVcExists(CUr.Code,false) and CUr.Code!="INERNET") then begin
         RecordCheckError(1121," " & CUr.Code,-1,"Code");      
         res = -1; 
         goto LCUVcRecordCheck;
