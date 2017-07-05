@@ -560,7 +560,7 @@ LOnLogin:;
 	if (!ServerMode) then begin// Edit ************************** Thursday, 22 June 2017 09:27:36
 			Userr.Code = currentuser;
 		if(CurrentCompany==4 or CurrentCompany==14 or CurrentCompany==15 or CurrentCompany==16) then begin //iCenter			//Edit----------------------Dima  10.12.2015
-			if(Readfirstmain(Userr,1,true) and nonblank(Userr.Location) or usercanaction("ViewTRWHNotOKSM",false))then begin
+			if(Readfirstmain(Userr,1,true) and (nonblank(Userr.Location) or usercanaction("ViewTRWHNotOKSM",false)))then begin
 				//if(nonblank(TestCurrentUserOnServer))then begin
 					recordnew(RepSpec);
 
