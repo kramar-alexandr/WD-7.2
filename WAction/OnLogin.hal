@@ -564,7 +564,7 @@ LOnLogin:;
 					//if(nonblank(TestCurrentUserOnServer))then begin
 					recordnew(RepSpec);
 					ReportDefaults(RepSpec,"CurrentUserStockMovsRn");
-					millisleep(100);
+					millisleep(500);
 					RepSpec.Media = mtScreen;
 					RepSpec.repname = "CurrentUserStockMovsRn";
 					RunReport(RepSpec,0);
