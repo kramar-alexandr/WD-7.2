@@ -679,7 +679,7 @@ begin
 	logtext(0,"CurrentUserStockMovsRnRemote");
 	
 	recordnew(RepSpec);
-	ReportDefaults(RepSpec,"CurrentUserStockMovsRn");
+	ReportDefaults(RepSpec,"CurUserStockMovsRClass");
 	RepSpec.Media = mtScreen;
 	RepSpec.repname = "CurrentUserStockMovsRn";
 	RunReport(RepSpec,0);
