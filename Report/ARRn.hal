@@ -301,7 +301,7 @@ L22:;
     end;
   if (CUs==false) then begin goto L88; end;
   if (testf==false) then begin goto L22; end;
-  logtext(0,CUr.Code);
+
   CustOut = false;
   if (RepSpec.ArtMode!=4) and (RepSpec.ArtMode!=6) and (RepSpec.ArtMode!=3) then begin
     RecordNew(CurTotalsr);
