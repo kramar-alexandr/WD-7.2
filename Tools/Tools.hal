@@ -671,6 +671,20 @@ begin
 return;
 end;
 
+
+global procedure CurrentUserStockMovsRnRemote()
+begin
+	record RcVc RepSpec;
+	
+	recordnew(RepSpec);
+	ReportDefaults(RepSpec,"CurrentUserStockMovsRn");
+	RepSpec.Media = mtScreen;
+	RepSpec.repname = "CurrentUserStockMovsRn";
+	RunReport(RepSpec,0);
+	
+return;
+end;
+
 global function string 50 TestCurrentUserOnServer()
 begin
 	record UserVc User;
