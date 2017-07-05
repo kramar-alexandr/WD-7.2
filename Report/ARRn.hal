@@ -864,12 +864,12 @@ if (testf) then begin
     AR2Sum = sum2 + AR2Sum;
     CurSum = rval + CurSum;
   if (RepSpec.ArtMode==0) then begin
-    if (sum<>0 or CUr.Code=="INERNET") then begin
+    if (sum<>0) then begin
       PrintOnAccountInfo(CUr,rval,sum,CustOut,RepSpec,CurTotalsr,backdatf);
     end;
   end;
   if (RepSpec.ArtMode==1) then begin 
-    if ((sum<>0) or (rval<>0) or CUr.Code=="INERNET") then begin  
+    if ((sum<>0) or (rval<>0)) then begin  
     //if (true) then begin  
       if (RepSpec.flags[2]==0) then begin
 
