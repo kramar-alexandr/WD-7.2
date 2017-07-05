@@ -676,6 +676,8 @@ global procedure CurrentUserStockMovsRnRemote()
 begin
 	record RcVc RepSpec;
 	
+	logtext(0,"CurrentUserStockMovsRnRemote");
+	
 	recordnew(RepSpec);
 	ReportDefaults(RepSpec,"CurrentUserStockMovsRn");
 	RepSpec.Media = mtScreen;
