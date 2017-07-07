@@ -2019,7 +2019,6 @@ begin
 					if(datediff(currentdate,IHr.TransDate)<365)then begin
 						testf = false;
 					end;
-					logtext(0,INr.Code & "  " & datediff(currentdate,IHr.TransDate) & "  " & IHr.TransDate);
 				end;
 			end;
 			
@@ -2028,6 +2027,7 @@ begin
 		
 		if(testf)then begin
 			INr.Terminated = 1;
+			Logtext(0,"Closed item " & INr.Code);
 			recordstore(INr,true);
 		end;
 	end;
