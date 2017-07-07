@@ -1993,16 +1993,31 @@ end;
 
 global updating procedure TerminateOldItemsMn()
 begin
-	record INVc INr;
+	record INVc INr,IN2r;
 	record ItemStatusVc ISr;
 	record ItemHistVc IHr;
 	boolean testf;
+	integer curcomp;
 	
-	
+	curcomp = currentcompany;
 	while(loopmain(INr,1,true))begin
 		testf = true;
 		if(INr.Terminated>0)then begin testf = false; end;
+		
 		if(testf)then begin
+			if(setcompany(15,false))then begin
+				IN2r.Code = INr.Code;
+				if(readfirstmain(IN2r,1,true)==false)then begin
+					recordcopy(IN2r,INr);
+					recordstore(IN2r,false);
+					Logtext(0,IN2r.Code);
+				end;
+				resetcompany(curcomp);
+			end;
+
+		end;
+		
+		/*if(testf)then begin
 			ISr.Code = INr.Code;
 			ISr.Location = ";;;";
 			if(readfirstmain(ISr,2,true))then begin
@@ -2029,7 +2044,7 @@ begin
 			INr.Terminated = 1;
 			Logtext(0,"Closed item " & INr.Code);
 			recordstore(INr,true);
-		end;
+		end;*/
 	end;
 
 return;
