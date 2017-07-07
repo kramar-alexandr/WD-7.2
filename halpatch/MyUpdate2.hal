@@ -2027,7 +2027,8 @@ begin
 		
 		
 		if(testf)then begin
-		
+			INr.Terminated = 1;
+			recordstore(INr,true);
 		end;
 	end;
 
