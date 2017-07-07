@@ -13,6 +13,8 @@ external function Boolean GetItemPriceDiscount3(string,val,var record INVc,strin
                                                 var val,var string,var val,var string,var val,var string,Integer,var Boolean,Date,Time,
                                                 string,Boolean,var Boolean,string,var string,var val,string,string,var string);
 external updating procedure UpdateSerStock(string,string,string,val,val);
+external function LongInt DateDiff(Date,Date);
+
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -1983,6 +1985,49 @@ begin
 				resetloop(ORr);
 			
 			end;
+		end;
+	end;
+
+return;
+end;
+
+global updating procedure TerminateOldItemsMn()
+begin
+	record INVc INr;
+	record ItemStatusVc ISr;
+	record ItemHistVc IHr;
+	boolean testf;
+	
+	
+	while(loopmain(INr,1,true))begin
+		testf = true;
+		if(INr.Terminated>0)then begin testf = false; end;
+		if(testf)then begin
+			ISr.Code = INr.Code;
+			ISr.Location = ";;;";
+			if(readfirstmain(ISr,2,true))then begin
+				if(ISr.Instock>0)then begin
+					testf = false;
+				end;
+			end;
+		end;
+		if(testf)then begin
+			IHr.ArtCode = INr.Code;
+			IHr.TransDate = currentdate;
+			if(readlastkey("ArtCode",IHr,2,false))then begin
+				if(IHr.ArtCode==INr.Code)then begin
+					if(datediff(currentdate,IHr.TransDate)<365)then begin
+						testf = false;
+					end;
+					logtext(0,INr.Code & "  " & datediff(currentdate,IHr.TransDate) & "  " & IHr.TransDate);
+				end;
+			end;
+			
+		end;
+		
+		
+		if(testf)then begin
+		
 		end;
 	end;
 

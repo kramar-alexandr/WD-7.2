@@ -171,6 +171,9 @@ begin
   Maintenance("Перенесення SHOPS з іншої компанії",MoveShopsToCompVClass,MoveShopsToCompMn,modDBMain);// Edit ************************** Friday, 9 December 2016 11:45:08
   Maintenance("Відкрити карти лояльн. для клієнтів \"Card\"",MyVClass,OpenLoyaltyCardsMn,modDBMain); //Edit***************************Sasha2,11:25 04.01.2017
 	
+	Maintenance("Close Old Items (INVc)",MyVClass,TerminateOldItemsMn,modDBMain); //Edit***************************Sasha2,11:25 04.01.2017
+
+	
 	Import("Импорт Item/Group",INITImportIClass,ImportNewItemsWithGroupIn,modIN); //Edit***************************Sasha2,15:52 21.01.2016
   
   
