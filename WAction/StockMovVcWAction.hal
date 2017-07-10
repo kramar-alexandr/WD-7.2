@@ -11,7 +11,7 @@ remote procedure StockMovVc_PasteSerialNr(var record StockMovVc,Integer,var arra
 remote function Integer CreateQualConFromStockMov(record StockMovVc,Integer,var record QualConVc,Integer);
 remote procedure PasteStockMovProdSerNr(var record StockMovVc);
 external function Boolean TestForMATVARINS(Integer);
-external procedure StockMovSumUp(var record StockMovVc);
+remote procedure StockMovSumUp(var record StockMovVc);
 remote function Boolean StockMovVc_PasteToPosCode(var record StockMovVc,string,string,val,Integer,var string);
 remote updating function Boolean RecordAction_rlStockMovLOK(var record StockMovVc,Boolean);
 external procedure RecordActionStockMov_Print(var record StockMovVc,string,string,Boolean);
@@ -25,7 +25,6 @@ external function Boolean AllowCurChange(string,Boolean);
 external procedure SendArtStat(string,string,string,val,val,val,Date,Integer);
 remote procedure RecordAction_raStockMovFillFIFO(var record StockMovVc);
 external function val CalculateSerialNrQuantity(string,string,string,Boolean,val,val,val,val);
-external procedure StockMovSumUp(var record StockMovVc);
 external procedure SerialNrDimensions(string,string,var val,var val,var val);
 external function LongInt TimeToMinutes(Time);
 external function LongInt AddTime(Time,LongInt,var Time);
