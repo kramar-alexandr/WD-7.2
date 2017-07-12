@@ -565,6 +565,7 @@ begin
                 MatRowPut(credIVr,cnt,IV2rw);
                 IVDchsum(credIVr,cnt);
                 cnt = cnt + 1;
+                logtext(0,"lines " & matrowcnt(credIVr));
                 if (infound) then begin
                   if (nonblank(INr.InvRecepy)) then begin
                     if (IV2rw.Price==0) then begin
