@@ -545,12 +545,13 @@ begin
                 IV2rw.RetRow = j;
   //              IV2rw.Quant = Retrw.Quant;
                 IV2rw.Quant = RetVc_FindQtyToBeCredited(Retp.OrdNr,Retrw.OrdRow);
+                logtext(0,"IV2rw.Quant1 " & IV2rw.Quant);
                 if (IV2rw.Quant>vremq[j]) then begin
                   IV2rw.Quant = vremq[j];
+                  logtext(0,"IV2rw.Quant2 " & IV2rw.Quant);
                 end;
                 vremq[j] = vremq[j] - IV2rw.Quant;
                 if (IV2rw.Quant<=0) then begin 
-                	logtext(0,"L77PasteRetInInvRow");
                   goto L77PasteRetInInvRow;
                 end;
                 
