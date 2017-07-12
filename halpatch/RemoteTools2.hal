@@ -550,6 +550,7 @@ begin
                 end;
                 vremq[j] = vremq[j] - IV2rw.Quant;
                 if (IV2rw.Quant<=0) then begin 
+                	logtext(0,"L77PasteRetInInvRow");
                   goto L77PasteRetInInvRow;
                 end;
                 
