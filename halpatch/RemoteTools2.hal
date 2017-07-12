@@ -773,6 +773,7 @@ BEGIN
   if (ReadFirstMain(Retr,1,true)) then begin end;
   RecordCopy(oldRetr,Retr);
   if (PasteRetInInv(IVp,Retr,false)) then begin
+  	logtext(0,"PasteRetInInv");
     if (IVp.SerNr==-1) then begin
       BlockLoad(SRb);
       if ((IVp.InvType==kInvoiceTypeCredit or IVp.InvType==kInvoiceTypeCreditSpecialSales) and (SRb.LastCredInvNr!=-1))  then begin
@@ -805,6 +806,7 @@ BEGIN
 //    CUr.Code = IVp.CustCode;
 //    if (ReadFirstMain(CUr,1,true)) then begin end;
 //    IVp.OfficialSerNr = FindNextLegalSerNr(IVp,CUr.Classification);  //POSN
+logtext(0,"MatRowCnt(IVp) " & MatRowCnt(IVp));
     if ((MatRowCnt(IVp)>1) and (IVp.SerNr!=-1)) then begin
       IVSumup(IVp,true);
       if (RecordInsert(IVp,false)) then begin
