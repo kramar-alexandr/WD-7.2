@@ -531,7 +531,7 @@ begin
             ivcnt = MatRowCnt(IVr);
             for (i=0;i<ivcnt;i=i+1) begin
               MatRowGet(IVr,i,IVrw);
-              logtext("IVr row " & IVr.SerNr & " " & IVrw.ArtCode);
+              logtext(0,"IVr row " & IVr.SerNr & " " & IVrw.ArtCode);
               if ((Retrw.ArtCode==IVrw.ArtCode) and (Retrw.OrdRow==IVrw.OrdRow)) then begin
                 if (credinvf==false) then begin
                   NewCreditNote(credIVr,IVr,ARAccRec,Retp,morethanoneinf,false);
