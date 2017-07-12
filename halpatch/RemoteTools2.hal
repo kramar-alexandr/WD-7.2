@@ -518,6 +518,7 @@ begin
       if (IVr.OKFlag==0) then begin goto L88PasteRetInInv; end;
       if (IVr.InvType==kInvoiceTypeCredit or IVr.InvType==kInvoiceTypeCreditSpecialSales) then begin goto L88PasteRetInInv; end;
       if (found) then begin
+      	LOgtext(0,"IVr " & IVr.SerNr);
         rtcnt = MatRowCnt(Retp);
         ivcnt = MatRowCnt(IVr);
         for (j=0;j<rtcnt;j=j+1) begin
