@@ -10076,3 +10076,31 @@ begin
   EditField(h,v+=vs,-20,"Дод.6",Normal,PrtText6,false,0);// Edit ************************** Friday, 12 May 2017 09:34:24
   EndWindow;
 end;
+
+
+window ItemStatusDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v;
+  WindowBegin("Статус товару",ItemStatusDClass,CGview,-);
+  SetWRect(64,80,450,420);
+  UseView(ItemStatusVc);
+  h = 120;
+  EditField(h,v=6,100,"Item Code",Normal,Code,false,0);
+  EditField(h,v+=20,100,"Variety",Normal,Variety,false,0);
+  EditField(h,v+=20,100,"Location",Normal,Location,false,0);
+  EditField(h,v+=20,100,"Res. Qty",Normal,RsrvQty,false,0);
+  EditField(h,v+=20,100,"In Stock",Normal,Instock,false,0);
+  EditField(h,v+=20,100,"UValue",Normal,UValue,false,0);
+  EditField(h,v+=20,100,"OrddOut",Normal,OrddOut,false,0);
+  EditField(h,v+=20,100,"POQty",Normal,POQty,false,0);
+  EditField(h,v+=20,100,"POUnOKQty",Normal,POUnOKQty,false,0);
+  EditField(h,v+=20,100,"InShipment",Normal,InShipment,false,0);
+  EditField(h,v+=20,100,"Instock2",Normal,Instock2,false,0);
+  EditField(h,v+=20,100,"ProdOrd",Normal,ProdOrd,false,0);
+  EditField(h,v+=20,100,"NoDataBefore",Normal,NoDataBefore,false,0);
+  EditField(h,v+=20,100,"WOrd",Normal,WOrd,false,0);
+  EditField(h,v+=20,100,"InWSheet",Normal,InWSheet,false,0);
+  EditField(h,v+=20,100,"StockRsrvQty",Normal,StockRsrvQty,false,0);
+  EndWindow;
+end;
