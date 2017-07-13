@@ -98,7 +98,7 @@ BEGIN
   Boolean res;
   Integer nwn;
   
-  if (CurrentUser=="SA1" and fieldname=="LocOKNr") then begin		//Edit----------------------Dima  21.01.2016
+  if (CurrentUser=="SA1") then begin		//Edit----------------------Dima  21.01.2016
 			res = true;
 			goto LPUDClassActiveEditField;
 	end;
