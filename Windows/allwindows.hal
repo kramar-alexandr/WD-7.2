@@ -2392,7 +2392,7 @@ email not working yet
   SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
   
   SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
-  SpecialMenu("Видаткова накладна Excel (Аи?поінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
+  SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
 
   end;
   EndWindow;
