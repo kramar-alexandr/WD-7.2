@@ -29,7 +29,7 @@ BEGIN
 END;
 
 
-global
+/*global
 function Integer ReportsToMailDClassSelectSetToPaste(Integer wn,string fieldname)
 begin
   Integer res,rownr;
@@ -54,4 +54,4 @@ begin
   end;
   ReportsToMailDClassSelectSetToPaste = res;
   return;
-end;
+end;*/

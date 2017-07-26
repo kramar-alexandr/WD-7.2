@@ -10106,7 +10106,7 @@ begin
 end;
 
 
-window ReportsToMailDClass:1
+/*window ReportsToMailDClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vm;
@@ -10120,9 +10120,9 @@ begin
 		MatColTL(1,134,"Item",0,M4AppCode,Normal,0,AccName,false,StrSetSClass);
   EndMatrix;
   EndWindow;
-end;
+end;*/
 
-window ReportsToMailLClass:1
+/*window ReportsToMailLClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("ReportsToMailVc",ReportsToMailLClass,CGmlist,-);
@@ -10134,4 +10134,4 @@ begin
   RlColKey(4,2,"SerNr",SerNr,false,SerNr);
   SearchField("Пошук");
   EndWindow;
-end;
+end;*/
