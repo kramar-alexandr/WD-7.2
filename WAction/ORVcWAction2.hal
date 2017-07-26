@@ -47,7 +47,7 @@ external procedure GetCurncyRoundoff(string,string,string,var roundmode,var roun
 external function Integer GetVATLaw();
 remote function Boolean ORVc_AllowSales(record ORVc,var Integer,var LongInt);
 external function Boolean UserCanChangePendingRecord(Integer);
-remote procedure ORtoExcel1Remote(record ORVc,var string,var string);// Edit ************************** Thursday, 11 February 2016 10:23:08
+remote procedure ORtoExcelRemote(record ORVc,var string,var string, integer);// Edit ************************** Thursday, 11 February 2016 10:23:08
 remote function boolean GetPartFileToArea(string,var area);
 remote procedure DeleteXLSXJunk(string);
 remote procedure BackupXLSX(string);
@@ -1399,11 +1399,6 @@ BEGIN
     end;
   end;  
 LORDClassActiveEditField:;  
-
-if(fieldname=="SalesAcc")then begin// Edit ************************** Thursday, 2 February 2017 13:52:33
-	res = true;
-end;
-
   ORDClassActiveEditField = res;
   RETURN;
 END;
@@ -2274,7 +2269,7 @@ end;
 
 
 
-global procedure ORtoExcel1Dsm()
+global procedure ORtoExcelDsm()
 begin
 	record ORVc ORr;
 	integer wn,wst,transCNT;
@@ -2287,7 +2282,7 @@ begin
 	wst = windowstate(wn);
 	if(wst==Rs_insert or wst==Rs_update)then begin
 		messagebox(0,"‡бережґть запис перед цґ№ю операцґ№ю");
-		goto lORtoExcel1Dsm;
+		goto lORtoExcelDsm;
 	end;
 	
 	if(wst==Rs_normal)then begin
@@ -2295,7 +2290,7 @@ begin
 		tstr = "‚идаткова накладна Ь " & ORr.SerNr;
   filename = SaveFileDialog(tstr,"","xlsx");
   if ((filename!=tstr) and nonblank(filename)) then begin
-    ORtoExcel1Remote(ORr,fnserv,md5strServ);
+    ORtoExcelRemote(ORr,fnserv,md5strServ,1);
     if(fileexists(filename))then begin
       delete_file(filename);
     end;
@@ -2326,7 +2321,64 @@ begin
 	end;
 	
 
-lORtoExcel1Dsm:;
+lORtoExcelDsm:;
+
+return;
+end;
+
+global procedure ORtoExcel2Dsm()
+begin
+	record ORVc ORr;
+	integer wn,wst,transCNT;
+  string 255 filename,tstr,fnserv,md5strServ,md5strCli;
+  area tmparea;
+  boolean testf,EOF,err;
+  
+	transCNT = 5;
+	wn = curwindow;
+	wst = windowstate(wn);
+	if(wst==Rs_insert or wst==Rs_update)then begin
+		messagebox(0,"‡бережґть запис перед цґ№ю операцґ№ю");
+		goto lORtoExcel2Dsm;
+	end;
+	
+	if(wst==Rs_normal)then begin
+		getwindowrecord(wn,ORr);
+		tstr = "‚идаткова накладна Ь " & ORr.SerNr;
+  filename = SaveFileDialog(tstr,"","xlsx");
+  if ((filename!=tstr) and nonblank(filename)) then begin
+    ORtoExcelRemote(ORr,fnserv,md5strServ,2);
+    if(fileexists(filename))then begin
+      delete_file(filename);
+    end;
+    BackupXLSX(fnserv);
+    testf = true;
+    err = false;
+    while (testf) begin
+      while (!EOF) begin
+        EOF = GetPartFileToArea(fnserv,tmparea);
+        writeareatofile(tmparea,filename,1);
+      end;
+      md5strCli = GetFileMD5(filename);
+      if (md5strCli!=md5strServ) then begin
+        err = true;
+        RecoverXLSX(fnserv,"ExcelVI");
+        transCNT = transCNT - 1;
+        if (transCNT==0) then begin
+          testf = false;
+        end;
+      end else begin
+        testf = false;
+      end;
+    end;
+    DeleteXLSXJunk(fnserv);
+    Messagebox(0,"Done!");
+  end;
+		
+	end;
+	
+
+lORtoExcel2Dsm:;
 
 return;
 end;
