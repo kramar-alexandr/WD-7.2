@@ -23,7 +23,6 @@ external function string 50 TimeToString(time,string,boolean);
 
 
 SetLangMode(LangUkrainian,"UKR",0);
-SetExportCodePage("UTF-8");
 
 
 global //Edit***************************Sasha2,15:00 26.08.2014 {
