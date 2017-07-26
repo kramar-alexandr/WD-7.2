@@ -4494,17 +4494,5 @@ EndRecord;
   EndRecord;
   
   
-  RecordBegin(ReportsToMailVc,AccessView,"ReportsMailVc"); //Edit***************************Sasha2,11:15 04.05.2016 {
-    RecordField(SerNr,M4Long,0,0);
-
-    RecordField(Math,M4Matrix,0,0);
-      ArrayBegin(Math,AccessRowType,1);
-      ArrayField(AccType,M4Set,2,0);
-			ArrayField(AccName,M4Str,40,0);
-      EndArray;
-    MainKeyBegin(SerNr,0);
-    KeySegment(SerNr);
-  EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
-  
 return;
 end;
