@@ -74,7 +74,7 @@ ID = 15;
   end;
   
   
-  if (SetCompany(iTek,false)) then begin//itek
+  /*if (SetCompany(iTek,false)) then begin//itek
   	logtext(0,currentcompany & " IPEn"); 
     IPEn; 
   	logtext(0,currentcompany & " SalesReportEn");
@@ -97,7 +97,7 @@ ID = 15;
     MyReservStstEn;
     
     ResetCompany(iTek);  
-  end;
+  end;*/
   
   
   /*if (SetCompany(Samsung,false)) then begin//itek// Edit ************************** Wednesday, 26 July 2017 14:47:16
