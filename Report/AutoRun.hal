@@ -100,7 +100,7 @@ ID = 15;
   end;
   
   
-  if (SetCompany(Samsung,false)) then begin//itek
+  /*if (SetCompany(Samsung,false)) then begin//itek// Edit ************************** Wednesday, 26 July 2017 14:47:16
   	logtext(0,currentcompany & " SalesReportEn");
     SalesReportEn;
   	logtext(0,currentcompany & " FullStockEn");
@@ -110,7 +110,7 @@ ID = 15;
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
     ResetCompany(Samsung);  
-  end;
+  end;*/
   
   if (SetCompany(MMR,false)) then begin//itek
   	logtext(0,currentcompany & " SalesReportEn");
