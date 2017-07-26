@@ -52,7 +52,7 @@ ID = 15;
     //SaleWeekByVEEn;// Edit ************************** Thursday, 20 October 2016 13:51:14
   end;
   
-  if (SetCompany(Gilliver,false)) then begin
+  /*if (SetCompany(Gilliver,false)) then begin
   	//logtext(0,currentcompany & " FullStockEn");
     //FullStockEn;
 		//logtext(0,currentcompany & " SalesReportEn");
@@ -66,7 +66,7 @@ ID = 15;
     //SaleWeekByVEEn;
     logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
-  end;
+  end;*/
   
   if (SetCompany(idistribuEsti,false)) then begin
     logtext(0,currentcompany & " KreditorkaReportEn"); 
