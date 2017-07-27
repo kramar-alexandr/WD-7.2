@@ -877,7 +877,17 @@ begin
       res = -1;
       goto LORVcRecordCheck;
     end;
-  end;      
+  end;  
+  
+  
+  if(CUr.Code=="INTERNET")then begin
+  	if(ORr.CurncyCode!="UAH" and ORr.CurncyCode!="UAH_B")then begin
+  		RecordCheckError(1217,"",-1,"CurncyCode");      
+      res = -1;
+      goto LORVcRecordCheck;
+  	end;
+  end;
+      
   if (nonblank(ORr.SalesMan)) then begin    
     errcode = VerifySalesmen(ORr.SalesMan,tstr);
     if (errcode!=0) then begin
