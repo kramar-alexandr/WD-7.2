@@ -1242,6 +1242,10 @@ BEGIN
   record INVc INr;
   Integer nwn;
   record StockMovVc StockMovr; //Edit***************************Sasha2,11:19 11.02.2016
+  boolean DT_BANKflag;
+  
+  
+  DT_BANKflag = false;
   
   nwn = FindWindow("SelectApproverWClass");
   if (nwn>0) then begin
@@ -1262,6 +1266,11 @@ BEGIN
   end;
   res = true;
   GetWindowRecord(wn,ORr);
+  
+  if(ORr.CustCode=="DT_BANK")then begin
+  	DT_BANKflag = true;
+  end;
+  
   switch (wnst) begin
     case Rs_update:    
       GetPrevWindowRecord(wn,OR2r);
@@ -1319,11 +1328,26 @@ BEGIN
     case "PriceList": 
       if (UserCanAction("ChangePrices",true)==false) then begin res = false; end;
     case "Price": 
-      if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;
+      if (UserCanAction("ChangeUnitPrices",true)==false) then begin 
+      	res = false; 
+      	if(DT_BANKflag)then begin
+      		res = true;
+      	end;
+      end;
     case "vRebate": 
-      if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;
+      if (UserCanAction("ChangeUnitPrices",true)==false) then begin 
+      	res = false; 
+      	if(DT_BANKflag)then begin
+      		res = true;
+      	end;
+      end;
     case "Sum": 
-      if (UserCanAction("ChangeUnitPrices",true)==false) then begin res = false; end;
+      if (UserCanAction("ChangeUnitPrices",true)==false) then begin 
+				res = false; 
+				if(DT_BANKflag)then begin
+      		res = true;
+      	end;
+      end;
     case "BranchID": 
       res = UserCanAction("AllowORBranchIDChange",false);
     case "Shipd1": 
