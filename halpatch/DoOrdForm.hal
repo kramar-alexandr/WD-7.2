@@ -976,7 +976,7 @@ row ORVc ORrw;
 return;
 end;
 
-procedure PrintOrder(string formcode,record RcVc RepSpec,record ORVc ORr,record SysFormatBlock SysFormatRec,record LangNrVc LangNrr)
+procedure PrintOrder(string formcode,record RcVc RepSpec,record ORVc ORr,record SysFormatBlock SysFormatRec,record LangNrVc LangNrr,string datacode)
 BEGIN
 	record ORVc OR2r;
   record UserVc Userr;
@@ -998,6 +998,45 @@ BEGIN
   longint myint;// Edit ************************** Monday, 28 March 2011 17:20:05
 	val curncyCoef, multFactor,prodCoef;					//Edit------------------------Dima 21.01.2015
 	val sumvat, sumnovat,sumwitjvat;
+	record ORDPrintDataVc ORDPr;
+	
+	if(nonblank(datacode))then begin
+		ORDPr.Code = datacode;
+		readfirstmain(ORDPr,1,true);
+	end;
+	
+	OUTFORMFIELD("MYF_Header1",ORDPr.Header1);
+	OUTFORMFIELD("MYF_Header2",ORDPr.Header2);
+	OUTFORMFIELD("MYF_Header3",ORDPr.Header3);
+	OUTFORMFIELD("MYF_Header4",ORDPr.Header4);
+	OUTFORMFIELD("MYF_Header5",ORDPr.Header5);
+	OUTFORMFIELD("MYF_Header6",ORDPr.Header6);
+	OUTFORMFIELD("MYF_Header7",ORDPr.Header7);
+	OUTFORMFIELD("MYF_Header8",ORDPr.Header8);
+	OUTFORMFIELD("MYF_Header9",ORDPr.Header9);
+	OUTFORMFIELD("MYF_Header10",ORDPr.Header10);
+	
+	OUTFORMFIELD("MYF_Body1",ORDPr.Body1);
+	OUTFORMFIELD("MYF_Body2",ORDPr.Body2);
+	OUTFORMFIELD("MYF_Body3",ORDPr.Body3);
+	OUTFORMFIELD("MYF_Body4",ORDPr.Body4);
+	OUTFORMFIELD("MYF_Body5",ORDPr.Body5);
+	OUTFORMFIELD("MYF_Body6",ORDPr.Body6);
+	OUTFORMFIELD("MYF_Body7",ORDPr.Body7);
+	OUTFORMFIELD("MYF_Body8",ORDPr.Body8);
+	OUTFORMFIELD("MYF_Body9",ORDPr.Body9);
+	OUTFORMFIELD("MYF_Body10",ORDPr.Body10);
+	
+	OUTFORMFIELD("MYF_Footer1",ORDPr.Footer1);
+	OUTFORMFIELD("MYF_Footer2",ORDPr.Footer2);
+	OUTFORMFIELD("MYF_Footer3",ORDPr.Footer3);
+	OUTFORMFIELD("MYF_Footer4",ORDPr.Footer4);
+	OUTFORMFIELD("MYF_Footer5",ORDPr.Footer5);
+	OUTFORMFIELD("MYF_Footer6",ORDPr.Footer6);
+	OUTFORMFIELD("MYF_Footer7",ORDPr.Footer7);
+	OUTFORMFIELD("MYF_Footer8",ORDPr.Footer8);
+	OUTFORMFIELD("MYF_Footer9",ORDPr.Footer9);
+	OUTFORMFIELD("MYF_Footer10",ORDPr.Footer10);
 	
 	sumvat = 0;
 	sumnovat = 0;
@@ -1552,7 +1591,7 @@ BEGIN
   Integer i,rwcnt;  
   Boolean printf,langf;
   Integer intdocnr;
-  string 30 formcode,langcode;
+  string 30 formcode,langcode,datacode;
     
   BlockLoad(SysFormatRec);  
   FDr.repname = RepSpec.repname;
@@ -1579,6 +1618,7 @@ BEGIN
     for (i=rwcnt-1;i>=0;i=i-1) begin
       MatRowGet(FDr,i,FDrw);
       if (FindFormcode(ORr.OKFlag,FDrw.Typ)) then begin 
+				datacode = FDrw.EformCode;// Edit ************************** Monday, 31 July 2017 17:00:41
         if (Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,ORr.SerNr,FDrw.PrintGroupCode,
                         langcode,intdocnr,"ORVc",formcode)) then
         begin
@@ -1589,7 +1629,7 @@ BEGIN
 LBREAKOrd:;
     if (nonblank(formcode)) then begin
       if (OpenForm(formcode)) then begin
-        PrintOrder(formcode,RepSpec,ORr,SysFormatRec,LangNrr);
+        PrintOrder(formcode,RepSpec,ORr,SysFormatRec,LangNrr,datacode);
         
         CloseForm;
       end else begin
@@ -1618,7 +1658,7 @@ BEGIN
   Integer i,rwcnt;  
   Boolean printf,langf;
   Integer intdocnr;
-  string 30 formcode,langcode;
+  string 30 formcode,langcode,datacode;
   integer wn;
   //record RcVc RepSpec;
   record ORVc ORr;
@@ -1650,6 +1690,7 @@ BEGIN
 			for (i=rwcnt-1;i>=0;i=i-1) begin
 					MatRowGet(FDr,i,FDrw);
 					if (FindFormcode(ORr.OKFlag,FDrw.Typ)) then begin 
+						datacode = FDrw.EformCode;// Edit ************************** Monday, 31 July 2017 17:00:41
 						if (Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,ORr.SerNr,FDrw.PrintGroupCode,
 														langcode,intdocnr,"ORVc",formcode)) then
 						begin
@@ -1661,7 +1702,7 @@ BEGIN
 	LBREAKOrd:;
 			if (nonblank(formcode)) then begin
 				if (OpenForm(formcode)) then begin
-					PrintOrder(formcode,RepSpec,ORr,SysFormatRec,LangNrr);
+					PrintOrder(formcode,RepSpec,ORr,SysFormatRec,LangNrr,datacode);
 					
 					CloseForm;
 				end else begin
@@ -1693,7 +1734,7 @@ BEGIN
   Integer i,rwcnt;  
   Boolean printf,langf;
   Integer intdocnr;
-  string 30 formcode,langcode;
+  string 30 formcode,langcode,datacode;
     
   BlockLoad(SysFormatRec);  
   FDr.repname = RepSpec.repname;
@@ -1720,6 +1761,7 @@ BEGIN
     for (i=rwcnt-1;i>=0;i=i-1) begin
       MatRowGet(FDr,i,FDrw);
       if (FindFormcode(ORr.OKFlag,FDrw.Typ)) then begin
+      	datacode = FDrw.EformCode;// Edit ************************** Monday, 31 July 2017 17:00:41
         if (Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,ORr.SerNr,FDrw.PrintGroupCode,
                         langcode,intdocnr,"ORVc",formcode)) then
         begin
@@ -1730,7 +1772,7 @@ BEGIN
 LBREAKOr2:;
     if (nonblank(formcode)) then begin
       if (OpenForm(formcode)) then begin
-        PrintOrder(formcode,RepSpec,ORr,SysFormatRec,LangNrr);        
+        PrintOrder(formcode,RepSpec,ORr,SysFormatRec,LangNrr,datacode);        
         CloseForm;
       end else begin
         printf = false;

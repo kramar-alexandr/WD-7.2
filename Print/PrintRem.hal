@@ -76,3 +76,23 @@ Lfindnoter:;
   
 return;
 end;
+
+global 
+function Boolean IVCPrintDataVcRecordShouldBeSynchronised(record IVCPrintDataVc IVCPr,string tagstr)
+begin
+  Boolean res;
+  
+  res = true;
+  IVCPrintDataVcRecordShouldBeSynchronised = res;
+  return;
+end;
+
+global 
+function Boolean ORDPrintDataVcRecordSync(record ORDPrintDataVcRecordSync ORDPr,string tagstr)
+begin
+  Boolean res;
+  
+  res = true;
+  ORDPrintDataVcRecordSync = res;
+  return;
+end;

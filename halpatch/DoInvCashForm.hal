@@ -543,7 +543,7 @@ LCCSlipNotePrintNote:;
   return;
 end;
 
-procedure PrintInvCashForm(record RcVc RepSpec,record LangNrVc LangNrr,record DocVc Docr,record IVCashVc IVCashr)
+procedure PrintInvCashForm(record RcVc RepSpec,record LangNrVc LangNrr,record DocVc Docr,record IVCashVc IVCashr,string datacode)
 begin
   record FormDefVc FDr;
   row FormDefVc FDrw;
@@ -564,6 +564,47 @@ begin
   LongInt al,posa;
   record EInvoiceBlock EIb;
   record SysFormatBlock SFb;
+  record IVCPrintDataVc IVCPr;
+	
+	if(nonblank(datacode))then begin
+		IVCPr.Code = datacode;
+		readfirstmain(IVCPr,1,true);
+	end else begin
+		readfirstmain(IVCPr,1,false);
+	end;
+	
+	OUTFORMFIELD("MYF_Header1",IVCPr.Header1);
+	OUTFORMFIELD("MYF_Header2",IVCPr.Header2);
+	OUTFORMFIELD("MYF_Header3",IVCPr.Header3);
+	OUTFORMFIELD("MYF_Header4",IVCPr.Header4);
+	OUTFORMFIELD("MYF_Header5",IVCPr.Header5);
+	OUTFORMFIELD("MYF_Header6",IVCPr.Header6);
+	OUTFORMFIELD("MYF_Header7",IVCPr.Header7);
+	OUTFORMFIELD("MYF_Header8",IVCPr.Header8);
+	OUTFORMFIELD("MYF_Header9",IVCPr.Header9);
+	OUTFORMFIELD("MYF_Header10",IVCPr.Header10);
+	
+	OUTFORMFIELD("MYF_Body1",IVCPr.Body1);
+	OUTFORMFIELD("MYF_Body2",IVCPr.Body2);
+	OUTFORMFIELD("MYF_Body3",IVCPr.Body3);
+	OUTFORMFIELD("MYF_Body4",IVCPr.Body4);
+	OUTFORMFIELD("MYF_Body5",IVCPr.Body5);
+	OUTFORMFIELD("MYF_Body6",IVCPr.Body6);
+	OUTFORMFIELD("MYF_Body7",IVCPr.Body7);
+	OUTFORMFIELD("MYF_Body8",IVCPr.Body8);
+	OUTFORMFIELD("MYF_Body9",IVCPr.Body9);
+	OUTFORMFIELD("MYF_Body10",IVCPr.Body10);
+	
+	OUTFORMFIELD("MYF_Footer1",IVCPr.Footer1);
+	OUTFORMFIELD("MYF_Footer2",IVCPr.Footer2);
+	OUTFORMFIELD("MYF_Footer3",IVCPr.Footer3);
+	OUTFORMFIELD("MYF_Footer4",IVCPr.Footer4);
+	OUTFORMFIELD("MYF_Footer5",IVCPr.Footer5);
+	OUTFORMFIELD("MYF_Footer6",IVCPr.Footer6);
+	OUTFORMFIELD("MYF_Footer7",IVCPr.Footer7);
+	OUTFORMFIELD("MYF_Footer8",IVCPr.Footer8);
+	OUTFORMFIELD("MYF_Footer9",IVCPr.Footer9);
+	OUTFORMFIELD("MYF_Footer10",IVCPr.Footer10);
 
   RecordClear(VATr);
   SetupVATBase(VATr,vatcnt);          
@@ -844,7 +885,7 @@ BEGIN
   record LangNrVc LangNrr;
   Boolean printf,langf;
   Integer intdocnr;
-  string 30 formcode,langcode;
+  string 30 formcode,langcode,datacode;
   record DocVc Docr;
   record CashierDefBlock CDb;
   vector val vpaymodes;
@@ -886,6 +927,7 @@ BEGIN
       MatRowGet(FDr,i,FDrw);
       if (FindFormcode(IVCashr.OKFlag,FDrw.Typ)) then begin 
       	testf = true;// Edit ************************** Tuesday, 2 June 2015 12:33:04
+      	datacode = FDrw.EformCode;
       	if(nonblank(IVCashr.LocalMachineCode) and IVCashr.LocalMachineCode!=FDrw.PrintGroupCode and nonblank(FDrw.PrintGroupCode))then begin testf = false; end;// Edit ************************** Tuesday, 2 June 2015 12:33:07
       	if(testf)then begin// Edit ************************** Tuesday, 2 June 2015 12:33:06
 					if (Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,IVCashr.SerNr,FDrw.PrintGroupCode,
@@ -915,7 +957,7 @@ LBREAK:;
           if (ReadFirstMain(Docr,1,true)) then begin
           end;
           
-          PrintInvCashForm(RepSpec,LangNrr,Docr,IVCashr);
+          PrintInvCashForm(RepSpec,LangNrr,Docr,IVCashr,datacode);
           
           CloseForm;        
       end else begin
@@ -944,7 +986,7 @@ BEGIN
   record LangNrVc LangNrr;
   Boolean printf,langf;
   Integer intdocnr;
-  string 30 formcode,langcode;
+  string 30 formcode,langcode,datacode;
   record DocVc Docr;
   record CashierDefBlock CDb;
   vector val vpaymodes;
@@ -952,6 +994,7 @@ BEGIN
   vector string 10 ivpaymode;
   val PointsSpent,totdiscount;
   row LegalInvNrBlock LINrbrw;
+  
   
   GetLangNr(IVCashr.LangCode,LangNrr);
   BlockLoad(CDb);
@@ -984,6 +1027,7 @@ BEGIN
     for (i=rwcnt-1;i>=0;i=i-1) begin
       MatRowGet(FDr,i,FDrw);
       if (FindFormcode(IVCashr.OKFlag,FDrw.Typ)) then begin 
+				datacode = FDrw.EformCode;
         if (Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,IVCashr.SerNr,FDrw.PrintGroupCode,
                         langcode,intdocnr,"IVCashVc",formcode)) then
         begin
@@ -1010,7 +1054,7 @@ LBREAK:;
           if (ReadFirstMain(Docr,1,true)) then begin
           end;
           
-          PrintInvCashForm(RepSpec,LangNrr,Docr,IVCashr);
+          PrintInvCashForm(RepSpec,LangNrr,Docr,IVCashr,datacode);
           
           CloseForm;        
       end else begin
