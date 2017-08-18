@@ -107,6 +107,7 @@ begin
   Setting("Serials",SVOHistSerialLClass,modSVO);// Edit ************************** Tuesday, 2 June 2015 20:28:50
   Setting("Налаштування принтера чеків",TermoPrinterTClass,modUserSet);	//Edit----------------------Dima  18.09.2015
   Setting("Налаштування експорта для Samsung EDI",SamsungFtpSettingsTClass,modSY); //Edit***************************Sasha2,11:25 12.04.2016
+  Setting("Формы документов (технический)",DocTechLClass,modSY);//Edit-------------------Vitalii 12:51 03.08.2017
 	
 	Setting("Товари Samsung",SamsungItemsTClass,modIN);	
 	Setting("Переміщення товару для обслуговування",MoveForServiceLClass,modIN);	

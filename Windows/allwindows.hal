@@ -10310,3 +10310,74 @@ begin
   EndMatrix;
   EndWindow;
 end;
+
+window DocTechLClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Формы",DocTechLClass,CGmlist,DocView);
+  SetWRect(64,80,509,298);
+  if (GuiType==kGuiiPhone or GuiType==kGuiAndroid) then begin
+    SpawnClass(FormEditorClass);
+  end else begin
+    SpawnClass(DocDClass);
+  end;
+  Sizeable(-1,-1,0,0);
+  UseView(DocVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Код",Code,false,MainKey);
+  RlCol(121,121,"Наименование",Comment,false);
+  SearchField("Найти");
+  EndWindow;
+end;
+
+window DocDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs,h5,f,flipnr,width;
+
+  WindowBegin("Форма документа",DocDClass,CGview,-);
+  SetWRect(20,80,750,460);
+  Sizeable(-1,-1,0,0);
+  UseView(DocVc);
+  vs = 20;
+  EditField(75,vm=(v=6),95,"Code",Normal,Code,false,0);
+  EditField(75,v+=20,95,"Comment",Normal,Comment,false,0);
+  MatrixBegin(10,v+=60,-50,-49,-,999);
+    flipnr = 1;
+    t = 1;
+    h = 0;
+    h1 = 100;
+    h2 = 40;
+    Flip(flipnr); flipnr = flipnr + 1;
+    MatCol(t,h=h2,"unitType",0,unitType,false,0);
+    MatCol(t,h+=h1,"xpos",0,xpos,false,0);
+    MatCol(t,h+=h1,"ypos",0,ypos,false,0);
+    MatCol(t,h+=h1,"unitWidth",0,unitWidth,false,0);
+    MatCol(t,h+=h1,"unitHeight",0,unitHeight,false,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+    MatCol(t,h=h2,"unitStyle",0,unitStyle,false,0); /**/
+    MatCol(t,h+=2*h1,"unitText",0,unitText,false,0); /**/
+    Flip(flipnr); flipnr = flipnr + 1;
+    MatCol(t,h=h2,"just",0,just,false,0);
+    MatCol(t,h+=h1,"lineHeight",0,lineHeight,false,0);
+    MatCol(t,h+=h1,"fieldSetNr",0,fieldSetNr,false,0);
+    MatCol(t,h+=h1,"clip",0,clip,false,0);
+    MatCol(t,h+=h1,"EscSeq",0,EscSeq,false,0);
+    MatCol(t,h+=h1,"excludeFirst",0,excludeFirst,false,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+    MatCol(t,h=h2,"excludeMiddle",0,excludeMiddle,false,0);
+    MatCol(t,h+=h1,"excludeLast",0,excludeLast,false,0);
+    MatCol(t,h+=h1,"excludeOnly",0,excludeOnly,false,0);
+    MatCol(t,h+=h1,"wordWrap",0,wordWrap,false,0);
+    MatCol(t,h+=h1,"formatNr",0,formatNr,false,0);
+    MatCol(t,h+=h1,"PageSumType",0,PageSumType,false,0);
+  EndMatrix;
+  v = v + 1;
+  if (flipnr>2) then begin
+    for (f=1;f<flipnr;f=f+1) begin
+      VTab(-35,v,-16,v+vs,ToolFlip,f,chr(asc("A") + f - 1)); //!!PRODTRANSLATE
+      v = v + vs;
+    end;
+  end;
+  EndWindow;
+end;
