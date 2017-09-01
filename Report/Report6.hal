@@ -443,7 +443,7 @@ integer compno;
               MyItemReportRn(RepSpec);
               RunProgram("Stock/D1ICStockFullManagers.sh", "");*/
               
-      case 14: delete_file("Stock/D1ICStockFullManagers.xls");
+      case 14:delete_file("Stock/D1ICStockFullManagers.xls");
       				CreateFile("Stock/D1ICStockFullManagers.xls");
               closefile;
               openexportfile("Stock/D1ICStockFullManagers.xls",true);
@@ -452,10 +452,21 @@ integer compno;
               RepSpec.f1 = "INV#1_DT,INV#1_DTST,INV#1_SO,SRV_DT";
               RepSpec.f2 = "RRPD,RRPD1";
               MyItemReportRn(RepSpec);
-              RepSpec.ArtMode=0;
-              RepSpec.flags[2]=0;
               RunProgram("Stock/D1ICStockFullManagers.sh", "");
               
+              delete_file("Stock/D1ICStockFullManagersNoSer.xls");
+      				CreateFile("Stock/D1ICStockFullManagersNoSer.xls");
+              closefile;
+              openexportfile("Stock/D1ICStockFullManagersNoSer.xls",true);
+              RepSpec.ArtMode=0;
+              RepSpec.flags[2]=0;
+              RepSpec.f1 = "INV#1_DT,INV#1_DTST,INV#1_SO,SRV_DT";
+              RepSpec.f2 = "RRPD,RRPD1";
+              MyItemReportRn(RepSpec);
+              RunProgram("Stock/D1ICStockFullManagersNoSer.sh", "");
+              
+              RepSpec.ArtMode=0;
+              RepSpec.flags[2]=0;
               delete_file("Stock/DWEBICStockFullManagers.xls");
       				CreateFile("Stock/DWEBICStockFullManagers.xls");
               closefile;
