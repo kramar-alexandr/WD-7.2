@@ -906,11 +906,15 @@ BEGIN
     OPPr.VECode = VIp.VECode;
     OPPr.SerNr = VIrw.PrepayNr;
     if (ReadFirstMain(OPPr,2,true)==false) then begin
-      t1 = USetStr(1215);
-      MessageBox(0,t1 & " " & OPPr.VECode); 
-      t = blankval;
-      VIrw.PrepayAmount = t;
-      VIrw.VATVal = t;
+    	if(currentuser!="SA1")then begin
+				t1 = USetStr(1215);
+				MessageBox(0,t1 & " " & OPPr.VECode); 
+				t = blankval;
+				VIrw.PrepayAmount = t;
+				VIrw.VATVal = t;
+      end else begin
+      
+      end;
     end else begin
       if (OPPr.CurncyCode!=VIp.CurncyCode) then begin
         MessageBox(1366,"");
