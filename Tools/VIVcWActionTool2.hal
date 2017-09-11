@@ -906,7 +906,7 @@ BEGIN
     OPPr.VECode = VIp.VECode;
     OPPr.SerNr = VIrw.PrepayNr;
     if (ReadFirstMain(OPPr,2,true)==false) then begin
-    	if(currentuser!="SA1")then begin
+    	if(currentuser!="SA1")then begin// Edit ************************** Monday, 11 September 2017 11:40:10
 				t1 = USetStr(1215);
 				MessageBox(0,t1 & " " & OPPr.VECode); 
 				t = blankval;
