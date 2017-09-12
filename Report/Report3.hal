@@ -278,38 +278,46 @@ string 50 filename;
     	end;
     	
     	if(currentcompany==11)then begin
-      
-        CreateFile("Stock/idistribuEstCreditorkaOFI.xls");
+      	
+      	CreateFile("Stock/idistribuEstCreditorkaID.xls");
+        closefile;
+        openexportfile("Stock/idistribuEstCreditorkaID.xls",true);
+        RepSpec.ObjStr = "ID";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/idistribuEstCreditorkaID.sh","");
+      	
+        /*CreateFile("Stock/idistribuEstCreditorkaOFI.xls");
         closefile;
         openexportfile("Stock/idistribuEstCreditorkaOFI.xls",true);
         RepSpec.ObjStr = "OFI";
         APRn(RepSpec);
         closefile;
-        RunProgram("Stock/idistribuEstCreditorkaOFI.sh","");
+        RunProgram("Stock/idistribuEstCreditorkaOFI.sh","");*/
         
-        CreateFile("Stock/idistribuEstCreditorkaOII.xls");
+        /*CreateFile("Stock/idistribuEstCreditorkaOII.xls");
         closefile;
         openexportfile("Stock/idistribuEstCreditorkaOII.xls",true);
         RepSpec.ObjStr = "OII";
         APRn(RepSpec);
         closefile;
-        RunProgram("Stock/idistribuEstCreditorkaOII.sh","");
+        RunProgram("Stock/idistribuEstCreditorkaOII.sh","");*/
         
-        CreateFile("Stock/idistribuEstCreditorkaICC.xls");
+        /*CreateFile("Stock/idistribuEstCreditorkaICC.xls");
         closefile;
         openexportfile("Stock/idistribuEstCreditorkaICC.xls",true);
         RepSpec.ObjStr = "ICC";
         APRn(RepSpec);
         closefile;
-        RunProgram("Stock/idistribuEstCreditorkaICC.sh","");
+        RunProgram("Stock/idistribuEstCreditorkaICC.sh","");*/
         
-        CreateFile("Stock/idistribuEstCreditorkaPR.xls");
+        /*CreateFile("Stock/idistribuEstCreditorkaPR.xls");
         closefile;
         openexportfile("Stock/idistribuEstCreditorkaPR.xls",true);
         RepSpec.ObjStr = "PR";
         APRn(RepSpec);
         closefile;
-        RunProgram("Stock/idistribuEstCreditorkaPR.sh","");
+        RunProgram("Stock/idistribuEstCreditorkaPR.sh","");*/
         
                 
       end;
