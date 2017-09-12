@@ -124,7 +124,7 @@ L1:;
       end;
     end;
   end;
-
+logtext(0,"g= " & g);
   for(i=0;i<s;i=i+1)begin
     matrowget(ORr,i,ORrw);
     INr.Code = ORrw.ArtCode;
@@ -145,6 +145,7 @@ L1:;
 						OR1rw.UnitComment = INr.Name;
 						OR1rw.Spec = "Пересорт (задвоение)";
 					end;
+					logtext(0,OR1rw.Spec);
 					OR1rw.Salesmen = INr.Group;
 					matrowput(OR1r,j,OR1rw);
 					findf = true;
