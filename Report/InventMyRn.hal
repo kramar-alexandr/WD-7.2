@@ -14,7 +14,7 @@ row ORVc ORrw,OR1rw;
 integer s,g,j,mtrw1;
 record INVc INr;
 
-  startreportnoheaderjob("§нвентаризацґЯ");
+  startreportnoheaderjob("§нвентаризацґЯ1");
   
   startformat(15);
     Outstring(0,0,"Џарт.Ь",false);
