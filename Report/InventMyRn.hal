@@ -78,7 +78,7 @@ L1:;
       end;
     end;
   end;
-    
+  logtext(0,"s = " & s);
   
   g=0;
   recordNew(OR1r);
