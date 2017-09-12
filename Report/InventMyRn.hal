@@ -45,6 +45,7 @@ record INVc INr;
   s=0;
   g=0;
   while(loopkey("TransDate",STr,1,testf1))begin
+  	logtext(0,"STr.SerNr " & STr.SerNr);
     if(STr.TransDate>RepSpec.sEndDate) then begin testf1=false; end;
     if(STr.Location==RepSpec.f1 and STr.OKFlag==1 and testf1)then begin
       mtrw = matrowcnt(STr);
