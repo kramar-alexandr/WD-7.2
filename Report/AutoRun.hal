@@ -124,14 +124,14 @@ ID = 15;
     ResetCompany(MMR);  
   end;
   
-  	if (SetCompany(WD,false)) then begin//itek
+  	/*if (SetCompany(WD,false)) then begin//itek
   	//logtext(0,currentcompany & " IPEn"); 
     //IPEn;
   	logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
     
     	ResetCompany(WD);  
-		end;
+		end;*/
   
    /*if (SetCompany(iCenter,false)) then begin//iCenter
   	logtext(0,currentcompany & " IPEn"); 
