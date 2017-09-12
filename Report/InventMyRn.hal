@@ -190,7 +190,7 @@ L2:;
     end;    
   end;
   
-  for(i=1;i<g;i=i+1)begin
+  for(i=0;i<g;i=i+1)begin
     matrowget(OR1r,i,OR1rw);
     //INr.Code = OR1rw.ArtCode;
     //Readfirstmain(INr,1,true);
