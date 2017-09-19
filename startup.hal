@@ -74,6 +74,10 @@ begin
 	Report("Розбіжність складу з балансом",StockBalDiffRClass,StockBalDiffRn,0,modNL);
 	
 	Report("Карти лояльності",LoyaltyCardListRClass,LoyaltyCardListRn,0,modPOS);
+	
+	Report("Видалити контакти",DeleteCUListRClass,DeleteCUListRn,0,modSY);  
+
+	
  	Maintenance("Розбіжність складу з балансом",MyVClass,StockBalDiffMn,modIN);
  	
  	Maintenance("Fix SO SalesAcc",MyVClass,FixItemCostAndSaleAccMn,modSO);
@@ -134,7 +138,7 @@ begin
   Maintenance("Fix FB",MyVClass,FixFBVcMn,modDBMain);  //Edit**********Dima, 28.01.2014
   Maintenance("Поновити синх. цін",UpdPLSyncVClass,UpdateSyncPricesMn,modDI); 
   Maintenance("Поновити синх. сер.ном.",UpdSerSyncVClass,UpdateSerialsPricesMn,modDI); 
-  Maintenance("Поновити синх. товарів",UpdINSyncVClass,UpdateSyncItemsMn,modDI);  
+  Maintenance("Поновити синх. товарів",UpdINSyncVClass,UpdateSyncItemsMn,modDI); 
   
   Maintenance("Поновити синх. цін",UpdPLSyncVClass,UpdateSyncPricesMn,modPOS); 
   Maintenance("Поновити синх. сер.ном.",UpdSerSyncVClass,UpdateSerialsPricesMn,modPOS);

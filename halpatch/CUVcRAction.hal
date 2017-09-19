@@ -468,6 +468,15 @@ BEGIN
   record QTVc QTr;
 
   res = 1;
+  //***************************************Alexandr 19/09/2017
+  if(CUr.DoNotDelete>0)then begin
+  	if (long3>0) then begin
+			MessageBox(1121,"");
+		end;
+		res = 0;
+		goto LCUVcRecordRemoveTest;
+  end;
+  //***************************************Alexandr 19/09/2017
   if (CUr.CUType!=0) then begin
     if (CSVcExists(CUr.Code,true)) then begin
       if (long3>0) then begin

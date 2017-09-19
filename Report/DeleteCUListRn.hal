@@ -1,0 +1,55 @@
+external function LongInt CUVcRecordRemoveTest(var record CUVc,record CUVc,LongInt,LongInt);
+
+
+global updating procedure DeleteCUListRn(record RcVc RepSpec)
+begin
+record CUVc CUr;
+boolean TrHs,testf,delflag;
+string 40 frcu,tocu;
+longint delres;
+
+
+	frcu = firstinrange(RepSpec.f1,20);	
+	tocu = lastinrange(RepSpec.f1,20);	
+	
+	delflag = RepSpec.flags[0]==1;
+	
+	startreportnoheaderjob("Delete Customers");
+	
+	if(nonblank(frcu))then begin
+		CUr.Code = frcu;
+		TrHs = true;
+		while(loopmain(CUr,1,TrHs))begin
+			testf = true;
+			if(CUr.Code>tocu)then begin TrHs = false; testf = false; end;
+			if(CUr.Code<frcu)then begin testf = false; end;
+			//if(CUr.DoNotDelete>0)then begin testf = false; end;
+			
+			
+			if(testf)then begin
+				startformat(15);
+					Outstring(0,"DblCUVc",CUr.Code,false);
+					Outstring(30,0,CUr.Name,false);
+					delres = CUVcRecordRemoveTest(CUr,CUr,-1,-1);
+					if(delres==0)then begin
+						Outstring(250,0,"NOT Deleted",false);
+					end;
+					if(delres==1)then begin
+						Outstring(250,0,"Deleted",false);
+					end;
+				endformat;
+				gray_divider(0,1);
+				
+				if(delres==1 and delflag)then begin
+					recorddelete(CUr);
+					stepback(CUr);
+				end;
+				
+			end;
+		end;
+	end;
+	
+	endjob;
+
+return;
+end;

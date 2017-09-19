@@ -8818,6 +8818,8 @@ begin
   if (StandardHansa==false) then begin
   CheckBox(h4,v+=16,0,"Без регіон. податків",NoTax2);
   end;
+  CheckBox(h4,v+=16,0,"Не удалять!",DoNotDelete);//*******************************Alexandr 19/09/2017
+
   if (HasLocalization("SWE")) then begin
   CheckBox(h4,v+=16,0,"F-Tax (Sweden)",FTax); 
   end;

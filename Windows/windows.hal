@@ -2085,3 +2085,19 @@ begin
     EditField(h,60,150,"Товар",Normal,f2,false,INSClass);*/
   EndWindow;
 end;
+
+window DeleteCUListRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+	
+  WindowBegin("Список карт лояльності",DeleteCUListRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    h=50;
+    EditField(h,20,-20,"Клієнт",Normal,f1,false,CUSClass);
+    CheckBox(h,40,0,"Видяляти",flags[0]);
+    
+    
+  EndWindow;
+end;
