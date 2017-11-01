@@ -9073,7 +9073,7 @@ window TableSearchAddition2IClass:1
 begin
 real h,v,vs;
 Integer i,mwn;
-  WindowBegin("Пошук і додавання в таблиці",TableSearchIClass,CGother,RcType);
+  WindowBegin("Пошук і додавання в таблиці",TableSearchAddition2IClass,CGother,RcType);
 	//DynamicWindow;
   SetWRect(3,140,400,310);
   UseView(RcVc);
