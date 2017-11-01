@@ -2240,5 +2240,6 @@ begin
       SpecialMenu("Send to Tax Authorities",'',10,"EShipPRTDsm");
     end;
   end;
+  SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");
   EndWindow;
 end;
