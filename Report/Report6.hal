@@ -499,14 +499,14 @@ integer compno;
               MyItemReportRn(RepSpec);
               RunProgram("Stock/MMROPStockFullManagers.sh", "");
               
-              /*delete_file("Stock/MMROLStockFullManagers.xls");
+              delete_file("Stock/MMROLStockFullManagers.xls");
       				CreateFile("Stock/MMROLStockFullManagers.xls");
               closefile;
               openexportfile("Stock/MMROLStockFullManagers.xls",true);
               RepSpec.f1 = "INV_OLM,INV_OLM_ST,EXB_OLP,EXB_OLP_ST,INV#1_OLST";
-              RepSpec.f2 = "P411,P412";
+              RepSpec.f2 = "RRPD1";
               MyItemReportRn(RepSpec);
-              RunProgram("Stock/MMROLStockFullManagers.sh", "");*/
+              RunProgram("Stock/MMROLStockFullManagers.sh", "");
       
       case 7: delete_file("Stock/TNMStockFullManagers.xls");
       				CreateFile("Stock/TNMStockFullManagers.xls");
