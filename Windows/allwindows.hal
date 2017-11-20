@@ -10383,3 +10383,49 @@ begin
   end;
   EndWindow;
 end;
+
+
+window StockMovJRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("Визначте журнал переміщення товарів",StockMovJRClass,CGRcW,RcType);
+  SetWRect(20,80,450,380);
+  vs = 20; h = 150; v = 6; 
+  EditFieldTL(h,v,150,"No.",   M4Str,Normal,30,f1,false,0); //!!PRODTRANSLATE
+  PeriodField(h,v+=vs,"Період");
+  EditFieldTL(h,v+=vs,80,"Зі складу",   M4UStr,Normal,30,f2,false,LocationSClass);
+  EditFieldTL(h,v+=vs,80,"На склад",   M4UStr,Normal,30,f3,false,LocationSClass);
+  if (StandardHansa==false) then begin
+  EditFieldTL(h,v+=vs,80,"Проміжний склад",   M4UStr,Normal,10,FirstAcc,false,LocationSClass);
+  end;
+  EditFieldTL(h,v+=vs,150,"Item",   M4UStr,Normal,41,f4,false,INSClass); //!!PRODTRANSLATE
+  EditFieldTL(h,v+=vs,80,"Для виробництва", M4Long,Normal,0,long1,false,ProdSClass);
+  EditFieldTL(h,v+=vs,80,"Клієнт SHOPS", M4Long,Normal,0,f5,false,CUSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 20 November 2017 16:54:32
+  
+  vm = v+40;
+  ButtonFrame(h=20,v = vm,123,2,"Функція");
+  RadioButton(h,v,0,0,"зведений",ArtMode); 
+  RadioButton(h,v+=16,1,0,"докладний",ArtMode);
+  ButtonFrame(h+=138,v = vm,123,3,"Значення");
+  RadioButton(h,v,0,0,"Нова ціна",flags[4]);
+  RadioButton(h,v+=16,1,0,"стара ціна",flags[4]);
+  RadioButton(h,v+=16,2,0,"відпускна ціна",flags[4]);
+  vm = v + 48;
+  ButtonFrame(h=20,v=vm,123,3,"Статус підтвердження");
+  RadioButton(h,v,1,0,"лише непідтверджені",flags[1]);
+  RadioButton(h,v+=16,2,0,"лише підтверджені",flags[1]);
+  RadioButton(h,v+=16,0,0,"всі",flags[1]);
+  if (StandardHansa==false) then begin
+  ButtonFrame(h+=138,v=vm,123,3,"Статус відправки");
+  RadioButton(h,v,1,0,"лише невідправлені",flags[2]);
+  RadioButton(h,v+=16,2,0,"лише відправлені",flags[2]);
+  RadioButton(h,v+=16,0,0,"всі",flags[2]);
+  ButtonFrame(h+=138,v=vm,123,3,"Статус отримання");
+  RadioButton(h,v,1,0,"лише неотримані",flags[5]);
+  RadioButton(h,v+=16,2,0,"лише отримані",flags[5]);
+  RadioButton(h,v+=16,0,0,"всі",flags[5]);
+  CheckBox(h=20,v+=32,0,"Всі між складами",flags[3]);//?
+  end;
+  EndWindow;
+end;
