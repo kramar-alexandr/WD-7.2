@@ -10401,7 +10401,7 @@ begin
   end;
   EditFieldTL(h,v+=vs,150,"Item",   M4UStr,Normal,41,f4,false,INSClass); //!!PRODTRANSLATE
   EditFieldTL(h,v+=vs,80,"Для виробництва", M4Long,Normal,0,long1,false,ProdSClass);
-  EditFieldTL(h,v+=vs,80,"Клієнт SHOPS", M4Long,Normal,0,f5,false,CUSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 20 November 2017 16:54:32
+  EditFieldTL(h,v+=vs,80,"Клієнт SHOPS", M4Code,Normal,0,f5,false,CUSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 20 November 2017 16:54:32
   
   vm = v+40;
   ButtonFrame(h=20,v = vm,123,2,"Функція");
