@@ -244,7 +244,7 @@ begin
        if (RepSpec.ArtMode==1) then begin
            StartFormat(15);
            OutLongInt(0,"DblStockMov",SMr.SerNr,false);
-					OutDate(70,0,RepSpec.f5,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 20 November 2017 16:59:17
+					 OutString(70,0,RepSpec.f5,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 20 November 2017 16:59:17
            OutDate(130,0,SMr.TransDate,false);
            OutDate(220,0,SMr.RegDate,false);
            OutString(300,0,SMr.FrLocation,false);
@@ -357,7 +357,7 @@ begin
            end;
            StartFormat(15);
            OutLongInt(0,"DblStockMov",SMr.SerNr,false);
-           OutDate(30,0,RepSpec.f5,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 20 November 2017 16:59:17
+           OutString(30,0,RepSpec.f5,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 20 November 2017 16:59:17
 
            OutDate(65,0,SMr.TransDate,false);
            OutString(135,0,Left(SMr.Comment,20),false);
