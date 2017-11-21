@@ -235,9 +235,12 @@ begin
 					If(ORr.CustCode!=RepSpec.f5)then begin
 						testf = false;
 					end;
-				end;
+				end else begin
+					testf = false;
+				end;				
+			end else begin
+				testf = false;
 			end; 
-    
     end;
     
     if ((TrHs==true) and (testf==true)) then begin
