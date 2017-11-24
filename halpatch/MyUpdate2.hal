@@ -2102,7 +2102,9 @@ begin
 							ISr.Location = IHr.Location;
 							if (ReadFirstMain(ISr,2,true) and ISr.Instock>0) then begin
 								PUr.SerNr = IHr.InSerNr;
-								ReadFirstMain(PUr,1,true);								
+								if(ReadFirstMain(PUr,1,true)==false)then begin
+									PUr.TransDate = stringtodate("1/6/2017");
+								end;					
 								if(datediff(currentdate,PUr.TransDate)<=RepSpec.flags[0])then begin
 									logtext(0,IHr.ArtCode & " " & IHr.RemQty & " " & IHr.SerialNr & "      datedif " & datediff(currentdate,PUr.TransDate));
 									SMrw.ArtCode = IHr.ArtCode;
