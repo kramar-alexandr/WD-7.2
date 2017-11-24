@@ -83,6 +83,8 @@ begin
  	Maintenance("Fix SO SalesAcc",MyVClass,FixItemCostAndSaleAccMn,modSO);
  	Maintenance("Створити карти лояльності",CreateLoyaltyCardsVClass,CreateLoyaltyCardsMn,modPOS);
  	Maintenance("Знищити карти лояльності",DeleteLoyaltyCardsVClass,DeleteLoyaltyCardsMn,modPOS);
+ 	
+ 	Maintenance("Разделить старые товары",MoveOldItemsVClass,MoveOldItemsMn,modIN);
 
 	
 	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);

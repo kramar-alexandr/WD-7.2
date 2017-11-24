@@ -14,6 +14,7 @@ external function Boolean GetItemPriceDiscount3(string,val,var record INVc,strin
                                                 string,Boolean,var Boolean,string,var string,var val,string,string,var string);
 external updating procedure UpdateSerStock(string,string,string,val,val);
 external function LongInt DateDiff(Date,Date);
+external procedure StockMovSumUp(var record StockMovVc);
 
 
 SetLangMode(LangUkrainian,"UKR",0);
@@ -2045,6 +2046,104 @@ begin
 			Logtext(0,"Closed item " & INr.Code);
 			recordstore(INr,true);
 		end;*/
+	end;
+
+return;
+end;
+
+
+global updating procedure MoveOldItemsMn(record RcVc RepSpec)
+begin
+	record INVc INr;
+  record ItemHistVc IHr,IH2r;
+  record PLVc PLr;
+  record ItemStatusVc ISr,IS2r;
+  record PUVc PUr;
+  boolean TrHs,testf,TrHs1,testf1,print;
+  string 255 tstr;
+  array val prices;
+  integer i,pos,itemqty;
+  val itemsum,itemcostsum,itemrem,totsum,totrem;
+  string 20 IHkey;
+  record IVVc IVr;
+  record BaseCurBlock BCr;
+	record SerBalVc SerBalr;
+	val qtyBefore;
+	record StockMovVc SMr;
+	row StockMovVc SMrw;
+	integer rvcnt;
+	
+	
+	IHkey = "ActiveQty";
+	recordnew(SMr);
+	TrHs = true;
+	INr.Code = "";
+	while (LoopMain(INr,1,TrHs)) begin
+		testf = true;
+		if (INr.Terminated<>0) then begin testf = false; end;
+		if (INr.ItemType!=kItemTypeStocked) then begin testf = false; end;
+		if (testf) then begin
+			
+			TrHs1 = true;
+			IHr.ArtCode = INr.Code;
+			while (LoopKey(IHkey,IHr,1,TrHs1)) begin
+				testf1 = true; 
+				if (IHr.ArtCode!=INr.Code) then begin TrHs1 = false; testf1 = false; end;
+				if (NonBlank(RepSpec.f1) and IHr.Location!=RepSpec.f1) then begin testf1 = false; end; 
+				if (IHr.StockAffectf!=1) then begin testf1 = false; end;
+				
+				if (testf1) then begin
+					SerBalr.Item = IHr.ArtCode;							//Edit----------------------Dima  09.09.2015
+					SerBalr.Location = IHr.Location;
+					SerBalr.Serial = IHr.SerialNr;
+					if((ReadFirstMain(SerBalr,3,true) and (SerBalr.Quant>0))) then begin
+						if (INr.SerNrf!=0) then begin
+							ISr.Code = INr.Code;
+							ISr.Location = IHr.Location;
+							if (ReadFirstMain(ISr,2,true) and ISr.Instock>0) then begin
+								PUr.SerNr = IHr.InSerNr;
+								ReadFirstMain(PUr,1,true);								
+								if(datediff(currentdate,PUr.TransDate)<=RepSpec.flags[0])then begin
+									logtext(0,IHr.ArtCode & " " & IHr.RemQty & " " & IHr.SerialNr & "      datedif " & datediff(currentdate,PUr.TransDate));
+									SMrw.ArtCode = IHr.ArtCode;
+									SMrw.OrdQuant = 1;
+									SMrw.Quant = 1;
+									SMrw.Spec = INr.Name;
+									SMrw.SerialNr = IHr.SerialNr;
+									matrowput(SMr,rvcnt,SMrw);
+									rvcnt = rvcnt + 1;
+								end;	
+								if(rvcnt>=499)then begin
+									SMr.TransDate = currentdate;
+									SMr.SerNr = NextSerNr("StockMovVc",SMr.TransDate,-1,false,"");  
+									SMr.OrdTransDate = currentdate;
+									SMr.FrLocation = RepSpec.f1;
+									SMr.ToLocation = RepSpec.f2;
+									StockMovSumUp(SMr);
+									recordstore(SMr,true);
+									logtext(0,"Stock Mov Store " & SMr.SerNr);
+									recordnew(SMr);
+									rvcnt = 0;
+								end;
+							end;
+						end;
+					end;
+				end;
+			end;
+			resetloop(IHr);
+			
+		end;
+	
+	end;
+	if(rvcnt>0)then begin
+		SMr.TransDate = currentdate;
+		SMr.SerNr = NextSerNr("StockMovVc",SMr.TransDate,-1,false,"");  
+		SMr.OrdTransDate = currentdate;
+		SMr.FrLocation = RepSpec.f1;
+		SMr.ToLocation = RepSpec.f2;
+		StockMovSumUp(SMr);
+		recordstore(SMr,true);
+		logtext(0,"StockMovVc " & SMr.SerNr);
 	end;
 
 return;

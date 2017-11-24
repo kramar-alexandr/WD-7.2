@@ -2070,6 +2070,21 @@ WindowBegin("Maintenance",DeleteLoyaltyCardsVClass,CGMnt,RcType);
   EndWindow;
 end;
 
+window MoveOldItemsVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ begin
+ real h,h2,v,vs;
+WindowBegin("Розділити старі товари",MoveOldItemsVClass,CGMnt,RcType);
+  SetWRect(20,120,360,220);
+	v = 16;
+	vs = 20;
+  EditField(h=100,v+=vs,70,"Склад з якого",Normal,f1,false,LocationSClass);
+  EditField(h=100,v+=vs,70,"Склад на який",Normal,f2,false,LocationSClass);
+  EditField(h,v+=vs,70,"Днів",Normal,flags[0],false,0);
+	  
+  EndWindow;
+end;
+
 window LoyaltyCardListRClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
