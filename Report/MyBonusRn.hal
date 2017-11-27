@@ -357,7 +357,9 @@ begin
     OutString(pos[7],0,"Name",false);
     if(currentcompany==2)then begin
     	OutString(pos[7],0,"Serial #",false);
+    	
     end;
+    OutString(pos[7],0,"InStock Date",false);
     OutString(pos[8],0,"Q-ty",false);
     OutString(pos[9],0,"Price",false);
     OutString(pos[9],0,"Price UAH",false);
@@ -630,6 +632,7 @@ begin
                     if(currentcompany==2)then begin
 											OutString(pos[7],0,serial[j],false);
 										end;
+										OutString(pos[7],0,indate[j],false);
                     quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
                     OutString(pos[8],0,quant,false);
                     salesprice = realpricebase[j];
