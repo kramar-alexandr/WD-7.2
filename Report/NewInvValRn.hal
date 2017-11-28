@@ -236,7 +236,7 @@ begin
 			end;
 		end;
 		if(RepSpec.flags[4]>0)then begin
-			logtext(0,datediff(PUr.TransDate,currentdate));
+			logtext(0,datediff(currentdate,PUr.TransDate));
 			if(datediff(PUr.TransDate,currentdate)>RepSpec.flags[4])then begin
 				datetestf = false;
 			end;
