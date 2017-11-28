@@ -237,7 +237,6 @@ begin
 		end;
 		if(RepSpec.flags[4]>0)then begin
 			if(datediff(currentdate,PUr.TransDate)>RepSpec.flags[4])then begin
-				logtext(0,datediff(currentdate,PUr.TransDate));
 				datetestf = false;
 			end;
 		end;
@@ -475,22 +474,6 @@ begin
 	    			end;					
 				end;
 			end; RESETLOOP(IHr);
-			/*if (blankdate(RepSpec.d1)) then begin		//Edit----------------------Dima  09.09.2015
-				IS2r.Code = INr.Code;
-				if (NonBlank(RepSpec.f2)) then begin
-					IS2r.Location = RepSpec.f2;
-				end else begin
-					IS2r.Location = ";;;";	
-				end;
-				ReadFirstMain(IS2r,2,true);
-				qtyBefore = itemrem;
-				itemrem = Min(IS2r.Instock,qtyBefore);
-				totrem = totrem - qtyBefore + itemrem;
-				totsum = totsum - itemsum;
-				itemsum = itemsum * itemrem/qtyBefore;
-				totsum = totsum + itemsum;
-			end;	*/					// Edit ************************** Tuesday, 24 May 2016 18:00:45											//Edit--end--------------------Dima  09.09.2015
-			
 			if (print) then begin
 				if (RepSpec.ArtMode==0 and (itemrem!=0 or itemsum!=0)) then begin
 					pos = 0; 
