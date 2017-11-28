@@ -2106,8 +2106,7 @@ begin
 								if(ReadFirstMain(PUr,1,true)==false)then begin
 									PUr.TransDate = stringtodate("1/6/2017");
 								end;					
-								if(datediff(currentdate,PUr.TransDate)<=RepSpec.flags[0])then begin
-									logtext(0,IHr.ArtCode & " " & IHr.RemQty & " " & IHr.SerialNr & "      datedif " & datediff(currentdate,PUr.TransDate));
+								if(datediff(currentdate,PUr.TransDate)>RepSpec.flags[0])then begin
 									SMrw.ArtCode = IHr.ArtCode;
 									SMrw.OrdQuant = 1;
 									SMrw.Quant = 1;
