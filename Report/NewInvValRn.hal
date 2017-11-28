@@ -199,7 +199,6 @@ lEnd2:
 					GetIHFileName(IHr,tstr);
 					IVrw.Spec = tstr;
 					IVrw.ServiceDelDate = PUr.TransDate;
-					//IVrw.ServiceDelDate = IHr.TransDate;
 					IVrw.Location = IHr.Location;
 					IVrw.SerialNr=IHr.SerialNr;
 					IVrw.CurncyCode = IHr.PUCurncyCode;
@@ -210,27 +209,6 @@ lEnd2:
 					MatRowPut(IVr,MatRowCnt(IVr),IVrw);
 				end;
 			end;
-					
-			/*IVrw.OrdRow = IHr.TransNr;
-			IVrw.CUPNr = IHr.SerNr; //SerNr
-			IVrw.ArtCode = IHr.ArtCode;
-			IVrw.GCNr = IHr.InSerNr;
-			IVrw.Withholdings = IHr.InRow;
-			PUr.SerNr = IHr.InSerNr;
-			ReadFirstMain(PUr,1,true);
-			IVrw.VECode = PUr.VECode;
-			GetIHFileName(IHr,tstr);
-			IVrw.Spec = tstr;
-			IVrw.ServiceDelDate = PUr.TransDate;
-			//IVrw.ServiceDelDate = IHr.TransDate;
-			IVrw.Location = IHr.Location;
-			IVrw.SerialNr=IHr.SerialNr;
-			IVrw.CurncyCode = IHr.PUCurncyCode;
-			IVrw.FIFORowVal = IHr.Qty; //Qty
-			IVrw.FIFO = IHr.Qty; //RemQty
-			IVrw.PriceFactor = IHr.TotCostPriceCurncy*GetSign(IHr.Qty); //TotCostPriceCurncy
-			IVrw.Coefficient = IHr.TotCostPrice*GetSign(IHr.Qty); //TotCostPrice
-			MatRowPut(IVr,MatRowCnt(IVr),IVrw);*/
   	end;
   //end;
 
@@ -258,6 +236,7 @@ begin
 			end;
 		end;
 		if(RepSpec.flags[4]>0)then begin
+			logtext(0,datediff(PUr.TransDate,currentdate));
 			if(datediff(PUr.TransDate,currentdate)>RepSpec.flags[4])then begin
 				datetestf = false;
 			end;
@@ -274,16 +253,11 @@ begin
 				OutString(pos+=30,0,PUr.VECode,false); //Edit***************************Sasha2,11:59 27.01.2015
 				OutString(pos+=30,"DblItemHistLine",tstr,false);
 				OutDate(pos+=50,0,PUr.TransDate,false);
-				//OutDate(pos+=50,0,IHr.TransDate,false);
 				OutString(pos+=30,0,IHr.Location,false);
 				if (RepSpec.flags[10]==1) then begin
 					OutString(pos+=20,0,IHr.SerialNr,false);
 				end;
-				//if (blankdate(RepSpec.d1)) then begin
 				OutVal(pos+=30,0,IHr.RemQty,M4Qty,false);
-				/*end else begin
-					OutVal(pos+=30,0,IHr.Qty,M4Qty,false);	
-				end;*/
 				OutString(pos+=20,0,IHr.PUCurncyCode,false);
 				if (basecur!=PUr.CurncyCode) then begin
 					OutString(pos+=25,0,PUr.FrRate /*& " : " & PUr.ToRateB1*/,false);
@@ -291,17 +265,10 @@ begin
 					OutString(pos+=25,0,"",false);
 				end;
 				OutVal(pos+=15,0,AbsoluteVal(IHr.TotCostPriceCurncy/IHr.Qty),M45Val,false);
-				//if (blankdate(RepSpec.d1)) then begin
-			OutVal(pos+=35,0,(IHr.TotCostPriceCurncy/IHr.Qty)*IHr.RemQty,M45Val,false);
-			/*end else begin
-				OutVal(pos+=35,0,IHr.TotCostPriceCurncy*GetSign(IHr.Qty),M45Val,false);	
-			end;*/
+				OutVal(pos+=35,0,(IHr.TotCostPriceCurncy/IHr.Qty)*IHr.RemQty,M45Val,false);
 				OutVal(pos+=30,0,AbsoluteVal(IHr.TotCostPrice/IHr.Qty),M45Val,false);
-				//if (blankdate(RepSpec.d1)) then begin
-			OutVal(pos+=30,0,(IHr.TotCostPrice/IHr.Qty)*IHr.RemQty,M45Val,false);
-			/*end else begin
-				OutVal(pos+=30,0,IHr.TotCostPrice*GetSign(IHr.Qty),M45Val,false);	
-			end;*/
+				OutVal(pos+=30,0,(IHr.TotCostPrice/IHr.Qty)*IHr.RemQty,M45Val,false);
+
 				for (i=0;i<prlstcnt;i=i+1) begin
 					OutVal(pos+=30,0,prices[i],M45Val,false);
 				end;
@@ -328,12 +295,12 @@ begin
 			datetestf = true;
 			if(nonblankdate(IVrw.ServiceDelDate))then begin 
 				if(RepSpec.flags[3]>0)then begin
-					if(datediff(RepSpec.d1,IVrw.ServiceDelDate)<RepSpec.flags[3])then begin
+					if(datediff(IVrw.ServiceDelDate,RepSpec.d1)<RepSpec.flags[3])then begin
 						datetestf = false;
 					end;
 				end;
 				if(RepSpec.flags[4]>0)then begin
-					if(datediff(RepSpec.d1,IVrw.ServiceDelDate)>RepSpec.flags[4])then begin
+					if(datediff(IVrw.ServiceDelDate,RepSpec.d1)>RepSpec.flags[4])then begin
 						datetestf = false;
 					end;
 				end;
