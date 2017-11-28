@@ -179,6 +179,11 @@ begin
   EditFieldTL(h,v+=vs,150,"Постачальник",M4UStr,Normal,20,LastAcc,false,VESClass);
   end;
   EditFieldTL(h,v+=vs,80,"Дата",M4Date,Normal,0,d1,false,PasteCurDate);
+  
+  EditFieldTL(h,v+=vs,80,"Товар старший за (днів)",M4Int,Normal,0,flags[3],false,0);
+  EditFieldTL(h,v+=vs,80,"Товар молодший за (днів)",M4Int,Normal,0,flags[4],false,0);
+  
+  
   CheckBox(temp,v+=vs,0,"Показ. сер. номер",flags[10]); v = v + 16;
   if (StandardHansa==true) then begin
     v = v + vs;
