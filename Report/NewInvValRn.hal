@@ -231,13 +231,13 @@ begin
 	
 	if(nonblankdate(PUr.TransDate))then begin 
 		if(RepSpec.flags[3]>0)then begin
-			if(datediff(PUr.TransDate,currentdate)<RepSpec.flags[3])then begin
+			if(datediff(currentdate,PUr.TransDate)<RepSpec.flags[3])then begin
 				datetestf = false;
 			end;
 		end;
 		if(RepSpec.flags[4]>0)then begin
 			logtext(0,datediff(currentdate,PUr.TransDate));
-			if(datediff(PUr.TransDate,currentdate)>RepSpec.flags[4])then begin
+			if(datediff(currentdate,PUr.TransDate)>RepSpec.flags[4])then begin
 				datetestf = false;
 			end;
 		end;
@@ -295,12 +295,12 @@ begin
 			datetestf = true;
 			if(nonblankdate(IVrw.ServiceDelDate))then begin 
 				if(RepSpec.flags[3]>0)then begin
-					if(datediff(IVrw.ServiceDelDate,RepSpec.d1)<RepSpec.flags[3])then begin
+					if(datediff(RepSpec.d1,IVrw.ServiceDelDate)<RepSpec.flags[3])then begin
 						datetestf = false;
 					end;
 				end;
 				if(RepSpec.flags[4]>0)then begin
-					if(datediff(IVrw.ServiceDelDate,RepSpec.d1)>RepSpec.flags[4])then begin
+					if(datediff(RepSpec.d1,IVrw.ServiceDelDate)>RepSpec.flags[4])then begin
 						datetestf = false;
 					end;
 				end;
