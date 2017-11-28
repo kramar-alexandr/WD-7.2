@@ -13,7 +13,7 @@ external procedure RetailSalesEn();
 external procedure KreditorkaReportEn();
 external procedure SaleWeekByVEEn();
 external updating procedure StockBalDiffMn(string); 
-
+external updating procedure MoveOldItemsMn(record RepSpec);
 //------------------------------------------------------------------------------------------------------------------------------
 global updating procedure AutoRun()
 begin
@@ -179,6 +179,14 @@ ID = 15;
     logtext(0,currentcompany & " DebitorkaReportEn");
     DebitorkaReportEn(iCenter);
     StockBalDiffMn("SA,KUDINA,NATA");
+    
+    recordnew(RepSpec);
+    RepSpec.flags[0]=89;
+    RepSpec.f1="INV#2_NEW";
+    RepSpec.f2="INV#2";
+    MoveOldItemsMn(RepSpec);
+    
+    
   end;
   
   if (SetCompany(Textera,false)) then begin//textera

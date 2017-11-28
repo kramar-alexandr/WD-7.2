@@ -2124,6 +2124,7 @@ begin
 									StockMovSumUp(SMr);
 									recordstore(SMr,true);
 									recordnew(Actr);
+										Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
 										Actr.Comment = "Переміщення старих товарів " & SMr.SerNr;
 										Actr.AlarmType = kAlarmTypeNone;
 										Actr.TodoFlag = kTodoFlagTodo;
@@ -2156,6 +2157,7 @@ begin
 		StockMovSumUp(SMr);
 		recordstore(SMr,true);
 		recordnew(Actr);
+			Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
 			Actr.Comment = "Переміщення старих товарів " & SMr.SerNr;
 			Actr.AlarmType = kAlarmTypeNone;
 			Actr.TodoFlag = kTodoFlagTodo;
