@@ -72,7 +72,9 @@ BEGIN
   string 20 location;
   record INVc INr;
   record SerNrTrackBlock SNrb;
-
+  record SerBalVc SBr;// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 15 December 2017 15:10:37
+	boolean TrHs;// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 15 December 2017 15:13:05
+	
   BlockLoad(SNrb);
   warning = "";
   MatRowGet(SHp,rownr,SHrw);
@@ -99,6 +101,25 @@ BEGIN
     SHrw.Ship = CalculateSerialNrQuantity(SHrw.ArtCode,SHrw.SerialNr,location,true,SHrw.UnitXval,SHrw.UnitYval,SHrw.UnitZval,SHrw.Ship);    
     FindBatchBestBeforeDate(SHrw.ArtCode,SHrw.SerialNr,td);
     SHrw.BestBefore = td;
+    // Edit Start ---------------------------------------------- Edit Start
+	//Friday, 15 December 2017 15:14:40
+	
+    SBr.Item = SHrw.ArtCode;
+    SBr.Serial = SHrw.SerialNr;
+    TrHs = true;
+    while(loopkey("ItemSerial",SBr,2,TrHs))begin
+    	if(SBr.Item!=SHrw.ArtCode)then begin TrHs = false; end;
+    	if(SBr.Serial!=SHrw.SerialNr)then begin TrHs = false; end;
+    	
+    	if(TrHs)then begin
+    		if(SHp.Location!=SBr.Location)then begin
+					SHrw.Location = SBr.Location;
+    		end;
+    	end;
+    end;
+    
+	// Edit End ---------------------------------------------- Edit End
+	
 //  CostPriceForGP(SHrw.ArtCode,SHrw.SerialNr,SHp.PriceList,SHp.CustCode,SHrw.BasePrice);
   end;
   if (SHrw.Ship>SHrw.Ordered) then begin SHrw.Ship = SHrw.Ordered; end;
