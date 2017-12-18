@@ -111,7 +111,7 @@ BEGIN
     	if(SBr.Item!=SHrw.ArtCode)then begin TrHs = false; end;
     	if(SBr.Serial!=SHrw.SerialNr)then begin TrHs = false; end;
     	
-    	if(TrHs)then begin
+    	if(TrHs and SBr.Quant>0)then begin
     		if(SHp.Location!=SBr.Location)then begin
 					SHrw.Location = SBr.Location;
     		end;

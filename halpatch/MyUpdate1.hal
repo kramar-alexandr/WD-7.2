@@ -1201,7 +1201,7 @@ begin
 				if(SBr.Serial!=SMrw.SerialNr)then begin TrHs = false; end;
 			
 				if(TrHs)then begin
-					if(SMr.FrLocation!=SBr.Location)then begin
+					if(SMr.FrLocation!=SBr.Location and SBr.Quant>0)then begin
 						if(vloc[SBr.Location]==false)then begin
 							aloc[aloccnt] = SBr.Location;
 							logtext(0,SBr.Location);
@@ -1237,7 +1237,7 @@ begin
 					if(SBr.Item!=SMrw.ArtCode)then begin TrHs = false; end;
 					if(SBr.Serial!=SMrw.SerialNr)then begin TrHs = false; end;
 			
-					if(TrHs)then begin
+					if(TrHs and SBr.Quant>0)then begin
 						if(SM2r.FrLocation==SBr.Location)then begin
 							matrowput(SM2r,matrowcnt(SM2r),SMrw);
 							matrowdelete(SMr,i);
