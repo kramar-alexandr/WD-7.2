@@ -1173,3 +1173,97 @@ begin
 	
 return;
 end;
+
+
+global updating procedure RASplitSMForSerialsDsm(var record StockMovVc SMr, var array longint smsers, var integer acnt)
+begin
+	record StockMovVc SM2r;
+	row StockMovVc SMrw,SM2rw;
+	integer rwcnt,i,mtrw,j;
+	record SerBalVc SBr;// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 15 December 2017 15:10:37
+	boolean TrHs;// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 15 December 2017 15:13:05
+	array string 100 aloc;
+	integer aloccnt;
+	vector boolean vloc;
+	record ORVc ORr;
+	
+	logtext(0,"RASplitSMForSerialsDsm");
+	
+	rwcnt = matrowcnt(SMr);
+	For(i=0;i<rwcnt;i=i+1) begin
+	  matrowget(SMr,i,SMrw);
+	  if(nonblank(SMrw.SerialNr))then begin
+	  	SBr.Item = SMrw.ArtCode;
+			SBr.Serial = SMrw.SerialNr;
+			TrHs = true;
+			while(loopkey("ItemSerial",SBr,2,TrHs))begin
+				if(SBr.Item!=SMrw.ArtCode)then begin TrHs = false; end;
+				if(SBr.Serial!=SMrw.SerialNr)then begin TrHs = false; end;
+			
+				if(TrHs)then begin
+					if(SMr.FrLocation!=SBr.Location)then begin
+						if(vloc[SBr.Location]==false)then begin
+							aloc[aloccnt] = SBr.Location;
+							logtext(0,SBr.Location);
+							aloccnt = aloccnt + 1;
+						end;
+
+					end;
+				end;
+			end;
+			resetloop(SBr);
+	  end;
+	end; 
+	
+	
+	if(aloccnt>0)then begin
+		For(j=0;j<aloccnt;j=j+1) begin
+			recordcopy(SM2r,SMr);
+			SM2r.SerNr = NextSerNr("StockMovVc",SMr.TransDate,-1,false,"");
+			SM2r.FrLocation = aloc[j];
+			rwcnt = matrowcnt(SM2r);
+			For(i=0;i<rwcnt;i=i+1) begin
+				matrowdelete(SM2r,0);
+			end; 
+		end;
+		rwcnt = matrowcnt(SMr);
+		For(i=0;i<rwcnt;i=i+1) begin
+			matrowget(SMr,i,SMrw);
+			if(nonblank(SMrw.SerialNr))then begin
+				SBr.Item = SMrw.ArtCode;
+				SBr.Serial = SMrw.SerialNr;
+				TrHs = true;
+				while(loopkey("ItemSerial",SBr,2,TrHs))begin
+					if(SBr.Item!=SMrw.ArtCode)then begin TrHs = false; end;
+					if(SBr.Serial!=SMrw.SerialNr)then begin TrHs = false; end;
+			
+					if(TrHs)then begin
+						if(SM2r.FrLocation==SBr.Location)then begin
+							matrowput(SM2r,matrowcnt(SM2r),SMrw);
+							matrowdelete(SMr,i);
+							rwcnt = rwcnt - 1;
+							i=i-1;
+						end;
+					end;
+				end;
+				resetloop(SBr);
+			end;
+		end;
+		recordstore(SM2r,true);
+		createrecordlink(SM2r,currentcompany,SMr,currentcompany);
+		createrecordlink(SMr,currentcompany,SM2r,currentcompany);
+		if(SM2r.OrderNr>-1)then begin
+			ORr.SerNr = SM2r.OrderNr;
+			if(readfirstmain(ORr,1,true))then begin
+				createrecordlink(SM2r,currentcompany,ORr,currentcompany);
+				createrecordlink(ORr,currentcompany,SM2r,currentcompany);
+			end;
+		end;
+		smsers[acnt] = SM2r.SerNr;
+		acnt = acnt + 1;
+		recordnew(SM2r);
+	end; 
+	recordstore(SMr,true);
+
+return;
+end;

@@ -18,6 +18,7 @@ remote procedure SetDelAddr(string,string,var string,var string,var string,var s
 remote updating procedure OkAllStockMovementsSHr(record RcVc);
 remote function string 20 FindCustRoute(string,string,string);
 remote updating procedure MakeInnerSaleToAnotherComp(longint,Integer); //Edit***************************Sasha2,15:56 05.01.2017
+remote updating procedure RASplitSMForSerialsDsm(var record StockMovVc,var array longint,var integer);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 18 December 2017 15:52:18
 
 	SetLangMode(LangUkrainian,"UKR",0);
 
@@ -1235,3 +1236,33 @@ BEGIN
 
   RETURN
 END; //Edit***************************Sasha2,15:36 05.01.2017 }
+
+
+global updating procedure SplitSMForSerialsDsm()
+begin
+	record StockMovVc SMr;
+	integer wn,acnt,i;
+	array longint smsers;
+	
+	
+	wn = curwindow;
+	if(windowstate(wn)==0)then begin
+		getwindowrecord(wn,SMr);
+		if(SMr.OrdFlag==0 and SMr.SentOKFlag==0 and SMr.OKFlag==0)then begin
+			RASplitSMForSerialsDsm(SMr,smsers,acnt);
+			if(acnt>0)then begin
+				putwindowrecord(wn,SMr);
+				For(i=0;i<acnt;i=i+1) begin
+	  			SMr.SerNr = smsers[i];
+	  			if(readfirstmain(SMr,1,true))then begin
+	  				OpenWindow("StockMovDClass",1,0,"","",SMr);
+	  			end;
+				end; 
+			end;
+		end;
+	end else begin
+		beep;
+	end;
+
+return;
+end;
