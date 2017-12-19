@@ -2241,5 +2241,7 @@ begin
     end;
   end;
   SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");
+  SpecialMenu("Розділити на переміщення за складами серійок",' ',8,"SplitSMForSerialsDsm");// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 19 December 2017 15:57:57
+
   EndWindow;
 end;

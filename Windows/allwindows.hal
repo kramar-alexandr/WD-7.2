@@ -4826,8 +4826,9 @@ begin
 	SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");
 	SpecialMenu("Створити нотатку для серійок",' ',8,"CreateNoterToSMDsm");
   SpecialMenu("Вставити серійки",' ',8,"PasteSerialsTOSMDsm");
-  SpecialMenu("Розділити на переміщення за складами серійок",' ',8,"SplitSMForSerialsDsm");
   end;
+  SpecialMenu("Розділити на переміщення за складами серійок",' ',8,"SplitSMForSerialsDsm");
+
   EndWindow;
 end;
 
