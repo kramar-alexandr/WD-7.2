@@ -935,7 +935,7 @@ BEGIN
 								if (IHr.FileName!="StockMovVc" or IHr.TransNr!=StockMovr.SerNr) then begin testf = false; end;
 								if (INr.SerNrf==1 and IHr.SerialNr!=StockMovrw.SerialNr) then begin  testf = false; end;
 								if (testf) then begin
-									if (INr.SerNrf == 1) then begin
+									if (INr.SerNrf==1) then begin
 									  ClearRow(SHp,SHrw,ORrw.stp);
 								      FillSHORw(SHp,ORr,SHrw,ORrw,i,dat,IHr.SerialNr,tstr,remn,1); //Edit***************************Sasha2,13:35 28.08.2014
 								      if (nonblank(SHrw.ArtCode)) then begin
@@ -1029,6 +1029,7 @@ BEGIN
 	    end;
 	    ordered = remn;
 	    testf = true;
+	    logtext(ORrw.ArtCode & " " & remn);
 	    if (PlanDelRec.PreventDelivery!=0) then begin
 	      if (nonblank(ORrw.PlanShipRow)) then begin
 	        dat = StringToDate(ORrw.PlanShipRow);        
