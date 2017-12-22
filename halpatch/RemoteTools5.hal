@@ -1029,7 +1029,6 @@ BEGIN
 	    end;
 	    ordered = remn;
 	    testf = true;
-	    logtext(0,ORrw.ArtCode & " " & remn);
 	    if (PlanDelRec.PreventDelivery!=0) then begin
 	      if (nonblank(ORrw.PlanShipRow)) then begin
 	        dat = StringToDate(ORrw.PlanShipRow);        
@@ -1136,6 +1135,7 @@ BEGIN
             end;
           end; //Edit***************************Sasha2,13:13 27.06.2014
         end; //Edit***************************Sasha2,14:17 03.07.2014 
+        logtext(0,SHrw.ArtCode & srw);
 	      MatRowPut(SHp,srw,SHrw);      
 	      totq = totq + SHrw.Ship;
 	      shrwcnt = MatRowCnt(SHp);
