@@ -1029,7 +1029,7 @@ BEGIN
 	    end;
 	    ordered = remn;
 	    testf = true;
-	    logtext(ORrw.ArtCode & " " & remn);
+	    logtext(0,ORrw.ArtCode & " " & remn);
 	    if (PlanDelRec.PreventDelivery!=0) then begin
 	      if (nonblank(ORrw.PlanShipRow)) then begin
 	        dat = StringToDate(ORrw.PlanShipRow);        
