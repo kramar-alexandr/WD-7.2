@@ -122,6 +122,7 @@ begin
     EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
     EditField(h,60,150,"Товар",Normal,f2,false,INSClass);
     EditField(h,80,150,"Склад",Normal,f3,false,LocationSClass);
+    CheckBox(h,100,0,"Cost",flags[1]);
   EndWindow;
 end;
 
