@@ -1800,23 +1800,23 @@ LkInvoiceTypeCash:;
   end; 
 
   
-    if (stat==insertmode and IVp.OKFlag!=0) then begin		//Edit----------------------Dima  09.02.2016
-					if (CheckIsBlankFIFO(IVp,i)) then begin
-      			RecordCheckError(31062,"",i,"FIFORowVal");      
-      			res = -1;
-      			goto L99;
-					end; 
-		end else begin 
-			if (stat==updatemode) then begin
-				if (IVp.OKFlag!=0 and IV2p.OKFlag==0) then begin
-					if (CheckIsBlankFIFO(IVp,i)) then begin
-      			RecordCheckError(31062,"",i,"FIFORowVal");      
-      			res = -1;
-      			goto L99;
-					end; 
-				end;
-			end;				
-		end;		//Edit--end--------------------Dima  09.02.2016
+	if (stat==insertmode and IVp.OKFlag!=0) then begin		//Edit----------------------Dima  09.02.2016
+				if (CheckIsBlankFIFO(IVp,i)) then begin
+					RecordCheckError(31062,"",i,"FIFORowVal");      
+					res = -1;
+					goto L99;
+				end; 
+	end else begin 
+		if (stat==updatemode) then begin
+			if (IVp.OKFlag!=0 and IV2p.OKFlag==0) then begin
+				if (CheckIsBlankFIFO(IVp,i)) then begin
+					RecordCheckError(31062,"",i,"FIFORowVal");      
+					res = -1;
+					goto L99;
+				end; 
+			end;
+		end;				
+	end;		//Edit--end--------------------Dima  09.02.2016
 
 
 
