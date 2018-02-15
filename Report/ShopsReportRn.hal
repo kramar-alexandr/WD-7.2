@@ -392,7 +392,7 @@ integer compno;
 						RunProgram("Stock/ICShopsReport.sh", "");
 					  closefile;*/
 					  
-					  case 15: delete_file("Stock/IDShopsReport.xls");
+		case 15: delete_file("Stock/IDShopsReport.xls");
 						CreateFile("Stock/IDShopsReport.xls");
 						closefile;
 						openexportfile("Stock/IDShopsReport.xls",true);
