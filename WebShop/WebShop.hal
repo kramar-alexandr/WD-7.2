@@ -500,7 +500,7 @@ end;
 
 
 
-global updating procedure WebIDShop()
+global webpublic updating procedure WebIDShop()
 begin
 area areply;
 Boolean TrHs,testf,comma;
