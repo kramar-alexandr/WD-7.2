@@ -532,7 +532,7 @@ record ItemStatusVc ISr;
 		
 			if(testf)then begin
 				if(comma)then begin
-				 WebOutString(",");
+				 WebOutString("," & chr(13) & chr(10));
 				end;
 			
 				WebOutString("{");
