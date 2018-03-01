@@ -523,7 +523,7 @@ record ItemStatusVc ISr;
 		SetAreaZerosize(areply);
 	
 		WebSetContentType("application/binary");  
-		WebOutString("[");
+		WebOutString("{");
 	
 		Trhs = true;
 		comma = false;
@@ -535,7 +535,7 @@ record ItemStatusVc ISr;
 				 WebOutString("," & chr(13) & chr(10));
 				end;
 			
-				WebOutString("{");
+				
 			
 				partno = "";
 				lenth = len(INr.Code);
@@ -548,7 +548,9 @@ record ItemStatusVc ISr;
 					partno = partno & char;
 				end;
 			
-				WebOutString("\"article\":" & "\"" & partno & "\",");
+				WebOutString("\"" & partno & "\" : ");
+				WebOutString("{");
+				
 				PLr.ArtCode = INr.Code;
 				PLr.PLCode = "RRPD1";
 				readfirstmain(PLr,2,true);
@@ -573,7 +575,7 @@ record ItemStatusVc ISr;
 			end;
 		
 		end;
-		WebOutString("]");
+		WebOutString("}");
 	
   ResetCompany(15);
   
