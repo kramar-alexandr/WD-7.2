@@ -552,6 +552,9 @@ record ItemStatusVc ISr;
 				PLr.ArtCode = INr.Code;
 				PLr.PLCode = "RRPD1";
 				readfirstmain(PLr,2,true);
+				if(PLr.ExVatPrice==0)then begin
+					PLr.ExVatPrice = 0;
+				end;
 				WebOutString("\"price\":" & "" & PLr.ExVatPrice & ",");
 				
 				availab = "NONE";
