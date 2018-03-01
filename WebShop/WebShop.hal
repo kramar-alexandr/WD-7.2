@@ -551,6 +551,7 @@ record ItemStatusVc ISr;
 				WebOutString("\"article\":" & "\"" & partno & "\",");
 				PLr.ArtCode = INr.Code;
 				PLr.PLCode = "RRPD1";
+				readfirstmain(PLr,2,true);
 				WebOutString("\"price\":" & "" & PLr.ExVatPrice & ",");
 				
 				availab = "NONE";
@@ -561,7 +562,7 @@ record ItemStatusVc ISr;
 						availab = "YES";
 					end;
 				end;
-				WebOutString("\"accessibility\":" & "[" & availab & "]");
+				WebOutString("\"accessibility\":" & "\"" & availab & "\"");
 			
 				WebOutString("}");
 			
