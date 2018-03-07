@@ -496,3 +496,88 @@ ResetCompany(14);
 
 return;
 end;
+
+
+
+
+global webpublic updating procedure WebIDShop()
+begin
+area areply;
+Boolean TrHs,testf,comma;
+record WebSyncRegVc WSRr;
+record WebSyncBlock WSBb;
+integer lenth,i;
+longint price;
+string 50 partno,availab;
+string 5 char;
+record INVc INr;
+record PLVc PLr;
+record ItemStatusVc ISr;
+  
+  logtext(0,"WebSyncConnect_ID");
+  
+  SetCompany(15,false);
+  
+		blockload(WSBb);
+	
+		SetAreaZerosize(areply);
+	
+		WebSetContentType("application/binary");  
+		WebOutString("{");
+	
+		Trhs = true;
+		comma = false;
+		While(loopmain(INr,1,TrHs))begin
+			testf = true;
+		
+			if(testf)then begin
+				if(comma)then begin
+				 WebOutString("," & chr(13) & chr(10));
+				end;
+			
+				
+			
+				partno = "";
+				lenth = len(INr.Code);
+				for(i=0;i<lenth;i=i+1)begin
+					char = "";
+					char = mid(INr.Code,i,1);
+					if(char=="\"")then begin
+						char = "\\" & char; 
+					end;
+					partno = partno & char;
+				end;
+			
+				WebOutString("\"" & partno & "\" : ");
+				WebOutString("{");
+				
+				PLr.ArtCode = INr.Code;
+				PLr.PLCode = "RRPD1";
+				readfirstmain(PLr,2,true);
+				if(PLr.ExVatPrice==0)then begin
+					PLr.ExVatPrice = 0;
+				end;
+				WebOutString("\"price\":" & "" & PLr.ExVatPrice & ",");
+				
+				availab = "NONE";
+				ISr.Code = INr.Code;
+				ISr.Location = ";;;";
+				if(readfirstmain(ISr,2,true))then begin
+					if(ISr.Instock>0)then begin
+						availab = "YES";
+					end;
+				end;
+				WebOutString("\"accessibility\":" & "\"" & availab & "\"");
+			
+				WebOutString("}");
+			
+				comma = true;
+			end;
+		
+		end;
+		WebOutString("}");
+	
+  ResetCompany(15);
+  
+return;
+end;
