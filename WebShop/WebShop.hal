@@ -592,7 +592,7 @@ record ItemStatusVc ISr;
 				if (sum >= 1 and sum <= 3) then begin
 					availab = sum;
 				end;
-				if (sum >= 3) then begin
+				if (sum > 3) then begin
 					availab = "YES";
 				end;
 				/*ISr.Location = ";;;";
