@@ -564,14 +564,27 @@ record ItemStatusVc ISr;
 				sum = 0;
 				TrHs1 = true;
 				while (loopmain(ISr,1,TrHs1)) begin
-					//testf = true;
+					testf = false;
 					if (ISr.Code != INr.Code) then begin
 						TrHs1 = false;
-						//testf = false
 					end;
 					if (TrHs1) then begin
-						if (ISr.Instock > 0) then begin
-							sum = sum + ISr.Instock;
+						if (ISr.Location=="INV#1_LV") then begin
+							testf = true;
+						end;
+						if (ISr.Location=="INV#2") then begin
+							testf = true;
+						end;
+						if (ISr.Location=="INV#2_MDG") then begin
+							testf = true;
+						end;
+						if (ISr.Location=="INV#2_NEW") then begin
+							testf = true;
+						end;	
+						if (testf) then begin
+							if (ISr.Instock > 0) then begin
+								sum = sum + ISr.Instock;
+							end;
 						end;
 					end;
 				end;
