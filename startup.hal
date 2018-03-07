@@ -122,7 +122,9 @@ begin
 	//Document("„рук товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
   //Document("…тикетки партґй (надходженнЯ)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
   //Document("…тикетки партґй (перемґщеннЯ)",GigieneTextRClass,StockMovLabPartForm,LabelPartStockMovFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
-	Import("§мпорт цґн",ImportPLClass,ImportPLIn,modDI); //Edit***************************Sasha2,10:01 02.10.2014
+	
+	Import("§мпорт товаров",ImportPLClass,ImpINvcIn,modSY); //Edit***************************Sasha2,10:01 02.10.2014
+	
 	Import("§мпорт цґн UID",ImportPLClass,ImportPLInUUID,modDI); //Edit***************************Sasha2,10:01 02.10.2014
 	Import("€мпорт форм документов",ImportUniversalLClass,ImpDocVc,modSY);
 	Import("€мпорт стилей документов",ImportUniversalLClass,ImpStylesVc,modSY);

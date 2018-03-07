@@ -262,3 +262,67 @@ LAnyHistoryAfterInvoice:;
   AnyHistoryAfterInvoice = res;
   return;
 end;
+
+
+
+global
+updating procedure ImpINvcIn() // Edit Dima ************* 2018-02-16 01:32 PM
+begin
+	record INVc INr;
+	row	INVc	INrw;
+	integer		i, mtrw;
+	string 255	SN;
+	string 255	SN1;
+	string 255	DESC;
+	string 255	ShortName;
+	string 255	PN;
+	string 255	Model;
+	string 255	Colour;
+	string 255	UnitOfMeasure;
+	string 255	QtyInStock;
+	string 255	QtyInUnit;
+	string 255	AveragePriceUSD;
+	string 255	AveragePriceEuro;
+	string 255	MfrNo;
+	string 255	Category;
+	string 255	ConditionCode;
+	string 255	Bulk;
+	string 255	Indx;
+	string 255	Discontinued;
+	string 255	Lock;
+	string 255	FA;
+	string 255	DateUpdated;
+	string 255	OnOrder;
+	string 255	OrderDate;
+	string 255	ReorderLevel;
+	string 255	PoNo;
+	record DIVC	DIr;
+	boolean		TrHs;
+	boolean 	Found;
+	string 255	last_color;
+	string 255 	last_model;
+	
+	while (TestEOF()==false) begin
+		SN = ImportField;
+		SN1 = ImportField;
+		
+		INr.Code = SN;
+		if(readfirstmain(INr,1,true)==false)then begin
+			recordnew(INr);
+			INr.Code = SN;
+			INr.Name = SN1;
+			INr.LName = SN1;
+			INr.SerNrf = 1;
+			INr.ItemType = 1;
+			INr.Group = "APPLE";
+			if (nonblank(INr.Code)) then begin
+				logtext(0,INr.Code & " | " & INr.Name & " | " & INr.DispGroups);
+				RecordStore(INr,true);
+			end;
+		end else begin
+			Logtext(0,"Item Exist" & SN);
+		end;
+		if (NextImportLine(true)) then begin end;
+	end;
+	return;
+end;
