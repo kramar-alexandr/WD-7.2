@@ -559,7 +559,7 @@ record ItemStatusVc ISr;
 				end;
 				WebOutString("\"price\":" & "" & PLr.ExVatPrice & ",");
 				
-				availab = "NONE";
+				availab = "пусто";
 				ISr.Code = INr.Code;
 				sum = 0;
 				TrHs1 = true;
@@ -593,7 +593,7 @@ record ItemStatusVc ISr;
 					availab = sum;
 				end;
 				if (sum > 3) then begin
-					availab = "YES";
+					availab = "есть";
 				end;
 				/*ISr.Location = ";;;";
 				if(readfirstmain(ISr,2,true))then begin
