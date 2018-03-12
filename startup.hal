@@ -135,9 +135,9 @@ begin
 	
   Export("Register Export",ExpRegEClass,ExpRegEn,modPOS);
   Export("Експорт певних регістрів",ExportRegistersFromCurCompEClass,ExportRegistersFromCurCompEn,modDBMain); //Edit***************************Sasha2,17:57 01.12.2016
-  
   Import("Імпорт наявності товарів WEB",WebINImportIClass,ImportWebItemsIn,modSO);
-
+	Import("Імпорт цін",ImportPLClass,ImportPLIn,modDI); //Edit***************************Sasha2,10:01 02.10.2014
+	
   Maintenance("Conver 2 base cur to 1",MyVClass,RecalcRegisters2CurValMn,modDBMain);  //Edit**********Dima, 28.01.2014
   Maintenance("Fix FB",MyVClass,FixFBVcMn,modDBMain);  //Edit**********Dima, 28.01.2014
   Maintenance("Поновити синх. цін",UpdPLSyncVClass,UpdateSyncPricesMn,modDI); 
