@@ -668,15 +668,23 @@ end; //Edit***************************Sasha2,15:57 24.10.2016 }
 global updating procedure UpdateSyncPricesMn()
 begin
 	record PLVc PLr,oldPLr;
+	record PLDefVc PLdefr;
 	string 200 comment;
+	vector boolean pldefflag;
+	
+	while(loopmain(PLdefr,1,true))begin
+		pldefflag[PLdefr.Code] = true;
+	end;
 	
 	while(loopmain(PLr,1,true))begin
-		comment = PLr.Comment;
-		recordcopy(oldPLr,PLr);
+		if(pldefflag[PLr.PLCode])then begin
+			comment = PLr.Comment;
+			recordcopy(oldPLr,PLr);
 			PLr.Comment = PLr.Comment & " ";
-		recordUpdate(oldPLr,PLr,true);
-		PLr.Comment = comment;
-		recordStore(PLr,true);
+			recordUpdate(oldPLr,PLr,true);
+			PLr.Comment = comment;
+			recordStore(PLr,true);
+		end;
 	end;
 
 return;
