@@ -559,7 +559,7 @@ record ItemStatusVc ISr;
 				end;
 				WebOutString("\"price\":" & "" & PLr.ExVatPrice & ",");
 				
-				availab = "пусто";
+				availab = "";
 				ISr.Code = INr.Code;
 				sum = 0;
 				TrHs1 = true;
