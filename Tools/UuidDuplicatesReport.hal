@@ -113,8 +113,8 @@ begin
 				end else begin
 					goto M1;
 				end;
-				logtext(0,"Record create PL " & PLr2.ArtCode);*/
-				RecordInsert(PLr2,true);
+				logtext(0,"Record create PL " & PLr2.ArtCode);
+				RecordInsert(PLr2,true);*/
 				startformat(15);
 					outstring(30,10,PLr.ArtCode,false);
 					outstring(200,10,PLr.UUID,false);
