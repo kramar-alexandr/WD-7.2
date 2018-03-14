@@ -103,7 +103,7 @@ begin
 					PLr2.PLCode = PLr.PLCode;
 					PLr2.Comment = PLr.Comment;
 					PLr2.ExVatPrice = PLr.ExVatPrice;
-					M1:;
+					/*M1:;
 					PLr.ArtCode = "XXXX" & counter;
 					counter = counter + 1;
 					PLr3.ArtCode = PLr.ArtCode;
@@ -115,7 +115,7 @@ begin
 						goto M1;
 					end;
 					logtext(0,"Record create PL " & PLr2.ArtCode);
-					RecordInsert(PLr2,true);
+					RecordInsert(PLr2,true);*/
 					startformat(15);
 						OutStringID(15,"DblPLVc",PLr.ArtCode,false,PLr.PLCode & ":" & PLr.ArtCode);
 						outstring(30,10,PLr.ExVatPrice,false);
