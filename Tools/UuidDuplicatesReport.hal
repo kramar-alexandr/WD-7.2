@@ -28,7 +28,7 @@ begin
 			end;
 			if (testf) then begin
 				occurance[PLr.UUID] = occurance[PLr.UUID] + 1;
-				ArtCodes[PLr.UUID] = PLr.ArtCode;
+				//ArtCodes[PLr.UUID] = PLr.ArtCode;
 			end;
 		end;
 		GetVectorTags(occurance, atags);
@@ -80,7 +80,7 @@ begin
 					end;
 					
 					if(testf)then begin
-						if (occurance[PLr.UUID] > 1) then begin
+						if (PLr.UUID == stringtouuid(atags[i])) then begin
 							startformat(15);
 								outstring(30,10,PLr.ArtCode,false);
 								outstring(200,10,PLr.UUID,false);
