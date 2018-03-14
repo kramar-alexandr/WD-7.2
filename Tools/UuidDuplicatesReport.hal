@@ -1,0 +1,95 @@
+SetLangMode(LangUkrainian,"UKR",0);
+
+updating
+global procedure UuidDuplicatesRn(record RcVc RepSpec)
+begin
+
+	record PLVc 		PLr;
+	record PLVc			PLr2;
+	record PLVc			PLr3;
+	boolean				TrHs, testf;
+	vector integer		occurance;
+	vector string 255	ArtCodes;
+	array string 255	atags;
+	integer				i;
+	integer				counter;
+	string 20 plcode;
+	
+	plcode = "RRPD1";
+	
+	startreportnoheaderjob("Uuid дуплґкати");
+		PLr.PLCode = plcode;
+		TrHs = true;
+		while (loopkey("PLCode",PLr,1,TrHs)) begin
+			testf = true;
+			if (PLr.PLCode!=plcode) then begin
+				testf = false;
+				TrHs = false;
+			end;
+			if (testf) then begin
+				occurance[PLr.UUID] = occurance[PLr.UUID] + 1;
+				ArtCodes[PLr.UUID] = PLr.ArtCode;
+			end;
+		end;
+		GetVectorTags(occurance, atags);
+		resetloop(PLr);
+		
+		/*PLr.PLCode = plcode;
+		TrHs = true;
+		while (loopkey("PLCode",PLr,1,TrHs)) begin
+			testf = true;
+			if (PLr.PLCode!=plcode) then begin
+				testf = false;
+				TrHs = false;
+			end;
+			
+			if(testf)then begin
+				if (occurance[PLr.UUID] > 1) then begin
+					logtext(0, occurance[PLr.UUID] & " " & PLr.UUID);
+					RecordNew(PLr2);
+					PLr2.ArtCode = PLr.ArtCode;
+					PLr2.PLCode = PLr.PLCode;
+					PLr2.Comment = PLr.Comment;
+					PLr2.ExVatPrice = PLr.ExVatPrice;
+					M1:;
+					PLr.ArtCode = "XX" & counter;
+					counter = counter + 1;
+					PLr3.ArtCode = PLr.ArtCode;
+					PLr3.PLCode = PLr.PLCode;
+					if (readfirstmain(PLr3,2,true)==false) then begin
+						RecordStore(PLr,true);
+					end else begin
+						goto M1;
+					end;
+					RecordInsert(PLr2,true);
+					stepback(PLr);
+				end;
+			end;
+		end;*/
+		for(i=0;i<atags.length;i=i+1) begin
+			if (occurance[atags[i]]>1) then begin
+				
+				resetloop(PLr);
+				PLr.PLCode = plcode;
+				TrHs = true;
+				while(loopkey("PLCode",PLr,1,TrHs)) begin
+					testf = true;
+					if (PLr.PLCode!=plcode) then begin
+						testf = false;
+						TrHs = false;
+					end;
+					
+					if(testf)then begin
+						if (occurance[PLr.UUID] > 1) then begin
+							startformat(15);
+								outstring(30,10,PLr.ArtCode,false);
+								outstring(200,10,PLr.UUID,false);
+							endformat;
+						end;
+					end;
+				end;
+			end;
+		end;
+	endjob;
+return;
+end;
