@@ -10,8 +10,8 @@ begin
 	boolean				TrHs, testf;
 	vector integer		occurance;
 	vector string 255	ArtCodes;
-	array string 255	atags;
-	integer				i;
+	array string 255	atags,artcodesar;
+	integer				i,k;
 	integer				counter;
 	string 20 plcode;
 	
@@ -81,6 +81,8 @@ begin
 					
 					if(testf)then begin
 						if (PLr.UUID == stringtouuid(atags[i])) then begin
+							artcodesar[k] = PLr.ArtCode;
+							k=k+1;
 							startformat(15);
 								outstring(30,10,PLr.ArtCode,false);
 								outstring(200,10,PLr.UUID,false);
@@ -90,6 +92,20 @@ begin
 				end;
 			end;
 		end;
+		black_divider(0,1);
+		for(i=0;i<k;i=i+1) begin
+			PLr.ArtCode = artcodesar[i];
+			PLr.PLCode = plcode;
+			if(readfirstmain(PLr,2,true))then begin
+				startformat(15);
+					outstring(30,10,PLr.ArtCode,false);
+					outstring(200,10,PLr.UUID,false);
+				endformat;
+			end;
+		
+		end;
+		
+		
 	endjob;
 return;
 end;
