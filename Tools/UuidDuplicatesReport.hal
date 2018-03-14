@@ -96,30 +96,32 @@ begin
 		for(i=0;i<k;i=i+1) begin
 			PLr.ArtCode = artcodesar[i];
 			PLr.PLCode = plcode;
-			if(readfirstmain(PLr,2,true))then begin
-				recordnew(PLr2);
-				PLr2.ArtCode = PLr.ArtCode;
-				PLr2.PLCode = PLr.PLCode;
-				PLr2.Comment = PLr.Comment;
-				PLr2.ExVatPrice = PLr.ExVatPrice;
-				/*M1:;
-				PLr.ArtCode = "XXXX" & counter;
-				counter = counter + 1;
-				PLr3.ArtCode = PLr.ArtCode;
-				PLr3.PLCode = PLr.PLCode;
-				if (readfirstmain(PLr3,2,true)==false) then begin
-					logtext(0,"Record rename PL " & PLr2.ArtCode & " -> " & PLr.ArtCode);
-					RecordStore(PLr,true);
-				end else begin
-					goto M1;
+			if(left(PLr.ArtCode,4)!="XXXX")then begin
+				if(readfirstmain(PLr,2,true))then begin
+					recordnew(PLr2);
+					PLr2.ArtCode = PLr.ArtCode;
+					PLr2.PLCode = PLr.PLCode;
+					PLr2.Comment = PLr.Comment;
+					PLr2.ExVatPrice = PLr.ExVatPrice;
+					M1:;
+					PLr.ArtCode = "XXXX" & counter;
+					counter = counter + 1;
+					PLr3.ArtCode = PLr.ArtCode;
+					PLr3.PLCode = PLr.PLCode;
+					if (readfirstmain(PLr3,2,true)==false) then begin
+						logtext(0,"Record rename PL " & PLr2.ArtCode & " -> " & PLr.ArtCode);
+						RecordStore(PLr,true);
+					end else begin
+						goto M1;
+					end;
+					logtext(0,"Record create PL " & PLr2.ArtCode);
+					RecordInsert(PLr2,true);
+					startformat(15);
+						OutStringID(15,"DblPLVc",PLr.ArtCode,false,PLr.PLCode & ":" & PLr.ArtCode);
+						outstring(30,10,PLr.ExVatPrice,false);
+						outstring(200,10,PLr.UUID,false);
+					endformat;
 				end;
-				logtext(0,"Record create PL " & PLr2.ArtCode);
-				RecordInsert(PLr2,true);*/
-				startformat(15);
-					OutStringID(15,"DblPLVc",PLr.ArtCode,false,PLr.PLCode & ":" & PLr.ArtCode);
-					outstring(30,10,PLr.ExVatPrice,false);
-					outstring(200,10,PLr.UUID,false);
-				endformat;
 			end;
 		
 		end;
