@@ -102,7 +102,7 @@ begin
 				PLr2.PLCode = PLr.PLCode;
 				PLr2.Comment = PLr.Comment;
 				PLr2.ExVatPrice = PLr.ExVatPrice;
-				M1:;
+				/*M1:;
 				PLr.ArtCode = "XXXX" & counter;
 				counter = counter + 1;
 				PLr3.ArtCode = PLr.ArtCode;
@@ -113,7 +113,7 @@ begin
 				end else begin
 					goto M1;
 				end;
-				logtext(0,"Record create PL " & PLr2.ArtCode);
+				logtext(0,"Record create PL " & PLr2.ArtCode);*/
 				RecordInsert(PLr2,true);
 				startformat(15);
 					outstring(30,10,PLr.ArtCode,false);
