@@ -116,7 +116,8 @@ begin
 				logtext(0,"Record create PL " & PLr2.ArtCode);
 				RecordInsert(PLr2,true);*/
 				startformat(15);
-					outstring(30,10,PLr.ArtCode,false);
+					OutStringID(15,"DblPLVc",PLr.ArtCode,false,PLr.PLCode & ":" & PLr.ArtCode);
+					outstring(30,10,PLr.ExVatPrice,false);
 					outstring(200,10,PLr.UUID,false);
 				endformat;
 			end;
