@@ -282,10 +282,6 @@ already checked in IVVcRecordCheckRows
   
   arownum[asalescnt] = rownr;// Edit ************************** Wednesday, 9 September 2015 17:27:52
   asalessum[asalescnt] = salesum;
-  
-  logtext(0,"salesum " & salesum);
-  logtext(0,"rowsum " & rowsum);
-  
   asalesrowsum[asalescnt] = rowsum;
   asalesqty[asalescnt] = IVrw.Quant;
   asalesacc[asalescnt] = ivraccno;
@@ -470,9 +466,6 @@ BEGIN
     revacc = asalesacc[i];
     objstr = asalesobj[i];
     ivraccno = revacc; 
-    
-    logtext(0,"----rowsum " & rowsum);
-    logtext(0,"----asalesstp[i] " & asalesstp[i]);
 
     if (nonblank(asalesperiodcode[i])) then begin
       ASPr.Code = asalesperiodcode[i];
@@ -661,9 +654,7 @@ retention change
             
             rs = realsumbase[j];
             rs = Round(rs,DefaultCurRoundOff); //Edit***************************Sasha2,17:41 21.12.2015
-            
-            logtext(0,"realsumbase " & realsumbase[j]);
-            
+                        
             curdif = curdif - rs;
             usedacc = "";
 						if(rs>0)then begin
@@ -865,9 +856,7 @@ LNoFIFOfound:; //Edit***************************Sasha2,11:00 31.08.2015
               trev = trev - tvat;
             end;          
         end;      
-  
-  			logtext(0,"traaaans " & IVrw.ArtCode);
-  			
+    			
         if ((IVp.ExportFlag==0) or (IVp.ExportFlag==3) or (IVp.ExportFlag==4)) then begin
           if (ARAccb.BookVATOnlyFromDownpayment!=0) and (ivrwstp==kInvoiceRowTypeDownpayment) then begin
             errstrno = 0;          
