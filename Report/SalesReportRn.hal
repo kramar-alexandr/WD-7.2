@@ -640,6 +640,10 @@ begin
 					if(readfirstmain(PUr,1,true))then begin
 						curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty);
 						curncy[ressize] = IHr.PUCurncyCode;
+						if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
+							PUr.FrRate = 1;
+							PUr.ToRateB1 = 1;
+						end;
 						rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 						if(PUr.CurncyCode==BCb.BaseCur2)then begin
 							rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -687,6 +691,10 @@ begin
 									if(readfirstmain(PUr,1,true))then begin
 										curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 										curncy[ressize] = IHr.PUCurncyCode;
+										if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
+											PUr.FrRate = 1;
+											PUr.ToRateB1 = 1;
+										end;
 										rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 										if(PUr.CurncyCode==BCb.BaseCur2)then begin
 											rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -739,6 +747,10 @@ begin
 										if(readfirstmain(PUr,1,true))then begin
 											curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 											curncy[ressize] = IHr.PUCurncyCode;
+											if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
+												PUr.FrRate = 1;
+												PUr.ToRateB1 = 1;
+											end;
 											rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 											if(PUr.CurncyCode==BCb.BaseCur2)then begin
 												rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -794,6 +806,10 @@ begin
 														curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 														curncy[ressize] = IHr.PUCurncyCode;
 														if(PUr.CurncyCode!=BCb.BaseCur1)then begin
+															if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
+																PUr.FrRate = 1;
+																PUr.ToRateB1 = 1;
+															end;
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 															if(PUr.CurncyCode==BCb.BaseCur2)then begin
 																rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
@@ -814,6 +830,10 @@ begin
 														curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 														curncy[ressize] = IHr.PUCurncyCode;
 														if(PUr.CurncyCode!=BCb.BaseCur1)then begin
+															if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
+																PUr.FrRate = 1;
+																PUr.ToRateB1 = 1;
+															end;
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 															if(PUr.CurncyCode==BCb.BaseCur2)then begin
 																rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;

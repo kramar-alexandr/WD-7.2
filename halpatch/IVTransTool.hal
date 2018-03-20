@@ -561,16 +561,7 @@ retention change
     //in AddIVPrePayRow
     end;
     if ((ivrwstp==kInvoiceRowTypeNormal) or (ivrwstp==kInvoiceRowTypeStructuredItemComponent) or ((ivrwstp==kInvoiceRowTypeDebtorsTransfer) and (IVp.InclVAT==0)) or (ivrwstp==kInvoiceRowTypeInterest) or (ivrwstp==kInvoiceRowTypeDownpayment) or (ivrwstp==kInvoiceRowTypeLoan) or (ivrwstp==kInvoiceRowTypeLoanInterest) or (ivrwstp==kInvoiceRowTypeCorrection) or (ivrwstp==kInvoiceRowTypeGiftVoucherSold) or (ivrwstp==kInvoiceRowTypeRetention) or (ivrwstp==kInvoiceRowTypeMultiBuyDiscount)) then begin
-/*    
-      if (opvataccf) then begin
-        GetVATCodePrelVATAcc(vatcod,vatacc);
-        if (blank(vatacc)) then begin
-          GetVATCodeSalesVatAcc(vatcod,vatacc);
-        end;
-      end else begin
-        GetVATCodeSalesVatAcc(vatcod,vatacc);
-      end;
-*/      
+     
       if (switchtransf) then begin // true if transaction made not in RecordCheck //Edit***************************Sasha2,11:50 28.08.2015 {
         
         cred = 1;
@@ -670,6 +661,9 @@ retention change
             
             rs = realsumbase[j];
             rs = Round(rs,DefaultCurRoundOff); //Edit***************************Sasha2,17:41 21.12.2015
+            
+            logtext(0,"realsumbase " & realsumbase[j]);
+            
             curdif = curdif - rs;
             usedacc = "";
 						if(rs>0)then begin
