@@ -484,7 +484,7 @@ begin
 	record WSVc WSr; //Edit***************************Sasha2,14:26 18.05.2015
 	row WSVc WSrw; //Edit***************************Sasha2,14:26 18.05.2015
 	val t;
-	val fr,to1,to2,br1,br2;
+	val fr,to1,to2,br1,br2,x,pufr,puto;
 	string 100 com;
 	boolean findf;
 	string 10 curncyloc;
@@ -641,8 +641,9 @@ begin
 						curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty);
 						curncy[ressize] = IHr.PUCurncyCode;
 						if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
-							PUr.FrRate = 1;
-							PUr.ToRateB1 = 1;
+							GetFullCurncyRate (PUr.CurncyCode,PUr.TransDate,pufr,puto,x,x,x);
+							PUr.FrRate = pufr;
+							PUr.ToRateB1 = puto;
 						end;
 						rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 						if(PUr.CurncyCode==BCb.BaseCur2)then begin
@@ -692,8 +693,9 @@ begin
 										curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 										curncy[ressize] = IHr.PUCurncyCode;
 										if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
-											PUr.FrRate = 1;
-											PUr.ToRateB1 = 1;
+											GetFullCurncyRate (PUr.CurncyCode,PUr.TransDate,pufr,puto,x,x,x);
+											PUr.FrRate = pufr;
+											PUr.ToRateB1 = puto;
 										end;
 										rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 										if(PUr.CurncyCode==BCb.BaseCur2)then begin
@@ -748,8 +750,9 @@ begin
 											curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
 											curncy[ressize] = IHr.PUCurncyCode;
 											if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
-												PUr.FrRate = 1;
-												PUr.ToRateB1 = 1;
+												GetFullCurncyRate (PUr.CurncyCode,PUr.TransDate,pufr,puto,x,x,x);
+												PUr.FrRate = pufr;
+												PUr.ToRateB1 = puto;
 											end;
 											rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 											if(PUr.CurncyCode==BCb.BaseCur2)then begin
@@ -807,8 +810,9 @@ begin
 														curncy[ressize] = IHr.PUCurncyCode;
 														if(PUr.CurncyCode!=BCb.BaseCur1)then begin
 															if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
-																PUr.FrRate = 1;
-																PUr.ToRateB1 = 1;
+																GetFullCurncyRate (PUr.CurncyCode,PUr.TransDate,pufr,puto,x,x,x);
+																PUr.FrRate = pufr;
+																PUr.ToRateB1 = puto;
 															end;
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 															if(PUr.CurncyCode==BCb.BaseCur2)then begin
@@ -831,8 +835,9 @@ begin
 														curncy[ressize] = IHr.PUCurncyCode;
 														if(PUr.CurncyCode!=BCb.BaseCur1)then begin
 															if(PUr.FrRate==0 or PUr.ToRateB1==0)then begin
-																PUr.FrRate = 1;
-																PUr.ToRateB1 = 1;
+																GetFullCurncyRate (PUr.CurncyCode,PUr.TransDate,pufr,puto,x,x,x);
+																PUr.FrRate = pufr;
+																PUr.ToRateB1 = puto;
 															end;
 															rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
 															if(PUr.CurncyCode==BCb.BaseCur2)then begin
