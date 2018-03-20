@@ -866,7 +866,8 @@ LNoFIFOfound:; //Edit***************************Sasha2,11:00 31.08.2015
             end;          
         end;      
   
-  
+  			logtext(0,"traaaans " & IVrw.ArtCode);
+  			
         if ((IVp.ExportFlag==0) or (IVp.ExportFlag==3) or (IVp.ExportFlag==4)) then begin
           if (ARAccb.BookVATOnlyFromDownpayment!=0) and (ivrwstp==kInvoiceRowTypeDownpayment) then begin
             errstrno = 0;          
