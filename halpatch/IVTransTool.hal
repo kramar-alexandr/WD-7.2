@@ -421,7 +421,9 @@ BEGIN
 	  if (blank(IVp.Objects)) then begin
 	    IVp.Objects ="DT_ST2";
 	  end else begin
-	    IVp.Objects = IVp.Objects & "," & "DT_ST2";
+	  	if(!setinset("DT_ST2",IVp.Objects))then begin
+				IVp.Objects = IVp.Objects & "," & "DT_ST2";
+	    end;
 	  end;
     For(i=0;i<rwcnt;i=i+1) begin
     	matrowget(LMAb,i,LMArw);
