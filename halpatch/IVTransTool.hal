@@ -283,6 +283,9 @@ already checked in IVVcRecordCheckRows
   arownum[asalescnt] = rownr;// Edit ************************** Wednesday, 9 September 2015 17:27:52
   asalessum[asalescnt] = salesum;
   
+  logtext(0,"salesum " & salesum);
+  logtext(0,"rowsum " & rowsum);
+  
   asalesrowsum[asalescnt] = rowsum;
   asalesqty[asalescnt] = IVrw.Quant;
   asalesacc[asalescnt] = ivraccno;
