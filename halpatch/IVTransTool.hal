@@ -470,6 +470,9 @@ BEGIN
     revacc = asalesacc[i];
     objstr = asalesobj[i];
     ivraccno = revacc; 
+    
+    logtext(0,"----rowsum " & rowsum);
+    logtext(0,"----asalesstp[i] " & asalesstp[i]);
 
     if (nonblank(asalesperiodcode[i])) then begin
       ASPr.Code = asalesperiodcode[i];
