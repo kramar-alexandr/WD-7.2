@@ -1253,7 +1253,7 @@ BEGIN
 		RepSpec.d1=currentdate;
 	end;
 	
-  if (backdate==false and custcode!="INERNET") then begin 
+  if (backdate==false and custcode!="INERNET") then begin
     found = true;
     ARPayr.CustCode = custcode;
     while LoopKey("CustCode",ARPayr,1,found) begin
@@ -1287,7 +1287,7 @@ BEGIN
                   if (IPrw.CUPNr==ARPayHistr.CUPNr) then begin
                     custname = IPrw.CustName;
                     koef = IPrw.BankVal/IPrw.RecVal;
-                    ipcurncy = IPrw.BankCurncy;
+                    ipcurncy = IPrw.RecCurncy;
                   end;
                 end;
               end;
@@ -1450,6 +1450,7 @@ BEGIN
             end else begin
               prepbal = prepbal - ARPayHistr.Val;
             end; 
+            //logtext(0,";;;-" & ARPayHistr.CUPNr & ";;;" & ARPayHistr.CurncyCode & ";;;" & -ARPayHistr.BookVal);
             SetTotals(-ARPayHistr.Val,-ARPayHistr.BookVal,1,ARPayHistr.CurncyCode,valClientTot,valTotSum,cur,curcnt);
           end else begin
             prepbalbase = 0; 
@@ -1482,8 +1483,19 @@ BEGIN
                   MatRowGet(IPr,i,IPrw);
                   if (IPrw.CUPNr==ARPayHistr.CUPNr) then begin
                     custname = IPrw.CustName; //Edit***************************Sasha2,16:11 22.04.2015
-                    koef = IPrw.BankVal/IPrw.RecVal; //Edit***************************Sasha2,16:11 22.04.2015
-                    ipcurncy = IPrw.BankCurncy; //Edit***************************Sasha2,16:11 22.04.2015
+                    // Edit Start ---------------------------------------------- Edit Start
+	//Monday, 26 March 2018 18:04:19
+	
+                    if(IPrw.CustCode=="INTERNET")then begin
+											koef = 1; //Edit***************************Sasha2,16:11 22.04.2015
+                    	ipcurncy = IPrw.RecCurncy; //Edit***************************Sasha2,16:11 22.04.2015
+                    end else begin
+											koef = IPrw.BankVal/IPrw.RecVal; //Edit***************************Sasha2,16:11 22.04.2015
+											ipcurncy = IPrw.BankCurncy;
+                    end;
+                    
+	// Edit End ---------------------------------------------- Edit End
+	
                     if (nonblank(IPrw.B1BankVal)) then begin
                       prepbalbase = prepbalbase - t;
                       prepbalbase = prepbalbase + IPrw.B1BankVal;
@@ -1506,6 +1518,7 @@ BEGIN
               end;
             end;
             prepbalcur = ARPayHistr.Val;
+            //logtext(0,";;;+" & ARPayHistr.CUPNr & ";;;" & ipcurncy & ";;;" & prepbalbase);
             SetTotals(prepbalcur,prepbalbase,koef,ipcurncy,valClientTot,valTotSum,cur,curcnt);
             if (amntincurncy==0) then begin
               prepbal = prepbal + prepbalbase;
