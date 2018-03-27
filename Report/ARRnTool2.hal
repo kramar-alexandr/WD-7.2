@@ -1483,19 +1483,14 @@ BEGIN
                   MatRowGet(IPr,i,IPrw);
                   if (IPrw.CUPNr==ARPayHistr.CUPNr) then begin
                     custname = IPrw.CustName; //Edit***************************Sasha2,16:11 22.04.2015
-                    // Edit Start ---------------------------------------------- Edit Start
-	//Monday, 26 March 2018 18:04:19
-	
                     //if(IPrw.CustCode=="INTERNET")then begin
 											koef = 1; //Edit***************************Sasha2,16:11 22.04.2015
                     	ipcurncy = IPrw.RecCurncy; //Edit***************************Sasha2,16:11 22.04.2015
                     /*end else begin
 											koef = IPrw.BankVal/IPrw.RecVal; //Edit***************************Sasha2,16:11 22.04.2015
 											ipcurncy = IPrw.BankCurncy;
-                    end;/*
+                    end;*/
                     
-	// Edit End ---------------------------------------------- Edit End
-	
                     if (nonblank(IPrw.B1BankVal)) then begin
                       prepbalbase = prepbalbase - t;
                       prepbalbase = prepbalbase + IPrw.B1BankVal;
