@@ -1016,7 +1016,6 @@ begin
 							end; 
 							resetloop(IHr);
 						end else begin
-							cred = -1;
 							findf = false;// Edit ************************** Tuesday, 18 August 2015 15:42:12
 							IHr.FileName = "PUVc";
 							IHr.SerialNr = IVrw.SerialNr;
@@ -1041,8 +1040,8 @@ begin
 					
 									if(testf)then begin
 										if(true)then begin	
-											cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
-											curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
+											cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*-cred);
+											curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*-cred);
 											curncy[ressize] = IHr.PUCurncyCode;
 											if(PUr.CurncyCode!=BCb.BaseCur1)then begin
 												rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
@@ -1055,10 +1054,10 @@ begin
 											indate[ressize] =	IHr.TransDate;
 											vecode[ressize] = PUr.VECode;
 											serial[ressize] = IHr.SerialNr; 
-											qty[ressize] = IHr.Qty*cred; 
+											qty[ressize] = -IHr.Qty*cred; 
 											com = "PU ";
 											findf = true;
-											NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
+											NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,-cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 
 											ressize = ressize + 1;
 										end;
