@@ -1015,59 +1015,59 @@ begin
 								end;
 							end; 
 							resetloop(IHr);
-						end;
-			    end else begin
-			    	findf = false;// Edit ************************** Tuesday, 18 August 2015 15:42:12
-						IHr.FileName = "PUVc";
-						IHr.SerialNr = IVrw.SerialNr;
-						IHr.ArtCode = IVrw.ArtCode;
-						TrHs = true;
+						end else begin
+							findf = false;// Edit ************************** Tuesday, 18 August 2015 15:42:12
+							IHr.FileName = "PUVc";
+							IHr.SerialNr = IVrw.SerialNr;
+							IHr.ArtCode = IVrw.ArtCode;
+							TrHs = true;
 						
-						cnt = 1;
-						while(ReadRecordLink(IVr,cnt,PUr,RLr)) begin
-							cnt = cnt+1;
-							if(PUr.SerNr>0)then begin
-								IHr.FileName = "PUVc";
-								IHr.SerialNr = IVrw.SerialNr;
-								IHr.ArtCode = IVrw.ArtCode;
-								TrHs = true;
+							cnt = 1;
+							while(ReadRecordLink(IVr,cnt,PUr,RLr)) begin
+								cnt = cnt+1;
+								if(PUr.SerNr>0)then begin
+									IHr.FileName = "PUVc";
+									IHr.SerialNr = IVrw.SerialNr;
+									IHr.ArtCode = IVrw.ArtCode;
+									TrHs = true;
 								
-								while(loopkey("SerialNr",IHr,3,TrHs)) begin
-								testf = true;
-								if(IHr.FileName!="PUVc") then begin TrHs = false; testf = false; end; //Edit***************************Sasha2,13:43 24.04.2015
-								if(IHr.ArtCode!=IVrw.ArtCode) then begin TrHs = false; testf = false; end; //Edit***************************Sasha2,13:32 24.04.2015
-								if(IHr.SerialNr!=IVrw.SerialNr)then begin TrHs = false; testf = false; end;
-								if(IHr.TransNr!=PUr.SerNr)then begin testf = false; end;
+									while(loopkey("SerialNr",IHr,3,TrHs)) begin
+									testf = true;
+									if(IHr.FileName!="PUVc") then begin TrHs = false; testf = false; end; //Edit***************************Sasha2,13:43 24.04.2015
+									if(IHr.ArtCode!=IVrw.ArtCode) then begin TrHs = false; testf = false; end; //Edit***************************Sasha2,13:32 24.04.2015
+									if(IHr.SerialNr!=IVrw.SerialNr)then begin TrHs = false; testf = false; end;
+									if(IHr.TransNr!=PUr.SerNr)then begin testf = false; end;
 					
-								if(testf)then begin
-									if(true)then begin	
-										cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
-										curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
-										curncy[ressize] = IHr.PUCurncyCode;
-										if(PUr.CurncyCode!=BCb.BaseCur1)then begin
-											rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
-											if(PUr.CurncyCode==BCb.BaseCur2)then begin
-												rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+									if(testf)then begin
+										if(true)then begin	
+											cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
+											curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
+											curncy[ressize] = IHr.PUCurncyCode;
+											if(PUr.CurncyCode!=BCb.BaseCur1)then begin
+												rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+												if(PUr.CurncyCode==BCb.BaseCur2)then begin
+													rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+												end;
+											end else begin
+												rate[ressize] = blankval;
 											end;
-										end else begin
-											rate[ressize] = blankval;
-										end;
-										indate[ressize] =	IHr.TransDate;
-										vecode[ressize] = PUr.VECode;
-										serial[ressize] = IHr.SerialNr; 
-										qty[ressize] = IHr.Qty*cred; 
-										com = "PU ";
-										findf = true;
-										NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
+											indate[ressize] =	IHr.TransDate;
+											vecode[ressize] = PUr.VECode;
+											serial[ressize] = IHr.SerialNr; 
+											qty[ressize] = IHr.Qty*cred; 
+											com = "PU ";
+											findf = true;
+											NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 
-										ressize = ressize + 1;
+											ressize = ressize + 1;
+										end;
 									end;
 								end;
-							end;
 								
+								end;
 							end;
 						end;
-						
+			    end else begin						
 						
 			    end;
 			    if(!findf)then begin
