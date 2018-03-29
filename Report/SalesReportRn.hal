@@ -1039,7 +1039,7 @@ begin
 								if(IHr.SerialNr!=IVrw.SerialNr)then begin TrHs = false; testf = false; end;
 								if(IHr.TransNr!=PUr.SerNr)then begin testf = false; end;
 					
-								if(testf and (IHr.InFileName=="PUVc"))then begin
+								if(testf)then begin
 									if(true)then begin	
 										cost[ressize] = 	AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
 										curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
