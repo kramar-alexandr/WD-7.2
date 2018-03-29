@@ -1016,6 +1016,7 @@ begin
 							end; 
 							resetloop(IHr);
 						end else begin
+							cred = -1;
 							findf = false;// Edit ************************** Tuesday, 18 August 2015 15:42:12
 							IHr.FileName = "PUVc";
 							IHr.SerialNr = IVrw.SerialNr;
