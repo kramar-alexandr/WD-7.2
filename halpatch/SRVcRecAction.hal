@@ -215,6 +215,7 @@ begin
   record BaseCurBlock BCb;
   record MainStockBlock MSb;
   string 255 location;
+  record SerBalVc SBr;// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 29 March 2018 15:08:34
   
   BlockLoad(RoundRec);
   BlockLoad(BCb);
@@ -295,6 +296,21 @@ begin
                 INr.InPriceB2 = INr.WeighedAvPriceB2;
               end;
           end;
+          // Edit Start ---------------------------------------------- Edit Start
+	//Thursday, 29 March 2018 15:11:05
+	
+          if(nonblank(SRrw.SerialNr))then begin
+          	SBr.Item = INr.Code;
+          	SBr.Location = SRrw.Location;
+          	SBr.Serial = SRrw.SerialNr;
+          	if(readfirstmain(SBr,3,true))then begin
+          		SBr.CostPrice = INr.InPrice;
+          		recordstore(SBr,true);
+          	end;
+          end;
+          
+	// Edit End ---------------------------------------------- Edit End
+	
           if (RecordUpdate(oldINr,INr,found)==0) then begin end;
         end;
       end;
@@ -496,8 +512,14 @@ begin
   Array string 255 otcheckaccs;
   Array string 255 otcheckobjtyps;
   Integer otcheckcnt;
-  Boolean initotcheckf;    
-
+  Boolean initotcheckf;
+  boolean TrHs,testf;  // Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 29 March 2018 13:31:16  
+	record StockMovVc SMr;
+	row StockMovVc SMrw;
+	record SRVc oldSRr;
+	row SRVc oldSRrw;
+	record ItemHistVc IHr;
+	
   res = 0;
   insertmode = 1;//Rs_insert
   updatemode = 2;//Rs_update
@@ -563,12 +585,67 @@ begin
     res = -1;
     goto LSRVcRecordCheck;
   end;
-  if (transf) then begin
-    if (DenyOperationForShopsLocation(SRr.Location,-1)) then begin //Edit***************************Sasha2,14:11 27.06.2017 {
-      RecordCheckError(31089,"",-1,"Location");  
-      res = -1;
-      goto LSRVcRecordCheck;
-    end; //Edit***************************Sasha2,14:11 27.06.2017 }
+  
+  // Edit Start ---------------------------------------------- Edit Start
+	//Thursday, 29 March 2018 13:36:38
+	
+	rwcnt = MatRowCnt(SRr);
+	for (i=0;i<rwcnt;i=i+1) begin
+		MatRowGet(SRr,i,SRrw);
+		
+		if(SRrw.ShopsOrder<0)then begin
+			if(SRrw.Location=="INV_OUT")then begin
+				IHr.SerialNr = SRrw.SerialNr;
+				IHr.Location = "INV_OUT";
+				IHr.ArtCode = SRrw.ArtCode;
+				TrHs = true;
+				while(loopkey("ActiveLocQty",IHr,2,TrHs))begin
+					testf = true;
+					if(IHr.ArtCode!=SRrw.ArtCode)then begin testf = false; TrHs = false; end;
+					if(IHr.Location!="INV_OUT")then begin testf = false; TrHs = false; end;
+					if(IHr.SerialNr!=SRrw.SerialNr)then begin testf = false; end;
+					
+					
+					if(testf)then begin
+						switch(IHr.FileName)begin
+							case"StockMovVc":SMr.SerNr = IHr.TransNr;
+																if(readfirstmain(SMr,1,true))then begin
+																	matrowget(SMr,IHr.Row,SMrw);
+																	SRrw.ShopsOrder = SMr.OrderNr;
+																	SRrw.ShopsRow = SMrw.ORRow;
+																	matrowput(SRr,i,SRrw);
+																end;
+							case"SRVc":				oldSRr.SerNr = IHr.TransNr;
+																if(readfirstmain(oldSRr,1,true))then begin
+																	matrowget(oldSRr,IHr.Row,oldSRrw);
+																	SRrw.ShopsOrder = SRrw.ShopsOrder;
+																	SRrw.ShopsRow = SRrw.ShopsRow;
+																	matrowput(SRr,i,SRrw);
+																end;
+						end;
+					end;
+				end;
+				resetloop(IHr);
+			end;
+		end;
+			
+	// Edit End ---------------------------------------------- Edit End
+  
+  if (transf) then begin	
+			if(blank(SRrw.Location))then begin
+				if (DenyOperationForShopsLocation(SRr.Location,SRrw.ShopsOrder)) then begin //Edit***************************Sasha2,14:11 27.06.2017 {
+					RecordCheckError(31089,"",-1,"Location");  
+					res = -1;
+					goto LSRVcRecordCheck;
+				end; //Edit***************************Sasha2,14:11 27.06.2017 }
+			end else begin
+				if (DenyOperationForShopsLocation(SRrw.Location,SRrw.ShopsOrder)) then begin //Edit***************************Sasha2,14:11 27.06.2017 {
+					RecordCheckError(31089,"",-1,"Location");  
+					res = -1;
+					goto LSRVcRecordCheck;
+				end; //Edit***************************Sasha2,14:11 27.06.2017 }
+			end;
+    end;
     if (UserCanAction("SROK",true)==false) then begin
       RecordCheckError(1274,StringFromStringSet(3,"SROK"),-1,"SerNr");      
       res = -1; 

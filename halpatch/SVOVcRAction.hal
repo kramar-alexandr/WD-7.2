@@ -381,6 +381,7 @@ begin
   record QualConVc QualConr;
   row SVOVc SVOrw;
   Integer i,rwcnt;
+  record SalesGroupVc SGr;
   
   if (SVOr.QualConSerNr>0) then begin
     rwcnt = MatRowCnt(SVOr);
