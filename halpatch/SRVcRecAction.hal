@@ -652,9 +652,9 @@ begin
       goto LSRVcRecordCheck;
     end;
     if (SRr.TransDate!=CurrentDate) then begin
-      RecordCheckError(20871,SRr.TransDate,-1,"TransDate");      
+      /*RecordCheckError(20871,SRr.TransDate,-1,"TransDate");      
       res = -1; 
-      goto LSRVcRecordCheck;
+      goto LSRVcRecordCheck;*/
     end;
   end;  
 /*
