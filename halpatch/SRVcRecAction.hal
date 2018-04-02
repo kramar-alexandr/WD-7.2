@@ -516,6 +516,8 @@ begin
   boolean TrHs,testf;  // Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 29 March 2018 13:31:16  
 	record StockMovVc SMr;
 	row StockMovVc SMrw;
+	record RetVc Retr;
+	row RetVc Retrw;
 	record SRVc oldSRr;
 	row SRVc oldSRrw;
 	record ItemHistVc IHr;
@@ -620,6 +622,13 @@ begin
 																	matrowget(oldSRr,IHr.Row,oldSRrw);
 																	SRrw.ShopsOrder = SRrw.ShopsOrder;
 																	SRrw.ShopsRow = SRrw.ShopsRow;
+																	matrowput(SRr,i,SRrw);
+																end;
+							case"RetVc":			Retr.SerNr = IHr.TransNr;
+																if(readfirstmain(Retr,1,true))then begin
+																	matrowget(Retr,IHr.Row,Retrw);
+																	SRrw.ShopsOrder = Retr.OrdNr;
+																	SRrw.ShopsRow = Retrw.OrdRow;
 																	matrowput(SRr,i,SRrw);
 																end;
 						end;
