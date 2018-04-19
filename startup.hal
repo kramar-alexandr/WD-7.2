@@ -26,6 +26,7 @@ begin
 	Setting("Ќастройки друку рахункґв",ORDPrintDataLClass,modSO);// Edit ************************** Monday, 31 July 2017 16:47:13
 	Setting("Ќастройки друку актґв",IVCPrintDataLClass,modPOS);// Edit ************************** Monday, 31 July 2017 16:47:15
 	
+	Report("‡вґт по нак. карткам за тел.ном чи eMail",PhnCrdRClass,PhnCrdRn,0,modPOS);
 	Report("‡вґт по майбутнґм платежам постачальникам",FuturePaymentVERClass,FuturePaymentVERn,0,modPL);
 	
 	Report("Ћ’чет по истории товаров технический ",FindErrorInIHRClass,FindErrorInIHRn,0,modDBMain);

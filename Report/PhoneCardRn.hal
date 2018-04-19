@@ -1,0 +1,114 @@
+remote procedure ReadSer(var integer,string,var array val,var array string,var array string,var array string,var array real,var array date,date);
+external procedure DellSUPP();
+remote procedure DellINMn();
+external procedure SynchServToOfflineSettingsm();
+external function boolean PrintFiscalReceipt(record IVCashVc);
+remote function MyServLog(string);
+external procedure prt(string,string,boolean);
+remote procedure MyConvertCur(var record CashVc);
+external procedure MyCashInOutClient(val);
+remote procedure SavingCash(var record CashVc);
+external updating function Boolean SendServiceRequest(string,Boolean,area,var Area);
+external updating function Boolean ServiceRequestAsync(string,string,Boolean,area,string);
+external procedure ReadTXServiceReply(var record TXServiceReplyVc,var Area,Boolean);
+external procedure prt(string,string,var boolean);
+SetLangMode(LangUkrainian,"UKR",0);
+
+global procedure PhnCrdRn (record RcVc RepSpec)//Edit---------------Anton  
+begin
+	record CUVc CUr;
+	record LoyaltyCardVc LoyaltyCardr;
+	string 255 findTel,curTel,curAltTel,CurCustCode,sim;
+	longint i, k, l, j, c;
+	boolean ifPhone, TrHs, testf;
+	
+	ifPhone = true;
+	startreportnoheaderjob("Номер карти по реєстраційним даним");
+		startformat(15);
+			outstring(0,0,"Клієнт",false);
+			outstring(100,0,"Ім'я",false);
+			outstring(200,0,"Телефон",false);
+			outstring(300,0,"e-mail",false);
+			outstring(400,0,"Накопичувальна карта",false);
+		endformat;
+		
+		if(nonblank(RepSpec.f1))then begin
+		
+			for (i=0;i<255;i=i+1)begin
+				if(Mid(RepSpec.f1,i,1)=="@")then begin
+					i = 255;
+					ifPhone = false;
+				end;
+			end;
+			
+			if(ifPhone==false)then begin
+				TrHs = true;
+				CUr.eMail = RepSpec.f1;
+				while(LoopKey("eMail",CUr,1,TrHs))begin
+					testf = true;
+					if(CUr.eMail!=RepSpec.f1)then begin testf = false;	TrHs = false; end;//Edit---------------Anton  
+					if (testf)then begin
+						LoyaltyCardr.CustCode = CUr.Code;
+						if(ReadFirstKey("CustCode",LoyaltyCardr,1,true))then begin
+							startformat(15);
+								outstring(0,"DblCUVc",CUr.Code,false);
+								outstring(100,0,CUr.Name,false);
+								outstring(200,0,CUr.Phone,false);
+								outstring(300,0,CUr.eMail,false);
+								outstring(400,0,LoyaltyCardr.CustCode,false);
+							endformat;
+						end;
+					end;
+				end;
+				ResetLoop(CUr);
+			end;
+			
+			if(ifPhone)then begin
+				l = len(RepSpec.f1);
+				for(i=0;i<l;i=i+1)begin
+					if(Asc(Mid(RepSpec.f1,i,1))>47 and Asc(Mid(RepSpec.f1,i,1))<58)then begin findTel = findTel & Mid(RepSpec.f1,i,1); end;
+					if(len(findTel)>10)then begin findTel = Right(findTel,10); end;
+				end;
+				
+				CUr.Phone = "";
+				while(LoopKey("Phone",CUr,1,true))begin
+					testf = true;
+					if(Blank(CUr.Phone) and Blank(CUr.AltPhone))then begin testf = false; end;
+					if(testf==true)then begin
+						l = len(CUr.Phone);
+						for(i=0;i<l;i=i+1)begin
+							if(Asc(Mid(CUr.Phone,i,1))>47 and Asc(Mid(CUr.Phone,i,1))<58)then begin curTel = curTel & Mid(CUr.Phone,i,1); end;
+							if(len(curTel)>10)then begin curTel = Right(curTel,10); end;
+						end;
+						l = len(CUr.AltPhone);
+						for(i=0;i<l;i=i+1)begin
+							if(Asc(Mid(CUr.AltPhone,i,1))>47 and Asc(Mid(CUr.AltPhone,i,1))<58)then begin curAltTel = curAltTel & Mid(CUr.AltPhone,i,1); end;
+							if(len(curAltTel)>10)then begin curAltTel = Right(curAltTel,10); end;
+						end;
+						if(curTel!=findTel and curAltTel!=findTel)then begin
+							testf = false;
+						end;
+					end;
+					
+					if (testf==true)then begin
+						if(curAltTel==findTel)then begin curTel = ""; curTel = curAltTel; end;
+						LoyaltyCardr.CustCode = CUr.Code;
+						if(ReadFirstKey("CustCode",LoyaltyCardr,1,true))then begin
+							startformat(15);
+								outstring(0,"DblCUVc",CUr.Code,false);
+								outstring(100,0,CUr.Name,false);
+								outstring(200,0,curTel,false);
+								outstring(300,0,CUr.eMail,false);
+								outstring(400,0,LoyaltyCardr.CustCode,false);
+							endformat;
+						end;
+					end;
+					curTel = "";
+					curAltTel = "";
+				end;
+				ResetLoop(CUr);//Edit---------------Anton  
+			end;
+		end;
+	endjob;
+	
+end;

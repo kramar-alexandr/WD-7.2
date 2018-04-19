@@ -10008,6 +10008,18 @@ begin
 end;
 
 
+window PhnCrdRClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("‡найти номер нак.карти за тел.ном/e-mail",PhnCrdRClass,CGRcW,RcType);
+  SetWRect(20,80,450,200);
+  vs = 20; h = 150; v = 6-vs;
+  EditField(h,v+=vs,100,"’елефон/e-mail",Normal,f1,false,0);
+  EndWindow;
+end;
+
+
 /*window ReportsToMailDClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
