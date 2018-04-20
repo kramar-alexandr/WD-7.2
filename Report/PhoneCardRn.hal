@@ -31,7 +31,21 @@ begin
 			outstring(300,0,"e-mail",false);
 			outstring(400,0,"Накопичувальна карта",false);
 		endformat;
-		
+		if(blank(RepSpec.f1))then begin
+			Cur.Code = "";
+			while(loopkey("Code",CUr,1,true)) begin
+				LoyaltyCardr.CustCode = CUr.Code;
+				if(ReadFirstKey("CustCode",LoyaltyCardr,1,true))then begin
+					startformat(15);
+						outstring(0,"DblCUVc",CUr.Code,false);
+						outstring(100,0,CUr.Name,false);
+						outstring(200,0,CUr.Phone,false);
+						outstring(300,0,CUr.eMail,false);
+						outstring(400,0,LoyaltyCardr.CustCode,false);
+					endformat;
+				end;
+			end;
+		end;
 		if(nonblank(RepSpec.f1))then begin
 		
 			for (i=0;i<255;i=i+1)begin
