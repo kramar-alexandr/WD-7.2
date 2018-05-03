@@ -8611,7 +8611,7 @@ begin
   end;  
   EditField(h1,v,-20,"Відділ",Normal,Department,false,0);
   EditField(h,v+=vs,150,"Телефон",Normal,Phone,false,0);
-  EditField(h1,v,-20,"Дата останньої звірки",Normal,DateOfLastMatch,false,0);
+  EditField(h1,v,80,"Дата останньої звірки",Normal,DateOfLastMatch,false,PasteCurDate);
   EditField(h,v+=vs,150,"Альтернативний тел.",Normal,AltPhone,false,0);
   EditField(h1,v,-20,"Моб. телефон",Normal,Mobile,false,0);
   EditField(h,v+=vs,150,"Skype",Normal,SkypeName,false,0);
