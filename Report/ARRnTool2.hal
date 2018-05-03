@@ -387,17 +387,18 @@ BEGIN
 	    end;
 	    if (Ab.ShowDelayDays!=0) then begin
 	      if (latedays<0) then begin
-	        OutStringID(280,tstr,-latedays,true,IVr.SerNr);
+	        OutStringID(258,tstr,-latedays,false,IVr.SerNr);
 	      end else begin
-	        OutStringID(280,tstr,0,true,IVr.SerNr);
+	        OutStringID(258,tstr,0,false,IVr.SerNr);
 	      end;
 	    end else begin      
-	      OutStringID(280,tstr,latedays,true,IVr.SerNr);
+	      OutStringID(258,tstr,latedays,false,IVr.SerNr);
 	    end;
+		OutDate(270,0,CUr.DateOfLastMatch,false);
 	    ORr.SerNr = IVr.OrderNr;
 	    ReadFirstMain(ORr,1,true);
 	    if (RepSpec.flags[2]==1) then begin
-	      OutString(310,0,IVr.CurncyCode,true);
+	      OutString(320,0,IVr.CurncyCode,true);
 	      //OutLongInt(360,0,IVr.LastRemndr,true);
 	      OutValBiDi(360,0,rval,M4Val,true,490);
 	      OutValBiDi(410,0,rs,M4Val,true,490);
@@ -410,6 +411,7 @@ BEGIN
 	      if (NonBlank(ORr.Comment)and RepSpec.flags[14]==1) then begin
 	      	OutString(390,0,ORr.Comment,false);
 	      end;
+			
 	    end;
     end else begin
 	    if (RepSpec.flags[23]!=0) then begin
@@ -1071,6 +1073,7 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
          OutString(450,0,USetStr(2434),true);
        end;
      end;
+	 OutString(1,0,USetStr(31090),true);
     EndFormat;
   end;
   if (RepSpec.ArtMode==1) then begin
@@ -1087,9 +1090,10 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
 	    OutString(170,0,USetStr(2707),false);
 	    OutString(210,0,USetStr(9269),false);
 	    OutString(240,0,USetStr(2422),false);
-	    OutString(280,0,USetStr(2428),true);
+	    OutString(258,0,USetStr(2428),false);
+		OutString(270,0,USetStr(31090),false);
 		if (RepSpec.flags[2]==1) then begin
-	    	OutString(310,0,USetStr(8107),true);
+	    	OutString(320,0,USetStr(8107),true);
 	    end;
 	    if (RepSpec.flags[2]==0) then begin
 	    	OutString(360,0,USetStr(9962)&", "& bascur.BaseCur1,true);
@@ -1103,7 +1107,6 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
 	    		OutString(440,0,USetStr(8583),false);
 	    	end;
 	    end;	
-	    
      end else begin
      	OutString(0,0,USetStr(2426),false);
 	    if (RepSpec.flags[23]!=0) then begin
@@ -1118,6 +1121,7 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
 	//       OutString(350,0,USetStr(2711),true);
 	//     end;  
 	    OutString(450,0,USetStr(2434),true);
+		OutString(1,0,USetStr(31090),true);
      end; //Edit***************************Sasha2,13:35 19.08.2014 }
     EndFormat;       
   end;

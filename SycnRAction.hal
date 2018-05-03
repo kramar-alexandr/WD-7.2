@@ -1,3 +1,4 @@
+
 global
 function LongInt INVcRecordCheck(var record INVc INr,record INVc IN2r,LongInt stat,LongInt long4)
 begin
