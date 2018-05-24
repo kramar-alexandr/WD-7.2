@@ -1976,6 +1976,7 @@ begin
   ArrayField(Salesmen,M4UStr,60,UserVc);
   ArrayField(OrderType,M4Set,433,0);
   ArrayField(UnitComment,M4Str,200,0);
+  ArrayField(ORPrint,M4Int,0,0);
   ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28
   EndArray;
   MainKeyBegin(SerNr,1);
@@ -2702,6 +2703,11 @@ begin
   RecordField(ParamStr2,M4Str,200,0);
   RecordField(ParamVal1,M4Val,0,0);
   RecordField(ParamVal2,M4Val,0,0);
+  RecordField(LeftInd,M4Int,0,0);
+  RecordField(TopIndent,M4Int,0,0);
+  RecordField(TopIndent2,M4Int,0,0);
+  RecordField(Height,M4Int,0,0);
+  RecordField(Width,M4Int,0,0);
   EndBlock;
   
   RecordBegin(INNnum1Vc,-,"");

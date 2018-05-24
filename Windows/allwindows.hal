@@ -2165,7 +2165,8 @@ begin
   if (StandardHansa==false) then begin
   MatCol(t,-145,"Місце",0,Position,true,UsedPosSClass);
   end;
-  MatCol(t,-90,"Джерело",0,Source,true,SourceSClass);
+  //MatCol(t,-90,"Джерело",0,Source,true,SourceSClass);
+  MatCol(t,-90,"Друк",0,ORPrint,true,0);
   MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
   MatCol(t,-315,"Накладна",0,ShipNote,false,0);
   MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
@@ -2347,6 +2348,7 @@ email not working yet
   SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
   SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
   SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+  SpecialMenu("друк ZEBRA",'',0,"PrintORZebraDsm")
   SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
   if (StandardHansa==false) then begin
   SpecialMenu("Перерахувати вагу та об'єм",' ',10,"RecalculateWeightORDsm");

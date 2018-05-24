@@ -1399,6 +1399,16 @@ begin
 LORVcRecordRowCheck:;
   end;
 LORVcRecordCheck:;
+	rwcnt = matrowcnt(ORr);
+	for(i=0;i<rwcnt;i=i+1) begin
+		MatRowGet(ORr,i,ORrw);
+		if(ORrw.ORPrint!=0)then begin
+			ORrw.ORPrint = 1;
+			MatRowPut(ORr,i,ORrw);
+		end;
+	end;
+	
+	
   if (res!=0) then begin 
     ORr.SerNr = oldnr; 
     ORr.OfficialSerNr = oldOfficialSerNr;
