@@ -113,7 +113,7 @@ ID = 15;
   end;*/
   
   if (SetCompany(MMR,false)) then begin//itek
-  	logtext(0,currentcompany & " SalesReportEn");
+  	/*logtext(0,currentcompany & " SalesReportEn");//OFF today // Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 8 May 2018 16:35:41
     SalesReportEn;
   	logtext(0,currentcompany & " FullStockEn");
     FullStockEn;
@@ -121,7 +121,7 @@ ID = 15;
     RetailSalesEn;
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
-    ResetCompany(MMR);  
+    ResetCompany(MMR);  */
   end;
   
   	/*if (SetCompany(WD,false)) then begin//itek
