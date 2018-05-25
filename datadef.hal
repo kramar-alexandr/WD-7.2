@@ -1976,8 +1976,9 @@ begin
   ArrayField(Salesmen,M4UStr,60,UserVc);
   ArrayField(OrderType,M4Set,433,0);
   ArrayField(UnitComment,M4Str,200,0);
-  ArrayField(ORPrint,M4Int,0,0);
   ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28
+  ArrayField(ORPrint,M4Int,0,0);
+
   EndArray;
   MainKeyBegin(SerNr,1);
   StoreInBaseKey;
