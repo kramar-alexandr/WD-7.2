@@ -757,7 +757,7 @@ begin
 record RcVc RepSpec;
 record ORVc ORr, newORr;
 row ORVc ORrw, newORrw;
-integer wn,i,mtrw,lenth,h,k;
+integer wn,i,mtrw,lenth,h,k,j,sep,sep2;
 area aLabel;
 record INVc INr;
 boolean testf;
@@ -806,7 +806,6 @@ end;*/
 		if(ZPb.LeftInd==0)then begin ZPb.LeftInd = 70; end;
 		if(ZPb.TopIndent==0)then begin ZPb.TopIndent = 100; end;
 		if(ZPb.TopIndent2==0)then begin ZPb.TopIndent2 = 150; end;
-		
 		if(ZPb.Height==0)then begin ZPb.Height = 400; end;
 		if(ZPb.Width==0)then begin ZPb.Width = 600; end;
 
@@ -818,29 +817,29 @@ end;*/
 	  addtexttoarea("FK\"1\"" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("FS\"1\"" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("V00,20,N,\"\"" & chr(13) & chr(10),aLabel);
-	  addtexttoarea("V01,99,N,\"\"" & chr(13) & chr(10),aLabel);
-	  //addtexttoarea("V02,50,N,\"\"" & chr(13) & chr(10),aLabel);
-	  //addtexttoarea("V03,50,N,\"\"" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("V01,50,N,\"\"" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("V02,50,N,\"\"" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("V03,50,N,\"\"" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("V04,3,N,\"\"" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("B60,26,0,E30,3,2,100,B,V00" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("X50,145,5,408,250" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("B115,155,0,1,3,2,60,A,V01" & chr(13) & chr(10),aLabel);
-	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,1,2,1,N,V00" & chr(13) & chr(10),aLabel);
-	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2 & ",0,1,2,1,N,V01" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,4,1,1,N,V00" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2 & ",0,4,1,1,N,V01" & chr(13) & chr(10),aLabel);	   addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+50 & ",0,4,1,1,N,V02" & chr(13) & chr(10),aLabel);	   addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+100 & ",0,4,1,1,N,V03" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("PAV04" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("FE" & chr(13) & chr(10),aLabel);
 	  addtexttoarea(chr(13) & chr(10),aLabel);
 	  
 	  mtrw = MatRowCnt(newORr);
-	  for (i=0;i<mtrw;i=i+1) begin
+	  for (i=0;i<mtrw;i=i+1) begin		if(len(newORrw.Spec)>25)then begin			for(j=25;j>=0;j=j-1) begin				if(mid(newORrw.Spec,j,1)==" ")then begin					sep = j;					j = -1;				end;			end;		end;		if(len(newORrw.Spec)-sep>25)then begin			for(j=25;j>=0;j=j-1) begin				if(mid(newORrw.Spec,j+sep,1)==" ")then begin					sep2 = j+sep;					j = -1;				end;			end;		end;
 		MatRowGet(newORr,i,newORrw);
 		if (nonblank(newORrw.ArtCode)) then begin
 		  addtexttoarea("FR\"1\"" & chr(13) & chr(10),aLabel);
 		  addtexttoarea("?" & chr(13) & chr(10),aLabel);
-		  addtexttoarea(newORrw.SerialNr & chr(13) & chr(10),aLabel);
-		  addtexttoarea(newORrw.Spec & chr(13) & chr(10),aLabel);
-		  //addtexttoarea("Alt/Code: " & newORrw.Spec & chr(13) & chr(10),aLabel);
-		  //addtexttoarea("P/N: " & newORrw.ArtCode & chr(13) & chr(10),aLabel);
+		  addtexttoarea("SN: " & newORrw.SerialNr & chr(13) & chr(10),aLabel);
+		  addtexttoarea(left(newORrw.Spec,sep) & chr(13) & chr(10),aLabel);
+		  addtexttoarea(mid(newORrw.Spec,sep+1,sep2-sep) & chr(13) & chr(10),aLabel);
+		  addtexttoarea(right(newORrw.Spec,len(newORrw.Spec)-sep2-1) & chr(13) & chr(10),aLabel);
 		  addtexttoarea("1" & chr(13) & chr(10),aLabel);
 		  addtexttoarea(chr(13) & chr(10),aLabel);
 		end;
