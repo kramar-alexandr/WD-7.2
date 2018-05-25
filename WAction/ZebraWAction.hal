@@ -752,7 +752,7 @@ return;
 end;
 
 
-global procedure PrintORZebraDsm()
+global procedure PrintORZebraDsm1(Integer size)
 begin
 record RcVc RepSpec;
 record ORVc ORr, newORr;
@@ -790,16 +790,29 @@ end;*/
     testf = true;
     MatRowGet(ORr,i,ORrw);
     if (nonblank(ORrw.ArtCode) and ORrw.ORPrint==1) then begin
-      INr.Code = ORrw.ArtCode;
-      If(readfirstmain(INr,1,true)) then begin
-          matrowget(newORr,k,newORrw);
-          newORrw.ArtCode = ORrw.ArtCode;
-          newORrw.Spec = ORrw.Spec;
-          newORrw.SerialNr = ORrw.SerialNr;
-          matrowput(newORr,k,newORrw);
-          k=k+1;
-      end; 
-    end;
+		if(size==0 and len(ORrw.SerialNr)<13)then begin
+		  INr.Code = ORrw.ArtCode;
+		  If(readfirstmain(INr,1,true)) then begin
+			  matrowget(newORr,k,newORrw);
+			  newORrw.ArtCode = ORrw.ArtCode;
+			  newORrw.Spec = ORrw.Spec;
+			  newORrw.SerialNr = ORrw.SerialNr;
+			  matrowput(newORr,k,newORrw);
+			  k=k+1;
+		  end; 
+		end;
+		if(size==1 and len(ORrw.SerialNr)>=13)then begin
+		  INr.Code = ORrw.ArtCode;
+		  If(readfirstmain(INr,1,true)) then begin
+			  matrowget(newORr,k,newORrw);
+			  newORrw.ArtCode = ORrw.ArtCode;
+			  newORrw.Spec = ORrw.Spec;
+			  newORrw.SerialNr = ORrw.SerialNr;
+			  matrowput(newORr,k,newORrw);
+			  k=k+1;
+		  end; 
+		end;
+	end;
   end;
   
   if(k>0)then begin
@@ -809,6 +822,7 @@ end;*/
 		if(ZPb.Height==0)then begin ZPb.Height = 400; end;
 		if(ZPb.Width==0)then begin ZPb.Width = 600; end;
 
+		
 	  SetAreaZeroSize(aLabel);
 	  addtexttoarea("q" & ZPb.Width & chr(13) & chr(10),aLabel);
 	  addtexttoarea("Q" & ZPb.Height & ",16" & chr(13) & chr(10),aLabel);
@@ -824,7 +838,12 @@ end;*/
 	  //addtexttoarea("B60,26,0,E30,3,2,100,B,V00" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("X50,145,5,408,250" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("B115,155,0,1,3,2,60,A,V01" & chr(13) & chr(10),aLabel);
-	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,5,1,1,N,V00" & chr(13) & chr(10),aLabel);
+	  if(size==0)then begin 
+		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,5,1,1,N,V00" & chr(13) & chr(10),aLabel);
+	  end;
+	  if(size==1)then begin 
+		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,4,1,1,N,V00" & chr(13) & chr(10),aLabel);
+	  end;
 	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2 & ",0,4,1,1,N,V01" & chr(13) & chr(10),aLabel);	   addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+50 & ",0,4,1,1,N,V02" & chr(13) & chr(10),aLabel);	   addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+100 & ",0,4,1,1,N,V03" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("PAV04" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("FE" & chr(13) & chr(10),aLabel);
@@ -858,6 +877,14 @@ end;*/
 	end;
   end;
   
+return;
+end;
+
+
+global procedure PrintORZebraDsm()
+begin
+PrintORZebraDsm1(0);
+PrintORZebraDsm1(1);
 return;
 end;
 
