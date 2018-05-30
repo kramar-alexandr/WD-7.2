@@ -49,8 +49,9 @@ begin
 			outstring(outpos+=30,0,(ORrw.Sum/ORrw.Quant)*qty,false);
 		end;
 		//outstring(outpos+=30,0,(ORrw.Sum/ORrw.Quant)*qty,false);
-		outstring(outpos+=30,0,ORr.CurncyCode,false);
-		outstring(outpos+=30,0,ORr.SalesMan,false);
+		outstring(outpos+=20,0,ORr.CurncyCode,false);
+		outstring(outpos+=20,0,ORr.DateshopRevise,false);
+		outstring(outpos+=35,0,ORr.SalesMan,false);
 		outstring(outpos+=30,0,INr.Group,false);
 	endformat;
 
@@ -103,8 +104,9 @@ begin
 			end;
 			outstring(outpos+=30,0,USetStr(2449),false); //Знижка
 			outstring(outpos+=30,0,USetStr(3556),false); //Сума
-			outstring(outpos+=30,0,USetStr(16018),false); //Валюта
-			outstring(outpos+=30,0,USetStr(9342),false); //Менеджер
+			outstring(outpos+=20,0,USetStr(16018),false); //Валюта
+			outstring(outpos+=20,0,"Дата Зв.Shops",false); 
+			outstring(outpos+=35,0,USetStr(9342),false); //Менеджер
 			outstring(outpos+=30,0,USetStr(2338),false); //Група
 		endformat;
 	

@@ -1915,6 +1915,7 @@ begin
   RecordField(ShopsMark,M4Mark,0,0);// Edit ************************** Friday, 31 October 2014 15:51:47
   RecordField(RahSplatNom,M4Str,0,100);// Edit ************************** Friday, 31 October 2014 15:51:47
   RecordField(DogPostNom,M4Str,0,100);// Edit ************************** Friday, 31 October 2014 15:51:47
+  RecordField(DateshopRevise,M4Date,0,0);//Edit_-_-_-_-_-_-_-_-Anton 11:01 30.05.2018
 
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);

@@ -1281,7 +1281,9 @@ BEGIN
       if (ORr.OKFlag!=0) then begin
         switch (fieldname) begin
           case "LangCode": ;
+		  case "DateshopRevise": ;
           otherwise
+			
             res = false;
             goto LORDClassActiveEditField;
         end;
@@ -1424,6 +1426,9 @@ BEGIN
   end;  
 LORDClassActiveEditField:; 
 	if(fieldname=="ORPrint")then begin 
+		res = true; 
+	end;
+	if(fieldname=="DateshopRevise")then begin 
 		res = true; 
 	end;
   ORDClassActiveEditField = res;

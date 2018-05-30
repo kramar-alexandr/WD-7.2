@@ -1988,7 +1988,8 @@ begin
   EditField(h1,v+=vs,25,"Умови сплати",Normal,PayDeal,false,PDSClass);
   EditField(h1,v+=vs,82,"Дата резервування",Normal,ReservToDate,false,PasteCurDate);// Edit ************************** Wednesday, July 9, 2014 at 13:43:49
   EditField(h1,v+=vs,82,"Дата відправл.",Normal,DespatchDate,false,PasteCurDate);
-  EditField(h1,v+=vs,82,"Час відправл.",Normal,DespatchTime,false,PasteCurTime);
+  //EditField(h1,v+=vs,82,"Час відправл.",Normal,DespatchTime,false,PasteCurTime);
+  EditField(h1,v+=vs,82,"Дата звірки Shops",Normal,DateshopRevise,false,PasteCurDate);
   EditField(h2,v=vm,135,"Посилання",Normal,OurContact,false,0);
   EditField(h2,v+=vs,135,"Посилання",Normal,CustContact,false,ContactSClass);
   EditField(h2,v+=vs,135,"Об'єкт",Normal,Objects,false,ObjSClass);

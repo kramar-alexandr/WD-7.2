@@ -21,6 +21,8 @@ external function LongInt CalcARRnColumnSpacing(LongInt,Integer,var LongInt,var 
 external procedure ExtractObj(string,var Integer,var string); //Edit***************************Sasha2,10:51 30.11.2015
 external function Boolean SetInSet2(string,string); //Edit***************************Sasha2,10:56 30.11.2015
 
+SetLangMode(LangUkrainian,"UKR",0);
+
 global
 function string 255 CreateInvoiceNumberDisputedMark(LongInt SerNr, string OfficialSerNr, Integer Disputed)
 begin
@@ -1091,7 +1093,7 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
 	    OutString(210,0,USetStr(9269),false);
 	    OutString(240,0,USetStr(2422),false);
 	    OutString(258,0,USetStr(2428),false);
-		OutString(270,0,USetStr(31090),false);
+		OutString(270,0,"Дата останньої звірки",false);
 		if (RepSpec.flags[2]==1) then begin
 	    	OutString(320,0,USetStr(8107),true);
 	    end;
@@ -1117,11 +1119,12 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
 	    OutString(160,0,USetStr(2707),false);
 	    OutString(240,0,USetStr(2422),false);
 	    OutString(345,0,USetStr(2428),true);
+		
 	//     if (lightFlag==false) then begin
 	//       OutString(350,0,USetStr(2711),true);
 	//     end;  
 	    OutString(450,0,USetStr(2434),true);
-		OutString(1,0,USetStr(31090),true);
+		OutString(1,0,"Дата останньої звірки",true);
      end; //Edit***************************Sasha2,13:35 19.08.2014 }
     EndFormat;       
   end;
@@ -1438,7 +1441,9 @@ BEGIN
           if ((prepno<>-1) and (prepbal<>0)) then begin
             StartFormat(15); //LogText(0, "1 " & prepno & "   " & prepbal);
             tstr = prepno;
-            OutStringID(pos1,"DblPrHisSL",tstr,false,custcode);
+			OutString(90,0,USetStr(2497),false);
+            OutStringID(145,"DblPrHisSL",tstr,false,custcode);
+			OutDate(270,0,CUrr.DateOfLastMatch,false);
             OutVal(pos2,0,-prepbal,M4Val,true);
             if (amntincurncy!=0) then begin
               OutString(pos2+10,0,curncycode,false);
