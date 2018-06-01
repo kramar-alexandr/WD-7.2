@@ -86,6 +86,8 @@ begin
  	Maintenance("Знищити карти лояльності",DeleteLoyaltyCardsVClass,DeleteLoyaltyCardsMn,modPOS);
  	
  	Maintenance("Разделить старые товары",MoveOldItemsVClass,MoveOldItemsMn,modIN);
+	
+	Maintenance("Git HAL Files",MyVClass1,GitHALFilesMn,modTC);
 
 	
 	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);
