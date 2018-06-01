@@ -596,6 +596,11 @@ begin
   StrSetText(AllowSetPUOKFlag,"Дозволяти ставити ОК в надходженнях"); //Edit***************************Sasha2,17:05 08.01.2015
   StrSetText(AllowUnCloseMoveForServiceVc,"Дозволяти знімати \"Закрито\" в рухах товара для обслуговування"); //Edit***************************Sasha2,17:05 08.01.2015
   EndStrSet;
-
+	
+	
+	//comment
+	
 	return;
 end;
+
+	//comment
