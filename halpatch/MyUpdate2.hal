@@ -2137,7 +2137,7 @@ begin
 										Actr.AlarmType = kAlarmTypeNone;
 										Actr.TodoFlag = kTodoFlagTodo;
 										Actr.ActType = "MES";
-										Actr.MainPersons = "KUDINA,NATA,TKACHENKO,SA";
+										Actr.MainPersons = "KUDINA,TARANIK,TKACHENKO,SA";
 									recordstore(Actr,true);
 									createrecordlink(Actr,currentcompany,SMr,currentcompany);
 									createrecordlink(SMr,currentcompany,Actr,currentcompany);
@@ -2170,7 +2170,7 @@ begin
 			Actr.AlarmType = kAlarmTypeNone;
 			Actr.TodoFlag = kTodoFlagTodo;
 			Actr.ActType = "MES";
-			Actr.MainPersons = "KUDINA,NATA,TKACHENKO,SA";
+			Actr.MainPersons = "KUDINA,TARANIK,TKACHENKO,SA";
 		recordstore(Actr,true);
 		createrecordlink(Actr,currentcompany,SMr,currentcompany);
 		createrecordlink(SMr,currentcompany,Actr,currentcompany);
