@@ -6336,6 +6336,7 @@ begin
   MatCol(t,-24,"",0,VATCode,false,VATCodeSClass);  
   Flip(2);
   MatCol(t=1,184,"Найменування",0,Spec,false,0);
+  MatCol(t=1,600,"Гарантійний друк",0,IVCashPrint,false,0);  
   MatCol(t,-200,"Серійн. №",0,SerialNr,false,SerialNrSClass);
   if (HasObjects) then begin
   MatCol(t,-100,"Об'єкти",0,Objects,false,ObjSClass);
@@ -6429,7 +6430,8 @@ begin
   SpecialMenu("Створити рахунок з простроченою доставкою",' ',5,"IVCashToLateDelivORsm");
   SpecialMenu("Перенести в накладну",' ',3,"IVCashToIVDsm");
   SpecialMenu("Перенести в рахунок клієнту",' ',1,"IVCashToORsm");
-  SpecialMenu("Звіт сесії ЕККА",' ',1,"POSEventIVCashDsm");                                                       
+  SpecialMenu("Звіт сесії ЕККА",' ',1,"POSEventIVCashDsm");      
+  SpecialMenu("друк ZEBRA",'',0,"PrintIVCashZebraDsm")
 //  SpecialMenu("Pay",' ',11,"PayIVCashDsm");
     if (HasTaxMatrix) then begin
   SpecialMenu("Відкрити податкову матрицю",' ',25,"OpenVatMatrixIVCashDsm"); 

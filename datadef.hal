@@ -2538,6 +2538,7 @@ begin
   ArrayField(MotherSecondarySerialNr,M4Str,30,0);
   ArrayField(MotherAlternateDeviceID,M4Str,30,0);
   ArrayField(IMEI,M4Str,30,0); //Edit***************************Sasha2,14:25 15.04.2016
+  ArrayField(IVCashPrint,M4Int,0,0);//Edit_-_-_-_-_-_-_-_-Anton 16:31 21.06.2018
   EndArray;
   MainKeyBegin(SerNr,1);// Edit ************************** Wednesday, 22 July 2015 15:38:21
   StoreInBaseKey;

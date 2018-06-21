@@ -888,6 +888,153 @@ PrintORZebraDsm1(1);
 return;
 end;
 
+global procedure PrintIVCashZebraDsm1(Integer size)
+begin
+record RcVc RepSpec;
+record IVCashVc IVCashr,newIVCashr;
+row IVCashVc IVCashrw, newIVCashrw;
+integer wn,i,mtrw,lenth,h,k,j,sep,sep2;
+area aLabel;
+record INVc INr;
+boolean testf;
+record ZebraPrinterBlock ZPb;
+string 50 printername,price;
+Array string 255 ArtCode, SerialNr, ProdNm;
+SetExportCodePage("CP1251");
+  
+blockload(ZPb);
+
+printername = ZPb.PrinterName;
+wn = curwindow;
+Getwindowrecord(wn,IVCashr);
+
+recordnew(newIVCashr);
+k=0;
+mtrw = matrowcnt(IVCashr);
+
+  
+  for (i=0;i<mtrw;i=i+1) begin
+    testf = true;
+    MatRowGet(IVCashr,i,IVCashrw);
+    if (nonblank(IVCashrw.ArtCode) and IVCashrw.IVCashPrint>0) then begin
+		if(size==0 and len(IVCashrw.SerialNr)<13)then begin
+		  INr.Code = IVCashrw.ArtCode;
+		  If(readfirstmain(INr,1,true)) then begin
+			  matrowget(newIVCashr,k,newIVCashrw);
+			  newIVCashrw.ArtCode = IVCashrw.ArtCode;
+			  newIVCashrw.Spec = IVCashrw.Spec;
+			  newIVCashrw.SerialNr = IVCashrw.SerialNr;
+			  matrowput(newIVCashr,k,newIVCashrw);
+			  k=k+1;
+		  end; 
+		end;
+		if(size==1 and len(IVCashrw.SerialNr)>=13)then begin
+		  INr.Code = IVCashrw.ArtCode;
+		  If(readfirstmain(INr,1,true)) then begin
+			  matrowget(newIVCashr,k,newIVCashrw);
+			  newIVCashrw.ArtCode = IVCashrw.ArtCode;
+			  newIVCashrw.Spec = IVCashrw.Spec;
+			  newIVCashrw.SerialNr = IVCashrw.SerialNr;
+			  matrowput(newIVCashr,k,newIVCashrw);
+			  k=k+1;
+		  end; 
+		end;
+	end;
+  end;
+  
+  if(k>0)then begin
+		if(ZPb.LeftInd==0)then begin ZPb.LeftInd = 70; end;
+		if(ZPb.TopIndent==0)then begin ZPb.TopIndent = 100; end;
+		if(ZPb.TopIndent2==0)then begin ZPb.TopIndent2 = 150; end;
+		if(ZPb.Height==0)then begin ZPb.Height = 400; end;
+		if(ZPb.Width==0)then begin ZPb.Width = 600; end;
+
+		
+	  SetAreaZeroSize(aLabel);
+	  addtexttoarea("q" & ZPb.Width & chr(13) & chr(10),aLabel);
+	  addtexttoarea("Q" & ZPb.Height & ",16" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("D10" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("I8,C" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("FK\"1\"" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("FS\"1\"" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("V00,20,N,\"\"" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("V01,50,N,\"\"" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("V02,50,N,\"\"" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("V03,50,N,\"\"" & chr(13) & chr(10),aLabel);
+	  //addtexttoarea("V04,3,N,\"\"" & chr(13) & chr(10),aLabel);
+	  //addtexttoarea("B60,26,0,E30,3,2,100,B,V00" & chr(13) & chr(10),aLabel);
+	  //addtexttoarea("X50,145,5,408,250" & chr(13) & chr(10),aLabel);
+	  //addtexttoarea("B115,155,0,1,3,2,60,A,V01" & chr(13) & chr(10),aLabel);
+	  if(size==0)then begin 
+		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,5,1,1,N,V00" & chr(13) & chr(10),aLabel);
+	  end;
+	  if(size==1)then begin 
+		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,4,1,1,N,V00" & chr(13) & chr(10),aLabel);
+	  end;
+	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2 & ",0,4,1,1,N,V01" & chr(13) & chr(10),aLabel);
+	   addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+50 & ",0,4,1,1,N,V02" & chr(13) & chr(10),aLabel);
+	   addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+100 & ",0,4,1,1,N,V03" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("PAV04" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("FE" & chr(13) & chr(10),aLabel);
+	  addtexttoarea(chr(13) & chr(10),aLabel);
+	  
+	  mtrw = MatRowCnt(newIVCashr);
+	  for (i=0;i<mtrw;i=i+1) begin
+		MatRowGet(newIVCashr,i,newIVCashrw);
+		if(len(newIVCashrw.Spec)>25)then begin
+			for(j=25;j>=0;j=j-1) begin
+				if(mid(newIVCashrw.Spec,j,1)==" ")then begin
+					sep = j;
+					j = -1;
+				end;
+			end;
+		end;
+		if(len(newIVCashrw.Spec)-sep>25)then begin
+			for(j=25;j>=0;j=j-1) begin
+				if(mid(newIVCashrw.Spec,j+sep,1)==" ")then begin
+					sep2 = j+sep;
+					j = -1;
+				end;
+			end;
+		end;
+		if (nonblank(newIVCashrw.ArtCode)) then begin
+		  addtexttoarea("FR\"1\"" & chr(13) & chr(10),aLabel);
+		  addtexttoarea("?" & chr(13) & chr(10),aLabel);
+		  addtexttoarea("SN:" & newIVCashrw.SerialNr & chr(13) & chr(10),aLabel);
+		  addtexttoarea(left(newIVCashrw.Spec,sep) & chr(13) & chr(10),aLabel);
+		  addtexttoarea(mid(newIVCashrw.Spec,sep+1,sep2-sep) & chr(13) & chr(10),aLabel);
+		  addtexttoarea(right(newIVCashrw.Spec,len(newIVCashrw.Spec)-sep2-1) & chr(13) & chr(10),aLabel);
+		  addtexttoarea("1" & chr(13) & chr(10),aLabel);
+		  addtexttoarea(chr(13) & chr(10),aLabel);
+		end;
+	  end;
+    
+  
+	CreateFile("ZebraPrint.epl");
+	closefile;
+	WriteAreaToFile(aLabel,"ZebraPrint.epl",0);
+	millisleep(50);
+	if (WindowsMode==1) then begin
+	  RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & "ZebraPrint.epl" & " \\\\" & ZPb.ParamStr1 & "\\" & printername & "\"");
+	end;
+	if (WindowsMode==0) then begin
+	  RunProgram("/usr/bin/lp","-d " & printername & " -o raw ZebraPrint.epl");
+	end;
+  end;
+  
+return;
+end;
+
+
+global procedure PrintIVCashZebraDsm()
+begin
+PrintIVCashZebraDsm1(0);
+PrintIVCashZebraDsm1(1);
+return;
+end;
+
+
+
 
 function Boolean GigieneLabelDialogTClassflagsEFAfter(Integer wn,Integer rownr,Integer changed)
 BEGIN

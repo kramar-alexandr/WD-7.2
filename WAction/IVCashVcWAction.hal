@@ -964,6 +964,11 @@ begin
   return;
 end;
 
+
+
+
+
+
 global
 function Boolean IVCashDClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
 begin
