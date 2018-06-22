@@ -2739,6 +2739,9 @@ begin
   record IVCashVc IVCashr;
   
   GetWindowRecord(wn,IVCashr);
+  if(currentuser=="SA")then begin
+  	messagebox(0,WindowActiveField(wn));
+  end;
   res = IVCashr.OKFlag==0;
   if(currentuser=="POSSRV")then begin
     res = true;
