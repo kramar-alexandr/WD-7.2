@@ -14,6 +14,7 @@ external procedure KreditorkaReportEn();
 external procedure SaleWeekByVEEn();
 external updating procedure StockBalDiffMn(string); 
 external updating procedure MoveOldItemsMn(record RepSpec);
+external updating procedure SHItemsMn();
 //------------------------------------------------------------------------------------------------------------------------------
 global updating procedure AutoRun()
 begin
@@ -185,7 +186,7 @@ ID = 15;
     RepSpec.f1="INV#2_NEW";
     RepSpec.f2="INV#2";
     MoveOldItemsMn(RepSpec);
-    
+    SHItemsMn;
     
   end;
   
