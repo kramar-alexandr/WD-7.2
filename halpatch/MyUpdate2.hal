@@ -2183,7 +2183,7 @@ return;
 end;
 
 
-global updating procedure SHItemsMn()
+global updating procedure SHItemsMn()//EDIT_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 11:10 06.07.2018
 begin
 	
 	record ActVc Actr;
