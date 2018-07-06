@@ -2188,19 +2188,30 @@ begin
 	
 	record ActVc Actr;
 	record SHVc SHr;
+	record RLinkVc RLr;
+	boolean testf;
+	integer cnt;
 	SHr.SerNr = -1;
 	while (LoopMain(SHr,1,true))begin
 		if(SHr.OKFlag==0)then begin
-			recordnew(Actr);
-				Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
-				Actr.Comment = "Відвантаження" & SHr.SerNr;
-				Actr.AlarmType = kAlarmTypeNone;
-				Actr.TodoFlag = kTodoFlagTodo;
-				Actr.ActType = "MES";
-				Actr.MainPersons = "SA,SKLAD";
-			recordstore(Actr,true);
-			createrecordlink(Actr,currentcompany,SHr,currentcompany);
-			createrecordlink(SHr,currentcompany,Actr,currentcompany);
+			testf = true;
+			cnt = 1;
+			while (ReadRecordLink(SHr,cnt,Actr,RLr)) begin
+				cnt = cnt+1;
+				if(Actr.OKFlag==0)then begin testf = false; end;
+			end;
+			if(testf)then begin
+				recordnew(Actr);
+					Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+					Actr.Comment = "Відвантаження " & SHr.SerNr;
+					Actr.AlarmType = kAlarmTypeNone;
+					Actr.TodoFlag = kTodoFlagTodo;
+					Actr.ActType = "MES";
+					Actr.MainPersons = "SA,SKLAD";
+				recordstore(Actr,true);
+				createrecordlink(Actr,currentcompany,SHr,currentcompany);
+				createrecordlink(SHr,currentcompany,Actr,currentcompany);
+			end;
 		end;
 	end;
 
