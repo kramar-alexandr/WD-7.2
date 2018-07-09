@@ -2081,6 +2081,7 @@ begin
 	row StockMovVc SMrw;
 	integer rvcnt;
 	record ActVc Actr;
+	record SHVc SHr;
 	
 	
 	IHkey = "ActiveQty";
@@ -2175,6 +2176,43 @@ begin
 		createrecordlink(Actr,currentcompany,SMr,currentcompany);
 		createrecordlink(SMr,currentcompany,Actr,currentcompany);
 		logtext(0,"StockMovVc " & SMr.SerNr);
+		
+	end;
+	
+return;
+end;
+
+
+global updating procedure SHVcItemsMn()//EDIT_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 11:10 06.07.2018
+begin
+	
+	record ActVc Actr;
+	record SHVc SHr;
+	record RLinkVc RLr;
+	boolean testf;
+	integer cnt;
+	SHr.SerNr = -1;
+	while (LoopMain(SHr,1,true))begin
+		if(SHr.OKFlag==0)then begin
+			testf = true;
+			cnt = 1;
+			while (ReadRecordLink(SHr,cnt,Actr,RLr)) begin
+				cnt = cnt+1;
+				if(Actr.OKFlag==0)then begin testf = false; end;
+			end;
+			if(testf)then begin
+				recordnew(Actr);
+					Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+					Actr.Comment = "Відвантаження " & SHr.SerNr;
+					Actr.AlarmType = kAlarmTypeNone;
+					Actr.TodoFlag = kTodoFlagTodo;
+					Actr.ActType = "MES";
+					Actr.MainPersons = "SA,SKLAD";
+				recordstore(Actr,true);
+				createrecordlink(Actr,currentcompany,SHr,currentcompany);
+				createrecordlink(SHr,currentcompany,Actr,currentcompany);
+			end;
+		end;
 	end;
 
 return;
