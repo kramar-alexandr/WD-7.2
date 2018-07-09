@@ -2868,7 +2868,7 @@ if (HasTouchScreenLook==false) then begin
   if (GuiType!=kGuiiPhone) then begin
     MatCol(t,144,"Опис",0,Spec,false,0);
   end;
-  MatCol(t,-230,"RetRow",0,RetRow,false,0);
+  //MatCol(t,-230,"RetRow",0,RetRow,false,0);
   MatCol(t,-230,"SHnr",0,SHNr,false,0);// Edit ************************** Wednesday, 18 February 2015 13:09:15
   //MatCol(t,-140,"Ном. клієнтa",0,CustomsNr,false,0);
   MatCol(t,-140,"SHRow",0,SHRow,false,0);// Edit ************************** Wednesday, 10 June 2015 16:58:12
