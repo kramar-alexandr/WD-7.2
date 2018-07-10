@@ -2183,7 +2183,7 @@ return;
 end;
 
 
-global updating procedure SHVcItemsMn()//EDIT_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 11:10 06.07.2018
+global updating procedure SHItemsMn()//EDIT_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 11:10 06.07.2018
 begin
 	
 	record ActVc Actr;
@@ -2207,7 +2207,7 @@ begin
 					Actr.AlarmType = kAlarmTypeNone;
 					Actr.TodoFlag = kTodoFlagTodo;
 					Actr.ActType = "MES";
-					Actr.MainPersons = "SA,SKLAD";
+					Actr.MainPersons = "SA,SKLAD,KUDINA";
 				recordstore(Actr,true);
 				createrecordlink(Actr,currentcompany,SHr,currentcompany);
 				createrecordlink(SHr,currentcompany,Actr,currentcompany);

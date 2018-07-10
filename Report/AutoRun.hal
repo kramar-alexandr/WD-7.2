@@ -49,6 +49,7 @@ ID = 15;
     BuhExportEn; //Edit***************************Sasha2,9:44 16.01.2015
     logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
+		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     //logtext(0,currentcompany & " SaleWeekByVEEn"); 
     //SaleWeekByVEEn;// Edit ************************** Thursday, 20 October 2016 13:51:14
   end;
@@ -67,11 +68,13 @@ ID = 15;
     //SaleWeekByVEEn;
     logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
+		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
   end;*/
   
   if (SetCompany(idistribuEsti,false)) then begin
     logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
+		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
   end;
   
   
@@ -96,7 +99,7 @@ ID = 15;
     AutoUnreservOrderMn;
     logtext(0,currentcompany & " MyReservStstEn");
     MyReservStstEn;
-    
+    SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     ResetCompany(iTek);  
   end;*/
   
@@ -110,6 +113,7 @@ ID = 15;
     RetailSalesEn;
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
+		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     ResetCompany(Samsung);  
   end;*/
   
@@ -122,6 +126,7 @@ ID = 15;
     RetailSalesEn;
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;
+		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     ResetCompany(MMR);  */
   end;
   
@@ -130,7 +135,7 @@ ID = 15;
     //IPEn;
   	logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
-    
+    SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     	ResetCompany(WD);  
 		end;*/
   
@@ -157,6 +162,7 @@ ID = 15;
     MyReservStstEn;//***
     BuhExportEn; //Edit***************************Sasha2,9:44 16.01.2015
     RetailSalesEn;// Edit ************************** Tuesday, 17 February 2015 09:55:38
+		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     ResetCompany(iTek);  
   end;*/
   
@@ -166,6 +172,7 @@ ID = 15;
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;//*
     StockBalDiffMn("SA,KUDINA,NATA");
+		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
   end;
   
   if (SetCompany(ID,false)) then begin//iCenter_ID
@@ -186,7 +193,7 @@ ID = 15;
     RepSpec.f1="INV#2_NEW";
     RepSpec.f2="INV#2";
     MoveOldItemsMn(RepSpec);
-    SHItemsMn;
+    SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     
   end;
   
@@ -211,6 +218,7 @@ ID = 15;
     SalesReportEn;
     logtext(0,currentcompany & " SalesReportForManagersEn");
     SalesReportForManagersEn;
+		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     ResetCompany(Textera);  */
   end;
   
@@ -236,6 +244,7 @@ ID = 15;
     SalesReportEn;
     logtext(0,currentcompany & " SalesReportForManagersEn");
     SalesReportForManagersEn;
+		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     ResetCompany(Technomedia);  
   end;
   
