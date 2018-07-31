@@ -2031,7 +2031,7 @@ begin
   Tile(tilenr,79,true,tilenr,Math); tilenr = tilenr + 1;
   v = 24;
   MatrixBegin(4,v,-50,-50,-,199);
-  MatTypedRow(stp);
+  //MatTypedRow(stp);
   // Edit Start ---------------------------------------------- Edit Start
 	//Thursday, 9 April 2015 16:46:32
 	
