@@ -1,4 +1,4 @@
-remote procedure FindStockMovSerial(var record StockMovVc,string,var boolean,var integer);
+remote procedure FindStockMovSerial(var record StockMovVc,string,var boolean,var integer,var string);
 //Edit-------------------Vitalii 15:37 04.12.2015 from Odessa
 
   SetLangMode(LangUkrainian,"UKR",0);
@@ -670,6 +670,7 @@ begin
 	integer sQuant,sSentQuant;
 	record SerBalVc SBr;
 	boolean serialfoundf;
+	string 255 errorstr;
 
 	sSentQuant = 3;	
 	sQuant = 2;
@@ -686,22 +687,34 @@ begin
 		case "SentQuant":	//Отправлено
 			searchstr = RepSpec.f2;
 
-		case "SerialNr":	//Получено
+		case "SerialNr":	//Серийный номер
 			searchstr = RepSpec.f3;
+			RepSpec.f3 = "";
+			PutWindowRecord(wn,RepSpec);
+	end;
+	
+	if(SMr.OrdFlag>0)then begin
+		MessageBox(0,"Переміщення підтверджене");
+		goto LStockMove_AddOneItemTo;
+	end;
+	if(SMr.OKFlag>0)then begin
+		MessageBox(0,"Переміщення підтверджене");
+		goto LStockMove_AddOneItemTo;
 	end;
 	
 	if(nonblank(searchstr))then begin
-		
+		FindStockMovSerial(SMr,searchstr,serialfoundf,rwcnt,errorstr);
+		if(serialfoundf)then begin
+			PutWindowRecord(mwn,SMr);
+			WindowFieldGoto(mwn,SMr,RowNumber,field,true);
+			DeselectWindow(mwn,false);									
+			WindowFieldGoto(wn,RepSpec,-1,"f3",false);
+		end else begin
+			messagebox(0,errorstr);
+		end;
 	end;
 
-	FindStockMovSerial(SMr,searchstr,serialfoundf,rwcnt);
-	if(serialfoundf)then begin
-		PutWindowRecord(mwn,SMr);
-		WindowFieldGoto(mwn,SMr,RowNumber,field,true);
-		DeselectWindow(mwn,false);									
-		WindowFieldGoto(wn,RepSpec,-1,"f3",false);
-		goto LStockMove_AddOneItemTo;
-	end;
+	
 	
 	/*INr1.Code = searchstr;
 	if (ReadFirstMain(INr1,1,true)) then begin
@@ -889,7 +902,7 @@ begin
 			  GetWindowRecord(wn,RepSpec);
   			RepSpec.f2 = "";
     case "f3": 	//Серийный номер
-       StockMove_AddOneItemTo("SerilaNr");
+       StockMove_AddOneItemTo("SerialNr");
 			  GetWindowRecord(wn,RepSpec);
   			RepSpec.f3 = "";
   end;

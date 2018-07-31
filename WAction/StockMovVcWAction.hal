@@ -34,6 +34,9 @@ remote function string 20 FindCustRouteByLocation(string,string,string);
 remote updating procedure HandleUpdatePricesInORFromStockMov(record StockMovVc,var string); //Edit***************************Sasha2,14:32 28.07.2015
 remote updating procedure CreateMoveForServiceFromStockMov(var record MoveForServiceVc,record StockMovVc,var string); //Edit***************************Sasha2,9:47 05.05.2016
 
+  SetLangMode(LangUkrainian,"UKR",0);
+
+
 global
 procedure CalcNewPrice(val oldprice,string extra,var val newprice)
 BEGIN
@@ -1412,3 +1415,60 @@ begin
 
   return;
 end; //Edit***************************Sasha2,16:39 23.07.2015 }
+
+
+global procedure FindStockMovSerial(var record StockMovVc SMr,string serialnr,var boolean serialfoundf,var integer rwcnt,var string errorstr)
+begin
+	integer wn,i,mtrw,j;
+	row StockMovVc SMrw;
+	record NotepadVc Noter,newNoter;
+	integer notenr;
+	record SerBalVc SBr;
+	string 100 tstr;
+	boolean TrHs,testf;
+  record RLinkVc RLr;
+  boolean notercreate,skip;
+	
+	errorstr = "Серійний номер не знайдено";
+	serialfoundf = false;
+	TrHs = true;
+	resetloop(SBr);
+	SBr.Serial = serialnr;
+	mtrw = matrowcnt(SMr);
+	For(j=0;j<mtrw;j=j+1) begin
+		matrowget(SMr,j,SMrw);
+		if(serialnr==SMrw.SerialNr)then begin
+			errorstr = "Серійний номер вже відскановано";
+			goto lFindStockMovSerial;
+		end;
+	end;
+	
+	while(loopkey("Serial",SBr,1,TrHs))begin
+		if(SBr.Serial!=serialnr)then begin TrHs = false; end;
+		
+		if(TrHs)then begin
+			For(j=0;j<mtrw;j=j+1) begin
+				matrowget(SMr,j,SMrw);
+				skip = true;
+				if(SMrw.SerialNr==serialnr)then begin
+					skip = false;
+				end;
+				if(SMrw.ArtCode==SBr.Item and blank(SMrw.SerialNr) and skip)then begin
+					SMrw.SerialNr = SBr.Serial;
+					TrHs = false;
+					serialfoundf = true;
+					errorstr = "";
+					rwcnt = j;
+					matrowput(SMr,j,SMrw);
+					j=mtrw;
+				end;
+			end; 
+		end;
+	end;
+	
+lFindStockMovSerial:;
+	
+
+return;
+end;
+
