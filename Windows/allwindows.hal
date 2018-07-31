@@ -4051,6 +4051,7 @@ window SHDClass:1
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
+  integer sQuant,sSentQuant;
 
   WindowBegin("Відвантаження",SHDClass,CGview,-);
   SetWRect(20,80,750,460);
@@ -4535,6 +4536,7 @@ window StockMovDClass:1
 begin
   real h,h1,h2,h3,h4,v,vm,vs;
   Integer tilenr,f,flipnr;
+  integer sQuant,sSentQuant;
   
   WindowBegin("Переміщення товарів",StockMovDClass,CGview,-);
   if (HasJewelleryInterface) then begin
@@ -4621,6 +4623,7 @@ begin
   Tile(tilenr,79,true,tilenr,Math); tilenr = tilenr + 1;
   v = 24;
   MatrixBegin(4,v,-50,-50,-,499);
+  MatTypedRow(stp);
   Flip(0);
   flipnr = 1;
   if (HasJewelleryInterface) then begin
@@ -4832,6 +4835,8 @@ begin
   SpecialMenu("Вставити серійки",' ',8,"PasteSerialsTOSMDsm");
   end;
   SpecialMenu("Розділити на переміщення за складами серійок",' ',8,"SplitSMForSerialsDsm");
+	SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");
+
 
   EndWindow;
 end;
@@ -8980,19 +8985,19 @@ real h,v,vs;
 Integer i,mwn;
   WindowBegin("Пошук і додавання в таблиці",TableSearchAddition2IClass,CGother,RcType);
 	//DynamicWindow;
-  SetWRect(3,140,400,310);
+  SetWRect(3,140,450,310);
   UseView(RcVc);
   Modality(2);
 
   v=30;
-  h=40;
+  h=70;
  	//EditFieldTL(h+30,v+90 ,150,"Відправлено",M4Str,Normal,20,f2,true,0);
 	//EnterSkip(f2);
-	EditFieldTL(h+30,v+90 ,150,"Отримано",M4Str,Normal,20,f3,true,0);
+	EditFieldTL(h+30,v+90 ,150,"Серійний номер",M4Str,Normal,20,f3,true,0);
 	EnterSkip(f3);
   EditFieldTL(h+30,v-10 ,150,"Пошук",M4Str,Normal,20,f1,true,0); // new search field
 
-	StaticText(h-25,v+70,"Для додавання в таблицю введіть Штрих-код або Серійний номер",false);
+	StaticText(h-25,v+70,"Для додавання в таблицю введіть Серійний номер",false);
 
   ColourPushButton(h+=200,v-10,h+58,v+26,"GoPreviousItem","Пред.",20);
   ColourPushButton(h+=75,v-10,h+58,v+26,"GoNextItem","След.",2);

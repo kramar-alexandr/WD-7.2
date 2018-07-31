@@ -1951,6 +1951,7 @@ window StockMovDClass:1
 begin
   real h,h1,h2,h3,h4,v,vm,vs;
   Integer tilenr,f,flipnr;
+  integer sQuant,sSentQuant;
   
   WindowBegin("Переміщення товарів",StockMovDClass,CGview,-);
   if (HasJewelleryInterface) then begin
@@ -2030,6 +2031,7 @@ begin
   Tile(tilenr,79,true,tilenr,Math); tilenr = tilenr + 1;
   v = 24;
   MatrixBegin(4,v,-50,-50,-,199);
+  MatTypedRow(stp);
   // Edit Start ---------------------------------------------- Edit Start
 	//Thursday, 9 April 2015 16:46:32
 	
@@ -2240,8 +2242,8 @@ begin
       SpecialMenu("Send to Tax Authorities",'',10,"EShipPRTDsm");
     end;
   end;
-  SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");
   SpecialMenu("Розділити на переміщення за складами серійок",' ',8,"SplitSMForSerialsDsm");// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 19 December 2017 15:57:57
+	SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");
 
   EndWindow;
 end;

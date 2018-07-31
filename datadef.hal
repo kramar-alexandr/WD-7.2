@@ -1637,6 +1637,8 @@ begin
   ArrayField(SentFIFORowVal,M45Val,0,0);
   ArrayField(ThrouPosCode,M4Code,20,0);
   ArrayField(ORRow,M4Long,0,0);//Edit***************************Sasha2,13:35 01.09.2014
+  ArrayField(stp,M4Int,0,0);//Edit***************************Sasha2,13:35 01.09.2014
+
   EndArray;
   MainKeyBegin(SerNr,0);
   KeySegment(SerNr);

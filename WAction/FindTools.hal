@@ -1,3 +1,4 @@
+remote procedure FindStockMovSerial(var record StockMovVc,string,var boolean,var integer);
 //Edit-------------------Vitalii 15:37 04.12.2015 from Odessa
 
   SetLangMode(LangUkrainian,"UKR",0);
@@ -391,6 +392,12 @@ begin
 					field = "Spec";
 					res=i;
 					goto LFindInMathStockMov;
+				end else begin
+					if (FindSubString(search,SMrw.SerialNr)) then begin
+						field = "SerialNr";
+						res=i;
+						goto LFindInMathStockMov;
+					end;
 				end;
 			end;
 		end;  
@@ -407,6 +414,12 @@ begin
 						field = "Spec";
 						res=i;
 						goto LFindInMathStockMov;
+					end else begin
+						if (FindSubString(search,SMrw.SerialNr)) then begin
+							field = "SerialNr";
+							res=i;
+							goto LFindInMathStockMov;
+						end;
 					end;
 				end;	
 			end;	  
@@ -655,6 +668,8 @@ begin
 	Boolean key,put,messf;
 	string 30 searchstr;
 	integer sQuant,sSentQuant;
+	record SerBalVc SBr;
+	boolean serialfoundf;
 
 	sSentQuant = 3;	
 	sQuant = 2;
@@ -671,11 +686,24 @@ begin
 		case "SentQuant":	//Отправлено
 			searchstr = RepSpec.f2;
 
-		case "Quant":	//Получено
+		case "SerialNr":	//Получено
 			searchstr = RepSpec.f3;
 	end;
+	
+	if(nonblank(searchstr))then begin
+		
+	end;
 
-	INr1.Code = searchstr;
+	FindStockMovSerial(SMr,searchstr,serialfoundf,rwcnt);
+	if(serialfoundf)then begin
+		PutWindowRecord(mwn,SMr);
+		WindowFieldGoto(mwn,SMr,RowNumber,field,true);
+		DeselectWindow(mwn,false);									
+		WindowFieldGoto(wn,RepSpec,-1,"f3",false);
+		goto LStockMove_AddOneItemTo;
+	end;
+	
+	/*INr1.Code = searchstr;
 	if (ReadFirstMain(INr1,1,true)) then begin
 		if (INr1.SerNrf == 0) then begin
 			INr.Code = INr1.Code;
@@ -730,9 +758,9 @@ begin
 				end;
 			end;
 		end;
-	end;
+	end;*/
 
-	curRow = 0;
+	/*curRow = 0;
 	RowNumber = 0;
 	put = false;
 	if !key then begin
@@ -787,7 +815,7 @@ begin
 	if !messf and (!put or !key) then begin
 		Beep;
 		MessageBox(0,"Товара із вказаним кодом не існує");
-	end;
+	end;*/
 
 	LStockMove_AddOneItemTo:;
 
@@ -860,8 +888,8 @@ begin
        StockMove_AddOneItemTo("SentQuant");
 			  GetWindowRecord(wn,RepSpec);
   			RepSpec.f2 = "";
-    case "f3": 	//Получено
-       StockMove_AddOneItemTo("Quant");
+    case "f3": 	//Серийный номер
+       StockMove_AddOneItemTo("SerilaNr");
 			  GetWindowRecord(wn,RepSpec);
   			RepSpec.f3 = "";
   end;
