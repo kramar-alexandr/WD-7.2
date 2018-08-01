@@ -1501,7 +1501,7 @@ begin
 	while(loopkey("Serial",SBr,1,TrHs))begin
 		if(SBr.Serial!=serialnr)then begin TrHs = false; end;
 		
-		if(TrHs)then begin
+		if(TrHs and SBr.Quant>0)then begin
 			For(j=0;j<mtrw;j=j+1) begin
 				matrowget(SHr,j,SHrw);
 				skip = true;
@@ -1510,6 +1510,9 @@ begin
 				end;
 				if(SHrw.ArtCode==SBr.Item and blank(SHrw.SerialNr) and skip)then begin
 					SHrw.SerialNr = SBr.Serial;
+					if(SBr.Location!=SHr.Location)then begin
+						SHrw.Location = SBr.Location;
+					end;
 					TrHs = false;
 					serialfoundf = true;
 					errorstr = "";
