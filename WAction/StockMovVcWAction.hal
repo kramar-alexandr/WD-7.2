@@ -1472,3 +1472,58 @@ lFindStockMovSerial:;
 return;
 end;
 
+global procedure FindSHSerial(var record SHVc SHr,string serialnr,var boolean serialfoundf,var integer rwcnt,var string errorstr)
+begin
+	integer wn,i,mtrw,j;
+	row SHVc SHrw;
+	record NotepadVc Noter,newNoter;
+	integer notenr;
+	record SerBalVc SBr;
+	string 100 tstr;
+	boolean TrHs,testf;
+  record RLinkVc RLr;
+  boolean notercreate,skip;
+	
+	errorstr = "Серійний номер не знайдено";
+	serialfoundf = false;
+	TrHs = true;
+	resetloop(SBr);
+	SBr.Serial = serialnr;
+	mtrw = matrowcnt(SHr);
+	For(j=0;j<mtrw;j=j+1) begin
+		matrowget(SHr,j,SHrw);
+		if(serialnr==SHrw.SerialNr)then begin
+			errorstr = "Серійний номер вже відскановано";
+			goto lFindSHSerial;
+		end;
+	end;
+	
+	while(loopkey("Serial",SBr,1,TrHs))begin
+		if(SBr.Serial!=serialnr)then begin TrHs = false; end;
+		
+		if(TrHs)then begin
+			For(j=0;j<mtrw;j=j+1) begin
+				matrowget(SHr,j,SHrw);
+				skip = true;
+				if(SHrw.SerialNr==serialnr)then begin
+					skip = false;
+				end;
+				if(SHrw.ArtCode==SBr.Item and blank(SHrw.SerialNr) and skip)then begin
+					SHrw.SerialNr = SBr.Serial;
+					TrHs = false;
+					serialfoundf = true;
+					errorstr = "";
+					rwcnt = j;
+					matrowput(SHr,j,SHrw);
+					j=mtrw;
+				end;
+			end; 
+		end;
+	end;
+	
+lFindSHSerial:;
+	
+
+return;
+end;
+

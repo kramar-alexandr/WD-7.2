@@ -1,4 +1,6 @@
 remote procedure FindStockMovSerial(var record StockMovVc,string,var boolean,var integer,var string);
+remote procedure FindSHSerial(var record SHVc,string,var boolean,var integer,var string);
+
 //Edit-------------------Vitalii 15:37 04.12.2015 from Odessa
 
   SetLangMode(LangUkrainian,"UKR",0);
@@ -310,46 +312,50 @@ begin
   field="";
 
 	if (RepSpec.flags[2]==1) then begin  //forward search
-		  for (i = RepSpec.flags[1];i<rwcnt;i=i+1) begin
-
-					MatRowGet(SHr,i,SHrw);
-						if(FindSubString(search,SHrw.ArtCode)) then begin
-							field = "ArtCode";
-							res=i;
-							goto LFindInMathSH;
-						end else begin
-						
-							if(FindSubString(search,SHrw.Spec)) then begin
-								field = "Spec";
-								res=i;
-								goto LFindInMathSH;
-							end;
-						end;
-			  
-		  end;  
-	
+		for (i = RepSpec.flags[1];i<rwcnt;i=i+1) begin
+			MatRowGet(SHr,i,SHrw);
+			if(FindSubString(search,SHrw.ArtCode)) then begin
+				field = "ArtCode";
+				res=i;
+				goto LFindInMathSH;
+			end else begin
+				if(FindSubString(search,SHrw.Spec)) then begin
+					field = "Spec";
+					res=i;
+					goto LFindInMathSH;
+				end else begin
+					if(FindSubString(search,SHrw.SerialNr)) then begin
+						field = "SerialNr";
+						res=i;
+						goto LFindInMathSH;
+					end;
+				end;
+			end;
+		end;  
 	end else begin
 
-	if (RepSpec.flags[2]==2) then begin  //backward search
+		if (RepSpec.flags[2]==2) then begin  //backward search
 		  for (i = RepSpec.flags[1];i>=0;i=i-1) begin
-
-					MatRowGet(SHr,i,SHrw);
-						if(FindSubString(search,SHrw.ArtCode)) then begin
-							field = "ArtCode";
+				MatRowGet(SHr,i,SHrw);
+				if(FindSubString(search,SHrw.ArtCode)) then begin
+					field = "ArtCode";
+					res=i;
+					goto LFindInMathSH;
+				end else begin
+					if(FindSubString(search,SHrw.Spec)) then begin
+						field = "Spec";
+						res=i;
+						goto LFindInMathSH;
+					end else begin
+						if(FindSubString(search,SHrw.SerialNr)) then begin
+							field = "SerialNr";
 							res=i;
 							goto LFindInMathSH;
-						end else begin
-						
-							if(FindSubString(search,SHrw.Spec)) then begin
-								field = "Spec";
-								res=i;
-								goto LFindInMathSH;
-							end;
-						end;	
-					 
+						end;
+					end;
+				end;	
 			end;	  
-		
-		  end;
+		end;
 	end;
 
   if ((field =="") ) then begin
@@ -662,6 +668,8 @@ begin
 	record INVc INr,INr1;
 	record StockMovVc SMr;
 	row StockMovVc SMrw;
+	record SHVc SHr;
+	row SHVc SHrw;
 	record BarcodeVc Barcoder;
 	record RcVc RepSpec;
 	integer wn,mwn,RowNumber,curRow,rwcnt;
@@ -678,41 +686,77 @@ begin
 	wn = CurWindow;
 	GetWindowRecord(wn,RepSpec);
 	mwn = RepSpec.flags[0];
-	DeselectWindow(mwn,false);
-	GetWindowRecord(mwn,SMr);
-	rwcnt = MatRowCnt(SMr);
+	if(GetWindowClass(mwn)=="StockMovDClass")then begin
+		DeselectWindow(mwn,false);
+		GetWindowRecord(mwn,SMr);
+		rwcnt = MatRowCnt(SMr);
 
 
-	switch (field) begin
-		case "SentQuant":	//Отправлено
-			searchstr = RepSpec.f2;
+		switch (field) begin
+			case "SentQuant":	//Отправлено
+				searchstr = RepSpec.f2;
 
-		case "SerialNr":	//Серийный номер
-			searchstr = RepSpec.f3;
-			RepSpec.f3 = "";
-			PutWindowRecord(wn,RepSpec);
-	end;
+			case "SerialNr":	//Серийный номер
+				searchstr = RepSpec.f3;
+				RepSpec.f3 = "";
+				PutWindowRecord(wn,RepSpec);
+		end;
 	
-	if(SMr.OrdFlag>0)then begin
-		MessageBox(0,"Переміщення підтверджене");
-		goto LStockMove_AddOneItemTo;
-	end;
-	if(SMr.OKFlag>0)then begin
-		MessageBox(0,"Переміщення підтверджене");
-		goto LStockMove_AddOneItemTo;
-	end;
+		if(SMr.OrdFlag>0)then begin
+			MessageBox(0,"Переміщення підтверджене");
+			goto LStockMove_AddOneItemTo;
+		end;
+		if(SMr.OKFlag>0)then begin
+			MessageBox(0,"Переміщення підтверджене");
+			goto LStockMove_AddOneItemTo;
+		end;
 	
-	if(nonblank(searchstr))then begin
-		FindStockMovSerial(SMr,searchstr,serialfoundf,rwcnt,errorstr);
-		if(serialfoundf)then begin
-			PutWindowRecord(mwn,SMr);
-			WindowFieldGoto(mwn,SMr,RowNumber,field,true);
-			DeselectWindow(mwn,false);									
-			WindowFieldGoto(wn,RepSpec,-1,"f3",false);
-		end else begin
-			messagebox(0,errorstr);
+		if(nonblank(searchstr))then begin
+			FindStockMovSerial(SMr,searchstr,serialfoundf,rwcnt,errorstr);
+			if(serialfoundf)then begin
+				PutWindowRecord(mwn,SMr);
+				WindowFieldGoto(mwn,SMr,RowNumber,field,true);
+				DeselectWindow(mwn,false);									
+				WindowFieldGoto(wn,RepSpec,-1,"f3",false);
+			end else begin
+				messagebox(0,errorstr);
+			end;
 		end;
 	end;
+	if(GetWindowClass(mwn)=="SHDClass")then begin
+		DeselectWindow(mwn,false);
+		GetWindowRecord(mwn,SHr);
+		rwcnt = MatRowCnt(SHr);
+
+
+		switch (field) begin
+			case "SentQuant":	//Отправлено
+				searchstr = RepSpec.f2;
+
+			case "SerialNr":	//Серийный номер
+				searchstr = RepSpec.f3;
+				RepSpec.f3 = "";
+				PutWindowRecord(wn,RepSpec);
+		end;
+	
+		if(SHr.OKFlag>0)then begin
+			MessageBox(0,"Відвантаження підтверджене");
+			goto LStockMove_AddOneItemTo;
+		end;
+	
+		if(nonblank(searchstr))then begin
+			FindSHSerial(SHr,searchstr,serialfoundf,rwcnt,errorstr);
+			if(serialfoundf)then begin
+				PutWindowRecord(mwn,SHr);
+				WindowFieldGoto(mwn,SHr,RowNumber,field,true);
+				DeselectWindow(mwn,false);									
+				WindowFieldGoto(wn,RepSpec,-1,"f3",false);
+			end else begin
+				messagebox(0,errorstr);
+			end;
+		end;
+	end;
+
 
 	
 	

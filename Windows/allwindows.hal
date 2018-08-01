@@ -4430,6 +4430,8 @@ begin
     SpecialMenu("Створити нотатку для серійок",' ',8,"CreateNoterToSGDsm");
     SpecialMenu("Вставити серійки",' ',8,"PasteSerialsTOSHDsm");
     SpecialMenu("Здійснити внутрішній продаж в іншу компанію",' ',10,"MakeInnerSaleToAnotherCompDsm"); //Edit***************************Sasha2,10:59 05.01.2017
+	  SpecialMenu("Пошук та додавання товару",'f',1,"TableSearchAddition2Dsm");// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 1 August 2018 09:44:18
+
   end;
   EndWindow;
 end;
