@@ -2414,3 +2414,60 @@ lORtoExcel2Dsm:;
 
 return;
 end;
+
+global procedure ORtoExcel3Dsm()
+begin
+	record ORVc ORr;
+	integer wn,wst,transCNT;
+  string 255 filename,tstr,fnserv,md5strServ,md5strCli;
+  area tmparea;
+  boolean testf,EOF,err;
+  
+	transCNT = 5;
+	wn = curwindow;
+	wst = windowstate(wn);
+	if(wst==Rs_insert or wst==Rs_update)then begin
+		messagebox(0,"‡бережґть запис перед цґ№ю операцґ№ю");
+		goto lORtoExcel3Dsm;
+	end;
+	
+	if(wst==Rs_normal)then begin
+		getwindowrecord(wn,ORr);
+		tstr = "‚идаткова накладна Ь " & ORr.SerNr;
+  filename = SaveFileDialog(tstr,"","xlsx");
+  if ((filename!=tstr) and nonblank(filename)) then begin
+    ORtoExcelRemote(ORr,fnserv,md5strServ,3);
+    if(fileexists(filename))then begin
+      delete_file(filename);
+    end;
+    BackupXLSX(fnserv);
+    testf = true;
+    err = false;
+    while (testf) begin
+      while (!EOF) begin
+        EOF = GetPartFileToArea(fnserv,tmparea);
+        writeareatofile(tmparea,filename,1);
+      end;
+      md5strCli = GetFileMD5(filename);
+      if (md5strCli!=md5strServ) then begin
+        err = true;
+        RecoverXLSX(fnserv,"ExcelVI");
+        transCNT = transCNT - 1;
+        if (transCNT==0) then begin
+          testf = false;
+        end;
+      end else begin
+        testf = false;
+      end;
+    end;
+    DeleteXLSXJunk(fnserv);
+    Messagebox(0,"Done!");
+  end;
+		
+	end;
+	
+
+lORtoExcel3Dsm:;
+
+return;
+end;

@@ -2396,6 +2396,8 @@ email not working yet
   
   SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
   SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
+  SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
+
 
   end;
   EndWindow;
