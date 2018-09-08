@@ -1528,21 +1528,12 @@ BEGIN
                     	if(prepbalbase==-1825.06)then begin
                     		prepbalbase = prepbalbase + 57.14;
                     	end;
-                    	logtext(0,"707911165 " & prepbalbase);
                     end;
                     if(IPrw.CUPNr==707911162)then begin
                     	if(prepbalbase==-1654.28)then begin
                     		prepbalbase = prepbalbase + 15.24;
                     	end;
-                    	logtext(0,"707911162 " & prepbalbase);
                     end;
-                    if(IPrw.CUPNr==707910524)then begin
-                    	if(prepbalbase==-1654.28)then begin
-                    		prepbalbase = prepbalbase + 15.24;
-                    	end;
-                    	logtext(0,"707910524 " & prepbalbase);
-                    end;
-                                        
                   end;
                 end;
               end;
