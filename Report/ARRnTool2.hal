@@ -1441,9 +1441,9 @@ BEGIN
           if ((prepno<>-1) and (prepbal<>0)) then begin
             StartFormat(15); //LogText(0, "1 " & prepno & "   " & prepbal);
             tstr = prepno;
-			OutString(90,0,USetStr(2497),false);
+						OutString(90,0,USetStr(2497),false);
             OutStringID(145,"DblPrHisSL",tstr,false,custcode);
-			OutDate(270,0,CUrr.DateOfLastMatch,false);
+						OutDate(270,0,CUrr.DateOfLastMatch,false);
             OutVal(pos2,0,-prepbal,M4Val,true);
             if (amntincurncy!=0) then begin
               OutString(pos2+10,0,curncycode,false);
@@ -1519,6 +1519,7 @@ BEGIN
                     if (lossv!=t) then begin
                       prepbalbase = prepbalbase - lossv;
                     end;
+                    logtext(0,"prepbalbase " & prepbalbase);
                   end;
                 end;
               end;
