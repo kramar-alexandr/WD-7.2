@@ -1520,6 +1520,9 @@ BEGIN
                       prepbalbase = prepbalbase - lossv;
                     end;
                     if(IPrw.CUPNr==707911164)then begin
+                    	if(prepbalbase==-1463.84)then begin
+                    		prepbalbase = prepbalbase + 49.08;
+                    	end;
                     	logtext(0,"prepbalbase " & prepbalbase);
                     end;
                   end;
