@@ -1519,7 +1519,9 @@ BEGIN
                     if (lossv!=t) then begin
                       prepbalbase = prepbalbase - lossv;
                     end;
-                    logtext(0,"prepbalbase " & prepbalbase);
+                    if(IPrw.CUPNr==707911164)then begin
+                    	logtext(0,"prepbalbase " & prepbalbase);
+                    end;
                   end;
                 end;
               end;
