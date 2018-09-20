@@ -1534,6 +1534,7 @@ BEGIN
                     		prepbalbase = prepbalbase + 15.24;
                     	end;
                     end;
+                    logtext(0,IPrw.CUPNr & " " & prepbalbase);
                     if(IPrw.CUPNr==84)then begin
                     	logtext(0,IPrw.CUPNr & " " & prepbalbase);
                     	if(prepbalbase==-1654.28)then begin
