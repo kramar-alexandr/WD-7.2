@@ -1545,6 +1545,7 @@ BEGIN
                 end;
               end;
             end;
+            logtext(0,IPrw.CUPNr & " " & prepbalbase);
             prepbalcur = ARPayHistr.Val;
             //logtext(0,";;;+" & ARPayHistr.CUPNr & ";;;" & ipcurncy & ";;;" & prepbalbase);
             SetTotals(prepbalcur,prepbalbase,koef,ipcurncy,valClientTot,valTotSum,cur,curcnt);
