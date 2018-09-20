@@ -1342,6 +1342,7 @@ BEGIN
     ARPayHistr.CustCode = custcode;
     found = true;
     ResetLoop(ARPayHistr);
+    logtext(0,"CUPNrCustCode");
     while (LoopKey("CUPNrCustCode",ARPayHistr,1,found)) begin
       if (found) then begin
         testf = true;
