@@ -1258,6 +1258,8 @@ BEGIN
     pos = 0;
   end; //Edit***************************Sasha2,10:43 30.11.2015 }
 	
+	logtext(0,"CUPNrCustCode");
+	
 	if(custcode=="INERNET"and backdate==false)then begin
 		RepSpec.d1=currentdate;
 	end;
