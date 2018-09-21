@@ -129,7 +129,7 @@ BEGIN
   end else begin
     check = false;
   end;
-  if(currentuser=="SA")then begin
+  if(currentuser=="SA1")then begin
 		goto LIPVcRecordCheck;
   end;
   insertmode = 1;//Rs_insert
