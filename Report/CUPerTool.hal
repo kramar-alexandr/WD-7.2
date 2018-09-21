@@ -37,7 +37,7 @@ BEGIN
   val bases,realbases;
   val tempsum;  
 //  transaction string 10 cuperlastprepcur;//global variable crashes when export
-		logtext(0,"GetIPPrepaymentAmount");
+		
   cvp = curvalp;
   lastcupno = -1;
   lossvp = blankval;

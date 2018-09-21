@@ -121,10 +121,16 @@ BEGIN
   row LegalInvNrBlock LINrbrw;
   
   res = 0;
+  
+  
+  
   if (long4>0) then begin
     check = true;
   end else begin
     check = false;
+  end;
+  if(currentuser=="SA")then begin
+		goto LIPVcRecordCheck;
   end;
   insertmode = 1;//Rs_insert
   updatemode = 2;//Rs_update    
