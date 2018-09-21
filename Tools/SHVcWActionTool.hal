@@ -112,7 +112,7 @@ BEGIN
     	if(SBr.Serial!=SHrw.SerialNr)then begin TrHs = false; end;
     	
     	if(TrHs and SBr.Quant>0)then begin
-    		if(SHp.Location!=SBr.Location)then begin
+    		if(SHp.Location!=SBr.Location and SHp.Location!="INV_OUT")then begin
 					SHrw.Location = SBr.Location;
     		end;
     	end;
