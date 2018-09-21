@@ -1327,6 +1327,8 @@ begin
   string 5 mycur;
   record ARPayHistVc ARHistr;// Edit ************************** Wednesday, 25 November 2015 14:59:09
     
+    	logtext(0,"FindAllPrepayLosses1");
+    
   rwcnt = MatRowCnt(IPr);
   if (RepSpec.flags[8]!=0) then begin
     for (ai=0;ai<acnt;ai=ai+1) begin
@@ -1458,6 +1460,7 @@ LCUPer_PrintReceiptLoop:;
                 t1 = IPrw.BankVal;// Edit ************************** Monday, 13 December 2010 12:05:20
                 if (IPrw.InvoiceNr!=-1) then begin                                             
                   if (IPrw.stp!=7) then begin                 
+                    	logtext(0,"FindAllPrepayLosses");
                     FindAllPrepayLosses(IPrw.InvCurncy,IPr.TransDate,IPrw.InvVal,IPrw.CUPNr,cuscurval,lossv,IVr,IPrw.InvoiceNr,-1,false,bascur,IPrw.B1BankVal,IPrw.BankCurncy);
                     lossv = cuscurval - lossv;
                     if (lossv>0) then begin
