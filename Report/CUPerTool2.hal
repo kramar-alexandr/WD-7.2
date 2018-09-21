@@ -606,7 +606,9 @@ begin
   val curval,v;
   val frrate,torate1,torate2,baserate1,baserate2;
   Date ltransdate;
-
+	
+	logtext(0,"FindAllPrepayLosses");
+	
   ltransdate = transdate;
   losses = BlankVal;
   curval = invval;
