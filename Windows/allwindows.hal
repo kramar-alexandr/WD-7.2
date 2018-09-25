@@ -2494,7 +2494,11 @@ if (HasTouchScreenLook==false) then begin
     if (UseTaxTemplatesforTaxCalc==false) then begin
   if (UserCanAction("ViewCostPrice",true)) then begin
     //EditField(160,-41,70,"GP %",Normal,GPProc,true,0);
-        EditField(160,-21,70,"Прибуток",ViewOnly,TotGP,true,0);
+    		if(currentuser=="SA1")then begin
+					EditField(160,-21,70,"Прибуток",Normal,TotGP,true,0);
+        end else begin
+        	EditField(160,-21,70,"Прибуток",ViewOnly,TotGP,true,0);
+        end;
   end;
   EditField(290,-41,70,"Под. 2",ViewOnly,TAX2Sum,true,0);
   EditField(290,-21,70,"Дод. податок",ViewOnly,TAX1Sum,true,0);
