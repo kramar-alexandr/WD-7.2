@@ -775,6 +775,7 @@ change does not increase invoice values
     end;
 
     cuscurval = MulRateToBase1(IVr.CurncyCode,v,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
+    logtext(0,"cuscurval " & cuscurval);
     if (RepSpec.flags[2]==0) then begin
       v = cuscurval;
     end else begin
