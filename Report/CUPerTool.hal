@@ -763,7 +763,15 @@ change does not increase invoice values
 			torate2 = IVr.ToRateB2;
 			baserate1 = IVr.BaseRate1;
 			baserate2 = IVr.BaseRate2;
+    end; 
+    if(IVr.CustCode=="OXFORD")then begin//// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 25 09 2018 y. î 16:27:28
+    	frrate = IVr.FrRate;
+			torate1 = IVr.ToRateB1;
+			torate2 = IVr.ToRateB2;
+			baserate1 = IVr.BaseRate1;
+			baserate2 = IVr.BaseRate2;
     end;   
+        
     v = IVr.Sum4;
     if ((IVr.RetnValue>0 and IVr.Sum4>0) or (IVr.RetnValue<0 and IVr.Sum4<0)) then begin
 //            v = v + IVr.RetnValue;
