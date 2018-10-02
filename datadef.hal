@@ -4670,6 +4670,7 @@ EndRecord;
   RecordField(EndDate,M4Date,0,0);
   RecordField(BaseSum,M4val,0,0);
   RecordField(Sum,M4val,0,0);
+	RecordField(Comment,M4Str,200,0);
   MainKeyBegin(SerNr,0)
   KeySegment(SerNr);
   KeyBegin(CustCode);
@@ -4715,8 +4716,14 @@ EndRecord;
 	ArrayField(ServiceOrder,M4int,0,0);
   ArrayField(SaleOrder,M4Code,20,0);
 	ArrayField(ExtrCost,M4val,0,0);
+	ArrayField(ExtrCostUAH,M4val,0,0);
+	ArrayField(ExtrSumCost,M4val,0,0);
+	ArrayField(ExtrSumCostUAH,M4val,0,0);
+	ArrayField(ExtrGP,M4val,0,0);
+	ArrayField(ExtrGPUAH,M4val,0,0);
 	EndArray;
-	EndBlock; //Edit***************************ABR,14:24 01.10.2018 }
+	EndBlock; 
+	//Edit***************************ABR,14:24 01.10.2018 }
   
 return;
 end;

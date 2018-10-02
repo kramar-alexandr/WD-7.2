@@ -10362,12 +10362,13 @@ end;
 
 //Edit_________________ABR 01.10.18 09:42
 //________________________Begin__________________________________________
+
 window ExtrCostDClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs,h5,f,flipnr,width;
   WindowBegin("Додаткові витрати",ExtrCostDClass,CGview,-);
-  SetWRect(20,80,750,100);
+  SetWRect(20,80,750,130);
   UseView(ExtrCostVc);
   vs = 20;
   EditField(100,vm=(v=6),60,"Номер",Normal,SerNr,false,0);
@@ -10375,7 +10376,8 @@ begin
   EditField(100,v+=20,95,"З дати",Normal,StartDate,false,0);
   EditField(450,v,95,"По дату",Normal,EndDate,false,0);
   EditField(100,v+=20,50,"Cума",Normal,BaseSum,false,0);
-  //EditField(450,v,50,"Сума",Normal,Sum,false,0);
+  EditField(450,v,50,"Сума в грн.",Normal,Sum,false,0);
+	EditField(100,v+=20,-10,"коментарі",Normal,Comment,false,0);
   EndWindow;
 end;
 
@@ -10393,7 +10395,8 @@ begin
   RlCol(100,20,"З дати",StartDate,false);
   RlCol(150,20,"По дату",EndDate,false);
   RlCol(200,30,"Cума",BaseSum,false);
-  //RlCol(300,30,"Сума",Sum,false);
+  RlCol(250,30,"Сума в грн.",Sum,false);
+	RlCol(300,60,"Коментарі",Comment,false);
   SearchField("Пошук");
   EndWindow;
 end;

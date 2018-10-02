@@ -317,7 +317,7 @@ begin
 	integer cred;
 	vector boolean usedinvno;
 	integer rcw, rowcnt;
-	val extrcost,sscost;
+val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
 	blockload(BCb);
     rcw = 1;
   startreportnoheaderjob("Bonus");
@@ -381,13 +381,19 @@ begin
     OutString(pos[9],0,"Price",false);
     OutString(pos[9],0,"Price UAH",false);
     OutString(pos[10],0,"Cost",false);
+		OutString(pos[10],0,"Extra Cost",false);
     OutString(pos[10],0,"Cost UAH",false);
+		OutString(pos[10],0,"Extra Cost UAH",false);
     OutString(pos[11],0,"Sum",false);
     OutString(pos[11],0,"Sum UAH",false);
     OutString(pos[12],0,"SumCost",false);
+		OutString(pos[12],0,"Extra SumCost",false);
     OutString(pos[12],0,"SumCost UAH",false);
+		OutString(pos[12],0,"Extra SumCost UAH",false);
     OutString(pos[13],0,"GP",false);
-    OutString(pos[13],0,"GP UAH.",false);
+		OutString(pos[13],0,"Extra GP",false);
+    OutString(pos[13],0,"GP UAH",false);
+		OutString(pos[13],0,"Extra GP UAH",false);
     OutString(pos[14],0,"Rec.rate",false); //Edit***************************Sasha2,11:06 27.04.2015
     OutString(pos[15],0,"Rec.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
     OutString(pos[16],0,"Inv.rate",false); //Edit***************************Sasha2,11:06 27.04.2015
@@ -1123,21 +1129,32 @@ l1:;
 	//____________________Begin_________________
 	TrHs = true;
 	while(LoopMain(ECr,1,TrHs)) begin
-	sscost = 0;
-
+	ssSumcost=0;
+  ssSumcostUAH=0;
+	sscost=0;
+	sscostUAH=0;
 		for( rowcnt = 0; rowcnt < MatrowCnt(LBBlockr); rowcnt = rowcnt + 1) begin
 			testf = false;
 			MatRowGet(LBBlockr,rowcnt,LBBlockw);
 			if((LBBlockw.CustCode==ECr.CustCode AND LBBlockw.Qty!=-1) AND (LBBlockw.PayDate>=ECr.StartDate AND LBBlockw.PayDate<=ECr.EndDate)) then begin testf=true; end;
-			if(testf) then begin sscost=sscost+LBBlockw.SumCost;  end;
+			if(testf) then begin 
+			ssSumcost=ssSumcost+LBBlockw.SumCost; 
+			ssSumcostUAH=ssSumcostUAH+LBBlockw.SumCostUAH;
+			sscost=sscost+LBBlockw.Cost; 
+			sscostUAH=sscostUAH+LBBlockw.CostUAH;
+			end;
 		end;	
 		for( rowcnt = 0; rowcnt < MatrowCnt(LBBlockr); rowcnt = rowcnt + 1) begin
 			testf = false;
 			MatRowGet(LBBlockr,rowcnt,LBBlockw);
 			if((LBBlockw.CustCode==ECr.CustCode AND LBBlockw.Qty!=-1) AND (LBBlockw.PayDate>=ECr.StartDate AND LBBlockw.PayDate<=ECr.EndDate)) then begin testf=true; end;
-			if(testf) then begin LBBlockw.ExtrCost=(ECr.BaseSum/sscost)*LBBlockw.SumCost;
-				LBBlockw.Cost=LBBlockw.Cost+LBBlockw.ExtrCost/LBBlockw.Qty;
-				LBBlockw.SumCost=LBBlockw.SumCost+LBBlockw.ExtrCost/LBBlockw.Qty; 
+			if(testf) then begin
+			LBBlockw.ExtrSumCost=LBBlockw.ExtrSumCost+(ECr.BaseSum/ssSumcost)*LBBlockw.SumCost;
+			LBBlockw.ExtrSumCostUAH=LBBlockw.ExtrSumCostUAH+(ECr.Sum/ssSumcostUAH)*LBBlockw.SumCostUAH;
+			LBBlockw.ExtrCost=LBBlockw.ExtrCost+(ECr.BaseSum/sscost)*LBBlockw.Cost;
+			LBBlockw.ExtrCostUAH=LBBlockw.ExtrCostUAH+(ECr.Sum/sscostUAH)*LBBlockw.CostUAH;
+			LBBlockw.ExtrGP=LBBlockw.ExtrGP+LBBlockw.Sum -((LBBlockw.Cost + LBBlockw.ExtrCost) * LBBlockw.Qty); 
+			LBBlockw.ExtrGPUAH=LBBlockw.ExtrGPUAH+LBBlockw.SumUAH-((LBBlockw.CostUAH + LBBlockw.ExtrCostUAH) * LBBlockw.Qty); 
 			end;
 			MatRowPut(LBBlockr,rowcnt,LBBlockw);
 		end;	
@@ -1166,13 +1183,19 @@ l1:;
 			OutVal(pos[9],0,LBBlockw.Price,M4Val,false);
 			OutVal(pos[9],0,LBBlockw.PriceUAH,M4Val,false);
 			OutVal(pos[10],0,LBBlockw.Cost,M4Val,false);
+			OutVal(pos[10],0,LBBlockw.ExtrCost,M4Val,false);
 			OutVal(pos[10],0,LBBlockw.CostUAH,M4Val,false);
+			OutVal(pos[10],0,LBBlockw.ExtrCostUAH,M4Val,false);
 			OutVal(pos[11],0,LBBlockw.Sum,M4Val,false);
 			OutVal(pos[11],0,LBBlockw.SumUAH,M4Val,false);
 			OutVal(pos[12],0,LBBlockw.SumCost,M4Val,false);
+			OutVal(pos[12],0,LBBlockw.ExtrSumCost,M4Val,false);
 			OutVal(pos[12],0,LBBlockw.SumCostUAH,M4Val,false);
+			OutVal(pos[12],0,LBBlockw.ExtrSumCostUAH,M4Val,false);
 			OutVal(pos[13],0,LBBlockw.GP,M4Val,false);
+			OutVal(pos[13],0,LBBlockw.ExtrGP,M4Val,false);
 			OutVal(pos[13],0,LBBlockw.GPUAH,M4Val,false);
+			OutVal(pos[13],0,LBBlockw.ExtrGPUAH,M4Val,false);
 			OutString(pos[14],0,LBBlockw.RecRate,false);
 			OutString(pos[15],0,LBBlockw.RecCurrent,false);
 			OutString(pos[16],0,LBBlockw.InvRate,false);
