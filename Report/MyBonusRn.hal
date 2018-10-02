@@ -274,6 +274,7 @@ end;
 
 global procedure MyBonusRn(record RcVc RepSpec)
 begin
+  record ExtrCostVc ECr; 
   record ARVc ARr;
   record IVVc IVr;
   row IVVc IVrw;
@@ -297,6 +298,8 @@ begin
   record WOVc WOr;
   record WSVc WSr;
   row WSVc WSrw;
+  record LocalBonusBlock LBBlockr;
+  row LocalBonusBlock  LBBlockw;
   string 50 enginer,tstr,group;
   val priceorig,costorig,sumorig,sumcostorig,gporig,curorig;
   string 10 curncy;
@@ -313,9 +316,10 @@ begin
 	longint worksheet,CredNo;
 	integer cred;
 	vector boolean usedinvno;
-	
+	integer rcw, rowcnt;
+	val extrcost,sscost;
 	blockload(BCb);
-
+    rcw = 1;
   startreportnoheaderjob("Bonus");
   //paydatenew = "";
   pos[0] = 0;
@@ -340,7 +344,20 @@ begin
   pos[19] = 130;
   pos[20] = 140;
   pos[21] = 150;
-  pos[23] = 160;
+  pos[22] = 160;
+	pos[23] = 170;
+	pos[24] = 180;
+	pos[25] = 190;
+	pos[26] = 200;
+	pos[27] = 210;
+	pos[28] = 220;
+	pos[29] = 230;
+	pos[30] = 240;
+	pos[31] = 250;
+	pos[32] = 260;
+	pos[33] = 270;
+	pos[34] = 280;
+	
   
   StartFormat(15);
     OutString(pos[0],0,"Customer",false);
@@ -612,67 +629,68 @@ begin
     									end;
     								end;
     							end;
-                  StartFormat(15);
-                    OutString(pos[0],0,IVr.CustCode,false);
-                    OutString(pos[1],0,IVr.Addr0,false);
-                    OutString(pos[2],0,IVr.InvDate,false);
-                    OutString(pos[3],0,IVr.PayDate,false);
+                    LBBlockw.CustCode = IVr.CustCode;
+                    LBBlockw.CustName = IVr.Addr0;
+                    LBBlockw.InvDate = IVr.InvDate;
+                    LBBlockw.PayTerm = IVr.PayDate;
                     if (blankdate(enddate)) then begin
-                      OutDate(pos[4],0,IVr.PayDate,false);
+                      LBBlockw.PayDate = IVr.PayDate;
                     end else begin
-                      OutDate(pos[4],0,enddate,false);
+                      LBBlockw.PayDate = enddate;
                     end;
-                    OutString(pos[5],0,IVr.SerNr,false);
+                    LBBlockw.InvNr = IVr.SerNr;
                     if(currentcompany==2)then begin
-											OutString(pos[23],0,IVr.OrderNr,false);
+											LBBlockw.OrderNr = IVr.OrderNr;
 										end;
-                    OutString(pos[6],0,group,false);
-                    OutString(pos[6],0,IVrw.ArtCode,false);
-                    OutString(pos[7],0,IVrw.Spec,false);
+                    LBBlockw.Group = group;
+                    LBBlockw.ArtCode = IVrw.ArtCode;
+                    LBBlockw.Spec = IVrw.Spec;
                     if(currentcompany==2)then begin
-											OutString(pos[7],0,serial[j],false);
+											LBBlockw.Serial = serial[j];
 										end;
-										OutString(pos[7],0,indate[j],false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 15:54:57
+										LBBlockw.InStock = indate[j];// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 15:54:57
                     quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
-                    OutString(pos[8],0,quant,false);
+                    LBBlockw.Qty = quant;
                     salesprice = realpricebase[j];
                     priceorig = realpriceuah[j]; //Edit***************************Sasha2,11:37 24.04.2015 }
-                    OutVal(pos[9],0,realpricebase[j],M4Val,false);
-                    OutVal(pos[9],0,realpriceuah[j],M4Val,false);
+                    LBBlockw.Price = realpricebase[j];
+                    LBBlockw.PriceUAH = realpriceuah[j];
                     
           					MyCost = realcostbase[j];
-                    OutVal(pos[10],0,realcostbase[j],M4Val,false);
+                    LBBlockw.Cost = realcostbase[j];
                     curorig = round(IVr.FrRate/IVr.ToRateB1,defaultcurroundoff);
                     if(curorig==0)then begin
                       curorig = 1;
                     end;
                     costorig = realcostuah[j];
                     sumcostorig = costorig*quant;
-                    OutVal(pos[10],0,realcostuah[j],M4Val,false);
+                    LBBlockw.CostUAH = realcostuah[j];
                     salessum = realsumbase[j];
                     sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }
-                    OutVal(pos[11],0,salessum,M4Val,false);
-                    OutVal(pos[11],0,sumorig,M4Val,false);
-                    OutVal(pos[12],0,MyCost*quant,M4Val,false);
-                    OutVal(pos[12],0,sumcostorig,M4Val,false);
-                    OutVal(pos[13],0,salessum-(MyCost*quant),M4Val,false);
+                    LBBlockw.Sum = salessum;
+                    LBBlockw.SumUAH = sumorig;
+                    LBBlockw.SumCost = MyCost*quant;
+                    LBBlockw.SumCostUAH = sumcostorig;
+                    LBBlockw.GP = salessum-(MyCost*quant);
                     gporig = sumorig - sumcostorig;
-                    OutVal(pos[13],0,gporig,M4Val,false);
-                    OutString(pos[14],0,uahpurate[j],false); 
-										OutString(pos[15],0,curncyarr[j],false); 
-                    OutString(pos[16],0,uahcurrate[j],false); 
-                    OutString(pos[17],0,IVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015 }
+                    LBBlockw.GPUAH = gporig;
+                    LBBlockw.RecRate = uahpurate[j]; 
+					LBBlockw.RecCurrent = curncyarr[j]; 
+                    LBBlockw.InvRate = uahcurrate[j]; 
+                    LBBlockw.InvCur = IVr.CurncyCode; //Edit***************************Sasha2,11:34 27.04.2015 }
                     If(NonBlank(CUr.Code)) then begin
-                      OutString(pos[18,0,CUr.SalesMan,false);
+                      LBBlockw.SalesMan = CUr.SalesMan;
                     end; 
-                    OutString(pos[19],0,IVr.SalesMan,false);
+                    LBBlockw.InvSalesMan = IVr.SalesMan;
                     if(currentcompany!=2)then begin
-											OutString(pos[20],0,enginer,false);
-											OutString(pos[21],0,IVr.SVONr,false);
-											OutString(pos[23],0,IVr.OrderNr,false);
+											LBBlockw.ServiceMan = enginer;
+											LBBlockw.ServiceOrder = IVr.SVONr;
+											LBBlockw.SaleOrder = IVr.OrderNr;
                     end;
 										
-                  endformat;
+                  MatRowPut(LBBlockr,rcw,LBBlockw);
+				  rcw=rcw+1;
+				  ClearRow(LBBlockr,LBBlockw,10);
                 end; //Edit***************************Sasha2,15:52 23.04.2015
                 if(foundqty<IVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
 						      if (Left(IVr.CurncyCode,3)=="UAH") then begin
@@ -689,67 +707,68 @@ begin
     							  end;
     							end;
     							sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,1,foundqty,true);
-						      startformat(15);
-						        OutString(pos[0],0,IVr.CustCode,false);
-                    OutString(pos[1],0,IVr.Addr0,false);
-                    OutString(pos[2],0,IVr.InvDate,false);
-                    OutString(pos[3],0,IVr.PayDate,false);
+										LBBlockw.CustCode = IVr.CustCode;
+                    LBBlockw.CustName = IVr.Addr0;
+										LBBlockw.InvDate = IVr.InvDate;
+                    LBBlockw.PayTerm = IVr.PayDate;;
                     if (blankdate(enddate)) then begin
-                      OutDate(pos[4],0,IVr.PayDate,false);
+                      LBBlockw.PayDate = IVr.PayDate;
                     end else begin
-                      OutDate(pos[4],0,enddate,false);
+                      LBBlockw.PayDate = enddate;
                     end;
-                    OutString(pos[5],0,IVr.SerNr,false);
+                    LBBlockw.InvNr = IVr.SerNr;
                     if(currentcompany==2)then begin
-											OutString(pos[23],0,IVr.OrderNr,false);
+											LBBlockw.OrderNr = IVr.OrderNr;
 										end;
-                    OutString(pos[6],0,group,false);
-                    OutString(pos[6],0,IVrw.ArtCode,false);
+                    LBBlockw.Group = group;
+                    LBBlockw.ArtCode = IVrw.ArtCode;
                     OutString(pos[7],0,IVrw.Spec,false);
                     if(currentcompany==2)then begin
-											OutString(pos[7],0,serial[j],false);
+											LBBlockw.Serial = serial[j];
 										end;
-										OutString(pos[7],0,indate[j],false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 15:54:57
-                    quant = IVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
-                    OutString(pos[8],0,quant,false);
+										LBBlockw.InStock = indate[j];// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 15:54:57
+                     LBBlockw.Qty =IVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
+
                     salesprice = sumusd/quant;
                     priceorig = sumcur/quant; //Edit***************************Sasha2,11:37 24.04.2015 }
-                    OutVal(pos[9],0,salesprice,M4Val,false);
-                    OutVal(pos[9],0,priceorig,M4Val,false);
-                    OutVal(pos[10],0,MyCost,M4Val,false);
+                    LBBlockw.Price = realpricebase[j];
+                    LBBlockw.PriceUAH = realpriceuah[j];
+                    LBBlockw.Cost = MyCost;
                     curorig = round(IVr.FrRate/IVr.ToRateB1,defaultcurroundoff);
                     if(curorig==0)then begin
                       curorig = 1;
                     end;
                     costorig = MyCost* curorig;
                     sumcostorig = costorig * quant;
-                    OutVal(pos[10],0,costorig,M4Val,false);
+                    LBBlockw.CostUAH = costorig;
                     salessum = sumusd;
                     sumorig = sumcur; //Edit***************************Sasha2,11:48 24.04.2015 }
-                    OutVal(pos[11],0,salessum,M4Val,false);
-                    OutVal(pos[11],0,sumorig,M4Val,false);
-                    OutVal(pos[12],0,MyCost*quant,M4Val,false);
-                    OutVal(pos[12],0,sumcostorig,M4Val,false);
-                    OutVal(pos[13],0,salessum-(MyCost*quant),M4Val,false);
+                     LBBlockw.Sum = salessum;
+                    LBBlockw.SumUAH = sumorig;
+                    LBBlockw.SumCost = MyCost*quant;
+                    LBBlockw.SumCostUAH = sumcostorig;
+                    LBBlockw.GP = salessum-(MyCost*quant);
                     gporig = sumorig - sumcostorig;
-                    OutVal(pos[13],0,gporig,M4Val,false);
-                    
-                    OutString(pos[14],0,"",false); //Edit***************************Sasha2,11:34 27.04.2015
-                    OutString(pos[15],0,"",false); //Edit***************************Sasha2,11:34 27.04.2015
-                    OutString(pos[16],0,ValToMyString(invfr/invto1,3),false); //Edit***************************Sasha2,11:34 27.04.2015
-                    OutString(pos[17],0,IVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015
+                     LBBlockw.GPUAH = gporig;
+                    LBBlockw.RecRate = uahpurate[j]; 
+										LBBlockw.RecCurrent = curncyarr[j]; 
+                    LBBlockw.InvRate = uahcurrate[j]; 
+                    LBBlockw.InvCur = IVr.CurncyCode;  //Edit***************************Sasha2,11:34 27.04.2015
                     If(NonBlank(CUr.Code)) then begin
                       OutString(pos[18],0,CUr.SalesMan,false);
                     end; 
-                    OutString(pos[19],0,IVr.SalesMan,false);
+                    LBBlockw.SalesMan = CUr.SalesMan;
+                    end; 
+                    LBBlockw.InvSalesMan = IVr.SalesMan;
                     if(currentcompany!=2)then begin
-											OutString(pos[20],0,enginer,false);
-											OutString(pos[21],0,newIVr.SVONr,false);
-											OutString(pos[23],0,newIVr.OrderNr,false);
-                    end;
+											LBBlockw.ServiceMan = enginer;
+											LBBlockw.ServiceOrder = IVr.SVONr;
+											LBBlockw.SaleOrder = IVr.OrderNr;
 										
-						      endformat;
 					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
+				MatRowPut(LBBlockr,rcw,LBBlockw);
+				rcw=rcw+1;
+				ClearRow(LBBlockr,LBBlockw,10);
               end;
             end;
             goto l1;
@@ -1006,71 +1025,72 @@ l1:;
 															end;
 														end;
 													end;
-													StartFormat(15);
+													
 														if(currentuser!="SA")then begin
-															OutString(pos[0],0,newIVr.CustCode,false);
+															LBBlockw.CustCode = IVr.CustCode;
 														end else begin
-															OutString(pos[0],0,newIVr.CustCode & " " & firstenddate,false);
+															LBBlockw.CustCode = IVr.CustCode & firstenddate;
 														end;
-														OutString(pos[1],0,newIVr.Addr0,false);
-														OutString(pos[2],0,newIVr.InvDate,false);
-														OutString(pos[3],0,newIVr.PayDate,false);
+														LBBlockw.CustName = IVr.Addr0;
+														LBBlockw.InvDate = IVr.InvDate;
+														LBBlockw.PayTerm = IVr.PayDate;
 														if (blankdate(enddate)) then begin
-															OutDate(pos[4],0,newIVr.PayDate,false);
+															LBBlockw.PayDate = IVr.PayDate;
 														end else begin
-															OutDate(pos[4],0,enddate,false);
+														LBBlockw.PayDate = enddate;
 														end;
-														OutString(pos[5],0,newIVr.SerNr,false);
+														LBBlockw.InvNr = IVr.SerNr;
 														if(currentcompany==2)then begin
-															OutString(pos[23],0,newIVr.OrderNr,false);
+															LBBlockw.OrderNr = IVr.OrderNr;
 														end;
-														OutString(pos[6],0,group,false);
-														OutString(pos[6],0,newIVrw.ArtCode,false);
-														OutString(pos[7],0,newIVrw.Spec,false);
+														LBBlockw.Group = group;
+														LBBlockw.ArtCode = IVrw.ArtCode;
+														LBBlockw.Spec = IVrw.Spec;
 														if(currentcompany==2)then begin
-															OutString(pos[7],0,serial[j],false);
+															LBBlockw.Serial = serial[j];
 														end;
-														OutString(pos[7],0,indate[j],false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 15:54:57
+														LBBlockw.InStock = indate[j];// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 15:54:57
 														quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
-														OutString(pos[8],0,quant,false);
+														LBBlockw.Qty = quant;;
 														salesprice = realsumbase[j];
 														priceorig = realsumuah[j];
 														MyCost = realcostbase[j];
-														OutVal(pos[9],0,realpricebase[j],M4Val,false);
-														OutVal(pos[9],0,realpriceuah[j],M4Val,false);              
-														OutVal(pos[10],0,MyCost,M4Val,false);
+														LBBlockw.Price = realpricebase[j];
+														LBBlockw.PriceUAH = realpriceuah[j];          
+														LBBlockw.Cost = realcostbase[j];
 														curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
 														if(curorig==0)then begin
 															curorig = 1;
 														end;
 														costorig = realcostuah[j];
-														OutVal(pos[10],0,costorig,M4Val,false);
+														LBBlockw.CostUAH = realcostuah[j];
 														salessum = realsumbase[j];
 														sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }
-														OutVal(pos[11],0,salessum,M4Val,false);
-														OutVal(pos[11],0,sumorig,M4Val,false);
-														OutVal(pos[12],0,MyCost*quant,M4Val,false);
-														sumcostorig = realcostuah[j]*quant;
-														OutVal(pos[12],0,sumcostorig,M4Val,false);
-														OutVal(pos[13],0,(salessum-(MyCost*quant)),M4Val,false);
+														LBBlockw.Sum = salessum;
+														LBBlockw.SumUAH = sumorig;
+														LBBlockw.SumCost = MyCost*quant;
+														LBBlockw.SumCostUAH = sumcostorig;
+														LBBlockw.GP = salessum-(MyCost*quant);
 														gporig = sumorig - sumcostorig;
-														OutVal(pos[13],0,gporig,M4Val,false);
-														OutString(pos[14],0,uahpurate[j],false); 
-														OutString(pos[15],0,curncyarr[j],false); 
+														LBBlockw.GPUAH = gporig;
+														LBBlockw.RecRate = uahpurate[j]; 
+													  LBBlockw.RecCurrent = curncyarr[j]; 
 													
-														OutString(pos[16],0,uahcurrate[j],false); 
-														OutString(pos[17],0,IVr.CurncyCode,false); //Edit***************************Sasha2,11:34 27.04.2015 }
+														LBBlockw.InvRate = uahcurrate[j]; 
+														LBBlockw.InvCur = IVr.CurncyCode; //Edit***************************Sasha2,11:34 27.04.2015 }
 														If(NonBlank(CUr.Code)) then begin
-															OutString(pos[18],0,CUr.SalesMan,false);
+															LBBlockw.SalesMan = CUr.SalesMan;
 														end; 
-														OutString(pos[19],0,newIVr.SalesMan,false);
+														LBBlockw.InvSalesMan = IVr.SalesMan;
 														if(currentcompany!=2)then begin
-															OutString(pos[20],0,enginer,false);
-															OutString(pos[21],0,newIVr.SVONr,false);
-															OutString(pos[23],0,newIVr.OrderNr,false);
+															LBBlockw.ServiceMan = enginer;
+															LBBlockw.ServiceOrder = IVr.SVONr;
+															LBBlockw.SaleOrder = IVr.OrderNr;
 														end;
 													
-													endformat;
+													MatRowPut(LBBlockr,rcw,LBBlockw);
+													rcw=rcw+1;
+													ClearRow(LBBlockr,LBBlockw,10);
 												end; //Edit***************************Sasha2,15:52 23.04.2015
 												if(foundqty<newIVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
 													if (Left(newIVr.CurncyCode,3)=="UAH") then begin
@@ -1099,7 +1119,75 @@ l1:;
       end;
     end; 
   end;
+	//Edit_________________ABR 11 : 07 02.10.18
+	//____________________Begin_________________
+	TrHs = true;
+	while(LoopMain(ECr,1,TrHs)) begin
+	sscost = 0;
 
+		for( rowcnt = 0; rowcnt < MatrowCnt(LBBlockr); rowcnt = rowcnt + 1) begin
+			testf = false;
+			MatRowGet(LBBlockr,rowcnt,LBBlockw);
+			if((LBBlockw.CustCode==ECr.CustCode AND LBBlockw.Qty!=-1) AND (LBBlockw.PayDate>=ECr.StartDate AND LBBlockw.PayDate<=ECr.EndDate)) then begin testf=true; end;
+			if(testf) then begin sscost=sscost+LBBlockw.SumCost;  end;
+		end;	
+		for( rowcnt = 0; rowcnt < MatrowCnt(LBBlockr); rowcnt = rowcnt + 1) begin
+			testf = false;
+			MatRowGet(LBBlockr,rowcnt,LBBlockw);
+			if((LBBlockw.CustCode==ECr.CustCode AND LBBlockw.Qty!=-1) AND (LBBlockw.PayDate>=ECr.StartDate AND LBBlockw.PayDate<=ECr.EndDate)) then begin testf=true; end;
+			if(testf) then begin LBBlockw.ExtrCost=(ECr.BaseSum/sscost)*LBBlockw.SumCost;
+				LBBlockw.Cost=LBBlockw.Cost+LBBlockw.ExtrCost/LBBlockw.Qty;
+				LBBlockw.SumCost=LBBlockw.SumCost+LBBlockw.ExtrCost/LBBlockw.Qty; 
+			end;
+			MatRowPut(LBBlockr,rowcnt,LBBlockw);
+		end;	
+	end;		
+	for( rowcnt = 0; rowcnt < MatrowCnt(LBBlockr); rowcnt = rowcnt + 1) begin
+		MatRowGet(LBBlockr,rowcnt,LBBlockw);
+		if(NonBlank(LBBlockw.CustName)) then begin
+			startformat(15)
+			OutString(pos[0],0,LBBlockw.CustCode,false);
+			OutString(pos[1],0,LBBlockw.CustName,false);
+			OutDate(pos[2],0,LBBlockw.InvDate,false);
+			OutDate(pos[3],0,LBBlockw.PayTerm,false);
+			OutDate(pos[4],0,LBBlockw.PayDate,false);
+			OutString(pos[5],0,LBBlockw.InvNr,false);
+			if(currentcompany==2)then begin
+			OutString(pos[23],0,LBBlockw.SaleOrder,false);
+		end;
+			OutString(pos[6],0,LBBlockw.Group,false);
+			OutString(pos[6],0,LBBlockw.ArtCode,false);
+			OutString(pos[7],0,LBBlockw.Spec,false);
+			OutString(pos[7],0,LBBlockw.InvDate,false);
+			if(currentcompany==2)then begin
+			OutString(pos[7],0,LBBlockw.Serial,false);
+			end;
+			OutString(pos[8],0,LBBlockw.Qty,false);
+			OutVal(pos[9],0,LBBlockw.Price,M4Val,false);
+			OutVal(pos[9],0,LBBlockw.PriceUAH,M4Val,false);
+			OutVal(pos[10],0,LBBlockw.Cost,M4Val,false);
+			OutVal(pos[10],0,LBBlockw.CostUAH,M4Val,false);
+			OutVal(pos[11],0,LBBlockw.Sum,M4Val,false);
+			OutVal(pos[11],0,LBBlockw.SumUAH,M4Val,false);
+			OutVal(pos[12],0,LBBlockw.SumCost,M4Val,false);
+			OutVal(pos[12],0,LBBlockw.SumCostUAH,M4Val,false);
+			OutVal(pos[13],0,LBBlockw.GP,M4Val,false);
+			OutVal(pos[13],0,LBBlockw.GPUAH,M4Val,false);
+			OutString(pos[14],0,LBBlockw.RecRate,false);
+			OutString(pos[15],0,LBBlockw.RecCurrent,false);
+			OutString(pos[16],0,LBBlockw.InvRate,false);
+			OutString(pos[17],0,LBBlockw.InvCur,false);
+			OutString(pos[18],0,LBBlockw.SalesMan,false);
+			OutString(pos[19],0,LBBlockw.InvSalesMan,false);
+			if(currentcompany!=2)then begin
+			OutString(pos[20],0,LBBlockw.ServiceMan,false);
+			OutString(pos[21],0,LBBlockw.ServiceOrder,false);
+			OutString(pos[23],0,LBBlockw.SaleOrder,false);
+			end;
+		endformat;
+		end;
+	end;
+	//_____________________End______________________________
   endjob;
 return;
 end;
@@ -1783,6 +1871,7 @@ l1:;
     end; 
   end;
   
+		
   if (totSum>0 or totCost>0) then begin
 		startformat(15);
 		endformat;

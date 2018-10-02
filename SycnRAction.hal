@@ -1,3 +1,38 @@
+//Edit_________________ABR 01.10.18 10:20
+//_____________________________Begin________________
+global 
+function LongInt ExtrCostVcRecordCheck(var record ExtrCostVc ExtrCostr,record ExtrCostVc ExtrCost2r,LongInt stat,LongInt long4)
+begin
+	LongInt res;
+	res = 0;
+	if (ExtrCostr.SerNr == -1) then begin
+		ExtrCostr.SerNr = NextSerNr("ExtrCostVc",CurrentDate,-1,false,"");
+	end;
+	if(blank(ExtrCostr.CustCode)) then begin
+		res = -1;
+		RecordCheckError(1058,"",-1,"CustCode");
+		goto EndExtrCost;
+	end;
+	if(blank(ExtrCostr.StartDate)) then begin
+		res = -1;
+		RecordCheckError(1058,"",-1,"StartDate");
+		goto EndExtrCost;
+	end;
+	if(blank(ExtrCostr.EndDate)) then begin
+		res = -1;
+		RecordCheckError(1058,"",-1,"EndDate");
+		goto EndExtrCost;
+	end;
+	if(blank(ExtrCostr.BaseSum)) then begin
+		res = -1;
+		RecordCheckError(1058,"",-1,"BaseSum");
+		goto EndExtrCost;
+	end;
+	EndExtrCost:;
+	ExtrCostVcRecordCheck = res;
+return;
+end;
+//________________________________END________________________	
 
 global
 function LongInt INVcRecordCheck(var record INVc INr,record INVc IN2r,LongInt stat,LongInt long4)

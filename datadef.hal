@@ -4663,5 +4663,60 @@ EndRecord;
   KeySegment(SerNr);
   EndRecord;
 	  
+	RecordBegin(ExtrCostVc,-,"");//Edit_________________ABR 28.09.18 17:17
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(CustCode,M4Code,20,0);
+  RecordField(StartDate,M4Date,0,0);
+  RecordField(EndDate,M4Date,0,0);
+  RecordField(BaseSum,M4val,0,0);
+  RecordField(Sum,M4val,0,0);
+  MainKeyBegin(SerNr,0)
+  KeySegment(SerNr);
+  KeyBegin(CustCode);
+  KeySegment(CustCode);
+  KeySegment(EndDate);
+  KeySegment(SerNr);
+  EndRecord;
+  
+  BlockBegin(LocalBonusBlock,-,""); //Edit***************************ABR,14:24 01.10.2018 {
+	RecordField(Math,M4Matrix,0,0);
+	ArrayBegin(Math,-,1);
+	
+	ArrayField(CustCode,M4Str,200,0);
+	ArrayField(CustName,M4Str,200,0);
+	ArrayField(InvDate,M4date,0,0);
+	ArrayField(PayTerm,M4date,0,0);
+	ArrayField(PayDate,M4date,0,0);
+	ArrayField(InvNr,M4Str,200,0);
+	ArrayField(OrderNr,M4Code,20,0);
+	ArrayField(Group,M4Str,200,0);
+	ArrayField(ArtCode,M4Str,200,0);
+	ArrayField(Spec,M4Str,200,0);
+	ArrayField(Serial,M4Str,200,0);
+	ArrayField(Qty,M4int,0,0);
+	ArrayField(Price,M4val,0,0);
+	ArrayField(PriceUAH,M4val,10,AccVc);
+	ArrayField(InStock,M4date,0,0);
+	ArrayField(Cost,M4val,0,0);
+	ArrayField(CostUAH,M4val,0,0);
+	ArrayField(Sum,M4val,0,0);
+	ArrayField(SumUAH,M4val,0,0);
+	ArrayField(SumCost,M4val,0,0);;
+	ArrayField(SumCostUAH,M4val,0,0);
+	ArrayField(GP,M4val,0,0);
+	ArrayField(GPUAH,M4val,0,0);
+	ArrayField(RecRate,M4Str,200,0);
+	ArrayField(RecCurrent,M4Str,200,0);
+	ArrayField(InvRate,M4Str,200,0);
+	ArrayField(InvCur,M4Str,200,0);
+	ArrayField(SalesMan,M4Str,200,0);
+	ArrayField(InvSalesMan,M4Str,200,0);
+	ArrayField(ServiceMan,M4Str,200,0);
+	ArrayField(ServiceOrder,M4int,0,0);
+  ArrayField(SaleOrder,M4Code,20,0);
+	ArrayField(ExtrCost,M4val,0,0);
+	EndArray;
+	EndBlock; //Edit***************************ABR,14:24 01.10.2018 }
+  
 return;
 end;

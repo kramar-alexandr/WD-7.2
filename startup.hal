@@ -16,8 +16,10 @@ begin
 	//Register("Цінники товарів","Цінники товарів",MyLabelItemVc,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
   //Register("Надходження","Надходження",PUVc,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
 	Register("ARVc","ARVc",ARVc,modDBMain);
-  Register("ARPayVc","ARPayVc",ARPayVc,modDBMain);
-  Register("APVc","APVc",APVc,modDBMain);
+    Register("ARPayVc","ARPayVc",ARPayVc,modDBMain);
+    Register("APVc","APVc",APVc,modDBMain);
+	
+	Setting("Додаткові витрати",ExtrCostLClass,modSL);//Edit_________________ABR 29.09.2018 17:23
 	
 	
 	Setting("Prepayments VE",OPPLClass,modDBMain);// Edit ************************** Wednesday, 2 December 2015 17:15:29
@@ -77,7 +79,7 @@ begin
 	Report("Карти лояльності",LoyaltyCardListRClass,LoyaltyCardListRn,0,modPOS);
 	
 	Report("Видалити контакти",DeleteCUListRClass,DeleteCUListRn,0,modSY);  
-
+	
 	
  	Maintenance("Розбіжність складу з балансом",MyVClass,StockBalDiffMn,modIN);
  	
