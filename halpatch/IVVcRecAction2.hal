@@ -100,7 +100,7 @@ external updating procedure AddTTrans_IVVc(record TRVc,record IVVc); //Edit*****
 external function string 255 CheckTrans(var record TRVc,Integer,Boolean); //Edit***************************Sasha2,14:06 31.08.2015
 external updating procedure UpdateTrans_Stock(record TRVc); //Edit***************************Sasha2,14:14 31.08.2015
 external function Integer MakeTransFromIVAfterFIFO(var record TRVc,var record SMVc,record IVVc,Boolean,Boolean); //Edit***************************Sasha2,14:10 31.08.2015
-
+external procedure SetMatrixToOthComp(record IVVc);//Edit_________________ABR 08.10.18 17:25
 procedure SetIVAcceptanceFlag(var record IVVc IVr,record IVVc prevIVr,LongInt stat)
 begin
   Integer acceptanceregister;
@@ -1146,6 +1146,9 @@ BEGIN
         CancelApprovalRequestActivities(kAcceptanceIV,"IVVc",IVr.SerNr,IVr.CustCode);
       end;
   end;
+	if((IV2r.OKFlag==0) and (IVr.OKFlag!=0)) then begin  //Edit_________________ABR 08.10.18 17:27
+		SetMatrixToOthComp(IVr);
+	end;	
 LIVVcRecordUpdateAfter:;
   IVVcRecordUpdateAfter = res; 
   RETURN;

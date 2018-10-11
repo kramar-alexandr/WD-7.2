@@ -802,6 +802,7 @@ begin
   RecordField(PurchaseCompany,M4Int,0,0); //Edit***************************Sasha2,15:00 11.01.2017
   RecordField(DoNotDelete,M4Mark,0,0);//Edit***************************Alexandr,21:12 19.09.2017
   RecordField(DateOfLastMatch,M4Date,0,0);//Edit_-_-_-_-_-_-_-_-Anton 12:13 03.05.2018
+	RecordField(CompNr,M4int,0,0)//Edit_________________ABR 08.10.18 16:54
   MainKeyBegin(Code,1);
   StoreInBaseKey;
   AppendFieldToKeyName(SalesGroup);

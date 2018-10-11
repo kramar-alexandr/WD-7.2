@@ -20,7 +20,11 @@ external procedure FindSalesExVat(record TaxMatrixVc,string,val,Integer,Integer,
 external function Integer DateGetIntMonth(Date);
 external function string 255 CreateInternationalCreditorReference(string);
 external function val AbsoluteVal(val); //Edit***************************Sasha2,10:54 22.04.2015
-
+remote function Boolean VIVc_PasteAccNumber(var record VIVc,string,Boolean,Integer); //Edit_________________ABR, 14:05, 10.10.18
+external procedure VISumup(record VIVc,var val);//Edit_________________ABR, 14:05, 10.10.18
+remote procedure VICalcVals(var record VIVc);//Edit_________________ABR, 14:05, 10.10.18
+remote procedure VIGetRate(var record VIVc);//Edit_________________ABR, 14:05, 10.10.18
+remote function Boolean VIVc_PasteVECode(var record VIVc,Integer,Boolean,Boolean,var string);//Edit_________________ABR, 14:05, 10.10.18
 procedure GetIVPrepaidInBase(record IVVc IVp,Integer rownr,var val totsump,var val prepaybasevp)
 BEGIN
   record ARPayHistVc ARPayHistr;
@@ -1409,3 +1413,69 @@ L77InvOK:;
 LInvOK:;
   RETURN;
 END;
+
+global
+updating procedure SetMatrixToOthComp(record IVVc IVr) //Edit_________________ABR 08.10.18 17:27
+begin
+record CUVc CUr;
+record VIVc Vir;
+record INVc INr;
+record RLinkVc RLr;
+row VIVc Virw;
+row IVVc IVrw;
+integer rwn,i,comp;
+array string 255 Snumb;
+val cnt,tot;
+string 255 vewarn;
+comp=CurrentCompany;
+SetCompany(CurrentCompany,false);
+rwn=MatRowCnt(IVr);
+tot=0;
+if(!ReadRecordLink(IVr,1,Vir,RLr)) then begin
+for(i=0;i<rwn;i=i+1) begin
+	MatRowGet(IVr,i,IVrw);
+	if(IVrw.stp==1 AND nonblank(IVrw.ArtCode)) then begin
+		INr.Code=IVrw.ArtCode; 
+		ReadFirstMain(INr,1,true);
+		Snumb[i]=INr.SalesAcc;
+		tot=tot+IVrw.Sum;
+	end;	
+end;			
+CUr.Code=IVr.CustCode;
+if(ReadFirstMain(CUr,1,true)) then begin //Edit_________________ABR 10:31 11.10.18
+	if(CUr.CompNr!=0) then begin
+		SetCompany(CUr.CompNr,false);
+	end;	
+end;
+RecordNew(Vir);
+    Vir.SerNr=NextSerNR("VIVc",IVr.InvDate,-1,false,"");
+		Vir.CurncyCode=IVr.CurncyCode;
+		Vir.VECode="ICOMMERS-SALARY";
+	  VIGetRate(Vir);
+		VIVc_PasteVECode(VIr,WindowState(0),true,true,vewarn);
+		Vir.InvDate=IVr.InvDate;
+		Vir.RegDate=IVr.RegDate;
+		Vir.PayVal=tot;
+    rwn=MatRowCnt(IVr);
+		for(i=0;i<rwn;i=i+1) begin
+			MatRowGet(IVr,i,IVrw);
+			Virw.AccNumber=Snumb[i];
+			MatRowPut(Vir,i,Virw);
+			VIVc_PasteAccNumber(VIr,"",true,i);
+			MatRowGet(Vir,i,Virw);
+			MatRowPut(Vir,i,Virw);
+			MatRowGet(IVr,i,IVrw);
+			Virw.Sum=IVrw.Sum;
+			MatRowPut(Vir,i,Virw);
+			MatRowGet(Vir,i,Virw);
+			VICalcVals(VIr);
+			VISumup(VIr,cnt);  
+			MatRowPut(Vir,i,Virw);
+		end;	
+
+		if(RecordInsert(Vir,true)) then begin
+				CreateRecordLink(Vir,CurrentCompany,IVr,comp);
+				CreateRecordLink(IVr,comp,Vir,CurrentCompany);
+		end;
+end;		
+end;

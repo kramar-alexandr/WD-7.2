@@ -8764,12 +8764,15 @@ begin
   ButtonFrame(h5,v=24,150,3,"Ціна на дату");
   RadioButton(h5,v,0,0,"замовлення",PriceBasedOn);
   RadioButton(h5,v+=16,1,0,"заплан. відвантаження",PriceBasedOn);
-  RadioButton(h5,v+=16,2,0,"відправки",PriceBasedOn);  
+  RadioButton(h5,v+=16,2,0,"відправки",PriceBasedOn); 
+	
   Tile(tilenr,180,false,tilenr,Comment); tilenr = tilenr + 1;
-  EditField(h,v=6,-20,"Коментар (№Дог. на пост.)",Normal,Comment,false,0);// Edit ************************** Tuesday, 16 February 2016 14:29:28
+ 
+ EditField(h,v=6,-20,"Коментар (№Дог. на пост.)",Normal,Comment,false,0);// Edit ************************** Tuesday, 16 February 2016 14:29:28
   EditField(h,v+=vs,-20,"Попередж. (продаж)",Normal,WarnText1,false,0);
   EditField(h,v+=vs,-20,"Попередж. (придб.)",Normal,VEWarnText1,false,0);
   EditField(h,v+=vs,120,"Номер свід. ПДВ",Normal,VATNr,false,0);
+	EditField(h,v+20,120,"Номер комп.",Normal,CompNr,false,0);//Edit_________________ABR 10:34 11.10.18
   EditField(h2-20,v,120,"ЄДРПОУ",Normal,RegNr1,false,0);
   ButtonFrame(h5+30,v+18,143,1,"Тип");
   RadioButton(h5+30,v+18,0,0,"Компанія",CustType);
