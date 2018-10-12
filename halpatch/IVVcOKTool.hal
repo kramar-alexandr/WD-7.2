@@ -1427,6 +1427,9 @@ integer rwn,i,comp;
 array string 255 Snumb;
 val cnt,tot;
 string 255 vewarn;
+array string 100 keys;
+vector val AccSum;
+
 comp=CurrentCompany;
 SetCompany(CurrentCompany,false);
 rwn=MatRowCnt(IVr);
@@ -1459,13 +1462,18 @@ RecordNew(Vir);
     rwn=MatRowCnt(IVr);
 		for(i=0;i<rwn;i=i+1) begin
 			MatRowGet(IVr,i,IVrw);
-			Virw.AccNumber=Snumb[i];
+			AccSum[Snumb[i]]=AccSum[Snumb[i]]+IVrw.Sum;
+		end;	
+		GetVectorTags(AccSum,keys);
+		for(i=0;i<rwn;i=i+1) begin
+			MatRowGet(IVr,i,IVrw);
+			Virw.AccNumber=keys[i];
 			MatRowPut(Vir,i,Virw);
 			VIVc_PasteAccNumber(VIr,"",true,i);
 			MatRowGet(Vir,i,Virw);
 			MatRowPut(Vir,i,Virw);
 			MatRowGet(IVr,i,IVrw);
-			Virw.Sum=IVrw.Sum;
+			Virw.Sum=AccSum[keys[i]];
 			MatRowPut(Vir,i,Virw);
 			MatRowGet(Vir,i,Virw);
 			VICalcVals(VIr);
