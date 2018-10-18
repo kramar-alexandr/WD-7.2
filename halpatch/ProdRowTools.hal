@@ -1,3 +1,4 @@
+external function string 255 FillupTaxMatrix(Integer,string,string,string,string,string,var record TaxMatrixVc);
 external procedure TBBURowAddPrice(record TBBUVc,row TBBUVc);
 external function roundmode SetRoundModeD(Integer);
 external procedure CalcPrice(val,val,val,var val,Integer);
@@ -18,8 +19,9 @@ external function Boolean ReadFirstItem(string,var record INVc,Boolean,Boolean);
 external procedure FindStockValue(string,string,var record ItemStatusVc);
 external procedure RetCalcCostPrice(string,val,Integer,string,string,val,val,val,val,val,var val);
 external function Boolean GetItemPriceDiscount3(string,val,var record INVc,string,val,val,val,val,val,string,string,string,string,
-                                                var val,var string,var val,var string,var val,var string,Integer,var Boolean,Date,
+                                                var val,var string,var val,var string,var val,var string,Integer,var Boolean,Date,Time,
                                                 string,Boolean,var Boolean,string,var string,var val,string,string,var string);
+external function string 255 FindINObjects(string,string);
 
 procedure AddProdRow(var Array string pdpRec,var Array string pdpItem,var Array string pdpName,var Array val pdpinqty,var Array val pdpoutqty,var Array val pdporgstock,
                      var Array val pdpcurstock,var Array val pdpproduce,var Array val pdporderstock,var Array val pdppurord,var LongInt arrcnt,
@@ -31,6 +33,8 @@ BEGIN
   string 255 tstr;
   
   ord = 0;
+/*
+//what if we have same item in 2 rows  , serial nr tracking one ?   
   if (nonblank(item)) then begin
     for (j=0;j<=arrcnt;j=j+1) begin
       tstr = pdpItem[j];
@@ -42,6 +46,8 @@ BEGIN
       end;  
     end;
   end;
+*/  
+
   j = arrcnt+1;
   arrcnt = arrcnt + 1;
   pdpItem[j] = item;
@@ -305,11 +311,11 @@ BEGIN
         SDrw.BasePrice = blankval;
       end;
       SDrw.Spec = locINp.Name;
-      MatRowPut(SDp,arow+j,SDrw);
+      MatRowInsert(SDp,arow+j,SDrw);
       while (GetItemNameStr(tcnt,curitemname,"","","")) begin
         SDrw.Spec = curitemname;
         tcnt = tcnt + 1;
-        MatRowPut(SDp,arow+j+tcnt-2,SDrw);
+        MatRowInsert(SDp,arow+j+tcnt-2,SDrw);
       end;
       res = true;    
     end;
@@ -340,6 +346,8 @@ BEGIN
   string 255 salesacc,vatcode,curitemname,tax2code,taxtemplatecode;
   val vreb,baseprice,price,tax2prc;
   Boolean calcpricef,dummyf;
+  Time blankt;
+  record TaxMatrixVc TMr;
   
   arrcnt = -1;
   ExpandProdRows(pdpItem,pdpName,pdpinqty,pdpoutqty,pdporgstock,pdpcurstock,pdpproduce,pdporderstock,pdppurord,arrcnt,INp.Code,location,recepy,mulfact2,false,1,false);
@@ -354,8 +362,9 @@ BEGIN
                               WSp.FrRate,WSp.ToRateB1,WSp.ToRateB2,WSp.BaseRate1,WSp.BaseRate2,
                               WSp.LangCode,WSp.CustCat,WSp.PriceList,WSp.RebCode,
                               price,curitemname,vreb,vatcode,baseprice,salesacc,
-                              0,calcpricef,WSp.TransDate,WSp.CustCode,true,dummyf,"",tax2code,tax2prc,"",WSp.Location,taxtemplatecode)) then 
+                              WSp.ExportFlag,calcpricef,WSp.TransDate,blankt,WSp.CustCode,true,dummyf,"",tax2code,tax2prc,"",WSp.Location,taxtemplatecode)) then 
       begin
+        WSrw.TaxTemplateCode = FillupTaxMatrix(0,"",WSp.CustCode,WSp.CustCat,"",taxtemplatecode,TMr);
         WSrw.Price     = blankval;
         WSrw.vRebate     = blankval;
         WSrw.ArtCode   = locINp.Code;
@@ -364,14 +373,15 @@ BEGIN
         WSrw.Spec = curitemname;
         WSrw.Coefficient     = locINp.UnitCoefficient;
       end;
-      MatRowPut(WSp,arow+j,WSrw);
+      PackRowFieldMatrix(WSrw,"TaxMatrix",TMr);
+      MatRowInsert(WSp,arow+j,WSrw);
       ClearRow(WSp,WSrw,1);
       
       tcnt = 2;
       while (GetItemNameStr(tcnt,curitemname,WSp.LangCode,locINp.Name,locINp.Code)) begin
         WSrw.Spec = curitemname;
         tcnt = tcnt + 1;
-        MatRowPut(WSp,arow+j+tcnt-2,WSrw);
+        MatRowInsert(WSp,arow+j+tcnt-2,WSrw);
       end;
       j = j+tcnt-2;
       res = true;
@@ -403,45 +413,54 @@ BEGIN
   string 255 salesacc,vatcode,curitemname,tax2code,taxtemplatecode;
   val vreb,baseprice,price,tax2prc;
   Boolean calcpricef,dummyf;
+  Time blankt;
+  record TaxMatrixVc TMr;
   
   arrcnt = -1;
   ExpandProdRows(pdpItem,pdpName,pdpinqty,pdpoutqty,pdporgstock,pdpcurstock,pdpproduce,pdporderstock,pdppurord,arrcnt,INp.Code,location,recepy,mulfact2,false,0,false);
   for (i=0;i<=arrcnt;i=i+1) begin
     if ((pdpItem[i]!=INp.Code) and (pdpoutqty[i]==0)) then begin
       j = j + 1;
-      ClearRow(IVp,IVrw,1);
+      ClearRow(IVp,IVrw,kInvoiceRowTypeStructuredItemComponent);
       IVrw.ArtCode = pdpItem[i];
       IVrw.Quant = pdpinqty[i];
       IVrw.Quant = IVrw.Quant*qty;  
+//      IVrw.MotherRowNr = arow;
+      IVrw.MotherArtCode = INp.Code;
+      IVrw.RecipeQuant = pdpinqty[i];
+
       if (GetItemPriceDiscount3(IVrw.ArtCode,IVrw.Quant,locINp,IVp.CurncyCode,
                               IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,
                               IVp.LangCode,IVp.CustCat,IVp.PriceList,IVp.RebCode,
                               price,curitemname,vreb,vatcode,baseprice,salesacc,
-                              0,calcpricef,IVp.TransDate,IVp.CustCode,true,dummyf,IVp.PayDeal,tax2code,tax2prc,IVp.Region,IVp.Location,taxtemplatecode)) then 
+                              IVp.ExportFlag,calcpricef,IVp.TransDate,IVp.TransTime,IVp.CustCode,true,dummyf,IVp.PayDeal,tax2code,tax2prc,IVp.Region,IVp.Location,taxtemplatecode)) then 
       begin
-        IVrw.Price     = price;// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 18 October 2018 17:23:47
-        IVrw.vRebate   = vreb;// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 18 October 2018 17:23:51
+        IVrw.TaxTemplateCode = FillupTaxMatrix(0,IVp.BranchID,IVp.CustCode,IVp.CustCat,IVp.DelAddrCode,taxtemplatecode,TMr);
+        IVrw.Price     = price;// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 18 October 2018 17:32:33
+        IVrw.vRebate   = vreb;// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 18 October 2018 17:32:34
         IVrw.BasePrice = baseprice;
         IVrw.ArtCode   = locINp.Code;
         IVrw.VATCode = vatcode;
         IVrw.SalesAcc = salesacc;
         IVrw.Spec = curitemname;
         IVrw.Coefficient = locINp.UnitCoefficient;
-        IVrw.Objects = locINp.Objects;        
+        IVrw.Objects = FindINObjects(locINp.Objects,locINp.Group);
         IVrw.RepaExVAT = CalcItemRepa(locINp.RepaPricePerWeight,locINp.Weight,IVrw.Quant,IVp.CurncyCode,
                                       IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
       end;
-      MatRowPut(IVp,arow+j,IVrw);
+      PackRowFieldMatrix(IVrw,"TaxMatrix",TMr);
+      MatRowInsert(IVp,arow+j,IVrw);
       if (IVDchrsum(IVp,arow+j)) then begin
         IVDchsum(IVp,arow+j);
       end;
-      ClearRow(IVp,IVrw,1);
+      ClearRow(IVp,IVrw,kInvoiceRowTypeStructuredItemComponent);
       
       tcnt = 2;
       while (GetItemNameStr(tcnt,curitemname,IVp.LangCode,locINp.Name,locINp.Code)) begin
+        ClearRow(IVp,IVrw,kInvoiceRowTypeStructuredItemComponent);
         IVrw.Spec = curitemname;
         tcnt = tcnt + 1;
-        MatRowPut(IVp,arow+j+tcnt-2,IVrw);
+        MatRowInsert(IVp,arow+j+tcnt-2,IVrw);
       end;
       j = j+tcnt-2;
       res = true;
@@ -450,6 +469,29 @@ BEGIN
   IVVc_ExplodeRecepy = res;
   RETURN;
 END;
+
+global
+procedure IVVc_ChangeQuantityRecepy(string motherartcode,val newq,Integer arow,var record IVVc IVp)
+begin
+  row IVVc IVrw;
+  Integer i,rwcnt;
+
+  rwcnt = MatRowCnt(IVp);
+  for (i=arow+1;i<rwcnt;i=i+1) begin
+    MatRowGet(IVp,i,IVrw); 
+    if (IVrw.stp==kInvoiceRowTypeStructuredItemComponent) then begin
+      IVrw.Quant = IVrw.RecipeQuant*newq;
+      if (blank(IVrw.RecipeQuant)) then begin
+        IVrw.Quant = blankval;
+      end;
+      MatRowPut(IVp,i,IVrw); 
+    end else begin
+      goto LIVVc_ChangeQuantityRecepy;
+    end;
+  end;
+LIVVc_ChangeQuantityRecepy:;  
+  return;
+end;
 
 global
 function Boolean RetVc_ExplodeRecepy(record INVc INp,val qty,record RetVc Retp,string recepy,Integer arow)
@@ -481,6 +523,7 @@ BEGIN
       Retrw.Quant = pdpinqty[i];
       Retrw.OrdRow = -1;
       Retrw.Quant = Retrw.Quant*qty;      
+
       locINp.Code = Retrw.ArtCode;
       if (ReadFirstMain(locINp,1,true)) then begin
         Retrw.UPrice = locINp.InPrice;
@@ -526,15 +569,19 @@ BEGIN
   for (i=0;i<=arrcnt;i=i+1) begin
     if ((pdpItem[i]!=INp.Code) and (pdpoutqty[i]==0)) then begin
       j = j + 1;
-      ClearRow(IVCashp,IVCashrw,1);
+      ClearRow(IVCashp,IVCashrw,kInvoiceRowTypeStructuredItemComponent);
       IVCashrw.ArtCode = pdpItem[i];
       IVCashrw.Quant = pdpinqty[i];
       IVCashrw.Quant = IVCashrw.Quant*qty;  
+//      IVCashrw.MotherRowNr = arow;
+      IVCashrw.MotherArtCode = INp.Code;
+      IVCashrw.RecipeQuant = pdpinqty[i];
+
       if (GetItemPriceDiscount3(IVCashrw.ArtCode,IVCashrw.Quant,locINp,IVCashp.CurncyCode,
                               IVCashp.FrRate,IVCashp.ToRateB1,IVCashp.ToRateB2,IVCashp.BaseRate1,IVCashp.BaseRate2,
                               IVCashp.LangCode,IVCashp.CustCat,IVCashp.PriceList,IVCashp.RebCode,
                               price,curitemname,vreb,vatcode,baseprice,salesacc,
-                              0,calcpricef,IVCashp.TransDate,IVCashp.CustCode,true,dummyf,IVCashp.PayDeal,tax2code,tax2prc,"","",taxtemplatecode)) then 
+                              0,calcpricef,IVCashp.TransDate,IVCashp.TransTime,IVCashp.CustCode,true,dummyf,IVCashp.PayDeal,tax2code,tax2prc,"","",taxtemplatecode)) then 
       begin
         IVCashrw.Price     = blankval;
         IVCashrw.BasePrice = baseprice;
@@ -545,14 +592,14 @@ BEGIN
         IVCashrw.Spec = curitemname;
         IVCashrw.Coefficient     = locINp.UnitCoefficient;
       end;
-      MatRowPut(IVCashp,arow+j,IVCashrw);
+      MatRowInsert(IVCashp,arow+j,IVCashrw);
       ClearRow(IVCashp,IVCashrw,1);
       
       tcnt = 2;
       while (GetItemNameStr(tcnt,curitemname,IVCashp.LangCode,locINp.Name,locINp.Code)) begin
         IVCashrw.Spec = curitemname;
         tcnt = tcnt + 1;
-        MatRowPut(IVCashp,arow+j+tcnt-2,IVCashrw);
+        MatRowInsert(IVCashp,arow+j+tcnt-2,IVCashrw);
       end;
       j = j+tcnt-2;
       res = true;
@@ -561,6 +608,29 @@ BEGIN
   IVCashVc_ExplodeRecepy = res;
   RETURN;
 END;
+
+global
+procedure IVCashVc_ChangeQuantityRecepy(string motherartcode,val newq,Integer arow,var record IVCashVc IVCashp)
+begin
+  row IVCashVc IVCashrw;
+  Integer i,rwcnt;
+
+  rwcnt = MatRowCnt(IVCashp);
+  for (i=arow+1;i<rwcnt;i=i+1) begin
+    MatRowGet(IVCashp,i,IVCashrw); 
+    if (IVCashrw.stp==kInvoiceRowTypeStructuredItemComponent) then begin
+      IVCashrw.Quant = IVCashrw.RecipeQuant*newq;
+      if (blank(IVCashrw.RecipeQuant)) then begin
+        IVCashrw.Quant = blankval;
+      end;
+      MatRowPut(IVCashp,i,IVCashrw); 
+    end else begin
+      goto LIVCashVc_ChangeQuantityRecepy;
+    end;
+  end;
+LIVCashVc_ChangeQuantityRecepy:;  
+  return;
+end;
 
 global
 function Boolean TBBUVc_ExplodeRecepy(record INVc INp,val qty,record TBBUVc TBBUp,string recepy,Integer arow)
@@ -593,10 +663,15 @@ BEGIN
   for (i=0;i<=arrcnt;i=i+1) begin
     if ((pdpItem[i]!=INp.Code) and (pdpoutqty[i]==0)) then begin
       j = j + 1;
-      ClearRow(TBBUp,TBBUrw,1);
+      ClearRow(TBBUp,TBBUrw,kInvoiceRowTypeStructuredItemComponent);
       TBBUrw.ArtCode = pdpItem[i];
       TBBUrw.Qty = pdpinqty[i];
       TBBUrw.Qty = TBBUrw.Qty*qty;  
+      TBBUrw.Recepy = recepy;
+//      TBBUrw.MotherRowNr = arow;
+      TBBUrw.MotherArtCode = INp.Code;
+      TBBUrw.RecipeQuant = pdpinqty[i];
+
       if (GetFirstItem(TBBUrw.ArtCode,locINp)) then begin
         switch (locINp.ItemType) begin
           case 1: TBBUrw.RowType = TBBUp.BudStocked;
@@ -621,15 +696,16 @@ BEGIN
         if (TBBUrw.Price==0) then begin
 //          TBBURowAddPrice(TBBUp,TBBUrw);
         end;
-        TBBUrw.Objects = locINp.Objects;        
-        MatRowPut(TBBUp,arow+j,TBBUrw);
+        TBBUrw.Objects = FindINObjects(locINp.Objects,locINp.Group);
+        MatRowInsert(TBBUp,arow+j,TBBUrw);
 //        TBBUDchrsum(TBBUp,arow+j,true,GenOptRec.UseDiscount);
       end;
       tcnt = 2;
       while (GetItemNameStr(tcnt,curitemname,TBBUp.LangCode,locINp.Name,locINp.Code)) begin
+        ClearRow(TBBUp,TBBUrw,kInvoiceRowTypeStructuredItemComponent);
         TBBUrw.Spec = curitemname;
         tcnt = tcnt + 1;
-        MatRowPut(TBBUp,arow+j+tcnt-2,TBBUrw);
+        MatRowInsert(TBBUp,arow+j+tcnt-2,TBBUrw);
       end;
       j = j+tcnt-2;
       res = true;
@@ -640,7 +716,30 @@ BEGIN
 END;
 
 global
-function Boolean QTVc_ExplodeRecepy(record INVc INp,val qty,record QTVc QTp,string recepy,Integer arow)
+procedure TBBUVc_ChangeQuantityRecepy(string motherartcode,val newq,Integer arow,var record TBBUVc TBBUp)
+begin
+  row TBBUVc TBBUrw;
+  Integer i,rwcnt;
+
+  rwcnt = MatRowCnt(TBBUp);
+  for (i=arow+1;i<rwcnt;i=i+1) begin
+    MatRowGet(TBBUp,i,TBBUrw); 
+    if (TBBUrw.stp==kInvoiceRowTypeStructuredItemComponent) then begin
+      TBBUrw.Qty = TBBUrw.RecipeQuant*newq;
+      if (blank(TBBUrw.RecipeQuant)) then begin
+        TBBUrw.Qty = blankval;
+      end;
+      MatRowPut(TBBUp,i,TBBUrw); 
+    end else begin
+      goto LTBBUVc_ChangeQuantityRecepy;
+    end;
+  end;
+LTBBUVc_ChangeQuantityRecepy:;  
+  return;
+end;
+
+global
+function Boolean QTVc_ExplodeRecepy(record INVc INp,val qty,var record QTVc QTp,string recepy,Integer arow)
 BEGIN
   Array string 20 pdpItem;
   Array string 60 pdpName;
@@ -661,23 +760,31 @@ BEGIN
   string 255 salesacc,vatcode,curitemname,tax2code,taxtemplatecode;
   val vreb,baseprice,price,tax2prc;
   Boolean calcpricef,dummyf;
+  Time blankt;
+  record TaxMatrixVc TMr;
   
   arrcnt = -1;
   ExpandProdRows(pdpItem,pdpName,pdpinqty,pdpoutqty,pdporgstock,pdpcurstock,pdpproduce,pdporderstock,pdppurord,arrcnt,INp.Code,location,recepy,mulfact2,false,0,false);
   for (i=0;i<=arrcnt;i=i+1) begin
     if ((pdpItem[i]!=INp.Code) and (pdpoutqty[i]==0)) then begin
       j = j + 1;
-      ClearRow(QTp,QTrw,1);
+      ClearRow(QTp,QTrw,kInvoiceRowTypeStructuredItemComponent);
       QTrw.ArtCode = pdpItem[i];
       QTrw.Quant = pdpinqty[i];
       QTrw.Quant = QTrw.Quant*qty;  
-      QTrw.Objects = INp.Objects;
+      QTrw.Objects = FindINObjects(locINp.Objects,locINp.Group);
+      QTrw.Recepy = recepy;
+//      QTrw.MotherRowNr = arow;
+      QTrw.MotherArtCode = INp.Code;
+      QTrw.RecipeQuant = pdpinqty[i];
+      
       if (GetItemPriceDiscount3(QTrw.ArtCode,QTrw.Quant,locINp,QTp.CurncyCode,
                               QTp.FrRate,QTp.ToRateB1,QTp.ToRateB2,QTp.BaseRate1,QTp.BaseRate2,
                               QTp.LangCode,QTp.CustCat,QTp.PriceList,QTp.RebCode,
                               price,curitemname,vreb,vatcode,baseprice,salesacc,
-                              0,calcpricef,QTp.QTDate,QTp.CustCode,true,dummyf,QTp.PayDeal,tax2code,tax2prc,QTp.Region,QTp.Location,taxtemplatecode)) then 
+                              QTp.ExportFlag,calcpricef,QTp.QTDate,QTp.CustCode,blankt,true,dummyf,QTp.PayDeal,tax2code,tax2prc,QTp.Region,QTp.Location,taxtemplatecode)) then 
       begin
+        QTrw.TaxTemplateCode = FillupTaxMatrix(0,QTp.BranchID,QTp.CustCode,QTp.CustCat,QTp.DelAddrCode,taxtemplatecode,TMr);
         QTrw.Price     = blankval;
         QTrw.vRebate   = blankval;
         QTrw.BasePrice = baseprice;
@@ -685,18 +792,19 @@ BEGIN
         QTrw.VATCode = vatcode;
         QTrw.SalesAcc = salesacc;
         QTrw.Spec = curitemname;
+        QTrw.Objects = FindINObjects(locINp.Objects,locINp.Group);
       end;
-      MatRowPut(QTp,arow+j,QTrw);
+      PackRowFieldMatrix(QTrw,"TaxMatrix",TMr);
+      MatRowInsert(QTp,arow+j,QTrw);
       if (QTDchrsum(QTp,arow+j,0)) then begin
         QTDchsum(QTp,arow+j);
-      end;
-      ClearRow(QTp,QTrw,1);
-      
+      end;      
       tcnt = 2;
       while (GetItemNameStr(tcnt,curitemname,QTp.LangCode,locINp.Name,locINp.Code)) begin
+        ClearRow(QTp,QTrw,kInvoiceRowTypeStructuredItemComponent);
         QTrw.Spec = curitemname;
         tcnt = tcnt + 1;
-        MatRowPut(QTp,arow+j+tcnt-2,QTrw);
+        MatRowInsert(QTp,arow+j+tcnt-2,QTrw);
       end;
       j = j+tcnt-2;
       res = true;
@@ -705,6 +813,29 @@ BEGIN
   QTVc_ExplodeRecepy = res;
   RETURN;
 END;
+
+global
+procedure QTVc_ChangeQuantityRecepy(string motherartcode,val newq,Integer arow,var record QTVc QTp)
+begin
+  row QTVc QTrw;
+  Integer i,rwcnt;
+
+  rwcnt = MatRowCnt(QTp);
+  for (i=arow+1;i<rwcnt;i=i+1) begin
+    MatRowGet(QTp,i,QTrw); 
+    if (QTrw.stp==kInvoiceRowTypeStructuredItemComponent) then begin
+      QTrw.Quant = QTrw.RecipeQuant*newq;
+      if (blank(QTrw.RecipeQuant)) then begin
+        QTrw.Quant = blankval;
+      end;
+      MatRowPut(QTp,i,QTrw); 
+    end else begin
+      goto LQTVc_ChangeQuantityRecepy;
+    end;
+  end;
+LQTVc_ChangeQuantityRecepy:;  
+  return;
+end;
 
 global
 function Boolean ORVc_ExplodeRecepy(record INVc INp,val qty,record ORVc ORp,string recepy,Integer arow)
@@ -728,22 +859,30 @@ BEGIN
   string 255 salesacc,vatcode,curitemname,tax2code,taxtemplatecode;
   val vreb,baseprice,price,tax2prc;
   Boolean calcpricef,dummyf;
+  Time blankt;
+  record TaxMatrixVc TMr;
   
   arrcnt = -1;
   ExpandProdRows(pdpItem,pdpName,pdpinqty,pdpoutqty,pdporgstock,pdpcurstock,pdpproduce,pdporderstock,pdppurord,arrcnt,INp.Code,location,recepy,mulfact2,false,0,false);
   for (i=0;i<=arrcnt;i=i+1) begin
     if ((pdpItem[i]!=INp.Code) and (pdpoutqty[i]==0)) then begin
       j = j + 1;
-      ClearRow(ORp,ORrw,1);
+      ClearRow(ORp,ORrw,kInvoiceRowTypeStructuredItemComponent);
       ORrw.ArtCode = pdpItem[i];
       ORrw.Quant = pdpinqty[i];
       ORrw.Quant = ORrw.Quant*qty;  
+      ORrw.Recepy = recepy;
+//      ORrw.MotherRowNr = arow;
+      ORrw.MotherArtCode = INp.Code;
+      ORrw.RecipeQuant = pdpinqty[i];
+
       if (GetItemPriceDiscount3(ORrw.ArtCode,ORrw.Quant,locINp,ORp.CurncyCode,
                               ORp.FrRate,ORp.ToRateB1,ORp.ToRateB2,ORp.BaseRate1,ORp.BaseRate2,
                               ORp.LangCode,ORp.CustCat,ORp.PriceList,ORp.RebCode,
                               price,curitemname,vreb,vatcode,baseprice,salesacc,
-                              0,calcpricef,ORp.OrdDate,ORp.CustCode,true,dummyf,ORp.PayDeal,tax2code,tax2prc,ORp.Region,ORp.Location,taxtemplatecode)) then 
+                              ORp.ExportFlag,calcpricef,ORp.OrdDate,ORp.CustCode,blankt,true,dummyf,ORp.PayDeal,tax2code,tax2prc,ORp.Region,ORp.Location,taxtemplatecode)) then 
       begin
+        ORrw.TaxTemplateCode = FillupTaxMatrix(0,ORp.BranchID,ORp.CustCode,ORp.CustCat,ORp.DelAddrCode,taxtemplatecode,TMr);
         ORrw.Price     = blankval;
         ORrw.vRebate   = blankval;
         ORrw.BasePrice = baseprice;
@@ -751,19 +890,20 @@ BEGIN
         ORrw.VATCode = vatcode;
         ORrw.SalesAcc = salesacc;
         ORrw.Spec = curitemname;
-        ORrw.Objects = locINp.Objects;        
+        ORrw.Objects = FindINObjects(locINp.Objects,locINp.Group);
       end;
-      MatRowPut(ORp,arow+j,ORrw);
+      PackRowFieldMatrix(ORrw,"TaxMatrix",TMr);
+      MatRowInsert(ORp,arow+j,ORrw);
       if (ORDchrsum(ORp,arow+j)) then begin
         ORDchsum(ORp,arow+j);
       end;
-      ClearRow(ORp,ORrw,1);
       
       tcnt = 2;
       while (GetItemNameStr(tcnt,curitemname,ORp.LangCode,locINp.Name,locINp.Code)) begin
+        ClearRow(ORp,ORrw,kInvoiceRowTypeStructuredItemComponent);
         ORrw.Spec = curitemname;
         tcnt = tcnt + 1;
-        MatRowPut(ORp,arow+j+tcnt-2,ORrw);
+        MatRowInsert(ORp,arow+j+tcnt-2,ORrw);
       end;
       j = j+tcnt-2;
       res = true;
@@ -772,6 +912,29 @@ BEGIN
   ORVc_ExplodeRecepy = res;
   RETURN;
 END;
+
+global
+procedure ORVc_ChangeQuantityRecepy(string motherartcode,val newq,Integer arow,var record ORVc ORp)
+begin
+  row ORVc ORrw;
+  Integer i,rwcnt;
+
+  rwcnt = MatRowCnt(ORp);
+  for (i=arow+1;i<rwcnt;i=i+1) begin
+    MatRowGet(ORp,i,ORrw); 
+    if (ORrw.stp==kInvoiceRowTypeStructuredItemComponent) then begin
+      ORrw.Quant = ORrw.RecipeQuant*newq;
+      if (blank(ORrw.RecipeQuant)) then begin
+        ORrw.Quant = blankval;
+      end;
+      MatRowPut(ORp,i,ORrw); 
+    end else begin
+      goto LORVc_ChangeQuantityRecepy;
+    end;
+  end;
+LORVc_ChangeQuantityRecepy:;  
+  return;
+end;
 
 global
 procedure Do_InvoiceRecepy(record IVVc IVp,record INVc INp,Integer arow)
@@ -815,14 +978,14 @@ BEGIN
                                     IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,
                                     IVp.LangCode,IVp.CustCat,IVp.PriceList,IVp.RebCode,
                                     price,curitemname,vreb,vatcode,baseprice,salesacc,
-                                    IVp.ExportFlag,calcpricef,IVp.TransDate,IVp.CustCode,true,dummyf,IVp.PayDeal,tax2code,tax2prc,IVp.Region,IVp.Location,taxtemplatecode)) then begin
+                                    IVp.ExportFlag,calcpricef,IVp.TransDate,IVp.TransTime,IVp.CustCode,true,dummyf,IVp.PayDeal,tax2code,tax2prc,IVp.Region,IVp.Location,taxtemplatecode)) then begin
             IVrw.vRebate = vreb;
             IVrw.Price = price;
             IVrw.BasePrice = baseprice;
             IVrw.Spec = curitemname;
             IVrw.VATCode = vatcode;
             IVrw.SalesAcc = salesacc;
-            IVrw.Objects = IN2r.Objects;
+            IVrw.Objects = FindINObjects(IN2r.Objects,IN2r.Group);
             IVrw.RepaExVAT = CalcItemRepa(IN2r.RepaPricePerWeight,IN2r.Weight,IVrw.Quant,IVp.CurncyCode,
                                           IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
             t = IVrw.Price; 
