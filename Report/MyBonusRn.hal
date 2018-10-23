@@ -990,130 +990,6 @@ l1:;
 														end;
 													end;
 												end;
-											
-												CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
-												foundqty = 0;
-												For(j=0;j<ressize;j=j+1) begin
-													foundqty = foundqty + qty[j];
-												end;
-												For(j=0;j<ressize;j=j+1) begin //Edit***************************Sasha2,15:54 23.04.2015 }
-													if (Left(newIVr.CurncyCode,3)=="UAH") then begin
-														sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
-													end else begin
-														CUr.Code = newIVr.CustCode;
-														readfirstmain(CUr,1,true);
-														if (newIVr.CurncyCode==BCb.BaseCur1) then begin
-															sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
-															CurValToOtherCur(indate[j],newIVr.CurncyCode,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
-															sumcur = t;
-														end else begin
-															if (Left(newIVr.CurncyCode,3)=="EUR") then begin
-																sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
-																CurValToOtherCur(indate[j],newIVr.CurncyCode,sumcur,BCb.BaseCur1,t,DefaultCurRoundOff);
-																sumcur = t;
-																CurValToOtherCur(indate[j],BCb.BaseCur1,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
-																sumcur = t; 
-															end;
-														end;
-													end;
-													if(curncyarr[j]==BCb.BaseCur1)then begin
-														sumusd = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],invfr,invto1,1,foundqty,false);
-													end else begin
-														if(newIVr.CurncyCode==BCb.BaseCur1)then begin
-															sumusd = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
-														end else begin
-															sumusd = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,qty[j],1,1,1,foundqty,false);
-															CurValToOtherCur(indate[j],newIVr.CurncyCode,sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);
-															sumusd = t;
-															If(vecode[j]=="ERC" and left(newIVr.CurncyCode,3)=="UAH")then begin
-																CurValToOtherCur(currentdate,"UAH_E",sumusd,BCb.BaseCur1,t,DefaultCurRoundOff);// Edit ************************** Monday, 20 April 2015 11:53:20
-																sumusd = t;
-															end;
-														end;
-													end;
-													
-														if(currentuser!="SA")then begin
-															LBBlockw.CustCode = IVr.CustCode;
-														end else begin
-															LBBlockw.CustCode = IVr.CustCode & firstenddate;
-														end;
-														LBBlockw.CustName = IVr.Addr0;
-														LBBlockw.InvDate = IVr.InvDate;
-														LBBlockw.PayTerm = IVr.PayDate;
-														if (blankdate(enddate)) then begin
-															LBBlockw.PayDate = IVr.PayDate;
-														end else begin
-														LBBlockw.PayDate = enddate;
-														end;
-														LBBlockw.InvNr = IVr.SerNr;
-														if(currentcompany==2)then begin
-															LBBlockw.OrderNr = IVr.OrderNr;
-														end;
-														LBBlockw.Group = group;
-														LBBlockw.ArtCode = IVrw.ArtCode;
-														LBBlockw.Spec = IVrw.Spec;
-														if(currentcompany==2)then begin
-															LBBlockw.Serial = serial[j];
-														end;
-														LBBlockw.InStock = indate[j];// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 15:54:57
-														quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
-														LBBlockw.Qty = quant;;
-														salesprice = realsumbase[j];
-														priceorig = realsumuah[j];
-														MyCost = realcostbase[j];
-														LBBlockw.Price = realpricebase[j];
-														LBBlockw.PriceUAH = realpriceuah[j];          
-														LBBlockw.Cost = realcostbase[j];
-														curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
-														if(curorig==0)then begin
-															curorig = 1;
-														end;
-														costorig = realcostuah[j];
-														LBBlockw.CostUAH = realcostuah[j];
-														salessum = realsumbase[j];
-														sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }
-														LBBlockw.Sum = salessum;
-														LBBlockw.SumUAH = sumorig;
-														LBBlockw.SumCost = MyCost*quant;
-														LBBlockw.SumCostUAH = sumcostorig;
-														LBBlockw.GP = salessum-(MyCost*quant);
-														gporig = sumorig - sumcostorig;
-														LBBlockw.GPUAH = gporig;
-														LBBlockw.RecRate = uahpurate[j]; 
-													  LBBlockw.RecCurrent = curncyarr[j]; 
-													
-														LBBlockw.InvRate = uahcurrate[j]; 
-														LBBlockw.InvCur = IVr.CurncyCode; //Edit***************************Sasha2,11:34 27.04.2015 }
-														If(NonBlank(CUr.Code)) then begin
-															LBBlockw.SalesMan = CUr.SalesMan;
-														end; 
-														LBBlockw.InvSalesMan = IVr.SalesMan;
-														if(currentcompany!=2)then begin
-															LBBlockw.ServiceMan = enginer;
-															LBBlockw.ServiceOrder = IVr.SVONr;
-															LBBlockw.SaleOrder = IVr.OrderNr;
-														end;
-													
-													//MatRowPut(LBBlockr,rcw,LBBlockw);
-													//rcw=rcw+1;
-													ClearRow(LBBlockr,LBBlockw,10);
-												end; //Edit***************************Sasha2,15:52 23.04.2015
-												if(foundqty<newIVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
-													if (Left(newIVr.CurncyCode,3)=="UAH") then begin
-														sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,1,1,1,foundqty,true);
-													end else begin
-														if (newIVr.CurncyCode==BCb.BaseCur1) then begin
-															sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,invto1,invfr,1,foundqty,true);
-														end else begin
-															if (Left(newIVr.CurncyCode,3)=="EUR") then begin
-																sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,invto1,invfr,1,foundqty,true);
-																CurValToOtherCur(newIVr.InvDate,BCb.BaseCur1,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
-																sumcur = t;
-															end;
-														end;
-													end;
-													sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,1,foundqty,true);
-												end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
 										 end;
 									end; 
 								end;
@@ -1169,16 +1045,16 @@ l1:;
 			OutDate(pos[3],0,LBBlockw.PayTerm,false);
 			OutDate(pos[4],0,LBBlockw.PayDate,false);
 			OutString(pos[5],0,LBBlockw.InvNr,false);
-			if(currentcompany==2)then begin
+		if(currentcompany==2)then begin
 			OutString(pos[23],0,LBBlockw.SaleOrder,false);
 		end;
 			OutString(pos[6],0,LBBlockw.Group,false);
 			OutString(pos[6],0,LBBlockw.ArtCode,false);
 			OutString(pos[7],0,LBBlockw.Spec,false);
 			OutString(pos[7],0,LBBlockw.InvDate,false);
-			if(currentcompany==2)then begin
+		if(currentcompany==2)then begin
 			OutString(pos[7],0,LBBlockw.Serial,false);
-			end;
+		end;
 			OutString(pos[8],0,LBBlockw.Qty,false);
 			OutVal(pos[9],0,LBBlockw.Price,M4Val,false);
 			OutVal(pos[9],0,LBBlockw.PriceUAH,M4Val,false);
