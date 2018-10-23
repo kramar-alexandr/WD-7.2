@@ -512,6 +512,11 @@ BEGIN
     goto LCUVcRecordRemoveTest;
   end;  
 LCUVcRecordRemoveTest:;
+	
+	if(currentuser=="SA")then begin
+		res = 1;
+	end;
+	
   CUVcRecordRemoveTest = res; 
   RETURN;
 END;
