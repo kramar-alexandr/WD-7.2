@@ -977,6 +977,7 @@ BEGIN
   record RLinkVc RLinkr;
   record RLinkVc oldRLinkr;
   Integer notenr;
+  record CUVc CUr;// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 30 October 2018 17:34:55
     
   ihef = ItemHistExists("IVVc",IVr.SerNr);
   if (IVr.OKFlag==1) then begin
@@ -1146,8 +1147,15 @@ BEGIN
         CancelApprovalRequestActivities(kAcceptanceIV,"IVVc",IVr.SerNr,IVr.CustCode);
       end;
   end;
-	if((IV2r.OKFlag==0) and (IVr.OKFlag!=0)) then begin  //Edit_________________ABR 08.10.18 17:27
-		SetMatrixToOthComp(IVr);
+  if(currentcompany==12)then begin
+  	CUr.Code = IVr.CustCode;
+  	if(readfirstmain(CUr,1,true))then begin
+  		if(CUr.CompNr>0)then begin
+				if((IV2r.OKFlag==0) and (IVr.OKFlag!=0)) then begin  //Edit_________________ABR 08.10.18 17:27
+					SetMatrixToOthComp(IVr);
+				end;
+			end;
+		end;
 	end;	
 LIVVcRecordUpdateAfter:;
   IVVcRecordUpdateAfter = res; 
