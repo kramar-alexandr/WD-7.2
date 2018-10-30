@@ -1,0 +1,26 @@
+SetLangMode(LangUkrainian,"UKR",0); 
+global
+updating function longint BPIJobCostVcRecordCheck(record BPIJobCostVc JSr,record BPIJobCostVc JS2r,LongInt stat,LongInt long4)
+begin
+longint res;
+row BPIJobCostVc JSrw;
+val sum;
+record INVc INr;
+integer i;
+sum=0;
+res=0;
+for(i=0;i<matrowcnt(JSr);i=i+1) begin
+	matrowget(JSr,i,JSrw);
+	sum=sum+JSrw.Sum;
+end;
+if(blank(JSr.Code)) then begin
+	res=-1;
+	RecordCheckError(31091,"",-1,"Code");
+	goto EndBPIJobCostRecordCheck;
+end;
+
+JSr.Sum4=sum;
+EndBPIJobCostRecordCheck:;		
+BPIJobCostVcRecordCheck=res;
+RETURN;
+END;

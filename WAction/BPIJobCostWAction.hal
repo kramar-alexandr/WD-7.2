@@ -1,0 +1,32 @@
+global 
+ function boolean BPIJobCostArtCodeEFAfter(Integer wn,Integer rownr,Integer changed)
+begin
+record INVc INr;
+record BPIJobCostVc JCr;
+row BPIJobCostVc JCrw;
+if (changed!=0) then begin
+	 DeselectWindow(wn,false);
+	GetWindowRecord(wn,JCr);
+	MatRowGet(JCr,rownr,JCrw);
+	INr.Code=JCrw.ArtCode;
+	if(ReadFirstMain(INr,1,true)) then begin
+		JCrw.Name=INr.Name;
+		matrowput(JCr,rownr,JCrw);
+	end;	
+	PutWindowRecord(wn,JCr);
+end;
+BPIJobCostArtCodeEFAfter=true;
+return;
+end; 	
+
+global
+function boolean BPIJobCostDClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
+BEGIN
+  Boolean res;
+	logtext(0,"OK");
+  switch (fieldname) begin
+    case "ArtCode": res = BPIJobCostArtCodeEFAfter(wn,rownr,changed);
+ end;
+  BPIJobCostDClassAfterEditField = res;
+  RETURN;
+END;

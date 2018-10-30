@@ -4726,5 +4726,25 @@ EndRecord;
 	EndBlock; 
 	//Edit***************************ABR,14:24 01.10.2018 }
   
+
+
+RecordBegin(BPIJobCostVc,-,"");
+	RecordField(Code,M4Code,20,0);
+	RecordField(Name,M4Str,200,0);
+	RecordField(Company,M4UStr,255,0);
+	RecordField(Sum4,M4Val,0,0);
+	RecordField(CurCode,M4Code,5,0);
+	RecordField(Math,M4Matrix,0,0);
+		ArrayBegin(Math,-,1);
+		ArrayField(ArtCode,M4Code,20,0);
+		ArrayField(Qnt,M4Val,0,0);
+		ArrayField(Name,M4Str,200,0);
+		ArrayField(Price,M4val,0,0);
+		ArrayField(Sum,M4val,0,0);
+	EndArray;
+		MainKeyBegin(Code,0);
+		KeySegment(Code);
+EndRecord;		
 return;
 end;
+	

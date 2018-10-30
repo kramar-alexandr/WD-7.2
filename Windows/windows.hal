@@ -2135,3 +2135,50 @@ begin
     
   EndWindow;
 end;
+
+window BPIJobCostDClass:1 // Edit ************************** Friday, 9 January 2015 10:45:39
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs,t;
+  WindowBegin("Зарбітьня відомість",BPIJobCostDClass,CGview,-);
+    SetWRect(20,80,700,298);
+    Sizeable(-1,-1,0,0);
+    UseView(BPIJobCostVc);
+    v=5;
+    h=80;
+    EditField(h,v,100,"Код",Normal,Code,false,0);
+    EditField(h+180,v,100,"Робітник",Normal,Name,false,0);
+    EditField(h,v+=20,100, "Компанія",Normal,Company,false,0);
+    EditField(h,v+=20,100, "Сума",Normal,Sum4,false,0);
+		EditField(h+180,v,100, "Валюта",Normal,CurCode,false,0);
+		v=v+45;
+    MatrixBegin(4,v,-50,-35,-,200);
+      MatCol(1,22,"Товар",0,ArtCode,false,INSClass);
+      MatCol(1,100,"Назва",0,Name,false,0);
+      MatCol(1,200,"Кіл-ть",0,Qnt,false,0);
+      MatCol(1,280,"Ціна",0,Price,false,0);
+			MatCol(1,360,"Сума",0,Sum,false,0);
+      InsertRowTest;
+      DeleteRowTest;
+    EndMatrix;
+		SpecialMenu("Створити акт./накладні по всім компаніям",'',25,"CreateIVVcallCompDm");
+  EndWindow;
+end;
+
+window BPIJobCostLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Заробітьня відомість",BPIJobCostLClass,CGmlist,SHView);
+  SpawnClass(BPIJobCostDClass);
+  SetWRect(20,80,880,298);
+  Sizeable(-1,-1,0,0);
+  UseView(BPIJobCostVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Код",Code,false,Code);
+  RlCol(40,40,"Робітник",Name,false);
+  RlCol(200,200,"Компанія",Company,false);
+  RlCol(300,300,"Сума",Sum4,false); 
+  RlCol(-400,-400,"Валюта",CurCode,false);
+  SearchField("Пошук");
+  EndWindow;
+end;

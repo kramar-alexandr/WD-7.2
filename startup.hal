@@ -11,6 +11,7 @@ begin
 
 	Module("Друк етикеток","",730,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
 	
+	Register("Заробітьня відомість","Заробітьня відомість",BPIJobCostVc,modExp);
 	Register("Друк цінників","Друк цінників",MyRepricingVc,modLabPrint);
 	Register("Друк цінників","Друк цінників",MyRepricingVc,modPOS);
 	//Register("Цінники товарів","Цінники товарів",MyLabelItemVc,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
@@ -309,7 +310,8 @@ begin
 	SString(31088,"Недостатньо товарів на складі. Товар у резерві ");
 	SString(31089,"Для даного документа не знайдене Замовлення клієнта Shops");
 	SString(31090,"Дата станньої звірки");//Edit_-_-_-_-_-_-_-_-Anton 
-  
+  SString(31091,"Поле код не може бути порожнім");//Edit_-_-_-_-_-_-_-_-ABR 15:38 29.10.18
+	
   StrSetBegin(3); /* Try to keep them in alphabetical order */
   StrSetText(UnCloseAll,"Відкрити записи");// Edit ************************** Wednesday, 15 April 2015 17:21:45
    StrSetText(AllowViewOuwnRecords,"Бачити свої записи по группі");// Edit ************************** Wednesday, 22 July 2015 12:03:02
