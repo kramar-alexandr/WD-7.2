@@ -2146,11 +2146,11 @@ begin
     UseView(BPIJobCostVc);
     v=5;
     h=80;
-    EditField(h,v,100,"Код",Normal,Code,false,0);
-    EditField(h+180,v,100,"Робітник",Normal,Name,false,0);
+    EditField(h,v,100,"Код",Normal,Code,false,UserSClass);
+    EditField(h+180,v,250,"Робітник",Normal,UsName,false,0);
     EditField(h,v+=20,100, "Компанія",Normal,Company,false,0);
     EditField(h,v+=20,100, "Сума",Normal,Sum4,false,0);
-		EditField(h+180,v,100, "Валюта",Normal,CurCode,false,0);
+		EditField(h+180,v,100, "Валюта",Normal,CurCode,false,CurncyCodeSClass);
 		v=v+45;
     MatrixBegin(4,v,-50,-35,-,200);
       MatCol(1,22,"Товар",0,ArtCode,false,INSClass);
@@ -2175,7 +2175,7 @@ begin
   UseView(BPIJobCostVc);
   RecordList(4,17,-21,-39);
   RlColKey(4,4,"Код",Code,false,Code);
-  RlCol(40,40,"Робітник",Name,false);
+  RlCol(40,40,"Робітник",UsName,false);
   RlCol(200,200,"Компанія",Company,false);
   RlCol(300,300,"Сума",Sum4,false); 
   RlCol(-400,-400,"Валюта",CurCode,false);

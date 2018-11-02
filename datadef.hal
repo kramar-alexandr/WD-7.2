@@ -4730,7 +4730,7 @@ EndRecord;
 
 RecordBegin(BPIJobCostVc,-,"");
 	RecordField(Code,M4Code,20,0);
-	RecordField(Name,M4Str,200,0);
+	RecordField(UsName,M4Str,200,0);
 	RecordField(Company,M4UStr,255,0);
 	RecordField(Sum4,M4Val,0,0);
 	RecordField(CurCode,M4Code,5,0);

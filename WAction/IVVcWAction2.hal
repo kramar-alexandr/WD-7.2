@@ -2205,6 +2205,25 @@ BPIJobCostArtCodeEFAfter=true;
 return;
 end; 	
 
+global 
+ function boolean BPIJobCostCodeEFAfter(Integer wn,Integer changed)
+begin
+record UserVc Usr;
+record BPIJobCostVc JCr;
+
+if (changed!=0) then begin
+	DeselectWindow(wn,false);
+	GetWindowRecord(wn,JCr);
+	Usr.Code=JCr.Code;
+	if(ReadFirstMain(Usr,1,true)) then begin
+		JCr.UsName=Usr.Name;
+	end;	
+			PutWindowRecord(wn,JCr);
+end;
+BPIJobCostCodeEFAfter=true;
+return;
+end; 	
+
 global
 function boolean BPIJobCostDClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
 BEGIN
@@ -2213,6 +2232,7 @@ row BPIJobCostVc JCrw;
   Boolean res;
   switch (fieldname) begin
     case "ArtCode": res = BPIJobCostArtCodeEFAfter(wn,rownr,changed);
+		case "Code": res = BPIJobCostCodeEFAfter(wn,changed);
  end;
  if(rownr>=0) then begin
 	GetWindowRecord(wn,JCr);
