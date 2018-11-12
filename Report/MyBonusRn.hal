@@ -1051,7 +1051,7 @@ l1:;
 			OutString(pos[6],0,LBBlockw.Group,false);
 			OutString(pos[6],0,LBBlockw.ArtCode,false);
 			OutString(pos[7],0,LBBlockw.Spec,false);
-			OutString(pos[7],0,LBBlockw.InvDate,false);
+			OutString(pos[7],0,LBBlockw.InStock,false);
 		if(currentcompany==2)then begin
 			OutString(pos[7],0,LBBlockw.Serial,false);
 		end;
