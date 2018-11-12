@@ -316,7 +316,6 @@ begin
 			INr.ItemType = 1;
 			INr.Group = "APPLE";
 			if (nonblank(INr.Code)) then begin
-				logtext(0,INr.Code & " | " & INr.Name & " | " & INr.DispGroups);
 				RecordStore(INr,true);
 			end;
 		end else begin

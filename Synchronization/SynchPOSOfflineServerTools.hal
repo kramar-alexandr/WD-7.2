@@ -815,7 +815,6 @@ begin
         if ((cnt>0) and (cnt<SynkAutoSerrw.NrsMinimum)) then begin
           SynkDBIDRegrw.FileName = SynkAutoSerrw.FileName;
           GetSynkMachineRange(SynkAutoSerrw.FileName,SynkAutoSerrw.NumberSeries,SynkAutoSerrw.NrsRangeQty,fr,to);
-          logtext(0,SynkAutoSerrw.FileName & " - " & SynkAutoSerrw.NumberSeries & " - " & SynkAutoSerrw.NrsRangeQty & " - " & fr & " - " & to);
           SynkDBIDRegrw.From = fr;
           SynkDBIDRegrw.To = to;
           SynkDBIDRegrw.LastNumber = -1;
@@ -829,7 +828,6 @@ begin
         MatRowGet(SynkAutoSerr,ai,SynkAutoSerrw);
         SynkDBIDRegrw.FileName = SynkAutoSerrw.FileName;
         GetSynkMachineRange(SynkAutoSerrw.FileName,SynkAutoSerrw.NumberSeries,SynkAutoSerrw.NrsRangeQty,fr,to);
-        logtext(0,SynkAutoSerrw.FileName & " - " & SynkAutoSerrw.NumberSeries & " - " & SynkAutoSerrw.NrsRangeQty & " - " & fr & " - " & to);
         SynkDBIDRegrw.From = fr;
         SynkDBIDRegrw.To = to;
         SynkDBIDRegrw.LastNumber = -1;
