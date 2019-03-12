@@ -1220,6 +1220,7 @@ begin
                           FindStockValueInclStockReserv(SHp.OrderNr,rec2SHrw.ArtCode,rec2SHrw.SerialNr,loc2,ISr,stockreservq);
                           if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
                           	  if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin 
+          				          	logtext(0,"Ship" & 1);
           				          	error = 1247;
           				            errorstr = "";
           				            rownr = i;
@@ -1229,6 +1230,7 @@ begin
           				          end; 
                           end else begin
     						            if ((ISr.Instock-stockreservq<prev) and (prev>0)) then begin
+    	                        logtext(0,"Ship" & 2);
     	                        error = 1247;
     	                        errorstr = "";
     	                        rownr = i;
@@ -1262,6 +1264,7 @@ begin
                         FindStockValueInclStockReserv(SHp.OrderNr,SHrw3.ArtCode,SHrw3.SerialNr,loc2,ISr,stockreservq);
               					if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
               						if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin
+          				          logtext(0,"Ship" & 3);
           				          error = 1247;
           				          errorstr = "";
           				          rownr = i;
@@ -1271,6 +1274,7 @@ begin
           				        end; 	
               					end else begin
               						if ((ISr.Instock-stockreservq<prev) and (prev>0)) then begin
+    	                      logtext(0,"Ship" & 4);
     	                      error = 1247;
     	                      errorstr = "";
     	                      rownr = i;
@@ -1334,6 +1338,7 @@ begin
               end;
               if (ORr.OrderClass==ordclass) then begin //Edit***************************Sasha2,17:55 28.08.2014 {
               	if (LookForShopsItems(ORr,SHp,SHrw,prev)<0) then begin 
+    	          	logtext(0,"Ship" & 5);
     	          	error = 1247;
     	            errorstr = "";
     	            rownr = i;
@@ -1343,6 +1348,7 @@ begin
     	      	  end; 
               end else begin
               	if ((ISr.Instock-stockreservq<prev) and (prev>0)) then begin
+    	            logtext(0,"Ship" & 6);
     	            error = 1247;
     	            errorstr = "";
     	            rownr = i;
