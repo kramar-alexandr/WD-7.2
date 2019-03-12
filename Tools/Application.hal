@@ -635,3 +635,10 @@ BEGIN
   IsOffice = res;
   RETURN;
 END;
+
+
+global 
+webpublic procedure WebPingServe()
+begin
+WebOutStringFormatNL("ok");
+end;
