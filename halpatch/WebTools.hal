@@ -94,7 +94,7 @@ begin
 				resetloop(IHr);
 			end;
 			if(qty!=SBr.Quant)then begin
-				logtext(0,"Error serbal " & SBr.Item & "  " & SBr.Location & " " & SBr.Serial);
+				logtext(0,"Error serbal " & SBr.Item & "  " & SBr.Location & " " & SBr.Serial & "  " & qty & " " & SBr.Quant);
 			end;
 		end;
 		comp = 0;
