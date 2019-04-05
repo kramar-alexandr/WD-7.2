@@ -97,7 +97,7 @@ begin
 					logtext(0,"Error serbal " & SBr.Item & "  " & SBr.Location & " " & SBr.Serial & "  " & qty & " " & SBr.Quant);
 					if(qty==0)then begin
 						SBr.Quant = 0;
-						recordstore(SBr,true);
+						//recordstore(SBr,true);
 					end;
 				end;
 			end;
