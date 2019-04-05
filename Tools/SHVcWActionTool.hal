@@ -190,11 +190,11 @@ begin
           end;
         end;      
         SHrw.InStock = instock;
-        SHrw.Ship = remn - vsernrqty[SHrw.SerialNr];
+        SHrw.Ship = remn - vsernrqty[SHrw.ArtCode & " " & SHrw.SerialNr];
         if (SHrw.Ship>SHrw.Ordered) then begin
           SHrw.Ship = SHrw.Ordered;
         end;
-        vsernrqty[SHrw.SerialNr] = vsernrqty[SHrw.SerialNr] + SHrw.InStock;
+        vsernrqty[SHrw.ArtCode & " " & SHrw.SerialNr] = vsernrqty[SHrw.ArtCode & " " & SHrw.SerialNr] + SHrw.InStock;
         MatRowPut(SHr,i,SHrw);
         MatRowGet(SHr,i,SHrw);
         instock = 0;

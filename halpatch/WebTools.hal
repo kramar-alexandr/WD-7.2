@@ -59,3 +59,47 @@ begin
 
 return;
 end;
+
+
+global webpublic updating procedure WebCheckSerialNrs()
+begin
+	string 10 compnr;
+	integer comp;
+	record ItemStatusVc ISr;
+	record SerBalVc SBr;
+	record ItemHistVc IHr;
+	boolean TrHs,testf;
+	val qty;
+	
+	compnr = webgetarg("compnr");
+	
+	if(nonblank(compnr))then begin
+		setcompany(stringtoint(compnr),false);
+		while(loopmain(SBr,1,true))begin
+			if(SBr.Quant>0)then begin
+				IHr.ArtCode = SBr.Item;
+				IHr.SerialNr = SBr.Serial;
+				TrHs = true;
+				qty = blankval;
+				while(loopkey("ArtCodeSerialNr",IHr,2,TrHs))begin
+					testf = true;
+					if(IHr.ArtCode!=SBr.Item)then begin TrHs = false; testf = false; end;
+					if(IHr.SerialNr!=SBr.Serial)then begin TrHs = false; testf = false; end;
+					if(IHr.Location!=SBr.Location)then begin testf = false; end;
+					
+					if(testf)then begin
+						qty = qty + IHr.Qty;
+					end;
+				end;
+				resetloop(IHr);
+			end;
+			if(qty!=SBr.Quant)then begin
+				logtext(0,"Error serbal " & SBr.Item & "  " & SBr.Location & " " & SBr.Serial);
+			end;
+		end;
+		comp = 0;
+	end; 
+	
+
+return;
+end;
