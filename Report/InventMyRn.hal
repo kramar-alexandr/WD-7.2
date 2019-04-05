@@ -87,7 +87,7 @@ L1:;
     if(testf)then begin
     		INr.Code = ISr.Code;
     		readfirstmain(INr,1,true);
-    		if(INr.SerNrf>0)then begin
+    	if(INr.SerNrf>0)then begin
 				SBr.Item = ISr.Code;
 				SBr.Location = RepSpec.f1;
 				SBr.Quant = 1;
@@ -170,7 +170,7 @@ L2:;
     if(findf==false)then begin
       OR1rw.ArtCode = ORrw.ArtCode;
       OR1rw.UnitComment = INr.Name;
-      OR1rw.Quant = ORrw.Quant;
+      //OR1rw.Quant = ORrw.Quant;
       OR1rw.SerialNr = ORrw.SerialNr;
       OR1rw.Shipd1 = ORrw.Quant;
       OR1rw.Spec = "Пересорт (лишний)";
