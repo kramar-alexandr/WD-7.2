@@ -86,6 +86,7 @@ begin
 					if(IHr.ArtCode!=SBr.Item)then begin TrHs = false; testf = false; end;
 					if(IHr.SerialNr!=SBr.Serial)then begin TrHs = false; testf = false; end;
 					if(IHr.Location!=SBr.Location)then begin testf = false; end;
+					if(IHr.StockAffectf==0)then begin testf = false; end;
 					
 					if(testf)then begin
 						qty = qty + IHr.Qty;
