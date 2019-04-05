@@ -99,6 +99,10 @@ begin
 						SBr.Quant = 0;
 						//recordstore(SBr,true);
 					end;
+					if(qty==1 and SBr.Quant>1)then begin
+						SBr.Quant = 1;
+						recordstore(SBr,true);
+					end;
 				end;
 			end;
 		end;
