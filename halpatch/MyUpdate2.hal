@@ -2245,3 +2245,28 @@ begin
 	
 return;
 end;
+
+global updating procedure CopyItemsto13Mn(record RcVc RepSpec)//Edit_-_-_-_-_-_-_-_-Anton 11:33 01.06.2018
+begin
+	record INVc INr,targINr;
+	record PLVc PLr,targPLr;
+	integer curcomp;
+	
+	curcomp = currentcompany;
+	
+	setcompany(1,false);
+	INr.Code = "";
+	while(loopmain(INr,1,true))begin
+		if(INr.Terminated==0)then begin
+			setcompany(13,false);
+				targINr.Code = INr.Code;
+				if(readfirstmain(targINr,1,true)==false)then begin
+					logtext(0,"needtocreate" & INr.Code);
+				end;
+			setcompany(1,false);
+		end;
+	end;
+
+	resetcompany(curcomp);
+return;
+end;

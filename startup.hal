@@ -92,7 +92,7 @@ begin
 	
 	Maintenance("Git HAL Files",MyVClass1,GitHALFilesMn,modTC);
 	Maintenance("Удалить курсы валют",MyVClass1,DelERVcMn,modDBMain);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 6 May 2019 09:34:35
-
+	Maintenance("Перенести товары в 13",MyVClass1,CopyItemsto13Mn,modDBMain);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 6 May 2019 10:03:15
 	
 	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);
 	Setting("Настройка Cash Flow - прямий метод",MyCashFlowDirectTClass,modNL);
