@@ -2231,10 +2231,16 @@ end;
 global updating procedure DelERVcMn(record RcVc RepSpec)//Edit_-_-_-_-_-_-_-_-Anton 11:33 01.06.2018
 begin
 	record ERVc ERr;
+	record RetPUVc Retr;
 	
 	while(loopmain(ERr,1,true))begin
 		recorddelete(ERr);
 		stepback(ERr);
+	end;
+	
+	while(loopmain(Retr,1,true))begin
+		recorddelete(Retr);
+		stepback(Retr);
 	end;
 	
 return;
