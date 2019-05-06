@@ -258,7 +258,7 @@ string 5 achar,char;
       PLr.PLCode = WSBb.DefPriceList;
         PLr.ArtCode = ISr.Code;
         if(readfirstmain(PLr,2,true))then begin
-          if (CurrentCompany==10 or CurrentCompany==12 or CurrentCompany==13 or CurrentCompany==6) then begin //Edit***************************Sasha2,13:01 24.05.2016 {
+          if (CurrentCompany==10 or CurrentCompany==12 or CurrentCompany==6) then begin //Edit***************************Sasha2,13:01 24.05.2016 {
             if (INr.Group!="APPLE" or CurrentCompany==6) then begin
               pos = 0;
               ExtractObj(WSRr.Available,pos,curID);
@@ -332,7 +332,7 @@ string 5 achar,char;
       PLr.PLCode = WSBb.DefPriceList;
       PLr.ArtCode = ISr.Code;
       if(readfirstmain(PLr,2,true))then begin
-        if (CurrentCompany==10 or CurrentCompany==12 or CurrentCompany==13 or CurrentCompany==6) then begin //Edit***************************Sasha2,13:01 24.05.2016 {
+        if (CurrentCompany==10 or CurrentCompany==12 or CurrentCompany==6) then begin //Edit***************************Sasha2,13:01 24.05.2016 {
           if (INr.Group!="APPLE" or CurrentCompany==6) then begin
           	if(CurrentCompany!=6)then begin
 							WSRr.Price = PLr.ExVatPrice;
@@ -370,13 +370,13 @@ begin
     ReadFirstMain(INr,1,true);
     
     proceedf = true; //Edit***************************Sasha2,13:01 24.05.2016 {
-    if ((CurrentCompany==10 or CurrentCompany==12 or CurrentCompany==13 and INr.Group=="APPLE")  or CurrentCompany==6) then begin
+    if ((CurrentCompany==10 or CurrentCompany==12 and INr.Group=="APPLE")  or CurrentCompany==6) then begin
       proceedf = false;
     end;
     if (proceedf) then begin
       WSRr.ArtCode = PLr.ArtCode;
       if(readfirstmain(WSRr,1,true))then begin
-        if (CurrentCompany==10 or CurrentCompany==12 or CurrentCompany==13 or CurrentCompany==6) then begin
+        if (CurrentCompany==10 or CurrentCompany==12 or CurrentCompany==6) then begin
           blockload(WSMBb);
           mtrw = matrowcnt(WSMBb);
           for (i=0;i<mtrw;i=i+1) begin
