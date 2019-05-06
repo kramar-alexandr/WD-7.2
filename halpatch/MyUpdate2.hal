@@ -2248,8 +2248,8 @@ end;
 
 global updating procedure CopyItemsto13Mn(record RcVc RepSpec)//Edit_-_-_-_-_-_-_-_-Anton 11:33 01.06.2018
 begin
-	record INVc INr,targINr;
-	record PLVc PLr,targPLr;
+	record INVc INr,targINr,blINr;
+	record PLVc PLr,targPLr,blPLr;
 	integer curcomp;
 	
 	curcomp = currentcompany;
@@ -2262,10 +2262,30 @@ begin
 				targINr.Code = INr.Code;
 				if(readfirstmain(targINr,1,true)==false)then begin
 					logtext(0,"needtocreate" & INr.Code);
+					recordcopy(targINr,INr);
+					recordnew(blINr);
+					targINr.UUID = blINr.UUID;
+					recordinsert(targINr,true);
 				end;
 			setcompany(1,false);
 		end;
 	end;
+	while(loopmain(PLr,1,true))begin
+		if(PLr.PLCode=="RRP")then begin
+			setcompany(13,false);
+				targPLr.ArtCode = PLr.ArtCode;
+				targPLr.PLCode = PLr.PLCode;
+				if(readfirstmain(targPLr,2,true)==false)then begin
+					logtext(0,"needtocreate PL " & PLr.ArtCode);
+					recordcopy(targPLr,PLr);
+					recordnew(blPLr);
+					targPLr.UUID = blPLr.UUID;
+					recordinsert(targPLr,true);
+				end;
+			setcompany(1,false);
+		end;
+	end;
+	
 
 	resetcompany(curcomp);
 return;
