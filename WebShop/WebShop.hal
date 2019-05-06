@@ -32,7 +32,7 @@ record INVc INr;
   logtext(0,"WebSyncConnect_ISTORE_ArtCode " & artcode);
   
   blockload(WSBb); //Edit***************************Sasha2,14:38 26.06.2014
-  SetCompany(1,false);
+  SetCompany(13,false);
   INr.Code = artcode;
   if(nonblank(artcode) and readfirstmain(INr,1,true))then begin
 		SetAreaZerosize(areply);
@@ -102,7 +102,7 @@ string 5 char;
   
   logtext(0,"WebSyncConnect_ISTORE");
   
-  SetCompany(1,false);
+  SetCompany(13,false);
   
   blockload(WSBb);
   
