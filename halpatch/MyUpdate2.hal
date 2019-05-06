@@ -2238,10 +2238,10 @@ begin
 		stepback(ERr);
 	end;
 	
-	while(loopmain(Retr,1,true))begin
+	/*while(loopmain(Retr,1,true))begin
 		recorddelete(Retr);
 		stepback(Retr);
-	end;
+	end;*/
 	
 return;
 end;
