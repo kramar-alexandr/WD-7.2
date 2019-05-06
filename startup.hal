@@ -91,6 +91,7 @@ begin
  	Maintenance("Разделить старые товары",MoveOldItemsVClass,MoveOldItemsMn,modIN);
 	
 	Maintenance("Git HAL Files",MyVClass1,GitHALFilesMn,modTC);
+	Maintenance("Удалить курсы валют",MyVClass1,DelERVcMn,modDBMain);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 6 May 2019 09:34:35
 
 	
 	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);
