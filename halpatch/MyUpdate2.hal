@@ -2258,7 +2258,7 @@ begin
 	INr.Code = "";
 	while(loopmain(INr,1,true))begin
 		if(INr.Terminated==0)then begin
-			setcompany(13,false);
+			setcompany(16,false);
 				targINr.Code = INr.Code;
 				if(readfirstmain(targINr,1,true)==false)then begin
 					logtext(0,"needtocreate" & INr.Code);
@@ -2272,7 +2272,7 @@ begin
 	end;
 	while(loopmain(PLr,1,true))begin
 		if(PLr.PLCode=="RRP")then begin
-			setcompany(13,false);
+			setcompany(16,false);
 				targPLr.ArtCode = PLr.ArtCode;
 				targPLr.PLCode = PLr.PLCode;
 				if(readfirstmain(targPLr,2,true)==false)then begin
