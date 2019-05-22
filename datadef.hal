@@ -4745,6 +4745,16 @@ RecordBegin(BPIJobCostVc,-,"");
 		MainKeyBegin(Code,0);
 		KeySegment(Code);
 EndRecord;		
+
+
+BlockBegin(FOPDataBlock,-,"");
+	RecordField(Math,M4Matrix,0,0);
+	ArrayBegin(Math,-,1);
+	ArrayField(Name,M4Str,200,0);
+	ArrayField(ID,M4Str,200,0);
+	EndArray;
+EndBlock;
+
 return;
 end;
 	

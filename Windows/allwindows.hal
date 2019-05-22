@@ -2397,6 +2397,7 @@ email not working yet
   SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
   SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
   SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
+	SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
 
 
   end;
