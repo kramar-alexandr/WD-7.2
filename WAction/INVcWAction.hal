@@ -1324,7 +1324,7 @@ end;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 22 05 
 global // Edit ************************** BPI Ukraine - KramarAlexandr - 03, 22 05 2019 y. at 6:25:50 PM
 function Boolean FOPDataSClassOnOKWindow(Integer wn)
 begin
-  PasteFromSysList(wn,-2);
+  PasteFromSysList(wn,200);
   FOPDataSClassOnOKWindow = false;
   return;
 end; // Edit ************************** BPI Ukraine - KramarAlexandr - 03, 22 05 2019 y. at 6:25:47 PM
