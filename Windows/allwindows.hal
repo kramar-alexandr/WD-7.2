@@ -2259,7 +2259,6 @@ begin
   EditField(h1,v+=vs,80,"Кредитна карта",Normal,CreditCard,false,CreditCardSClass);
   EditField(h1,v+=vs,80,"Авторизація",Normal,AuthorizationCode,false,0);
   end;
-  EditField(h1,v+=vs,-20,"Коментар",Normal,Comment,false,0);
   v = vm;
   if (StandardHansa==false) then begin
     EditField(h2,v,80,"Група продажу",Normal,SalesGroup,false,SalesGroupSClass);
@@ -2281,6 +2280,8 @@ begin
   label = UserDefined("CUVc","InvAddr1");
   if (blank(label)) then begin label = "Адреса"; end;
   EditField(h,v+=vs, -20,label,Normal,Addr2,false,0);
+	EditField(h,v+=vs,150,"Телефон",Normal,Phone,false,0);
+	EditField(h1,v+=vs,-20,"Коментар",Normal,Comment,false,0);
   label = UserDefined("CUVc","InvAddr2");
   EditField(h,v+=vs, -20,label,Normal,Addr3,false,0);
   label = UserDefined("CUVc","InvAddr3");
@@ -2298,21 +2299,20 @@ begin
   end;
   EditField(h5,v,width,"Рахунок",Normal,BankCode,false,BankSClass);
   if (StandardHansa==false) then begin
-  ButtonFrame(h3=h+4,v=(vm+=40),123,6,"Статус затвердження");
+  /*ButtonFrame(h3=h+4,v=(vm+=40),123,6,"Статус затвердження");
   RadioButton(h3,v,kAcceptanceStateNotRequired,0,"не потрібно",AcceptanceStatus);
   RadioButton(h3,v+=16,kAcceptanceStateNotStarted,0,"не розпочато",AcceptanceStatus);
   RadioButton(h3,v+=16,kAcceptanceStateNotRequested,0,"не було запиту",AcceptanceStatus);
   RadioButton(h3,v+=16,kAcceptanceStatePending,0,"очікування",AcceptanceStatus);
   RadioButton(h3,v+=16,kAcceptanceStateApproved,0,"затверджено",AcceptanceStatus);
   RadioButton(h3,v+=16,kAcceptanceStateRejected,0,"незатверджено",AcceptanceStatus);  
-  v = VATZoneButtonsLabelsUKR(h3=290,v=vm,140,16);
+  v = VATZoneButtonsLabelsUKR(h3=290,v=vm,140,16);*/
   end else begin
-    v = VATZoneButtonsLabelsUKR(h3=290,v=vm+20,140,16);
+    //v = VATZoneButtonsLabelsUKR(h3=290,v=vm+20,140,16);
   end;
   EditField(h2=-170,v=vm,150,"Регіон",Normal,Region,false,RegionSClass); 
   EditField(h2,v+=vs,150,"ІПН",Normal,VATNr,false,0);
   EditField(h2,v+=vs,150,"GLN",ViewOnly,RecipientGLN,false,0);
-  EditField(h2,v+=vs,150,"Телефон",Normal,Phone,false,0);
   EditField(h2,v+=vs,150,"Факс",Normal,Fax,false,0);
   Tile(7,170,false,"7",ShipAddr0);
   if (StandardHansa==false) then begin
