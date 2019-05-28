@@ -36,7 +36,7 @@ Dream = 14;
 ID = 15;
 
 
-  if (SetCompany(iStore,false)) then begin
+  /*if (SetCompany(iStore,false)) then begin
   	logtext(0,currentcompany & " FullStockEn");
     FullStockEn;
 		logtext(0,currentcompany & " SalesReportEn");
@@ -52,7 +52,7 @@ ID = 15;
 		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     //logtext(0,currentcompany & " SaleWeekByVEEn"); 
     //SaleWeekByVEEn;// Edit ************************** Thursday, 20 October 2016 13:51:14
-  end;
+  end;*/
   
   /*if (SetCompany(Gilliver,false)) then begin
   	//logtext(0,currentcompany & " FullStockEn");
@@ -71,11 +71,11 @@ ID = 15;
 		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
   end;*/
   
-  if (SetCompany(idistribuEsti,false)) then begin
+  /*if (SetCompany(idistribuEsti,false)) then begin
     logtext(0,currentcompany & " KreditorkaReportEn"); 
     KreditorkaReportEn; 
 		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
-  end;
+  end;*/
   
   
   /*if (SetCompany(iTek,false)) then begin//itek
@@ -166,34 +166,34 @@ ID = 15;
     ResetCompany(iTek);  
   end;*/
   
-  if (SetCompany(Dream,false)) then begin//iCenter_Dream
+  /*if (SetCompany(Dream,false)) then begin//iCenter_Dream
   	logtext(0,currentcompany & " FullStockEn");
     FullStockEn;//*
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;//*
     StockBalDiffMn("SA,KUDINA,NATA");
 		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
-  end;
+  end;*/
   
   if (SetCompany(ID,false)) then begin//iCenter_ID
-  	logtext(0,currentcompany & " FullStockEn");
-    FullStockEn;//*
+  	//logtext(0,currentcompany & " FullStockEn");
+    //FullStockEn;//*
     logtext(0,currentcompany & " ManagersFullStockEn");
     ManagersFullStockEn;//*
     logtext(0,currentcompany & " ShopsReportEn");
     ShopsReportEn;
-    logtext(0,currentcompany & " IPEn"); 
-    IPEn;
-    logtext(0,currentcompany & " DebitorkaReportEn");
-    DebitorkaReportEn(iCenter);
-    StockBalDiffMn("SA,KUDINA,NATA");
+    //logtext(0,currentcompany & " IPEn"); 
+    //IPEn;
+    //logtext(0,currentcompany & " DebitorkaReportEn");
+    //DebitorkaReportEn(iCenter);
+    //StockBalDiffMn("SA,KUDINA,NATA");
     
-    recordnew(RepSpec);
-    RepSpec.flags[0]=89;
-    RepSpec.f1="INV#2_NEW";
-    RepSpec.f2="INV#2";
-    MoveOldItemsMn(RepSpec);
-    SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
+    //recordnew(RepSpec);
+    //RepSpec.flags[0]=89;
+    //RepSpec.f1="INV#2_NEW";
+    //RepSpec.f2="INV#2";
+    //MoveOldItemsMn(RepSpec);
+    //SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     
   end;
   
@@ -223,7 +223,7 @@ ID = 15;
   end;
   
   
-  if (SetCompany(Technomedia,false)) then begin
+  /*if (SetCompany(Technomedia,false)) then begin
     logtext(0,currentcompany & " FullStockEn");
     FullStockEn;
     logtext(0,currentcompany & " FullStockTRWH2En"); //Edit***************************Sasha2,11:40 22.09.2014
@@ -246,7 +246,7 @@ ID = 15;
     SalesReportForManagersEn;
 		SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     ResetCompany(Technomedia);  
-  end;
+  end;*/
   
   
 

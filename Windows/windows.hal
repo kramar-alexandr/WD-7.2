@@ -1809,6 +1809,49 @@ real h,f,v;
   return;
 end;
 
+window FOPDataTClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,f,v;
+  WindowBegin("Реквизиты для чека",FOPDataTClass,CGHbl,-);
+    SetBlid(FOPDataBlock);
+    SetWRect(64,80,600,600);
+    Sizeable(-1,-1,0,0);
+    h=100;f=200;v=6;
+      MatrixBegin(5,16,-20,-20,-,2000);
+        MatCol(1,24,"Название",0,Name,false,0);
+        MatCol(1,300,"Код",0,ID,false,0);
+      EndMatrix;
+  EndWindow;
+  return;
+end;
+
+window FOPDataSClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,f,v;
+  WindowBegin("Реквизиты для чека",FOPDataSClass,CGother,HBlRecType);
+    SetWRect(240,80,520,291);
+		Sizeable(-1,-1,-1,0);
+		StringList(9,9,-20,-10);
+  EndWindow;
+  return;
+end;
+
+window ORCheckPrintWClass:2
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real f,h,v,vs;
+  WindowBegin("Оповещение",ORCheckPrintWClass,CGother,RcType);
+  UseView(RcVc);
+  CloseOnCancel;
+  SetWRect(20,80,490,170);
+  h = 100; v = 20; vs = 30; f = 100;
+  EditFieldTL(h,v,-40,"ФОП",M4Str,Normal,60,f1,false,FOPDataSClass);
+  HalPushButton(h,v+=vs,h+f,25,"PrintORReceiptPrintDsm","Печать");
+  EndWindow;
+end;
+
 window MoveForServiceDClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
