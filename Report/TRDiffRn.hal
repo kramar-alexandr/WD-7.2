@@ -71,6 +71,17 @@ begin
       		outstring(pos+=70,0,ValToMyString(cred,5),false);
       		outstring(pos+=70,0,ValToMyString(diff,5),false);
       	endformat;
+      	for (i=0;i<mtcnt;i=i+1) begin
+      		pos = 0;
+					MatRowGet(TRr,i,TRrw);
+					startformat(15);	
+						outstring(pos,0,rstr,false);
+						outstring(pos+=70,0,"",false);
+						outstring(pos+=70,0,ValToMyString(TRrw.DebVal,5),false);
+						outstring(pos+=70,0,ValToMyString(TRrw.CredVal,5),false);
+						outstring(pos+=70,0,"",false);
+					endformat;
+				end;
       	totdiff = totdiff + diff;
 		  end;
 		end;
