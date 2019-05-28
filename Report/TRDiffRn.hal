@@ -75,7 +75,7 @@ begin
       		pos = 0;
 					MatRowGet(TRr,i,TRrw);
 					startformat(15);	
-						outstring(pos,0,rstr,false);
+						outstring(pos,0,"",false);
 						outstring(pos+=70,0,"",false);
 						outstring(pos+=70,0,ValToMyString(TRrw.DebVal,5),false);
 						outstring(pos+=70,0,ValToMyString(TRrw.CredVal,5),false);
