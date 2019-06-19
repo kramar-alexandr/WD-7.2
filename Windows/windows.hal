@@ -478,6 +478,15 @@ WindowBegin("Maintenance",MyVClass1,CGMnt,RcType);
   EndWindow;
 end;
 
+window ClientVClass:1 //Edit_-_-_-_-_-_-_-_-Anton 11:37 01.06.2018
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ begin
+WindowBegin("Client",ClientVClass,CGMnt,RcType);
+  SetWRect(20,120,360,220);
+	EditField(140,20,70,"Code",Normal,f1,false,0);
+  EndWindow;
+end;
+
 
 window UpdSerSyncVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")

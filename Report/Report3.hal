@@ -489,6 +489,130 @@ return;
 end;
 
 
+
+global
+procedure ClientInfoForCallRn(record RcVc RepSpec)
+begin
+record CUVc CUr;
+record ORVc ORr;
+record SHVc SHr;
+row ORVc ORrw;
+record RetVc Retr;
+string 255 shStatus;
+boolean TrHs;
+integer i;
+CUr.Code = RepSpec.f1;
+if(Readfirstmain(CUr,1,true)) then begin end;
+
+startreportnoheaderjob("Информация о клиенте");
+		startformat(15);
+      OutString(0,0,"Код",false);
+      OutString(100,0,"Найменування",false);
+      OutString(200,0,"Кат.клієнта",false);
+      OutString(250,0,"Телефон",false);
+      OutString(350,0,"E-mail",false);
+			OutStringID(400,"DblNewORVc","Новый рахунок",false,RepSpec.f1);
+		endformat	
+		startformat(15);
+      OutString(0,"DblCUVc",CUr.Code,false);
+      OutString(100,0,CUr.Name,false);
+      OutString(200,0,CUr.CustCat,false);
+      OutString(250,0,CUr.Phone,false);
+      OutString(350,0,CUr.eMail,false);
+		endformat;
+		Gray_Divider(0,1);
+		startformat(15);
+      OutString(50,0,"Коментар",false);
+			OutString(250,0,"Адреса",false);
+      OutString(400,0,"День нар.",false);
+    endformat;
+		Gray_Divider(0,1);
+		startformat(15);  
+      OutString(50,0,CUr.Comment0,false);
+			OutString(250,0,CUr.DelAddr0,false);
+      OutString(400,0,CUr.BirthDate,false);
+    endformat;
+		if(nonblank(CUr.Comment1) or nonblank(CUr.DelAddr1)) then begin
+			startformat(15);  
+				OutString(50,0,CUr.Comment1,false);
+				OutString(250,0,CUr.DelAddr1,false);
+			endformat;
+		end;
+		if(nonblank(CUr.Comment2) or nonblank(CUr.DelAddr2)) then begin
+			startformat(15);  
+				OutString(50,0,CUr.Comment2,false);
+				OutString(250,0,CUr.DelAddr2,false);
+			endformat;
+		end;
+		if(nonblank(CUr.DelAddr3)) then begin
+			startformat(15);  
+				OutString(250,0,CUr.DelAddr3,false);
+			endformat;
+		end;
+		if(nonblank(CUr.DelAddr4)) then begin
+			startformat(15);  
+				OutString(250,0,CUr.DelAddr4,false);
+			endformat;
+		end;
+		Black_Divider(0,1);
+		ORr.CustCode = RepSpec.f1;
+		TrHs = true;
+		startformat(15); 
+			OutString(0,0,"Код",false);
+      OutString(60,0,"№ рах. у клієнта",false);
+      OutString(150,0,"Дата",false);
+      OutString(200,0,"Продавець",false);
+      OutString(250,0,"Всього",false);
+			OutString(350,0,"Отгр.",false);
+		endformat;	
+		while(LoopBackKey("CustCode",ORr,1,TrHs)) begin
+			if(ORr.CustCode!=RepSpec.f1) then begin
+				TrHs = false;
+			end;
+			If(TrHs) then begin
+				SHr.OrderNr = ORr.SerNr;
+				shStatus = "не создано";
+				If(ReadFirstKey("OrderKey",SHr,1,true)) then begin shStatus = "отгр."; 
+					if(SHr.OKFlag==0) then begin shStatus = "не отгр."; end;
+				end;
+				Retr.OrdNr = ORr.SerNr;
+				If(ReadFirstKey("OrdNr",Retr,1,true)) then begin shStatus = shStatus & ",есть возвр."; end;
+				Black_Divider(0,1);
+				startformat(15); 
+					OutString(0,"DblORVc",ORr.SerNr,false);
+					OutString(60,0,ORr.CustOrdNr,false);
+					OutString(150,0,ORr.OrdDate,false);
+					OutString(200,0,ORr.SalesMan,false);
+					OutString(250,0,ORr.Sum4,false);
+					OutString(350,0,shStatus,false);
+				endformat;	
+				Gray_Divider(0,1);
+				startformat(15);
+					OutString(20,0,"Товар",false);
+					OutString(80,0,"Назва",false);
+					OutString(200,0,"Кільк.",false);
+					OutString(250,0,"Ціна",false);
+					OutString(300,0,"%",false);
+					OutString(350,0,"Сума",false);
+				endformat;
+				for(i=0;i<matrowcnt(ORr);i=i+1) begin
+					matrowget(ORr,i,ORrw);
+					Gray_Divider(0,1);
+					startformat(15);
+						OutString(20,"DblINVc",ORrw.ArtCode,false);
+						OutString(80,0,ORrw.Spec,false);
+						OutString(200,0,ORrw.Quant,false);
+						OutString(250,0,ORrw.Price,false);
+						OutString(300,0,ORrw.vRebate,false);
+						OutString(350,0,ORrw.Sum,false);
+					endformat;
+				end;
+			end;
+		end;
+endjob;
+return;
+end;
+
 global //Edit***************************Sasha2,13:50 19.04.2016 {
 procedure NotSamsungItemsRn(record RcVc RepSpec)
 begin

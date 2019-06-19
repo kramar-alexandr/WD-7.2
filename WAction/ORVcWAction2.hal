@@ -52,9 +52,33 @@ remote function boolean GetPartFileToArea(string,var area);
 remote procedure DeleteXLSXJunk(string);
 remote procedure BackupXLSX(string);
 remote procedure RecoverXLSX(string,string);
+external function Boolean PasteCustInOrder(var record ORVc,string,string,var string,var string);
 
 	SetLangMode(LangUkrainian,"UKR",0);
 
+global
+function Boolean ORDClassCustCodeEFAfter(Integer wn,Integer fn,Integer rownr,Integer changedf) //ABR_____________________________________________________19.06.19
+begin  
+  record ORVc ORr;
+  string 255 warning,errstr;
+ 
+  GetWindowRecord(wn,ORr);    
+  if ((changedf!=0) or ((blank(ORr.Addr0)) and (nonblank(ORr.CustCode)))) then begin
+    if (PasteCustInOrder(ORr,ORr.CustCode,WindEFstr(wn),warning,errstr)) then begin
+      if (nonblank(warning)) then begin
+        MessageBox(0,warning);
+      end;
+      if (nonblank(errstr)) then begin
+        MessageBox(0,errstr);
+      end;
+      PutWindowRecord(wn,ORr);
+    end else begin
+      Beep;
+    end;
+  end;
+  ORDClassCustCodeEFAfter = true;
+  return;
+end;
 
 global
 procedure RoundBelCash(string curncycode,var val rsum)
@@ -414,6 +438,22 @@ BEGIN
   end;
   RETURN;
 END;
+
+global
+procedure DblNewORVc(string dblstr,string l,Integer currepwn)
+begin
+  Integer wn;
+  record CUVc CUr;
+	record ORVc ORr; 
+  CUr.Code = l;
+	recordNew(ORr);
+  if (ReadFirstMain(CUr,1,true)) then begin
+		ORr.CustCode = CUr.Code;
+    wn = OpenWindow("ORDClass",1,0,"","",ORr);
+		ORDClassCustCodeEFAfter(wn,1,1,1);
+	end;	
+  return;
+end;
 
 global
 updating procedure SHFromORDsm()
