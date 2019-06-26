@@ -836,23 +836,23 @@ end;*/
 	  addtexttoarea("V01,50,N,\"\"" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("V02,50,N,\"\"" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("V03,50,N,\"\"" & chr(13) & chr(10),aLabel);
-	  addtexttoarea("V05,50,N,\"\"" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("V04,50,N,\"\"" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("V04,3,N,\"\"" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("B60,26,0,E30,3,2,100,B,V00" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("X50,145,5,408,250" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("B115,155,0,1,3,2,60,A,V01" & chr(13) & chr(10),aLabel);
 	  if(size==0)then begin 
-	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,5,1,1,N,V05" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,5,1,1,N,V04" & chr(13) & chr(10),aLabel);
 		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent+50 & ",0,5,1,1,N,V00" & chr(13) & chr(10),aLabel);
 	  end;
 	  if(size==1)then begin 
-	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,4,1,1,N,V05" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,4,1,1,N,V04" & chr(13) & chr(10),aLabel);
 		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent+50 & ",0,4,1,1,N,V00" & chr(13) & chr(10),aLabel);
 	  end;
 	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2 & ",0,4,1,1,N,V01" & chr(13) & chr(10),aLabel);
 		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+50 & ",0,4,1,1,N,V02" & chr(13) & chr(10),aLabel);
 		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+100 & ",0,4,1,1,N,V03" & chr(13) & chr(10),aLabel);
-	  addtexttoarea("PAV04" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("PAV05" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("FE" & chr(13) & chr(10),aLabel);
 	  addtexttoarea(chr(13) & chr(10),aLabel);
 	  
