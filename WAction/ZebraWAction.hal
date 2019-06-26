@@ -820,7 +820,7 @@ end;*/
   if(k>0)then begin
 		if(ZPb.LeftInd==0)then begin ZPb.LeftInd = 70; end;
 		if(ZPb.TopIndent==0)then begin ZPb.TopIndent = 100; end;
-		if(ZPb.TopIndent2==0)then begin ZPb.TopIndent2 = 150; end;
+		if(ZPb.TopIndent2==0)then begin ZPb.TopIndent2 = 200; end;
 		if(ZPb.Height==0)then begin ZPb.Height = 400; end;
 		if(ZPb.Width==0)then begin ZPb.Width = 600; end;
 
