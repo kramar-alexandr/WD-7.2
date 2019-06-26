@@ -821,13 +821,13 @@ end;*/
 		if(ZPb.LeftInd==0)then begin ZPb.LeftInd = 10; end;
 		if(ZPb.TopIndent==0)then begin ZPb.TopIndent = 100; end;
 		if(ZPb.TopIndent2==0)then begin ZPb.TopIndent2 = 200; end;
-		if(ZPb.Height==0)then begin ZPb.Height = 400; end;
-		if(ZPb.Width==0)then begin ZPb.Width = 600; end;
+		if(ZPb.Height==0)then begin ZPb.Height = 50; end;
+		if(ZPb.Width==0)then begin ZPb.Width = 74; end;
 
 		
 	  SetAreaZeroSize(aLabel);
-	  addtexttoarea("q" & ZPb.Width & chr(13) & chr(10),aLabel);
-	  addtexttoarea("Q" & ZPb.Height & ",16" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("q" & ZPb.Width*8 & chr(13) & chr(10),aLabel);
+	  addtexttoarea("Q" & ZPb.Height*8 & ",16" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("D10" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("I8,C" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("FK\"1\"" & chr(13) & chr(10),aLabel);
