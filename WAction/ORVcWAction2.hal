@@ -1468,7 +1468,10 @@ LORDClassActiveEditField:;
 	if(fieldname=="ORPrint")then begin 
 		res = true; 
 	end;
-	if(fieldname=="DateshopRevise")then begin 
+	if(fieldname=="ORPrint")then begin 
+		res = true; 
+	end;
+	if(fieldname=="GarantyFor")then begin 
 		res = true; 
 	end;
   ORDClassActiveEditField = res;
