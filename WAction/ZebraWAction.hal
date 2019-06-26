@@ -859,7 +859,7 @@ end;*/
 	  mtrw = MatRowCnt(newORr);
 	  for (i=0;i<mtrw;i=i+1) begin
 		MatRowGet(newORr,i,newORrw);
-		if(len(newORrw.Spec)>25)then begin
+		if(len(newORrw.Spec)>50)then begin
 			for(j=25;j>=0;j=j-1) begin
 				if(mid(newORrw.Spec,j,1)==" ")then begin
 					sep = j;
@@ -867,7 +867,7 @@ end;*/
 				end;
 			end;
 		end;
-		if(len(newORrw.Spec)-sep>25)then begin
+		if(len(newORrw.Spec)-sep>50)then begin
 			for(j=25;j>=0;j=j-1) begin
 				if(mid(newORrw.Spec,j+sep,1)==" ")then begin
 					sep2 = j+sep;
