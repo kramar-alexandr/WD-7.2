@@ -2165,8 +2165,10 @@ begin
 		MatCol(t,-315,"Накладна",0,ShipNote,false,0);
 		MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
 		if (StandardHansa==false) then begin
-		MatCol(t,-145,"Місце",0,Position,true,UsedPosSClass);
+		//MatCol(t,-145,"Місце",0,Position,true,UsedPosSClass);
 		end;
+		MatCol(t,-145,"Гарант.",0,GarantyFor,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:39:16 PM
+
 		//MatCol(t,-90,"Джерело",0,Source,true,SourceSClass);
 		MatCol(t,-90,"Друк",0,ORPrint,true,0);
 		MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);

@@ -1,0 +1,1303 @@
+external function string 255 StrReplace(string,string,string);
+external procedure UTCTimeToDate(LongInt,var Date,var Time);
+external function boolean MySendWebRequest(string,integer,longint,boolean,string,string,string,string,boolean,area,var area,integer);
+external function Boolean MySendAsyncWebRequest(string,longint,boolean,string,string,string,string,area,string,integer);
+external procedure FindUserMailboxName(string,var string,var string);
+external procedure AlarmMessage(record ActVc,integer,string);
+external procedure MySendWebRequest(string,integer,longint, boolean,string,string,string,string,boolean,area,area,integer);
+external procedure ExtractObj(string,var Integer,var string);
+
+global webpublic updating procedure WebBinotelAPICallEnd()
+begin
+	area arequest,newarea,encodearea;
+	string 255 tstr;
+	longint lenth,i,lasti,j,k;
+	json jobj;
+	record BinotelCallEndVc BECr;
+	row BinotelCallEndVc BECrw;
+	string 255 node;
+	time timestamp;
+	date datestamp;
+	area delim,tmpar,tmpar1;
+	boolean foundf;
+	array string 255 lev1,lev2p1,lev2p2;
+	integer lev1k,lev2k;
+	boolean foundch;
+	string 1 c;
+	
+	setcompany(13,false)
+	
+	webgetpostdata(encodearea);
+	addtexttoarea(chr(13) & chr(10) & "*********" & currenttime & "************" & chr(13) & chr(10),delim);
+	writeareatofile(delim,"WebBinotelAPICallEnd.txt",1);
+	writeareatofile(encodearea,"WebBinotelAPICallEnd.txt",1);
+	logtext(0,"WebBinotelAPICallEnd1");
+	tstr = "";
+	lenth = getarealength(encodearea);
+	
+	For(i=0;i<lenth;i=i+1) begin
+		if(getstringfromarea(encodearea,i,1)=="&" and i<lenth-6)then begin
+			foundch = false;
+			tstr = getstringfromarea(encodearea,i,6);
+			if(tstr=="&quot;")then begin
+				setareazerosize(tmpar);
+				setareazerosize(tmpar1);
+				getareafromarea(encodearea,0,i,tmpar);
+				addtexttoarea("'",tmpar);
+				getareafromarea(encodearea,i+6,lenth-i-6,tmpar1);
+				setareazerosize(encodearea);
+				InsertAreaBeforeArea(tmpar1,encodearea);
+				InsertAreaBeforeArea(tmpar,encodearea);
+				lenth = lenth - 5;
+				i=i-1;
+				foundch = true;
+			end;
+			tstr = getstringfromarea(encodearea,i,6);
+			if(tstr=="&apos;")then begin
+				setareazerosize(tmpar);
+				setareazerosize(tmpar1);
+				getareafromarea(encodearea,0,i,tmpar);
+				addtexttoarea("'",tmpar);
+				getareafromarea(encodearea,i+6,lenth-i-6,tmpar1);
+				setareazerosize(encodearea);
+				InsertAreaBeforeArea(tmpar1,encodearea);
+				InsertAreaBeforeArea(tmpar,encodearea);
+				lenth = lenth - 5;
+				i=i-1;
+				foundch = true;
+			end;
+			tstr = getstringfromarea(encodearea,i,4);
+			if(tstr=="&lt;")then begin
+				setareazerosize(tmpar);
+				setareazerosize(tmpar1);
+				getareafromarea(encodearea,0,i,tmpar);
+				addtexttoarea("<",tmpar);
+				getareafromarea(encodearea,i+4,lenth-i-4,tmpar1);
+				setareazerosize(encodearea);
+				InsertAreaBeforeArea(tmpar1,encodearea);
+				InsertAreaBeforeArea(tmpar,encodearea);
+				lenth = lenth - 3;
+				i=i-1;
+				foundch = true;
+			end;
+			tstr = getstringfromarea(encodearea,i,4);
+			if(tstr=="&gt;")then begin
+				setareazerosize(tmpar);
+				setareazerosize(tmpar1);
+				getareafromarea(encodearea,0,i,tmpar);
+				addtexttoarea(">",tmpar);
+				getareafromarea(encodearea,i+4,lenth-i-4,tmpar1);
+				setareazerosize(encodearea);
+				InsertAreaBeforeArea(tmpar1,encodearea);
+				InsertAreaBeforeArea(tmpar,encodearea);
+				lenth = lenth - 3;
+				i=i-1;
+				foundch = true;
+			end;
+		
+			if(foundch==false)then begin
+				if(getstringfromarea(encodearea,i+1,1)==";")then begin
+					setareazerosize(tmpar);
+					setareazerosize(tmpar1);
+					getareafromarea(encodearea,0,i,tmpar);
+					addtexttoarea("",tmpar);
+					getareafromarea(encodearea,i+2,lenth-i-2,tmpar1);
+					setareazerosize(encodearea);
+					InsertAreaBeforeArea(tmpar1,encodearea);
+					InsertAreaBeforeArea(tmpar,encodearea);
+					lenth = lenth - 2;
+					i=i-1;
+					foundch = true;
+				end;
+			end;
+			if(foundch==false)then begin
+				if(getstringfromarea(encodearea,i+2,1)==";")then begin
+					setareazerosize(tmpar);
+					setareazerosize(tmpar1);
+					getareafromarea(encodearea,0,i,tmpar);
+					addtexttoarea("",tmpar);
+					getareafromarea(encodearea,i+3,lenth-i-3,tmpar1);
+					setareazerosize(encodearea);
+					InsertAreaBeforeArea(tmpar1,encodearea);
+					InsertAreaBeforeArea(tmpar,encodearea);
+					lenth = lenth - 3;
+					i=i-1;
+					foundch = true;
+				end;
+			end;
+			if(foundch==false)then begin
+				if(getstringfromarea(encodearea,i+3,1)==";")then begin
+					setareazerosize(tmpar);
+					setareazerosize(tmpar1);
+					getareafromarea(encodearea,0,i,tmpar);
+					addtexttoarea("",tmpar);
+					getareafromarea(encodearea,i+4,lenth-i-4,tmpar1);
+					setareazerosize(encodearea);
+					InsertAreaBeforeArea(tmpar1,encodearea);
+					InsertAreaBeforeArea(tmpar,encodearea);
+					lenth = lenth - 4;
+					i=i-1;
+					foundch = true;
+				end;
+			end;
+			if(foundch==false)then begin
+				if(getstringfromarea(encodearea,i+4,1)==";")then begin
+					setareazerosize(tmpar);
+					setareazerosize(tmpar1);
+					getareafromarea(encodearea,0,i,tmpar);
+					addtexttoarea("",tmpar);
+					getareafromarea(encodearea,i+5,lenth-i-5,tmpar1);
+					setareazerosize(encodearea);
+					InsertAreaBeforeArea(tmpar1,encodearea);
+					InsertAreaBeforeArea(tmpar,encodearea);
+					lenth = lenth - 5;
+					i=i-1;
+					foundch = true;
+				end;
+			end;
+			if(foundch==false)then begin
+				if(getstringfromarea(encodearea,i+5,1)==";")then begin
+					setareazerosize(tmpar);
+					setareazerosize(tmpar1);
+					getareafromarea(encodearea,0,i,tmpar);
+					addtexttoarea("",tmpar);
+					getareafromarea(encodearea,i+6,lenth-i-6,tmpar1);
+					setareazerosize(encodearea);
+					InsertAreaBeforeArea(tmpar1,encodearea);
+					InsertAreaBeforeArea(tmpar,encodearea);
+					lenth = lenth - 6;
+					i=i-1;
+					foundch = true;
+				end;
+			end;
+
+		end;
+	end;
+	
+	lev1k = 0;
+	lasti = 0;
+	For(i=0;i<lenth;i=i+1) begin
+		if(getstringfromarea(encodearea,i,1)=="&" or i==lenth-1)then begin
+			tstr = getstringfromarea(encodearea,lasti,i-lasti);
+			lasti = i+1;
+			lev1[lev1k] = tstr;
+			lev1k = lev1k + 1;
+		end;
+	end;
+
+	lev2k = 0;
+	For(i=0;i<lev1k;i=i+1) begin
+		lenth = len(lev1[i]);
+		For(j=0;j<lenth;j=j+1) begin
+			c = mid(lev1[i],j,1);
+			if(c=="=")then begin
+				lev2p1[lev2k] = "\"" & urldecode(left(lev1[i],j)) & "\"";
+				
+				tstr = StrReplace(lev2p1[lev2k],"[", "(");
+				tstr = StrReplace(tstr,"]", ")");
+				lev2p1[lev2k] = tstr;
+				tstr = mid(lev1[i],j+1,lenth-j);
+				tstr = StrReplace(tstr,"+", " ");
+				lev2p2[lev2k] = urldecode(tstr);
+				lev2p2[lev2k] = "\"" & StrReplace(lev2p2[lev2k],chr(0), "") & "\"";
+				lev2k = lev2k + 1;
+			end;
+		end;
+	end;
+
+	addtexttoarea("{" & chr(13) & chr(10),newarea);
+	For(i=0;i<lev2k;i=i+1) begin
+		if(i<lev2k-1)then begin
+			addtexttoarea(lev2p1[i] & ":" & lev2p2[i] & "," & chr(13) & chr(10),newarea);
+		end else begin
+			addtexttoarea(lev2p1[i] & ":" & lev2p2[i] & chr(13) & chr(10),newarea);
+		end;
+	end;
+	addtexttoarea("}," & chr(13) & chr(10) ,newarea);
+
+	
+	/*For(i=0;i<lenth;i=i+1) begin
+		if(getstringfromarea(encodearea,i,1)=="=" or i==lenth-1)then begin
+			tstr = urldecode(getstringfromarea(encodearea,lasti,i-lasti));
+			tstr = StrReplace(tstr,"+&gt;+", " > ");
+			tstr = StrReplace(tstr,"+", " ");
+			tstr = StrReplace(tstr,chr(0), "");
+			tstr = StrReplace(tstr,"&apos;", "'");
+			addtexttoarea(tstr,arequest);
+			lasti = i;
+		end;
+	end;
+	
+	tstr = "";
+	lasti = 0;
+	addtexttoarea("{\"",newarea);
+	For(i=0;i<lenth;i=i+1) begin
+	  if(getstringfromarea(arequest,i,1)=="&" or i==lenth-1)then begin
+	  	//logtext(0,"do " & getstringfromarea(arequest,lasti,i-lasti));
+	  	tstr = urldecode(getstringfromarea(arequest,lasti,i-lasti+1));
+	  	//logtext(0,"po " & tstr);
+	  	tstr = StrReplace(tstr,"=", "\":\"");
+	  	tstr = StrReplace(tstr,"[", "(");
+	  	tstr = StrReplace(tstr,"]", ")");
+	  	tstr = StrReplace(tstr,"&","");
+	  	if(getstringfromarea(arequest,i,1)=="&")then begin
+	  		tstr = tstr & "\"," & chr(13) & chr(10) & "\"";
+	  	end else begin
+	  		tstr = tstr & "\"" & chr(13) & chr(10);
+	  	end;
+	  	addtexttoarea(tstr,newarea);
+	  	lasti = i+1;
+	  	tstr = "";
+	  end;
+	end; 
+	addtexttoarea("}",newarea);
+	*/
+	
+	
+	writeareatofile(delim,"WebBinotelAPICallEnd_nrm.txt",1);
+	writeareatofile(newarea,"WebBinotelAPICallEnd_nrm.txt",1);
+	weboutstring("{\"status\":\"success\"}");
+	jobj = parsejsonarea(newarea);
+	
+	recordnew(BECr);
+	
+	BECr.TransDate = currentdate;
+	BECr.TransTime = currenttime;
+	
+	BECr.SerNr = NextSerNr("BinotelCallEndVc",currentdate,-1,false,"");
+		
+		node = "requestType";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.requestType = JSONGet(jobj,node);
+		end;
+		node = "callDetails(companyID)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.companyID = JSONGet(jobj,node);
+		end;
+		node = "callDetails(generalCallID)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.generalCallID = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callID)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.callID = JSONGet(jobj,node);
+		end;
+		node = "callDetails(startTime)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.startTime = JSONGet(jobj,node);
+			UTCTimeToDate(StringToLongInt(BECr.startTime),datestamp,timestamp);
+			BECr.BTransDate = datestamp;
+			BECr.BTransTime = timestamp;			
+		end;
+		node = "callDetails(callType)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.callType = JSONGet(jobj,node);
+		end;
+		node = "callDetails(internalNumber)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.internalNumber = JSONGet(jobj,node);
+		end;
+		node = "callDetails(internalAdditionalData)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.internalAdditionalData = JSONGet(jobj,node);
+		end;
+		node = "callDetails(externalNumber)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.externalNumber = JSONGet(jobj,node);
+		end;
+		node = "callDetails(srcNumber)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.srcNumber = JSONGet(jobj,node);
+		end;
+		node = "callDetails(customerData)(id)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.customerDataId = JSONGet(jobj,node);
+		end;
+		node = "callDetails(customerData)(name)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.customerDataName = JSONGet(jobj,node);
+		end;
+		node = "callDetails(employeeName)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.employeeName = JSONGet(jobj,node);
+		end;
+		node = "callDetails(employeeEmail)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.employeeEmail = JSONGet(jobj,node);
+		end;
+		
+		foundf = true;
+		For(i=0;i<20;i=i+1) begin
+	  	if(foundf)then begin
+	  		foundf = false;
+	  		ClearRow(BECr,BECrw,0);
+	  		node = "callDetails(dstNumbers)(" & i & ")(dstNumber)";
+				if(JSONNodeExists(jobj,node))then begin
+					BECrw.mdstNumber = JSONGet(jobj,node);
+					foundf = true;
+				end;
+				node = "callDetails(dstNumbers)(" & i & ")(waitsec)";
+				if(JSONNodeExists(jobj,node))then begin
+					BECrw.mwaitsec = JSONGet(jobj,node);
+					foundf = true;
+				end;
+				node = "callDetails(dstNumbers)(" & i & ")(billsec)";
+				if(JSONNodeExists(jobj,node))then begin
+					BECrw.mbillsec = JSONGet(jobj,node);
+					foundf = true;
+				end;
+				node = "callDetails(dstNumbers)(" & i & ")(disposition)";
+				if(JSONNodeExists(jobj,node))then begin
+					BECrw.mdisposition = JSONGet(jobj,node);
+					foundf = true;
+				end;
+				node = "callDetails(dstNumbers)(" & i & ")(employeeName)";
+				if(JSONNodeExists(jobj,node))then begin
+					BECrw.memployeeName = JSONGet(jobj,node);
+					foundf = true;
+				end;
+				node = "callDetails(dstNumbers)(" & i & ")(employeeEmail)";
+				if(JSONNodeExists(jobj,node))then begin
+					BECrw.memployeeEmail = JSONGet(jobj,node);
+					foundf = true;
+				end;
+				matrowput(BECr,i,BECrw);
+	  	end;
+		end; 
+		
+		
+		
+		
+		node = "callDetails(waitsec)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.waitsec = JSONGet(jobj,node);
+		end;
+		node = "callDetails(billsec)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.billsec = JSONGet(jobj,node);
+		end;
+		node = "callDetails(disposition)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.disposition = JSONGet(jobj,node);
+		end;
+		node = "callDetails(isNewCall)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.isNewCall = JSONGet(jobj,node);
+		end;
+		node = "callDetails(did)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.did = JSONGet(jobj,node);
+		end;
+		node = "callDetails(didNumber)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.didNumber = JSONGet(jobj,node);
+		end;
+		node = "callDetails(didName)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.didName = JSONGet(jobj,node);
+		end;
+		
+		
+		node = "callDetails(callTrackingData)(id)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTid = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(gaClientId)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTgaClientId = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(firstVisitAt)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTfirstVisitAt = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(fullUrl)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTfullUrl = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(utm_source)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTutmsource = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(utm_medium)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTutmmedium = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(utm_campaign)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTutmcampaign = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(utm_content)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTutmcontent = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(utm_term)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTutmterm = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(ipAddress)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTipAddress = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(geoipCountry)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTgeoipCountry = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(geoipRegion)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTgeoipRegion = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(geoipCity)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTgeoipCity = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(geoipOrg)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTgeoipOrg = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(domain)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTdomain = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(gaTrackingId)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTgaTrackingId = JSONGet(jobj,node);
+		end;
+		node = "callDetails(callTrackingData)(timeSpentOnSiteBeforeMakeCall)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.CTtimeSpentOnSiteBeforeMakeCall = JSONGet(jobj,node);
+		end;
+		
+		node = "callDetails(getCallData)(id)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDid = JSONGet(jobj,node);
+		end;
+		node = "callDetails(getCallData)(isNewNumber)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDisNewNumber = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(createdAt)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDcreatedAt = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(callAt)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDcallAt = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(processedAt)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDprocessedAt = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(isProcessed)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDisProcessed = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(requestsCounter)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDrequestsCounter = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(attemptsCounter)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDattemptsCounter = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(employeesDontAnswerCounter)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDemployeesDontAnswerCounter = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(fullUrl)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDfullUrl = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(description)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDdescription = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(gaTrackingId)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDgaTrackingId = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(gaClientId)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDgaClientId = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(utm_source)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDutm_source = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(utm_medium)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDutm_medium = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(utm_campaign)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDutm_campaign = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(utm_content)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDutm_content = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(utm_term)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDutm_term = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(ipAddress)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDipAddress = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(geoipCountry)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDgeoipCountry = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(geoipRegion)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDgeoipRegion = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(geoipCity)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDgeoipCity = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(geoipOrg)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDgeoipOrg = JSONGet(jobj,node);
+		end;
+node = "callDetails(getCallData)(domain)";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.gCDdomain = JSONGet(jobj,node);
+		end;
+		
+		
+	//recordstore(BECr,true);
+	
+return;
+end;
+
+global webpublic updating procedure WebBinotelAPIPush()
+begin
+	area arequest,newarea,encodearea;
+	string 255 tstr,mailboxnr;
+	longint lenth,i,lasti;
+	json jobj;
+	record BinotelCallPushVc BECr;
+	string 255 node;
+	time timestamp;
+	date datestamp;
+	string 255 str,recidstr;
+	
+	setcompany(13,false)
+	
+	webgetpostdata(encodearea);
+	writeareatofile(encodearea,"WebBinotelAPICallPush.txt",0);
+	logtext(0,"WebBinotelAPICallPush");
+	tstr = "";
+	lenth = getarealength(encodearea);
+	For(i=0;i<lenth;i=i+1) begin
+		if(getstringfromarea(encodearea,i,1)=="=" or i==lenth-1)then begin
+			tstr = urldecode(getstringfromarea(encodearea,lasti,i-lasti));
+			tstr = StrReplace(tstr,"+&gt;+", " > ");
+			tstr = StrReplace(tstr,"+", " ");
+			tstr = StrReplace(tstr,chr(0), "");
+			tstr = StrReplace(tstr,"&apos;", "'");
+			addtexttoarea(tstr,arequest);
+			lasti = i;
+		end;
+	end;
+	
+	tstr = "";
+	lasti = 0;
+	addtexttoarea("{\"",newarea);
+	For(i=0;i<lenth;i=i+1) begin
+	  if(getstringfromarea(arequest,i,1)=="&" or i==lenth-1)then begin
+	  	//logtext(0,"do " & getstringfromarea(arequest,lasti,i-lasti));
+	  	tstr = urldecode(getstringfromarea(arequest,lasti,i-lasti+1));
+	  	//logtext(0,"po " & tstr);
+	  	tstr = StrReplace(tstr,"=", "\":\"");
+	  	tstr = StrReplace(tstr,"[", "(");
+	  	tstr = StrReplace(tstr,"]", ")");
+	  	tstr = StrReplace(tstr,"&","");
+	  	if(getstringfromarea(arequest,i,1)=="&")then begin
+	  		tstr = tstr & "\"," & chr(13) & chr(10) & "\"";
+	  	end else begin
+	  		tstr = tstr & "\"" & chr(13) & chr(10);
+	  	end;
+	  	addtexttoarea(tstr,newarea);
+	  	lasti = i+1;
+	  	tstr = "";
+	  end;
+	end; 
+	addtexttoarea("}",newarea);
+	
+	jobj = parsejsonarea(newarea);
+	
+	recordnew(BECr);
+	
+	BECr.TransDate = currentdate;
+	BECr.TransTime = currenttime;
+	
+	BECr.SerNr = NextSerNr("BinotelCallPushVc",currentdate,-1,false,"");
+		
+		node = "requestType";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.requestType = JSONGet(jobj,node);
+		end;
+		node = "companyID";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.companyID = JSONGet(jobj,node);
+		end;
+		node = "generalCallID";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.generalCallID = JSONGet(jobj,node);
+		end;
+		node = "callID";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.callID = JSONGet(jobj,node);
+		end;
+		node = "callType";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.callType = JSONGet(jobj,node);
+		end;
+		node = "internalNumber";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.internalNumber = JSONGet(jobj,node);
+		end;
+		node = "internalAdditionalData";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.internalAdditionalData = JSONGet(jobj,node);
+		end;
+		node = "externalNumber";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.externalNumber = JSONGet(jobj,node);
+		end;
+		node = "srcNumber";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.srcNumber = JSONGet(jobj,node);
+		end;
+		node = "employeeName";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.employeeName = JSONGet(jobj,node);
+		end;
+		node = "employeeEmail";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.employeeEmail = JSONGet(jobj,node);
+		end;
+		node = "waitsec";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.waitsec = JSONGet(jobj,node);
+		end;
+		node = "billsec";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.billsec = JSONGet(jobj,node);
+		end;
+		node = "disposition";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.disposition = JSONGet(jobj,node);
+		end;
+		node = "isNewCall";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.isNewCall = JSONGet(jobj,node);
+		end;
+		node = "did";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.did = JSONGet(jobj,node);
+		end;
+		node = "didNumber";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.didNumber = JSONGet(jobj,node);
+		end;
+		node = "didName";
+		if(JSONNodeExists(jobj,node))then begin
+			BECr.didName = JSONGet(jobj,node);
+		end;		
+	//recordstore(BECr,true);
+
+return;
+end;
+
+global webpublic updating procedure WebBinotelAPICallSet()
+begin
+	area arequest,newarea,encodearea;
+	string 255 tstr;
+	longint lenth,i,lasti;
+	json jobj;
+	record BinotelCallPushVc BECr;
+	string 255 node;
+	time timestamp;
+	date datestamp;
+	string 255 str,inphone,name;
+	record CUVc CUr;
+	
+	webgetpostdata(encodearea);
+	writeareatofile(encodearea,"WebBinotelAPICallSet.txt",0);
+	logtext(0,"WebBinotelAPICallSet");
+	tstr = "";
+	lenth = getarealength(encodearea);
+	For(i=0;i<lenth;i=i+1) begin
+		if(getstringfromarea(arequest,i,1)=="=" or i==lenth-1)then begin
+			tstr = urldecode(getstringfromarea(encodearea,lasti,i-lasti));
+			tstr = StrReplace(tstr,"+&gt;+", " > ");
+			addtexttoarea(tstr,arequest);
+		end;
+	end;
+	
+	lenth = getarealength(arequest);
+	tstr = "";
+	lasti = 0;
+	addtexttoarea("{\"",newarea);
+	For(i=0;i<lenth;i=i+1) begin
+	  if(getstringfromarea(arequest,i,1)=="&" or i==lenth-1)then begin
+	  	tstr = urldecode(getstringfromarea(arequest,lasti,i-lasti));
+	  	tstr = StrReplace(tstr,"=", "\":\"");
+	  	tstr = StrReplace(tstr,"[", "(");
+	  	tstr = StrReplace(tstr,"]", ")");
+	  	tstr = StrReplace(tstr,"&","\"");
+	  	if(getstringfromarea(arequest,i,1)=="&")then begin
+	  		tstr = tstr & "\",";
+	  	end else begin
+	  		tstr = tstr & "\"";
+	  	end;
+	  	logtext(0,tstr);
+	  	addtexttoarea(tstr,newarea);
+	  	lasti = i;
+	  	tstr = "";
+	  end;
+	end; 
+	addtexttoarea("}",newarea);
+	
+	jobj = parsejsonarea(newarea);
+	
+	node = "requestType";
+	if(JSONNodeExists(jobj,node))then begin
+		if(JSONGet(jobj,node)=="gettingCallSettings")then begin
+			if(JSONNodeExists(jobj,"externalNumber"))then begin
+				inphone = JSONGet(jobj,"externalNumber");
+				CUr.Code = inphone;
+				if(Readfirstmain(CUr,1,true))then begin
+					name = CUr.Name;
+				end else begin
+					CUr.Phone = inphone;
+					if(readfirstkey("Phone",CUr,1,true))then begin
+						name = CUr.Name;
+					end else begin
+						CUr.AltPhone = inphone;
+						if(readfirstkey("AltPhone",CUr,1,true))then begin
+							name = CUr.Name;
+						end else begin
+							CUr.Mobile = inphone;
+							if(readfirstkey("Mobile",CUr,1,true))then begin
+								name = CUr.Name;
+							end;
+						end;
+					end;
+				end;
+			end;
+			if(blank(CUr.Name))then begin
+				name = inphone;
+			end;
+		
+			str = "{\"customerData\":{\"name\":\"" & name & "\",\"description\":\"programer\"}}";
+			weboutstring(str);
+		end;
+	end;
+	
+return;
+end;
+
+global //Edit***************************Sasha2,13:28 01.06.2017 {
+procedure MakeBinotelCallFromExtNumToPhone(string fromExtNumber,string toPhoneNumber)
+begin
+  string 255 key,secret,host,keyNode,signatureNode,extNumNode,phoneNode,page;
+  Area req,reply;
+  record BinotelSettingsBlock BSb;
+  
+  blockload(BSb);
+    
+    if (NonBlank(fromExtNumber) and NonBlank(toPhoneNumber)) then begin
+      key = BSb.ApiKey;//"bc327a-61c63b1";
+      secret = BSb.ApiSecret;//"1546c2-8c393b-fcf888-acbaba-3ec826a2";
+      host = "api.binotel.com";
+      page = "/api/2.0/calls/ext-to-phone.json";
+      
+      extNumNode = "\"ext_number\":" & "\"" & fromExtNumber & "\"";
+      phoneNode = "\"phone_number\":" & "\"" & toPhoneNumber & "\"";
+      keyNode = "\"key\":" & "\"" & key & "\"";
+      
+      secret = secret & "{" & extNumNode & "," & phoneNode & "}";
+      signatureNode = "\"signature\":" & "\"" & LowerCase(MD5String(secret)) & "\"";
+      
+      AddTextToArea("{",req);
+      AddTextToArea(extNumNode & ",",req);
+      AddTextToArea(phoneNode & ",",req);
+      AddTextToArea(signatureNode & ",",req);
+      AddTextToArea(keyNode,req);
+      AddTextToArea("}",req);
+      
+      WriteAreaToFile(req,"Binotel.txt",0);
+      //SendRawWebRequest(host,"433",false,"POST","","application/json","",false,req,reply,10);
+      //MySendWebRequest(host,443,-1,true,"POST",page,"application/json","",false,req,reply,10);
+      //MySendRawWebRequest(host,"443",true,"POST","","application/json","",false,req,reply,10);
+			MySendAsyncWebRequest(host,443,true,"POST",page,"application/json","",req,"WebCalReqCallBack",5);
+
+			logtext(0,fromExtNumber & "CallTo " & toPhoneNumber);
+    end;
+    
+  return;
+end; //Edit***************************Sasha2,13:29 01.06.2017 }
+
+global //Edit***************************Sasha2,13:28 01.06.2017 {
+procedure BinotelGetCallInfo(record RcVc RepSpec)
+begin
+	Area req,reply;	
+	record BinotelSettingsBlock BSb;
+  string 255 key,secret,host,keyNode,signatureNode,extNumNode,phoneNode,page,generalCallIDtxt;
+	longint generalCallID;
+	
+	blockload(BSb);
+	
+	key = BSb.ApiKey;
+	secret = BSb.ApiSecret;
+	host = "api.binotel.com";
+	page = "/api/2.0/stats/call-details.json";
+	
+	generalCallID = RepSpec.long1;
+	
+	generalCallIDtxt = "\"generalCallID\":" & "[\"" & generalCallID & "\"]";
+	keyNode = "\"key\":" & "\"" & key & "\"";
+	secret = secret & "{" & generalCallIDtxt & "}";
+	signatureNode = "\"signature\":" & "\"" & LowerCase(MD5String(secret)) & "\"";
+	
+	
+	
+	AddTextToArea("{",req);
+	AddTextToArea(generalCallIDtxt & ",",req);
+	AddTextToArea(signatureNode & ",",req);
+	AddTextToArea(keyNode,req);
+	AddTextToArea("}",req);
+	
+	WriteAreaToFile(req,"BinotelGetCallInfoCallBackReq.txt",0);
+	
+	//MySendAsyncWebRequest(host,443,-1,true,"POST",page,"application/json","",req,"BinotelGetCallInfoCallBack",15);
+		
+	MySendWebRequest(host,443,-1,true,"POST",page,"application/json","",false,req,reply,10);
+	WriteAreaToFile(reply,"BinotelGetCallInfoCallBack.txt",0);
+	//MySendRawWebRequest(host,"443",true,"POST","","application/json","",false,req,reply,10);
+	
+return;
+end;
+
+
+global webpublic updating procedure BinotelGetCallInfoCallBack()
+begin
+	area a_reply;
+	
+	setcompany(13,false)
+	
+	webgetpostdata(a_reply);
+	WriteAreaToFile(a_reply,"BinotelGetCallInfoCallBack.txt",0);
+	
+	
+return;
+end;
+
+global webpublic updating procedure WebCalReqCallBack()
+begin
+	area a_reply;
+	
+	setcompany(13,false)
+	
+	logtext(0,"WebCalReqCallBack");
+	webgetpostdata(a_reply);
+	WriteAreaToFile(a_reply,"WebCalReqCallBackCallBack.txt",0);
+
+return;
+end;
+
+global updating procedure ImportBinotel()
+begin
+	record BinotelCallEndVc BCEr;
+	string 100 a1,a2,a3,a4,a5,a6,a7,a8,a9,a10;
+	string 100 a11,a12,a13,a14,a15,a16,a17,a18,a19,a20;
+	string 100 a21,a22,a23,a24,a25;
+	
+	while (TestEOF()==false) begin
+		a1 = ImportField;
+		a2 = ImportField;
+		a3 = ImportField;
+		a4 = ImportField;
+		a5 = ImportField;
+		a6 = ImportField;
+		a7 = ImportField;
+		a8 = ImportField;
+		a9 = ImportField;
+		a10 = ImportField;
+		a11 = ImportField;
+		a12= ImportField;
+		a13 = ImportField;
+		a14 = ImportField;
+		a15 = ImportField;
+		a16 = ImportField;
+		a17 = ImportField;
+		a18 = ImportField;
+		a19 = ImportField;
+		a20 = ImportField;
+		a21 = ImportField;
+		a22 = ImportField;
+		a23 = ImportField;
+		a24 = ImportField;
+		a25 = ImportField;
+		
+		if(nonblank(a1))then begin
+			BCEr.generalCallID = a1;
+			if(readfirstkey("generalCallID",BCEr,1,true))then begin
+				BCEr.gCDid = a2;
+				BCEr.gCDisNewNumber = a3;
+				BCEr.gCDcreatedAt = a4;
+				BCEr.gCDcallAt = a5;
+				BCEr.gCDprocessedAt = a6;
+				BCEr.gCDisProcessed = a7;
+				BCEr.gCDrequestsCounter = a8;
+				BCEr.gCDattemptsCounter = a9;
+				BCEr.gCDemployeesDontAnswerCounter = a10;
+				BCEr.gCDfullUrl = a11;
+				BCEr.gCDdescription = a12;
+				BCEr.gCDgaTrackingId = a13;
+				BCEr.gCDgaClientId = a14;
+				BCEr.gCDutm_source = a15;
+				BCEr.gCDutm_medium = a16;
+				BCEr.gCDutm_campaign = a17;
+				BCEr.gCDutm_content = a18;
+				BCEr.gCDutm_term = a19;
+				BCEr.gCDipAddress = a20;
+				BCEr.gCDgeoipCountry = a21;
+				BCEr.gCDgeoipRegion = a22;
+				BCEr.gCDgeoipCity = a23;
+				BCEr.gCDgeoipOrg = a24;
+				BCEr.gCDdomain = a25;
+				recordstore(BCEr,true);
+				logtext(0,BCEr.generalCallID);
+			end;
+		end;
+		if (NextImportLine(true)) then begin end;
+	end;
+return;
+end;
+
+global updating procedure ImportBinotel1()
+begin
+	record BinotelCallEndVc BCEr;
+	string 100 a1,a2,a3,a4,a5,a6,a7,a8,a9,a10;
+	string 100 a11,a12,a13,a14,a15,a16,a17,a18,a19,a20;
+	string 100 a21,a22,a23,a24,a25,a26,a27,a28;
+	
+	while (TestEOF()==false) begin
+		a1 = ImportField;
+		a2 = ImportField;
+		a3 = ImportField;
+		a4 = ImportField;
+		a5 = ImportField;
+		a6 = ImportField;
+		a7 = ImportField;
+		a8 = ImportField;
+		a9 = ImportField;
+		a10 = ImportField;
+		a11 = ImportField;
+		a12= ImportField;
+		a13 = ImportField;
+		a14 = ImportField;
+		a15 = ImportField;
+		a16 = ImportField;
+		a17 = ImportField;
+		
+		a18 = ImportField;
+		a19 = ImportField;
+		a20 = ImportField;
+		a21 = ImportField;
+		a22 = ImportField;
+		a23 = ImportField;
+		a24 = ImportField;
+		a25 = ImportField;
+		a26 = ImportField;
+		
+		a27 = stringtodate(ImportField);
+		a28 = stringtotime(ImportField);
+		
+		if(nonblank(a1))then begin
+			BCEr.generalCallID = a1;
+			if(readfirstkey("generalCallID",BCEr,1,true))then begin
+				BCEr.CTid = a2;
+				BCEr.CTgaClientId = a3;
+				BCEr.CTfirstVisitAt = a4;
+				BCEr.CTutmsource = a5;
+				BCEr.CTutmmedium = a6;
+				BCEr.CTutmcampaign = a7;
+				BCEr.CTutmcontent = a8;
+				BCEr.CTutmterm = a9;
+				BCEr.CTipAddress = a10;
+				BCEr.CTgeoipCountry = a11;
+				BCEr.CTgeoipRegion = a12;
+				BCEr.CTgeoipCity = a13;
+				BCEr.CTgeoipOrg = a14;
+				BCEr.CTdomain = a15;
+				BCEr.CTgaTrackingId = a16;
+				BCEr.CTtimeSpentOnSiteBeforeMakeCall = a17;
+				recordstore(BCEr,true);
+				logtext(0,BCEr.generalCallID);
+			end else begin
+				recordnew(BCEr);
+				BCEr.SerNr = NextSerNr("BinotelCallEndVc",currentdate,-1,false,"");
+				BCEr.generalCallID = a1;
+				BCEr.CTid = a2;
+				BCEr.CTgaClientId = a3;
+				BCEr.CTfirstVisitAt = a4;
+				BCEr.CTutmsource = a5;
+				BCEr.CTutmmedium = a6;
+				BCEr.CTutmcampaign = a7;
+				BCEr.CTutmcontent = a8;
+				BCEr.CTutmterm = a9;
+				BCEr.CTipAddress = a10;
+				BCEr.CTgeoipCountry = a11;
+				BCEr.CTgeoipRegion = a12;
+				BCEr.CTgeoipCity = a13;
+				BCEr.CTgeoipOrg = a14;
+				BCEr.CTdomain = a15;
+				BCEr.CTgaTrackingId = a16;
+				BCEr.CTtimeSpentOnSiteBeforeMakeCall = a17;
+				
+				BCEr.callID = a18;//callID
+				BCEr.callType = a19;//callType
+				BCEr.internalNumber = a20;//internalNumber
+				BCEr.externalNumber = a21;//externalNumber
+				BCEr.srcNumber = a22;//srcNumber
+				BCEr.disposition = a23;//disposition
+				BCEr.did = a24;//did
+				BCEr.didNumber = a25;//didNumber
+				BCEr.didName = a26;//didName
+				
+				BCEr.TransDate = stringtodate(a27);
+				BCEr.TransTime = stringtotime(a28);
+				recordstore(BCEr,true);
+				logtext(0,BCEr.generalCallID);
+			end;
+		end;
+		if (NextImportLine(true)) then begin end;
+	end;
+return;
+end;
+
+
+global procedure TestJSON()
+begin
+	area arequest,newarea,encodearea,encodeareaall;
+	string 255 tstr;
+	longint lenth,i,lasti,j,k,lines;
+	json jobj;
+	record BinotelCallEndVc BECr;
+	row BinotelCallEndVc BECrw;
+	string 255 node,c;
+	time timestamp;
+	date datestamp;
+	area delim,tmpar,tmpar1;
+	boolean foundf;
+	array string 255 lev1,lev2p1,lev2p2;
+	integer lev1k,lev2k;
+	boolean foundch;
+	
+	
+	addfiletoarea("3.txt",encodeareaall,0);
+	lines = CountLinesInArea(encodeareaall);
+	addtexttoarea("[" & chr(13) & chr(10),newarea);
+	for(k=0;k<lines;k=k+1)begin
+		tstr = GetLineFromArea(encodeareaall,k);
+		setareazerosize(encodearea);
+		addtexttoarea(tstr,encodearea);
+		//addfiletoarea("InputJSON.txt",encodearea,0);
+		
+		lenth = getarealength(encodearea);
+		For(i=0;i<lenth;i=i+1) begin
+			if(getstringfromarea(encodearea,i,1)=="&" and i<lenth-6)then begin
+				foundch = false;
+				tstr = getstringfromarea(encodearea,i,6);
+				if(tstr=="&quot;")then begin
+					setareazerosize(tmpar);
+					setareazerosize(tmpar1);
+					getareafromarea(encodearea,0,i,tmpar);
+					addtexttoarea("'",tmpar);
+					getareafromarea(encodearea,i+6,lenth-i-6,tmpar1);
+					setareazerosize(encodearea);
+					InsertAreaBeforeArea(tmpar1,encodearea);
+					InsertAreaBeforeArea(tmpar,encodearea);
+					lenth = lenth - 5;
+					i=i-1;
+					foundch = true;
+				end;
+				tstr = getstringfromarea(encodearea,i,6);
+				if(tstr=="&apos;")then begin
+					setareazerosize(tmpar);
+					setareazerosize(tmpar1);
+					getareafromarea(encodearea,0,i,tmpar);
+					addtexttoarea("'",tmpar);
+					getareafromarea(encodearea,i+6,lenth-i-6,tmpar1);
+					setareazerosize(encodearea);
+					InsertAreaBeforeArea(tmpar1,encodearea);
+					InsertAreaBeforeArea(tmpar,encodearea);
+					lenth = lenth - 5;
+					i=i-1;
+					foundch = true;
+				end;
+				tstr = getstringfromarea(encodearea,i,4);
+				if(tstr=="&lt;")then begin
+					setareazerosize(tmpar);
+					setareazerosize(tmpar1);
+					getareafromarea(encodearea,0,i,tmpar);
+					addtexttoarea("<",tmpar);
+					getareafromarea(encodearea,i+4,lenth-i-4,tmpar1);
+					setareazerosize(encodearea);
+					InsertAreaBeforeArea(tmpar1,encodearea);
+					InsertAreaBeforeArea(tmpar,encodearea);
+					lenth = lenth - 3;
+					i=i-1;
+					foundch = true;
+				end;
+				tstr = getstringfromarea(encodearea,i,4);
+				if(tstr=="&gt;")then begin
+					setareazerosize(tmpar);
+					setareazerosize(tmpar1);
+					getareafromarea(encodearea,0,i,tmpar);
+					addtexttoarea(">",tmpar);
+					getareafromarea(encodearea,i+4,lenth-i-4,tmpar1);
+					setareazerosize(encodearea);
+					InsertAreaBeforeArea(tmpar1,encodearea);
+					InsertAreaBeforeArea(tmpar,encodearea);
+					lenth = lenth - 3;
+					i=i-1;
+					foundch = true;
+				end;
+			
+				if(foundch==false)then begin
+					if(getstringfromarea(encodearea,i+1,1)==";")then begin
+						setareazerosize(tmpar);
+						setareazerosize(tmpar1);
+						getareafromarea(encodearea,0,i,tmpar);
+						addtexttoarea("",tmpar);
+						getareafromarea(encodearea,i+2,lenth-i-2,tmpar1);
+						setareazerosize(encodearea);
+						InsertAreaBeforeArea(tmpar1,encodearea);
+						InsertAreaBeforeArea(tmpar,encodearea);
+						lenth = lenth - 2;
+						i=i-1;
+						foundch = true;
+					end;
+				end;
+				if(foundch==false)then begin
+					if(getstringfromarea(encodearea,i+2,1)==";")then begin
+						setareazerosize(tmpar);
+						setareazerosize(tmpar1);
+						getareafromarea(encodearea,0,i,tmpar);
+						addtexttoarea("",tmpar);
+						getareafromarea(encodearea,i+3,lenth-i-3,tmpar1);
+						setareazerosize(encodearea);
+						InsertAreaBeforeArea(tmpar1,encodearea);
+						InsertAreaBeforeArea(tmpar,encodearea);
+						lenth = lenth - 3;
+						i=i-1;
+						foundch = true;
+					end;
+				end;
+				if(foundch==false)then begin
+					if(getstringfromarea(encodearea,i+3,1)==";")then begin
+						setareazerosize(tmpar);
+						setareazerosize(tmpar1);
+						getareafromarea(encodearea,0,i,tmpar);
+						addtexttoarea("",tmpar);
+						getareafromarea(encodearea,i+4,lenth-i-4,tmpar1);
+						setareazerosize(encodearea);
+						InsertAreaBeforeArea(tmpar1,encodearea);
+						InsertAreaBeforeArea(tmpar,encodearea);
+						lenth = lenth - 4;
+						i=i-1;
+						foundch = true;
+					end;
+				end;
+				if(foundch==false)then begin
+					if(getstringfromarea(encodearea,i+4,1)==";")then begin
+						setareazerosize(tmpar);
+						setareazerosize(tmpar1);
+						getareafromarea(encodearea,0,i,tmpar);
+						addtexttoarea("",tmpar);
+						getareafromarea(encodearea,i+5,lenth-i-5,tmpar1);
+						setareazerosize(encodearea);
+						InsertAreaBeforeArea(tmpar1,encodearea);
+						InsertAreaBeforeArea(tmpar,encodearea);
+						lenth = lenth - 5;
+						i=i-1;
+						foundch = true;
+					end;
+				end;
+				if(foundch==false)then begin
+					if(getstringfromarea(encodearea,i+5,1)==";")then begin
+						setareazerosize(tmpar);
+						setareazerosize(tmpar1);
+						getareafromarea(encodearea,0,i,tmpar);
+						addtexttoarea("",tmpar);
+						getareafromarea(encodearea,i+6,lenth-i-6,tmpar1);
+						setareazerosize(encodearea);
+						InsertAreaBeforeArea(tmpar1,encodearea);
+						InsertAreaBeforeArea(tmpar,encodearea);
+						lenth = lenth - 6;
+						i=i-1;
+						foundch = true;
+					end;
+				end;
+
+			end;
+		end;
+		
+		lev1k = 0;
+		lasti = 0;
+		For(i=0;i<lenth;i=i+1) begin
+			if(getstringfromarea(encodearea,i,1)=="&" or i==lenth-1)then begin
+				tstr = getstringfromarea(encodearea,lasti,i-lasti);
+				lasti = i+1;
+				lev1[lev1k] = tstr;
+				lev1k = lev1k + 1;
+			end;
+		end;
+	
+		lev2k = 0;
+		For(i=0;i<lev1k;i=i+1) begin
+			lenth = len(lev1[i]);
+			For(j=0;j<lenth;j=j+1) begin
+				c = mid(lev1[i],j,1);
+				if(c=="=")then begin
+					lev2p1[lev2k] = "\"" & urldecode(left(lev1[i],j)) & "\"";
+					
+					tstr = StrReplace(lev2p1[lev2k],"[", "(");
+					tstr = StrReplace(tstr,"]", ")");
+					lev2p1[lev2k] = tstr;
+					tstr = mid(lev1[i],j+1,lenth-j);
+					tstr = StrReplace(tstr,"+", " ");
+					lev2p2[lev2k] = urldecode(tstr);
+					lev2p2[lev2k] = "\"" & StrReplace(lev2p2[lev2k],chr(0), "") & "\"";
+					lev2k = lev2k + 1;
+				end;
+			end;
+		end;
+	
+		addtexttoarea("{" & chr(13) & chr(10),newarea);
+		For(i=0;i<lev2k;i=i+1) begin
+			if(i<lev2k-1)then begin
+				addtexttoarea(lev2p1[i] & ":" & lev2p2[i] & "," & chr(13) & chr(10),newarea);
+			end else begin
+				addtexttoarea(lev2p1[i] & ":" & lev2p2[i] & chr(13) & chr(10),newarea);
+			end;
+		end;
+		if(k<lines-1)then begin 
+			addtexttoarea("}," & chr(13) & chr(10) ,newarea);
+		end else begin
+			addtexttoarea("}]" & chr(13) & chr(10) ,newarea);
+		end;
+		writeareatofile(newarea,"OutputJSON1.txt",1);
+		setareazerosize(newarea);
+	end;
+	
+
+	
+return;
+end;

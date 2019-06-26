@@ -1,0 +1,322 @@
+external function string 255 StrReplace(string,string,string);
+external procedure ExtractObj(string,var Integer,var string);
+//external procedure OpenNewActivity(record ActVc,string);
+//external procedure OpenNewCUInfo(record ActVc,string);
+external procedure RemoteUserFunction(string,string,string,string);
+
+SetLangMode(LangRussian,"RUS",0);
+
+/*
+global
+updating function LongInt BinotelCallEndVcRecordSaveAfter(var record BinotelCallEndVc BCEr,record BinotelCallEndVc BCE2r,LongInt stat,LongInt long4)
+BEGIN
+  LongInt res;
+  record ActVc Actr;
+  record BinotelUserBlock BUb;
+  row BinotelUserBlock BUrw;
+  integer i,mtrw,pos;
+  string 100 outerphone, inergroup, acttype;
+  string 255 users,comment,muser;
+  boolean testf,cufound,foundfsvo;
+  record CUVc CUr;
+  record UserVc User;
+  record SVOVc SVOr;
+  integer calltype;
+ 	
+ 	if(BCEr.disposition=="NOANSWER" or BCEr.disposition=="CANCEL" or BCEr.disposition=="BUSY" or BCEr.disposition=="ANSWER" or BCEr.disposition=="TRANSFER" or BCEr.disposition=="CHANUNAVAIL" or BCEr.disposition=="CONGESTION" or BCEr.disposition=="VM")then begin
+		
+		if(BCEr.disposition=="NOANSWER" or BCEr.disposition=="CANCEL" or BCEr.disposition=="BUSY" or BCEr.disposition=="CHANUNAVAIL" or BCEr.disposition=="CONGESTION" or BCEr.disposition=="VM")then begin
+			blockload(BUb);
+			mtrw = matrowcnt(BUb);
+			if(mtrw>0)then begin
+				outerphone = BCEr.didNumber;
+				inergroup = BCEr.internalNumber;
+				For(i=0;i<mtrw;i=i+1) begin
+					matrowget(BUb,i,BUrw);
+					testf = true;
+					if(blank(BUrw.User))then begin testf = false; end;
+					if(nonblank(BUrw.Phone) and BUrw.Phone!=outerphone)then begin testf = false; end;
+					if(nonblank(BUrw.Group) and BUrw.Group!=inergroup)then begin testf = false; end;	  		
+				
+					if(testf)then begin
+						acttype = BUrw.ActType;
+						comment = BUrw.ActComment;
+						if(blank(users))then begin
+							users = BUrw.User;
+						end else begin
+							users = users & "," & BUrw.User;
+						end;
+						//------------------------------------------------------------------------------ dima-f 23.10.17
+						if(nonblank(BUrw.CallGroup)) then begin
+						    while(loopmain(User,1,true))begin
+						        if(User.CallGroup==BUrw.CallGroup)then begin
+						            if(blank(users))then begin
+                                        users = User.Code;
+                                    end else begin
+                                        users = users & "," & User.Code;
+                                    end;
+						        end;
+						    end;
+						end;
+						//------------------------------------------------------------------------------- end
+					end;
+				end; 
+			end;
+		end;
+		
+		if(BCEr.disposition=="ANSWER" or BCEr.disposition=="TRANSFER")then begin
+			acttype = "CALL";
+			calltype = 0;
+			if(BCEr.callType=="0")then begin
+				calltype = 1;
+				comment = "Принятый вызов";
+			end else begin
+				calltype = 2;
+				comment = "Исходящий вызов";
+			end;
+			if(nonblank(BCEr.internalNumber))then begin
+				while(loopmain(User,1,true))begin
+					if(User.Phone2==BCEr.internalNumber)then begin
+						if(blank(users))then begin
+							users = User.Code;
+						end else begin
+							users = users & "," & User.Code;
+						end;
+					end;
+				end;
+			end;
+		end;
+		
+		if(nonblank(users))then begin
+			recordnew(Actr);
+			
+			Actr.StartTime = currenttime;
+			if(nonblank(BCEr.billsec))then begin
+				if(evaltoval(BCEr.billsec)>0)then begin
+					Actr.StartTime = addseconds(currenttime,-evaltoval(BCEr.billsec));
+					Actr.EndTime = currenttime;
+				end;
+			end;
+			Actr.BinotelCallEndSerNr = BCEr.SerNr;
+			Actr.TransDate = currentdate;
+			Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+			Actr.Comment = comment;
+			Actr.CallType = calltype;
+			//Actr.AlarmType = kAlarmTypeMessage; //Edit-------------------Vitalii 11:31 23.12.2016
+      Actr.AlarmType = kAlarmTypeNone;
+			Actr.TodoFlag = kTodoFlagTodo;
+			Actr.SymbNr = kActivitySymbolCall;
+			Actr.Phone = BCEr.externalNumber;
+			Actr.ActType = acttype;
+			CUr.Code = Actr.Phone;
+			cufound = false;
+			if(Readfirstmain(CUr,1,true))then begin
+				Actr.CUCode = CUr.Code;
+				Actr.CUName = CUr.Name;
+				cufound = true;
+			end else begin
+				CUr.Phone = Actr.Phone;
+				if(readfirstkey("Phone",CUr,1,true))then begin
+					Actr.CUCode = CUr.Code;
+					Actr.CUName = CUr.Name;
+					cufound = true;
+				end else begin
+					CUr.AltPhone = Actr.Phone;
+					if(readfirstkey("AltPhone",CUr,1,true))then begin
+						Actr.CUCode = CUr.Code;
+						Actr.CUName = CUr.Name;
+						cufound = true;
+					end else begin
+						CUr.Mobile = Actr.Phone;
+						if(readfirstkey("Mobile",CUr,1,true))then begin
+							Actr.CUCode = CUr.Code;
+							Actr.CUName = CUr.Name;
+							cufound = true;
+						end;
+					end;
+				end;
+			end;
+			if(cufound==false)then begin
+			  if (NonBlank(Actr.Phone)) then begin
+  			  recordnew(CUr);
+  				CUr.Code = Actr.Phone;
+  				CUr.Phone = Actr.Phone;
+  				if(nonblank(BCEr.customerDataName))then begin
+  					CUr.Name = BCEr.customerDataName;
+  				end else begin
+  					CUr.Name = "Новый контакт";
+  				end;
+  				CUr.CustCat = "РОЗН";
+  				CUr.CUType = 1;
+  				CUr.CurncyCode = "UAH";
+  				CUr.VATCode = "0%";
+  				CUr.PayDeal = "ОФ";
+  				logtext(0,"Новый контакт");
+  				Actr.CUCode = CUr.Code;
+  				Actr.CUName = CUr.Name;
+  				recordinsert(CUr,true);
+			  end else begin //Edit***************************Sasha2,16:17 10.08.2017
+			    LogText(0,"Try to create CUVc with empty Code. BCEr.SerNr:" & BCEr.SerNr & ". Actr.SerNr:" & Actr.SerNr);
+			  end;
+			end;
+			Actr.MainPersons = users;
+			SVOr.CustCode = Actr.CUCode;
+			foundfsvo = false;
+			if(readlastkey("CustCode",SVOr,1,true))then begin
+				if(SVOr.TransDate>addday(currentdate,-30))then begin
+					Actr.SVOSerNr = SVOr.SerNr;
+					foundfsvo = true;
+				end;
+			end;
+			
+			if(BCEr.callType=="1")then begin
+				Actr.OKFlag = 1;
+				Actr.ActResult = "ЗВ";
+				comment = "Исходящий вызов";
+				Actr.CallType = 2;
+			end;
+			if(BCEr.callType=="0")then begin
+				Actr.OKFlag = 1;
+				Actr.ActResult = "ЗВ";
+				comment = "Принятый вызов";
+				Actr.CallType = 1;
+			end;
+			
+			recordstore(Actr,true);
+			
+			if(foundfsvo)then begin
+				createrecordlink(Actr,currentcompany,SVOr,currentcompany);
+				createrecordlink(SVOr,currentcompany,Actr,currentcompany);
+			end;
+			createrecordlink(Actr,currentcompany,BCEr,currentcompany);
+			createrecordlink(BCEr,currentcompany,Actr,currentcompany);
+			
+			logtext(0,"RemoteUserFunction " & users & " OpenNewActivity");
+			if(calltype==1)then begin
+				//AllClientsRemoteAsync.RemoteUserFunction(users,"OpenNewActivity",Actr.SerNr,"");
+			end;
+			
+		
+		end;
+		
+ 	end;
+ 	
+ 	
+  BinotelCallEndVcRecordSaveAfter = res;
+  RETURN;
+END;
+
+
+global
+updating function LongInt BinotelCallPushVcRecordSaveAfter(var record BinotelCallPushVc BCEr,record BinotelCallPushVc BCE2r,LongInt stat,LongInt long4)
+BEGIN
+  LongInt res;
+  record ActVc Actr;
+  record BinotelUserBlock BUb;
+  row BinotelUserBlock BUrw;
+  integer i,mtrw,pos;
+  string 100 outerphone, inergroup, acttype;
+  string 255 users,comment,muser;
+  boolean testf,cufound;
+  record CUVc CUr;
+  record UserVc User;
+ 	
+		
+		if(BCEr.requestType=="answeredTheCall")then begin
+			logtext(0,"BinotelCallPushVcRecordSaveAfter");
+			acttype = "CALL";
+			comment = "Принятый вызов";
+			if(nonblank(BCEr.internalNumber))then begin
+				while(loopmain(User,1,true))begin
+					if(User.Phone2==BCEr.internalNumber)then begin
+						if(blank(users))then begin
+							users = User.Code;
+						end else begin
+							users = users & "," & User.Code;
+						end;
+					end;
+				end;
+			end;
+		
+		
+			if(nonblank(users))then begin
+				recordnew(Actr);
+				
+				Actr.BinotelCallPushSerNr = BCEr.SerNr;
+				Actr.StartTime = currenttime;
+				if(nonblank(BCEr.billsec))then begin
+					if(evaltoval(BCEr.billsec)>0)then begin
+						Actr.StartTime = addseconds(currenttime,-evaltoval(BCEr.billsec));
+						Actr.EndTime = currenttime;
+					end;
+				end;
+				Actr.TransDate = currentdate;
+				Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+				Actr.Comment = comment;
+				//Actr.AlarmType = kAlarmTypeMessage; //Edit-------------------Vitalii 11:31 23.12.2016
+				Actr.AlarmType = kAlarmTypeNone;
+				Actr.TodoFlag = kTodoFlagTodo;
+				Actr.SymbNr = kActivitySymbolCall;
+				Actr.Phone = BCEr.externalNumber;
+				Actr.ActType = acttype;
+				CUr.Code = Actr.Phone;
+				cufound = false;
+				if(Readfirstmain(CUr,1,true))then begin
+					Actr.CUCode = CUr.Code;
+					Actr.CUName = CUr.Name;
+					cufound = true;
+				end else begin
+					CUr.Phone = Actr.Phone;
+					if(readfirstkey("Phone",CUr,1,true))then begin
+						Actr.CUCode = CUr.Code;
+						Actr.CUName = CUr.Name;
+						cufound = true;
+					end else begin
+						CUr.AltPhone = Actr.Phone;
+						if(readfirstkey("AltPhone",CUr,1,true))then begin
+							Actr.CUCode = CUr.Code;
+							Actr.CUName = CUr.Name;
+							cufound = true;
+						end else begin
+							CUr.Mobile = Actr.Phone;
+							if(readfirstkey("Mobile",CUr,1,true))then begin
+								Actr.CUCode = CUr.Code;
+								Actr.CUName = CUr.Name;
+								cufound = true;
+							end;
+						end;
+					end;
+				end;
+				logtext(0,cufound & " Новый контакт");
+				if(cufound==false)then begin
+					recordnew(CUr);
+					CUr.Code = Actr.Phone;
+					CUr.Phone = Actr.Phone;
+					if(nonblank(BCEr.customerDataName))then begin
+						CUr.Name = BCEr.customerDataName;
+					end else begin
+						CUr.Name = "Новый контакт";
+					end;
+					CUr.CustCat = "РОЗН";
+					CUr.CUType = 1;
+					CUr.CurncyCode = "UAH";
+					CUr.VATCode = "0%";
+					CUr.PayDeal = "ОФ";
+					Actr.CUCode = CUr.Code;
+					Actr.CUName = CUr.Name;
+					logtext(0,"Новый контакт");
+					recordinsert(CUr,true);
+				end;
+				Actr.MainPersons = users;
+				//recordstore(Actr,true);
+			
+				logtext(0,"RemoteUserFunction " & users & " OpenNewCUInfo");
+				AllClientsRemoteAsync.RemoteUserFunction(users,"OpenNewCUInfo",Actr.Phone,"");
+			end;
+		end;
+		
+ 	
+ 	
+  BinotelCallPushVcRecordSaveAfter = res;
+  RETURN;
+END;*/

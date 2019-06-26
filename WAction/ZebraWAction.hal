@@ -797,6 +797,7 @@ end;*/
 			  newORrw.ArtCode = ORrw.ArtCode;
 			  newORrw.Spec = ORrw.Spec;
 			  newORrw.SerialNr = ORrw.SerialNr;
+			  newORrw.GarantyFor = ORrw.GarantyFor;
 			  matrowput(newORr,k,newORrw);
 			  k=k+1;
 		  end; 
@@ -808,6 +809,7 @@ end;*/
 			  newORrw.ArtCode = ORrw.ArtCode;
 			  newORrw.Spec = ORrw.Spec;
 			  newORrw.SerialNr = ORrw.SerialNr;
+			  newORrw.GarantyFor = ORrw.GarantyFor;
 			  matrowput(newORr,k,newORrw);
 			  k=k+1;
 		  end; 
@@ -834,24 +836,45 @@ end;*/
 	  addtexttoarea("V01,50,N,\"\"" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("V02,50,N,\"\"" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("V03,50,N,\"\"" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("V04,50,N,\"\"" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("V04,3,N,\"\"" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("B60,26,0,E30,3,2,100,B,V00" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("X50,145,5,408,250" & chr(13) & chr(10),aLabel);
 	  //addtexttoarea("B115,155,0,1,3,2,60,A,V01" & chr(13) & chr(10),aLabel);
 	  if(size==0)then begin 
-		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,5,1,1,N,V00" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,5,1,1,N,V00" & chr(13) & chr(10),aLabel);
+		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent+50 & ",0,5,1,1,N,V00" & chr(13) & chr(10),aLabel);
 	  end;
 	  if(size==1)then begin 
-		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,4,1,1,N,V00" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent & ",0,4,1,1,N,V00" & chr(13) & chr(10),aLabel);
+		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent+50 & ",0,4,1,1,N,V00" & chr(13) & chr(10),aLabel);
 	  end;
-	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2 & ",0,4,1,1,N,V01" & chr(13) & chr(10),aLabel);	   addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+50 & ",0,4,1,1,N,V02" & chr(13) & chr(10),aLabel);	   addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+100 & ",0,4,1,1,N,V03" & chr(13) & chr(10),aLabel);
+	  addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2 & ",0,4,1,1,N,V01" & chr(13) & chr(10),aLabel);
+		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+50 & ",0,4,1,1,N,V02" & chr(13) & chr(10),aLabel);
+		addtexttoarea("A" & ZPb.LeftInd & "," & ZPb.TopIndent2+100 & ",0,4,1,1,N,V03" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("PAV04" & chr(13) & chr(10),aLabel);
 	  addtexttoarea("FE" & chr(13) & chr(10),aLabel);
 	  addtexttoarea(chr(13) & chr(10),aLabel);
 	  
 	  mtrw = MatRowCnt(newORr);
 	  for (i=0;i<mtrw;i=i+1) begin
-		MatRowGet(newORr,i,newORrw);		if(len(newORrw.Spec)>25)then begin			for(j=25;j>=0;j=j-1) begin				if(mid(newORrw.Spec,j,1)==" ")then begin					sep = j;					j = -1;				end;			end;		end;		if(len(newORrw.Spec)-sep>25)then begin			for(j=25;j>=0;j=j-1) begin				if(mid(newORrw.Spec,j+sep,1)==" ")then begin					sep2 = j+sep;					j = -1;				end;			end;		end;
+		MatRowGet(newORr,i,newORrw);
+		if(len(newORrw.Spec)>25)then begin
+			for(j=25;j>=0;j=j-1) begin
+				if(mid(newORrw.Spec,j,1)==" ")then begin
+					sep = j;
+					j = -1;
+				end;
+			end;
+		end;
+		if(len(newORrw.Spec)-sep>25)then begin
+			for(j=25;j>=0;j=j-1) begin
+				if(mid(newORrw.Spec,j+sep,1)==" ")then begin
+					sep2 = j+sep;
+					j = -1;
+				end;
+			end;
+		end;
 		if (nonblank(newORrw.ArtCode)) then begin
 		  addtexttoarea("FR\"1\"" & chr(13) & chr(10),aLabel);
 		  addtexttoarea("?" & chr(13) & chr(10),aLabel);
@@ -859,6 +882,11 @@ end;*/
 		  addtexttoarea(left(newORrw.Spec,sep) & chr(13) & chr(10),aLabel);
 		  addtexttoarea(mid(newORrw.Spec,sep+1,sep2-sep) & chr(13) & chr(10),aLabel);
 		  addtexttoarea(right(newORrw.Spec,len(newORrw.Spec)-sep2-1) & chr(13) & chr(10),aLabel);
+		  if(newORrw.GarantyFor>0)then begin
+				addtexttoarea("Дата продажу:" & ORr.OrdDate & "  Гарантія:" & newORrw.GarantyFor & " міс." & chr(13) & chr(10),aLabel);
+		  end else begin
+		  	addtexttoarea("Дата продажу:" & ORr.OrdDate & " " & chr(13) & chr(10),aLabel);
+		  end;
 		  addtexttoarea("1" & chr(13) & chr(10),aLabel);
 		  addtexttoarea(chr(13) & chr(10),aLabel);
 		end;

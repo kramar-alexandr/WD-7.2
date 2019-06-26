@@ -1982,6 +1982,7 @@ begin
   ArrayField(UnitComment,M4Str,200,0);
   ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28
   ArrayField(ORPrint,M4Int,0,0);
+  ArrayField(GarantyFor,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:14:26 PM
 
   EndArray;
   MainKeyBegin(SerNr,1);
@@ -4754,6 +4755,218 @@ BlockBegin(FOPDataBlock,-,"");
 	ArrayField(ID,M4Str,200,0);
 	EndArray;
 EndBlock;
+
+RecordBegin(BinotelCallEndVc,-,"");//Edit-------------------Vitalii 17:10 03.11.2016
+    RecordField(SerNr,M4Long,0,0);
+    RecordField(TransDate,M4Date,0,0);
+    RecordField(TransTime,M4Time,0,0);
+    
+    RecordField(BTransDate,M4Date,0,0);
+    RecordField(BTransTime,M4Time,0,0);
+    
+    RecordField(requestType,M4Str,255,0);
+    RecordField(companyID,M4Str,255,0);
+    RecordField(generalCallID,M4Str,255,0);
+    RecordField(callID,M4Str,255,0);
+    RecordField(startTime,M4Str,255,0);
+    RecordField(callType,M4Str,255,0);
+    RecordField(internalNumber,M4Str,255,0);
+    RecordField(internalAdditionalData,M4Str,255,0);
+    RecordField(externalNumber,M4Str,255,0);
+    RecordField(srcNumber,M4Str,255,0);
+    RecordField(customerDataId,M4Str,255,0);
+    RecordField(customerDataName,M4Str,255,0);
+    RecordField(employeeName,M4Str,255,0);
+    RecordField(employeeEmail,M4Str,255,0);
+    
+    RecordField(waitsec,M4Str,255,0);
+    RecordField(billsec,M4Str,255,0);
+    RecordField(disposition,M4Str,255,0);
+    RecordField(isNewCall,M4Str,255,0);
+    RecordField(trunkNumber,M4Str,255,0);
+    
+    RecordField(did,M4Str,255,0);
+    RecordField(didNumber,M4Str,255,0);
+    RecordField(didName,M4Str,255,0);
+    RecordField(smsContent,M4Str,255,0);
+		RecordField(Math,M4Matrix,0,0);
+		
+		RecordField(CTid,M4Str,100,0);
+    RecordField(CTgaClientId,M4Str,100,0);
+    RecordField(CTfirstVisitAt,M4Str,100,0);
+    RecordField(CTutmsource,M4Str,100,0);
+    RecordField(CTutmmedium,M4Str,100,0);
+    RecordField(CTutmcampaign,M4Str,100,0);
+    RecordField(CTutmcontent,M4Str,100,0);
+    RecordField(CTutmterm,M4Str,100,0);
+    RecordField(CTipAddress,M4Str,100,0);
+    RecordField(CTgeoipCountry,M4Str,100,0);
+    RecordField(CTgeoipRegion,M4Str,100,0);
+    RecordField(CTgeoipCity,M4Str,100,0);
+    RecordField(CTgeoipOrg,M4Str,100,0);
+    RecordField(CTdomain,M4Str,100,0);
+    RecordField(CTgaTrackingId,M4Str,100,0);
+    RecordField(CTtimeSpentOnSiteBeforeMakeCall,M4Str,100,0);
+    
+    RecordField(gCDid,M4Str,20,0);
+    RecordField(gCDisNewNumber,M4Str,5,0);
+    RecordField(gCDcreatedAt,M4Str,20,0);
+    RecordField(gCDcallAt,M4Str,20,0);
+    RecordField(gCDprocessedAt,M4Str,20,0);
+    RecordField(gCDisProcessed,M4Str,5,0);
+    RecordField(gCDrequestsCounter,M4Str,5,0);
+    RecordField(gCDattemptsCounter,M4Str,5,0);
+    RecordField(gCDemployeesDontAnswerCounter,M4Str,5,0);
+    RecordField(gCDfullUrl,M4Str,100,0);
+    RecordField(gCDdescription,M4Str,100,0);
+    RecordField(gCDgaTrackingId,M4Str,100,0);
+    RecordField(gCDgaClientId,M4Str,100,0);
+    RecordField(gCDutm_source,M4Str,100,0);
+    RecordField(gCDutm_medium,M4Str,100,0);
+    RecordField(gCDutm_campaign,M4Str,100,0);
+    RecordField(gCDutm_content,M4Str,100,0);
+    RecordField(gCDutm_term,M4Str,100,0);
+    RecordField(gCDipAddress,M4Str,20,0);
+    RecordField(gCDgeoipCountry,M4Str,100,0);
+    RecordField(gCDgeoipRegion,M4Str,100,0);
+    RecordField(gCDgeoipCity,M4Str,100,0);
+    RecordField(gCDgeoipOrg,M4Str,100,0);
+    RecordField(gCDdomain,M4Str,100,0);
+    RecordField(CTfullUrl,M4Str,100,0);
+		
+		ArrayBegin(Math,-,1);
+		ArrayField(mdstNumber,M4Str,255,0);
+    ArrayField(mwaitsec,M4Str,255,0);
+    ArrayField(mbillsec,M4Str,255,0);
+    ArrayField(mdisposition,M4Str,255,0);
+    ArrayField(mtrunkNumber,M4Str,255,0);
+    ArrayField(memployeeName,M4Str,255,0);
+    ArrayField(memployeeEmail,M4Str,255,0);
+		EndArray;
+    
+    MainKeyBegin(SerNr,0);
+    KeySegment(SerNr);
+    KeyBegin(internalNumber);
+    KeySegment(internalNumber);
+    KeySegment(TransDate);
+    KeySegment(TransTime);
+    KeySegment(SerNr);
+    KeyBegin(callType);
+    KeySegment(callType);
+    KeySegment(TransDate);
+    KeySegment(TransTime);
+    KeySegment(SerNr);
+    KeyBegin(TransDate);
+    KeySegment(TransDate);
+    KeySegment(TransTime);
+    KeySegment(SerNr);
+    KeyBegin(externalNumber);
+    KeySegment(externalNumber);
+    KeySegment(TransDate);
+    KeySegment(TransTime);
+    KeySegment(SerNr);
+    KeyBegin(generalCallID);
+    KeySegment(generalCallID);
+    KeySegment(SerNr);
+    KeyBegin(customerDataId);
+    KeySegment(customerDataId);
+    KeySegment(SerNr);
+    KeyBegin(disposition);
+    KeySegment(disposition);
+    KeySegment(SerNr);
+    
+    KeyBegin(didNumber);
+    KeySegment(didNumber);
+    KeySegment(TransDate);
+    KeySegment(TransTime);
+    KeySegment(SerNr);
+  EndRecord;
+  
+   RecordBegin(BinotelCallPushVc,-,"");//Edit-------------------Vitalii 17:10 03.11.2016
+    RecordField(SerNr,M4Long,0,0);
+    RecordField(TransDate,M4Date,0,0);
+    RecordField(TransTime,M4Time,0,0);
+       
+    RecordField(requestType,M4Str,255,0);
+    RecordField(companyID,M4Str,255,0);
+    RecordField(generalCallID,M4Str,255,0);
+    RecordField(callID,M4Str,255,0);
+    RecordField(startTime,M4Str,255,0);
+    RecordField(callType,M4Str,255,0);
+    RecordField(internalNumber,M4Str,255,0);
+    RecordField(internalAdditionalData,M4Str,255,0);
+    RecordField(externalNumber,M4Str,255,0);
+    RecordField(srcNumber,M4Str,255,0);
+    RecordField(customerDataId,M4Str,255,0);
+    RecordField(customerDataName,M4Str,255,0);
+    RecordField(employeeName,M4Str,255,0);
+    RecordField(employeeEmail,M4Str,255,0);
+    
+    RecordField(waitsec,M4Str,255,0);
+    RecordField(billsec,M4Str,255,0);
+    RecordField(disposition,M4Str,255,0);
+    RecordField(isNewCall,M4Str,255,0);
+    RecordField(trunkNumber,M4Str,255,0);
+    
+    RecordField(did,M4Str,255,0);
+    RecordField(didNumber,M4Str,255,0);
+    RecordField(didName,M4Str,255,0);
+    RecordField(smsContent,M4Str,255,0);
+
+    MainKeyBegin(SerNr,0);
+    KeySegment(SerNr);
+    KeyBegin(internalNumber);
+    KeySegment(internalNumber);
+    KeySegment(TransDate);
+    KeySegment(TransTime);
+    KeySegment(SerNr);
+    KeyBegin(callType);
+    KeySegment(callType);
+    KeySegment(TransDate);
+    KeySegment(TransTime);
+    KeySegment(SerNr);
+    KeyBegin(TransDate);
+    KeySegment(TransDate);
+    KeySegment(TransTime);
+    KeySegment(SerNr);
+    KeyBegin(externalNumber);
+    KeySegment(externalNumber);
+    KeySegment(TransDate);
+    KeySegment(TransTime);
+    KeySegment(SerNr);
+    KeyBegin(generalCallID);
+    KeySegment(generalCallID);
+    KeySegment(SerNr);
+    KeyBegin(customerDataId);
+    KeySegment(customerDataId);
+    KeySegment(SerNr);
+    KeyBegin(disposition);
+    KeySegment(disposition);
+    KeySegment(SerNr);
+    
+    KeyBegin(didNumber);
+    KeySegment(didNumber);
+    KeySegment(TransDate);
+    KeySegment(TransTime);
+    KeySegment(SerNr);
+  EndRecord;
+  
+  BlockBegin(BinotelUserBlock,-,"");
+    RecordField(Math,M4Matrix,0,0);
+    ArrayBegin(Math,-,1);
+    ArrayField(User,M4Code,20,UserVc);
+    ArrayField(Phone,M4Str,100,0);
+    ArrayField(Group,M4Str,100,0);
+    ArrayField(ActType,M4Code,100,0);
+    ArrayField(ActComment,M4Str,255,0);
+    ArrayField(CallGroup,M4Code,100,0);//----------------------------------------------- dima-f 23.10.17
+    EndArray;
+	EndBlock;
+	
+	BlockBegin(BinotelSettingsBlock,-,"");
+		RecordField(ApiKey,M4Str,100,0);
+		RecordField(ApiSecret,M4Str,100,0);
+	EndBlock;
 
 return;
 end;
