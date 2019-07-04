@@ -252,6 +252,9 @@ L1:;
 		end;
 LActPrintNote1:;
 		
+		OUTFORMFIELD("MY_RISK01",SVOr.Risk01);
+		OUTFORMFIELD("MY_RISK02",SVOr.Risk02);
+		
 		OUTFORMFIELD("MY_Vlastnik",SVOr.Vlastnik);
 		OUTFORMFIELD("MY_Priynato",SVOr.Priynato);
 		OUTFORMFIELD("MY_Kontinfo1",SVOr.Kontinfo1);

@@ -7497,7 +7497,7 @@ begin
   //EditField(270,-21,70,"Ціна придбання",ViewOnly ,TotCost,true,0);
   //EditField(-133,-21,70,"Ціна продажу",ViewOnly ,TotPrice,true,0);
   v = 24;
-  MatrixBegin(3,v,-50,v+90,-,50);
+  MatrixBegin(3,v,-50,v+45,-,50);
   MatTypedRow(stp);
   Flip(0);
   MatCol(t=1,32,"Товар",0,ArtCode,false,INSClass);
@@ -7536,7 +7536,7 @@ begin
 
   //Tile(3,250,true,"3",Vlastnik);
    //------------------------------------------------------------------------------------------------------------
-  v = v + 60;
+  v = v + 20;
   checkbox(100,v-20,0,"VIP",VIPStatus);
   checkbox(200,v-20,0,"Товар від партнера з поверненням",ItemFrPartner); //Edit***************************Sasha2,14:19 08.12.2015
  	EditField(h=100,v,200,"Власник",Normal,Vlastnik,false,0);EditField(h+300,v,-5,"SN Зареєст.",Normal,CustomField8,false,0);
@@ -7561,6 +7561,9 @@ begin
   v=v+10;
   EditField(h,v+=vs,-100,"Наявні деф.",Normal,Comment3,false,DefectSClass);// Edit ************************** Friday, 29 May 2015 17:19:51
   EditField(h,v+=vs,-100,"",Normal,Comment4,false,DefectSClass);
+  v=v+10;
+  EditField(h,v+=vs,-100,"Ризик",Normal,Risk01,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 4 July 2019 14:53:46
+  EditField(h,v+=vs,-100,"",Normal,Risk02,false,0);
   v=v+10;
   StaticText(h,v+=vs,"Комплектність",true);
   EditField(h,v+=vs-10,-20,"Батарея:",Normal,Batary,false,0);
