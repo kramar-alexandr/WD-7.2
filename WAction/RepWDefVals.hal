@@ -118,6 +118,19 @@ return;
 end;
 
 
+global procedure OpenClientReport(string param)
+begin
+	record CUVc CUr,newCUr,blankCUr;
+	record RcVc RepSpec;
+	
+	reportdefaults(RepSpec,"ClientVClass");
+	RepSpec.repname = "ClientInfoForCallRn";
+	RepSpec.f1 = param;
+	RunReport(RepSpec,0);
+		
+return;
+end;
+
 global procedure RemoteUserFunction(string users,string action,string param1,string param2)
 begin
 	record ActVc Actr;
@@ -132,6 +145,9 @@ begin
 				switch(action)begin
 					case "OpenNewClient": if(nonblank(param1))then begin
 																	OpenNewClient(param1);
+																end;
+					case "OpenClientReport": if(nonblank(param1))then begin
+																	OpenClientReport(param1);
 																end;
 				end;
 			end;

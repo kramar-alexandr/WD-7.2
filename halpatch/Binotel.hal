@@ -685,6 +685,8 @@ begin
 					newCUr.Name = "Новый клиент";
 					AllClientsRemoteAsync.RemoteUserFunction("SA","OpenNewClient",newCUr.Code,"");
 				end;
+			end else begin
+				AllClientsRemoteAsync.RemoteUserFunction("SA","OpenClientReport",CUr.Code,"");
 			end;
 		end;
 		node = "srcNumber";
