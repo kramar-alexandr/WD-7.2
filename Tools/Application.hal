@@ -641,4 +641,5 @@ global
 webpublic procedure WebPingServe()
 begin
 WebOutStringFormatNL("ok");
+return;
 end;
