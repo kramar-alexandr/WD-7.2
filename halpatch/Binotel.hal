@@ -581,9 +581,11 @@ begin
 	time timestamp;
 	date datestamp;
 	string 255 str,recidstr;
-	record CUVc Cur;
+	record CUVc CUr,newCUr,blankCUr;
 	
 	setcompany(13,false)
+	
+	recordnew(blankCUr);
 	
 	webgetpostdata(encodearea);
 	writeareatofile(encodearea,"WebBinotelAPICallPush.txt",0);
@@ -669,6 +671,14 @@ begin
 		end;
 		if(nonblank(BECr.externalNumber))then begin
 			logtext(0,"externalNumber " & BECr.externalNumber);
+			CUr.Code = BECr.externalNumber;
+			if(readfirstmain(CUr,1,true)==false)then begin
+				CUr.Code = "INTERNET";
+				if(readfirstmain(CUr,1,true))then begin
+					recordcopy(newCUr,CUr);
+					newCUr.Code = BECr.externalNumber;
+				end;
+			end;
 		end;
 		node = "srcNumber";
 		if(JSONNodeExists(jobj,node))then begin
