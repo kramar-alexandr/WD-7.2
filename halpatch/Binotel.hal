@@ -710,17 +710,22 @@ begin
 								newCUr.Code = BECr.externalNumber;
 								newCUr.UUID = blankCUr.UUID;
 								newCUr.Name = "Новый клиент";
+								logtext(0,"OpenNewClient");
 								AllClientsRemoteAsync.RemoteUserFunction(user,"OpenNewClient",newCUr.Code,"");
 							end else begin
+								logtext(0,"OpenClientReport 1");
 								AllClientsRemoteAsync.RemoteUserFunction(user,"OpenClientReport",CUr.Code,"");
 							end;
 						end else begin
+							logtext(0,"OpenClientReport 2");
 							AllClientsRemoteAsync.RemoteUserFunction(user,"OpenClientReport",CUr.Code,"");
 						end;
 					end else begin
+						logtext(0,"OpenClientReport 3");
 						AllClientsRemoteAsync.RemoteUserFunction(user,"OpenClientReport",CUr.Code,"");
 					end;
 				end else begin
+					logtext(0,"OpenClientReport 4");
 					AllClientsRemoteAsync.RemoteUserFunction(user,"OpenClientReport",CUr.Code,"");
 				end;
 			end;
