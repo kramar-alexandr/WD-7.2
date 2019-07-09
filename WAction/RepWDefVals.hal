@@ -1,5 +1,7 @@
 external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);
 
+SetLangMode(LangUkrainian,"UKR",0);
+
 global
 procedure ARRClassReportDefaults(Integer wn)
 BEGIN
