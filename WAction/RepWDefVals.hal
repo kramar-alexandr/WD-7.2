@@ -1,3 +1,5 @@
+external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);
+
 global
 procedure ARRClassReportDefaults(Integer wn)
 BEGIN
@@ -94,3 +96,48 @@ BEGIN
   SelectWindow(wn);
   RETURN;
 END;
+
+
+
+
+global procedure OpenNewClient(string param)
+begin
+	record CUVc CUr,newCUr,blankCUr;
+	
+	recordnew(blankCUr);
+	CUr.Code = "INTERNET";
+	if(readfirstmain(CUr,1,true))then begin
+		recordcopy(newCUr,CUr);
+		newCUr.Code = param;
+		newCUr.UUID = blankCUr.UUID;
+		newCUr.Name = "Новый клиент";
+		OpenWindow("CUDClass",0,CurWindow,"","",CUr);
+	end;
+
+return;
+end;
+
+
+global procedure RemoteUserFunction(string users,string action,string param1,string param2)
+begin
+	record ActVc Actr;
+	integer pos;
+	string 255 tstr;
+	
+	pos = 0;
+	ExtractObjWithSeparator(",",users,true,pos,tstr);
+	while(nonblank(tstr))begin
+		if(nonblank(tstr))then begin
+			if(tstr==currentuser)then begin
+				switch(action)begin
+					case "OpenNewClient": if(nonblank(param1))then begin
+																	OpenNewClient(param1);
+																end;
+				end;
+			end;
+		end;
+		ExtractObjWithSeparator(",",users,true,pos,tstr);
+	end;
+
+return;
+end;
