@@ -676,6 +676,7 @@ begin
 		end;
 		
 		logtext(0,"BECr.requestType " & BECr.requestType);
+		logtext(0,"BECr.internalNumber " & BECr.internalNumber);
 		if(BECr.requestType=="answeredTheCall")then begin
 			if(nonblank(BECr.externalNumber))then begin
 				USr.Code = "";
