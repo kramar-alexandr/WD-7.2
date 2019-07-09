@@ -759,6 +759,8 @@ begin
 	string 255 str,inphone,name;
 	record CUVc CUr;
 	
+	setcompany(13,false);
+	
 	webgetpostdata(encodearea);
 	writeareatofile(encodearea,"WebBinotelAPICallSet.txt",0);
 	logtext(0,"WebBinotelAPICallSet");
