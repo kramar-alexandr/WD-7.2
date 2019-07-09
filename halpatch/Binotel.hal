@@ -581,11 +581,12 @@ begin
 	longint lenth,i,lasti;
 	json jobj;
 	record BinotelCallPushVc BECr;
-	string 255 node;
+	string 255 node,user;
 	time timestamp;
 	date datestamp;
 	string 255 str,recidstr;
 	record CUVc CUr,newCUr,blankCUr;
+	record UserVc USr;
 	
 	setcompany(13,false)
 	
@@ -676,6 +677,23 @@ begin
 		
 		if(BECr.requestType=="answeredThaCall")then begin
 			if(nonblank(BECr.externalNumber))then begin
+				USr.Code = "";
+				while(loopmain(USr,1,true))begin
+					if(USr.Phone2==BECr.internalNumber)then begin
+						if(blank(user))then begin
+							user = USr.Code;
+						end else begin
+							user = user & "," & USr.Code;
+						end;
+					end;
+				end;
+				
+				if(blank(user))then begin
+					user = "SA";
+				end else begin
+					user = user & "," & "SA";
+				end;
+				
 				logtext(0,"externalNumber " & BECr.externalNumber);
 				CUr.Code = BECr.externalNumber;
 				if(readfirstmain(CUr,1,true)==false)then begin
