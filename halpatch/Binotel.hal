@@ -701,7 +701,7 @@ begin
 				CUr.Code = BECr.externalNumber;
 				if(readfirstmain(CUr,1,true)==false)then begin
 					CUr.Phone = BECr.externalNumber;
-					if(readfirstkey("Phone",CUr,1,true))then begin
+					if(readfirstkey("Phone",CUr,1,true)==false)then begin
 						CUr.Mobile = BECr.externalNumber;
 						if(readfirstkey("Mobile",CUr,1,true)==false)then begin
 							CUr.AltPhone = BECr.externalNumber;
