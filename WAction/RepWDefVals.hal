@@ -111,7 +111,7 @@ begin
 		newCUr.Code = param;
 		newCUr.UUID = blankCUr.UUID;
 		newCUr.Name = "Новый клиент";
-		OpenWindow("CUDClass",0,CurWindow,"","",CUr);
+		OpenWindow("CUDClass",0,CurWindow,"","",newCUr);
 	end;
 
 return;
