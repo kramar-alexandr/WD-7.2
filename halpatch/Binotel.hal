@@ -675,6 +675,7 @@ begin
 			BECr.externalNumber = JSONGet(jobj,node);
 		end;
 		
+		logtext(0,"BECr.requestType " & BECr.requestType);
 		if(BECr.requestType=="answeredThaCall")then begin
 			if(nonblank(BECr.externalNumber))then begin
 				USr.Code = "";
