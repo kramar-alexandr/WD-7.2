@@ -581,6 +581,7 @@ begin
 	time timestamp;
 	date datestamp;
 	string 255 str,recidstr;
+	record CUVc Cur;
 	
 	setcompany(13,false)
 	
@@ -665,6 +666,9 @@ begin
 		node = "externalNumber";
 		if(JSONNodeExists(jobj,node))then begin
 			BECr.externalNumber = JSONGet(jobj,node);
+		end;
+		if(nonblank(BECr.externalNumber))then begin
+			logtext(0,"externalNumber " & BECr.externalNumber);
 		end;
 		node = "srcNumber";
 		if(JSONNodeExists(jobj,node))then begin
