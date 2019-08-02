@@ -4155,7 +4155,7 @@ begin
   if (HasTaxMatrix) then begin
   SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixPUDsm"); 
   end;
-  if(currentcompany==8)then begin
+  if(currentcompany==8 or currentcompany==13)then begin
   	SpecialMenu("Надрукувати етикетки",'e',0,"PrintPULabPUDsm"); // Edit ************************** Tuesday, 2 June 2015 14:33:20
   end else begin
 		SpecialMenu("Надрукувати етикетки",'e',0,"PUVcLabelItemPrint");// Edit ************************** Tuesday, 2 June 2015 14:33:18
