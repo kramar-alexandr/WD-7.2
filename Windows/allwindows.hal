@@ -6828,7 +6828,9 @@ begin
   MatCol(t,-100,"Аванс",0,DownPaidSum,false,0);
   Flip(4);
   MatCol(t=1,184,"Опис",0,Spec,false,0);
-  MatCol(t,-100,"Продавець",0,Salesmen,false,0);
+  MatCol(t,284,"Продавець",0,Salesmen,false,0);
+	MatCol(t,-145,"Гарант.",0,GarantyFor,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:39:16 PM
+	MatCol(t,-90,"Друк",0,IVPrint,true,0);
   InsertRowTest;
   DeleteRowTest;
   EndMatrix;
@@ -6901,7 +6903,8 @@ begin
   SpecialMenu("Перенести в накладну",' ',3,"IVCashToIVDsm");
   SpecialMenu("Перенести в рахунок клієнту",' ',1,"IVCashToORsm");
   SpecialMenu("Звіт сесії ЕККА",' ',1,"POSEventIVCashDsm");      
-  SpecialMenu("друк ZEBRA",'',0,"PrintIVCashZebraDsm")
+  SpecialMenu("друк етикеток ZEBRA",'',0,"PrintIVZebraDsm");
+	SpecialMenu("друк ZEBRA",'',0,"PrintIVCashZebraDsm")
 //  SpecialMenu("Pay",' ',11,"PayIVCashDsm");
     if (HasTaxMatrix) then begin
   SpecialMenu("Відкрити податкову матрицю",' ',25,"OpenVatMatrixIVCashDsm"); 
