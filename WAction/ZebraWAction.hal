@@ -147,8 +147,12 @@ begin
         addtexttoarea("A20,275,0,3,1,1,N,V03" & chr(13) & chr(10),aLabel);
         addtexttoarea("A320,275,0,2,1,1,N,V05" & chr(13) & chr(10),aLabel);
       end else begin
-        addtexttoarea("A100,275,0,4,1,1,N,V03" & chr(13) & chr(10),aLabel);
+        addtexttoarea("A100,275,0,4,1,1,N,V03" & chr(13) & chr(10),aLabel);        
       end;
+     	if(currentcompany==13)then begin
+				addtexttoarea("A10,300,0,2,1,1,N,V05" & chr(13) & chr(10),aLabel);
+     	end;
+     	
       addtexttoarea("PAV04" & chr(13) & chr(10),aLabel);
       addtexttoarea("FE" & chr(13) & chr(10),aLabel);
       addtexttoarea(chr(13) & chr(10),aLabel);
@@ -167,6 +171,9 @@ begin
           if (CurrentCompany==2 or CurrentCompany==6 or CurrentCompany==9) then begin          	
             addtexttoarea(GetDateOfSerial(newPUrw.ArtCode,newPUrw.SerialNr,PUr.TransDate) & chr(13) & chr(10),aLabel);// Edit ************************** Monday, 18 April 2016 17:41:12
           end;
+          if(currentcompany==13)then begin
+						addtexttoarea(newPUrw.POReconComment & chr(13) & chr(10),aLabel);
+					end;
           addtexttoarea(chr(13) & chr(10),aLabel);
         end;
       end;
