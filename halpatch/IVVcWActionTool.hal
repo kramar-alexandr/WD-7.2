@@ -464,19 +464,21 @@ BEGIN
     IVrw.VATCode = vatcode;
     IVrw.BasePrice = baseprice;
     IVrw.BasePriceB2 = INr.InPriceB2;
-    BlockLoad(LAccB); //Edit***************************Sasha2,14:18 22.04.2015 {
-    acccnt = MatRowCnt(LAccB);
-    for (i=0;i<acccnt;i=i+1) begin
-      MatRowGet(LAccB,i,LAccBw);
-      if (NonBlank(LAccBw.LocalMachine) and LAccBw.LocalMachine==IVr.MachineName) then begin
-        if (IVrw.Quant>=0) then begin
-          salesacc = LAccBw.SaleAcc;
-        end else begin
-          salesacc = LAccBw.RetAcc;
-        end;
-        i = acccnt;
-      end;
-    end; //Edit***************************Sasha2,14:18 22.04.2015 }
+   	if(currentcompany!=13)thn begin
+			BlockLoad(LAccB); //Edit***************************Sasha2,14:18 22.04.2015 {
+			acccnt = MatRowCnt(LAccB);
+			for (i=0;i<acccnt;i=i+1) begin
+				MatRowGet(LAccB,i,LAccBw);
+				if (NonBlank(LAccBw.LocalMachine) and LAccBw.LocalMachine==IVr.MachineName) then begin
+					if (IVrw.Quant>=0) then begin
+						salesacc = LAccBw.SaleAcc;
+					end else begin
+						salesacc = LAccBw.RetAcc;
+					end;
+					i = acccnt;
+				end;
+			end; //Edit***************************Sasha2,14:18 22.04.2015 }
+    end;
     IVrw.SalesAcc = salesacc;
     Accr.AccNumber = IVrw.SalesAcc;
     ReadFirstMain(Accr,1,true);
