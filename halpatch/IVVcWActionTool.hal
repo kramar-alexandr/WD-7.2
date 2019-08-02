@@ -464,7 +464,7 @@ BEGIN
     IVrw.VATCode = vatcode;
     IVrw.BasePrice = baseprice;
     IVrw.BasePriceB2 = INr.InPriceB2;
-   	if(currentcompany!=13)thn begin
+   	if(currentcompany!=13)then begin
 			BlockLoad(LAccB); //Edit***************************Sasha2,14:18 22.04.2015 {
 			acccnt = MatRowCnt(LAccB);
 			for (i=0;i<acccnt;i=i+1) begin
