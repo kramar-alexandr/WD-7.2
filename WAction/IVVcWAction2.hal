@@ -198,10 +198,6 @@ BEGIN
   end;
   if (wnst==insertmode) then begin
     GetWindowRecord(wn,IVCashr);
-    if (IVCashr.OKFlag!=0 and fieldname!="IVPrint" and fieldname!="GarantyFor") then begin
-      res = false;
-      goto LIVCashDClassActiveEditField;
-    end;
     if (IVCashr.Invalid!=0) then begin
       res = false;
       goto LIVCashDClassActiveEditField;
@@ -303,6 +299,11 @@ LIVCashDClassActiveEditField:;
     case "IMEI": res = true;
 		case "IVCashPrint": res = true;
   end;  //Edit***************************Sasha2,15:15 21.04.2016 }
+  
+  
+  if (fieldname=="IVPrint" and fieldname=="GarantyFor") then begin
+		res = true;
+	end;
   
   IVCashDClassActiveEditField = res;
 return;
