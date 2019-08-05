@@ -479,6 +479,7 @@ BEGIN
 				end;
 			end; //Edit***************************Sasha2,14:18 22.04.2015 }
     end;
+    logtext(0,"IVrw.SalesAcc " & IVrw.SalesAcc);
     IVrw.SalesAcc = salesacc;
     Accr.AccNumber = IVrw.SalesAcc;
     ReadFirstMain(Accr,1,true);
