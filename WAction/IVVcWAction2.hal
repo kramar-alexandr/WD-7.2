@@ -298,12 +298,9 @@ LIVCashDClassActiveEditField:;
   switch (fieldname) begin //Edit***************************Sasha2,15:15 21.04.2016 {
     case "IMEI": res = true;
 		case "IVCashPrint": res = true;
+		case "IVPrint": res = true;
+		case "GarantyFor": res = true;
   end;  //Edit***************************Sasha2,15:15 21.04.2016 }
-  
-  
-  if (fieldname=="IVPrint" or fieldname=="GarantyFor") then begin
-		res = true;
-	end;
   
   IVCashDClassActiveEditField = res;
 return;
