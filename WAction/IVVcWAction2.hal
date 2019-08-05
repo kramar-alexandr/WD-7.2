@@ -302,6 +302,10 @@ LIVCashDClassActiveEditField:;
 		case "GarantyFor": res = true;
   end;  //Edit***************************Sasha2,15:15 21.04.2016 }
   
+  
+  //IVCashDClassUpdateTest  !!!!!!!!! Look to this function
+  
+  
   IVCashDClassActiveEditField = res;
 return;
 end;
