@@ -1118,29 +1118,29 @@ mtrw = matrowcnt(IVCashr);
     testf = true;
     MatRowGet(IVCashr,i,IVCashrw);
     if (nonblank(IVCashrw.ArtCode) and IVCashrw.IVCashPrint>0) then begin
-		if(size==0 and len(IVCashrw.SerialNr)<13)then begin
-		  INr.Code = IVCashrw.ArtCode;
-		  If(readfirstmain(INr,1,true)) then begin
-			  matrowget(newIVCashr,k,newIVCashrw);
-			  newIVCashrw.ArtCode = IVCashrw.ArtCode;
-			  newIVCashrw.Spec = IVCashrw.Spec;
-			  newIVCashrw.SerialNr = IVCashrw.SerialNr;
-			  matrowput(newIVCashr,k,newIVCashrw);
-			  k=k+1;
-		  end; 
+			if(size==0 and len(IVCashrw.SerialNr)<13)then begin
+				INr.Code = IVCashrw.ArtCode;
+				If(readfirstmain(INr,1,true)) then begin
+					matrowget(newIVCashr,k,newIVCashrw);
+					newIVCashrw.ArtCode = IVCashrw.ArtCode;
+					newIVCashrw.Spec = IVCashrw.Spec;
+					newIVCashrw.SerialNr = IVCashrw.SerialNr;
+					matrowput(newIVCashr,k,newIVCashrw);
+					k=k+1;
+				end; 
+			end;
+			if(size==1 and len(IVCashrw.SerialNr)>=13)then begin
+				INr.Code = IVCashrw.ArtCode;
+				If(readfirstmain(INr,1,true)) then begin
+					matrowget(newIVCashr,k,newIVCashrw);
+					newIVCashrw.ArtCode = IVCashrw.ArtCode;
+					newIVCashrw.Spec = IVCashrw.Spec;
+					newIVCashrw.SerialNr = IVCashrw.SerialNr;
+					matrowput(newIVCashr,k,newIVCashrw);
+					k=k+1;
+				end; 
+			end;
 		end;
-		if(size==1 and len(IVCashrw.SerialNr)>=13)then begin
-		  INr.Code = IVCashrw.ArtCode;
-		  If(readfirstmain(INr,1,true)) then begin
-			  matrowget(newIVCashr,k,newIVCashrw);
-			  newIVCashrw.ArtCode = IVCashrw.ArtCode;
-			  newIVCashrw.Spec = IVCashrw.Spec;
-			  newIVCashrw.SerialNr = IVCashrw.SerialNr;
-			  matrowput(newIVCashr,k,newIVCashrw);
-			  k=k+1;
-		  end; 
-		end;
-	end;
   end;
   
   if(k>0)then begin
