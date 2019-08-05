@@ -328,15 +328,17 @@ BEGIN
            if (ReadFirstMain(WSr,1,true)) then begin
            		 IVp.TransDate = WSr.TransDate;// Edit ************************** Monday, 7 September 2015 10:33:04
            		 IVp.InvDate = WSr.TransDate;// Edit ************************** Monday, 7 September 2015 10:33:05
-             blockload(OAb); //Edit***************************Sasha2,15:01 20.06.2014
-             mtrw = matrowcnt(OAb);
-             For(j=0;j<mtrw;j=j+1) begin
-               matrowget(OAb,j,OArw);
-               if(setinset(OArw.Objects,WSr.Objects))then begin
-                 salesacc = OArw.SaleAccCode;// Edit ************************** Monday, 23 June 2014 09:57:01
-                 j = mtrw;			 
-               end;
-             end; //Edit***************************Sasha2,15:01 20.06.2014
+             if(currentcompany!=13)then begin
+							 blockload(OAb); //Edit***************************Sasha2,15:01 20.06.2014
+							 mtrw = matrowcnt(OAb);
+							 For(j=0;j<mtrw;j=j+1) begin
+								 matrowget(OAb,j,OArw);
+								 if(setinset(OArw.Objects,WSr.Objects))then begin
+									 salesacc = OArw.SaleAccCode;// Edit ************************** Monday, 23 June 2014 09:57:01
+									 j = mtrw;			 
+								 end;
+							 end; //Edit***************************Sasha2,15:01 20.06.2014
+             end;
              MatRowGet(WSr,WSIVr.Row,WSrw);
              if (SVOAb.WSHeaderObjectOnSVOIV!=0) then begin
                rowobjects = WSr.Objects;

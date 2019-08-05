@@ -147,17 +147,19 @@ BEGIN
     ORrw.BasePrice = baseprice;
     Locr.Code = ORrw.Location; //Edit***************************Sasha2,14:17 03.07.2014
     if(blank(Locr.Code))then begin Locr.Code = ORr.Location; end;// Edit ************************** Thursday, July 3, 2014 at 15:59:05
-    if (ReadFirstMain(Locr,1,true) and NonBlank(Locr.Objects)) then begin //Edit***************************Sasha2,14:17 03.07.2014
-      blockload(OAb); //Edit***************************Sasha2,13:13 27.06.2014
-        mtrw = matrowcnt(OAb);
-        For(j=0;j<mtrw;j=j+1)begin
-          matrowget(OAb,j,OArw);
-          if(setinset(OArw.Objects,Locr.Objects))then begin
-            salesacc = OArw.SaleAccCode;
-            j = mtrw;                      
-          end;
-        end; //Edit***************************Sasha2,13:13 27.06.2014
-    end; //Edit***************************Sasha2,14:23 03.07.2014
+    if(currentcompany!=13)then begin
+			if (ReadFirstMain(Locr,1,true) and NonBlank(Locr.Objects)) then begin //Edit***************************Sasha2,14:17 03.07.2014
+				blockload(OAb); //Edit***************************Sasha2,13:13 27.06.2014
+					mtrw = matrowcnt(OAb);
+					For(j=0;j<mtrw;j=j+1)begin
+						matrowget(OAb,j,OArw);
+						if(setinset(OArw.Objects,Locr.Objects))then begin
+							salesacc = OArw.SaleAccCode;
+							j = mtrw;                      
+						end;
+					end; //Edit***************************Sasha2,13:13 27.06.2014
+			end; //Edit***************************Sasha2,14:23 03.07.2014
+    end;
     ORrw.SalesAcc = salesacc;
     ORrw.ArtCode = INr.Code;
     ORrw.Objects = FindINObjects(INr.Objects,INr.Group);
@@ -676,19 +678,20 @@ BEGIN
         end;
         ORrw.VATCode = vatcode;
         Locr.Code = ORrw.Location; //Edit***************************Sasha2,14:17 03.07.2014
-        
-        if(blank(Locr.Code))then begin Locr.Code = ORp.Location; end;// Edit ************************** Thursday, July 3, 2014 at 15:59:05
-        if (ReadFirstMain(Locr,1,true) and NonBlank(Locr.Objects)) then begin //Edit***************************Sasha2,14:17 03.07.2014
-          blockload(OAb); //Edit***************************Sasha2,13:13 27.06.2014
-            mtrw = matrowcnt(OAb);
-            For(j=0;j<mtrw;j=j+1)begin
-              matrowget(OAb,j,OArw);
-              if(setinset(OArw.Objects,Locr.Objects))then begin
-                salesacc = OArw.SaleAccCode;
-                j = mtrw;                      
-              end;
-            end; //Edit***************************Sasha2,13:13 27.06.2014
-        end; //Edit***************************Sasha2,14:23 03.07.2014
+        if(currentcompany!=13)then begin
+					if(blank(Locr.Code))then begin Locr.Code = ORp.Location; end;// Edit ************************** Thursday, July 3, 2014 at 15:59:05
+					if (ReadFirstMain(Locr,1,true) and NonBlank(Locr.Objects)) then begin //Edit***************************Sasha2,14:17 03.07.2014
+						blockload(OAb); //Edit***************************Sasha2,13:13 27.06.2014
+							mtrw = matrowcnt(OAb);
+							For(j=0;j<mtrw;j=j+1)begin
+								matrowget(OAb,j,OArw);
+								if(setinset(OArw.Objects,Locr.Objects))then begin
+									salesacc = OArw.SaleAccCode;
+									j = mtrw;                      
+								end;
+							end; //Edit***************************Sasha2,13:13 27.06.2014
+					end; //Edit***************************Sasha2,14:23 03.07.2014
+        end;
         ORrw.SalesAcc = salesacc;
         ORrw.ArtCode = INr.Code;
         MatRowPut(ORp,i,ORrw);

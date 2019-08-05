@@ -392,17 +392,19 @@ begin
   string 50 lsalesacc; //Edit***************************Sasha2,8:59 20.05.2015
   
   Locr.Code = ORr.Location; //Edit***************************Sasha2,16:10 19.05.2015 {
-  if (ReadFirstMain(Locr,1,true) and NonBlank(Locr.Objects)) then begin
-    blockload(OAb);
-    rwcnt = matrowcnt(OAb);
-    For(i=0;i<rwcnt;i=i+1) begin
-      matrowget(OAb,i,OArw);
-      if(setinset(OArw.Objects,Locr.Objects))then begin
-        lsalesacc = OArw.SaleAccCode;
-        i = rwcnt;                      
-      end;
-    end; 
-  end; //Edit***************************Sasha2,16:10 19.05.2015 }
+  if(currentcompany!=13)then begin
+		if (ReadFirstMain(Locr,1,true) and NonBlank(Locr.Objects)) then begin
+			blockload(OAb);
+			rwcnt = matrowcnt(OAb);
+			For(i=0;i<rwcnt;i=i+1) begin
+				matrowget(OAb,i,OArw);
+				if(setinset(OArw.Objects,Locr.Objects))then begin
+					lsalesacc = OArw.SaleAccCode;
+					i = rwcnt;                      
+				end;
+			end; 
+		end; //Edit***************************Sasha2,16:10 19.05.2015 }
+  end;
   if (rownr<0) then begin
     rwcnt = MatRowCnt(ORr);
     for (i=0;i<rwcnt;i=i+1) begin

@@ -452,15 +452,17 @@ begin
   		//ReadFirstMain(SVOr,1,true); 
   		DoGetCurUser(USr);
   		WSr.Objects = Locationr.Objects & "," & USr.PersObjx;   		
-  	  blockload(OAb);                                                    
-	    mtrw = matrowcnt(OAb);
-	    For(j=0;j<mtrw;j=j+1)begin
-	      matrowget(OAb,j,OArw);
-	      if(setinset(OArw.Objects,WSr.Objects))then begin
-	        costacc = OArw.AccCode;
-	        salesacc = OArw.SaleAccCode;
-	        j = mtrw;                      
-	      end;
+  	  if(currentcompany!=13)then begin
+				blockload(OAb);                                                    
+				mtrw = matrowcnt(OAb);
+				For(j=0;j<mtrw;j=j+1)begin
+					matrowget(OAb,j,OArw);
+					if(setinset(OArw.Objects,WSr.Objects))then begin
+						costacc = OArw.AccCode;
+						salesacc = OArw.SaleAccCode;
+						j = mtrw;                      
+					end;
+				end;
 	    end;
 
   		WSr.CostAcc = costacc;

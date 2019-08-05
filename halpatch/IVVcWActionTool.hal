@@ -305,19 +305,21 @@ BEGIN
                             exportflag,calcprice,IVr.TransDate,IVr.TransTime,IVr.CustCode,true,dummyf,IVr.PayDeal,
                             tax2code,tax2prc,IVr.Region,location,dummystr)) then begin
     IVrw.ArtCode = INr.Code;
-    BlockLoad(LAccB); //Edit***************************Sasha2,14:18 22.04.2015 {
-    acccnt = MatRowCnt(LAccB);
-    for (i=0;i<acccnt;i=i+1) begin
-      MatRowGet(LAccB,i,LAccBw);
-      if (NonBlank(LAccBw.LocalMachine) and LAccBw.LocalMachine==IVr.MachineName) then begin
-        if (IVrw.Quant>=0) then begin
-          IVrw.SalesAcc = LAccBw.SaleAcc;
-        end else begin
-          IVrw.SalesAcc = LAccBw.RetAcc;
-        end;
-        i = acccnt;
-      end;
-    end; //Edit***************************Sasha2,14:18 22.04.2015 }
+    if(currentcompany!=13)then begin
+			BlockLoad(LAccB); //Edit***************************Sasha2,14:18 22.04.2015 {
+			acccnt = MatRowCnt(LAccB);
+			for (i=0;i<acccnt;i=i+1) begin
+				MatRowGet(LAccB,i,LAccBw);
+				if (NonBlank(LAccBw.LocalMachine) and LAccBw.LocalMachine==IVr.MachineName) then begin
+					if (IVrw.Quant>=0) then begin
+						IVrw.SalesAcc = LAccBw.SaleAcc;
+					end else begin
+						IVrw.SalesAcc = LAccBw.RetAcc;
+					end;
+					i = acccnt;
+				end;
+			end; //Edit***************************Sasha2,14:18 22.04.2015 }
+    end;
     if (nonblank(IVrw.ArtCode)) and (INr.SerNrf==1) then begin
       if (BulkSerialNos_CalculateQuantityAndSerialNr(SNrb,false,IVrw.ArtCode,IVrw.SerialNr,IVrw.Quant)) then begin
         MatRowPut(IVr,rownr,IVrw);
