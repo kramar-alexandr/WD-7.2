@@ -2744,6 +2744,15 @@ begin
   	res = true;
   	goto LIVCashDClassUpdateTest;
   end;
+  if(WindowActiveField(wn)=="IVPrint")then begin
+  	res = true;
+  	goto LIVCashDClassUpdateTest;
+  end;
+  if(WindowActiveField(wn)=="GarantyFor")then begin
+  	res = true;
+  	goto LIVCashDClassUpdateTest;
+  end;
+  
   res = IVCashr.OKFlag==0;
   if(currentuser=="POSSRV")then begin
     res = true;
