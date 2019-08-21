@@ -1092,7 +1092,7 @@ begin
 		outstring(tab[1],0,"№ чека",false);			
 		outstring(tab[2],0,"Дата",false);
 		outstring(tab[3],0,"Продавець",false);
-		outstring(tab[4],0,"ФІО продавця",false);
+		//outstring(tab[4],0,"ФІО продавця",false);
 		outstring(tab[5],0,"Код товара",false);
 		outstring(tab[6],0,"Назва товара",false);
 		outstring(tab[7],0,"Сума",false);
@@ -1110,7 +1110,7 @@ begin
 		if(testf)then begin
 			TOTAL = TOTAL + IVCashr.Sum4;
 			Userr.Code = IVCashr.SalesMan;
-			readfirstmain(Userr,1,true);
+			//readfirstmain(Userr,1,true);
 			mtrw = matrowcnt(IVCashr);
 			
 			for(i=0;i<mtrw;i=i+1)begin
@@ -1120,7 +1120,7 @@ begin
 						outstring(tab[1],0,IVCashr.SerNr,false);			
 						outstring(tab[2],0,IVCashr.InvDate",false);
 						outstring(tab[3],0,IVCashr.SalesMan,false);
-						outstring(tab[4],0,Userr.Name,false);
+						//outstring(tab[4],0,Userr.Name,false);
 						outstring(tab[5],0,IVCashrw.ArtCode,false);
 						outstring(tab[6],0,IVCashrw.Spec,false);
 						outstring(tab[7],0,IVCashrw.Sum,true);
@@ -1133,9 +1133,7 @@ begin
 		outstring(0,0,"",false);
 		outstring(0,0,"",false);			
 		outstring(0,0,"",false);			
-		outstring(0,0,"",false);			
-		outstring(0,0,"",false);						
-		outstring(0,0,"",false);				
+//		outstring(0,0,"",false);				
 		outstring(tab[5],0,"Всього за період з " & RepSpec.sStartDate & " по " & RepSpec.sStartDate,false);
 		outstring(tab[6],0,TOTAL,false);
 		outstring(tab[7],0,"UAH",true);
