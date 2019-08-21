@@ -691,9 +691,9 @@ begin
 				end;
 				
 				if(blank(user))then begin
-					user = "SA";
+					user = "SA1";
 				end else begin
-					user = user & "," & "SA";
+					user = user & "," & "SA1";
 				end;
 				
 				logtext(0,"externalNumber " & BECr.externalNumber);
