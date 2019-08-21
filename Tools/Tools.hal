@@ -1,6 +1,7 @@
 external updating procedure AddTextToNote(var record NotepadVc,string);
 external procedure SalesReportAccRn(record RcVc);
 external procedure SalesReportIVCashRn(record RcVc);
+external procedure SalesReportIVRn(record RcVc);
 external function boolean MySendWebRequest(string,integer,longint,boolean,string,string,string,string,boolean,area,var area,integer);
 
 global
@@ -864,41 +865,74 @@ record IVVc IVr;
 	
 	i = 0;
 	
-	
 	//setexportcodepage("Windows1251");
-	Delete_File("Stock/SalesGroup.txt");
-		if (OpenExportFile("Stock/SalesGroup.txt",true)) then begin
-			logtext(0,"Stock/SalesGroup");
-			RepSpec.sStartDate = currentdate;
-			RepSpec.sEndDate = currentdate;
-			RepSpec.Media=mtFile;
-			startformat(15);
-			OutString(0,0,"------------------------",false);
-			endformat;
-			startformat(15);
-			endformat;
-			SalesReportIVCashRn(RepSpec);
-			CloseFile;
-		end;		
-		
-							
-			setareazerosize(request);
-			addtexttoarea("{",request);
-			addtexttoarea("\"host\":\"smtp.gmail.com\",",request);
-			addtexttoarea("\"port\":465,",request);
-			addtexttoarea("\"secure\":true,",request);
-			addtexttoarea("\"user\":\"aservice.report@gmail.com\",",request);
-			addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
-			addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
-			addtexttoarea("\"to\":\"" & "kramar.alexandr@gmail.com" & "\",",request);
-			addtexttoarea("\"subject\":\"" & "Sales Report iStore.UA" & " " & CurrentDate & "\",",request);
-			addtexttoarea("\"plaintext\":\"notblank\",",request);
-							
-			//addtexttoarea("\"filename\":\"SalesGroup" & keys[j] & ".txt"& "\",",request);
-			addtexttoarea("\"path\":\"/usr/local/bin/HW7.2Server/Stock/" & "SalesGroup.txt" & "\"",request);
-			addtexttoarea("}",request);
+	Delete_File("Stock/SalesPOS.txt");
+	if (OpenExportFile("Stock/SalesPOS.txt",true)) then begin
+		logtext(0,"Stock/SalesPOS");
+		RepSpec.sStartDate = currentdate;
+		RepSpec.sEndDate = currentdate;
+		RepSpec.Media=mtFile;
+		startformat(15);
+		OutString(0,0,"------------------------",false);
+		endformat;
+		startformat(15);
+		endformat;
+		SalesReportIVCashRn(RepSpec);
+		CloseFile;
+	end;		
+	
+	setareazerosize(request);
+	addtexttoarea("{",request);
+	addtexttoarea("\"host\":\"smtp.gmail.com\",",request);
+	addtexttoarea("\"port\":465,",request);
+	addtexttoarea("\"secure\":true,",request);
+	addtexttoarea("\"user\":\"aservice.report@gmail.com\",",request);
+	addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
+	addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
+	addtexttoarea("\"to\":\"" & "kramar.alexandr@gmail.com" & "\",",request);
+	addtexttoarea("\"subject\":\"" & "Store Naberezhnaya_iStore.UA" & " " & CurrentDate & "\",",request);
+	addtexttoarea("\"plaintext\":\"notblank\",",request);
+					
+	//addtexttoarea("\"filename\":\"SalesGroup" & keys[j] & ".txt"& "\",",request);
+	addtexttoarea("\"path\":\"/usr/local/bin/HW7.2Server/Stock/" & "SalesPOS.txt" & "\"",request);
+	addtexttoarea("}",request);
 
-			MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
+	MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
+	
+	
+	
+	Delete_File("Stock/SalesIV.txt");
+	if (OpenExportFile("Stock/SalesIV.txt",true)) then begin
+		logtext(0,"Stock/SalesIV");
+		RepSpec.sStartDate = currentdate;
+		RepSpec.sEndDate = currentdate;
+		RepSpec.Media=mtFile;
+		startformat(15);
+		OutString(0,0,"------------------------",false);
+		endformat;
+		startformat(15);
+		endformat;
+		SalesReportIVRn(RepSpec);
+		CloseFile;
+	end;		
+	
+	setareazerosize(request);
+	addtexttoarea("{",request);
+	addtexttoarea("\"host\":\"smtp.gmail.com\",",request);
+	addtexttoarea("\"port\":465,",request);
+	addtexttoarea("\"secure\":true,",request);
+	addtexttoarea("\"user\":\"aservice.report@gmail.com\",",request);
+	addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
+	addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
+	addtexttoarea("\"to\":\"" & "kramar.alexandr@gmail.com" & "\",",request);
+	addtexttoarea("\"subject\":\"" & "Internet_iStore.UA" & " " & CurrentDate & "\",",request);
+	addtexttoarea("\"plaintext\":\"notblank\",",request);
+					
+	//addtexttoarea("\"filename\":\"SalesGroup" & keys[j] & ".txt"& "\",",request);
+	addtexttoarea("\"path\":\"/usr/local/bin/HW7.2Server/Stock/" & "SalesIV.txt" & "\"",request);
+	addtexttoarea("}",request);
+
+	MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
 
 	
 	setfileonserver(false);

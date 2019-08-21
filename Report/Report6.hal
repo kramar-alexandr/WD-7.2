@@ -1148,3 +1148,87 @@ begin
 	endjob;
 return;
 end;
+
+global procedure SalesReportIVRn(record RcVc RepSpec)//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 11:42 11.01.2019
+begin
+	record IVVc IVcashr;
+	row IVVc IVCashrw;
+	boolean TrHs,testf;
+	val sum;
+	integer keys,mtrw,i;
+	record UserVc Userr;
+	array integer tab;
+	val TOTAL;
+	
+	TOTAL = 0;
+	tab[1] = 0;
+	tab[2] = 45;
+	tab[3] = 90;
+	tab[4] = 135;
+	tab[5] = 250;
+	tab[6] = 320;
+	tab[7] = 1;
+
+	startreportnoheaderjob("Звіт по продажам iStore.UA");
+	
+	StartFormat(15);
+		outstring(tab[1],0,"№ чека",false);			
+		outstring(tab[2],0,"Дата",false);
+		outstring(tab[3],0,"Продавець",false);
+		//outstring(tab[4],0,"ФІО продавця",false);
+		outstring(tab[5],0,"Код товара",false);
+		outstring(tab[6],0,"Назва товара",false);
+		outstring(tab[7],0,"Сума",false);
+	endformat;
+	
+	logtext(0,"SalesReportIVCashRn");
+
+	IVCashr.TransDate = RepSpec.sStartDate;
+	TrHs = true;
+	while (loopkey("InvDate",IVCashr,1,TrHs))begin
+		testf = true;
+		if(nonblankdate(RepSpec.sStartDate) and IVCashr.InvDate<RepSpec.sStartDate)then begin testf = false; end;
+		if(nonblankdate(RepSpec.sEndDate) and IVCashr.InvDate>RepSpec.sEndDate)then begin testf = false; TrHs = false; end;
+		if(IVCashr.OKFlag!=1)then begin testf = false; end;
+		if(IVCashr.OrderNr==-1)then begin testf = false; end;
+		
+		if(testf)then begin
+			TOTAL = TOTAL + IVCashr.Sum4;
+			Userr.Code = IVCashr.SalesMan;
+			//readfirstmain(Userr,1,true);
+			mtrw = matrowcnt(IVCashr);
+			
+			for(i=0;i<mtrw;i=i+1)begin
+				matrowget(IVCashr,i,IVCashrw);
+				if(IVCashrw.stp==1)then begin
+					StartFormat(15);
+						logtext(0,IVCashrw.ArtCode);
+						outstring(tab[1],0,IVCashr.SerNr,false);			
+						outstring(tab[2],0,IVCashr.InvDate",false);
+						outstring(tab[3],0,IVCashr.SalesMan,false);
+						//outstring(tab[4],0,Userr.Name,false);
+						outstring(tab[5],0,IVCashrw.ArtCode,false);
+						outstring(tab[6],0,IVCashrw.Spec,false);
+						outstring(tab[7],0,IVCashrw.Sum,true);
+					endformat;						
+				end;
+			end;
+		end;
+	end;
+	StartFormat(15);
+		outstring(0,0,"",false);
+		outstring(0,0,"",false);			
+		outstring(0,0,"",false);			
+//		outstring(0,0,"",false);				
+		outstring(tab[5],0,"Всього за період з " & RepSpec.sStartDate & " по " & RepSpec.sStartDate,false);
+		outstring(tab[6],0,TOTAL,false);
+		outstring(tab[7],0,"UAH",true);
+	endformat;
+	StartFormat(15);
+		Black_Divider(0,1);
+	endformat;
+	
+	
+	endjob;
+return;
+end;
