@@ -865,7 +865,7 @@ record IVVc IVr;
 	
 	//setexportcodepage("Windows1251");
 	Delete_File("Stock/SalesGroup.txt");
-		if (OpenExportFile("Stock/SalesGroup.txt", true)) then begin
+		if (OpenExportFile("Stock/SalesGroup.txt",true)) then begin
 			logtext(0,"Stock/SalesGroup");
 			RepSpec.sStartDate = currentdate;
 			RepSpec.sEndDate = currentdate;
@@ -876,8 +876,9 @@ record IVVc IVr;
 			startformat(15);
 			endformat;
 			SalesReportIVCashRn(RepSpec);
+			CloseFile;
 		end;		
-		CloseFile;
+		
 							
 			setareazerosize(request);
 			addtexttoarea("{",request);

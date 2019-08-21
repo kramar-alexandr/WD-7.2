@@ -1098,6 +1098,7 @@ begin
 		outstring(tab[7],0,"‘ума",false);
 	endformat;
 	
+	logtext(0,"SalesReportIVCashRn");
 
 	IVCashr.TransDate = RepSpec.sStartDate;
 	TrHs = true;
