@@ -1,5 +1,6 @@
 external updating procedure AddTextToNote(var record NotepadVc,string);
 external procedure SalesReportAccRn(record RcVc);
+external procedure SalesReportIVCashRn(record RcVc);
 external function boolean MySendWebRequest(string,integer,longint,boolean,string,string,string,string,boolean,area,var area,integer);
 
 global
@@ -860,52 +861,21 @@ record IVVc IVr;
 	setfileonserver(true);
 	
 	i = 0;
-	RepSpec.sStartDate = currentdate;
-	IVr.TransDate = RepSpec.sStartDate;
-	TrHs = true;
-	while (loopkey("TransDate",IVr,1,TrHs))begin
-		testf = true;
-		if(nonblankdate(RepSpec.sStartDate) and IVr.TransDate<RepSpec.sStartDate)then begin testf = false; end;
-		if(IVr.OKFlag!=1)then begin testf = false; end;
-		if(IVr.OrderNr!=-1)then begin testf = false; end;
-		if(IVr.SVONr!=-1)then begin testf = false; end;
-		if(IVr.InvType==3)then begin testf = false; end;
-		
-		if(testf) then begin
-			if(nonblank(IVr.SalesGroup)) then begin
-				if(blank(salesgroup[IVr.SalesGroup])) then begin
-					salesgroup[IVr.SalesGroup] = IVr.SalesGroup;					
-					keys[i] = IVr.SalesGroup;
-					SGr.SGroupCode = keys[i];
-					if(readfirstmain(SGr,1,true)) then begin
-						names[keys[i]] = SGr.SGroupName;
-					end;
-					i=i+1;
-				end;	
-			end;	
-		end;
-	end;	
+	
+	
 	//setexportcodepage("Windows1251");
 	Delete_File("Stock/SalesGroup.txt");
-		for(j=0;j<keys.length;j=j+1) begin
-			if (OpenExportFile("Stock/SalesGroup.txt", true)) then begin
-				logtext(0,"Stock/SalesGroup" & keys[j]);
-				RepSpec.flags[2]=0;
-				RepSpec.Media=mtFile;
-				RepSpec.f2 = keys[j];
-				RepSpec.ArtMode = 1;
-				startformat(15);
-				OutString(0,0,"------------------------",false);
-				endformat;
-				startformat(15);
-				OutString(0,0,names[keys[j]],false);
-				OutString(0,0,keys[j],false);
-				endformat;
-				startformat(15);
-				endformat;
-				SalesReportAccRn(RepSpec);
-			end;		
-		end;			
+		if (OpenExportFile("Stock/SalesGroup.txt", true)) then begin
+			logtext(0,"Stock/SalesGroup");
+			RepSpec.sStartDate = currentdate;
+			RepSpec.sEndDate = currentdate;
+			startformat(15);
+			OutString(0,0,"------------------------",false);
+			endformat;
+			startformat(15);
+			endformat;
+			SalesReportIVCashRn(RepSpec);
+		end;		
 		CloseFile;
 							
 			setareazerosize(request);
@@ -917,7 +887,7 @@ record IVVc IVr;
 			addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
 			addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
 			addtexttoarea("\"to\":\"" & "kramar.alexandr@gmail.com" & "\",",request);
-			addtexttoarea("\"subject\":\"" & USetStr(31101) & " " & CurrentDate & "\",",request);
+			addtexttoarea("\"subject\":\"" & "Sales Report iStore.UA" & " " & CurrentDate & "\",",request);
 			addtexttoarea("\"plaintext\":\"notblank\",",request);
 							
 			//addtexttoarea("\"filename\":\"SalesGroup" & keys[j] & ".txt"& "\",",request);
