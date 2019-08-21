@@ -1082,17 +1082,10 @@ begin
 	tab[2] = 45;
 	tab[3] = 90;
 	tab[4] = 135;
-	tab[5] = 195;
-	tab[6] = 240;
-	tab[7] = 285;
-	tab[8] = 350;
-	tab[9] = 405;
-	tab[10] = 430;
-	tab[11] = 365;
-	tab[12] = 410;
-	tab[13] = 430;
-	tab[14] = 450;
-	tab[15] = 460;
+	tab[5] = 250;
+	tab[6] = 320;
+	tab[7] = 1;
+
 	startreportnoheaderjob("Звіт по продажам iStore.UA");
 	
 	StartFormat(15);
@@ -1130,7 +1123,7 @@ begin
 						outstring(tab[4],0,Userr.Name,false);
 						outstring(tab[5],0,IVCashrw.ArtCode,false);
 						outstring(tab[6],0,IVCashrw.Spec,false);
-						outstring(tab[7],0,IVCashrw.Sum,false);
+						outstring(tab[7],0,IVCashrw.Sum,true);
 					endformat;						
 				end;
 			end;
@@ -1144,8 +1137,8 @@ begin
 		outstring(0,0,"",false);						
 		outstring(0,0,"",false);				
 		outstring(tab[5],0,"Всього за період з " & RepSpec.sStartDate & " по " & RepSpec.sStartDate,false);
-		outstring(tab[8],0,TOTAL,false);
-		outstring(tab[9],0,"UAH",false);
+		outstring(tab[6],0,TOTAL,false);
+		outstring(tab[7],0,"UAH",true);
 	endformat;
 	StartFormat(15);
 		Black_Divider(0,1);
