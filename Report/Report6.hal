@@ -1117,6 +1117,7 @@ begin
 				matrowget(IVCashr,i,IVCashrw);
 				if(IVCashrw.stp==1)then begin
 					StartFormat(15);
+						logtext(0,IVCashrw.ArtCode);
 						outstring(tab[1],0,IVCashr.SerNr,false);			
 						outstring(tab[2],0,IVCashr.InvDate",false);
 						outstring(tab[3],0,IVCashr.SalesMan,false);
