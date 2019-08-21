@@ -869,6 +869,7 @@ record IVVc IVr;
 			logtext(0,"Stock/SalesGroup");
 			RepSpec.sStartDate = currentdate;
 			RepSpec.sEndDate = currentdate;
+			RepSpec.Media = mtExcel;
 			startformat(15);
 			OutString(0,0,"------------------------",false);
 			endformat;
