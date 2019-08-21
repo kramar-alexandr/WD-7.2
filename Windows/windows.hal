@@ -2234,3 +2234,13 @@ begin
   SearchField("Пошук");
   EndWindow;
 end;
+
+window SalesReportAccRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	real h,v,vm,vs,t;
+  WindowBegin("Звіт по продажам eMail",SalesReportAccRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    PeriodField(h,20,"Період");
+  EndWindow;  
+end;
