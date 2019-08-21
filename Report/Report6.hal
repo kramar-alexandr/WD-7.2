@@ -1095,8 +1095,10 @@ begin
 		outstring(tab[2],0,"Дата",false);
 		outstring(tab[3],0,"Продавець",false);
 		//outstring(tab[4],0,"ФІО продавця",false);
-		outstring(tab[5],0,"Код товара",false);
-		outstring(tab[6],0,"Назва товара",false);
+		outstring(tab[5],0,"Код товара          ",false);
+		tstr = "Назва товара";
+		M4PadString(tstr,70," ",false,tstr);	
+		outstring(tab[6],0,tstr,false);
 		outstring(tab[7],0,"Сума",false);
 	endformat;
 	
@@ -1127,14 +1129,14 @@ begin
 						M4PadString(tstr,10," ",false,tstr);	
 						outstring(tab[2],0,tstr,false);
 						tstr = IVCashr.SalesMan;
-						M4PadString(tstr,21," ",false,tstr);	
+						M4PadString(tstr,11," ",false,tstr);	
 						outstring(tab[3],0,tstr,false);
 						//outstring(tab[4],0,Userr.Name,false);
 						tstr = IVCashrw.ArtCode;
 						M4PadString(tstr,21," ",false,tstr);	
 						outstring(tab[5],0,tstr,false);
 						tstr = IVCashrw.Spec;
-						M4PadString(tstr,101," ",false,tstr);
+						M4PadString(tstr,71," ",false,tstr);
 						outstring(tab[6],0,tstr,false);
 						tstr = IVCashrw.Sum;
 						M4PadString(tstr,7," ",false,tstr);
@@ -1192,8 +1194,10 @@ begin
 		outstring(tab[2],0,"Дата",false);
 		outstring(tab[3],0,"Продавець",false);
 		//outstring(tab[4],0,"ФІО продавця",false);
-		outstring(tab[5],0,"Код товара",false);
-		outstring(tab[6],0,"Назва товара",false);
+		outstring(tab[5],0,"Код товара          ",false);
+		tstr = "Назва товара";
+		M4PadString(tstr,70," ",false,tstr);	
+		outstring(tab[6],0,tstr,false);
 		outstring(tab[7],0,"Сума",false);
 	endformat;
 	
@@ -1225,14 +1229,14 @@ begin
 						M4PadString(tstr,10," ",false,tstr);	
 						outstring(tab[2],0,tstr,false);
 						tstr = IVCashr.SalesMan;
-						M4PadString(tstr,21," ",false,tstr);	
+						M4PadString(tstr,11," ",false,tstr);	
 						outstring(tab[3],0,tstr,false);
 						//outstring(tab[4],0,Userr.Name,false);
 						tstr = IVCashrw.ArtCode;
 						M4PadString(tstr,21," ",false,tstr);	
 						outstring(tab[5],0,tstr,false);
 						tstr = IVCashrw.Spec;
-						M4PadString(tstr,101," ",false,tstr);
+						M4PadString(tstr,71," ",false,tstr);
 						outstring(tab[6],0,tstr,false);
 						tstr = IVCashrw.Sum;
 						M4PadString(tstr,7," ",false,tstr);
