@@ -841,7 +841,7 @@ begin
 return;
 end;
 
-global procedure GenRnForMail()
+global webpublic procedure WebGenRnForMail()
 begin
 record RcVc RepSpec;
 record IVVc IVr;
@@ -857,6 +857,8 @@ record IVVc IVr;
 	array string 100 names;
 	area request,reply;
 	record SalesGroupVc SGr;
+	
+	setcompany(13,false);
 	
 	setfileonserver(true);
 	
