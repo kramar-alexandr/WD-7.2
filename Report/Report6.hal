@@ -1116,7 +1116,7 @@ begin
 			
 			for(i=0;i<mtrw;i=i+1)begin
 				matrowget(IVCashr,i,IVCashrw);
-				if(IVCashrw.stp==1)then begin
+				if(IVCashrw.stp==1 and nonblank(IVCashrw.ArtCode))then begin
 					StartFormat(15);
 						logtext(0,IVCashrw.ArtCode);
 						outstring(tab[1],0,IVCashr.SerNr,false);			
@@ -1200,7 +1200,7 @@ begin
 			
 			for(i=0;i<mtrw;i=i+1)begin
 				matrowget(IVCashr,i,IVCashrw);
-				if(IVCashrw.stp==1)then begin
+				if(IVCashrw.stp==1 and nonblank(IVCashrw.ArtCode))then begin
 					StartFormat(15);
 						logtext(0,IVCashrw.ArtCode);
 						outstring(tab[1],0,IVCashr.SerNr,false);			
