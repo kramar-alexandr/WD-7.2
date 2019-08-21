@@ -1174,6 +1174,7 @@ begin
 	record UserVc Userr;
 	array integer tab;
 	val TOTAL;
+	string 200 tstr;
 	
 	TOTAL = 0;
 	tab[1] = 0;
