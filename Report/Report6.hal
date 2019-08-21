@@ -1,5 +1,6 @@
 external procedure ExtractObj(string,var Integer,var string);
 external function LongInt CountWorkingDays(Date,Date,string,string);// Edit ************************** Friday, 2 December 2016 10:19:42
+external procedure M4PadString(string,Integer,string,Boolean,var string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -1076,6 +1077,7 @@ begin
 	record UserVc Userr;
 	array integer tab;
 	val TOTAL;
+	string 200 tstr;
 	
 	TOTAL = 0;
 	tab[1] = 0;
@@ -1118,19 +1120,32 @@ begin
 				matrowget(IVCashr,i,IVCashrw);
 				if(IVCashrw.stp==1 and nonblank(IVCashrw.ArtCode))then begin
 					StartFormat(15);
-						logtext(0,IVCashrw.ArtCode);
-						outstring(tab[1],0,IVCashr.SerNr,false);			
-						outstring(tab[2],0,IVCashr.InvDate",false);
-						outstring(tab[3],0,IVCashr.SalesMan,false);
+						tstr = IVCashr.SerNr;
+						M4PadString(tstr,7," ",true,tstr);
+						outstring(tab[1],0,tstr,false);		
+						tstr = IVCashr.InvDate;
+						M4PadString(tstr,10," ",true,tstr);	
+						outstring(tab[2],0,tstr,false);
+						tstr = IVCashr.SalesMan;
+						M4PadString(tstr,21," ",true,tstr);	
+						outstring(tab[3],0,tstr,false);
 						//outstring(tab[4],0,Userr.Name,false);
-						outstring(tab[5],0,IVCashrw.ArtCode,false);
-						outstring(tab[6],0,IVCashrw.Spec,false);
-						outstring(tab[7],0,IVCashrw.Sum,true);
+						tstr = IVCashrw.ArtCode;
+						M4PadString(tstr,21," ",true,tstr);	
+						outstring(tab[5],0,tstr,false);
+						tstr = IVCashrw.Spec;
+						M4PadString(tstr,101," ",true,tstr);
+						outstring(tab[6],0,tstr,false);
+						tstr = IVCashrw.Sum;
+						M4PadString(tstr,7," ",true,tstr);
+						outstring(tab[7],0,tstr,true);
 					endformat;						
 				end;
 			end;
 		end;
 	end;
+	StartFormat(15);
+	endformat;
 	StartFormat(15);
 		outstring(0,0,"",false);
 		outstring(0,0,"",false);			
@@ -1202,19 +1217,32 @@ begin
 				matrowget(IVCashr,i,IVCashrw);
 				if(IVCashrw.stp==1 and nonblank(IVCashrw.ArtCode))then begin
 					StartFormat(15);
-						logtext(0,IVCashrw.ArtCode);
-						outstring(tab[1],0,IVCashr.SerNr,false);			
-						outstring(tab[2],0,IVCashr.InvDate",false);
-						outstring(tab[3],0,IVCashr.SalesMan,false);
+						tstr = IVCashr.SerNr;
+						M4PadString(tstr,7," ",true,tstr);
+						outstring(tab[1],0,tstr,false);		
+						tstr = IVCashr.InvDate;
+						M4PadString(tstr,10," ",true,tstr);	
+						outstring(tab[2],0,tstr,false);
+						tstr = IVCashr.SalesMan;
+						M4PadString(tstr,21," ",true,tstr);	
+						outstring(tab[3],0,tstr,false);
 						//outstring(tab[4],0,Userr.Name,false);
-						outstring(tab[5],0,IVCashrw.ArtCode,false);
-						outstring(tab[6],0,IVCashrw.Spec,false);
-						outstring(tab[7],0,IVCashrw.Sum,true);
+						tstr = IVCashrw.ArtCode;
+						M4PadString(tstr,21," ",true,tstr);	
+						outstring(tab[5],0,tstr,false);
+						tstr = IVCashrw.Spec;
+						M4PadString(tstr,101," ",true,tstr);
+						outstring(tab[6],0,tstr,false);
+						tstr = IVCashrw.Sum;
+						M4PadString(tstr,7," ",true,tstr);
+						outstring(tab[7],0,tstr,true);
 					endformat;						
 				end;
 			end;
 		end;
 	end;
+	StartFormat(15);
+	endformat;
 	StartFormat(15);
 		outstring(0,0,"",false);
 		outstring(0,0,"",false);			
