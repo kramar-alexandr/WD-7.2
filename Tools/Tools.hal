@@ -1,4 +1,6 @@
 external updating procedure AddTextToNote(var record NotepadVc,string);
+external procedure SalesReportAccRn(record RcVc);
+external function boolean MySendWebRequest(string,integer,longint,boolean,string,string,string,string,boolean,area,var area,integer);
 
 global
 updating procedure CleaningMn()
@@ -835,5 +837,96 @@ begin
 		res = User.ServDays;
 	end;
 	ExpiredMoveForServDays = res;
+return;
+end;
+
+global procedure GenRnForMail()
+begin
+record RcVc RepSpec;
+record IVVc IVr;
+	row IVVc IVrw;
+	boolean TrHs,testf;
+	val sum;
+	integer mtrw,i,j;
+	record UserVc Userr;
+	array integer tab;
+	val TOTAL;
+	vector string 100 salesgroup;
+	array string 100 keys;
+	array string 100 names;
+	area request,reply;
+	record SalesGroupVc SGr;
+	
+	setfileonserver(true);
+	
+	i = 0;
+	RepSpec.sStartDate = currentdate;
+	IVr.TransDate = RepSpec.sStartDate;
+	TrHs = true;
+	while (loopkey("TransDate",IVr,1,TrHs))begin
+		testf = true;
+		if(nonblankdate(RepSpec.sStartDate) and IVr.TransDate<RepSpec.sStartDate)then begin testf = false; end;
+		if(IVr.OKFlag!=1)then begin testf = false; end;
+		if(IVr.OrderNr!=-1)then begin testf = false; end;
+		if(IVr.SVONr!=-1)then begin testf = false; end;
+		if(IVr.InvType==3)then begin testf = false; end;
+		
+		if(testf) then begin
+			if(nonblank(IVr.SalesGroup)) then begin
+				if(blank(salesgroup[IVr.SalesGroup])) then begin
+					salesgroup[IVr.SalesGroup] = IVr.SalesGroup;					
+					keys[i] = IVr.SalesGroup;
+					SGr.SGroupCode = keys[i];
+					if(readfirstmain(SGr,1,true)) then begin
+						names[keys[i]] = SGr.SGroupName;
+					end;
+					i=i+1;
+				end;	
+			end;	
+		end;
+	end;	
+	//setexportcodepage("Windows1251");
+	Delete_File("Stock/SalesGroup.txt");
+		for(j=0;j<keys.length;j=j+1) begin
+			if (OpenExportFile("Stock/SalesGroup.txt", true)) then begin
+				logtext(0,"Stock/SalesGroup" & keys[j]);
+				RepSpec.flags[2]=0;
+				RepSpec.Media=mtFile;
+				RepSpec.f2 = keys[j];
+				RepSpec.ArtMode = 1;
+				startformat(15);
+				OutString(0,0,"------------------------",false);
+				endformat;
+				startformat(15);
+				OutString(0,0,names[keys[j]],false);
+				OutString(0,0,keys[j],false);
+				endformat;
+				startformat(15);
+				endformat;
+				SalesReportAccRn(RepSpec);
+			end;		
+		end;			
+		CloseFile;
+							
+			setareazerosize(request);
+			addtexttoarea("{",request);
+			addtexttoarea("\"host\":\"smtp.gmail.com\",",request);
+			addtexttoarea("\"port\":465,",request);
+			addtexttoarea("\"secure\":true,",request);
+			addtexttoarea("\"user\":\"aservice.report@gmail.com\",",request);
+			addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
+			addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
+			addtexttoarea("\"to\":\"" & "kramar.alexandr@gmail.com" & "\",",request);
+			addtexttoarea("\"subject\":\"" & USetStr(31101) & " " & CurrentDate & "\",",request);
+			addtexttoarea("\"plaintext\":\"notblank\",",request);
+							
+			//addtexttoarea("\"filename\":\"SalesGroup" & keys[j] & ".txt"& "\",",request);
+			addtexttoarea("\"path\":\"/usr/local/bin/StandardERPServer/Stock/" & "SalesGroup.txt" & "\"",request);
+			addtexttoarea("}",request);
+
+			MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
+
+	
+	setfileonserver(false);
 return;
 end;

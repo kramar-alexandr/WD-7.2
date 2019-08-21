@@ -4971,7 +4971,11 @@ RecordBegin(BinotelCallEndVc,-,"");//Edit-------------------Vitalii 17:10 03.11.
 		RecordField(ApiKey,M4Str,100,0);
 		RecordField(ApiSecret,M4Str,100,0);
 	EndBlock;
-
+	
+	BlockBegin(DateRnBlock,-,"");
+		RecordField(DateRn,M4Date,0,0);
+	EndBlock;
+	
 return;
 end;
 	
