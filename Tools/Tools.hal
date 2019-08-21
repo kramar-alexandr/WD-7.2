@@ -889,7 +889,7 @@ record IVVc IVr;
 	addtexttoarea("\"user\":\"aservice.report@gmail.com\",",request);
 	addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
 	addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
-	addtexttoarea("\"to\":\"" & "kramar.alexandr@gmail.com" & "\",",request);
+	addtexttoarea("\"to\":\"" & "dv@a-service.in.ua,finance@istore.solutions,kramar.alexandr@gmail.com" & "\",",request);
 	addtexttoarea("\"subject\":\"" & "Store Naberezhnaya_iStore.UA" & " " & CurrentDate & "\",",request);
 	addtexttoarea("\"plaintext\":\"notblank\",",request);
 					
@@ -924,7 +924,7 @@ record IVVc IVr;
 	addtexttoarea("\"user\":\"aservice.report@gmail.com\",",request);
 	addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
 	addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
-	addtexttoarea("\"to\":\"" & "kramar.alexandr@gmail.com" & "\",",request);
+	addtexttoarea("\"to\":\"" & "dv@a-service.in.ua,finance@istore.solutions,kramar.alexandr@gmail.com" & "\",",request);
 	addtexttoarea("\"subject\":\"" & "Internet_iStore.UA" & " " & CurrentDate & "\",",request);
 	addtexttoarea("\"plaintext\":\"notblank\",",request);
 					
