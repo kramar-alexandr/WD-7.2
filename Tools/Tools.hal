@@ -895,7 +895,7 @@ record IVVc IVr;
 			addtexttoarea("\"plaintext\":\"notblank\",",request);
 							
 			//addtexttoarea("\"filename\":\"SalesGroup" & keys[j] & ".txt"& "\",",request);
-			addtexttoarea("\"path\":\"/usr/local/bin/StandardERPServer/Stock/" & "SalesGroup.txt" & "\"",request);
+			addtexttoarea("\"path\":\"/usr/local/bin/HW7.2Server/Stock/" & "SalesGroup.txt" & "\"",request);
 			addtexttoarea("}",request);
 
 			MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
