@@ -869,8 +869,8 @@ record IVVc IVr;
 	Delete_File("Stock/SalesPOS.txt");
 	if (OpenExportFile("Stock/SalesPOS.txt",true)) then begin
 		logtext(0,"Stock/SalesPOS");
-		RepSpec.sStartDate = currentdate;
-		RepSpec.sEndDate = currentdate;
+		RepSpec.sStartDate = addday(currentdate,-1);
+		RepSpec.sEndDate = addday(currentdate,-1);
 		RepSpec.Media=mtFile;
 		startformat(15);
 		OutString(0,0,"------------------------",false);

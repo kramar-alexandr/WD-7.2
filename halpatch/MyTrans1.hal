@@ -31,7 +31,7 @@ begin
 	setcompany(13,false);
 	BlockLoad(DRB);
 	
-	if(left(CurrentTime,2)=="20" and DRB.DateRn!=CurrentDate) then begin
+	if(left(CurrentTime,2)=="10" and DRB.DateRn!=CurrentDate) then begin
 		WebGenRnForMail;
 		DRB.DateRn = CurrentDate;
 		BlockStore(DRB);
