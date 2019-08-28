@@ -890,7 +890,7 @@ record IVVc IVr;
 	addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
 	addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
 	addtexttoarea("\"to\":\"" & "dv@a-service.in.ua,finance@istore.solutions,kramar.alexandr@gmail.com" & "\",",request);
-	addtexttoarea("\"subject\":\"" & "Store Naberezhnaya_iStore.UA" & " " & CurrentDate & "\",",request);
+	addtexttoarea("\"subject\":\"" & "Store Naberezhnaya_iStore.UA" & " " & addday(currentdate,-1) & "\",",request);
 	addtexttoarea("\"plaintext\":\"notblank\",",request);
 					
 	//addtexttoarea("\"filename\":\"SalesGroup" & keys[j] & ".txt"& "\",",request);
@@ -904,8 +904,8 @@ record IVVc IVr;
 	Delete_File("Stock/SalesIV.txt");
 	if (OpenExportFile("Stock/SalesIV.txt",true)) then begin
 		logtext(0,"Stock/SalesIV");
-		RepSpec.sStartDate = currentdate;
-		RepSpec.sEndDate = currentdate;
+		RepSpec.sStartDate = addday(currentdate,-1);
+		RepSpec.sEndDate = addday(currentdate,-1);
 		RepSpec.Media=mtFile;
 		startformat(15);
 		OutString(0,0,"------------------------",false);
@@ -925,7 +925,7 @@ record IVVc IVr;
 	addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
 	addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
 	addtexttoarea("\"to\":\"" & "dv@a-service.in.ua,finance@istore.solutions,kramar.alexandr@gmail.com" & "\",",request);
-	addtexttoarea("\"subject\":\"" & "Internet_iStore.UA" & " " & CurrentDate & "\",",request);
+	addtexttoarea("\"subject\":\"" & "Internet_iStore.UA" & " " & addday(currentdate,-1) & "\",",request);
 	addtexttoarea("\"plaintext\":\"notblank\",",request);
 					
 	//addtexttoarea("\"filename\":\"SalesGroup" & keys[j] & ".txt"& "\",",request);
