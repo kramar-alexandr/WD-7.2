@@ -552,9 +552,60 @@ end;
 function Boolean IVCashDClassRecValueEFAfter(Integer wn, Integer rownr,Integer changed)
 begin
   record IVCashVc IVCashr;
+  row IVCashVc IVCashrw;
+  integer i,rwcnt,sernrf;
+  boolean foundf,ReturnModef;
+  val sumforcom;
+  string 255 inwarning;
 
   if (changed!=0) then begin
   	GetWindowRecord(wn,IVCashr);
+  	if(currentcompany==13 and IVCashr.OKFlag==0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 04 09 2019 y. at 2:36:18 PM
+  		rwcnt = matrowcnt(IVCashr);
+  		for(i=0;i<rwcnt;i=i+1)begin
+  			matrowget(IVCashr,i,IVCashrw);
+  			if(IVCashrw.ArtCode=="COM")then begin
+  				foundf = true;
+  			end;
+  		end;
+  		
+  		if(IVCashr.RecValue>0)then begin
+  			rwcnt = matrowcnt(IVCashr);
+				for(i=0;i<rwcnt;i=i+1)begin
+					matrowget(IVCashr,i,IVCashrw);
+					if(IVCashrw.ArtCode!="COM" and nonblank(IVCashrw.ArtCode))then begin
+						sumforcom = sumforcom + IVCashrw.Sum;
+					end;
+				end;
+				
+				if(foundf)then begin
+					rwcnt = matrowcnt(IVCashr);
+					for(i=0;i<rwcnt;i=i+1)begin
+						matrowget(IVCashr,i,IVCashrw);
+						if(IVCashrw.ArtCode=="COM")then begin
+							IVCashrw.Price = sumforcom * 0.04;
+							IVCashrw.Sum = IVCashrw.Price;
+							Matrowput(IVCashr,i,IVCashrw);
+							IVCashDchsum(IVCashr,i);
+							IVCashSumup(IVCashr,true);
+						end;
+					end;
+				end else begin
+					ClearRow(IVCashr,IVCashrw,1);
+					IVCashrw.ArtCode = "COM";
+					rwcnt = matrowcnt(IVCashr);
+					matrowput(IVCashr,rwcnt,IVCashrw);
+					IVCashVc_PasteArtCode(IVCashr,rwcnt,ReturnModef,inwarning,sernrf);
+					matrowget(IVCashr,rwcnt,IVCashrw);
+					IVCashrw.Quant = 1;
+					IVCashrw.Price = sumforcom * 0.04;
+					IVCashrw.Sum = IVCashrw.Price;
+					IVCashDchsum(IVCashr,rwcnt);
+					IVCashSumup(IVCashr,true);
+				end;
+  		end;
+  		
+  	end;
   	CalculatePOSCashBack(IVCashr);
     PutWindowRecord(wn,IVCashr);
   end;
