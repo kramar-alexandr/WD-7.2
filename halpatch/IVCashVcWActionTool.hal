@@ -60,6 +60,7 @@ external function Integer GetVATLaw();
 external function Boolean GetItemPriceDiscount3(string,val,var record INVc,string,val,val,val,val,val,string,string,string,string,
                                                 var val,var string,var val,var string,var val,var string,Integer,var Boolean,Date,Time,
                                                 string,Boolean,var Boolean,string,var string,var val,string,string,var string);
+external procedure CheckAndAddCommisions(var record IVCashVc);   // Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 4 September 2019 15:28:10                                            
 
 global
 procedure CalculateIVCashVcPoints(var record IVCashVc IVCashr)
@@ -602,6 +603,10 @@ BEGIN
   string 255 tstr;
   record DefCashBlock DCr;
   string 255 roundofpaymode;
+  
+  if(currentcompany==13)then begin
+  	CheckAndAddCommisions(IVCashp);
+  end;
   
   if (UseTaxTemplatesforTaxCalc) then begin
     IVCashSumup_TaxTemplate(IVCashp);

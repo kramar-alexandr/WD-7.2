@@ -1,5 +1,6 @@
 external procedure M4PadString(string,Integer,string,Boolean,var string);
 external procedure ValToText(val,Integer,string,string,var string);
+external function roundmode SetRoundModeD(Integer);
 
 SetLangMode(LangUkrainian,"UKR",0); 
 
@@ -405,7 +406,7 @@ begin
 end;
 
 global 
-procedure HandleIVCashReceiptPrinting(record IVCashVc IVCashr,var area aFile)		//Edit----------------------Dima  21.09.2015
+procedure HandleIVCashReceiptPrinting(record IVCashVc origIVCashr,var area aFile)		//Edit----------------------Dima  21.09.2015
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -416,7 +417,10 @@ begin
 	string 200 Name,Address,Phone,IPN;
 	record LocalMachineVc LMr;
 	record LocalMachineBlock LMb;
+	record IVCashVc IVCashr;
+	val sumcom,totsum,remsum;
 	
+	recordcopy(IVCashr,origIVCashr);
 	
 	Name = "Швець Костянтин Сергійович";
 	IPN = "ІПН: 3205912934";
@@ -465,7 +469,44 @@ begin
 	addtexttoarea(chr(13) & chr(10),aFile);	
 	
 //Body	
-	rwcnt = MatRowCnt(IVCashr);
+	if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 September 2019 13:15:14
+		rwcnt = MatRowCnt(IVCashr);
+		for(i=0;i<rwcnt;i=i+1) begin
+			MatRowGet(IVCashr,i,IVCashrw);	
+			if(IVCashrw.ArtCode=="COM")then begin
+				sumcom = IVCashrw.Sum;
+				matrowdelete(IVCashr,i);
+				i = i - 1;
+				rwcnt = rwcnt - 1;
+			end else begin
+				totsum = totsum + IVCashrw.Sum;
+			end;
+		end;
+		
+		if(sumcom!=0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 September 2019 13:15:12
+			rwcnt = MatRowCnt(IVCashr);
+			for(i=0;i<rwcnt;i=i+1) begin
+				MatRowGet(IVCashr,i,IVCashrw);	
+				IVCashrw.Sum = IVCashrw.Sum + round(IVCashrw.Sum/totsum*sumcom,SetRoundModeD(2));
+				IVCashrw.Price = round(IVCashrw.Sum/IVCashrw.Quant,SetRoundModeD(2));
+				if(IVCashrw.vRebate!=0)then begin
+					IVCashrw.Price = IVCashrw.Sum / (100-IVCashrw.vRebate) * 100 / IVCashrw.Quant;
+				end;
+				MatRowPut(IVCashr,i,IVCashrw);	
+			end;
+			for(i=0;i<rwcnt;i=i+1) begin
+				MatRowGet(IVCashr,i,IVCashrw);	
+				remsum = remsum + IVCashrw.Sum;
+			end;
+			if((IVCashr.Sum4 - remsum)!=0)then begin
+				MatRowGet(IVCashr,0,IVCashrw);	
+					IVCashrw.Sum = IVCashrw.Sum + (IVCashr.Sum4 - remsum);
+				MatRowPut(IVCashr,0,IVCashrw);	
+			end;
+		end;
+	end;
+	
+	
 	for(i=0;i<rwcnt;i=i+1) begin
 		MatRowGet(IVCashr,i,IVCashrw);		
 		if (IVCashrw.stp==kInvoiceRowTypeNormal and nonblank(IVCashrw.ArtCode)) then begin
