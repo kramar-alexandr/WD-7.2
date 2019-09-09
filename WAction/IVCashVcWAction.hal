@@ -529,9 +529,11 @@ global procedure CheckAndAddCommisions(var record IVCashVc IVCashr)
 begin
 	row IVCashVc IVCashrw;
   integer i,rwcnt,sernrf;
-  boolean foundf,ReturnModef;
+  boolean foundf,ReturnModef,nocomm;
   val sumforcom;
   string 255 inwarning;
+	
+	nocomm = false;
 	
 	if(IVCashr.RecValue!=0)then begin
 		rwcnt = matrowcnt(IVCashr);
@@ -550,9 +552,12 @@ begin
 			if(IVCashrw.ArtCode=="COM")then begin
 				foundf = true;
 			end;
+			if(IVCashrw.ArtCode=="WAR_IPHONE" or IVCashrw.ArtCode=="WAR_CPU" or IVCashrw.ArtCode=="WAR_IPAD" or IVCashrw.ArtCode=="WAR_WATCH")then begin
+				nocomm = true;
+			end;
 		end;
 	
-		if(IVCashr.RecValue>0)then begin
+		if(IVCashr.RecValue>0 and nocomm==false)then begin
 			rwcnt = matrowcnt(IVCashr);
 			for(i=0;i<rwcnt;i=i+1)begin
 				matrowget(IVCashr,i,IVCashrw);
