@@ -1400,7 +1400,9 @@ begin
 						if(nonblank(RepSpec.f3) and RepSpec.f3!=INr.Code)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 						if(nonblank(RepSpec.f4) and RepSpec.f4!=vecode[j])then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 						if(nonblank(RepSpec.f5) and !SetInSet(RepSpec.f5,INr.DispGroups))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
-				
+						
+						if(INr.Code=="COM")then begin filter = false; end;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 13 09 2019 y. at 11:56:40 AM
+						
 						if(filter)then begin // Edit ************************** Thursday, 14 May 2015 16:21:33
 							
 							totcost = totcost + realcostbase[j]*qty[j];
@@ -1510,7 +1512,9 @@ begin
 						if(nonblank(RepSpec.f3) and RepSpec.f3!=INr.Code)then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 						if(nonblank(RepSpec.f4))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 						if(nonblank(RepSpec.f5) and !SetInSet(RepSpec.f5,INr.DispGroups))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
-				
+						
+						if(INr.Code=="COM")then begin filter = false; end;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 13 09 2019 y. at 11:56:40 AM
+						
 						if(filter)then begin// Edit ************************** Thursday, 14 May 2015 16:21:33
 							startformat(15);		
 								outstring(i0,0,ITr.Comment,false);
