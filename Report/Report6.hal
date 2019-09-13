@@ -1220,7 +1220,7 @@ begin
 			
 			for(i=0;i<mtrw;i=i+1)begin
 				matrowget(IVCashr,i,IVCashrw);
-				if(IVCashrw.stp==1 and nonblank(IVCashrw.ArtCode))then begin
+				if(IVCashrw.stp==1 and nonblank(IVCashrw.ArtCode) and IVCashrw.ArtCode!="COM")then begin
 					StartFormat(15);
 						tstr = IVCashr.SerNr;
 						M4PadString(tstr,7," ",false,tstr);
