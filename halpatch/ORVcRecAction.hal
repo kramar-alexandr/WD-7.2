@@ -571,7 +571,7 @@ begin
       end;
       
       If(percent<minpercent) then begin
-        If(UserCanAction("ViewCostPrice",true))then begin
+        If(UserCanAction("ViewCostPrice",true) and currentuser!="RUDZ")then begin
           MessageBox(20767," row " & i+1);    
         end else begin
           RecordCheckError(20767,"",i,"Sum");
