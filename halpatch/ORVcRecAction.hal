@@ -564,6 +564,11 @@ begin
       if(ORrw.BasePrice==0) THEN BEGIN percent=10000; END;
       minpercent = INr.Markup;
       if(ORr.CustCode=="EUROTEX")then begin  minpercent = 5;  end;
+      if(currentcompany==15)then begin
+      	if(ORr.Location=="INV#2_NEW")then begin
+      		minpercent = 20;
+      	end;
+      end;
       
       If(percent<minpercent) then begin
         If(UserCanAction("ViewCostPrice",true))then begin
