@@ -1967,8 +1967,11 @@ begin
 		EditField(75,v+=20,95,"Љлґ№нт",Normal,CustCode,false,CUSClass);
 		EnterSkip(PayDeal);
 		EditField(h=255,v=vm,-40,"Ќайменув.",Normal,Addr0,false,0);
+		if(currentcompany==13)then begin
+			HalPushButton(h,v+20,h+80,v+35,"CallToClientDsm","„звґнок");
+		end;
 		if (StandardHansa==false) then begin
-		EditField(h,vm=(v+=20),135,"Ћфґц. Ь",Normal,OfficialSerNr,false,LegalInvNrSClass);
+		EditField(h+200,vm=(v+=20),135,"Ћфґц. Ь",Normal,OfficialSerNr,false,LegalInvNrSClass);
 		//EditField(h+250,vm,-120,"Ь рах. на сплату",Normal,RahSplatNom,false,0);// Edit ************************** Thursday, 11 February 2016 10:47:19
 		CheckBox(h4=-100,v,0,"OK",OKFlag);
 		end else begin

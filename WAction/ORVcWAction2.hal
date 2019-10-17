@@ -53,6 +53,8 @@ remote procedure DeleteXLSXJunk(string);
 remote procedure BackupXLSX(string);
 remote procedure RecoverXLSX(string,string);
 external function Boolean PasteCustInOrder(var record ORVc,string,string,var string,var string);
+external function string 20 NormalPhone(string);
+remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
 
 	SetLangMode(LangUkrainian,"UKR",0);
 
@@ -2513,4 +2515,39 @@ begin
 lORtoExcel3Dsm:;
 
 return;
+end;
+
+
+global procedure CallToClientDsm()
+begin
+integer wn;
+record SVOVc SVOr;
+array longint sernr;
+integer count;
+record RcVc RepSpec;
+record UserVc USr;
+string 100 host,page,getParam;
+area mainRequest,replyarea;
+longint port;
+string 50 location;
+record ORVc ORr;
+record CUVc CUr;
+	
+	wn = curwindow;
+	getwindowrecord(wn,ORr);
+	
+	USr.Code = currentuser;
+	
+	if(readfirstmain(USr,1,true))then begin
+		if(nonblank(USr.Phone2))then begin
+			CUr.Code = ORr.CustCode;
+			if(readfirstmain(CUr,1,true))then begin
+				if(nonblank(USr.Phone2)and nonblank(NormalPhone(CUr.Phone)))then begin			
+					MakeBinotelCallFromExtNumToPhone(USr.Phone2,NormalPhone(CUr.Phone));
+				end;
+			end;
+		end;
+	end;
+
+return
 end;
