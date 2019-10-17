@@ -10852,7 +10852,7 @@ begin
 end;
 
 window ExtrCostLClass:1
-  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Додаткові витрати",ExtrCostLClass,CGmlist,DocView);
   SetWRect(64,80,130,298);
@@ -10871,3 +10871,18 @@ begin
   EndWindow;
 end;
 //______________________________________END__________________________________
+
+window BinotelSettingsTClass:1 //Edit***************************Sasha2,17:28 11.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,f;
+  WindowBegin("Настройка Binotel",BinotelSettingsTClass,CGSbl,-);
+  SetBlid(BinotelSettingsBlock);
+  SetWRect(64,80,380,357);
+  h=100;f=70; 
+  v=6;
+  vs = 20;
+	EditField(h,v+=vs,-10,"ApiKey",Normal,ApiKey,false,0); 
+	EditField(h,v+=vs,-10,"ApiSecret",Normal,ApiSecret,false,0); 
+  EndWindow;
+end; //Edit***************************Sasha2,17:28 11.09.2014 }
