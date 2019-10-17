@@ -900,7 +900,7 @@ begin
       //SendRawWebRequest(host,"433",false,"POST","","application/json","",false,req,reply,10);
       //MySendWebRequest(host,443,-1,true,"POST",page,"application/json","",false,req,reply,10);
       //MySendRawWebRequest(host,"443",true,"POST","","application/json","",false,req,reply,10);
-			MySendAsyncWebRequest(host,443,true,"POST",page,"application/json","",req,"WebCalReqCallBack",5);
+			SendAsyncWebRequest(host,443,-1,true,"POST",page,"application/json","",req,"WebCalReqCallBack",5);
 
 			logtext(0,fromExtNumber & "CallTo " & toPhoneNumber);
     end;
@@ -942,7 +942,7 @@ begin
 	
 	//MySendAsyncWebRequest(host,443,-1,true,"POST",page,"application/json","",req,"BinotelGetCallInfoCallBack",15);
 		
-	MySendWebRequest(host,443,-1,true,"POST",page,"application/json","",false,req,reply,10);
+	SendWebRequest(host,443,-1,true,"POST",page,"application/json","",false,req,reply,10);
 	WriteAreaToFile(reply,"BinotelGetCallInfoCallBack.txt",0);
 	//MySendRawWebRequest(host,"443",true,"POST","","application/json","",false,req,reply,10);
 	
