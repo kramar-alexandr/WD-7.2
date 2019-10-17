@@ -268,6 +268,7 @@ record RcVc RepSpec;
 return
 end;
 
+global
 function string 20 NormalPhone(string phone)
 begin
 	string 20 res;
