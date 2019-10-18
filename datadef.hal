@@ -4976,6 +4976,17 @@ RecordBegin(BinotelCallEndVc,-,"");//Edit-------------------Vitalii 17:10 03.11.
 		RecordField(DateRn,M4Date,0,0);
 	EndBlock;
 	
+	RecordBegin(PriceChangeVc,-,"");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 18 10 2019 y. at 4:57:34 PM
+		RecordField(SerNr,M4Long,0,0);
+		RecordField(Date,M4Date,0,0);
+		RecordField(PLCode,M4Str,200,0);
+		RecordField(Group,M4Str,200,0);
+		RecordField(ChangeB,M4Val,0,0);
+		RecordField(ChangeA,M4Val,0,0);
+		MainKeyBegin(SerNr,0);
+		KeySegment(SerNr);
+	EndRecord;
+	
 return;
 end;
 	

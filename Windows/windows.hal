@@ -2244,3 +2244,41 @@ begin
     PeriodField(h,20,"Період");
   EndWindow;  
 end;
+
+
+window PriceChangeLClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+
+  WindowBegin("История смены цен",ChangeHistoryLClass,CGmList,-);
+  //SpawnClass(ChangeHistoryDClass);
+	UseView(PriceChangeVc);
+  SetWRect(64,80,800,298);
+  Sizeable(-1,-1,0,0);
+	RecordList(4,17,-21,-39);
+	RlColKey(60,60,"№",SerNr,false,SerNr);
+  RlCol(140,140,"Дата",Date,false);
+  RlCol(220,220,"Прейскурант",PLCode,false);  
+  RlCol(300,300,"Группа",Group,false);
+  RlCol(400,400,"Курс до",ChangeA,false);
+  RlCol(480,480,"Курс после",ChangeB,false);
+  
+  SearchField("Поиск");
+  EndWindow;
+end;
+
+window PriceRecalcVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ begin
+ real h,v,vs;
+WindowBegin("Maintenance",PriceRecalcVClass,CGMnt,RcType);
+  SetWRect(20,120,360,220);
+	 v = 6; vs = 20;
+  EditField(h=140,v,70,"Прейскурант",Normal,f1,false,PLdefSClass); 
+	EditField(h=140,v+=vs,70,"Группа",Normal,f2,false,ITSClass); 
+	EditField(h=140,v+=vs,70,"Старый курс",Normal,vals0,false,0); 
+	EditField(h=140,v+=vs,70,"Новый курс",Normal,vals1,false,0); 
+  EndWindow;
+end;

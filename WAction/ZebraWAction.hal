@@ -1425,3 +1425,17 @@ begin
   
   return;
 end;
+
+global
+ procedure PriceRecalcVClassReportDefaults(integer wn)
+begin
+
+record RcVc RepSpec;
+
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+	RepSpec.f1 = "RRP";
+  PutWindowRecord(wn,RepSpec);
+	SelectWindow(wn);
+return;
+end;
