@@ -615,3 +615,32 @@ record ItemStatusVc ISr;
   
 return;
 end;
+
+
+global webpublic updating procedure WebGetISOrder()
+begin
+area areply,orderarea;
+Boolean TrHs,testf,comma,TrHs1;
+record WebSyncRegVc WSRr;
+record WebSyncBlock WSBb;
+integer lenth,i, sum;
+longint price;
+string 50 partno,availab;
+string 5 char;
+record INVc INr;
+record PLVc PLr;
+record ItemStatusVc ISr;
+
+  
+  logtext(0,"WebGetISOrder");
+  
+  SetCompany(13,false);
+  
+		webgetpostdata(orderarea);
+		addtexttoarea(chr(13) & chr(10),orderarea);
+		writeareatofile(orderarea,"iStoreNewOrdersPOS.txt",1);
+	
+  ResetCompany(13);
+  
+return;
+end;
