@@ -748,8 +748,10 @@ BEGIN
   
   if (changedf) then begin
     GetWindowRecord(wn,TRr);
-    TRVc_PasteCurncy(TRr,rownr);
-    PutWindowRecord(wn,TRr);
+    if(left(TRr.Comment,1)!="$")then begin
+			TRVc_PasteCurncy(TRr,rownr);
+			PutWindowRecord(wn,TRr);
+    end;
   end;
   TRDClassCurncyEFAfter = true;
   RETURN;
