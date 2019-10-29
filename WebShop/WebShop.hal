@@ -822,9 +822,9 @@ string 5 c1,c2;
 					
 					ORr.SerNr = NextSerNr("ORVc",ORr.OrdDate,-1,false,"");    
 					for(i=0;i<JSONCountChildren(inputjson,"items");i=i+1) begin
-						articlerow = JSONGet(inputjson,"items/["  & i & "]/article");
-						fullnamerow = JSONGet(inputjson,"items/["  & i & "]/fullname");
-						pricerow = JSONGet(inputjson,"items/["  & i & "]/price");
+						articlerow = JSONGet(inputjson,"items/["  & i & "]/item/article");
+						fullnamerow = JSONGet(inputjson,"items/["  & i & "]/item/fullname");
+						pricerow = JSONGet(inputjson,"items/["  & i & "]/item/price");
 						countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
 						k = matrowcnt(ORr);
 						clearrow(ORr,ORrw,1);
@@ -842,8 +842,9 @@ string 5 c1,c2;
 						ORVc_PasteQuant(ORr,k,true,chsum);
 						ORDchsum(ORr,k);
 						ORSumup(ORr);
-						ORr.OrderClass = "SALES";
+						
 					end;
+					ORr.OrderClass = "SALES";
 					recordinsert(ORr,true);     
 				end;
 			end;
