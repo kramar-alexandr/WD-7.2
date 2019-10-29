@@ -816,6 +816,7 @@ string 5 c1,c2;
 					end;					
 					ORr.CustOrdNr = orderid;
 					
+					ORr.Addr0 = last_name & " " & first_name;
 					logtext(0,"buyoneclick " & buyoneclick);
 					if(buyoneclick=="true")then begin
 					 ORr.Addr0 = ORr.Addr0 & " (Быстрый заказ)";
