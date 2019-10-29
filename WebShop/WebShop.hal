@@ -723,6 +723,7 @@ string 5 c1,c2;
 		logtext(0,"End try to parse");
 		addtexttoarea(chr(13) & chr(10),orderarea);
 		addtexttoarea(chr(13) & chr(10),orderarea);
+		addtexttoarea(currentdate & " " & currenttime,orderarea);
 		addtexttoarea(chr(13) & chr(10),orderarea);
 		writeareatofile(orderarea,"iStoreNewOrdersPOS.txt",1);
 		
