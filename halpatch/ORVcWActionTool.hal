@@ -216,7 +216,7 @@ BEGIN
 //    if ((INr.ExplodeRec==0) or (blank(ORrw.Recepy))) and (varf==false) then begin
 //why
       MatRowGet(ORr,rownr,ORrw);
-      ORMultiLineText(ORr,INr,ORr.LangCode,rownr);
+      //ORMultiLineText(ORr,INr,ORr.LangCode,rownr);// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 29 October 2019 13:53:49
 //    end;
     
     if (ORDchrsum(ORr,rownr)) then begin

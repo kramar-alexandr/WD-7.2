@@ -4,6 +4,7 @@ external function Boolean ORVc_PasteArtCode(var record ORVc,Integer,var string,v
 external procedure ORVc_PasteQuant(var record ORVc,Integer,Boolean,var Boolean);
 external procedure ORDchsum(var record ORVc,Integer);
 external procedure ORSumup(var record ORVc);
+external function LongInt POSNETHexToLong(string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -640,9 +641,42 @@ begin
 return;
 end;
 
+
+
+global
+function string 255 ChekUnicode(string str)
+begin
+  string 10 c, c1;
+  string 10 ucode;
+  string 255 res,tmp; 
+  integer slen,i,int;
+  longint lmes;
+  
+  res = str;
+  i=0;
+  slen = Len(res);
+	
+	if(slen>0)then begin
+		for(i=0;i<slen;i=i+1)begin
+			c = mid(res,i,2);
+			if(c==(chr(92) & "u"))then begin
+				ucode = mid(res,i,6);
+				lmes = POSNETHexToLong(ucode);
+				int = lmes;
+				res = left(res,i) & uchr(int) & right(res, (len(res)-(i+6)));
+				slen = Len(res);
+			end;
+		end;
+	end;
+		
+  ChekUnicode = res;
+  return;
+end;
+
+
 global webpublic updating procedure WebGetISOrder()
 begin
-area areply,orderarea;
+area areply,orderarea,rawarea;
 Boolean TrHs,testf,comma,TrHs1;
 record WebSyncRegVc WSRr;
 record WebSyncBlock WSBb;
@@ -657,47 +691,64 @@ json inputjson;
 string 100 orderid;
 string 200 delivery_region,delivery_type,last_name,phone,articlerow,fullnamerow;
 string 200 pricerow,payment,address,first_name,summary,note,email,ensure;
-string 200 is_credit,discount_percent,datetxt,buyoneclick,store,delivery_cost,countrow;
+string 200 is_credit,discount_percent,datetxt,buyoneclick,storeH,storeN,delivery_cost,countrow;
 record CUVc CUr,inCUr,blankCU;
 boolean cufound,chsum;
 string 100 warning,error;
 record ORVc ORr;
 row ORVc ORrw;
-
+longint acnt;
+string 5 c1,c2;
   
   logtext(0,"WebGetISOrder");
   
   SetCompany(13,false);
   
-		webgetpostdata(orderarea);
+		webgetpostdata(rawarea);
+		
+		for(i=0;i<getarealength(rawarea)-1;i=i+1)begin
+			c2 = getstringfromarea(rawarea,i,2);
+			c1 = getstringfromarea(rawarea,i,1);
+			if(c2=="{}")then begin
+				i=i+1;
+				addtexttoarea("\"\"",orderarea);
+			end else begin
+				addtexttoarea(c1,orderarea);
+			end;
+		end;
+		
+		logtext(0,"try to parse");
+		inputjson = parsejsonarea(orderarea);
+		logtext(0,"End try to parse");
+		addtexttoarea(chr(13) & chr(10),orderarea);
+		addtexttoarea(chr(13) & chr(10),orderarea);
 		addtexttoarea(chr(13) & chr(10),orderarea);
 		writeareatofile(orderarea,"iStoreNewOrdersPOS.txt",1);
 		
-		inputjson = parsejsonarea(orderarea);
+		
 		orderid = JSONGet(inputjson,"id");	
 		if(nonblank(orderid))then begin
 			if(stringtolongint(orderid)>0)then begin
 				writeareatofile(orderarea,"iStoreOrders/" & orderid & ".txt",0);
 					
-				delivery_region = JSONGet(inputjson,"delivery_region");	
-				delivery_type = JSONGet(inputjson,"delivery_type");	
-				last_name = JSONGet(inputjson,"last_name");	
+				delivery_region = ChekUnicode(JSONGet(inputjson,"delivery_region"));	
+				delivery_type = ChekUnicode(JSONGet(inputjson,"delivery_type"));	
+				last_name = ChekUnicode(JSONGet(inputjson,"last_name"));	
 				phone = JSONGet(inputjson,"phone");	
-				payment = JSONGet(inputjson,"payment");	
-				address = JSONGet(inputjson,"address");	
-				first_name = JSONGet(inputjson,"first_name");	
+				payment = ChekUnicode(JSONGet(inputjson,"payment"));	
+				address = ChekUnicode(JSONGet(inputjson,"address"));	
+				first_name = ChekUnicode(JSONGet(inputjson,"first_name"));	
 				summary = JSONGet(inputjson,"summary");	
-				note = JSONGet(inputjson,"note");	
-				email = JSONGet(inputjson,"email");	
-				ensure = JSONGet(inputjson,"ensure");	
-				is_credit = JSONGet(inputjson,"is_credit");	
+				note = ChekUnicode(JSONGet(inputjson,"note"));	
+				email = ChekUnicode(JSONGet(inputjson,"email"));	
+				ensure = ChekUnicode(JSONGet(inputjson,"ensure"));	
+				is_credit = ChekUnicode(JSONGet(inputjson,"is_credit"));	
 				discount_percent = JSONGet(inputjson,"discount_percent");	
 				datetxt = JSONGet(inputjson,"date");	
 				buyoneclick = JSONGet(inputjson,"buyoneclick");	
-				store = JSONGet(inputjson,"store");	
-				logtext(0,"phone " & phone);
-				phone = NormPhoneNum(phone);
-				logtext(0,"phone " & phone);
+				storeH = JSONGet(inputjson,"store/hansa");	
+				storeN = ChekUnicode(JSONGet(inputjson,"store/name"));	
+				phone = NormPhoneNum(ChekUnicode(phone));
 				
 				CUr.Code = phone;
 				if(readfirstmain(CUr,1,true))then begin
@@ -730,7 +781,7 @@ row ORVc ORrw;
 						CUr.Name = phone;
 					end;
 					CUr.eMail = email;
-					CUr.InvAddr0 = address;
+					CUr.InvAddr0 = urldecode(address);
 					recordstore(CUr,true);
 					cufound = true;
 				end else begin
@@ -765,12 +816,16 @@ row ORVc ORrw;
 					end;					
 					ORr.CustOrdNr = orderid;
 					
+					ORr.Addr1 = CUr.Name;
+					ORr.Addr2 = address;
+					ORr.Comment = note;
+					
 					ORr.SerNr = NextSerNr("ORVc",ORr.OrdDate,-1,false,"");    
 					for(i=0;i<JSONCountChildren(inputjson,"items");i=i+1) begin
 						articlerow = JSONGet(inputjson,"items/["  & i & "]/article");
 						fullnamerow = JSONGet(inputjson,"items/["  & i & "]/fullname");
 						pricerow = JSONGet(inputjson,"items/["  & i & "]/price");
-						countrow = JSONGet(inputjson,"items/["  & i & "]/count");
+						countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
 						k = matrowcnt(ORr);
 						clearrow(ORr,ORrw,1);
 						ORrw.ArtCode = articlerow;
@@ -787,6 +842,7 @@ row ORVc ORrw;
 						ORVc_PasteQuant(ORr,k,true,chsum);
 						ORDchsum(ORr,k);
 						ORSumup(ORr);
+						ORr.OrderClass = "SALES";
 					end;
 					recordinsert(ORr,true);     
 				end;
