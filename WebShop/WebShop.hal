@@ -787,13 +787,17 @@ string 5 c1,c2;
 					CUr.Phone = phone;
 					CUr.Name = last_name & " " & first_name;
 					CUr.Name = trim(CUr.Name);
+					
 					if(blank(CUr.Name))then begin
 						CUr.Name = phone;
 					end;
 					CUr.eMail = email;
+					CUr.SalesMan = "";
 					CUr.InvAddr0 = urldecode(address);
-					recordstore(CUr,true);
-					cufound = true;
+					if(nonblank(CUr.Code))then begin
+						recordstore(CUr,true);
+						cufound = true;
+					end;
 				end else begin
 					/*if(cufound)then begin
 						if()then begin
