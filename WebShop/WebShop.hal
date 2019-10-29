@@ -759,6 +759,10 @@ string 5 c1,c2;
 					if(readfirstkey("Phone",CUr,1,true))then begin
 						cufound = true;
 					end;
+					if(blank(CUr.Phone))then begin
+						CUr.Phone = phone;
+						recordstore(CUr,true);
+					end;
 				end;
 				if(cufound==false)then begin
 					CUr.AltPhone = phone;
