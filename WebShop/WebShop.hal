@@ -5,6 +5,7 @@ external procedure ORVc_PasteQuant(var record ORVc,Integer,Boolean,var Boolean);
 external procedure ORDchsum(var record ORVc,Integer);
 external procedure ORSumup(var record ORVc);
 external function LongInt POSNETHexToLong(string);
+external procedure ORVc_PasteSum(var record ORVc,Integer,var Boolean);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -691,7 +692,7 @@ json inputjson;
 string 100 orderid;
 string 200 delivery_region,delivery_type,last_name,phone,articlerow,fullnamerow;
 string 200 pricerow,payment,address,first_name,summary,note,email,ensure;
-string 200 is_credit,discount_percent,datetxt,buyoneclick,storeH,storeN,delivery_cost,countrow;
+string 200 is_credit,discount_percent,datetxt,buyoneclick,storeH,storeN,delivery_cost,countrow,sumrow;
 record CUVc CUr,inCUr,blankCU;
 boolean cufound,chsum;
 string 100 warning,error;
@@ -749,6 +750,7 @@ string 5 c1,c2;
 				storeH = JSONGet(inputjson,"store/hansa");	
 				storeN = ChekUnicode(JSONGet(inputjson,"store/name"));	
 				phone = NormPhoneNum(ChekUnicode(phone));
+
 				
 				CUr.Code = phone;
 				if(readfirstmain(CUr,1,true))then begin
@@ -759,15 +761,19 @@ string 5 c1,c2;
 					if(readfirstkey("Phone",CUr,1,true))then begin
 						cufound = true;
 					end;
-					if(blank(CUr.Phone))then begin
-						CUr.Phone = phone;
-						recordstore(CUr,true);
-					end;
+					
 				end;
 				if(cufound==false)then begin
 					CUr.AltPhone = phone;
 					if(readfirstkey("AltPhone",CUr,1,true))then begin
 						cufound = true;
+					end;
+				end;
+				
+				if(cufound)then begin
+					if(blank(CUr.Phone))then begin
+						CUr.Phone = phone;
+						recordstore(CUr,true);
 					end;
 				end;
 				
@@ -823,7 +829,7 @@ string 5 c1,c2;
 					ORr.Addr0 = last_name & " " & first_name;
 					logtext(0,"buyoneclick " & buyoneclick);
 					if(buyoneclick=="true")then begin
-					 ORr.Addr0 = ORr.Addr0 & " (Быстрый заказ)";
+					 ORr.Addr0 = trim(ORr.Addr0 & " (Быстрый заказ)");
 					end;
 					
 					ORr.Addr1 = CUr.Name;
@@ -836,6 +842,8 @@ string 5 c1,c2;
 						fullnamerow = JSONGet(inputjson,"items/["  & i & "]/item/fullname");
 						pricerow = JSONGet(inputjson,"items/["  & i & "]/item/price");
 						countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
+						
+						sumrow = JSONGet(inputjson,"items/["  & i & "]/discount_summary");
 						k = matrowcnt(ORr);
 						clearrow(ORr,ORrw,1);
 						ORrw.ArtCode = articlerow;
@@ -850,6 +858,14 @@ string 5 c1,c2;
 						ORrw.Price = stringtoval(pricerow,m4val);
 						matrowput(ORr,k,ORrw);
 						ORVc_PasteQuant(ORr,k,true,chsum);
+						
+						matrowget(ORr,k,ORrw);
+							if(stringtoval(sumrow,m4val)!=ORrw.Sum)then begin
+								ORrw.Sum = stringtoval(sumrow,m4val);
+								matrowput(ORr,k,ORrw);
+								ORVc_PasteSum(ORr,k,chsum);
+							end;
+						
 						ORDchsum(ORr,k);
 						ORSumup(ORr);
 						
