@@ -2437,6 +2437,7 @@ begin
 		MatCol(t,-70,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
 		Flip(flipnr); flipnr = flipnr + 1;
 		MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+		MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
 		MatCol(t,-60,"Друк",0,ORPrint,true,0);
 		EnterSkip(ORPrint);
 		
