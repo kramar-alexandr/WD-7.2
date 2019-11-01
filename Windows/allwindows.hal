@@ -1952,8 +1952,8 @@ window ORDClass:2
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs,h5,flipnr,width;
   string 255 label;
-	if((UserCanAction("ManagerView",false)==false) or CurrentCompany!=13) then begin 
-	//if(false) then begin 
+	//if((UserCanAction("ManagerView",false)==false) or CurrentCompany!=13) then begin 
+	if(false) then begin 
 		WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
 		SetWRect(20,80,750,460);
 		Sizeable(-1,-1,0,0);
@@ -2404,6 +2404,8 @@ begin
 		EditField(h1,v+=vs,25,"Умови сплт.",Normal,PayDeal,false,PDSClass);
 		EditField(h1,v+=vs,70,"Склад",Normal,Location,false,LocationSClass);
 		EditField(h1,v+=vs,70,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
+		HalPushButton(h1+70,v+17,h1+130,v+25,"OrderCustomerInfoDsm","Інфо");
+		EditField(h1,v+=vs,40,"Кільк. Зам.",ViewOnly,OrderCnt,false,0);
 
 		
 		//2
@@ -2421,49 +2423,31 @@ begin
 		MatTypedRow(stp);
 		flipnr = 0;
 		Flip(flipnr); flipnr = flipnr + 1;
-		MatText(t=9,32,"Разом",true);
-		MatCol(t,100,"",0,Spec,false,0);
-		MatColTL(t,-80,"Сума",0,-1,ViewOnly,0,Sum,true,0);
-		MatText(t=17,32,"Заголовок",true);
-		MatCol(t,100,"",0,Spec,false,0);
-		MatCol(t=1,32,"Товар",0,ArtCode,false,ForSaleINSClass);
 		t = 1;
-		if (HasVarieties) then begin
+		MatCol(t,24,"Товар",0,ArtCode,false,INSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:58
 		MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);
-		end else begin
-			MatCol(t,144,"Qty",0,Quant,true,0); //!!PRODTRANSLATE// Edit ************************** Monday, July 14, 2014 at 10:35:22
-		end;
 		EnterSkip(ArtCode);
-		MatCol(t=kInvoiceRowTypeStructuredItemComponent,32,"Товар",0,ArtCode,false,ForSaleINSClass);
-		if (HasVarieties) then begin
-		MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);// Edit ************************** Monday, July 14, 2014 at 10:35:19
-		end else begin
-			MatCol(t,144,"Qty",0,Quant,true,0); //!!PRODTRANSLATE// Edit ************************** Monday, July 14, 2014 at 10:35:13
-		end;
-		EnterSkip(ArtCode);
-		MatText(t=10,32,"Цей та наступні рядки не будуть друкуватись",false);
-		MatText(t=kInvoiceRowTypePerceptionTax,32,"Податок",true);
-		MatCol(t,132,"",0,Region,false,0);
-		MatCol(t,252,"",0,TAX2Prc,true,0);
-		MatCol(t,292,"",0,Sum,true,0);
-		MatCol(t,372,"",0,SalesAcc,false,0);
-		MatCol(t,452,"",0,Spec,false,0);
 		Flip(flipnr); flipnr = flipnr + 1;
 		t = 1;
 		MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+
 		MatCol(t,384,"Серійний номер",0,SerialNr,false,SerialNrSClass);
 		MatCol(t,-180,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
 		MatCol(t,-105,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
 		MatCol(t,-70,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
-		MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
-		MatCol(t,-180,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:27
-		MatCol(t,-105,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:23
-		MatCol(t,-70,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:15
+		Flip(flipnr); flipnr = flipnr + 1;
+		MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+		MatCol(t,-60,"Друк",0,ORPrint,true,0);
+		EnterSkip(ORPrint);
 		
 		InsertRowTest;
 		DeleteRowTest;
 		EndMatrix;
-		v = v + 240;
+		vs = 20;
+		v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+		v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+		//v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+		v = v + 360;
 		EditField(h1,v+=vs,-20,"Інформація",Normal,ShipAddr0,false,0);
 		EditField(h1,v+=vs,-20,"замовлення",Normal,ShipAddr1,false,0);
 		EditField(h1,v+=vs,-20,"",Normal,ShipAddr2,false,0);

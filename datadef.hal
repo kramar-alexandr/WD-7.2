@@ -1925,6 +1925,7 @@ begin
 	RecordField(TTNNumber,M4Str,200,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 2:30:01 PM
 	RecordField(RejectMark,M4mark,0,0);
 	RecordField(RejectStr,M4Str,250,0);
+	RecordField(OrderCnt,M4Int,0,0);
 	
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);

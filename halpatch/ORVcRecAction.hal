@@ -421,7 +421,8 @@ begin
   val percent,minpercent;// Edit ************************** Thursday, 4 September 2014 10:40:40
   record PLVc PLr;// Edit ************************** Thursday, 4 September 2014 10:40:41
 	record BaseCurBlock BCb;// Edit ************************** Tuesday, 23 June 2015 18:03:02
-
+	record ORVc oldORr;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 4:14:28 PM
+	boolean TrHs;
 	
 	blockload(BCb);// Edit ************************** Tuesday, 23 June 2015 18:02:59
 	
@@ -1425,6 +1426,19 @@ begin
     end;
 LORVcRecordRowCheck:;
   end;
+  
+	if(ORr.OrderCnt==0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 4:13:30 PM
+  	oldORr.CustCode = ORr.CustCode;
+  	TrHs = true;
+  	while(loopkey("CustCode",oldORr,1,TrHs))begin
+  		if(oldORr.CustCode!=ORr.CustCode)then begin TrHs = false; end;
+  		
+  		if(TrHs)then begin
+  			ORr.OrderCnt = ORr.OrderCnt + 1;
+  		end;
+  	end;
+  end;
+  
 LORVcRecordCheck:;
 	rwcnt = matrowcnt(ORr);
 	for(i=0;i<rwcnt;i=i+1) begin
@@ -1441,6 +1455,8 @@ LORVcRecordCheck:;
     ORr.OfficialSerNr = oldOfficialSerNr;
     ORr.OfficialSerNrSerie = "";
   end;
+  
+  
   ORVcRecordCheck = res;
   return;
 end;
