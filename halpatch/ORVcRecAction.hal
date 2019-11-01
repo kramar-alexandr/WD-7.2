@@ -80,6 +80,9 @@ forward function val GetINCostPrice(string,string,Boolean);// Edit *************
 external procedure ORDchsum(var record ORVc,Integer);// Edit ************************** Thursday, 4 September 2014 10:45:26
 external procedure ORSumup(var record ORVc);// Edit ************************** Thursday, 4 September 2014 10:47:57
 
+SetLangMode(LangUkrainian,"UKR",0);
+
+
 // Edit Start ---------------------------------------------- Edit Start
 	//Thursday, 4 September 2014 10:49:51
 	
@@ -421,7 +424,26 @@ begin
 
 	
 	blockload(BCb);// Edit ************************** Tuesday, 23 June 2015 18:02:59
-
+	
+	
+	switch(ORr.OrderStatusCode)begin
+		case 0:ORr.OrderStatusText = "Новий";
+		case 1:ORr.OrderStatusText = "В роботі";
+		case 2:ORr.OrderStatusText = "Відправлено";
+		case 3:ORr.OrderStatusText = "Виконано";
+		case 4:ORr.OrderStatusText = "Відхилено";	
+	end;
+	
+	if(ORr.RejectMark==1 and blank(ORr.RejectStr))then begin
+		RecordCheckError(1058,"",-1,"RejectStr");      
+    res = -1;
+    goto LORVcRecordCheck;
+	end;
+	if(ORr.TTNMark==1 and blank(ORr.TTNNumber))then begin
+		RecordCheckError(1058,"",-1,"TTNNumber");      
+    res = -1;
+    goto LORVcRecordCheck;
+	end;
 	
   res = 0;
   insertmode = 1;//Rs_insert
@@ -2155,6 +2177,8 @@ begin
   ORr.LocalMachineCode = CurMachineName;
   ORr.OfficialSerNr = "";
   ORr.OfficialSerNrSerie = "";
+  ORr.OrderStatusCode = 0;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 2:37:05 PM
+  ORr.OrderStatusText = "Новий";// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 2:37:07 PM
   ORVcRecordDefaults = res;  
   return;
 end;

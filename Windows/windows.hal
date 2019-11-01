@@ -2282,3 +2282,14 @@ WindowBegin("Maintenance",PriceRecalcVClass,CGMnt,RcType);
 	EditField(h=140,v+=vs,70,"Новый курс",Normal,vals1,false,0); 
   EndWindow;
 end;
+
+
+window RejectStrSClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Оберіть причину скасування",RejectStrSClass,CGother,HBlRecType);
+  SetWRect(240,80,520,291);
+  Sizeable(-1,-1,-1,0);
+  StringList(9,9,-20,-10);
+  EndWindow;
+end;

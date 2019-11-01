@@ -1919,7 +1919,13 @@ begin
   RecordField(RahSplatNom,M4Str,0,100);// Edit ************************** Friday, 31 October 2014 15:51:47
   RecordField(DogPostNom,M4Str,0,100);// Edit ************************** Friday, 31 October 2014 15:51:47
   RecordField(DateshopRevise,M4Date,0,0);//Edit_-_-_-_-_-_-_-_-Anton 11:01 30.05.2018
-
+	RecordField(OrderStatusText,M4Str,100,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 1:11:44 PM
+	RecordField(OrderStatusCode,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 1:11:46 PM
+	RecordField(TTNMark,M4Mark,0,0);
+	RecordField(TTNNumber,M4Str,200,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 2:30:01 PM
+	RecordField(RejectMark,M4mark,0,0);
+	RecordField(RejectStr,M4Str,250,0);
+	
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
   ArrayField(ArtCode,M4Code,20,INVc);
