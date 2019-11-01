@@ -2404,8 +2404,8 @@ begin
 		EditField(h1,v+=vs,25,"Умови сплт.",Normal,PayDeal,false,PDSClass);
 		EditField(h1,v+=vs,70,"Склад",Normal,Location,false,LocationSClass);
 		EditField(h1,v+=vs,70,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
-		HalPushButton(h1+70,v+17,h1+130,v+25,"OrderCustomerInfoDsm","Інфо");
-		EditField(h1,v+=vs,40,"Кільк. Зам.",ViewOnly,OrderCnt,false,0);
+		HalPushButton(h1+70,v+17,h1+130,v+25,"OrderCustomerInfoDsm","Звіт");
+		EditField(h1,v+=vs,40,"Пост.Кл.",ViewOnly,OrderCnt,false,0);
 
 		
 		//2
