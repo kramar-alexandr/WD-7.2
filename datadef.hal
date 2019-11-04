@@ -1926,6 +1926,8 @@ begin
 	RecordField(RejectMark,M4mark,0,0);
 	RecordField(RejectStr,M4Str,250,0);
 	RecordField(OrderCnt,M4Int,0,0);
+	RecordField(Math2,M4TextField,0,0);// Edit_____________________________ABR 11:03 04.11.19
+  RecordField(ORChatSend,M4Str,255,0);// Edit_____________________________ABR 11:03 04.11.19
 	
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);

@@ -1434,6 +1434,7 @@ BEGIN
           end;
         end;  
       end; //Edit***************************Sasha2,10:43 11.02.2016 }
+		case "Math2": res = UsercanAction("AllowEditCommentsAndTextFieldOR",false);	
   end;
   if (ORShipdTest(ORr)==false) then begin goto LORDClassActiveEditField; end;
   if (wnst==Rs_update) then begin
@@ -2551,3 +2552,5 @@ record CUVc CUr;
 
 return
 end;
+
+

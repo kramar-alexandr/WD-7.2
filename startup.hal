@@ -611,7 +611,8 @@ begin
   StrSetText(ApproveSchedMaint,"Затвердити заплановане обслуговування"); 
   StrSetText(AllowSetPUOKFlag,"Дозволяти ставити ОК в надходженнях"); //Edit***************************Sasha2,17:05 08.01.2015
   StrSetText(AllowUnCloseMoveForServiceVc,"Дозволяти знімати \"Закрито\" в рухах товара для обслуговування"); //Edit***************************Sasha2,17:05 08.01.2015
-	StrSetText(ManagerView,"Вид окон для менеджеров"); //Edit_______________________________________ABR 19.06.19
+  StrSetText(ManagerView,"Вид окон для менеджеров"); //Edit_______________________________________ABR 19.06.19
+  StrSetText(AllowEditCommentsAndTextFieldOR,"Дозволити редагувати коментарі та нотатки в рахунках клієнтів");//Edit_______________________________________ABR 04.11.19 11:50
   EndStrSet;
 	
 	

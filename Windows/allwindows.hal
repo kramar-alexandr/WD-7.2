@@ -2453,13 +2453,16 @@ begin
 		v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
 		//v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
 		v = v + 360;
-		EditField(h1,v+=vs,-20,"Інформація",Normal,ShipAddr0,false,0);
-		EditField(h1,v+=vs,-20,"замовлення",Normal,ShipAddr1,false,0);
-		EditField(h1,v+=vs,-20,"",Normal,ShipAddr2,false,0);
-		EditField(h1,v+=vs,-20,"",Normal,ShipAddr3,false,0);
-		EditField(h1,v+=vs,-20,"",Normal,DelAddr3,false,0);
-		EditField(h1,v+=vs,-20,"",Normal,DelAddr4,false,0);
+		EditField(h1,v+=vs,-350,"Інформація",Normal,ShipAddr0,false,0);
+		EditField(h1,v+=vs,-350,"замовлення",Normal,ShipAddr1,false,0);
+		EditField(h1,v+=vs,-350,"",Normal,ShipAddr2,false,0);
+		EditField(h1,v+=vs,-350,"",Normal,ShipAddr3,false,0);
+		EditField(h1,v+=vs,-350,"",Normal,DelAddr3,false,0);
+		EditField(h1,v+=vs,-350,"",Normal,DelAddr4,false,0);
 		
+		TextField(h1+320,v-6*vs,-10,95,Math2,0);
+		EditField(h1+380,-41,-20,"Сообщение",Normal,ORChatSend,false,0);
+		EnterSkip(ORChatSend);
 		EditField(-150,-21,100,"Всього",ViewOnly ,Sum4,true,0);
 		
 		if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8

@@ -1,0 +1,34 @@
+global
+function boolean ORChatSendAfterEF(integer wn,integer changed)
+begin
+	string 255 input;
+	record ORVc ORr;
+	
+	getwindowrecord(wn,ORr);
+	
+	input = ORr.ORChatSend;
+	ORr.ORChatSend = "";
+	
+	if(nonblank(input))then begin
+		AddToText(CurrentDate & " ",ORr);
+		AddToText(CurrentTime & " ",ORr);
+		AddToText(CurrentUser & ": ",ORr);
+		AddToText(input & chr(13) & chr(10),ORr);
+		putwindowrecord(wn,ORr);
+	end;
+	
+return;
+end;
+
+global
+function Boolean ORDClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
+begin
+
+boolean res;
+	res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
+	switch (fieldname) begin
+    case "ORChatSend": res = ORChatSendAfterEF(wn,changed);      
+  end;
+	ORDClassAfterEditField = res;
+return;
+end;
