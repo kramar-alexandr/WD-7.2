@@ -1477,6 +1477,10 @@ LORDClassActiveEditField:;
 	if(fieldname=="GarantyFor")then begin 
 		res = true; 
 	end;
+	if(fieldname=="ORChatSend")then begin 
+		res = true; 
+	end;
+	
   ORDClassActiveEditField = res;
   RETURN;
 END;
