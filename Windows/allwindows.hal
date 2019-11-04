@@ -1952,7 +1952,7 @@ window ORDClass:2
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs,h5,flipnr,width;
   string 255 label;
-	if((UserCanAction("ManagerView",false)==false) or CurrentCompany!=13) then begin 
+	if((UserCanAction("ManagerView",false)==false) and CurrentCompany!=13) then begin 
 	//if(false) then begin 
 		WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
 		SetWRect(20,80,750,460);
@@ -2385,8 +2385,11 @@ begin
 		CheckBox(h4=-110,v,0,"OK",OKFlag);
 		CheckBox(h4,v+20,0,"Зарезервовано",Reserved);
 		EditField(h3=320,v+=20,100,"Статус",Normal,OrderStatusText,false,OrderStatusSClass);
-		EditField(h3=510,v,100,"Продавець",ViewOnly,SalesMan,false,0);
-		
+		if(usercanaction("AllowSalesmanChange",false))then begin
+			EditField(h3=510,v,100,"Продавець",normal,SalesMan,false,0);
+		end else begin
+			EditField(h3=510,v,100,"Продавець",ViewOnly,SalesMan,false,0);
+		end;
 		HalPushButton(h3-100,v+=20,h3,v+=20,"OrderSetToST1Dsm","В роботі");
 		CheckBox(h3+10,v+7,0,"",TTNMark);
 		EditField(h3+80,v+7,-20,"ТТН",Normal,TTNNumber,false,0);	
