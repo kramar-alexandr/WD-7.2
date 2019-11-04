@@ -2422,7 +2422,7 @@ begin
 		
 		
 		
-		MatrixBegin(3,v+=50,-50,v+230,-,200);
+		MatrixBegin(3,v+=50,-50,v+210,-,200);
 		MatTypedRow(stp);
 		flipnr = 0;
 		Flip(flipnr); flipnr = flipnr + 1;
@@ -2460,7 +2460,7 @@ begin
 		EditField(h1,v+=vs,-350,"",Normal,DelAddr3,false,0);
 		EditField(h1,v+=vs,-350,"",Normal,DelAddr4,false,0);
 		
-		TextField(h1+320,v-5*vs,-10,95,Math2,0);
+		TextField(h1+320,v-6*vs,-10,95,Math2,0);
 		EditField(h1+390,-41,-50,"Сообщение",Normal,ORChatSend,false,0);
 		EnterSkip(ORChatSend);
 		EditField(-150,-21,100,"Всього",ViewOnly ,Sum4,true,0);
