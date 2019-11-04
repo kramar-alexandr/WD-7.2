@@ -2386,7 +2386,7 @@ begin
 		CheckBox(h4,v+20,0,"Зарезервовано",Reserved);
 		EditField(h3=320,v+=20,100,"Статус",Normal,OrderStatusText,false,OrderStatusSClass);
 		if(usercanaction("AllowSalesmanChange",false))then begin
-			EditField(h3=510,v,100,"Продавець",normal,SalesMan,false,0);
+			EditField(h3=510,v,100,"Продавець",normal,SalesMan,false,UserSClass);
 		end else begin
 			EditField(h3=510,v,100,"Продавець",ViewOnly,SalesMan,false,0);
 		end;
