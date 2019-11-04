@@ -2394,13 +2394,13 @@ begin
 		CheckBox(h3+10,v+7,0,"",TTNMark);
 		EditField(h3+80,v+7,-20,"’’Ќ",Normal,TTNNumber,false,0);	
 		
-		EditField(h3+80,v+7+vs,-20,"Љлас рахунка",Normal,OrderClass,false,OrderClassSClass);
+		EditField(h3+80,v+27,-20,"Љлас рахунка",Normal,OrderClass,false,OrderClassSClass);
 				
 		HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST2Dsm","‚ґдправлений");
 		HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST3Dsm","‚иконаний");
 		CheckBox(h3+10,v+7,0,"",RejectMark);
 		EditField(h3+80,v+7,-20,"Џричина",Normal,RejectStr,false,RejectStrSClass);
-		EditField(h3+80,v+7+vs,-20,"‚ид рахунка",Normal,OrderType,false,SetSClass);
+		EditField(h3+80,v+27,-20,"‚ид рахунка",Normal,OrderType,false,SetSClass);
 		HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST4Dsm","‚ґдхилено");
 		//1 
 		v = 60;
