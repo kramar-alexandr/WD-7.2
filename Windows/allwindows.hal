@@ -1952,8 +1952,8 @@ window ORDClass:2
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs,h5,flipnr,width;
   string 255 label;
-	//if((UserCanAction("ManagerView",false)==false) or CurrentCompany!=13) then begin 
-	if(false) then begin 
+	if((UserCanAction("ManagerView",false)==false) or CurrentCompany!=13) then begin 
+	//if(false) then begin 
 		WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
 		SetWRect(20,80,750,460);
 		Sizeable(-1,-1,0,0);
