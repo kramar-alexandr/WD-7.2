@@ -2365,7 +2365,7 @@ begin
 		EndWindow;
 	end else begin
 		WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
-		SetWRect(20,80,750,520);
+		SetWRect(20,80,750,460);
 		Sizeable(-1,-1,0,0);
 		UseView(ORVc);
 		ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
@@ -2463,9 +2463,9 @@ begin
 		EditField(h1,v+=vs,-350,"",Normal,ShipAddr3,false,0);
 		EditField(h1,v+=vs,-350,"",Normal,DelAddr3,false,0);
 		EditField(h1,v+=vs,-350,"",Normal,DelAddr4,false,0);
-		EditField(h1,v+=vs,-350,"Чек 1",Normal,Addr1,false,0);
-		EditField(h1,v+=vs,-350,"Чек 2",Normal,Addr2,false,0);
-		EditField(h1,v+=vs,-350,"Чек 3",Normal,Addr3,false,0);
+		//EditField(h1,v+=vs,-350,"Чек 1",Normal,Addr1,false,0);
+		//EditField(h1,v+=vs,-350,"Чек 2",Normal,Addr2,false,0);
+		//EditField(h1,v+=vs,-350,"Чек 3",Normal,Addr3,false,0);
 		
 		TextField(h1+320,v-6*vs,-10,95,Math2,0);
 		EditField(h1+390,-41,-50,"Сообщение",Normal,ORChatSend,false,0);

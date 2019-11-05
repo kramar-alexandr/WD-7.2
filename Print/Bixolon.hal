@@ -315,20 +315,38 @@ begin
 	addtexttoarea(ORr.Phone & chr(13) & chr(10) ,aFile);
 	addtexttoarea(chr(13) & chr(10) ,aFile);
 	
-	if(nonblank(ORr.Addr1) or nonblank(ORr.Addr2) or nonblank(ORr.Addr3))then begin
-		addtexttoarea(SetBoldOn,aFile);
-		addtexttoarea("Адреса доставки" & chr(13) & chr(10) ,aFile);
-		addtexttoarea(SetBoldOff,aFile);
-		if(nonblank(ORr.Addr1))then begin
-			addtexttoarea(ORr.Addr1 & chr(13) & chr(10) ,aFile);
+	if(currentcompany!=13)then begin
+		if(nonblank(ORr.Addr1) or nonblank(ORr.Addr2) or nonblank(ORr.Addr3))then begin
+			addtexttoarea(SetBoldOn,aFile);
+			addtexttoarea("Адреса доставки" & chr(13) & chr(10) ,aFile);
+			addtexttoarea(SetBoldOff,aFile);
+			if(nonblank(ORr.Addr1))then begin
+				addtexttoarea(ORr.Addr1 & chr(13) & chr(10) ,aFile);
+			end;
+			if(nonblank(ORr.Addr2))then begin
+				addtexttoarea(ORr.Addr2 & chr(13) & chr(10) ,aFile);
+			end;
+			if(nonblank(ORr.Addr3))then begin
+				addtexttoarea(ORr.Addr3 & chr(13) & chr(10) ,aFile);
+			end;
+			addtexttoarea(chr(13) & chr(10) ,aFile);
 		end;
-		if(nonblank(ORr.Addr2))then begin
-			addtexttoarea(ORr.Addr2 & chr(13) & chr(10) ,aFile);
+	end else begin
+		if(nonblank(ORr.ShipAddr1) or nonblank(ORr.Addr2) or nonblank(ORr.Addr3))then begin
+			addtexttoarea(SetBoldOn,aFile);
+			addtexttoarea("Адреса доставки" & chr(13) & chr(10) ,aFile);
+			addtexttoarea(SetBoldOff,aFile);
+			if(nonblank(ORr.ShipAddr1))then begin
+				addtexttoarea(ORr.ShipAddr1 & chr(13) & chr(10) ,aFile);
+			end;
+			if(nonblank(ORr.ShipAddr2))then begin
+				addtexttoarea(ORr.ShipAddr2 & chr(13) & chr(10) ,aFile);
+			end;
+			if(nonblank(ORr.ShipAddr3))then begin
+				addtexttoarea(ORr.Addr3 & chr(13) & chr(10) ,aFile);
+			end;
+			addtexttoarea(chr(13) & chr(10) ,aFile);
 		end;
-		if(nonblank(ORr.Addr3))then begin
-			addtexttoarea(ORr.Addr3 & chr(13) & chr(10) ,aFile);
-		end;
-		addtexttoarea(chr(13) & chr(10) ,aFile);
 	end;
 	
 	if(nonblank(ORr.Comment))then begin
