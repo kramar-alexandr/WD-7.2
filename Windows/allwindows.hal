@@ -2438,7 +2438,7 @@ begin
 		t = 1;
 		MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
 
-		MatCol(t,-184,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+		MatCol(t,-284,"Серійний номер",0,SerialNr,false,SerialNrSClass);
 		MatCol(t,-180,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
 		MatCol(t,-105,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
 		MatCol(t,-70,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
