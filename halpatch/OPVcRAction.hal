@@ -207,7 +207,9 @@ BEGIN
     invalidatingf = true;
   end;
   if (unokf) then begin
-    errcode = IsUnOKAllowed_OPVc(OPp);
+  	if(currentuser!="SA")then begin
+    	errcode = IsUnOKAllowed_OPVc(OPp);
+    end;
     if (errcode!=0) then begin
       if (disperrf) then begin
         RecordCheckError(errcode,"",-1,"TransDate");      
