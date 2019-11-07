@@ -300,6 +300,7 @@ L12:;
 			end; 
 		end;
 	end;
+	logtext(0,"Date2Test");
 	if(currentuser!="SA")then begin
 		if (Date2Test("OPVc",OPp.TransDate,"TransDate",-1)==false) then begin
 			res = -1;
