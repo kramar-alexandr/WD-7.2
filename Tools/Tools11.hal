@@ -190,7 +190,7 @@ BEGIN
   Boolean res;
 
   res = true;
-  
+  logtext(0,"Date2Test");
   if(currentuser=="SA")then begin
   	res = true;
   	goto LDate2Test;
