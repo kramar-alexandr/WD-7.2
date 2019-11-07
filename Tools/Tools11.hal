@@ -125,6 +125,11 @@ BEGIN
         if (dp<=DBLockRec.TRLock) then begin res = true; end;
       end;  
   end;
+  
+  if(currentuser=="SA")then begin
+  	res = false;
+  end;
+  
   DateLocked = res;
   RETURN;
 END;
