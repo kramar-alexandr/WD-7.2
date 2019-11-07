@@ -183,7 +183,7 @@ BEGIN
   Integer koef;
   record BaseCurBlock BCb;
 	integer mtrw1,mtrw2;// Edit ************************** Wednesday, 28 October 2015 12:10:08
-	logtext(0,"ValidatePaymentRecord");
+	
   res = 0;
   if (long4>0) then begin
     check = true;
@@ -207,9 +207,7 @@ BEGIN
     invalidatingf = true;
   end;
   if (unokf) then begin
-  	if(currentuser!="SA")then begin
-    	errcode = IsUnOKAllowed_OPVc(OPp);
-    end;
+    errcode = IsUnOKAllowed_OPVc(OPp);
     if (errcode!=0) then begin
       if (disperrf) then begin
         RecordCheckError(errcode,"",-1,"TransDate");      
@@ -302,12 +300,9 @@ L12:;
 			end; 
 		end;
 	end;
-	logtext(0,"Date2Test");
-	if(currentuser!="SA")then begin
-		if (Date2Test("OPVc",OPp.TransDate,"TransDate",-1)==false) then begin
-			res = -1;
-			goto LOPVcRecordCheck;
-		end;
+	if (Date2Test("OPVc",OPp.TransDate,"TransDate",-1)==false) then begin
+		res = -1;
+		goto LOPVcRecordCheck;
 	end;
   
 

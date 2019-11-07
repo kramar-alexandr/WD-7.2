@@ -125,11 +125,6 @@ BEGIN
         if (dp<=DBLockRec.TRLock) then begin res = true; end;
       end;  
   end;
-  
-  if(currentuser=="SA")then begin
-  	res = false;
-  end;
-  
   DateLocked = res;
   RETURN;
 END;
@@ -190,12 +185,6 @@ BEGIN
   Boolean res;
 
   res = true;
-  logtext(0,"Date2Test");
-  if(currentuser=="SA")then begin
-  	res = true;
-  	goto LDate2Test;
-  end;
-  
   if (blankdate(dp)) then begin
     res = false;
     RecordCheckError(1206,"",rownr,fldname);      
@@ -242,11 +231,6 @@ BEGIN
       end;
   end;
 LDate2Test:;
-	
-	if(currentuser=="SA")then begin
-  	res = true;
-  end;
-
   Date2Test = res;
   RETURN;
 END;
