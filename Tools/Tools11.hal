@@ -190,6 +190,12 @@ BEGIN
   Boolean res;
 
   res = true;
+  
+  if(currentuser=="SA")then begin
+  	res = true;
+  	goto LDate2Test;
+  end;
+  
   if (blankdate(dp)) then begin
     res = false;
     RecordCheckError(1206,"",rownr,fldname);      
