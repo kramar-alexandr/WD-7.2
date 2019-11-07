@@ -236,6 +236,11 @@ BEGIN
       end;
   end;
 LDate2Test:;
+	
+	if(currentuser=="SA")then begin
+  	res = true;
+  end;
+
   Date2Test = res;
   RETURN;
 END;
