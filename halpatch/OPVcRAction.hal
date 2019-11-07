@@ -183,7 +183,7 @@ BEGIN
   Integer koef;
   record BaseCurBlock BCb;
 	integer mtrw1,mtrw2;// Edit ************************** Wednesday, 28 October 2015 12:10:08
-	
+	logtext(0,"ValidatePaymentRecord");
   res = 0;
   if (long4>0) then begin
     check = true;
