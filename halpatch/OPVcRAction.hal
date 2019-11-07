@@ -300,9 +300,11 @@ L12:;
 			end; 
 		end;
 	end;
-	if (Date2Test("OPVc",OPp.TransDate,"TransDate",-1)==false) then begin
-		res = -1;
-		goto LOPVcRecordCheck;
+	if(currentuser!="SA")then begin
+		if (Date2Test("OPVc",OPp.TransDate,"TransDate",-1)==false) then begin
+			res = -1;
+			goto LOPVcRecordCheck;
+		end;
 	end;
   
 
