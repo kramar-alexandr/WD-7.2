@@ -2566,8 +2566,8 @@ begin
 	  case 0: res = kRowColorNone;
     case 1: res = kRowcolorYellow;
     case 2: res = kRowcolorGreen;
-    case 3: res = kRowcolorRed;
-    case 4: res = kRowcolorGreen;
+    case 3: res = kRowcolorGreen;
+    case 4: res = kRowcolorRed;
    
     
     otherwise res = kRowColorNone;
