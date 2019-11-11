@@ -2564,19 +2564,11 @@ begin
   
   switch (ORr.OrderStatusCode) begin
 	  case 0: res = kRowColorNone;
-    case 1: res = kRowcolorRed;
-    case 2: res = kRowcolorYellow;
+    case 1: res = kRowcolorYellow;
+    case 2: res = kRowcolorGreen;
     case 3: res = kRowcolorRed;
     case 4: res = kRowcolorGreen;
-    case 5: res = kRowcolorGreen;
-    case 6: res = kRowcolorGreen;
-    case 7: res = kRowcolorGreen;
-    case 8: res = kRowcolorGreen;
-    case 9: res = kRowColorNone;
-    case 10: res = kRowColorNone;
-    case 11: res = kRowcolorGreen;
-    case 12: res = kRowcolorRed;
-    case 13: res = kRowcolorYellow;
+   
     
     otherwise res = kRowColorNone;
   end;
