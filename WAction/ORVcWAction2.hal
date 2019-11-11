@@ -2557,4 +2557,31 @@ record CUVc CUr;
 return
 end;
 
+global //Edit_______________________________ABR,15:11 11.11.2019 {
+function Integer ORLClassRowColor(record ORVc ORr)
+begin
+  Integer res;
+  
+  switch (ORr.OrderStatusCode) begin
+	  case 0: res = kRowColorNone;
+    case 1: res = kRowcolorRed;
+    case 2: res = kRowcolorYellow;
+    case 3: res = kRowcolorRed;
+    case 4: res = kRowcolorRed;
+    case 5: res = kRowcolorGreen;
+    case 6: res = kRowcolorGreen;
+    case 7: res = kRowcolorGreen;
+    case 8: res = kRowcolorGreen;
+    case 9: res = kRowColorNone;
+    case 10: res = kRowColorNone;
+    case 11: res = kRowcolorGreen;
+    case 12: res = kRowcolorRed;
+    case 13: res = kRowcolorYellow;
+    
+    otherwise res = kRowColorNone;
+  end;
+  
+  ORLClassRowColor = res;
+  return;
+end; //Edit_______________________________ABR,15:11 11.11.2019 }
 
