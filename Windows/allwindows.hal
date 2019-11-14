@@ -6797,7 +6797,7 @@ begin
 //  RlColKey(341,341,"C._O.no.",CustOrdNr,false,CustOrdNr);
   WindowBegin("Рахунки клієнтів",ORLClass,CGmlist,-);
   SpawnClass(ORDClass);
-  SetWRect(20,80,850,298);
+  SetWRect(20,80,1050,298);
   Sizeable(-1,-1,0,0);
   UseView(ORVc);
   FormName(PrintORL);
@@ -6827,11 +6827,12 @@ begin
   pos = pos + 60;
   RlColKey(pos,pos,"Найменув.",Addr0,false,Name); 
   if (IsEnterprise) then begin
-    RlColKey(-200,-200,"Вид",OrderClass,false,OrderClass);
-    RlColKey(-155,-155,"Всього",Sum4,true,Sum4);
+    RlColKey(-280,-280,"Вид",OrderClass,false,OrderClass);
+    RlColKey(-235,-235,"Всього",Sum4,true,Sum4);
     //RlCol(-75,-75,"Попер. сплачено",DownPaySent,true);// Edit ************************** Wednesday, 24 September 2014 09:46:50
-    RlColKey(-80,-80,"Шопс",ShopsMark,true,ShopsMark);// Edit ************************** Wednesday, 24 September 2014 09:46:50
-    RlColKey(-40,-40,"Резерв",Reserved,true,Reserved);// Edit ************************** Wednesday, 24 September 2014 09:46:50
+    RlColKey(-160,-160,"Шопс",ShopsMark,true,ShopsMark);// Edit ************************** Wednesday, 24 September 2014 09:46:50
+    RlColKey(-120,-120,"Резерв",Reserved,true,Reserved);// Edit ************************** Wednesday, 24 September 2014 09:46:50
+    RlCol(-80,-80,"Час",RegTime,true);
   end else begin
     RlColKey(-55,-55,"Всього",Sum4,true,Sum4); 
   end;
