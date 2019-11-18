@@ -3,6 +3,7 @@ remote updating function Boolean RecordAction_raWebNavLinkFromArchive(var record
 remote updating function Integer RecordAction_raMailFromArchive(var record MailVc,record RLinkVc,Integer);
 remote updating function Boolean RecordAction_raNoteFromArchive(var record NotepadVc,record RLinkVc,Integer);
 remote updating function Boolean RecordAction_raActionFromArchive(var record ActionVc,record RLinkVc,Integer);
+remote updating procedure CreareActReply(var record ActVc,record ActVc);
 
 global
 procedure NoteFromArchiveWsm()
@@ -28,6 +29,58 @@ BEGIN
   RETURN;
 END;
 
+
+global updating procedure ActBackDsm()
+begin
+	record ActVc Actr,oldActr,old1Actr;
+	integer wn;
+	string 50 from,to;
+	record SVOVc SVOr;
+	
+	wn = curwindow;
+	deselectwindow(wn,true);
+	getwindowrecord(wn,oldActr);
+	CreareActReply(Actr,oldActr);
+	closewindow(wn);
+	OpenWindow("ActDClass",1,0,"","",Actr);
+	
+	/*
+	wn = curwindow;
+	deselectwindow(wn,true);
+	getwindowrecord(wn,oldActr);
+	closewindow(wn);
+	recordnew(Actr);
+	//recordnew(old1Actr);
+	old1Actr.UUID = Actr.UUID;
+	recordcopy(Actr,oldActr);
+	Actr.SerNr = -1;
+	Actr.UUID = old1Actr.UUID;
+	from = Actr.MainPersons;
+	to = Actr.Supervisor;
+	Actr.MainPersons = to;
+	Actr.Supervisor = from;
+	Actr.Comment = "RE:" & Actr.Comment;
+	Actr.TransDate = currentdate;
+	Actr.StartTime = addminutes(currenttime,2);
+	if(!setinset(Actr.Supervisor,Actr.CCPersons))then begin
+		if(blank(Actr.CCPersons))then begin
+			Actr.CCPersons = Actr.Supervisor;
+		end else begin
+			Actr.CCPersons = Actr.CCPersons & "," & Actr.Supervisor;
+		end;
+	end;
+	//Actr.SerNr = NextSerNr("ActVc",currentdate,-1,false,"");
+	recordinsert(Actr,true);
+	SVOr.SerNr = Actr.SVOSerNr;
+	if(readfirstmain(SVOr,1,true))then begin
+		createrecordlink(SVOr,currentcompany,Actr,currentcompany);
+		createrecordlink(Actr,currentcompany,SVOr,currentcompany);
+	end;
+	wn = OpenWindow("ActDClass",1,0,"","",Actr);
+	*/
+	
+return;
+end;
 
 /*global
 function Integer ReportsToMailDClassSelectSetToPaste(Integer wn,string fieldname)

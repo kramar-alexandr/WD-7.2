@@ -2087,3 +2087,50 @@ begin
 
 return;
 end;
+
+global updating procedure CreareActReply(var record ActVc Actr,record ActVc oldActr)
+begin
+	string 50 from,to;
+	record SVOVc SVOr;
+	record ActVc uidAtr;
+	record NotepadVc Noter;
+	Integer notenr;
+	record RLinkVc RLr;
+	
+	recordnew(Actr);
+	recordnew(uidAtr);
+	recordcopy(Actr,oldActr);
+	Actr.SerNr =  NextSerNr("ActVc",currentdate,-1,false,"");
+	Actr.UUID = uidAtr.UUID;
+	from = Actr.MainPersons;
+	to = Actr.Supervisor;
+	Actr.MainPersons = to;
+	Actr.Supervisor = from;
+	Actr.Comment = "RE:" & Actr.Comment;
+	Actr.TransDate = currentdate;
+	Actr.StartTime = addminutes(currenttime,2);
+	if(!setinset(Actr.Supervisor,Actr.CCPersons))then begin
+		if(blank(Actr.CCPersons))then begin
+			Actr.CCPersons = Actr.Supervisor;
+		end else begin
+			Actr.CCPersons = Actr.CCPersons & "," & Actr.Supervisor;
+		end;
+	end;
+	if(recordstore(Actr,true))then begin
+		SVOr.SerNr = Actr.SVOSerNr;
+		if(readfirstmain(SVOr,1,true))then begin
+			createrecordlink(SVOr,currentcompany,Actr,currentcompany);
+			createrecordlink(Actr,currentcompany,SVOr,currentcompany);
+		end;
+		
+		notenr = 1;
+		while (ReadRecordLink(oldActr,notenr,Noter,RLr)) begin
+			createrecordlink(Noter,currentcompany,Actr,currentcompany);
+			createrecordlink(Actr,currentcompany,Noter,currentcompany);
+			notenr = notenr + 1;
+		end;
+		
+	end;
+	
+return;
+end;
