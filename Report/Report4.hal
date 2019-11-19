@@ -1,6 +1,8 @@
 external function LongInt DateDiff(Date,Date);
 external procedure IPRn(record RcVc);
 
+SetLangMode(LangUkrainian,"UKR",0);
+
 global procedure IPEn()
 begin
 record RcVc RepSpec;
@@ -319,5 +321,123 @@ boolean TrHs,Testf;
     //end;
   end;
   endjob;
+return;
+end;
+
+
+
+global procedure SaledItemsFromPURn(record RcVc RepSpec)
+begin
+	record PUVc PUr;
+	row PUVc PUrw;
+	integer i,mtrw;
+	record ItemHistVc IHr;
+	boolean TrHs,testf;
+	record SerBalVc SBr;
+	record SHVc SHr;
+	val remqty;
+	string 200 shsenr,shcustcode,shdate,shordernr;
+	string 200 ivsenr,ivcustcode,ivdate,ivordernr,ivsum,ivprice,ivrebate,ivcurncy,ivfrrate,ivtorate;
+	record IVVc IVr;
+	row IVVc IVrw;
+	
+	startreportnoheaderjob("Продані товари с надходження");
+	
+	if(RepSpec.long1>0)then begin
+		PUr.SerNr = RepSpec.long1;
+		if(readfirstmain(PUr,1,true))then begin
+			mtrw = matrowcnt(PUr);
+			
+			for(i=0;i<mtrw;i=i+1)begin
+				matrowget(PUr,i,PUrw);
+				if(nonblank(PUrw.ArtCode) and nonblank(PUrw.SerialNr))then begin
+					startformat(15);
+						outstring(0,0,PUr.SerNr,false);
+						outstring(0,0,PUr.TransDate,false);
+						outstring(0,0,PUr.VECode,false);
+				 		outstring(0,0,PUrw.ArtCode,false);
+						outstring(0,0,PUrw.Spec,false);
+						outstring(0,0,PUrw.SerialNr,false);
+				 		outstring(0,0,PUrw.CostPrice,false);
+				 		remqty = 0;
+				 		IHr.ArtCode = PUrw.ArtCode;
+				 		IHr.SerialNr = PUrw.SerialNr;
+				 		TrHs = true;
+				 		
+				 		shsenr = "";
+				 		shcustcode = "";
+				 		shdate = "";
+				 		shdate = "";
+				 		shordernr = "";
+						
+						ivsenr = "";
+				 		ivcustcode = "";
+				 		ivdate = "";
+				 		ivdate = "";
+				 		ivordernr = "";
+
+				 		
+				 		while(loopkey("ArtCodeSerialNr",IHr,2,TrHs))begin
+				 			testf = true;
+				 			if(IHr.ArtCode!=PUrw.ArtCode)then begin TrHs = false; testf = false; end;
+				 			if(IHr.SerialNr!=PUrw.SerialNr)then begin TrHs = false; testf = false; end;
+				 			
+				 			
+				 			if(testf)then begin
+				 				if(IHr.StockAffectf==0)then begin
+									remqty = remqty + IHr.Qty;
+				 				end;
+				 				
+				 				if(IHr.FileName=="SHVc")then begin
+				 					SHr.SerNr = IHr.TransNr;
+				 					if(readfirstmain(SHr,1,true))then begin
+				 						shsenr = SHr.SerNr;
+				 						shcustcode = SHr.CustCode;
+				 						shdate = SHr.ShipDate;
+				 						shordernr = SHr.OrderNr;
+				 					end;
+				 				end;
+				 				if(IHr.FileName=="IVVc")then begin
+				 					IVr.SerNr = IHr.TransNr;
+				 					if(readfirstmain(IVr,1,true))then begin
+				 						ivsenr = IVr.SerNr;
+				 						ivcustcode = IVr.CustCode;
+				 						ivdate = IVr.InvDate;
+				 						ivordernr = IVr.OrderNr;
+				 						matrowget(IVr,IHr.Row,IVrw);
+				 						ivprice = IVrw.Price;
+				 						ivrebate = IVrw.vRebate;
+				 						ivsum = IVrw.Sum;
+				 						ivcurncy = IVr.CurncyCode;
+				 						ivfrrate = IVr.FrRate;
+				 						ivtorate = IVr.ToRateB1;
+				 					end;
+				 				end;
+				 				
+				 			end;
+				 		end;
+				 		resetloop(IHr);
+				 		outstring(0,0,shsenr,false);
+				 		outstring(0,0,shcustcode,false);
+				 		outstring(0,0,shdate,false);
+				 		outstring(0,0,shordernr,false);
+				 		outstring(0,0,ivsenr,false);
+				 		outstring(0,0,ivcustcode,false);
+				 		outstring(0,0,ivordernr,false);
+				 		outstring(0,0,ivprice,false);
+				 		outstring(0,0,ivrebate,false);
+				 		outstring(0,0,ivsum,false);
+				 		outstring(0,0,ivcurncy,false);
+				 		outstring(0,0,ivfrrate,false);
+				 		outstring(0,0,ivtorate,false);
+				 						 		
+					endformat;
+				end;
+			end;
+		end;
+	end;
+	
+	endjob;
+
 return;
 end;

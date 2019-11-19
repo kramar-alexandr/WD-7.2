@@ -2293,3 +2293,16 @@ begin
   StringList(9,9,-20,-10);
   EndWindow;
 end;
+
+window SaledItemsFromPURClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+	
+  WindowBegin("Продані товари с надходження",SaledItemsFromPURClass,CGRcW,RcType);
+    SetWRect(20,120,350,500);
+    h=50;
+    EditField(h+100,40,150,"Надходження",Normal,long1,false,PUSClass);
+  EndWindow;
+end;

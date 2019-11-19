@@ -81,6 +81,8 @@ begin
 	
 	Report("Видалити контакти",DeleteCUListRClass,DeleteCUListRn,0,modSY);  
 	
+	Report("Продані товари з надходження",SaledItemsFromPURClass,SaledItemsFromPURn,0,modIN);  // Edit ************************** BPI Ukraine - KramarAlexandr - 02, 19 11 2019 y. at 4:10:26 PM
+	
 	
  	Maintenance("Розбіжність складу з балансом",MyVClass,StockBalDiffMn,modIN);
  	
