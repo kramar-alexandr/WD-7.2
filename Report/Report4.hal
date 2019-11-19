@@ -330,7 +330,7 @@ global procedure SaledItemsFromPURn(record RcVc RepSpec)
 begin
 	record PUVc PUr;
 	row PUVc PUrw;
-	integer i,mtrw;
+	integer i,mtrw,j,rwcnt;
 	record ItemHistVc IHr;
 	boolean TrHs,testf;
 	record SerBalVc SBr;
@@ -338,8 +338,11 @@ begin
 	val remqty;
 	string 200 shsenr,shcustcode,shdate,shordernr;
 	string 200 ivsenr,ivcustcode,ivdate,ivordernr,ivsum,ivprice,ivrebate,ivcurncy,ivfrrate,ivtorate;
+	string 200 orsenr,orcustcode,ordate,orordernr,orsum,orprice,orrebate,orcurncy,orfrrate,ortorate;
 	record IVVc IVr;
 	row IVVc IVrw;
+	record ORVc ORr;
+	row ORVc ORrw;
 	
 	startreportnoheaderjob("Продані товари с надходження");
 	
@@ -356,6 +359,15 @@ begin
 		outstring(0,0,"Клієнт від.",false);
 		outstring(0,0,"Дата від.",false);
 		outstring(0,0,"№ рах.кл.",false);
+		outstring(0,0,"Клієнт",false);
+		outstring(0,0,"Дата рах",false);
+		outstring(0,0,"Ціна",false);
+		outstring(0,0,"Знижка",false);
+		outstring(0,0,"Сума",false);
+		outstring(0,0,"Валюта",false);
+		outstring(0,0,"Курс",false);
+		outstring(0,0,"Курс",false);
+		
 		outstring(0,0,"№ Акту",false);
 		outstring(0,0,"Клієнт",false);
 		outstring(0,0,"Дата акту",false);
@@ -396,11 +408,28 @@ begin
 				 		shordernr = "";
 						
 						ivsenr = "";
-				 		ivcustcode = "";
-				 		ivdate = "";
-				 		ivdate = "";
-				 		ivordernr = "";
+						ivcustcode = "";
+						ivdate = "";
+						ivordernr = "";
+						ivsum = "";
+						ivprice = "";
+						ivrebate = "";
+						ivcurncy = "";
+						ivfrrate = "";
+						ivtorate = "";
 
+						orsenr = "";
+						orcustcode = "";
+						ordate = "";
+						orordernr = "";
+						orsum = "";
+						orprice = "";
+						orrebate = "";
+						orcurncy = "";
+						orfrrate = "";
+						ortorate = "";
+
+				 		remqty = blankval;
 				 		
 				 		while(loopkey("ArtCodeSerialNr",IHr,2,TrHs))begin
 				 			testf = true;
@@ -409,7 +438,7 @@ begin
 				 			
 				 			
 				 			if(testf)then begin
-				 				if(IHr.StockAffectf==0)then begin
+				 				if(IHr.StockAffectf!=0)then begin
 									remqty = remqty + IHr.Qty;
 				 				end;
 				 				
@@ -450,6 +479,43 @@ begin
 				 		outstring(0,0,shcustcode,false);
 				 		outstring(0,0,shdate,false);
 				 		outstring(0,0,shordernr,false);
+				 		
+				 		if(nonblank(shordernr) or nonblank(ivordernr))then begin
+				 			if(stringtolongint(shordernr)>0)then begin
+				 				ORr.SerNr = stringtolongint(shordernr);
+				 			end;
+				 			if(stringtolongint(ivordernr)>0)then begin
+				 				ORr.SerNr = stringtolongint(ivordernr);
+				 			end;
+				 			if(readfirstmain(ORr,1,true))then begin
+				 				rwcnt = matrowcnt(ORr);
+				 				for(j=0;j<rwcnt;j=j+1)begin
+				 					matrowget(ORr,j,ORrw);
+				 					if(ORrw.ArtCode==PUrw.ArtCode)then begin
+				 						orcustcode = ORr.CustCode;
+				 						ordate = ORr.OrdDate;
+				 						orprice = ORrw.Price;
+				 						orrebate = ORrw.vRebate;
+				 						orsum = ORrw.Sum;
+				 						orcurncy = ORr.CurncyCode;
+				 						orfrrate = ORr.FrRate;
+				 						ortorate = ORr.ToRateB1;
+				 					end;
+				 				end;
+				 			
+				 			end;
+				 		end;
+				 		
+				 		outstring(0,0,orcustcode,false);
+						outstring(0,0,ordate,false);
+						outstring(0,0,orprice,false);
+						outstring(0,0,orrebate,false);
+						outstring(0,0,orsum,false);
+						outstring(0,0,orcurncy,false);
+						outstring(0,0,orfrrate,false);
+						outstring(0,0,ortorate,false);
+				 		
+				 		
 				 		outstring(0,0,ivsenr,false);
 				 		outstring(0,0,ivcustcode,false);
 				 		outstring(0,0,ivordernr,false);
