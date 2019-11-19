@@ -343,6 +343,31 @@ begin
 	
 	startreportnoheaderjob("Продані товари с надходження");
 	
+	startformat(15);
+		outstring(0,0,"№ Наох.",false);
+		outstring(0,0,"Дата надх.",false);
+		outstring(0,0,"Код пост.",false);
+		outstring(0,0,"Код товару",false);
+		outstring(0,0,"Назва",false);
+		outstring(0,0,"Серійний номер",false);
+		outstring(0,0,"Собівартість",false);
+		outstring(0,0,"Залишок на складі",false);
+		outstring(0,0,"№ Відван.",false);
+		outstring(0,0,"Клієнт від.",false);
+		outstring(0,0,"Дата від.",false);
+		outstring(0,0,"№ рах.кл.",false);
+		outstring(0,0,"№ Акту",false);
+		outstring(0,0,"Клієнт",false);
+		outstring(0,0,"Дата акту",false);
+		outstring(0,0,"№ рах.",false);
+		outstring(0,0,"Ціна",false);
+		outstring(0,0,"Знижка",false);
+		outstring(0,0,"Сума",false);
+		outstring(0,0,"Валюта",false);
+		outstring(0,0,"Курс",false);
+		outstring(0,0,"Курс",false);
+		endformat;
+	
 	if(RepSpec.long1>0)then begin
 		PUr.SerNr = RepSpec.long1;
 		if(readfirstmain(PUr,1,true))then begin
@@ -417,6 +442,10 @@ begin
 				 			end;
 				 		end;
 				 		resetloop(IHr);
+				 		if(remqty<0)then begin
+				 			remqty = blankval;
+				 		end;
+				 		outstring(0,0,remqty,false);
 				 		outstring(0,0,shsenr,false);
 				 		outstring(0,0,shcustcode,false);
 				 		outstring(0,0,shdate,false);
