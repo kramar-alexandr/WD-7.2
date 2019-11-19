@@ -473,7 +473,7 @@ begin
 				 			end;
 				 		end;
 				 		resetloop(IHr);
-				 		if(remqty<0)then begin
+				 		if(remqty<=0)then begin
 							location = "";
 				 			remqty = blankval;
 				 		end;
