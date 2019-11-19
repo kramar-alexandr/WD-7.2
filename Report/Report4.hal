@@ -518,6 +518,7 @@ begin
 				 		
 				 		outstring(0,0,ivsenr,false);
 				 		outstring(0,0,ivcustcode,false);
+				 		outstring(0,0,ivdate,false);
 				 		outstring(0,0,ivordernr,false);
 				 		outstring(0,0,ivprice,false);
 				 		outstring(0,0,ivrebate,false);
