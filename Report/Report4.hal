@@ -336,7 +336,7 @@ begin
 	record SerBalVc SBr;
 	record SHVc SHr;
 	val remqty;
-	string 200 shsenr,shcustcode,shdate,shordernr;
+	string 200 shsenr,shcustcode,shdate,shordernr,location;
 	string 200 ivsenr,ivcustcode,ivdate,ivordernr,ivsum,ivprice,ivrebate,ivcurncy,ivfrrate,ivtorate;
 	string 200 orsenr,orcustcode,ordate,orordernr,orsum,orprice,orrebate,orcurncy,orfrrate,ortorate;
 	record IVVc IVr;
@@ -355,6 +355,7 @@ begin
 		outstring(0,0,"Серійний номер",false);
 		outstring(0,0,"Собівартість",false);
 		outstring(0,0,"Залишок на складі",false);
+		outstring(0,0,"Склад",false);
 		outstring(0,0,"№ Відван.",false);
 		outstring(0,0,"Клієнт від.",false);
 		outstring(0,0,"Дата від.",false);
@@ -440,6 +441,7 @@ begin
 				 			if(testf)then begin
 				 				if(IHr.StockAffectf!=0)then begin
 									remqty = remqty + IHr.Qty;
+									location = IHr.Location;
 				 				end;
 				 				
 				 				if(IHr.FileName=="SHVc")then begin
@@ -472,9 +474,11 @@ begin
 				 		end;
 				 		resetloop(IHr);
 				 		if(remqty<0)then begin
+							location = "";
 				 			remqty = blankval;
 				 		end;
 				 		outstring(0,0,remqty,false);
+				 		outstring(0,0,location,false);
 				 		outstring(0,0,shsenr,false);
 				 		outstring(0,0,shcustcode,false);
 				 		outstring(0,0,shdate,false);
