@@ -1310,7 +1310,8 @@ BEGIN
   record OrderClassVc ORClassr;
   record ActTypeVc ActTyper;
   record ActTypeGrVc ActTypeGrr;
-
+	
+	
   if (ReadFirstMain(ORr,0,true)) then begin end;  
   curcomp = CurrentCompany;
   Actr.SerNr = -1;
@@ -1318,6 +1319,7 @@ BEGIN
   Actr.TodoFlag = 1;
   Actr.CUCode = ORr.CustCode;
   Actr.Comment = ORr.Comment;
+	Actr.Comment = "Создать заказ по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
   Actr.Contact = ORr.CustContact;
   CUr.Code = ORr.CustCode;
   if (ReadFirstMain(CUr,1,true)) then begin
