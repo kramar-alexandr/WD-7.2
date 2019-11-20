@@ -61,6 +61,7 @@ external procedure GetCurUser(var record UserVc);
 external procedure IVVc_PasteSalesMan(var record IVVc,string);
 external function longint GetUserSerNrSeries(longint);// Edit ************************** Tuesday, 2 June 2015 18:37:37
 
+SetLangMode(LangUkrainian,"UKR",0);
 
 
 function Boolean IVRowItemEq(record IVVc IVp,record WSIVVc WSIVp,record INVc INp,string rowobjs,string SalesAcc,var Integer rownr)
@@ -1304,14 +1305,14 @@ global
 updating function Boolean MakeActFromOR(var record ORVc ORr,var record ActVc Actr)
 BEGIN
   record ASTBlock ASTRec;
-  Integer curcomp;
+  Integer curcomp,k;
   Boolean res;
   record CUVc CUr;
   record OrderClassVc ORClassr;
   record ActTypeVc ActTyper;
   record ActTypeGrVc ActTypeGrr;
-	
-	
+  row ActVc Actrw;
+		
   if (ReadFirstMain(ORr,0,true)) then begin end;  
   curcomp = CurrentCompany;
   Actr.SerNr = -1;
@@ -1319,7 +1320,6 @@ BEGIN
   Actr.TodoFlag = 1;
   Actr.CUCode = ORr.CustCode;
   Actr.Comment = ORr.Comment;
-	Actr.Comment = "Создать заказ по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
   Actr.Contact = ORr.CustContact;
   CUr.Code = ORr.CustCode;
   if (ReadFirstMain(CUr,1,true)) then begin
@@ -1355,7 +1355,10 @@ BEGIN
   if (ORr.SalesMan!=CurrentUser) then begin
     Actr.CCPersons = CurrentUser;
   end;
+  
   Actr.Comment = ORr.Comment;
+  Actr.Comment = "Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
+	Actr.ActType = "ZAKAZ";
   Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");  
   if (RecordStore(Actr,false)) then begin 
     CreateRecordLink(Actr,curcomp,ORr,curcomp);  

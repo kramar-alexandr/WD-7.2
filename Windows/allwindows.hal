@@ -11381,7 +11381,9 @@ begin
     EditField(h,v,50,"#",ViewOnly,SerNr,false,0);  // HalPushButton(h+100,v,h+250,v+20,"ChangeToShilkinDsm","Задача на Шилкина");// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 01 08 2019 y. at 12:06:59 PM
     																							 // HalPushButton(h+300,v,h+450,v+20,"ChangeToLEKHOLETOVDsm","Задача на Лехолетова");
     EditField(h,v+=vs+5,-40,"Текст",Normal,Comment,false,0);
-    // EditField(h,v+=vs,-40,"Текст 1",Normal,Comment1,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:06:24
+    EditField(h,v+=vs,90,"Клиент",Normal,CUCode,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:06:24
+    EditField(h+150,v,-40,"Клиент",Normal,CUName,false,0);
+    
     EditField(h,v+=vs,80,"Тип",Normal,ActType,false,ActTypeSClass);//ActType2SClass
     EnterSkip(StartTime);
     //EditField(h,v+=vs,80,"Мова",Normal,LangCode,false,LangSClass);
@@ -11427,7 +11429,7 @@ begin
       HalPushButton(h=105,v+=40,h+100,v+20,"ActDClassOpenApprovalRecord","Відкрити запист");
       HalPushButton(h+=110,v,h+120,v+20,"ActDClassOpenApprovalAttach","Відкрити вкладені файли");
     end;*/
-    Tile(tilenr,90,false,"1",StartTime); tilenr = tilenr + 1;
+    Tile(tilenr,190,false,"1",StartTime); tilenr = tilenr + 1;
     h = 100; h2 = 270;
     EditField(h,v=6,60,"Час початку",Normal,StartTime,false,PasteCurTime);
     EditField(h,v+=vs,60,"Час завершення",Normal,EndTime,false,PasteCurTime);
@@ -11457,6 +11459,11 @@ begin
     RadioButton(h3,v,kCalTimeFlagTime,0,"Час",CalTimeFlag);
     RadioButton(h3,v+=16,kCalTimeFlagProfile,0,"Профіль",CalTimeFlag);
     RadioButton(h3,v+=16,kCalTimeFlagNoshow,0,"Не показувати",CalTimeFlag);
+    
+    MatrixBegin(4,v+66,-32,-5,ActRowType,199);
+    MatCol(1,24,"Текст",0,Text,false,0);
+    EndMatrix;
+    
     /*EnterSkip(PRCode);
     Tile(tilenr,70,false,"2",PRCode); tilenr = tilenr + 1;
     vm = 6;
