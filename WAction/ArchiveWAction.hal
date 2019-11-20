@@ -30,6 +30,28 @@ BEGIN
 END;
 
 
+global updating procedure OrdFromActDsm()
+begin
+	record ActVc Actr,oldActr,old1Actr;
+	integer wn,cnt;
+	string 50 from,to;
+	record ORVc ORr;
+	record RLinkVc RLr;
+	
+	wn = curwindow;
+	deselectwindow(wn,true);
+	getwindowrecord(wn,oldActr);
+	
+	while(ReadRecordLink(oldActr,cnt,ORr,RLr)) begin
+		cnt = cnt+1;
+		if(ORr.SerNr>0)then begin
+			OpenWindow("ORDClass",1,0,"","",ORr); 
+		end;
+	end;
+	
+return;
+end;
+
 global updating procedure ActBackDsm()
 begin
 	record ActVc Actr,oldActr,old1Actr;
