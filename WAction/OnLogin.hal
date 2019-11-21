@@ -797,6 +797,10 @@ begin
 	if(wn>0)then begin
 		updatebrowses("ToDoWClass");
 	end;
+	wn = FindWindow("MasterWClass");
+	if(wn>0)then begin
+		updatebrowses("MasterWClass");
+	end;
 
 return;
 end;
