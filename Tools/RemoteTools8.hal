@@ -1359,6 +1359,9 @@ BEGIN
   
   Actr.Comment = ORr.Comment;
   Actr.Comment = "Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
+	if(nonblankdate(ORr.PlanShipDate))then begin
+		Actr.Comment = Actr.Comment & " Доставка на " & ORr.PlanShipDate;
+	end;
 	Actr.ActType = "ZAKAZ";
 	if(nonblank(ORr.ShipAddr0))then begin
 		Actrw.Text = ORr.ShipAddr0;
