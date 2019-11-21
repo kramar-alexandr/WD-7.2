@@ -2782,7 +2782,7 @@ begin
 			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
 			//v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
 			v = v + 360;
-			EditField(h1,v+=vs,-350,"Дата видачи / доставки",Normal,PlanShipDate,false,0);
+			EditField(h1+150,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,0);
 			EditField(h1,v+=vs,-350,"Інформація",Normal,ShipAddr0,false,0);
 			EditField(h1,v+=vs,-350,"замовлення",Normal,ShipAddr1,false,0);
 			EditField(h1,v+=vs,-350,"",Normal,ShipAddr2,false,0);
