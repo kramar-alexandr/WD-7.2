@@ -426,7 +426,20 @@ BEGIN
       reshot = true;      
       if (accpetancef) then begin
         nwn = OpenMasterWClass2(mailboxnr,mailboxname);
-        nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);    
+        if(currentcompany!=13)then begin
+					nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);  
+        end;  
+      end;
+      if(currentcompany==13)then begin
+				acptRepSpec.f1 = CurrentUser;// Edit ************************** Thursday, 13 October 2016 16:26:39
+				acptRepSpec.sStartDate = stringtodate("01/01/2012");
+				acptRepSpec.sEndDate = Currentdate;
+				acptRepSpec.d1 = stringtodate("01/01/2012");
+				acptRepSpec.d2 = Currentdate;
+				acptRepSpec.Period2Str = acptRepSpec.sStartDate;
+				acptRepSpec.Period2Str = acptRepSpec.Period2Str & ":";
+				acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
+				nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);// Edit ************************** Thursday, 13 October 2016 10:49:44
       end;
   end;
   end else begin
@@ -435,7 +448,20 @@ BEGIN
     reshot = true;      
     if (accpetancef) then begin
       nwn = OpenMasterWClass2(mailboxnr,mailboxname);
-      nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);    
+      if(currentcompany!=13)then begin
+				nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec); 
+      end;  
+    end;
+    if(currentcompany==13)then begin
+			acptRepSpec.f1 = CurrentUser;// Edit ************************** Thursday, 13 October 2016 13:10:06
+			acptRepSpec.sStartDate = stringtodate("01/01/2012");
+			acptRepSpec.sEndDate = Currentdate;
+			acptRepSpec.d1 = stringtodate("01/01/2012");
+			acptRepSpec.d2 = Currentdate;
+			acptRepSpec.Period2Str = acptRepSpec.sStartDate;
+			acptRepSpec.Period2Str = acptRepSpec.Period2Str & ":";
+			acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
+			nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);  // Edit ************************** Thursday, 13 October 2016 10:51:19
     end;
   end;
   if (CurrentUser=="$MASTER") then begin
@@ -748,5 +774,15 @@ begin
 
   RateProductWClassExecute(CurWindow);
   RateProductWClassOnOKWindow = res;
+  return;
+end;
+
+global
+function Boolean ToDoWClassOnClose(Integer wn,Integer wn2)
+begin
+	
+	if(currentcompany==13)then begin
+		ToDoWClassOnClose = true;
+  end;
   return;
 end;
