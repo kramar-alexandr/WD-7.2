@@ -1312,6 +1312,7 @@ BEGIN
   record ActTypeVc ActTyper;
   record ActTypeGrVc ActTypeGrr;
   row ActVc Actrw;
+  row ORVc ORrw;
 		
   if (ReadFirstMain(ORr,0,true)) then begin end;  
   curcomp = CurrentCompany;
@@ -1359,6 +1360,39 @@ BEGIN
   Actr.Comment = ORr.Comment;
   Actr.Comment = "Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
 	Actr.ActType = "ZAKAZ";
+	if(nonblank(ORr.ShipAddr0))then begin
+		Actrw.Text = ORr.ShipAddr0;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.ShipAddr1))then begin
+		Actrw.Text = ORr.ShipAddr1;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.ShipAddr2))then begin
+		Actrw.Text = ORr.ShipAddr2;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.ShipAddr3))then begin
+		Actrw.Text = ORr.ShipAddr3;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.DelAddr3))then begin
+		Actrw.Text = ORr.DelAddr3;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.DelAddr4))then begin
+		Actrw.Text = ORr.DelAddr4;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	for(k=0;k<matrowcnt(ORr);k=k+1)begin
+		matrowget(ORr,k,ORrw);
+		if(nonblank(ORrw.ArtCode))then begin
+			Actrw.Text = stringtoint(ORrw.Quant) & "x " & ORrw.ArtCode & " - " & ORrw.Spec;
+			matrowput(Actr,matrowcnt(Actr),Actrw);
+		end;
+	end;
+	
+	
   Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");  
   if (RecordStore(Actr,false)) then begin 
     CreateRecordLink(Actr,curcomp,ORr,curcomp);  
