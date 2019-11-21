@@ -11385,15 +11385,15 @@ begin
     EditField(h,v+=vs,90,"Клиент",Normal,CUCode,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:06:24
     EditField(h+150,v,-40,"Клиент",Normal,CUName,false,0);
     
-    EditField(h,v+=vs,80,"Тип",Normal,ActType,false,ActTypeSClass);//ActType2SClass
+    //EditField(h,v+=vs,80,"Тип",Normal,ActType,false,ActTypeSClass);//ActType2SClass
     EnterSkip(StartTime);
     //EditField(h,v+=vs,80,"Мова",Normal,LangCode,false,LangSClass);
     //EditField(h,v+=vs,80,"Пріоритет",Normal,PrioLevel,false,0);
-    EditField(h,v+=vs,120,"Сер. №",Normal,SerialNr,false,SVOSerSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 14:33:10
+    //EditField(h,v+=vs,120,"Сер. №",Normal,SerialNr,false,SVOSerSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 14:33:10
     //EditField(h,v+=vs, 80,"Замовл. на обсл.",Normal,SVOSerNr,false,SVOSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 17 November 2017 15:54:06
 		// halpushbutton(h+90,v,h+90+80,v+vs,"OpenSVODsm","Відкр.");
     vm=vm+vs+vs+10;
-    EditField(h2,v=vm+vs,-40,"",Normal,ActTypeComment,false,0);
+    //EditField(h2,v=vm+vs,-40,"",Normal,ActTypeComment,false,0);
     EditField(h2,v+=vs,140,"Особи",Normal,MainPersons,false,UserSClass);
     EditField(h4,v,-40,"Копія",Normal,CCPersons,false,UserSClass);
     EditField(h2+200,v+=vs,80,"Керівник",Normal,Supervisor,false,UserSClass);
@@ -11446,21 +11446,21 @@ begin
 		//EditField(h2,v+=vs,80,"Вартість",Normal,Value,true,0);
     end;
     v = 18;
-    ButtonFrame(h3=h2+120,vm=v,120,4,"Тип завдання");
+    /*ButtonFrame(h3=h2+120,vm=v,120,4,"Тип завдання");
     RadioButton(h3,v,kTodoFlagCalendar,0,"Календар",TodoFlag);
     RadioButton(h3,v+=16,kTodoFlagTodo,0,"Заплановане",TodoFlag);
     RadioButton(h3,v+=16,kTodoFlagTimedTodo,0,"Запл. на певн. час",TodoFlag);
     if (StandardHansa==false) then begin
     RadioButton(h3,v+=16,kTodoFlagWorkHours,0,"Робочі години",TodoFlag);
     end;
-    EndFrame;
+    EndFrame;*/
   //  RadioButton(h3,v+=16,kTodoFlagBanner,0,"Banner",TodoFlag); // When will we do something behind this radio button?
     h3 = h3+160;
-    ButtonFrame(h3,v=vm,120,3,"Календар");
+    /*ButtonFrame(h3,v=vm,120,3,"Календар");
     RadioButton(h3,v,kCalTimeFlagTime,0,"Час",CalTimeFlag);
     RadioButton(h3,v+=16,kCalTimeFlagProfile,0,"Профіль",CalTimeFlag);
     RadioButton(h3,v+=16,kCalTimeFlagNoshow,0,"Не показувати",CalTimeFlag);
-    
+    */
     MatrixBegin(4,v+66,-32,-5,ActRowType,199);
     MatCol(1,24,"Текст",0,Text,false,0);
     EndMatrix;
