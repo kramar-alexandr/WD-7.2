@@ -938,3 +938,14 @@ record IVVc IVr;
 	setfileonserver(false);
 return;
 end;
+
+
+global updating procedure UpdateToDoWclass()
+	begin
+	record DateRnBlock DRB;
+	
+	BlockLoad(DRB);
+	
+  AllClientsRemoteAsync.UpdateMasterWClassOnKPIs("");
+	
+end;
