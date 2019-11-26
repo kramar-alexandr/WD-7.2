@@ -1357,7 +1357,8 @@ BEGIN
   if (ORr.SalesMan!=CurrentUser) then begin
     Actr.CCPersons = CurrentUser;
   end;*/
-  Actr.MainPersons = CurrentUser;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 2:54:54 PM
+  Actr.MainPersons = "";// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 2:54:54 PM
+  Actr.Supervisor = currentuser;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 8:51:31 PM
   
   Actr.Comment = ORr.Comment;
   Actr.Comment = "Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
