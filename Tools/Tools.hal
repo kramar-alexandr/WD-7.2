@@ -943,9 +943,9 @@ end;
 global updating procedure UpdateToDoWclass()
 	begin
 	record DateRnBlock DRB;
+	string 100 tstr;
+	//BlockLoad(DRB);
 	
-	BlockLoad(DRB);
-	
-  AllClientsRemoteAsync.UpdateMasterWClassOnKPIs("");
-	
+  AllClientsRemoteAsync.UpdateMasterWClassOnKPIs(tstr);
+return;	
 end;
