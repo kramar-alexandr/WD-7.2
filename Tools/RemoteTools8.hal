@@ -1352,10 +1352,12 @@ BEGIN
   end;  
   Actr.OKFlag = ASTRec.OrderDone;
   Actr.TransDate = CurrentDate;
-  Actr.MainPersons = ORr.SalesMan;
+  /*Actr.MainPersons = ORr.SalesMan;
+  
   if (ORr.SalesMan!=CurrentUser) then begin
     Actr.CCPersons = CurrentUser;
-  end;
+  end;*/
+  Actr.MainPersons = CurrentUser;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 2:54:54 PM
   
   Actr.Comment = ORr.Comment;
   Actr.Comment = "Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
