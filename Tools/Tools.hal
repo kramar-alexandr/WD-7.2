@@ -940,7 +940,7 @@ return;
 end;
 
 
-global updating procedure UpdateToDoWclass()
+/*global updating procedure UpdateToDoWclass()
 	begin
 	record DateRnBlock DRB;
 	string 100 tstr;
@@ -948,4 +948,4 @@ global updating procedure UpdateToDoWclass()
 	
   AllClientsRemoteAsync.UpdateMasterWClassOnKPIs(tstr);
 return;	
-end;
+end;*/
