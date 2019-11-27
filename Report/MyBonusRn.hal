@@ -1167,6 +1167,7 @@ begin
   
   StartFormat(15);
     OutString(pos[4],0,"Paym. date",false);//
+    OutString(pos[6],0,"Group",false);//
     OutString(pos[6],0,"ArtCode",false);//
     OutString(pos[7],0,"Name",false);//
     OutString(pos[11],0,"Sum UAH",false);//
@@ -1222,6 +1223,7 @@ begin
                 worksheet = 0;
                 MyCost = 0;// Edit ************************** Wednesday, 8 December 2010 13:26:26
                 GetItemGroup(IVrw.ArtCode,tstr);
+                GetItemGroupDescription(tstr,group);
                 CUr.Code = IVr.CustCode;
 								readFirstmain(CUr,1,true);
 
@@ -1358,6 +1360,7 @@ begin
                     end else begin
                       OutDate(pos[4],0,enddate,false);
                     end;
+                    OutString(pos[6],0,group,false);
                     OutString(pos[6],0,IVrw.ArtCode,false);
                     OutString(pos[7],0,Left(IVrw.Spec,30),false);
                     quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
@@ -1398,7 +1401,7 @@ begin
                     end else begin
                       OutDate(pos[4],0,enddate,false);
                     end;
-
+										OutString(pos[6],0,group,false);
                     OutString(pos[6],0,IVrw.ArtCode,false);
                     OutString(pos[7],0,Left(IVrw.Spec,30),false);
                     quant = IVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
@@ -1689,7 +1692,7 @@ l1:;
 														end else begin
 															OutDate(pos[4],0,enddate,false);
 														end;
-
+														OutString(pos[6],0,group,false);
 														OutString(pos[6],0,newIVrw.ArtCode,false);
 														OutString(pos[7],0,Left(newIVrw.Spec,30),false);
 														quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
