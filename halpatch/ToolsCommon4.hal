@@ -2096,6 +2096,7 @@ begin
 	record NotepadVc Noter;
 	Integer notenr;
 	record RLinkVc RLr;
+	record ORVc ORr;
 	
 	recordnew(Actr);
 	recordnew(uidAtr);
@@ -2117,10 +2118,11 @@ begin
 		end;
 	end;
 	if(recordstore(Actr,true))then begin
-		SVOr.SerNr = Actr.SVOSerNr;
-		if(readfirstmain(SVOr,1,true))then begin
-			createrecordlink(SVOr,currentcompany,Actr,currentcompany);
-			createrecordlink(Actr,currentcompany,SVOr,currentcompany);
+		notenr = 1;
+		while (ReadRecordLink(oldActr,notenr,ORr,RLr)) begin
+			createrecordlink(ORr,currentcompany,Actr,currentcompany);
+			createrecordlink(Actr,currentcompany,ORr,currentcompany);
+			notenr = notenr + 1;
 		end;
 		
 		notenr = 1;
