@@ -1397,9 +1397,13 @@ BEGIN
 	for(k=0;k<matrowcnt(ORr);k=k+1)begin
 		matrowget(ORr,k,ORrw);
 		if(nonblank(ORrw.ArtCode))then begin
-			Actrw.Text = stringtoint(ORrw.Quant) & "x " & ORrw.ArtCode & " - " & ORrw.Spec;
+			Actrw.Text = ORrw.Sum & " " & ORr.CurncyCode & " за " & stringtoint(ORrw.Quant) & "x " & ORrw.ArtCode & " - " & ORrw.Spec;
 			matrowput(Actr,matrowcnt(Actr),Actrw);
 		end;
+	end;
+	if(ORr.Sum4!=0)then begin
+		Actrw.Text = "Всьго на " & ORr.Sum4 & " " & ORr.CurncyCode;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
 	end;
 	
 	
