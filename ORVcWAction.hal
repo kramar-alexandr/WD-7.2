@@ -21,13 +21,36 @@ return;
 end;
 
 global
+function boolean ORComment(integer wn,integer changed)
+begin
+	string 255 input;
+	record ORVc ORr;
+	record SalesGroupVc SGr;
+	
+	getwindowrecord(wn,ORr);
+		
+	if(nonblank(ORr.Comment))then begin
+		SGr.SGroupCode = ORr.Comment;
+		if(readfirstmain(SGr,1,true))then begin
+			ORr.Comment = SGr.SGroupName;
+			putwindowrecord(wn,ORr);
+		end;
+		
+		
+	end;
+	
+return;
+end;
+
+global
 function Boolean ORDClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
 begin
 
 boolean res;
 	res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
 	switch (fieldname) begin
-    case "ORChatSend": res = ORChatSendAfterEF(wn,changed);      
+    case "ORChatSend": res = ORChatSendAfterEF(wn,changed); 
+    case "Comment": res = ORComment(wn,changed);      
   end;
 	ORDClassAfterEditField = res;
 return;
