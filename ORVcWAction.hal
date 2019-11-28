@@ -29,10 +29,10 @@ begin
 	
 	getwindowrecord(wn,ORr);
 		
-	if(nonblank(ORr.Comment))then begin
+	if(nonblank(ORr.InvAddr4))then begin
 		SGr.SGroupCode = ORr.Comment;
 		if(readfirstmain(SGr,1,true))then begin
-			ORr.Comment = SGr.SGroupName;
+			ORr.InvAddr4 = SGr.SGroupName;
 			putwindowrecord(wn,ORr);
 		end;
 		
@@ -50,7 +50,7 @@ boolean res;
 	res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
 	switch (fieldname) begin
     case "ORChatSend": res = ORChatSendAfterEF(wn,changed); 
-    case "Comment": res = ORComment(wn,changed);      
+    case "InvAddr4": res = ORComment(wn,changed);      
   end;
 	ORDClassAfterEditField = res;
 return;
