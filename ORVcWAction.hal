@@ -30,7 +30,7 @@ begin
 	getwindowrecord(wn,ORr);
 		
 	if(nonblank(ORr.InvAddr4))then begin
-		SGr.SGroupCode = ORr.Comment;
+		SGr.SGroupCode = ORr.InvAddr4;
 		if(readfirstmain(SGr,1,true))then begin
 			ORr.InvAddr4 = SGr.SGroupName;
 			putwindowrecord(wn,ORr);
