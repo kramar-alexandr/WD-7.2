@@ -1366,7 +1366,7 @@ BEGIN
 		Actr.Comment = Actr.Comment & " Доставка на " & ORr.PlanShipDate & " c " & ORr.InvAddr4;
 	end;
 	Actr.ActType = "ZAKAZ";
-	if(nonblank(ORr.Comment))then begin
+	if(nonblank(ORr.InvAddr4))then begin
 		Actrw.Text = "Точка выдачи: " & ORr.InvAddr4;
 		matrowput(Actr,matrowcnt(Actr),Actrw);
 	end;
