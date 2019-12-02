@@ -1952,7 +1952,7 @@ window ORDClass:2
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs,h5,flipnr,width;
   string 255 label;
-	if(CurrentCompany!=13) then begin 
+	if(/*CurrentCompany!=13*/false) then begin 
 		if(UserCanAction("ManagerView",false)==false)then begin
 			//if(false) then begin 
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
@@ -2688,7 +2688,7 @@ begin
 			EndWindow;
 		end;
 	end else begin
-		if(currentcompany==13)then begin
+		if(/*currentcompany==13*/true)then begin
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
 			SetWRect(20,80,750,460);
 			Sizeable(-1,-1,0,0);
@@ -2782,8 +2782,11 @@ begin
 			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
 			//v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
 			v = v + 360;
-			EditField(h1+150,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,0);
+			ButtonFrame(10,v+vs,370,3,"Заполнить!!!");
+			EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,0);
+			EditField(h1+200,v,70,"Время",Normal,PlanShipDate,false,0);
 			EditField(h1+20,v+=vs,250,"Точка выдачи",Normal,InvAddr4,false,SalesGroupSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 28 11 2019 y. at 2:48:48 PM
+			v = v + vs;
 			EditField(h1,v+=vs,-350,"Інформація",Normal,ShipAddr0,false,0);
 			EditField(h1,v+=vs,-350,"замовлення",Normal,ShipAddr1,false,0);
 			EditField(h1,v+=vs,-350,"",Normal,ShipAddr2,false,0);
@@ -2794,7 +2797,7 @@ begin
 			//EditField(h1,v+=vs,-350,"Чек 2",Normal,Addr2,false,0);
 			//EditField(h1,v+=vs,-350,"Чек 3",Normal,Addr3,false,0);
 		
-			TextField(h1+320,v-6*vs,-10,95,Math2,0);
+			TextField(h1+320,410,-10,160,Math2,0);
 			EditField(h1+390,-41,-50,"Сообщение",Normal,ORChatSend,false,0);
 			EnterSkip(ORChatSend);
 			EditField(-150,-21,100,"Всього",ViewOnly ,Sum4,true,0);
