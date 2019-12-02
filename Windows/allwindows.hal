@@ -1952,7 +1952,7 @@ window ORDClass:2
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs,h5,flipnr,width;
   string 255 label;
-	if(/*CurrentCompany!=13*/false) then begin 
+	if(CurrentCompany!=13) then begin 
 		if(UserCanAction("ManagerView",false)==false)then begin
 			//if(false) then begin 
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
@@ -2688,7 +2688,7 @@ begin
 			EndWindow;
 		end;
 	end else begin
-		if(/*currentcompany==13*/true)then begin
+		if(currentcompany==13)then begin
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
 			SetWRect(20,80,750,460);
 			Sizeable(-1,-1,0,0);
@@ -2783,8 +2783,8 @@ begin
 			//v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
 			v = v + 360;
 			ButtonFrame(10,v+vs,370,3,"Заполнить!!!");
-			EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,0);
-			EditField(h1+200,v,70,"Время",Normal,PlanShipDate,false,0);
+			EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,PasteCurDate);
+			EditField(h1+200,v,70,"Время",Normal,DespatchTime,false,PasteCurTime);
 			EditField(h1+20,v+=vs,250,"Точка выдачи",Normal,InvAddr4,false,SalesGroupSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 28 11 2019 y. at 2:48:48 PM
 			v = v + vs;
 			EditField(h1,v+=vs,-350,"Інформація",Normal,ShipAddr0,false,0);
