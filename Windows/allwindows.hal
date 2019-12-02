@@ -2797,7 +2797,7 @@ begin
 			//EditField(h1,v+=vs,-350,"Чек 2",Normal,Addr2,false,0);
 			//EditField(h1,v+=vs,-350,"Чек 3",Normal,Addr3,false,0);
 		
-			TextField(h1+320,410,-10,160,Math2,0);
+			TextField(h1+320,410,-10,140,Math2,0);
 			EditField(h1+390,-41,-50,"Сообщение",Normal,ORChatSend,false,0);
 			EnterSkip(ORChatSend);
 			EditField(-150,-21,100,"Всього",ViewOnly ,Sum4,true,0);
