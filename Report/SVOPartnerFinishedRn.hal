@@ -288,7 +288,7 @@ begin
 return;
 end;
 
-global procedure CallToClientDsm()
+procedure CallToClientDsm()
 begin
 integer wn;
 record SVOVc SVOr;
