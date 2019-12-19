@@ -552,7 +552,10 @@ begin
 			if(IVCashrw.ArtCode=="COM")then begin
 				foundf = true;
 			end;
-			if(IVCashrw.ArtCode=="WAR_IPHONE" or IVCashrw.ArtCode=="WAR_CPU" or IVCashrw.ArtCode=="WAR_IPAD" or IVCashrw.ArtCode=="WAR_WATCH")then begin
+			/*if(IVCashrw.ArtCode=="WAR_IPHONE" or IVCashrw.ArtCode=="WAR_CPU" or IVCashrw.ArtCode=="WAR_IPAD" or IVCashrw.ArtCode=="WAR_WATCH")then begin
+				nocomm = true;
+			end;*///действовало до 19/12/2019
+			if(IVCashrw.ArtCode=="WAR2_CPU" or IVCashrw.ArtCode=="WAR2_IPAD" or IVCashrw.ArtCode=="WAR2_IPHONE" or IVCashrw.ArtCode=="WAR2_WATCH")then begin
 				nocomm = true;
 			end;
 		end;
