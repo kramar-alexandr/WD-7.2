@@ -6,6 +6,7 @@ external procedure ORDchsum(var record ORVc,Integer);
 external procedure ORSumup(var record ORVc);
 external function LongInt POSNETHexToLong(string);
 external procedure ORVc_PasteSum(var record ORVc,Integer,var Boolean);
+external updating function boolean EasySendTurboSMS(string, string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -692,7 +693,7 @@ json inputjson;
 string 100 orderid;
 string 200 delivery_region,delivery_type,last_name,phone,articlerow,fullnamerow;
 string 200 pricerow,payment,address,first_name,summary,note,email,ensure;
-string 200 is_credit,discount_percent,datetxt,buyoneclick,storeH,storeN,delivery_cost,countrow,sumrow;
+string 200 is_credit,discount_percent,datetxt,buyoneclick,storeH,storeN,delivery_cost,countrow,sumrow,smstext;
 record CUVc CUr,inCUr,blankCU;
 boolean cufound,chsum;
 string 100 warning,error;
@@ -700,7 +701,10 @@ record ORVc ORr;
 row ORVc ORrw;
 longint acnt;
 string 5 c1,c2;
-  
+record SMSConfigBlock SMSConfigb;
+    
+  blockload(SMSConfigb);
+
   logtext(0,"WebGetISOrder");
   
   SetCompany(13,false);
@@ -876,7 +880,17 @@ string 5 c1,c2;
 						
 					end;
 					ORr.OrderClass = "SALES";
-					recordinsert(ORr,true);     
+					recordinsert(ORr,true);    
+					
+					if(nonblank(phone))then begin
+						if(len(phone)==10)then begin
+							if(SMSConfigb.Balance>0)then begin
+								smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера";
+								EasySendTurboSMS(phone,smstext);
+							end;
+						end;
+					end;
+					 
 				end;
 			end;
 		end;
