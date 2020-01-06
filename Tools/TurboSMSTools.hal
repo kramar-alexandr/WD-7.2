@@ -245,6 +245,7 @@ begin
   
   BlockStore(SMSb);
   
+  writeareatofile(mainRequest,"SendTurboSMS.log",1);
   SetAreaZeroSize(mainRequest);
   AddTextToArea(CurrentDate & " " & CurrentTime & " SendSMSTurboSMS(" & reciever & ":" & text & ") - " & response & chr(13) & chr(10),mainRequest);
   writeareatofile(mainRequest,"TurboSMS.log",1);
