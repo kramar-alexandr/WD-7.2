@@ -1,4 +1,5 @@
 remote function date GetDateOfSerial(string,string,date); //Edit***************************Sasha2,17:29 18.04.2016
+remote updating procedure UpdBalSMSRemote(boolean);// Edit ************************** Monday, 13 February 2017 15:20:58
 
 
 SetLangMode(LangUkrainian,"UKR",0); 
@@ -1438,4 +1439,21 @@ record RcVc RepSpec;
   PutWindowRecord(wn,RepSpec);
 	SelectWindow(wn);
 return;
+end;
+
+global
+updating procedure UpdBalSMS()
+begin
+  integer wn;
+  record SMSConfigBlock SMSb;
+	
+  wn = curwindow;
+  UpdBalSMSRemote(true);
+  BlockLoad(SMSb);
+  //ReOpenWindow(wn,"SMSConfigTClass",0,wn,"","",SMSb);
+  //UpdateNamedWindow("SMSConfigTClass");
+	deselectwindow(wn,true);
+  PutWindowRecord(wn,SMSb);
+  //SetWindowState(wn,Rs_normal)
+	return;
 end;

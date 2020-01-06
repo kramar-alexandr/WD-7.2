@@ -1,0 +1,362 @@
+SetLangMode(LangUkrainian,"RUS",0);
+
+external function boolean MySendRawWebRequest(string, string, boolean, string, string, string, string, boolean, area, var area, integer);
+
+// only for 8.x
+global
+function string 255 StrReplace(string original,string target,string replacement) 
+begin
+  string 255 res;
+  integer slen,i,tlen;
+  string 10 chunk;
+  string 1 tc;
+
+  slen = Len(original);
+  tlen = Len(target);
+  tc = Left(target,1);
+  for(i=0;i<slen;i=i+1) begin
+    chunk = Mid(original,i,1);
+    if(chunk == tc) then begin
+      if(Mid(original,i,tlen)==target) then begin
+        chunk = replacement;
+        i = i + tlen - 1;
+      end;
+    end; 
+    res = res & chunk;
+  end;
+
+  StrReplace = res;
+  return;
+end;
+
+function boolean SendWebRequestTurbo(string host,string page, area mainRequest,var area replyarea,integer iterQty)
+begin
+  boolean res,testf;
+  integer i;
+  i = iterQty;
+  testf = true;
+  while (testf) begin
+    SendRawWebRequest(host,"80",false,"POST",page,"text" & Chr(47) & "xml; charset=utf-8","",false,mainRequest,replyarea,5);
+    if GetAreaLength(replyarea)==0  then begin MilliSleep(500); logtext(0,"replyarea=0"); end;
+    i = i - 1;
+    if i<=0                   then begin testf = false; end;
+    if GetAreaLength(replyarea)!=0  then begin testf = false; end;
+  end;
+  if GetAreaLength(replyarea)!=0 then begin
+    res = true;
+  end else begin
+    res = false;
+  end;
+  writeareatofile(replyarea,"turbo.log",1);
+  SendWebRequestTurbo = res;
+  return;
+end;
+
+global 
+updating function boolean AuthTurboSMS(var string cookie)
+begin
+  area mainRequest,replyarea;
+  string 30 login,password,host,page;
+  record SMSConfigBlock SMSb;
+  string 255 response;
+  longint pos1,pos2;
+  boolean res;
+  
+  BlockLoad(SMSb);
+  SetAreaZeroSize(mainRequest);
+  SetAreaZeroSize(replyarea);
+  
+  login = SMSb.Login;
+  password = SMSb.Password;
+  host = SMSb.Host;
+  page = SMSb.Page;
+  
+  Addtexttoarea("POST " & page & " HTTP" & Chr(47) & "1.1" & chr(13) & chr(10),mainRequest);
+ 	AddTextToArea("host: " & host & chr(13) & chr(10),mainRequest);
+  
+  AddTextToArea("SOAPAction: http:" & Chr(47) & Chr(47) & host & page & Chr(47) & "Auth" & chr(13) & chr(10),mainRequest);
+  AddTextToArea(chr(13) & chr(10),mainRequest);
+	
+  AddTextToArea("<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>"& chr(13) & chr(10),mainRequest);
+  AddTextToArea("<SOAP-ENV:Envelope" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("    xmlns:SOAP-ENV=" & Chr(34) & "http:" & Chr(47) & Chr(47) & "schemas.xmlsoap.org" & Chr(47) & "soap" & Chr(47) & "envelope" & Chr(47) & Chr(34) & Chr(13) & Chr(10),mainRequest);
+  AddTextToArea("    xmlns:ns1=" & Chr(34) & "http:" & Chr(47) & Chr(47) & host & Chr(47) & "api" & Chr(47) & "Turbo" & Chr(34) & ">" & chr(13) & chr(10),mainRequest);  
+  AddTextToArea("<SOAP-ENV:Body>" & chr(13) & chr(10),mainRequest); 
+  AddTextToArea("    <ns1:Auth>"  & chr(13) & chr(10),mainRequest);  
+  AddTextToArea("        <ns1:login>" & login & "<" & Chr(47) & "ns1:login>" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("        <ns1:password>" & password & "<" & Chr(47) & "ns1:password>" & chr(13) & chr(10),mainRequest); 
+  AddTextToArea("    <" & Chr(47) & "ns1:Auth>" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("<" & Chr(47) & "SOAP-ENV:Body>" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("<" & Chr(47) & "SOAP-ENV:Envelope>"& chr(13) & chr(10),mainRequest);
+  AddTextToArea(chr(13) & chr(10) & chr(13) & chr(10),mainRequest);
+  
+  if SendWebRequestTurbo(host,page,mainRequest,replyarea,10) then begin
+    pos1 = FindStringInArea("PHPSESSID=",replyarea) + 10;
+    pos2 = FindStringInArea("; path=",replyarea);
+    cookie = GetStringFromArea(replyarea,pos1,pos2 - pos1);
+    
+    pos1 = FindStringInArea("<ns1:AuthResult>",replyarea) + 16;
+    pos2 = FindStringInArea("<" & Chr(47) & "ns1:AuthResult>",replyarea);
+    response = GetStringFromArea(replyarea,pos1,pos2 - pos1);
+  end;
+  if blank(response) then begin
+    response = "Нет ответа от сервера";
+  end;
+  if response=="Вы успешно авторизировались" then begin
+    res = true;
+  end else begin
+    res = false;
+    SMSb.LastErr = response;
+    SMSb.LEDate = CurrentDate;
+    SMSb.LETime = CurrentTime;
+    BlockStore(SMSb);
+  end;
+  SetAreaZeroSize(mainRequest);
+  AddTextToArea(CurrentDate & " " & CurrentTime & " AuthTurboSMS - " & response & chr(13) & chr(10),mainRequest);
+  writeareatofile(mainRequest,"TurboSMS.log",1);
+  
+  AuthTurboSMS = res;
+  return;
+end;
+
+global 
+updating function val GetCreditBalanceTurboSMS(string cookie)
+begin
+  area mainRequest,replyarea;
+  val res;
+  string 30 host,page;
+  record SMSConfigBlock SMSb;
+  longint pos1,pos2;
+  string 255 response;
+  
+  BlockLoad(SMSb);
+  SetAreaZeroSize(mainRequest);
+  SetAreaZeroSize(replyarea);
+  
+  host = SMSb.Host;
+  page = SMSb.Page;
+  
+  Addtexttoarea("POST " & page & " HTTP" & Chr(47) & "1.1" & chr(13) & chr(10),mainRequest);
+ 	AddTextToArea("host: " & host & chr(13) & chr(10),mainRequest);
+  AddTextToArea("Cookie: PHPSESSID=" & cookie & ";" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("SOAPAction: http:" & Chr(47) & Chr(47) & host & page & Chr(47) & "GetCreditBalance" & chr(13) & chr(10),mainRequest);
+  AddTextToArea(chr(13) & chr(10),mainRequest);
+  
+  
+  AddTextToArea("<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>"& chr(13) & chr(10),mainRequest);
+  AddTextToArea("<SOAP-ENV:Envelope" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("    xmlns:SOAP-ENV=" & Chr(34) & "http:" & Chr(47) & Chr(47) & "schemas.xmlsoap.org" & Chr(47) & "soap" & Chr(47) & "envelope" & Chr(47) & Chr(34) & Chr(13) & Chr(10),mainRequest);
+  AddTextToArea("    xmlns:ns1=" & Chr(34) & "http:" & Chr(47) & Chr(47) & host & Chr(47) & "api" & Chr(47) & "Turbo" & Chr(34) & ">" & chr(13) & chr(10),mainRequest);  
+  AddTextToArea("<SOAP-ENV:Body>" & chr(13) & chr(10),mainRequest); 
+  AddTextToArea("    <ns1:GetCreditBalance " & Chr(47) & ">"  & chr(13) & chr(10),mainRequest);  
+  AddTextToArea("<" & Chr(47) & "SOAP-ENV:Body>" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("<" & Chr(47) & "SOAP-ENV:Envelope>" & chr(13) & chr(10),mainRequest);
+  AddTextToArea(chr(13) & chr(10),mainRequest);
+  AddTextToArea(chr(13) & chr(10),mainRequest);
+  
+  if SendWebRequestTurbo(host,page,mainRequest,replyarea,10) then begin
+    pos1 = FindStringInArea("<ns1:GetCreditBalanceResult>",replyarea) + 28;
+    pos2 = FindStringInArea("<" & Chr(47) & "ns1:GetCreditBalanceResult>",replyarea);
+    response = GetStringFromArea(replyarea,pos1,pos2 - pos1);
+  end;
+  if blank(response) then begin
+    response = "Нет ответа от сервера";
+  end;
+  if response!="Вы не авторизированы" and response!="Нет ответа от сервера" then begin
+    res = StringToVal(response,M4Val);
+    SMSb.Balance = res;
+  end else begin
+    SMSb.LastErr = response;
+    SMSb.LEDate = CurrentDate;
+    SMSb.LETime = CurrentTime;
+  end;
+  
+  BlockStore(SMSb);
+  
+  SetAreaZeroSize(mainRequest);
+  AddTextToArea(CurrentDate & " " & CurrentTime & " GetCreditBalanceTurboSMS - " & response & chr(13) & chr(10),mainRequest);
+  writeareatofile(mainRequest,"TurboSMS.log",1);
+  
+  GetCreditBalanceTurboSMS = res;
+  return;
+end;
+
+global 
+updating function boolean SendSMSTurboSMS(string cookie,var string reciever, string text)
+begin
+  area mainRequest,replyarea;
+  boolean res;
+  string 30 host,page,sign;
+  record SMSConfigBlock SMSb;
+  longint pos1,pos2;
+  string 255 response;
+  
+  if(len(reciever)==10)then begin
+  	reciever = "+38" & reciever;
+  end;
+  BlockLoad(SMSb);
+  SetAreaZeroSize(mainRequest);
+  SetAreaZeroSize(replyarea);
+  
+  host = SMSb.Host;
+  page = SMSb.Page;
+  sign = SMSb.Sign;
+  
+  Addtexttoarea("POST " & page & " HTTP" & Chr(47) & "1.1" & chr(13) & chr(10),mainRequest);
+ 	AddTextToArea("host: " & host & chr(13) & chr(10),mainRequest);
+  AddTextToArea("Cookie: PHPSESSID=" & cookie & ";" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("SOAPAction: http:" & Chr(47) & Chr(47) & host & page & Chr(47) & "SendSMS" & chr(13) & chr(10),mainRequest);
+  AddTextToArea(chr(13) & chr(10),mainRequest);
+  
+  
+  AddTextToArea("<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("<SOAP-ENV:Envelope" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("    xmlns:SOAP-ENV=" & Chr(34) & "http:" & Chr(47) & Chr(47) & "schemas.xmlsoap.org" & Chr(47) & "soap" & Chr(47) & "envelope" & Chr(47) & Chr(34) & Chr(13) & Chr(10),mainRequest);
+  AddTextToArea("    xmlns:ns1=" & Chr(34) & "http:" & Chr(47) & Chr(47) & host & Chr(47) & "api" & Chr(47) & "Turbo" & Chr(34) & ">" & chr(13) & chr(10),mainRequest);  
+  AddTextToArea("<SOAP-ENV:Body>" & chr(13) & chr(10),mainRequest); 
+  AddTextToArea("    <ns1:SendSMS>"  & chr(13) & chr(10),mainRequest);  
+  AddTextToArea("        <ns1:sender>" & sign & "<" & Chr(47) & "ns1:sender>"  & chr(13) & chr(10),mainRequest);  
+  AddTextToArea("        <ns1:destination>" & reciever & "<" & Chr(47) & "ns1:destination>"  & chr(13) & chr(10),mainRequest);  
+  AddTextToArea("        <ns1:text>" & text & "<" & Chr(47) & "ns1:text>"  & chr(13) & chr(10),mainRequest);  
+  AddTextToArea("    <" & Chr(47) & "ns1:SendSMS>" & chr(13) & chr(10),mainRequest);  
+  AddTextToArea("<" & Chr(47) & "SOAP-ENV:Body>" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("<" & Chr(47) & "SOAP-ENV:Envelope>"& chr(13) & chr(10),mainRequest);
+  AddTextToArea(chr(13) & chr(10),mainRequest);
+  AddTextToArea(chr(13) & chr(10),mainRequest);
+  
+  if SendWebRequestTurbo(host,page,mainRequest,replyarea,10) then begin
+    pos1 = FindStringInArea("<ns1:ResultArray>",replyarea) + 17;
+    pos2 = FindStringInArea("<" & Chr(47) & "ns1:ResultArray>",replyarea);
+    response = GetStringFromArea(replyarea,pos1,pos2 - pos1);
+  end;
+  if blank(response) then begin
+    response = "Нет ответа от сервера";
+  end;
+  
+  if response!="Сообщения успешно отправлены" then begin
+    SMSb.LastErr = response;
+    SMSb.LEDate = CurrentDate;
+    SMSb.LETime = CurrentTime;
+    res = true;
+  end else begin
+    SMSb.Balance = GetCreditBalanceTurboSMS(cookie);
+    res = false;
+  end;
+  
+  BlockStore(SMSb);
+  
+  SetAreaZeroSize(mainRequest);
+  AddTextToArea(CurrentDate & " " & CurrentTime & " SendSMSTurboSMS(" & reciever & ":" & text & ") - " & response & chr(13) & chr(10),mainRequest);
+  writeareatofile(mainRequest,"TurboSMS.log",1);
+  
+  SendSMSTurboSMS = res;
+  return;
+end;
+
+global 
+updating function boolean EasySendTurboSMS(string reciever, string text)
+begin
+  string 50 cookie;
+  record SMSConfigBlock SMSb;
+  boolean res;
+  
+  BlockLoad(SMSb);
+  if AuthTurboSMS(cookie) then begin
+    if SMSb.Balance>0 then begin
+      res = SendSMSTurboSMS(cookie,reciever,text);
+    end;
+  end;
+  
+  EasySendTurboSMS = res;
+  return;
+end;
+
+global 
+updating function boolean EasySendTurboSMStoUser(string reciever, string text,var string error)
+begin
+  string 50 cookie;
+  record SMSConfigBlock SMSb;
+  boolean res;
+  record USerVc Userr;
+  string 255 phonetmp,phone;
+  
+  
+  Userr.Code = reciever;
+  if(readfirstmain(Userr,1,true))then begin
+  	if nonblank(Userr.Phone1) then begin
+			phonetmp = Userr.Phone1;
+		end else begin
+			phonetmp = Userr.Phone2;
+		end;
+		if nonblank(phonetmp) then begin
+			phonetmp = StrReplace(phonetmp,"-","");
+			phonetmp = StrReplace(phonetmp," ","");
+			phonetmp = StrReplace(phonetmp,"(","");
+			phonetmp = StrReplace(phonetmp,")","");
+			phonetmp = StrReplace(phonetmp,"*","");
+			switch (left(phonetmp,1)) begin
+				case "+":
+					phone = phonetmp;
+				case "3":
+					phone = "+" & phonetmp;
+				case "8":
+					phone = "+3" & phonetmp;
+				case "0":
+					phone = "+38" & phonetmp;
+				otherwise
+					phone = "+380" & phonetmp;
+			end;
+			BlockLoad(SMSb);
+			if AuthTurboSMS(cookie) then begin
+				if SMSb.Balance>0 then begin
+					error = "SMS sended to " & reciever & " " & phone & " " & text;
+					res = SendSMSTurboSMS(cookie,phone,text);
+				end;
+			end;
+		end else begin
+			logtext(0,"EasySendTurboSMStoUser blank phone");
+			error = "Blank phone";
+		end;
+  end else begin
+  	logtext(0,"EasySendTurboSMStoUser Unknown user");
+  	error = "Unknown user";
+  end;
+  
+  EasySendTurboSMStoUser = res;
+  return;
+end;
+
+global
+updating procedure TestRn(record RcVc RepSpec)
+begin
+  string 50 cookie;
+  boolean res;
+  record SMSConfigBlock SMSb;
+  
+  BlockLoad(SMSb);
+  if AuthTurboSMS(cookie) then begin
+    if SMSb.Balance>0 then begin
+      //SendSMSTurboSMS(cookie,"+380638708296","sms test");
+    end;
+  end;
+  StartReportNoHeaderJob("TEST");
+    startformat(15);
+      OutString(0,0,"",false);
+    endformat;
+  EndJob;
+  
+  return;
+end;
+
+global
+updating procedure UpdBalSMSRemote(boolean f)
+begin
+  record SMSConfigBlock SMSb;
+  string 50 cookie;
+  
+  BlockLoad(SMSb);
+  AuthTurboSMS(cookie);
+  SMSb.Balance = GetCreditBalanceTurboSMS(cookie);
+  BlockStore(SMSb);
+  return;
+end;

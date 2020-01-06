@@ -4996,6 +4996,18 @@ RecordBegin(BinotelCallEndVc,-,"");//Edit-------------------Vitalii 17:10 03.11.
 		KeySegment(SerNr);
 	EndRecord;
 	
+	BlockBegin(SMSConfigBlock,-,"");//Edit-------------------Vitalii 11:44 25.03.2016
+    RecordField(Login,M4Str,255,0);
+    RecordField(Password,M4Str,255,0);
+    RecordField(Balance,M4Val,0,0);
+    RecordField(Host,M4Str,255,0);
+    RecordField(Page,M4Str,255,0);
+    RecordField(LastErr,M4Str,255,0);
+    RecordField(LEDate,M4Date,0,0);
+    RecordField(LETime,M4Time,0,0);
+    RecordField(Sign,M4Str,255,0);
+	EndBlock;
+	
 return;
 end;
 	

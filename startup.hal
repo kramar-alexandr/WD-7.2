@@ -10,6 +10,10 @@ begin
 	//Document("Акти/накладні(друк)",IVRClass,InvForm,InvFClass,modSL); 
 
 	Module("Друк етикеток","",730,modLabPrint); //Edit***************************Sasha2,12:56 22.10.2014
+	Module("СМС повідомлення","",730,modSMS);//Edit-------------------Vitalii 11:39 25.03.2016
+
+	Setting("Налаштування СМС",SMSConfigTClass,modSMS);
+
 	
 	Register("Заробітьня відомість","Заробітьня відомість",BPIJobCostVc,modExp);
 	Register("Друк цінників","Друк цінників",MyRepricingVc,modLabPrint);
