@@ -703,11 +703,13 @@ longint acnt;
 string 5 c1,c2;
 record SMSConfigBlock SMSConfigb;
     
-  blockload(SMSConfigb);
+  
 
   logtext(0,"WebGetISOrder");
   
   SetCompany(13,false);
+  
+  blockload(SMSConfigb);
   
 		webgetpostdata(rawarea);
 		
