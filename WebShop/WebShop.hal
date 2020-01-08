@@ -887,7 +887,7 @@ record SMSConfigBlock SMSConfigb;
 					if(nonblank(phone))then begin
 						if(len(phone)==10)then begin
 							if(SMSConfigb.Balance>0)then begin
-								smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера";
+								smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера 0800330334";
 								EasySendTurboSMS(phone,smstext);
 							end;
 						end;
