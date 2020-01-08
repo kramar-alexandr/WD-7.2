@@ -20,21 +20,21 @@ begin
           	PLr.PLCode = PLDr.Code;
           	if(readfirstmain(PLr,2,true))then begin
 							price = evaltoval(sfield[2]);
-							if(price>0)then begin
+							//if(price>0)then begin
 								RecordCopy(PL2r,PLr);
 								PLr.ExVatPrice = price;
 								RecordUpdate(PL2r,PLr,true);
-							end;       
+							//end;       
             end else begin
             	price = evaltoval(sfield[2]);
-							if(price>0)then begin
+							//if(price>0)then begin
 								recordnew(PLr);
 								PLr.PLCode = PLDr.Code;
 								PLr.ArtCode = INr.Code;
 								PLr.Comment = INr.Name;
 								PLr.ExVatPrice = price;
 								RecordInsert(PLr,true);
-							end;
+							//end;
             end;     
           end;
         end;
