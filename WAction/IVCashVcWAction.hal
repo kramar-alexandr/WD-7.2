@@ -578,7 +578,7 @@ begin
 				for(i=0;i<rwcnt;i=i+1)begin
 					matrowget(IVCashr,i,IVCashrw);
 					if(IVCashrw.ArtCode=="COM")then begin
-						IVCashrw.Price = sumforcom * 0.07;
+						IVCashrw.Price = sumforcom * 0.05;
 						IVCashrw.Quant = 1;
 						IVCashrw.Sum = IVCashrw.Price;
 						Matrowput(IVCashr,i,IVCashrw);
@@ -593,7 +593,7 @@ begin
 				IVCashVc_PasteArtCode(IVCashr,rwcnt,ReturnModef,inwarning,sernrf);
 				matrowget(IVCashr,rwcnt,IVCashrw);
 				IVCashrw.Quant = 1;
-				IVCashrw.Price = sumforcom * 0.07;
+				IVCashrw.Price = sumforcom * 0.05;
 				IVCashrw.Sum = IVCashrw.Price;
 				matrowput(IVCashr,rwcnt,IVCashrw);
 				IVCashDchsum(IVCashr,rwcnt);

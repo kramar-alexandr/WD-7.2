@@ -146,7 +146,7 @@ begin
 	
 	Import("§мпорт товаров",ImportPLClass,ImpINvcIn,modSY); //Edit***************************Sasha2,10:01 02.10.2014
 	
-	Import("§мпорт цґн UID",ImportPLClass,ImportPLInUUID,modDI); //Edit***************************Sasha2,10:01 02.10.2014
+	//Import("§мпорт цґн UID",ImportPLClass,ImportPLInUUID,modDI); //Edit***************************Sasha2,10:01 02.10.2014
 	Import("€мпорт форм документов",ImportUniversalLClass,ImpDocVc,modSY);
 	Import("€мпорт стилей документов",ImportUniversalLClass,ImpStylesVc,modSY);
 	Import("§мпорт регистрґв Ѓ…‡ Џ…ђ…‡ЂЏ€‘“",ImportOfRegisterIClass,ImportOfRegister,modDBMain);	//Edit----------------------Dima  27.05.2015
