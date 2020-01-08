@@ -2788,6 +2788,7 @@ begin
 			EditField(h1+20,v+=vs,250,"Точка выдачи",Normal,InvAddr4,false,SalesGroupSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 28 11 2019 y. at 2:48:48 PM
 			v = v + vs;
 			EditField(h1,v+=vs,-350,"Інформація",Normal,ShipAddr0,false,0);
+			EditField(h1,v+=vs,-350,"Кредит",Normal,TerminalID,false,0);
 			EditField(h1,v+=vs,-350,"замовлення",Normal,ShipAddr1,false,0);
 			EditField(h1,v+=vs,-350,"",Normal,ShipAddr2,false,0);
 			EditField(h1,v+=vs,-350,"",Normal,ShipAddr3,false,0);

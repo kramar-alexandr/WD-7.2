@@ -847,6 +847,10 @@ record SMSConfigBlock SMSConfigb;
 					ORr.Addr2 = address;
 					ORr.Comment = note;
 					
+					if(is_credit=="1")then begin
+						ORr.TerminalID = "Кредит";
+					end;
+					
 					ORr.SerNr = NextSerNr("ORVc",ORr.OrdDate,-1,false,"");    
 					for(i=0;i<JSONCountChildren(inputjson,"items");i=i+1) begin
 						articlerow = JSONGet(inputjson,"items/["  & i & "]/item/article");
