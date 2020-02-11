@@ -188,11 +188,11 @@ ID = 15;
     //DebitorkaReportEn(iCenter);
     //StockBalDiffMn("SA,KUDINA,NATA");
     
-    //recordnew(RepSpec);
-    //RepSpec.flags[0]=89;
-    //RepSpec.f1="INV#2_NEW";
-    //RepSpec.f2="INV#2";
-    //MoveOldItemsMn(RepSpec);
+    recordnew(RepSpec);
+    RepSpec.flags[0]=89;
+    RepSpec.f1="INV#2_NEW";
+    RepSpec.f2="INV#2";
+    MoveOldItemsMn(RepSpec);
     //SHItemsMn;//Edit_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Anton 10:45 10.07.2018
     
   end;
