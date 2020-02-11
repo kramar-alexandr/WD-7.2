@@ -1545,7 +1545,7 @@ BEGIN
                     end;
                     if(IPrw.CUPNr==1016235)then begin
                     	logtext(0,IPrw.CUPNr & " ------ " & prepbalbase);
-                    	if(prepbalbase==22.73)then begin
+                    	if(prepbalbase==-139.17)then begin
                     		prepbalbase = prepbalbase -	 13.04;
                     	end;
                     	logtext(0,IPrw.CUPNr & " ------ " & prepbalbase);
