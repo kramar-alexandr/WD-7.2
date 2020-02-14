@@ -905,3 +905,236 @@ record SMSConfigBlock SMSConfigb;
   
 return;
 end;
+
+
+global webpublic updating procedure WebBitrixOrder()
+begin
+area areply,orderarea,rawarea;
+Boolean TrHs,testf,comma,TrHs1;
+record WebSyncRegVc WSRr;
+record WebSyncBlock WSBb;
+integer lenth,i,sum,rwcnt,k;
+longint price;
+string 50 partno,availab;
+string 5 char;
+record INVc INr;
+record PLVc PLr;
+record ItemStatusVc ISr;
+json inputjson;
+string 100 orderid;
+string 200 delivery_region,delivery_type,last_name,phone,articlerow,fullnamerow;
+string 200 pricerow,payment,address,first_name,summary,note,email,ensure;
+string 200 is_credit,discount_percent,datetxt,buyoneclick,storeH,storeN,delivery_cost,countrow,sumrow,smstext;
+record CUVc CUr,inCUr,blankCU;
+boolean cufound,chsum;
+string 100 warning,error;
+record ORVc ORr;
+row ORVc ORrw;
+longint acnt;
+string 5 c1,c2;
+record SMSConfigBlock SMSConfigb;
+    
+  
+
+  logtext(0,"WebGetISOrder");
+  
+  SetCompany(13,false);
+  
+  blockload(SMSConfigb);
+  
+		webgetpostdata(rawarea);
+		
+		for(i=0;i<getarealength(rawarea)-1;i=i+1)begin
+			c2 = getstringfromarea(rawarea,i,2);
+			c1 = getstringfromarea(rawarea,i,1);
+			if(c2=="{}")then begin
+				i=i+1;
+				addtexttoarea("\"\"",orderarea);
+			end else begin
+				addtexttoarea(c1,orderarea);
+			end;
+		end;
+		
+		logtext(0,"try to parse");
+		inputjson = parsejsonarea(orderarea);
+		logtext(0,"End try to parse");
+		addtexttoarea(chr(13) & chr(10),orderarea);
+		addtexttoarea(chr(13) & chr(10),orderarea);
+		addtexttoarea(currentdate & " " & currenttime,orderarea);
+		addtexttoarea(chr(13) & chr(10),orderarea);
+		writeareatofile(orderarea,"iStoreNewOrdersPOS.txt",1);
+		
+		
+		orderid = JSONGet(inputjson,"id");	
+		if(nonblank(orderid))then begin
+			if(stringtolongint(orderid)>0)then begin
+				writeareatofile(orderarea,"iStoreOrders/" & orderid & ".txt",0);
+					
+				delivery_region = ChekUnicode(JSONGet(inputjson,"delivery_region"));	
+				delivery_type = ChekUnicode(JSONGet(inputjson,"delivery_type"));	
+				last_name = ChekUnicode(JSONGet(inputjson,"last_name"));	
+				phone = JSONGet(inputjson,"phone");	
+				payment = ChekUnicode(JSONGet(inputjson,"payment"));	
+				address = ChekUnicode(JSONGet(inputjson,"address"));	
+				first_name = ChekUnicode(JSONGet(inputjson,"first_name"));	
+				summary = JSONGet(inputjson,"summary");	
+				note = ChekUnicode(JSONGet(inputjson,"note"));	
+				email = ChekUnicode(JSONGet(inputjson,"email"));	
+				ensure = ChekUnicode(JSONGet(inputjson,"ensure"));	
+				is_credit = ChekUnicode(JSONGet(inputjson,"is_credit"));	
+				discount_percent = JSONGet(inputjson,"discount_percent");	
+				datetxt = JSONGet(inputjson,"date");	
+				buyoneclick = JSONGet(inputjson,"buyoneclick");	
+				storeH = JSONGet(inputjson,"store/hansa");	
+				storeN = ChekUnicode(JSONGet(inputjson,"store/name"));	
+				phone = NormPhoneNum(ChekUnicode(phone));
+
+				
+				CUr.Code = phone;
+				if(readfirstmain(CUr,1,true))then begin
+					cufound = true;
+				end;
+				if(cufound==false)then begin
+					CUr.Phone = phone;
+					if(readfirstkey("Phone",CUr,1,true))then begin
+						cufound = true;
+					end;
+					
+				end;
+				if(cufound==false)then begin
+					CUr.AltPhone = phone;
+					if(readfirstkey("AltPhone",CUr,1,true))then begin
+						cufound = true;
+					end;
+				end;
+				
+				if(cufound)then begin
+					if(blank(CUr.Phone))then begin
+						CUr.Phone = phone;
+						recordstore(CUr,true);
+					end;
+				end;
+				
+				if(cufound==false and nonblank(phone))then begin
+					inCUr.Code = "INTERNET";
+					readfirstmain(inCUr,1,true);
+					recordnew(blankCU);
+					recordcopy(CUr,inCUr);
+					CUr.UUID = blankCU.UUID;
+					CUr.Code = phone;
+					CUr.Phone = phone;
+					CUr.Name = last_name & " " & first_name;
+					CUr.Name = trim(CUr.Name);
+					
+					if(blank(CUr.Name))then begin
+						CUr.Name = phone;
+					end;
+					CUr.eMail = email;
+					CUr.SalesMan = "";
+					CUr.InvAddr0 = urldecode(address);
+					if(nonblank(CUr.Code))then begin
+						recordstore(CUr,true);
+						cufound = true;
+					end;
+				end else begin
+					/*if(cufound)then begin
+						if()then begin
+					end;*/
+				end;
+				if(cufound)then begin
+					recordnew(ORr);
+					ORr.CustCode = CUr.Code;
+					ORr.OrdDate = CurrentDate;
+					PasteCustInOrder(ORr,ORr.CustCode,ORr.CustCode,warning,error);
+					
+					ORr.ShipAddr0 = address;
+					switch(delivery_type)begin
+						case"self": ORr.ShipAddr1 = "Самовывоз со склада";
+						case"door": ORr.ShipAddr1 = "Доставка до дверей";
+					end;
+					switch(delivery_region)begin
+						case"0": ORr.ShipAddr2 = "Курьером";
+						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»";
+						case"2": ORr.ShipAddr2 = "Самовывоз";
+						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)";
+					end;
+					switch(payment)begin
+						case"cash": ORr.ShipAddr3 = "Наличными";
+						case"bank": ORr.ShipAddr3 = "Б/Н";
+						case"bank_nds": ORr.ShipAddr3 = "Б/Н+НДС";
+						case"visa": ORr.ShipAddr3 = "Visa";
+						case"pr24": ORr.ShipAddr3 = "Приват24";
+						case"credit": ORr.ShipAddr3 = "Кредит";
+					end;					
+					ORr.CustOrdNr = orderid;
+					
+					ORr.Addr0 = last_name & " " & first_name;
+					logtext(0,"buyoneclick " & buyoneclick);
+					if(buyoneclick=="true")then begin
+					 ORr.Addr0 = trim(ORr.Addr0 & " (Быстрый заказ)");
+					end;
+					
+					ORr.Addr0 = "Тестовый заказ из битрикс!!!";
+					
+					ORr.Addr1 = CUr.Name;
+					ORr.Addr2 = address;
+					ORr.Comment = note;
+					
+					if(is_credit=="true")then begin
+						ORr.TerminalID = "Кредит";
+					end;
+					
+					ORr.SerNr = NextSerNr("ORVc",ORr.OrdDate,-1,false,"");    
+					for(i=0;i<JSONCountChildren(inputjson,"items");i=i+1) begin
+						articlerow = JSONGet(inputjson,"items/["  & i & "]/item/article");
+						fullnamerow = JSONGet(inputjson,"items/["  & i & "]/item/fullname");
+						pricerow = JSONGet(inputjson,"items/["  & i & "]/item/price");
+						countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
+						
+						sumrow = JSONGet(inputjson,"items/["  & i & "]/discount_summary");
+						k = matrowcnt(ORr);
+						clearrow(ORr,ORrw,1);
+						ORrw.ArtCode = articlerow;
+						matrowput(ORr,k,ORrw);
+						ORVc_PasteArtCode(ORr,k,warning,warning,false);
+						matrowget(ORr,k,ORrw);
+						if(blank(ORrw.Spec))then begin
+							ORrw.Spec = urldecode(fullnamerow);
+							matrowput(ORr,k,ORrw)
+						end;
+						ORrw.Quant = stringtoval(countrow,m4val);
+						ORrw.Price = stringtoval(pricerow,m4val);
+						matrowput(ORr,k,ORrw);
+						ORVc_PasteQuant(ORr,k,true,chsum);
+						
+						matrowget(ORr,k,ORrw);
+							if(stringtoval(sumrow,m4val)!=ORrw.Sum)then begin
+								ORrw.Sum = stringtoval(sumrow,m4val);
+								matrowput(ORr,k,ORrw);
+								ORVc_PasteSum(ORr,k,chsum);
+							end;
+						
+						ORDchsum(ORr,k);
+						ORSumup(ORr);
+						
+					end;
+					ORr.OrderClass = "SALES";
+					recordinsert(ORr,true);    
+					
+					if(nonblank(phone))then begin
+						if(len(phone)==10)then begin
+							if(SMSConfigb.Balance>0)then begin
+								smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера 0800330334";
+								EasySendTurboSMS(phone,smstext);
+							end;
+						end;
+					end;
+					 
+				end;
+			end;
+		end;
+	
+  ResetCompany(13);
+  
+return;
+end;
