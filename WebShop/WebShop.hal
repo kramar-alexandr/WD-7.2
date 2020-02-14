@@ -966,6 +966,7 @@ record SMSConfigBlock SMSConfigb;
 		
 		
 		orderid = JSONGet(inputjson,"id");	
+		logtext(0,"orderid " & orderid);
 		if(nonblank(orderid))then begin
 			if(stringtolongint(orderid)>0)then begin
 				writeareatofile(orderarea,"BitrixiStoreOrders/" & orderid & ".txt",0);
