@@ -936,7 +936,7 @@ record SMSConfigBlock SMSConfigb;
     
   
 
-  logtext(0,"WebBitrixOrder");
+  logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrder");
   
   SetCompany(13,false);
   
