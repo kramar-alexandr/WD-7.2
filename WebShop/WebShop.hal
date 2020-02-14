@@ -974,6 +974,9 @@ record SMSConfigBlock SMSConfigb;
 				delivery_type = ChekUnicode(JSONGet(inputjson,"delivery_type"));	
 				last_name = ChekUnicode(JSONGet(inputjson,"last_name"));	
 				phone = JSONGet(inputjson,"phone");	
+				if(left(phone,3)=="+38")then begin
+					phone = right(phone,len(phone)-3);
+				end;
 				payment = ChekUnicode(JSONGet(inputjson,"payment"));	
 				address = ChekUnicode(JSONGet(inputjson,"address"));	
 				first_name = ChekUnicode(JSONGet(inputjson,"first_name"));	
