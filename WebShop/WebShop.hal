@@ -936,7 +936,7 @@ record SMSConfigBlock SMSConfigb;
     
   
 
-  logtext(0,"WebGetISOrder");
+  logtext(0,"WebBitrixOrder");
   
   SetCompany(13,false);
   
@@ -962,13 +962,13 @@ record SMSConfigBlock SMSConfigb;
 		addtexttoarea(chr(13) & chr(10),orderarea);
 		addtexttoarea(currentdate & " " & currenttime,orderarea);
 		addtexttoarea(chr(13) & chr(10),orderarea);
-		writeareatofile(orderarea,"iStoreNewOrdersPOS.txt",1);
+		writeareatofile(orderarea,"BitrixiStoreNewOrdersPOS.txt",1);
 		
 		
 		orderid = JSONGet(inputjson,"id");	
 		if(nonblank(orderid))then begin
 			if(stringtolongint(orderid)>0)then begin
-				writeareatofile(orderarea,"iStoreOrders/" & orderid & ".txt",0);
+				writeareatofile(orderarea,"BitrixiStoreOrders/" & orderid & ".txt",0);
 					
 				delivery_region = ChekUnicode(JSONGet(inputjson,"delivery_region"));	
 				delivery_type = ChekUnicode(JSONGet(inputjson,"delivery_type"));	
@@ -1121,14 +1121,14 @@ record SMSConfigBlock SMSConfigb;
 					ORr.OrderClass = "SALES";
 					recordinsert(ORr,true);    
 					
-					if(nonblank(phone))then begin
+					/*if(nonblank(phone))then begin
 						if(len(phone)==10)then begin
 							if(SMSConfigb.Balance>0)then begin
 								smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера 0800330334";
 								EasySendTurboSMS(phone,smstext);
 							end;
 						end;
-					end;
+					end;*/
 					 
 				end;
 			end;
