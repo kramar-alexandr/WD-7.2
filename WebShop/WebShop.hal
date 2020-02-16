@@ -1091,7 +1091,7 @@ record SMSConfigBlock SMSConfigb;
 					ORr.SerNr = NextSerNr("ORVc",ORr.OrdDate,-1,false,"");    
 					for(i=0;i<JSONCountChildren(inputjson,"items");i=i+1) begin
 						articlerow = JSONGet(inputjson,"items/["  & i & "]/item/article");
-						fullnamerow = urldecode(JSONGet(inputjson,"items/["  & i & "]/item/fullname"));
+						fullnamerow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/fullname"));
 						pricerow = JSONGet(inputjson,"items/["  & i & "]/item/price");
 						countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
 						
