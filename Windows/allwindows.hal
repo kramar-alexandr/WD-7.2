@@ -2746,7 +2746,7 @@ begin
 			EditField(h2,v+=vs,150,"Телефон",Normal,Phone,false,0);
 			EditField(h2,v+=vs,150,"Коментар",Normal,Comment,false,0);
 			EditField(h2,v+=vs,150,"№ рах.",Normal,CustOrdNr,false,0);
-		
+			v = v + vs;
 			//3
 		
 		
