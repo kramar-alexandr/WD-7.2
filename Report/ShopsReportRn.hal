@@ -36,7 +36,7 @@ begin
 			IHr.ArtCode = ORrw.ArtCode;
     	IHr.SerialNr = serialnr;
     	//IHr.Location = ORr.Location;
-    	if(ReadLastKey("ActiveSerialNr",IHr,1,true))then begin
+    	if(ReadLastKey("ActiveSerialNr",IHr,2,true))then begin
 				outstring(outpos+=30,0,IHr.TotCostPrice,false);//Cost
 			end else begin
 				outstring(outpos+=30,0,"",false);//Cost
