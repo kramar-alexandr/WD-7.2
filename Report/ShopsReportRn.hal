@@ -9,6 +9,7 @@ begin
   integer outpos;
   val qty;
   record SerBalVc SBr;
+  record ItemHistVc IHr;
   	
   	outpos = 0;
   	qty = -1;
@@ -32,14 +33,22 @@ begin
 		end; 
 		outstring(outpos+=30,0,ORrw.Price,false);
 		if(RepSpec.flags[1]==1)then begin
-			SBr.Item = ORrw.ArtCode;
+			IHr.ArtCode = ORrw.ArtCode;
+    	IHr.SerialNr = serialnr;
+    	//IHr.Location = ORr.Location;
+    	if(ReadFirstKey("ActiveSerialNr",IHr,1,true))then begin
+				outstring(outpos+=30,0,IHr.TotCostPrice,false);//Cost
+			end else begin
+				outstring(outpos+=30,0,"",false);//Cost
+			end;
+			/*SBr.Item = ORrw.ArtCode;
     	SBr.Serial = serialnr;
     	SBr.Location = ORr.Location;
     	if(ReadFirstMain(SBr,3,true))then begin
 				outstring(outpos+=30,0,SBr.CostPrice,false);//Cost
 			end else begin
 				outstring(outpos+=30,0,"",false);//Cost
-			end;
+			end;*/
 		end;
 		outstring(outpos+=30,0,ORrw.vRebate,false);
 		
