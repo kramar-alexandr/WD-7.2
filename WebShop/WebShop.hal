@@ -1078,7 +1078,7 @@ record SMSConfigBlock SMSConfigb;
 					 ORr.Addr0 = trim(ORr.Addr0 & " (Быстрый заказ)");
 					end;
 					
-					ORr.Addr0 = ORr.Addr0 & "Тестовый заказ из битрикс!!!";
+					//ORr.Addr0 = ORr.Addr0 & "Тестовый заказ из битрикс!!!";
 					
 					ORr.Addr1 = CUr.Name;
 					ORr.Addr2 = address;
