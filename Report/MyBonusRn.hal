@@ -1346,7 +1346,7 @@ begin
 									notenr = notenr + 1;
 								end;
                 
-               if (enginer == CurrentUser or (blank(enginer) and IVr.SalesMan==CurrentUser)) then begin  
+               if (enginer == CurrentUser or (blank(enginer) and IVr.SalesMan==CurrentUser) or currentuser=="SA") then begin  
                 CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
       					foundqty = 0;
       					For(j=0;j<ressize;j=j+1) begin
@@ -1644,7 +1644,7 @@ l1:;
 												end;
 											end;
                       
-                      if (enginer == CurrentUser or (blank(enginer) and newIVr.SalesMan==CurrentUser)) then begin
+                      if (enginer == CurrentUser or (blank(enginer) and newIVr.SalesMan==CurrentUser) or currentuser=="SA") then begin
 												CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
 												foundqty = 0;
 												For(j=0;j<ressize;j=j+1) begin
