@@ -1703,7 +1703,7 @@ l1:;
 														end;
 														costorig = realcostuah[j];;
 														salessum = realsumbase[j];
-														sumorig = realsumbase[j];
+														sumorig = realsumuah[j];
 														OutVal(pos[11],0,sumorig,M4Val,false);
 														sumcostorig = realcostuah[j]*quant;
 														OutVal(pos[12],0,sumcostorig,M4Val,false);
