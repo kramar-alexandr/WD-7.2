@@ -1513,6 +1513,7 @@ LPUVcRecordCheck_GenTrans:;
     end;    
   end;  
 L99PUVcRecordCheck:;
+logtext(0,"L99PUVcRecordCheck");
   if (res!=0) then begin PUr.SerNr = oldnr; end;
   PUVcRecordCheck = res;
   return;
