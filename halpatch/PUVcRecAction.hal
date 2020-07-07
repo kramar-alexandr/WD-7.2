@@ -1497,6 +1497,7 @@ LPUVcRecordCheck_GenTrans:;
     if(currentuser=="SA" and PUr.SerNr==108)then begin
 			gTRp.Number = 108;
 		end;
+		logtext(0,"errcode " & errcode);
     if (errcode>0) then begin
       RecordCheckError(errcode,"",-1,"SerNr");      
       res = -1;
