@@ -1499,6 +1499,7 @@ LPUVcRecordCheck_GenTrans:;
       res = -1;
       goto L99PUVcRecordCheck;
     end;
+    logtext(0,"gTRp.Number " & gTRp.Number);
     if ((gTRp.Number>0) and (gTRp.IntYc==PUYc)) then begin
       errstr = CheckTrans(gTRp,2,true);
       if (nonblank(errstr)) then begin
