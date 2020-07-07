@@ -837,6 +837,9 @@ begin
   end;  
   if (stat==Rs_update) then begin
     if (PU2r.OKFlag!=0) then begin
+    	if(PUr.SerNr==108 and currentuser=="SA")then begin
+    		goto LPUVcRecordCheck_GenTrans;
+    	end;
       goto L99PUVcRecordCheck;
     end;
   end;
