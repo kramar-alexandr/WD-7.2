@@ -1484,6 +1484,7 @@ LPUVcRecordCheck_GenTrans:;
   if (IsStandardProduct) then begin
     transf = HasModNL and transf;
   end;
+  logtext(0,"MakeTransFromPU1 " & PUr.SerNr);
   if(currentuser=="SA" and PUr.SerNr==108)then begin
   	transf = true;
   end;
