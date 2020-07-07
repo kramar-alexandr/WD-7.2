@@ -1496,6 +1496,7 @@ LPUVcRecordCheck_GenTrans:;
     errcode = MakeTransFromPU(gTRp,PUr,LocRec,false);
     if(currentuser=="SA" and PUr.SerNr==108)then begin
 			gTRp.Number = 108;
+			gTRp.IntYc = PUYc;
 		end;
 		logtext(0,"errcode " & errcode);
     if (errcode>0) then begin
