@@ -837,9 +837,6 @@ begin
   end;  
   if (stat==Rs_update) then begin
     if (PU2r.OKFlag!=0) then begin
-    	if(PUr.SerNr==108 and currentuser=="SA")then begin
-    		goto LPUVcRecordCheck_GenTrans;
-    	end;
       goto L99PUVcRecordCheck;
     end;
   end;
@@ -1487,24 +1484,13 @@ LPUVcRecordCheck_GenTrans:;
   if (IsStandardProduct) then begin
     transf = HasModNL and transf;
   end;
-  logtext(0,"MakeTransFromPU1 " & PUr.SerNr);
-  if(currentuser=="SA" and PUr.SerNr==108)then begin
-  	transf = true;
-  end;
   if (transf) then begin
-  	logtext(0,"MakeTransFromPU " & PUr.SerNr);
     errcode = MakeTransFromPU(gTRp,PUr,LocRec,false);
-    if(currentuser=="SA" and PUr.SerNr==108)then begin
-			gTRp.Number = 108;
-			gTRp.IntYc = PUYc;
-		end;
-		logtext(0,"errcode " & errcode);
     if (errcode>0) then begin
       RecordCheckError(errcode,"",-1,"SerNr");      
       res = -1;
       goto L99PUVcRecordCheck;
     end;
-    logtext(0,"gTRp.Number " & gTRp.Number);
     if ((gTRp.Number>0) and (gTRp.IntYc==PUYc)) then begin
       errstr = CheckTrans(gTRp,2,true);
       if (nonblank(errstr)) then begin
@@ -1522,7 +1508,6 @@ LPUVcRecordCheck_GenTrans:;
     end;    
   end;  
 L99PUVcRecordCheck:;
-logtext(0,"L99PUVcRecordCheck");
   if (res!=0) then begin PUr.SerNr = oldnr; end;
   PUVcRecordCheck = res;
   return;
