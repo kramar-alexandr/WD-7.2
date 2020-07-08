@@ -1229,7 +1229,7 @@ begin
 		delLastComaInArea(resarea);
 		AddTextToArea("},",resarea);
 	end;
-	AddTextToArea("]",resarea);
+	AddTextToArea("],",resarea);
 	
 	addParamToJSONArea("PlanShipDate",NormalizeStrToJson(ORr.PlanShipDate),resarea);
 	addParamToJSONArea("DespatchTime",NormalizeStrToJson(ORr.DespatchTime),resarea);
