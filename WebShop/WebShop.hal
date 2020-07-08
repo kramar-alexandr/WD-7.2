@@ -1236,7 +1236,6 @@ begin
 	addParamToJSONArea("InvAddr4",NormalizeStrToJson(ORr.InvAddr4),resarea);
 	addParamToJSONArea("ShipAddr0",NormalizeStrToJson(ORr.ShipAddr0),resarea);
 	addParamToJSONArea("TerminalID",NormalizeStrToJson(ORr.TerminalID),resarea);
-	addParamToJSONArea("ShipAddr1",NormalizeStrToJson(ORr.ShipAddr1),resarea);
 	addParamToJSONArea("ShipAddr2",NormalizeStrToJson(ORr.ShipAddr2),resarea);
 	addParamToJSONArea("ShipAddr3",NormalizeStrToJson(ORr.ShipAddr3),resarea);
 	addParamToJSONArea("DelAddr3",NormalizeStrToJson(ORr.DelAddr3),resarea);
@@ -1245,7 +1244,6 @@ begin
 	
 	
 	AddTextToArea("}",resarea);
-	AddTextToArea("" & chr(13) & chr(10),resarea);
 
 return;
 end;
@@ -1257,10 +1255,34 @@ begin
 	area resarea;
 	
 	setcompany(13,false);
-	
 	readlastmain(ORr,1,false);
 	CreateORJson(ORr,resarea);
 	weboutarea(resarea);
 	
 return;
 end;
+
+global webpublic procedure WebGetOneOrderByPhone()
+begin
+	record ORVc ORr;
+	area resarea;
+	boolean TrHs;
+	boolean testf;
+	
+	setcompany(13,false);
+	ORr.CustCode = webgetarg("phone");
+	TrHs = true;
+	AddTextToArea("{\"orders\":[",resarea);
+	
+	while(loopkey("CustCode",ORr,1,TrHs))begin
+		if(ORr.CustCode==webgetarg("phone"))then begin
+			CreateORJson(ORr,resarea);
+		end else begin
+			TrHs = false;
+		end;
+	end;
+	AddTextToArea("]}",resarea);
+	weboutarea(resarea);
+return;
+end;
+
