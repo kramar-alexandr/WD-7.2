@@ -1228,9 +1228,9 @@ begin
 		addParamToJSONArea("vRebate",NormalizeStrToJson(ORrw.vRebate),resarea);
 		addParamToJSONArea("Sum",NormalizeStrToJson(ORrw.Sum),resarea);
 		addParamToJSONArea("Spec",NormalizeStrToJson(ORrw.Spec),resarea);
-		delLastComaInArea(resarea);
 		AddTextToArea("},",resarea);
 	end;
+	delLastComaInArea(resarea);
 	AddTextToArea("],",resarea);
 	
 	addParamToJSONArea("PlanShipDate",NormalizeStrToJson(ORr.PlanShipDate),resarea);
