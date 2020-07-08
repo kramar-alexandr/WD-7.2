@@ -1306,7 +1306,7 @@ begin
 	AddTextToArea("}",resarea);
 	writeareatofile(resarea,"ordertoviber.txt",0);
 	
-	MySendRawWebRequest("api.a-service.ua","443",true,"POST","/istore/sender.php","application/json","",false,resarea,replyarea,5);
+	SendRawWebRequest("api.a-service.ua","443",true,"POST","/istore/sender.php","application/json","",false,resarea,replyarea,5);
 	writeareatofile(replyarea,"sendMessageToSergeyReply.txt",0);
 		
 return;
