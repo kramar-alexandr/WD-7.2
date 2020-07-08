@@ -79,6 +79,8 @@ external function Boolean INVc_AllowSales(record INVc,var LongInt);
 forward function val GetINCostPrice(string,string,Boolean);// Edit ************************** Thursday, 4 September 2014 10:44:53
 external procedure ORDchsum(var record ORVc,Integer);// Edit ************************** Thursday, 4 September 2014 10:45:26
 external procedure ORSumup(var record ORVc);// Edit ************************** Thursday, 4 September 2014 10:47:57
+external procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
+
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -2119,6 +2121,9 @@ begin
   SMSWhenOR(ORr,1);  
   if (nonblank(ORr.OfficialSerNr)) then begin
     UpdateOffSerNr(ORr.SerNr,"ORVc",0,ORr.OfficialSerNr,false);
+  end;
+  if(currentcompany==13)then begin
+		SendORStatusToViber(ORr,"0");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
   end;
   ORVcRecordSaveAfter = res; 
   return;

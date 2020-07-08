@@ -1287,3 +1287,15 @@ begin
 return;
 end;
 
+global procedure SendORStatusToViber(record ORVc ORr, string status)
+begin
+	area resarea;
+	
+	AddTextToArea("{\" "& status &"\":",resarea);
+	CreateORJson(ORr,resarea);
+	AddTextToArea("}",resarea);
+	writeareatofile(resarea,"ordertoviber.txt",0);
+	SendAsyncWebRequest("viber.a-service.ua",443,-1,true,"POST","/istore/sender.php","application/json","",resarea,"",10);
+return;
+end;
+
