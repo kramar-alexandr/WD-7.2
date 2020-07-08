@@ -1142,3 +1142,124 @@ record SMSConfigBlock SMSConfigb;
   
 return;
 end;
+
+
+procedure addParamToJSONArea(string param, string value, var area req)
+begin
+
+AddTextToArea("\"" & param & "\":" &  "\"" & value & "\",",req);
+
+return;
+end;
+
+procedure delLastComaInArea(var area req)
+begin
+	longint alen;
+	string 1 lastsymb;
+	area tmpar;
+	
+	alen = getarealength(req);
+	lastsymb = getstringfromarea(req,alen-1,1);
+	if(lastsymb==",")then begin
+		getareafromarea(req,0,alen-1,tmpar);
+		setareazerosize(req);
+		getareafromarea(tmpar,0,getarealength(tmpar),req);
+	end;
+
+return;
+end;
+
+global function string 255 NormalizeStrToJson (string Str)
+begin
+	integer strln,i;
+	string 255 NormStr;
+	
+
+	NormStr = "";
+	strln = len(Str);
+	for (i=0;i<strln;i=i+1)begin
+		if(mid(Str,i,1)==chr(34))then begin
+			NormStr = NormStr & chr(92) & mid(Str,i,1);
+		end else begin
+			NormStr = NormStr & mid(Str,i,1);
+		end;
+	end;
+	
+	
+	NormalizeStrToJson = NormStr;
+	
+	return;
+end;
+
+procedure CreateORJson(record ORVc ORr, var area resarea)
+begin
+	row ORVc ORrw;
+	integer i,rwcnt;
+	
+	AddTextToArea("{",resarea);
+	
+	addParamToJSONArea("OrderNumber",NormalizeStrToJson(ORr.SerNr),resarea);
+	addParamToJSONArea("CustCode",NormalizeStrToJson(ORr.CustCode),resarea);
+	addParamToJSONArea("Addr0",NormalizeStrToJson(ORr.Addr0),resarea);
+	addParamToJSONArea("Reserved",NormalizeStrToJson(ORr.Reserved),resarea);
+	addParamToJSONArea("OrderStatusText",NormalizeStrToJson(ORr.OrderStatusText),resarea);
+	addParamToJSONArea("SalesMan",NormalizeStrToJson(ORr.SalesMan),resarea);
+	addParamToJSONArea("TTNMark",NormalizeStrToJson(ORr.TTNMark),resarea);
+	addParamToJSONArea("TTNNumber",NormalizeStrToJson(ORr.TTNNumber),resarea);
+	addParamToJSONArea("OrderClass",NormalizeStrToJson(ORr.OrderClass),resarea);
+	addParamToJSONArea("RejectMark",NormalizeStrToJson(ORr.RejectMark),resarea);
+	addParamToJSONArea("RejectStr",NormalizeStrToJson(ORr.RejectStr),resarea);
+	addParamToJSONArea("OrdDate",NormalizeStrToJson(ORr.OrdDate),resarea);
+	addParamToJSONArea("ShipAddr1",NormalizeStrToJson(ORr.ShipAddr1),resarea);
+	addParamToJSONArea("Phone",NormalizeStrToJson(ORr.Phone),resarea);
+	addParamToJSONArea("Comment",NormalizeStrToJson(ORr.Comment),resarea);
+	addParamToJSONArea("CustOrdNr",NormalizeStrToJson(ORr.CustOrdNr),resarea);
+	
+	AddTextToArea("\"items\":[",resarea);
+	rwcnt = matrowcnt(ORr);
+	for(i=0;i<rwcnt;i=i+1)begin
+		AddTextToArea("{",resarea);
+		addParamToJSONArea("ArtCode",NormalizeStrToJson(ORrw.ArtCode),resarea);
+		addParamToJSONArea("Quant",NormalizeStrToJson(ORrw.Quant),resarea);
+		addParamToJSONArea("SerialNr",NormalizeStrToJson(ORrw.SerialNr),resarea);
+		addParamToJSONArea("Price",NormalizeStrToJson(ORrw.Price),resarea);
+		addParamToJSONArea("vRebate",NormalizeStrToJson(ORrw.vRebate),resarea);
+		addParamToJSONArea("Sum",NormalizeStrToJson(ORrw.Sum),resarea);
+		addParamToJSONArea("Spec",NormalizeStrToJson(ORrw.Spec),resarea);
+		delLastComaInArea(resarea);
+		AddTextToArea("},",resarea);
+	end;
+	
+	addParamToJSONArea("PlanShipDate",NormalizeStrToJson(ORr.PlanShipDate),resarea);
+	addParamToJSONArea("DespatchTime",NormalizeStrToJson(ORr.DespatchTime),resarea);
+	addParamToJSONArea("InvAddr4",NormalizeStrToJson(ORr.InvAddr4),resarea);
+	addParamToJSONArea("ShipAddr0",NormalizeStrToJson(ORr.ShipAddr0),resarea);
+	addParamToJSONArea("TerminalID",NormalizeStrToJson(ORr.TerminalID),resarea);
+	addParamToJSONArea("ShipAddr1",NormalizeStrToJson(ORr.ShipAddr1),resarea);
+	addParamToJSONArea("ShipAddr2",NormalizeStrToJson(ORr.ShipAddr2),resarea);
+	addParamToJSONArea("ShipAddr3",NormalizeStrToJson(ORr.ShipAddr3),resarea);
+	addParamToJSONArea("DelAddr3",NormalizeStrToJson(ORr.DelAddr3),resarea);
+	addParamToJSONArea("DelAddr4",NormalizeStrToJson(ORr.DelAddr4),resarea);
+	delLastComaInArea(resarea);
+	
+	
+	AddTextToArea("}",resarea);
+	AddTextToArea("" & chr(13) & chr(10),resarea);
+
+return;
+end;
+
+
+global webpublic procedure WebGetOneOrder()
+begin
+	record ORVc ORr;
+	area resarea;
+	
+	setcompany(13,false);
+	
+	readlastmain(ORr,1,false);
+	CreateORJson(ORr,resarea);
+	weboutarea(resarea);
+	
+return;
+end;
