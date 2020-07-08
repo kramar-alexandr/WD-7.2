@@ -1202,6 +1202,7 @@ begin
 	addParamToJSONArea("CustCode",NormalizeStrToJson(ORr.CustCode),resarea);
 	addParamToJSONArea("Addr0",NormalizeStrToJson(ORr.Addr0),resarea);
 	addParamToJSONArea("Reserved",NormalizeStrToJson(ORr.Reserved),resarea);
+	addParamToJSONArea("OrderStatusCode",NormalizeStrToJson(ORr.OrderStatusCode),resarea);
 	addParamToJSONArea("OrderStatusText",NormalizeStrToJson(ORr.OrderStatusText),resarea);
 	addParamToJSONArea("SalesMan",NormalizeStrToJson(ORr.SalesMan),resarea);
 	addParamToJSONArea("TTNMark",NormalizeStrToJson(ORr.TTNMark),resarea);
@@ -1291,7 +1292,7 @@ global procedure SendORStatusToViber(record ORVc ORr, string status)
 begin
 	area resarea;
 	
-	AddTextToArea("{\" "& status &"\":",resarea);
+	AddTextToArea("{\""& status &"\":",resarea);
 	CreateORJson(ORr,resarea);
 	AddTextToArea("}",resarea);
 	writeareatofile(resarea,"ordertoviber.txt",0);
