@@ -1291,13 +1291,24 @@ end;
 
 global procedure SendORStatusToViber(record ORVc ORr, string status)
 begin
-	area resarea;
+	area resarea,replyarea;
+	string 255 LogPass,EncodedLogPass;
+	
+	LogPass = "hansa-server" & ":" & "7s44wkjm7U8374N7o1mkJN2vM";
+	EncodedLogPass = "Authorization: Basic " & Base64Encode(LogPass);
+	addtexttoarea("host: " & "viber.a-service.ua" & chr(13) & chr(10),resarea);
+	addtexttoarea("Content-Type: application/json" & chr(13) & chr(10),resarea);
+	addtexttoarea(EncodedLogPass & chr(13) & chr(10),resarea);
+	AddTextToArea("" & chr(13) & chr(10),resarea);
 	
 	AddTextToArea("{\""& status &"\":",resarea);
 	CreateORJson(ORr,resarea);
 	AddTextToArea("}",resarea);
 	writeareatofile(resarea,"ordertoviber.txt",0);
-	SendAsyncWebRequest("viber.a-service.ua",443,-1,true,"POST","/istore/sender.php","application/json","",resarea,"",10);
+	
+	MySendRawWebRequest("api.a-service.ua","443",true,"POST","/istore/sender.php","application/json","",false,resarea,replyarea,5);
+	writeareatofile(replyarea,"sendMessageToSergeyReply.txt",0);
+		
 return;
 end;
 
