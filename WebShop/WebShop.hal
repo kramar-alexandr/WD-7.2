@@ -1304,9 +1304,9 @@ begin
 	addtexttoarea(EncodedLogPass & chr(13) & chr(10),resarea);
 	AddTextToArea("" & chr(13) & chr(10),resarea);
 	
-	AddTextToArea("{\""& status &"\":",resarea);
+	//AddTextToArea("{\""& status &"\":",resarea);
 	CreateORJson(ORr,resarea);
-	AddTextToArea("}",resarea);
+	//AddTextToArea("}",resarea);
 	writeareatofile(resarea,"ordertoviber.txt",0);
 	
 	SendRawWebRequest("viber.a-service.ua","443",true,"POST","/istore/sender.php","application/json","",false,resarea,replyarea,5);
