@@ -4,7 +4,32 @@ remote updating procedure UpdBalSMSRemote(boolean);// Edit *********************
 
 SetLangMode(LangUkrainian,"UKR",0); 
 
+
 //**********************************************************************************************************************************************************************
+
+
+
+global updating procedure DblConfirmSelectSVOPointDsm()// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 11 April 2019 10:48:41
+begin
+	integer wn;
+	record RcVc RepSpec;
+	record UserVc USr,oldUSr;
+	record SalesGroupVc SGr;
+	
+	wn = curwindow;
+	deselectwindow(wn,true);
+	getwindowrecord(wn,RepSpec);
+
+	USr.Code = currentuser;
+	if(readfirstmain(USr,1,true))then begin
+		recordcopy(oldUSr,USr);
+		USr.Phone2 = RepSpec.flags[1];
+		recordupdate(oldUSr,USr,true);
+		closewindow(wn);
+	end;
+	
+return;
+end;
 
 global procedure PrintPU_Zebra(record RcVc RepSpec)
 begin

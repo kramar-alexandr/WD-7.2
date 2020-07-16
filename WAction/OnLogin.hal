@@ -48,6 +48,35 @@ BEGIN
   RETURN;
 END;
 
+
+//***************************************************************************** function added by dima-f 13.09.17
+procedure  ShowUserInfo()
+BEGIN
+  val cnt, ttl;
+  boolean showFlag;
+  record UserVc USr;
+  Record RcVc RepSpec;
+  
+  cnt=0;
+  ttl=0;
+  showFlag=false;
+  MyBonusCurrentUserRemote(cnt, ttl, showFlag);
+	if(showFlag==true) begin
+			MessageBox(0,"Співробітник:" & CurrentUser & "   Кількість ремонтів:" & cnt & "   Прибуток:" & ttl);
+	end;
+	
+	USr.Code = CurrentUser;
+	if(readfirstmain(USr,1,true))then begin
+		if(USr.IsSalesMan==1)then begin
+			RepSpec.flags[1] = stringtoint(USr.Phone2);
+			OpenWindow("SelectSVOPointWClass",0,0,"","",RepSpec);
+		end;
+	end;
+	
+  return;
+END;
+//****************************************************************************************************** end
+
 global
 function Boolean CheckOffLineRecords(Boolean openf)
 BEGIN

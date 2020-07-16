@@ -9990,6 +9990,8 @@ begin
   EditField(h,v+=vs,100,"Обмеження клієнта",Normal,CanUseOS,false,SetSClass);
   end;
   EditField(h,v+=vs,100,"Код контакта",Normal,CustCode,false,ContactCUSClass);
+  CheckBox(h-100,v+=vs,0,"Продавець",IsSalesMan);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:14:33 PM
+
 //  EditField(h,v+=vs,100,"Пароль для знижки",Normal,OldPassWord,false,0);
   if (StandardHansa==false) then begin
   ButtonFrame(h2,v=44,165,3,"Обмежений доступ");

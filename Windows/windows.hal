@@ -2310,7 +2310,7 @@ end;
 
 
 window SMSConfigTClass:1
-  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real vs,v,h,h1,h2,h3;
 
@@ -2328,5 +2328,25 @@ WindowBegin("Налаштування СМС",SMSConfigTClass,CGSbl,-);// Edit ****************
   EditField(h,v+=vs,200,"Остання помилка",Normal,LastErr,false,0);
   EditField(h,v+=vs,80,"Дата помилки",Normal,LEDate,false,0);
   EditField(h+120,v,80,"Час",Normal,LETime,false,0);
+  EndWindow;
+end;
+
+
+
+window SelectSVOPointWClass:1 //Edit-------------------Vitalii 15:51 04.11.2016
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+WindowBegin("Выберите внутренний номер",SelectSVOPointWClass,CGother,RcType);
+  Modality(1);
+  UseView(RcVc);
+  SetWRect(80,200,400,350);
+  Sizeable(-1,-1,0,0);
+  h = 100; v = 30;
+  statictext(h,v,"Выберите текущий номер Binotel",false);
+  EditField(h,v+=20,80,"Телефон вн.",Normal,flags[1],false,0);
+  v = v + 40;
+  HalPushButton(h+=100,v,h+80,v+25,"DblConfirmSelectSVOPointDsm","Ok");
+  
   EndWindow;
 end;
