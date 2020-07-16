@@ -60,7 +60,6 @@ BEGIN
   cnt=0;
   ttl=0;
   showFlag=false;
-  MyBonusCurrentUserRemote(cnt, ttl, showFlag);
 	if(showFlag==true) begin
 			MessageBox(0,"Співробітник:" & CurrentUser & "   Кількість ремонтів:" & cnt & "   Прибуток:" & ttl);
 	end;
@@ -470,6 +469,8 @@ BEGIN
 				acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
 				nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);// Edit ************************** Thursday, 13 October 2016 10:49:44
       end;
+			ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:35 PM
+
   end;
   end else begin
     accpetancef = true;
@@ -492,6 +493,7 @@ BEGIN
 			acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
 			nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);  // Edit ************************** Thursday, 13 October 2016 10:51:19
     end;
+    ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:37 PM
   end;
   if (CurrentUser=="$MASTER") then begin
     RecordNew(Userr);
