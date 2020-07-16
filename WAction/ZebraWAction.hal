@@ -7,7 +7,19 @@ SetLangMode(LangUkrainian,"UKR",0);
 
 //**********************************************************************************************************************************************************************
 
-
+global webpublic procedure WebGetUserbyPhone()
+begin
+	record UserVc USr;
+	
+	setcompany(13,false);
+	USr.Code = webgetarg("user");
+	
+	if(readfirstmain(USr,1,true))then begin
+		weboutstring(USr.Phone2);
+	end;
+	
+return;
+end;
 
 global updating procedure DblConfirmSelectSVOPointDsm()// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 11 April 2019 10:48:41
 begin
