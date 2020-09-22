@@ -291,7 +291,7 @@ begin
 	SetAreaZeroSize(aFile);
 
 //Header	
-	addtexttoarea(PrintImage,aFile);
+	//addtexttoarea(PrintImage,aFile);
 	addtexttoarea(SetMiddleAlignment,aFile);
 	addtexttoarea("www.istore.ua" & chr(13) & chr(10),aFile);
 	addtexttoarea("0800 330 334" & chr(13) & chr(10),aFile);
