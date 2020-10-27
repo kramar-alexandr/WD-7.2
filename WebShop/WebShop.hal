@@ -1069,6 +1069,8 @@ record SMSConfigBlock SMSConfigb;
 						case"visa": ORr.ShipAddr3 = "Visa";
 						case"pr24": ORr.ShipAddr3 = "Приват24";
 						case"credit": ORr.ShipAddr3 = "Кредит";
+						case"cash_delivery": ORr.ShipAddr3 = "Наложенный платеж";
+						case"according": ORr.ShipAddr3 = "Оплата по реквизитам";
 					end;					
 					ORr.CustOrdNr = orderid;
 					
