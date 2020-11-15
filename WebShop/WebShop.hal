@@ -1301,8 +1301,8 @@ begin
 	
 	LogPass = "hansa-server" & ":" & "7s44wkjm7U8374N7o1mkJN2vM";
 	EncodedLogPass = "Authorization: Basic " & Base64Encode(LogPass);
-	addtexttoarea("host: " & "viber.a-service.ua" & chr(13) & chr(10),resarea);
-	addtexttoarea("Content-Type: application/json" & chr(13) & chr(10),resarea);
+	// addtexttoarea("host: " & "viber.a-service.ua" & chr(13) & chr(10),resarea);// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 15 11 2020 y. at 1:29:51 PM
+	// addtexttoarea("Content-Type: application/json" & chr(13) & chr(10),resarea);// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 15 11 2020 y. at 1:29:54 PM
 	addtexttoarea(EncodedLogPass & chr(13) & chr(10),resarea);
 	AddTextToArea("" & chr(13) & chr(10),resarea);
 	
