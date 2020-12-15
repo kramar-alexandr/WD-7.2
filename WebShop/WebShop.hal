@@ -1321,6 +1321,8 @@ begin
 		setareazerosize(resarea);
 		setareazerosize(replyarea);
 		
+		addtexttoarea("Content-Type: application/json" & chr(13) & chr(10),resarea);// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 15 11 2020 y. at 1:29:54 PM
+		addtexttoarea(chr(13) & chr(10),resarea);
 		addtexttoarea("{" & chr(13) & chr(10),resarea);
 		
 		addtexttoarea("\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"," & chr(13) & chr(10),resarea);
