@@ -4626,9 +4626,9 @@ begin
   end else begin
 		SpecialMenu("Надрукувати етикетки",'e',0,"PUVcLabelItemPrint");// Edit ************************** Tuesday, 2 June 2015 14:33:18
   end;
-  if(currentcompany!=13)then begin
-		SpecialMenu("Етикетки ZEBRA",'',0,"PrintPUZebraDsm"); //Edit***************************Sasha2,15:56 25.09.2014
-  end;
+
+	SpecialMenu("Етикетки ZEBRA",'',0,"PrintPUZebraDsm"); //Edit***************************Sasha2,15:56 25.09.2014
+  
   if (HasApprovals) then begin
     if (StandardHansa==false) then begin
 			SpecialMenu("Відправити для затвердження",' ',14,"PUSendforAcceptancePUDsm");

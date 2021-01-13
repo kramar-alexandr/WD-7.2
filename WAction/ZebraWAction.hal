@@ -235,6 +235,151 @@ return;
 end;
 
 //**********************************************************************************************************************************************************************
+global procedure PrintPU_ZebraE(record RcVc RepSpec)
+begin
+  record PUVc PUr,newPUr;
+  record ItemHistVc IHr;
+  row PUVc PUrw,newPUrw;
+  integer wn,i,mtrw,lenth,h,k,j;
+  area aLabel;
+  record INVc INr;
+  boolean testf;
+  record ZebraPrinterBlock ZPb;
+  string 50 printername;
+  //record GigieneTextVc GGr;
+  //row GigieneTextVc GGrw;
+  integer qty,jj,price;
+  
+  blockload(ZPb);
+  
+  printername = ZPb.PrinterName;
+  PUr.SerNr = RepSpec.long1;
+  readfirstmain(PUr,1,true);
+  
+  recordnew(newPUr);
+  k=0;
+  mtrw = MatRowCnt(PUr);
+  
+  if(RepSpec.flags[0]==1)then begin
+    if(RepSpec.flags[1]>0 and RepSpec.flags[1]<=mtrw and RepSpec.flags[2]>=RepSpec.flags[1] and RepSpec.flags[2]<=mtrw)then begin
+      i=RepSpec.flags[1]-1;
+      mtrw = RepSpec.flags[2];
+    end else begin
+      i=0;
+      mtrw=0;
+    end;
+  end;
+  
+  for (i=i;i<mtrw;i=i+1) begin
+    testf = true;
+    MatRowGet(PUr,i,PUrw);
+    if (nonblank(PUrw.ArtCode)) then begin
+      INr.Code = PUrw.ArtCode;
+      If(readfirstmain(INr,1,true)) then begin
+        If(nonblank(INr.AlternativeCode)) then begin
+          lenth = len(INr.AlternativeCode);
+          if(lenth!=5)then begin testf=false; end;
+          for(h=0;h<lenth;h=h+1) begin
+            if((mid(INr.AlternativeCode,h,1)<"0") or (mid(INr.AlternativeCode,h,1)>"9")) then begin testf = false; end;
+          end;
+        end else begin
+          testf = false;
+        end;
+        if(testf) then begin
+          matrowget(newPUr,k,newPUrw);
+          newPUrw.ArtCode = PUrw.ArtCode;
+          newPUrw.Spec = INr.AlternativeCode;
+          newPUrw.SerialNr = PUrw.SerialNr;
+          newPUrw.RetailPrice = PUrw.RetailPrice;
+					newPUrw.ToPosCode = PUrw.ToPosCode;
+          matrowput(newPUr,k,newPUrw);
+          k=k+1;
+        end else begin
+        	if(PUrw.RetailPrice!=0)then begin
+        		matrowget(newPUr,k,newPUrw);
+						newPUrw.ArtCode = PUrw.ArtCode;
+						newPUrw.Spec = INr.AlternativeCode;
+						newPUrw.SerialNr = "";
+						newPUrw.RetailPrice = PUrw.RetailPrice;
+						newPUrw.ToPosCode = PUrw.ToPosCode;
+						matrowput(newPUr,k,newPUrw);
+						k=k+1;	
+        	end;
+        end;
+      end; 
+    end;
+  end;
+  
+  if(k>0)then begin
+ 
+    SetAreaZeroSize(aLabel);
+   addtexttoarea("q240" & chr(13) & chr(10),aLabel);
+    addtexttoarea("Q160,40" & chr(13) & chr(10),aLabel);
+    addtexttoarea("D10" & chr(13) & chr(10),aLabel);
+    addtexttoarea("S4" & chr(13) & chr(10),aLabel);
+    addtexttoarea("i0" & chr(13) & chr(10),aLabel);
+    addtexttoarea("I8,C" & chr(13) & chr(10),aLabel);
+    addtexttoarea("FK\"1\"" & chr(13) & chr(10),aLabel);
+    addtexttoarea("FS\"1\"" & chr(13) & chr(10),aLabel);
+    addtexttoarea("V00,15,N,\"\"" & chr(13) & chr(10),aLabel);
+    addtexttoarea("V01,15,N,\"\"" & chr(13) & chr(10),aLabel);
+    addtexttoarea("V02,50,N,\"\"" & chr(13) & chr(10),aLabel);
+    addtexttoarea("V03,50,N,\"\"" & chr(13) & chr(10),aLabel);
+	addtexttoarea("V04,50,N,\"\"" & chr(13) & chr(10),aLabel);
+	addtexttoarea("V04,50,N,\"\"" & chr(13) & chr(10),aLabel);
+    addtexttoarea("A55,5,0,2,1,1,N,V00" & chr(13) & chr(10),aLabel);
+	addtexttoarea("A20,25,0,2,1,1,N,V01" & chr(13) & chr(10),aLabel);
+    addtexttoarea("A40,50,0,5,1,1,N,V02" & chr(13) & chr(10),aLabel);
+    addtexttoarea("A120,100,0,2,1,1,N,V03" & chr(13) & chr(10),aLabel);
+    addtexttoarea("A20,120,0,2,1,1,N,V04" & chr(13) & chr(10),aLabel);
+   // addtexttoarea("B332,364,3,E30,3,2,100,B,V00" & chr(13) & chr(10),aLabel);
+    //addtexttoarea("X10,2,5,595,395" & chr(13) & chr(10),aLabel);
+    //addtexttoarea("B470,352,3,1,3,2,60,A,V01" & chr(13) & chr(10),aLabel);
+    //addtexttoarea("X454,79,5,546,385" & chr(13) & chr(10),aLabel);
+    //addtexttoarea("A536,365,3,2,1,1,N,V02" & chr(13) & chr(10),aLabel);
+    //addtexttoarea("A560,385,3,4,1,1,N,V03" & chr(13) & chr(10),aLabel);
+    addtexttoarea("PAV05" & chr(13) & chr(10),aLabel);
+
+    addtexttoarea("FE" & chr(13) & chr(10),aLabel);
+    addtexttoarea(chr(13) & chr(10),aLabel);
+    
+    mtrw = MatRowCnt(newPUr);
+    for (i=0;i<mtrw;i=i+1) begin
+      MatRowGet(newPUr,i,newPUrw);
+      if (nonblank(newPUrw.ArtCode)) then begin
+        addtexttoarea("FR\"1\"" & chr(13) & chr(10),aLabel);
+        addtexttoarea("?" & chr(13) & chr(10),aLabel);
+		price = newPUrw.RetailPrice;
+        addtexttoarea(USetSTR(31096) & CurrentDate & chr(13) & chr(10),aLabel);// Edit ************************** Friday, 17 October 2014 10:59:23
+		addtexttoarea(USetSTR(31097) & chr(13) & chr(10),aLabel);// Edit ************************** Friday, 17 October 2014 10:59:23
+        addtexttoarea(price  & chr(13) & chr(10),aLabel);// Edit ************************** Friday, 17 October 2014 10:59:23
+		addtexttoarea(USetSTR(31098) & chr(13) & chr(10),aLabel);
+        addtexttoarea(newPUrw.ArtCode & chr(13) & chr(10),aLabel);// Edit ************************** Friday, 17 October 2014 10:59:24
+		addtexttoarea("1" & chr(13) & chr(10),aLabel);
+        addtexttoarea(chr(13) & chr(10),aLabel);
+
+      end;
+    end;
+    
+    CreateFile("ZebraPrint.epl");
+    closefile;
+    SetExportCodepage("CP1251");
+    WriteAreaToFile(aLabel,"ZebraPrint.epl",0);
+    millisleep(50);
+    if (WindowsMode==1) then begin
+      RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & "ZebraPrint.epl" & " \\\\" & ZPb.ParamStr1 & "\\" & printername & "\"");
+    end;
+    if (WindowsMode==0) then begin
+      RunProgram("/usr/bin/lp","-d " & printername & " -o raw ZebraPrint.epl");
+    end;
+  end;
+  
+return;
+end;
+//*********************************OPISANIE*********************************************************************************************************
+
+
+//**********************************************************************************************************************************************************************
 
 global procedure PrintPU_ZebraBig(record RcVc RepSpec)
 begin
@@ -739,7 +884,7 @@ record RcVc RepSpec;
     
     case 0:PrintPU_Zebra(RepSpec);
     case 1:PrintPU_ZebraBig(RepSpec);
-    
+    case 2:PrintPU_ZebraE(RepSpec);
   end;
 
 return;

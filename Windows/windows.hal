@@ -375,11 +375,12 @@ begin
     SetWRect(90,80,450,400);
     h=50;
     v = 20;
-    ButtonFrame(h,v,80,2,"Наклейки");                   
+    ButtonFrame(h,v,80,3,"Наклейки");                   
     HalPushButton(h+150,10,350,66,"ZebraFont","Завантажити шрифт");
     HalPushButton(h+150,36,350,66,"ZebraLogo","Завантажити лого");
     RadioButton(h,v,0,0,"ZEBRA",flags[3]);
     RadioButton(h,v+=16,1,0,"ZEBRA BIG",flags[3]);
+    RadioButton(h,v+=16,2,0,"ценник",flags[3]);
     v=v+32;
     ButtonFrame(h,v,80,2,"Друк");
     RadioButton(h,v,0,0,"Всі наклейки",flags[0]);
