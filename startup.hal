@@ -328,6 +328,10 @@ begin
 	SString(31089,"Для даного документа не знайдене Замовлення клієнта Shops");
 	SString(31090,"Дата станньої звірки");//Edit_-_-_-_-_-_-_-_-Anton 
   SString(31091,"Поле код не може бути порожнім");//Edit_-_-_-_-_-_-_-_-ABR 15:38 29.10.18
+  
+  SString(31096,"дата:");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 13 01 2021 y. at 6:31:54 PM
+	SString(31097,"цiна:");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 13 01 2021 y. at 6:31:55 PM
+	SString(31098,"грн");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 13 01 2021 y. at 6:31:57 PM
 	
   StrSetBegin(3); /* Try to keep them in alphabetical order */
   StrSetText(UnCloseAll,"Відкрити записи");// Edit ************************** Wednesday, 15 April 2015 17:21:45
