@@ -1316,7 +1316,7 @@ begin
 	writeareatofile(replyarea,"sendMessageToSergeyReply.txt",0);
 	
 	
-	if(status=="2" or status=="3")then begin
+	if(status=="2" or status=="3" or status=="5")then begin
 		https://www.istore.ua/ajax/status.php
 		setareazerosize(resarea);
 		setareazerosize(replyarea);

@@ -2720,7 +2720,7 @@ begin
 			EditField(h3+80,v+7,-20,"ТТН",Normal,TTNNumber,false,0);	
 		
 			EditField(h3+80,v+27,-20,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
-				
+			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST5Dsm","Не додзвонилися");
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST2Dsm","Відправлений");
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST3Dsm","Виконаний");
 			CheckBox(h3+10,v+7,0,"",RejectMark);
