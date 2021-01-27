@@ -1113,7 +1113,7 @@ record SMSConfigBlock SMSConfigb;
 						end;
 						ORrw.Quant = stringtoval(countrow,m4val);
 						ORrw.Price = stringtoval(pricerow,m4val);
-						ORrw.DopComment = commentrow;
+						ORrw.DopComment = urldecode(commentrow);
 						matrowput(ORr,k,ORrw);
 						ORVc_PasteQuant(ORr,k,true,chsum);
 						
