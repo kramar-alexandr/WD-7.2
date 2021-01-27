@@ -1992,7 +1992,7 @@ begin
   ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28
   ArrayField(ORPrint,M4Int,0,0);
   ArrayField(GarantyFor,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:14:26 PM
-
+	ArrayField(DopComment,M4Str,200,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 27 01 2021 y. at 6:05:44 PM
   EndArray;
   MainKeyBegin(SerNr,1);
   StoreInBaseKey;
