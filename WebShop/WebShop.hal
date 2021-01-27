@@ -1098,7 +1098,7 @@ record SMSConfigBlock SMSConfigb;
 						fullnamerow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/fullname"));
 						pricerow = JSONGet(inputjson,"items/["  & i & "]/item/price");
 						countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
-						commentrow = JSONGet(inputjson,"items/["  & i & "]/comment");
+						commentrow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/comment"));
 						
 						sumrow = JSONGet(inputjson,"items/["  & i & "]/discount_summary");
 						k = matrowcnt(ORr);
