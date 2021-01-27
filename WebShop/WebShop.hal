@@ -692,7 +692,7 @@ record ItemStatusVc ISr;
 json inputjson;
 string 100 orderid;
 string 200 delivery_region,delivery_type,last_name,phone,articlerow,fullnamerow;
-string 200 pricerow,payment,address,first_name,summary,note,email,ensure;
+string 200 pricerow,payment,address,first_name,summary,note,email,ensure,commentrow;
 string 200 is_credit,discount_percent,datetxt,buyoneclick,storeH,storeN,delivery_cost,countrow,sumrow,smstext;
 record CUVc CUr,inCUr,blankCU;
 boolean cufound,chsum;
@@ -857,6 +857,7 @@ record SMSConfigBlock SMSConfigb;
 						fullnamerow = JSONGet(inputjson,"items/["  & i & "]/item/fullname");
 						pricerow = JSONGet(inputjson,"items/["  & i & "]/item/price");
 						countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
+						commentrow = JSONGet(inputjson,"items/["  & i & "]/comment");
 						
 						sumrow = JSONGet(inputjson,"items/["  & i & "]/discount_summary");
 						k = matrowcnt(ORr);
@@ -871,6 +872,7 @@ record SMSConfigBlock SMSConfigb;
 						end;
 						ORrw.Quant = stringtoval(countrow,m4val);
 						ORrw.Price = stringtoval(pricerow,m4val);
+						ORrw.UnitComment = commentrow;
 						matrowput(ORr,k,ORrw);
 						ORVc_PasteQuant(ORr,k,true,chsum);
 						
