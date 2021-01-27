@@ -2690,7 +2690,7 @@ begin
 	end else begin
 		if(currentcompany==13)then begin
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
-			SetWRect(20,80,750,760);
+			SetWRect(20,80,950,460);
 			Sizeable(-1,-1,0,0);
 			UseView(ORVc);
 			ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
