@@ -2691,7 +2691,7 @@ begin
 		if(currentcompany==13)then begin
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
 			SetWRect(20,80,950,400);
-			Sizeable(-1,-1,0,0);
+			//Sizeable(-1,-1,0,-1);
 			UseView(ORVc);
 			ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
 				HalPushButton(300,5,360,25,"PrintDoOrdFormButton","Друк");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
@@ -2772,6 +2772,7 @@ begin
 			
 			Flip(flipnr); flipnr = flipnr + 1;
 			MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+			MatCol(t,384,"Коммент.",0,DopComment,false,0);
 			MatCol(t,-180,"Склад",0,Location,true,0);
 			MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
 			MatCol(t,-60,"Друк",0,ORPrint,true,0);
@@ -2797,14 +2798,11 @@ begin
 			EditField(h1,v+=vs,-350,"",Normal,ShipAddr3,false,0);
 			EditField(h1,v+=vs,-350,"",Normal,DelAddr3,false,0);
 			EditField(h1,v+=vs,-350,"",Normal,DelAddr4,false,0);
-			//EditField(h1,v+=vs,-350,"Чек 1",Normal,Addr1,false,0);
-			//EditField(h1,v+=vs,-350,"Чек 2",Normal,Addr2,false,0);
-			//EditField(h1,v+=vs,-350,"Чек 3",Normal,Addr3,false,0);
-		
+			v = v - 2*vs;
 			TextField(h1+520,370,-10,140,Math2,0);
-			EditField(h1+590,-81,-50,"Сообщение",Normal,ORChatSend,false,0);
+			EditField(h1+590,v+=vs,-50,"Сообщение",Normal,ORChatSend,false,0);
 			EnterSkip(ORChatSend);
-			EditField(-150,-21,100,"Всього",ViewOnly ,Sum4,true,0);
+			EditField(-150,v+=vs,100,"Всього",ViewOnly ,Sum4,true,0);
 		
 			if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
 				SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
