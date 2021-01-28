@@ -2719,7 +2719,7 @@ begin
 			CheckBox(h3+10,v+7+16,0,"",TTNMark);
 			EditField(h3+80,v+7+16,-20,"ТТН",Normal,TTNNumber,false,0);	
 		
-			EditField(h3+80,v+27,-20,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
+			EditField(h3+80,v+27+16,-20,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST5Dsm","Не додзвонилися");
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST2Dsm","Відправлений");
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST3Dsm","Виконаний");
@@ -2751,7 +2751,7 @@ begin
 		
 		
 		
-			MatrixBegin(3,v+=50,-50,v+190,-,200);
+			MatrixBegin(3,v+=50,-50,v+170,-,200);
 			MatTypedRow(stp);
 			flipnr = 0;
 			Flip(flipnr); flipnr = flipnr + 1;
