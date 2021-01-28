@@ -2716,10 +2716,10 @@ begin
 				EditField(h3=510,v,100,"Продавець",ViewOnly,SalesMan,false,0);
 			end;
 			HalPushButton(h3-100,v+=20,h3,v+=20,"OrderSetToST1Dsm","В роботі");
-			CheckBox(h3+10,v+7+16,0,"",TTNMark);
-			EditField(h3+80,v+7+16,-20,"ТТН",Normal,TTNNumber,false,0);	
+			CheckBox(h3+10,v+7+25,0,"",TTNMark);
+			EditField(h3+80,v+7+25,-20,"ТТН",Normal,TTNNumber,false,0);	
 		
-			EditField(h3+80,v+27+16,-20,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
+			EditField(h3+80,v+27+25,-20,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST5Dsm","Не додзвонилися");
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST2Dsm","Відправлений");
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST3Dsm","Виконаний");
@@ -2784,7 +2784,7 @@ begin
 			v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
 			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
 			//v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
-			v = v + 360;
+			v = v + 320;
 			ButtonFrame(10,v+vs,370,3,"Заполнить!!!");
 			EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,PasteCurDate);
 			EditField(h1+200,v,70,"Время",Normal,DespatchTime,false,PasteCurTime);
@@ -2801,7 +2801,7 @@ begin
 			//EditField(h1,v+=vs,-350,"Чек 2",Normal,Addr2,false,0);
 			//EditField(h1,v+=vs,-350,"Чек 3",Normal,Addr3,false,0);
 		
-			TextField(h1+520,410,-10,140,Math2,0);
+			TextField(h1+520,370,-10,140,Math2,0);
 			EditField(h1+590,-41,-50,"Сообщение",Normal,ORChatSend,false,0);
 			EnterSkip(ORChatSend);
 			EditField(-150,-21,100,"Всього",ViewOnly ,Sum4,true,0);
