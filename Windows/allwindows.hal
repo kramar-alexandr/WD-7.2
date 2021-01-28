@@ -2763,11 +2763,11 @@ begin
 			t = 1;
 			MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
 
-			MatCol(t,-384,"Серійний номер",0,SerialNr,false,SerialNrSClass);
-			MatCol(t,-280,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
-			MatCol(t,-205,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
-			MatCol(t,-170,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
-			MatCol(t,-100,"Коммент.",0,DopComment,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 27 01 2021 y. at 6:04:10 PM
+			MatCol(t,-434,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+			MatCol(t,-330,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
+			MatCol(t,-255,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
+			MatCol(t,-220,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
+			MatCol(t,-150,"Коммент.",0,DopComment,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 27 01 2021 y. at 6:04:10 PM
 
 			
 			Flip(flipnr); flipnr = flipnr + 1;
