@@ -2751,7 +2751,7 @@ begin
 		
 		
 		
-			MatrixBegin(3,v+=50,-50,v+210,-,200);
+			MatrixBegin(3,v+=50,-50,v+190,-,200);
 			MatTypedRow(stp);
 			flipnr = 0;
 			Flip(flipnr); flipnr = flipnr + 1;
