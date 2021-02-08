@@ -2351,3 +2351,22 @@ WindowBegin("Выберите внутренний номер",SelectSVOPointWClass,CGother,RcType);
   
   EndWindow;
 end;
+
+
+
+window ORReport2RClass:1 
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v;
+  WindowBegin("Отчет по заказам",ORReport2RClass,CGRcW,RcType);
+  SetWRect(20,80,440,150);
+  h=100;
+	
+  EditFieldTL(h,v+=20,150,"Менеджер",M4UStr,Normal,41,f1,false,SalesmanSClass);
+	RadioButton(h,v+=20,0,0,"Статус 1",flags[0]);
+  RadioButton(h,v+=20,1,0,"Статус 2",flags[0]);
+	RadioButton(h,v+=20,2,0,"Статус 3",flags[0]); 
+	RadioButton(h,v+=20,3,0,"Статус 4",flags[0]);
+	
+  EndWindow;
+end;

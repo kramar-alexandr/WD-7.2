@@ -1,0 +1,36 @@
+external procedure GetCurUser(var record UserVc);
+
+SetLangMode(LangUkrainian,"UKR",0);
+
+global procedure ORReport2Rn(record RcVc RepSpec) 
+begin
+	record ORVc ORr;
+	boolean TrHs;
+	
+	StartReportNoHeaderJob("Ћтчет по заказам");
+	StartFormat(15);
+	 OutString(0,0,"SerNr",false);
+	 OutString(50,0,"Date",false);
+	 OutString(110,0,"Name",false);
+	 OutString(160,0,"Status",false);
+	EndFormat;
+	
+	TrHs = true;
+	ORr.SalesMan = RepSpec.f1;
+	While(loopkey("SalesMan",ORr,1,TrHs)) begin
+		if(ORr.SalesMan != RepSpec.f1) then begin TrHs = false;  end; 
+		if(TrHs) then begin
+			StartFormat(15);
+				OutString(0,0,ORr.SerNr,false);
+				OutDate(50,0,ORr.OrdDate,false);
+				OutString(110,0,ORr.Addr0,false);
+				//OutString(160,0,ORr.,false);
+			EndFormat;
+		end;
+	end;
+	
+	
+EndJob;
+return;
+end;
+

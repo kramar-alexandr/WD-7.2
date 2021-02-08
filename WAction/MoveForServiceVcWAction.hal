@@ -356,3 +356,20 @@ LMoveForServiceDClassDeleteRowTest:;
   MoveForServiceDClassDeleteRowTest = res;
   return;
 end;
+
+
+global procedure ORReport2RClassReportDefaults(integer wn) 
+begin
+	record RcVc RepSpec;
+	record UserVc USr;
+	
+	GetCurUser(USr);
+	DeselectWindow(wn,false);
+	getwindowrecord(wn,RepSpec);
+	ReportDefaults(RepSpec,"ORReport2RClass");
+	RepSpec.f1 = USr.Code;
+
+  PutWindowRecord(wn,RepSpec);
+	SelectWindow(wn);
+return;
+end;
