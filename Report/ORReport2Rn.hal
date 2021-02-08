@@ -26,6 +26,9 @@ begin
 			if(blank(ORr.OrderStatusText))then begin
 				testf = false;
 			end;
+			if(blank(ORr.CustOrdNr))then begin
+				testf = false;
+			end;
 			if(RepSpec.flags[0]!=ORr.OrderStatusCode)then begin
 				testf = false;
 			end;
