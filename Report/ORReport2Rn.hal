@@ -11,8 +11,8 @@ begin
 		StartFormat(15);
 		 OutString(0,0,"Номер",false);
 		 OutString(50,0,"№ рах.",false);
-		 OutString(50,0,"Дата",false);
-		 OutString(110,0,"Найменув.",false);
+		 OutString(100,0,"Дата",false);
+		 OutString(150,0,"Найменув.",false);
 		 OutString(350,0,"Всього",false);
 		 OutString(400,0,"Час.",false);
 		 OutString(1,0,"Статус",true);
@@ -29,9 +29,9 @@ begin
 			if(testf) then begin
 				StartFormat(15);
 					OutString(0,"DblORVc",ORr.SerNr,false);
-					OutString(0,0,ORr.CustOrdNr,false);
-					OutDate(50,0,ORr.OrdDate,false);
-					OutString(110,0,ORr.Addr0,false);
+					OutString(20,0,ORr.CustOrdNr,false);
+					OutDate(100,0,ORr.OrdDate,false);
+					OutString(150,0,ORr.Addr0,false);
 					OutString(350,0,ORr.Sum4,false);
 					OutString(400,0,ORr.RegTime,false);
 					OutString(1,0,ORr.OrderStatusText,true);
