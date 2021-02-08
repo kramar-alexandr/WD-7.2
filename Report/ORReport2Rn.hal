@@ -20,16 +20,19 @@ begin
 	
 		TrHs = true;
 		ORr.SalesMan = RepSpec.f1;
-		While(loopkey("SalesMan",ORr,1,TrHs)) begin
+		While(loopkey("OrdDate:" & RepSpec.f1,ORr,1,TrHs)) begin
 			testf  = true;
-			if(ORr.SalesMan!=RepSpec.f1) then begin TrHs = false;  testf = false; end; 
+			//if(ORr.SalesMan!=RepSpec.f1) then begin TrHs = false;  testf = false; end; 
+			if(blank(ORr.OrderStatusText))then begin
+				testf = false;
+			end;
 			if(RepSpec.flags[0]!=ORr.OrderStatusCode)then begin
 				testf = false;
 			end;
 			if(testf) then begin
 				StartFormat(15);
 					OutString(0,"DblORVc",ORr.SerNr,false);
-					OutString(20,0,ORr.CustOrdNr,false);
+					OutString(50,0,ORr.CustOrdNr,false);
 					OutDate(100,0,ORr.OrdDate,false);
 					OutString(150,0,ORr.Addr0,false);
 					OutString(350,0,ORr.Sum4,false);
