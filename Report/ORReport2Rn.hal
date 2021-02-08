@@ -26,7 +26,7 @@ begin
 			if(RepSpec.flags[0]!=ORr.OrderStatusCode)then begin
 				testf = false;
 			end;
-			if(TrHs) then begin
+			if(testf) then begin
 				StartFormat(15);
 					OutString(0,"DblORVc",ORr.SerNr,false);
 					OutString(0,0,ORr.CustOrdNr,false);
