@@ -2363,10 +2363,13 @@ begin
   h=100;
 	
   EditFieldTL(h,v+=20,150,"Менеджер",M4UStr,Normal,41,f1,false,SalesmanSClass);
-	RadioButton(h,v+=20,0,0,"Статус 1",flags[0]);
-  RadioButton(h,v+=20,1,0,"Статус 2",flags[0]);
-	RadioButton(h,v+=20,2,0,"Статус 3",flags[0]); 
-	RadioButton(h,v+=20,3,0,"Статус 4",flags[0]);
+	RadioButton(h,v+=20,0,0,"Новий",flags[0]);
+  RadioButton(h,v+=20,1,0,"В роботі",flags[0]);
+  RadioButton(h,v+=20,5,0,"Не додзвонилися",flags[0]);
+	RadioButton(h,v+=20,2,0,"Відправлено",flags[0]); 
+	RadioButton(h,v+=20,3,0,"Виконано",flags[0]);
+	RadioButton(h,v+=20,4,0,"Відхилено",flags[0]);
+	
 	
   EndWindow;
 end;
