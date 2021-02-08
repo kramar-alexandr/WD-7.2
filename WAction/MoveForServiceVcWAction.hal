@@ -1,3 +1,5 @@
+external procedure GetCurUser(var record UserVc);
+
 global
 function Boolean MoveForServiceLClassOnOpenWindow(Integer wn)
 begin
