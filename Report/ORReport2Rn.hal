@@ -8,39 +8,37 @@ begin
 	boolean TrHs,testf;
 	
 	StartReportNoHeaderJob("Отчет по статусам заказов");
-	StartFormat(15);
-	 OutString(0,0,"Номер",false);
-	 OutString(50,0,"№ рах.",false);
-	 OutString(50,0,"Дата",false);
-	 OutString(110,0,"Найменув.",false);
-	 OutString(350,0,"Всього",false);
-	 OutString(400,0,"Час.",false);
-	 OutString(1,0,"Статус",true);
-	EndFormat;
+		StartFormat(15);
+		 OutString(0,0,"Номер",false);
+		 OutString(50,0,"№ рах.",false);
+		 OutString(50,0,"Дата",false);
+		 OutString(110,0,"Найменув.",false);
+		 OutString(350,0,"Всього",false);
+		 OutString(400,0,"Час.",false);
+		 OutString(1,0,"Статус",true);
+		EndFormat;
 	
-	TrHs = true;
-	ORr.SalesMan = RepSpec.f1;
-	While(loopkey("SalesMan",ORr,1,TrHs)) begin
-		testf  = true;
-		if(ORr.SalesMan!=RepSpec.f1) then begin TrHs = false;  testf = false; end; 
-		if(RepSpec.flags[0]!=ORr.OrderStatus)then begin
-			testf = false;
+		TrHs = true;
+		ORr.SalesMan = RepSpec.f1;
+		While(loopkey("SalesMan",ORr,1,TrHs)) begin
+			testf  = true;
+			if(ORr.SalesMan!=RepSpec.f1) then begin TrHs = false;  testf = false; end; 
+			if(RepSpec.flags[0]!=ORr.OrderStatusCode)then begin
+				testf = false;
+			end;
+			if(TrHs) then begin
+				StartFormat(15);
+					OutString(0,"DblORVc",ORr.SerNr,false);
+					OutString(0,0,ORr.CustOrdNr,false);
+					OutDate(50,0,ORr.OrdDate,false);
+					OutString(110,0,ORr.Addr0,false);
+					OutString(350,0,ORr.Sum4,false);
+					OutString(400,0,ORr.RegTime,false);
+					OutString(1,0,ORr.OrderStatusText,true);
+				EndFormat;
+			end;
 		end;
-		if(TrHs) then begin
-			StartFormat(15);
-				OutString(0,"DblORVc",ORr.SerNr,false);
-				OutString(0,0,ORr.CustOrdNr,false);
-				OutDate(50,0,ORr.OrdDate,false);
-				OutString(110,0,ORr.Addr0,false);
-				OutString(350,0,ORr.Sum4,false);
-				OutString(400,0,ORr.RegTime,false);
-				OutString(1,0,ORr.OrderStatusText,true);
-			EndFormat;
-		end;
-	end;
-	
-	
-EndJob;
+	EndJob;
 return;
 end;
 
