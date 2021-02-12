@@ -1135,7 +1135,7 @@ begin
 	addtexttoarea("I8,C" & chr(13) & chr(10),aLabel);
 	addtexttoarea("A5,5,0,3,1,1,N,\"Рах.№ " & ORr.SerNr & "\"" & chr(13) & chr(10),aLabel);
 	
-	strlen = 15;
+	strlen = 20;
 	pos = strlen;
 	k = 30;
 	
