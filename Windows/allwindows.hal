@@ -2794,6 +2794,8 @@ begin
 			EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,PasteCurDate);
 			EditField(h1+200,v,70,"Время",Normal,DespatchTime,false,PasteCurTime);
 			EditField(h1+20,v+=vs,250,"Точка выдачи",Normal,InvAddr4,false,SalesGroupSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 28 11 2019 y. at 2:48:48 PM
+			HalPushButton(400,v-25,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
+			
 			v = v + vs;
 			EditField(h1,v+=vs,-350,"Інформація",Normal,ShipAddr0,false,0);
 			EditField(h1,v+=vs,-350,"Кредит",Normal,TerminalID,false,0);

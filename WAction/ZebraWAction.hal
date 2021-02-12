@@ -944,6 +944,7 @@ return;
 end;
 
 
+
 global procedure PrintORZebraDsm1(Integer size)
 begin
 record RcVc RepSpec;
@@ -1101,6 +1102,70 @@ return;
 end;
 
 
+global procedure ORPrintLabelDsm()// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:29:05 AM
+begin
+	record ORVc ORr;
+	record PUVc PUr,newPUr;
+  record ItemHistVc IHr;
+  row PUVc PUrw,newPUrw;
+  integer wn,i,mtrw,lenth,h,k,j;
+  area aLabel;
+  record INVc INr;
+  boolean testf;
+  record ZebraPrinterBlock ZPb;
+  string 50 printername,tstr;
+  //record GigieneTextVc GGr;
+  //row GigieneTextVc GGrw;
+  integer qty,jj,price,strlen,pos;
+  
+  blockload(ZPb);
+  
+  printername = ZPb.PrinterName;
+
+  wn = curwindow;
+  getwindowrecord(wn,ORr);
+  
+ 
+	SetAreaZeroSize(aLabel);
+	addtexttoarea("q240" & chr(13) & chr(10),aLabel);
+	addtexttoarea("Q160,40" & chr(13) & chr(10),aLabel);
+	addtexttoarea("D10" & chr(13) & chr(10),aLabel);
+	addtexttoarea("S4" & chr(13) & chr(10),aLabel);
+	addtexttoarea("i0" & chr(13) & chr(10),aLabel);
+	addtexttoarea("I8,C" & chr(13) & chr(10),aLabel);
+	addtexttoarea("A5,5,0,3,1,1,N,\"Рах.№ " & ORr.SerNr & "\"" & chr(13) & chr(10),aLabel);
+	
+	strlen = 15;
+	pos = strlen;
+	k = 30;
+	
+	tstr = left(ORr.ShipAddr1,strlen);
+	while(nonblank(tstr))begin
+		if(nonblank(tstr))then begin
+			addtexttoarea("A5," & k & ",0,2,1,1,N,\"" & tstr & "\"" & chr(13) & chr(10),aLabel);
+			tstr = mid(ORr.ShipAddr1,pos,strlen);
+			pos = pos + strlen;
+			k=k+25;
+		end;
+	end;	
+	addtexttoarea("P1" & chr(13) & chr(10),aLabel);
+	
+	addtexttoarea(chr(13) & chr(10),aLabel);
+		
+	CreateFile("ZebraPrint.epl");
+	closefile;
+	SetExportCodepage("CP1251");
+	WriteAreaToFile(aLabel,"ZebraPrint.epl",0);
+	millisleep(50);
+	if (WindowsMode==1) then begin
+		RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & "ZebraPrint.epl" & " \\\\" & ZPb.ParamStr1 & "\\" & printername & "\"");
+	end;
+	if (WindowsMode==0) then begin
+		RunProgram("/usr/bin/lp","-d " & printername & " -o raw ZebraPrint.epl");
+	end;
+    
+return;
+end;
 
 global procedure PrintORZebraDsm()
 begin
