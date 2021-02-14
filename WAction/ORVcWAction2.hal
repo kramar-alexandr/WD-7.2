@@ -1316,6 +1316,15 @@ BEGIN
   switch (wnst) begin
     case Rs_update:    
       GetPrevWindowRecord(wn,OR2r);
+     
+      if( fieldname=="SalesMan")then begin
+      	if(nonblank(OR2r.SalesMan))then begin
+					if(usercanaction("AllowSalesmanChange",false)==false)then begin
+      			res = false;
+      			goto LORDClassActiveEditField;
+      		end;
+      	end;
+      end;
   end;
   switch (wnst) begin
     case Rs_insert:

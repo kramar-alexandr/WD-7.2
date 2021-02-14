@@ -2710,11 +2710,7 @@ begin
 			CheckBox(h4=-110,v,0,"OK",OKFlag);
 			CheckBox(h4,v+20,0,"Зарезервовано",Reserved);
 			EditField(h3=320,v+=20,100,"Статус",Normal,OrderStatusText,false,OrderStatusSClass);
-			if(usercanaction("AllowSalesmanChange",false))then begin
-				EditField(h3=510,v,100,"Продавець",normal,SalesMan,false,UserSClass);
-			end else begin
-				EditField(h3=510,v,100,"Продавець",ViewOnly,SalesMan,false,0);
-			end;
+			EditField(h3=510,v,100,"Продавець",normal,SalesMan,false,UserSClass);
 			HalPushButton(h3-100,v+=20,h3,v+=20,"OrderSetToST1Dsm","В роботі");
 			HalPushButton(h3-100+200,v-20,h3+250,v,"OrderSetToST6Dsm","Готовий до видачі");
 			EditField(h3-100+150,v+5,70,"Г.Видав.",ViewOnly,DoneMan,false,0);
