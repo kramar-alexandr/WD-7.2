@@ -1316,8 +1316,8 @@ BEGIN
   switch (wnst) begin
     case Rs_update:    
       GetPrevWindowRecord(wn,OR2r);
-     
-      if( fieldname=="SalesMan")then begin
+     messagebox(0,OR2r.SalesMan);
+      if(fieldname=="SalesMan")then begin
       	if(nonblank(OR2r.SalesMan))then begin
 					if(usercanaction("AllowSalesmanChange",false)==false)then begin
       			res = false;
