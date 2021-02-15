@@ -1422,14 +1422,14 @@ BEGIN
         res = ORShipdTest(ORr)==false;
       end;
     case "Spec": 
-      if (HasLocalization("PRT")) then begin
-        MatRowGet(ORr,rownr,ORrw);
-        if (nonblank(ORrw.ArtCode)) then begin
-          res = false;
-        end;
-      end else begin
-        if (UserCanAction("ChangeORItemSpec",true)==false) then begin res = false; end;
-      end;
+      //if (HasLocalization("PRT")) then begin
+        //MatRowGet(ORr,rownr,ORrw);
+        //if (nonblank(ORrw.ArtCode)) then begin
+       //   res = false;
+       // end;
+      //end else begin
+        if (UserCanAction("ChangeORItemSpec",false)==false) then begin res = false; end;
+      //end;
     case "ArtCode": //Edit***************************Sasha2,10:43 11.02.2016 {
       if (ORr.OrderClass=="Shops" and rownr<MatRowCnt(OR2r)) then begin 
         StockMovr.OrderNr = ORr.SerNr;
