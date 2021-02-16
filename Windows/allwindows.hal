@@ -2717,9 +2717,9 @@ begin
 			EditField(h3-100+260,v+5,70,"Дата",ViewOnly,DoneDate,false,0);
 			EditField(h3-100+370,v+5,70,"Час",ViewOnly,DoneTime,false,0);
 			CheckBox(h3+10,v+7+25,0,"",TTNMark);
-			EditField(h3+80,v+7+25,-20,"ТТН",Normal,TTNNumber,false,0);	
+			EditField(h3+80,v+7+25,80,"ТТН",Normal,TTNNumber,false,0);	
 		
-			EditField(h3+80,v+27+25,-20,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
+			EditField(h3+80,v+27+25,80,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST5Dsm","Не додзвонилися");
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST2Dsm","Відправлений");
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST3Dsm","Виконаний");
