@@ -2174,6 +2174,7 @@ begin
 				SetExportCodePage("CP1251");
 				HandleORReceiptPrinting(ORr,aFile,RepSpec.f1);
 				PrintBixolonReceipt(aFile);
+				PrintBixolonReceipt(aFile);
 				closewindow(wn);
 			end else begin
 				messagebox(0,"Заповніть способи сплати рахунку! До суми " & ORr.Sum4);
