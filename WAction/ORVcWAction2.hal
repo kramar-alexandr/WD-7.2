@@ -55,7 +55,7 @@ remote procedure RecoverXLSX(string,string);
 external function Boolean PasteCustInOrder(var record ORVc,string,string,var string,var string);
 external function string 20 NormalPhone(string);
 remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
-external function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
+external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
 
 	SetLangMode(LangUkrainian,"UKR",0);
 
