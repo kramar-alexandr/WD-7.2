@@ -60,19 +60,19 @@ begin
 		blockload(PCb);
 		
 		if(PCb.PayVal01!=0)then begin
-			comsum = comsum + ORr.PayVal01 / (100 - PCb.PayVal01) * PCb.PayVal01;
+			comsum = comsum + ORr.PayVal01 / 100 * PCb.PayVal01;
 		end;
 		if(PCb.PayVal02!=0)then begin
-			comsum = comsum + ORr.PayVal02 / (100 - PCb.PayVal02) * PCb.PayVal02;
+			comsum = comsum + ORr.PayVal02 / 100 * PCb.PayVal02;
 		end;
 		if(PCb.PayVal03!=0)then begin
-			comsum = comsum + ORr.PayVal03 / (100 - PCb.PayVal03) * PCb.PayVal03;
+			comsum = comsum + ORr.PayVal03 / 100 * PCb.PayVal03;
 		end;
 		if(PCb.PayVal04!=0)then begin
-			comsum = comsum + ORr.PayVal04 / (100 - PCb.PayVal04) * PCb.PayVal04;
+			comsum = comsum + ORr.PayVal04 / 100 * PCb.PayVal04;
 		end;
 		if(PCb.PayVal05!=0)then begin
-			comsum = comsum + ORr.PayVal05 / (100 - PCb.PayVal05) * PCb.PayVal05;
+			comsum = comsum + ORr.PayVal05 / 100 * PCb.PayVal05;
 		end;
 		
 		if(comsum==0)then begin
