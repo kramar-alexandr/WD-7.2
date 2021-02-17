@@ -57,6 +57,7 @@ row ORVc ORrw;
 boolean res;
 val pr,reb,sum;
 val newpr,newreb,newsum;
+boolean check;
 	
 	if(currentcompany==13 and usercanaction("AllowUpperPrice",false)==false)then begin
 		if(windowstate(wn)==Rs_update)then begin
@@ -73,7 +74,12 @@ val newpr,newreb,newsum;
 	end;
 	res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
 	
-	if(currentcompany==13 and usercanaction("AllowUpperPrice",false)==false and windowstate(wn)==Rs_update)then begin
+	
+	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);
+	
+	usercanaction("AllowUpperPrice",false)
+	
+	if(currentcompany==13 and check==false and windowstate(wn)==Rs_update)then begin
 		getwindowrecord(wn,ORr);
 		if(fieldname=="Sum" or fieldname=="Price" or fieldname=="vRebate")then begin
 			if(rownr>-1)then begin
