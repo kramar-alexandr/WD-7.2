@@ -375,6 +375,7 @@ begin
 			if(ORrw.stp==kInvoiceRowTypeNormal and nonblank(ORrw.ArtCode) and ORrw.ArtCode!="COM")then begin
 				ORrw.Sum = ORrw.Sum + round(ORrw.Sum/ORr.Sum4*comiss,SetRoundModeD(2));
 				ORrw.Price = ORrw.Price + round(ORrw.Sum/ORr.Sum4*comiss/ORrw.Quant,SetRoundModeD(2));
+				MatRowPut(ORr,i,ORrw);
 			end;
 		end;
 	end;
