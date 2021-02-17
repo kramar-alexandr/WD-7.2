@@ -377,7 +377,15 @@ begin
 			MatRowGet(ORr,i,ORrw);
 			if(ORrw.stp==kInvoiceRowTypeNormal and nonblank(ORrw.ArtCode) and ORrw.ArtCode!="COM")then begin
 				ORrw.Sum = ORrw.Sum + round(ORrw.Sum/nocomsum*comiss,SetRoundModeD(2));
-				ORrw.Price = ORrw.Price + round(ORrw.Sum/nocomsum*comiss/ORrw.Quant,SetRoundModeD(2));
+				if(ORrw.vRebate==0)then begin
+					if(ORrw.Quant!=1)then begin
+						ORrw.Price = round(ORrw.Sum/ORrw.Quant,SetRoundModeD(2));
+					end else begin
+						ORrw.Price = ORrw.Sum;
+					end;
+				end else begin
+					ORrw.Price = ORrw.Price + round(ORrw.Sum/nocomsum*comiss/ORrw.Quant,SetRoundModeD(2));
+				end;
 				MatRowPut(ORr,i,ORrw);
 			end;
 		end;
