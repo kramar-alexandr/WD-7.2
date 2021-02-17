@@ -366,6 +366,8 @@ begin
 		MatRowGet(ORr,i,ORrw);
 		if(ORrw.ArtCode=="COM")then begin
 			comiss = ORrw.Sum;
+		end;
+		if(ORrw.stp==kInvoiceRowTypeNormal and nonblank(ORrw.ArtCode) and ORrw.ArtCode!="COM")then begin
 			nocomsum = nocomsum + ORrw.Sum;
 		end;
 	end;
