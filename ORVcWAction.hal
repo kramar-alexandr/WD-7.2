@@ -82,7 +82,7 @@ begin
 				if(ORrw.ArtCode=="COM")then begin
 					MatRowDelete(ORr,i);
 					rwcnt = rwcnt - 1;
-					ORSumup(ORr);
+					//ORSumup(ORr);
 				end;
 			end;
 		end else begin
@@ -91,11 +91,11 @@ begin
 				matrowget(ORr,i,ORrw);
 				if(ORrw.ArtCode=="COM")then begin
 					ORrw.Price = comsum;
-					ORrw.Sum = comsum;
+					//ORrw.Sum = comsum;
 					ORrw.VATCode = "0";
 					MatRowPut(ORr,i,ORrw);
 					foundf = true;
-					ORSumup(ORr);
+					//ORSumup(ORr);
 				end;
 			end;
 			if(foundf==false)then begin
@@ -103,17 +103,17 @@ begin
 				ORrw.ArtCode = "COM";
 				ORrw.Spec = "Комісія за безнал";
 				ORrw.Price = comsum;
-				ORrw.Quant = 1;
+				//ORrw.Quant = 1;
 				ORrw.VATCode = "0";
-				ORrw.Sum = comsum;
+				//ORrw.Sum = comsum;
 				MatRowPut(ORr,matrowcnt(ORr),ORrw);
 				foundf = true;
-				ORSumup(ORr);
+				//ORSumup(ORr);
 			end;
 		end;
 		
 	end else begin
-		rwcnt = matrowcnt(ORr);
+		/*rwcnt = matrowcnt(ORr);
 		for(i=0;i<rwcnt;i=i+1)begin
 			matrowget(ORr,i,ORrw);
 		 	ORDchsum(ORr,i);
@@ -123,7 +123,7 @@ begin
 				rwcnt = rwcnt - 1;
 				ORSumup(ORr);
 			end;
-		end;
+		end;*/
 	end;
 
 return;
