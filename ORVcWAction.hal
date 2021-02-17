@@ -52,20 +52,58 @@ end;
 global
 function Boolean ORDClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
 begin
-record ORVc ORr;
+record ORVc ORr,oldORr;
+row ORVc ORrw;
 boolean res;
-
-	getwindowrecord(wn,ORr);
+val pr,reb,sum;
+val newpr,newreb,newsum;
+	
+	if(currentcompany==13 and usercanaction("AllowUpperPrice",false)==false)then begin
+		if(windowstate(wn)==Rs_update)then begin
+			GetPrevWindowRecord(wn,oldORr);
+			if(fieldname=="Sum" or fieldname=="Price" or fieldname=="vRebate")then begin
+				if(rownr>-1)then begin
+					matrowget(oldORr,rownr,ORrw);
+					pr = ORrw.Price;
+					reb = ORrw.vRebate;
+					sum = ORrw.Sum;
+				end;
+			end;
+		end;
+	end;
 	res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
+	
+	if(currentcompany==13 and usercanaction("AllowUpperPrice",false)==false)then begin
+		getwindowrecord(wn,ORr);
+		if(fieldname=="Sum" or fieldname=="Price" or fieldname=="vRebate")then begin
+			if(rownr>-1)then begin
+				matrowget(ORr,rownr,ORrw);
+				newpr = ORrw.Price;
+				newreb = ORrw.vRebate;
+				newsum = ORrw.Sum;
+			end;
+			if(newsum>sum)then begin
+				ORrw.Price = pr;
+				ORrw.vRebate = reb;
+				ORrw.Sum = sum;
+				matrowput(ORr,rownr,ORrw);
+				ORSumup(ORr);
+				putwindowrecord(wn,ORr);
+				res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
+			end;
+		end;
+	end;
+	
+	getwindowrecord(wn,ORr);
 	switch (fieldname) begin
-    case "ORChatSend": res = ORChatSendAfterEF(wn,changed); 
-    case "InvAddr4": res = ORComment(wn,changed);  
-    case "PayVal01": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
-    case "PayVal02": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
-    case "PayVal03": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
-    case "PayVal04": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
-    case "PayVal05": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
-  end;
+		case "ORChatSend": res = ORChatSendAfterEF(wn,changed); 
+		case "InvAddr4": res = ORComment(wn,changed);  
+		case "PayVal01": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+		case "PayVal02": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+		case "PayVal03": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+		case "PayVal04": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+		case "PayVal05": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+	end;
 	ORDClassAfterEditField = res;
 return;
 end;
