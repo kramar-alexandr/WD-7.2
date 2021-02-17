@@ -384,7 +384,7 @@ begin
 						ORrw.Price = ORrw.Sum;
 					end;
 				end else begin
-					ORrw.Price = ORrw.Price + round(ORrw.Sum/nocomsum*comiss/ORrw.Quant,SetRoundModeD(2));
+					ORrw.Price = ORrw.Price + round(ORrw.Sum/ORrw.Quant/((100-ORrw.vRebate)/100),SetRoundModeD(2));
 				end;
 				MatRowPut(ORr,i,ORrw);
 			end;
