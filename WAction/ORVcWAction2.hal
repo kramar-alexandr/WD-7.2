@@ -1285,7 +1285,7 @@ BEGIN
   Integer nwn;
   record StockMovVc StockMovr; //Edit***************************Sasha2,11:19 11.02.2016
   boolean DT_BANKflag;
-  
+  val paysum;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 17 02 2021 y. at 11:49:02 AM
   
   DT_BANKflag = false;
   
@@ -1487,6 +1487,24 @@ LORDClassActiveEditField:;
 	end;
 	if(fieldname=="ORChatSend")then begin 
 		res = true; 
+	end;
+	
+	if(res)then begin
+		if(fieldname=="PayVal01" or fieldname=="PayVal02" or fieldname=="PayVal03" or fieldname=="PayVal04" or fieldname=="PayVal05")then begin
+			getwindowrecord(wn,ORr);
+			paysum = ORr.PayVal01 + ORr.PayVal02 + ORr.PayVal03 + ORr.PayVal04 + ORr.PayVal05;
+			paysum = ORr.Sum4 - paysum;
+			if(paysum!=0)then begin
+				switch(fieldname)begin
+					case "PayVal01":ORr.PayVal01 = ORr.Sum4 - ORr.PayVal02 - ORr.PayVal03 - ORr.PayVal04 - ORr.PayVal05;
+					case "PayVal02":ORr.PayVal02 = ORr.Sum4 - ORr.PayVal01 - ORr.PayVal03 - ORr.PayVal04 - ORr.PayVal05;
+					case "PayVal03":ORr.PayVal03 = ORr.Sum4 - ORr.PayVal02 - ORr.PayVal01 - ORr.PayVal04 - ORr.PayVal05;
+					case "PayVal04":ORr.PayVal04 = ORr.Sum4 - ORr.PayVal02 - ORr.PayVal03 - ORr.PayVal01 - ORr.PayVal05;
+					case "PayVal05":ORr.PayVal05 = ORr.Sum4 - ORr.PayVal02 - ORr.PayVal03 - ORr.PayVal04 - ORr.PayVal01;
+				end;
+				putwindowrecord(wn,ORr);
+			end;
+		end;
 	end;
 	
   ORDClassActiveEditField = res;
