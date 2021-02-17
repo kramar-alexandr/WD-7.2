@@ -1275,6 +1275,88 @@ BEGIN
   RETURN;
 END;
 
+
+global procedure RecalcCOMValOR(var record ORVc ORr)
+begin
+	record PayComisBlock PCb;
+	integer i,rwcnt;
+	val comsum;
+	row ORVc ORrw;
+	boolean foundf;
+	
+	if(ORr.PayVal01!=0 or ORr.PayVal02!=0 or ORr.PayVal03!=0 or ORr.PayVal04!=0 or ORr.PayVal05!=0)then begin
+		blockload(PCb);
+		
+		if(PCb.PayVal01!=0)then begin
+			comsum = comsum + ORr.PayVal01 / 100 * PCb.PayVal01;
+		end;
+		if(PCb.PayVal02!=0)then begin
+			comsum = comsum + ORr.PayVal02 / 100 * PCb.PayVal02;
+		end;
+		if(PCb.PayVal03!=0)then begin
+			comsum = comsum + ORr.PayVal03 / 100 * PCb.PayVal03;
+		end;
+		if(PCb.PayVal04!=0)then begin
+			comsum = comsum + ORr.PayVal04 / 100 * PCb.PayVal04;
+		end;
+		if(PCb.PayVal05!=0)then begin
+			comsum = comsum + ORr.PayVal05 / 100 * PCb.PayVal05;
+		end;
+		
+		if(comsum==0)then begin
+			rwcnt = matrowcnt(ORr);
+			for(i=0;i<rwcnt;i=i+1)begin
+				matrowget(ORr,i,ORrw);
+				if(ORrw.ArtCode=="COM")then begin
+					MatRowDelete(ORr,i);
+					rwcnt = rwcnt - 1;
+					//ORSumup(ORr);
+				end;
+			end;
+		end else begin
+			rwcnt = matrowcnt(ORr);
+			for(i=0;i<rwcnt;i=i+1)begin
+				matrowget(ORr,i,ORrw);
+				if(ORrw.ArtCode=="COM")then begin
+					ORrw.Price = comsum;
+					//ORrw.Sum = comsum;
+					ORrw.VATCode = "0";
+					MatRowPut(ORr,i,ORrw);
+					foundf = true;
+					//ORSumup(ORr);
+				end;
+			end;
+			if(foundf==false)then begin
+				clearrow(ORr,ORrw,1);
+				ORrw.ArtCode = "COM";
+				ORrw.Spec = "Комісія за безнал";
+				ORrw.Price = comsum;
+				//ORrw.Quant = 1;
+				ORrw.VATCode = "0";
+				//ORrw.Sum = comsum;
+				MatRowPut(ORr,matrowcnt(ORr),ORrw);
+				foundf = true;
+				//ORSumup(ORr);
+			end;
+		end;
+		
+	end else begin
+		/*rwcnt = matrowcnt(ORr);
+		for(i=0;i<rwcnt;i=i+1)begin
+			matrowget(ORr,i,ORrw);
+		 	ORDchsum(ORr,i);
+		 	matrowput(ORr,i,ORrw);
+			if(ORrw.ArtCode=="COM")then begin
+				MatRowDelete(ORr,i);
+				rwcnt = rwcnt - 1;
+				ORSumup(ORr);
+			end;
+		end;*/
+	end;
+
+return;
+end;
+
 global
 function Boolean ORDClassActiveEditField(Integer wn,string fieldname,Integer fn,Integer wnst,Integer rownr,Integer changed)
 BEGIN
@@ -1503,8 +1585,8 @@ LORDClassActiveEditField:;
 					case "PayVal04":ORr.PayVal04 = ORr.Sum4 - ORr.PayVal02 - ORr.PayVal03 - ORr.PayVal01 - ORr.PayVal05;
 					case "PayVal05":ORr.PayVal05 = ORr.Sum4 - ORr.PayVal02 - ORr.PayVal03 - ORr.PayVal04 - ORr.PayVal01;
 				end;
+				RecalcCOMValOR(ORr);
 				putwindowrecord(wn,ORr);
-				ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
 			end;
 		end;
 	end;
