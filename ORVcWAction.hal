@@ -92,6 +92,7 @@ begin
 				if(ORrw.ArtCode=="COM")then begin
 					ORrw.Price = comsum;
 					ORrw.Sum = comsum;
+					ORrw.VATCode = "0";
 					MatRowPut(ORr,i,ORrw);
 					foundf = true;
 					ORSumup(ORr);
@@ -103,6 +104,7 @@ begin
 				ORrw.Spec = "Комісія за безнал";
 				ORrw.Price = comsum;
 				ORrw.Quant = 1;
+				ORrw.VATCode = "0";
 				ORrw.Sum = comsum;
 				MatRowPut(ORr,matrowcnt(ORr),ORrw);
 				foundf = true;
