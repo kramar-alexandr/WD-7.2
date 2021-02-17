@@ -261,7 +261,7 @@ begin
 	string 200 Name,Address,Phone,tstr,ID;
 	record FOPDataBlock FOPb;
 	row FOPDataBlock FOPrw;
-	val comiss;
+	val comiss,nocomsum;
 	
 	blockload(FOPb);
 	if(nonblank(fop))then begin
@@ -366,6 +366,7 @@ begin
 		MatRowGet(ORr,i,ORrw);
 		if(ORrw.ArtCode=="COM")then begin
 			comiss = ORrw.Sum;
+			nocomsum = nocomsum + ORrw.Sum;
 		end;
 	end;
 	
@@ -373,8 +374,8 @@ begin
 		for(i=0;i<rwcnt;i=i+1) begin
 			MatRowGet(ORr,i,ORrw);
 			if(ORrw.stp==kInvoiceRowTypeNormal and nonblank(ORrw.ArtCode) and ORrw.ArtCode!="COM")then begin
-				ORrw.Sum = ORrw.Sum + round(ORrw.Sum/ORr.Sum4*comiss,SetRoundModeD(2));
-				ORrw.Price = ORrw.Price + round(ORrw.Sum/ORr.Sum4*comiss/ORrw.Quant,SetRoundModeD(2));
+				ORrw.Sum = ORrw.Sum + round(ORrw.Sum/nocomsum*comiss,SetRoundModeD(2));
+				ORrw.Price = ORrw.Price + round(ORrw.Sum/nocomsum*comiss/ORrw.Quant,SetRoundModeD(2));
 				MatRowPut(ORr,i,ORrw);
 			end;
 		end;
