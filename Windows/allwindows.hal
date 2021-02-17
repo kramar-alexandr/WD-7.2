@@ -1950,7 +1950,7 @@ end; //##ii
 window ORDClass:2
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
-  real h,h1,h2,h3,h4,t,v,vm,vs,h5,flipnr,width;
+  real h,h1,h2,h3,h4,t,v,vm,vs,h5,flipnr,width,vv;
   string 255 label;
 	if(CurrentCompany!=13) then begin 
 		if(UserCanAction("ManagerView",false)==false)then begin
@@ -2711,11 +2711,21 @@ begin
 			CheckBox(h4,v+20,0,"Зарезервовано",Reserved);
 			EditField(h3=320,v+=20,100,"Статус",Normal,OrderStatusText,false,OrderStatusSClass);
 			EditField(h3=510,v,100,"Продавець",normal,SalesMan,false,UserSClass);
+			HalPushButton(h3-100+220,v,h3+270,v+20,"OrderSetToST6Dsm","Готовий до видачі");
+			
+			EditField(h3-100+160,v+25,70,"Г.Видав.",ViewOnly,DoneMan,false,0);
+			EditField(h3-100+270,v+25,70,"Дата",ViewOnly,DoneDate,false,0);
+			EditField(h3-100+270,v+50,70,"Час",ViewOnly,DoneTime,false,0);
+			
+			vv = v+25;
+			EditField(h3+330,vv,70,"Готівка",Normal,PayVal01,false,0);
+			EditField(h3+330,vv+=20,70,"Термінал",Normal,PayVal02,false,0);
+			EditField(h3+330,vv+=20,70,"Б/Н без ПДВ",Normal,PayVal03,false,0);
+			EditField(h3+330,vv+=20,70,"Кредит",Normal,PayVal04,false,0);
+			EditField(h3+330,vv+=20,70,"ОЧ Приват",Normal,PayVal05,false,0);
+			
+			
 			HalPushButton(h3-100,v+=20,h3,v+=20,"OrderSetToST1Dsm","В роботі");
-			HalPushButton(h3-100+200,v-20,h3+250,v,"OrderSetToST6Dsm","Готовий до видачі");
-			EditField(h3-100+150,v+5,70,"Г.Видав.",ViewOnly,DoneMan,false,0);
-			EditField(h3-100+260,v+5,70,"Дата",ViewOnly,DoneDate,false,0);
-			EditField(h3-100+370,v+5,70,"Час",ViewOnly,DoneTime,false,0);
 			CheckBox(h3+10,v+7+25,0,"",TTNMark);
 			EditField(h3+80,v+7+25,80,"ТТН",Normal,TTNNumber,false,0);	
 		
@@ -2724,7 +2734,7 @@ begin
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST2Dsm","Відправлений");
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST3Dsm","Виконаний");
 			CheckBox(h3+10,v+7,0,"",RejectMark);
-			EditField(h3+80,v+7,-20,"Причина",Normal,RejectStr,false,RejectStrSClass);
+			EditField(h3+80,v+7,-110,"Причина",Normal,RejectStr,false,RejectStrSClass);
 			//EditField(h3+80,v+27,-20,"Вид рахунка",Normal,OrderType,false,SetSClass);
 			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST4Dsm","Відхилено");
 			//1 

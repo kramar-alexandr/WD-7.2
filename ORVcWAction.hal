@@ -1,3 +1,9 @@
+remote inner procedure ORDchsum(var record ORVc,Integer);
+remote inner function Boolean ORDchrsum(var record ORVc,Integer);
+remote inner procedure ORSumup(var record ORVc);
+
+SetLangMode(LangUkrainian,"UKR",0);
+
 global
 function boolean ORChatSendAfterEF(integer wn,integer changed)
 begin
@@ -42,15 +48,101 @@ begin
 return;
 end;
 
+global procedure RecalcCOMValOR(var record ORVc ORr)
+begin
+	record PayComisBlock PCb;
+	integer i,rwcnt;
+	val comsum;
+	row ORVc ORrw;
+	boolean foundf;
+	
+	if(ORr.PayVal01!=0 or ORr.PayVal02!=0 or ORr.PayVal03!=0 or ORr.PayVal04!=0 or ORr.PayVal05!=0)then begin
+		blockload(PCb);
+		
+		if(PCb.PayVal01!=0)then begin
+			comsum = comsum + ORr.PayVal01 / 100 * PCb.PayVal01;
+		end;
+		if(PCb.PayVal02!=0)then begin
+			comsum = comsum + ORr.PayVal02 / 100 * PCb.PayVal02;
+		end;
+		if(PCb.PayVal03!=0)then begin
+			comsum = comsum + ORr.PayVal03 / 100 * PCb.PayVal03;
+		end;
+		if(PCb.PayVal04!=0)then begin
+			comsum = comsum + ORr.PayVal04 / 100 * PCb.PayVal04;
+		end;
+		if(PCb.PayVal05!=0)then begin
+			comsum = comsum + ORr.PayVal05 / 100 * PCb.PayVal05;
+		end;
+		
+		if(comsum==0)then begin
+			rwcnt = matrowcnt(ORr);
+			for(i=0;i<rwcnt;i=i+1)begin
+				matrowget(ORr,i,ORrw);
+				if(ORrw.ArtCode=="COM")then begin
+					MatRowDelete(ORr,i);
+					rwcnt = rwcnt - 1;
+					ORSumup(ORr);
+				end;
+			end;
+		end else begin
+			rwcnt = matrowcnt(ORr);
+			for(i=0;i<rwcnt;i=i+1)begin
+				matrowget(ORr,i,ORrw);
+				if(ORrw.ArtCode=="COM")then begin
+					ORrw.Price = comsum;
+					ORrw.Sum = comsum;
+					MatRowPut(ORr,i,ORrw);
+					foundf = true;
+					ORSumup(ORr);
+				end;
+			end;
+			if(foundf==false)then begin
+				clearrow(ORr,ORrw,1);
+				ORrw.ArtCode = "COM";
+				ORrw.Spec = "Комісія за безнал";
+				ORrw.Price = comsum;
+				ORrw.Quant = 1;
+				ORrw.Sum = comsum;
+				MatRowPut(ORr,matrowcnt(ORr),ORrw);
+				foundf = true;
+				ORSumup(ORr);
+			end;
+		end;
+		
+	end else begin
+		rwcnt = matrowcnt(ORr);
+		for(i=0;i<rwcnt;i=i+1)begin
+			matrowget(ORr,i,ORrw);
+		 	ORDchsum(ORr,i);
+		 	matrowput(ORr,i,ORrw);
+			if(ORrw.ArtCode=="COM")then begin
+				MatRowDelete(ORr,i);
+				rwcnt = rwcnt - 1;
+				ORSumup(ORr);
+			end;
+		end;
+	end;
+
+return;
+end;
+
 global
 function Boolean ORDClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
 begin
-
+record ORVc ORr;
 boolean res;
+
+	getwindowrecord(wn,ORr);
 	res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
 	switch (fieldname) begin
     case "ORChatSend": res = ORChatSendAfterEF(wn,changed); 
-    case "InvAddr4": res = ORComment(wn,changed);      
+    case "InvAddr4": res = ORComment(wn,changed);  
+    case "PayVal01": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+    case "PayVal02": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+    case "PayVal03": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+    case "PayVal04": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+    case "PayVal05": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
   end;
 	ORDClassAfterEditField = res;
 return;

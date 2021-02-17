@@ -118,7 +118,8 @@ begin
   Report("Звіт по продажах eMail",SalesReportAccRClass,SalesReportIVCashRn,0,modSL);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 21 08 2019 y. at 2:04:50 PM
 	
 	Setting("История изменения цен",PriceChangeLClass,modDI);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 18 10 2019 y. at 5:00:31 PM
-
+	
+	Setting("Налаштування комісії з оплати",PayComisBlockTClass,modSO); // Edit ************************** BPI Ukraine - KramarAlexandr - 02, 16 02 2021 y. at 10:58:15 AM
 	Setting("Настройки Binotel",BinotelSettingsTClass,modSY);
 	Setting("Валюта ЕККА",POSCurncyTClass,modPOS); //Edit***************************Sasha2,17:25 11.09.2014
 	Setting("Рахунки продавців",LocalMachineAccTClass,modPOS); //Edit***************************Sasha2,17:26 11.09.2014

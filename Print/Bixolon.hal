@@ -261,6 +261,7 @@ begin
 	string 200 Name,Address,Phone,tstr,ID;
 	record FOPDataBlock FOPb;
 	row FOPDataBlock FOPrw;
+	val comiss;
 	
 	blockload(FOPb);
 	if(nonblank(fop))then begin
@@ -362,8 +363,25 @@ begin
 //Body	
 	rwcnt = MatRowCnt(ORr);
 	for(i=0;i<rwcnt;i=i+1) begin
+		MatRowGet(ORr,i,ORrw);
+		if(ORrw.ArtCode=="COM")then begin
+			comiss = ORrw.Sum;
+		end;
+	end;
+	
+	if(comiss>0)then begin
+		for(i=0;i<rwcnt;i=i+1) begin
+			MatRowGet(ORr,i,ORrw);
+			if(ORrw.stp==kInvoiceRowTypeNormal and nonblank(ORrw.ArtCode) and ORrw.ArtCode!="COM")then begin
+				ORrw.Sum = ORrw.Sum + round(ORrw.Sum/ORr.Sum4*comiss,SetRoundModeD(2));
+				ORrw.Price = ORrw.Price + round(ORrw.Sum/ORr.Sum4*comiss/ORrw.Quant,SetRoundModeD(2));
+			end;
+		end;
+	end;
+	
+	for(i=0;i<rwcnt;i=i+1) begin
 		MatRowGet(ORr,i,ORrw);		
-		if (ORrw.stp==kInvoiceRowTypeNormal and nonblank(ORrw.ArtCode)) then begin
+		if (ORrw.stp==kInvoiceRowTypeNormal and nonblank(ORrw.ArtCode) and ORrw.ArtCode!="COM") then begin
 			addtexttoarea(SetLeftAlignment,aFile);
 			addtexttoarea(ORrw.Spec & chr(13) & chr(10) ,aFile);
 			addtexttoarea(ORrw.SerialNr & chr(13) & chr(10) ,aFile);

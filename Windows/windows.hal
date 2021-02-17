@@ -285,6 +285,26 @@ begin
   EndWindow;
 end; //Edit***************************Sasha2,17:28 11.09.2014 }
 
+window PayComisBlockTClass:1 //Edit***************************Sasha2,17:28 11.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,f;
+  WindowBegin("Налаштування комісії з оплати",PayComisBlockTClass,CGSbl,-);
+  SetBlid(PayComisBlock);
+  SetWRect(64,80,380,357);
+  h=160;f=70; 
+  v=6;
+  vs = 20;
+	EditField(h,v+=vs,f,"Готівка",Normal,PayVal01,false,0); 
+	EditField(h,v+=vs,f,"Термінал",Normal,PayVal02,false,0); 
+	EditField(h,v+=vs,f,"Б/Н без ПДВ",Normal,PayVal03,false,0); 
+	EditField(h,v+=vs,f,"Кредит",Normal,PayVal04,false,0); 
+	EditField(h,v+=vs,f,"ОЧ Приват",Normal,PayVal05,false,0); 
+  EndWindow;
+end; //Edit***************************Sasha2,17:28 11.09.2014 }
+
+
+
 window LocalMachineAccTClass:1 //Edit***************************Sasha2,17:28 11.09.2014 {
  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin

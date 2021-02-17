@@ -1932,6 +1932,12 @@ begin
 	RecordField(DoneDate,M4Date,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:00:22 AM
   RecordField(DoneTime,M4Time,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:00:24 AM
 	
+	RecordField(PayVal01,M4Val,0,0);
+	RecordField(PayVal02,M4Val,0,0);
+	RecordField(PayVal03,M4Val,0,0);
+	RecordField(PayVal04,M4Val,0,0);
+	RecordField(PayVal05,M4Val,0,0);
+	
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
   ArrayField(ArtCode,M4Code,20,INVc);
@@ -2247,6 +2253,15 @@ begin
   BlockBegin(POSCurncyBlock,-,""); //Edit***************************Sasha2,17:26 11.09.2014 {
   RecordField(CurncyCode,M4Code,5,CurncyCodeVc);
   EndBlock; //Edit***************************Sasha2,17:26 11.09.2014 }
+  
+  BlockBegin(PayComisBlock,-,""); // Edit ************************** BPI Ukraine - KramarAlexandr - 02, 16 02 2021 y. at 10:56:13 AM
+  RecordField(PayVal01,M4Val,0,0);
+  RecordField(PayVal02,M4Val,0,0);
+  RecordField(PayVal03,M4Val,0,0);
+  RecordField(PayVal04,M4Val,0,0);
+  RecordField(PayVal05,M4Val,0,0);
+  EndBlock;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 16 02 2021 y. at 10:56:17 AM
+  
   
   BlockBegin(LocalMachineAccBlock,-,""); //Edit***************************Sasha2,17:27 11.09.2014 {
 	RecordField(Math,M4Matrix,0,0);
