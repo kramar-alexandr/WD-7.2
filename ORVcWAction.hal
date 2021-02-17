@@ -73,7 +73,7 @@ val newpr,newreb,newsum;
 	end;
 	res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
 	
-	if(currentcompany==13 and usercanaction("AllowUpperPrice",false)==false)then begin
+	if(currentcompany==13 and usercanaction("AllowUpperPrice",false)==false and windowstate(wn)==Rs_update)then begin
 		getwindowrecord(wn,ORr);
 		if(fieldname=="Sum" or fieldname=="Price" or fieldname=="vRebate")then begin
 			if(rownr>-1)then begin
