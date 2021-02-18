@@ -1469,6 +1469,12 @@ BEGIN
       		res = true;
       	end;
       end;
+      if(currentcompany==13)then begin
+      	matrowget(ORr,rownr,ORrw);
+      	if(ORrw.ArtCode=="COM")then begin
+      		res = false;
+      	end;
+      end;
     case "vRebate": 
       if (UserCanAction("ChangeUnitPrices",true)==false) then begin 
       	res = false; 

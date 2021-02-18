@@ -58,6 +58,7 @@ boolean res;
 val pr,reb,sum;
 val newpr,newreb,newsum;
 boolean check;
+record INVc INr;
 	
 	if(currentcompany==13 and usercanaction("AllowUpperPrice",false)==false)then begin
 		if(windowstate(wn)==Rs_update)then begin
@@ -88,14 +89,19 @@ boolean check;
 				newreb = ORrw.vRebate;
 				newsum = ORrw.Sum;
 			end;
-			if(newsum>sum)then begin
-				ORrw.Price = pr;
-				ORrw.vRebate = reb;
-				ORrw.Sum = sum;
-				matrowput(ORr,rownr,ORrw);
-				ORSumup(ORr);
-				putwindowrecord(wn,ORr);
-				res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
+			INr.Code = ORrw.ArtCode;
+			if(readfirstmain(INr,1,true))then begin
+				if(INr.Group!="SERVI" and INr.Group!="WARRA" and INr.Group!="DELIV")then begin
+					if(newsum>sum)then begin
+						ORrw.Price = pr;
+						ORrw.vRebate = reb;
+						ORrw.Sum = sum;
+						matrowput(ORr,rownr,ORrw);
+						ORSumup(ORr);
+						putwindowrecord(wn,ORr);
+						res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
+					end;
+				end;
 			end;
 		end;
 	end;
