@@ -11452,15 +11452,15 @@ begin
     end;*/
     Tile(tilenr,190,false,"1",StartTime); tilenr = tilenr + 1;
     h = 100; h2 = 270;
-    EditField(h,v=6,60,"Час початку",Normal,StartTime,false,PasteCurTime);
-    EditField(h,v+=vs,60,"Час завершення",Normal,EndTime,false,PasteCurTime);
+    EditField(h,v=6,60,"Час початку",ViewOnly,StartTime,false,PasteCurTime);
+    EditField(h,v+=vs,60,"Час завершення",ViewOnly,EndTime,false,PasteCurTime);
     //EditField(h,v+=vs,60,"Вартість (Час)",Normal,CostTime,false,PasteCurTime);
     if (StandardHansa==false) then begin
       //EditField(h,v+=vs,60,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
     end;
 //    EditField(h,v+=vs,60,"New Dur.",Normal,TestDuration,false,0);
-    EditField(h2,v=6 ,80,"Дата початку",Normal,TransDate,false,PasteCurDate);
-    EditField(h2,v+=vs,80,"Дата закінчення",Normal,EndDate,false,PasteCurDate);
+    EditField(h2,v=6 ,80,"Дата початку",ViewOnly,TransDate,false,PasteCurDate);
+    EditField(h2,v+=vs,80,"Дата закінчення",ViewOnly,EndDate,false,PasteCurDate);
     if (StandardHansa==false) then begin
     //EditField(h2,v+=vs,80,"Клас часу",Normal,TimeClass,false,TimeClassSClass);
 		//EditField(h2,v+=vs,80,"Вартість",Normal,Value,true,0);
