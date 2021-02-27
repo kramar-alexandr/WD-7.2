@@ -1401,20 +1401,7 @@ BEGIN
     end;
   end;
   
-  if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
-		if(rownr>-1)then begin
-			if(currentuser!="SAUNOK" and check==false)then begin
-				if (wnst!=Rs_insert) then begin
-					if(nonblank(ORr.SalesMan))then begin
-						if(currentuser!=ORr.SalesMan)then begin
-							res = false;
-							goto LORDClassActiveEditField;
-						end;
-					end;
-				end;
-			end;
-		end;
-	end;
+  
   
   if (wnst!=Rs_insert) then begin
     if (fieldname=="SerNr") then begin
@@ -1429,6 +1416,21 @@ BEGIN
   res = true;
   GetWindowRecord(wn,ORr);
   
+  if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
+		if(rownr>-1)then begin
+			if(currentuser!="SAUNOK" and check==false)then begin
+				if (wnst!=Rs_insert) then begin
+					if(nonblank(ORr.SalesMan))then begin
+						if(currentuser!=ORr.SalesMan)then begin
+							res = false;
+							goto LORDClassActiveEditField;
+						end;
+					end;
+				end;
+			end;
+		end;
+	end;
+	
   if(ORr.CustCode=="DT_BANK")then begin
   	DT_BANKflag = true;
   end;
