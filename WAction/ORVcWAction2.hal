@@ -1185,7 +1185,7 @@ function Boolean ORDClassDeleteRowTest(Integer wn,Integer rownr)
 begin
   record ORVc ORr;
   row ORVc ORrw;
-  Boolean res,puf;
+  Boolean res,puf,check;// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:22:09 PM
   record INVc INr;
   Integer i,rwcnt;
   val ordqty;
@@ -1194,7 +1194,24 @@ begin
   string 255 msgerr; //Edit***************************Sasha2,13:45 11.02.2016
 
   res = true;
-  GetWindowRecord(wn,ORr);    
+  GetWindowRecord(wn,ORr);
+  
+  check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
+	if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
+		if(rownr>-1)then begin
+			if(currentuser!="SAUNOK" and check==false)then begin
+				if (WindowState(wn)!=Rs_insert) then begin
+					if(nonblank(ORr.SalesMan))then begin
+						if(currentuser!=ORr.SalesMan)then begin
+							res = false;
+							goto LORDClassDeleteRowTest;
+						end;
+					end;
+				end;
+			end;
+		end;
+	end;
+      
   if (WindowState(wn)==Rs_update) then begin//Rs_update
     if (ORr.Closed==0) then begin
       if (ORr.OKFlag!=0) then begin
@@ -1367,10 +1384,14 @@ BEGIN
   record INVc INr;
   Integer nwn;
   record StockMovVc StockMovr; //Edit***************************Sasha2,11:19 11.02.2016
-  boolean DT_BANKflag;
+  boolean DT_BANKflag,check;
   val paysum;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 17 02 2021 y. at 11:49:02 AM
   
   DT_BANKflag = false;
+  
+	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
+	
+	
   
   nwn = FindWindow("SelectApproverWClass");
   if (nwn>0) then begin
@@ -1379,6 +1400,22 @@ BEGIN
       goto LORDClassActiveEditField;
     end;
   end;
+  
+  if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
+		if(rownr>-1)then begin
+			if(currentuser!="SAUNOK" and check==false)then begin
+				if (wnst!=Rs_insert) then begin
+					if(nonblank(ORr.SalesMan))then begin
+						if(currentuser!=ORr.SalesMan)then begin
+							res = false;
+							goto LORDClassActiveEditField;
+						end;
+					end;
+				end;
+			end;
+		end;
+	end;
+  
   if (wnst!=Rs_insert) then begin
     if (fieldname=="SerNr") then begin
       res = false;
@@ -1604,14 +1641,33 @@ END;
 global 
 function Boolean ORDClassInsertRowTest(Integer wn, Integer rownr)
 BEGIN
-  Boolean res;
+  Boolean res,check;
   record ORVc ORr;
   row ORVc ORrw;
   record ORVc OR2r;
   record StockMovVc StockMovr; //Edit***************************Sasha2,10:40 11.02.2016
 
+	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
+
+
   res = true; 
   GetWindowRecord(wn,ORr);
+  
+  if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
+		if(rownr>-1)then begin
+			if(currentuser!="SAUNOK" and check==false)then begin
+				if (WindowState(wn)!=Rs_insert) then begin
+					if(nonblank(ORr.SalesMan))then begin
+						if(currentuser!=ORr.SalesMan)then begin
+							res = false;
+							goto LORDClassInsertRowTest;
+						end;
+					end;
+				end;
+			end;
+		end;
+	end;
+  
   if (ORr.Closed==0) then begin
     if (ORAcceptanceStarted(ORr) and UserCanAction("ChangeRecordMatrixWhenPending",false)==false) then begin
       res = false;
