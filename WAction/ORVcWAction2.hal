@@ -2753,3 +2753,13 @@ begin
   return;
 end; //Edit_______________________________ABR,15:11 11.11.2019 }
 
+global
+procedure ORDClassButtonFlags(Integer wn,var Boolean duplOK,var Boolean newOK,var Boolean saveOK,var Boolean restOK)
+begin
+    duplOK = false;
+    
+    if(currentcompany=13)then begin
+    	duplOK = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);
+		end;
+  return;
+end;
