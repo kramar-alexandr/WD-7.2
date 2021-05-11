@@ -2699,7 +2699,7 @@ return;
 end;
 
 
-global procedure CallToClientDsm()
+global updating procedure CallToClientDsm()
 begin
 integer wn;
 record SVOVc SVOr;
@@ -2725,6 +2725,12 @@ record CUVc CUr;
 			if(readfirstmain(CUr,1,true))then begin
 				if(nonblank(USr.Phone2)and nonblank(NormalPhone(CUr.Phone)))then begin			
 					MakeBinotelCallFromExtNumToPhone(USr.Phone2,NormalPhone(CUr.Phone));
+					if(blank(ORr.SalesMan))then begin
+					  ORr.SalesMan = currentuser;
+					  recordstore(ORr,true);
+					  putwindowrecord(wn,ORr);
+					  ReRunWindowDef(wn);
+					end;
 				end;
 			end;
 		end;
