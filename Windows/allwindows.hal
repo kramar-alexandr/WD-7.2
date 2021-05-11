@@ -2825,7 +2825,10 @@ begin
         EditField(h1+590,v+=vs,-50,"Сообщение",Normal,ORChatSend,false,0);
         EnterSkip(ORChatSend);
         EditField(-150,v+=vs,100,"Всього",ViewOnly ,Sum4,true,0);
-    
+      end else begin
+        v = 400;
+        StaticText(50,v,"_",true);
+      end;
         if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
           SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
           SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
@@ -2890,7 +2893,7 @@ begin
         SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
         SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
         end;
-      end;
+      
 			EndWindow;
 		end else begin
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
