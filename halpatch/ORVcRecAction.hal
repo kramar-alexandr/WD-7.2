@@ -430,6 +430,10 @@ begin
 	oldnr = ORr.SerNr;
 	res = 0;
 	
+	if(currentuser=="SA")then begin
+	   goto LORVcRecordCheck;
+	end;
+	
 	switch(ORr.OrderStatusCode)begin
 		case 0:ORr.OrderStatusText = "Новий";
 		case 1:ORr.OrderStatusText = "В роботі";
