@@ -6722,7 +6722,11 @@ begin
   RlColKey(pos,pos,"Найменув.",Addr0,false,Name); 
   if (IsEnterprise) then begin
     RlColKey(-280,-280,"Вид",OrderClass,false,OrderClass);
-    RlColKey(-235,-235,"Всього",Sum4,true,Sum4);
+    if(usercanaction("ViewAllOrderDetails",true))then begin
+      RlColKey(-235,-235,"Всього",Sum4,true,Sum4);
+    end else begin
+      CalculatedColumn(-90,-90,"Всього","Sum4Calculation",true);
+    end;
     //RlCol(-75,-75,"Попер. сплачено",DownPaySent,true);// Edit ************************** Wednesday, 24 September 2014 09:46:50
     RlColKey(-160,-160,"Шопс",ShopsMark,true,ShopsMark);// Edit ************************** Wednesday, 24 September 2014 09:46:50
     RlColKey(-120,-120,"Резерв",Reserved,true,Reserved);// Edit ************************** Wednesday, 24 September 2014 09:46:50

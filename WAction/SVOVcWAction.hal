@@ -1469,6 +1469,20 @@ begin
 end;
 
 global
+function string 255 Sum4Calculation(var record ORVc ORr)
+begin
+  string 200 res;
+  
+  if(nonblank(ORr.SalesMan))then begin
+    res = ORr.Sum4;
+  end;
+  
+  
+  Sum4Calculation = res;
+  return;
+end;
+
+global
 function Integer SVO3LClassRowColor(record SVOVc SVOr)
 begin
   Integer res;
