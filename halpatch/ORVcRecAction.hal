@@ -427,7 +427,7 @@ begin
 	boolean TrHs;
 	
 	blockload(BCb);// Edit ************************** Tuesday, 23 June 2015 18:02:59
-	
+	oldnr = ORr.SerNr;
 	
 	switch(ORr.OrderStatusCode)begin
 		case 0:ORr.OrderStatusText = "Новий";
@@ -511,7 +511,7 @@ begin
   
 	// Edit End ---------------------------------------------- Edit End
 	
-  oldnr = ORr.SerNr;
+  
   oldOfficialSerNr = ORr.OfficialSerNr;
   BlockLoad(CreditLimitRec);
   if ((CreditLimitRec.ORSave==1) or (CreditLimitRec.ORSaveWarn==1)) then begin
