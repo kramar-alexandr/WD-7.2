@@ -2890,7 +2890,7 @@ begin
 			UseView(ORVc);
 			DynamicWindow;
 			show = true;
-			if(usercanaction("ViewAllOrderDetails",false))then begin
+			if(usercanaction("ViewAllOrderDetails",true)==false)then begin
         BrowseButtons(false);
         getwindowrecord(curwindow,ORr);
         if(blank(ORr.SalesMan))then begin
