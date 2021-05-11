@@ -2708,68 +2708,68 @@ begin
 				HalPushButton(300,5,360,25,"PrintDoOrdFormButton","Друк");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
 			EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
 			ActiveFieldOnNew("CustCode");    
+      if(show)then begin
+        EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
+        EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+        if(currentcompany==13)then begin
+          HalPushButton(190,v,270,v+20,"CallToClientDsm","Дзвінок");
+        end;
+        EnterSkip(PayDeal);
+        EditField(h=255,v=vm,-120,"Найменув.",Normal,Addr0,false,0);
+    
+        //EditField(h+100,vm=(v+=20),80,"№ рах.",Normal,CustOrdNr,false,0);
+        CheckBox(h4=-110,v,0,"OK",OKFlag);
+        CheckBox(h4,v+20,0,"Зарезервовано",Reserved);
+        EditField(h3=320,v+=20,100,"Статус",Normal,OrderStatusText,false,OrderStatusSClass);
+        EditField(h3=510,v,100,"Продавець",normal,SalesMan,false,UserSClass);
+        HalPushButton(h3-100+220,v,h3+270,v+20,"OrderSetToST6Dsm","Готовий до видачі");
+      
+        EditField(h3-100+160,v+25,70,"Г.Видав.",ViewOnly,DoneMan,false,0);
+        EditField(h3-100+270,v+25,70,"Дата",ViewOnly,DoneDate,false,0);
+        EditField(h3-100+270,v+50,70,"Час",ViewOnly,DoneTime,false,0);
+      
+        vv = v+25;
+        EditField(h3+330,vv,70,"Готівка",Normal,PayVal01,false,0);
+        EditField(h3+330,vv+=20,70,"Термінал",Normal,PayVal02,false,0);
+        EditField(h3+330,vv+=20,70,"Б/Н без ПДВ",Normal,PayVal03,false,0);
+        EditField(h3+330,vv+=20,70,"Кредит",Normal,PayVal04,false,0);
+        EditField(h3+330,vv+=20,70,"ОЧ Приват",Normal,PayVal05,false,0);
+      
+      
+        HalPushButton(h3-100,v+=20,h3,v+=20,"OrderSetToST1Dsm","В роботі");
+        CheckBox(h3+10,v+7+25,0,"",TTNMark);
+        EditField(h3+80,v+7+25,80,"ТТН",Normal,TTNNumber,false,0);	
+    
+        EditField(h3+80,v+27+25,80,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
+        HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST5Dsm","Не додзвонилися");
+        HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST2Dsm","Відправлений");
+        HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST3Dsm","Виконаний");
+        CheckBox(h3+10,v+7,0,"",RejectMark);
+        EditField(h3+80,v+7,-110,"Причина",Normal,RejectStr,false,RejectStrSClass);
+        //EditField(h3+80,v+27,-20,"Вид рахунка",Normal,OrderType,false,SetSClass);
+        HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST4Dsm","Відхилено");
+        //1 
+        v = 60;
+        h1=75;
+        h2 = 255;
+        vs = 20;
+        EditField(h1,v,70,"Дата",Normal,OrdDate,false,PasteCurDate);	
+        EditField(h1,v+=vs,25,"Умови сплт.",Normal,PayDeal,false,PDSClass);
+        EditField(h1,v+=vs,70,"Склад",Normal,Location,false,LocationSClass);
+        EditField(h1,v+=vs,70,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
+        HalPushButton(h1+70,v+17,h1+130,v+25,"OrderCustomerInfoDsm","Звіт");
+        EditField(h1,v+=vs,40,"Пост.Кл.",ViewOnly,OrderCnt,false,0);
 
-			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
-			EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
-			if(currentcompany==13)then begin
-				HalPushButton(190,v,270,v+20,"CallToClientDsm","Дзвінок");
-			end;
-			EnterSkip(PayDeal);
-			EditField(h=255,v=vm,-120,"Найменув.",Normal,Addr0,false,0);
-		
-			//EditField(h+100,vm=(v+=20),80,"№ рах.",Normal,CustOrdNr,false,0);
-			CheckBox(h4=-110,v,0,"OK",OKFlag);
-			CheckBox(h4,v+20,0,"Зарезервовано",Reserved);
-			EditField(h3=320,v+=20,100,"Статус",Normal,OrderStatusText,false,OrderStatusSClass);
-			EditField(h3=510,v,100,"Продавець",normal,SalesMan,false,UserSClass);
-			HalPushButton(h3-100+220,v,h3+270,v+20,"OrderSetToST6Dsm","Готовий до видачі");
-			
-			EditField(h3-100+160,v+25,70,"Г.Видав.",ViewOnly,DoneMan,false,0);
-			EditField(h3-100+270,v+25,70,"Дата",ViewOnly,DoneDate,false,0);
-			EditField(h3-100+270,v+50,70,"Час",ViewOnly,DoneTime,false,0);
-			
-			vv = v+25;
-			EditField(h3+330,vv,70,"Готівка",Normal,PayVal01,false,0);
-			EditField(h3+330,vv+=20,70,"Термінал",Normal,PayVal02,false,0);
-			EditField(h3+330,vv+=20,70,"Б/Н без ПДВ",Normal,PayVal03,false,0);
-			EditField(h3+330,vv+=20,70,"Кредит",Normal,PayVal04,false,0);
-			EditField(h3+330,vv+=20,70,"ОЧ Приват",Normal,PayVal05,false,0);
-			
-			
-			HalPushButton(h3-100,v+=20,h3,v+=20,"OrderSetToST1Dsm","В роботі");
-			CheckBox(h3+10,v+7+25,0,"",TTNMark);
-			EditField(h3+80,v+7+25,80,"ТТН",Normal,TTNNumber,false,0);	
-		
-			EditField(h3+80,v+27+25,80,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
-			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST5Dsm","Не додзвонилися");
-			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST2Dsm","Відправлений");
-			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST3Dsm","Виконаний");
-			CheckBox(h3+10,v+7,0,"",RejectMark);
-			EditField(h3+80,v+7,-110,"Причина",Normal,RejectStr,false,RejectStrSClass);
-			//EditField(h3+80,v+27,-20,"Вид рахунка",Normal,OrderType,false,SetSClass);
-			HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST4Dsm","Відхилено");
-			//1 
-			v = 60;
-			h1=75;
-			h2 = 255;
-			vs = 20;
-			EditField(h1,v,70,"Дата",Normal,OrdDate,false,PasteCurDate);	
-			EditField(h1,v+=vs,25,"Умови сплт.",Normal,PayDeal,false,PDSClass);
-			EditField(h1,v+=vs,70,"Склад",Normal,Location,false,LocationSClass);
-			EditField(h1,v+=vs,70,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
-			HalPushButton(h1+70,v+17,h1+130,v+25,"OrderCustomerInfoDsm","Звіт");
-			EditField(h1,v+=vs,40,"Пост.Кл.",ViewOnly,OrderCnt,false,0);
-
-		
-			//2
-			//EditField(h2,v=60,150,"Отримувач",Normal,ShipAddr0,false,0);
-			EditField(h2,v=60,150,"Доставка",Normal,ShipAddr1,false,0);
-			EditField(h2,v+=vs,150,"Телефон",Normal,Phone,false,0);
-			EditField(h2,v+=vs,150,"Коментар",Normal,Comment,false,0);
-			EditField(h2,v+=vs,150,"№ рах.",Normal,CustOrdNr,false,0);
-			v = v + vs;
+    
+        //2
+        //EditField(h2,v=60,150,"Отримувач",Normal,ShipAddr0,false,0);
+        EditField(h2,v=60,150,"Доставка",Normal,ShipAddr1,false,0);
+        EditField(h2,v+=vs,150,"Телефон",Normal,Phone,false,0);
+        EditField(h2,v+=vs,150,"Коментар",Normal,Comment,false,0);
+        EditField(h2,v+=vs,150,"№ рах.",Normal,CustOrdNr,false,0);
+        v = v + vs;
 			//3
-			if(show)then begin
+			//if(show)then begin
         MatrixBegin(3,v+=50,-50,v+170,-,200);
         MatTypedRow(stp);
         flipnr = 0;
@@ -2804,91 +2804,92 @@ begin
         v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
         v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
         //v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+        //end;
+        v = v + 320;
+        ButtonFrame(10,v+vs,370,3,"Заполнить!!!");
+        EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,PasteCurDate);
+        EditField(h1+200,v,70,"Время",Normal,DespatchTime,false,PasteCurTime);
+        EditField(h1+20,v+=vs,250,"Точка выдачи",Normal,InvAddr4,false,SalesGroupSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 28 11 2019 y. at 2:48:48 PM
+        HalPushButton(400,v-25,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
+      
+        v = v + vs;
+        EditField(h1,v+=vs,-350,"Інформація",Normal,ShipAddr0,false,0);
+        EditField(h1,v+=vs,-350,"Кредит",Normal,TerminalID,false,0);
+        EditField(h1,v+=vs,-350,"замовлення",Normal,ShipAddr1,false,0);
+        EditField(h1,v+=vs,-350,"",Normal,ShipAddr2,false,0);
+        EditField(h1,v+=vs,-350,"",Normal,ShipAddr3,false,0);
+        EditField(h1,v+=vs,-350,"",Normal,DelAddr3,false,0);
+        EditField(h1,v+=vs,-350,"",Normal,DelAddr4,false,0);
+        v = v - 2*vs;
+        TextField(h1+520,370,-10,140,Math2,0);
+        EditField(h1+590,v+=vs,-50,"Сообщение",Normal,ORChatSend,false,0);
+        EnterSkip(ORChatSend);
+        EditField(-150,v+=vs,100,"Всього",ViewOnly ,Sum4,true,0);
+    
+        if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
+          SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+          SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+          SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+          SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+          SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+      /*
+      email not working yet
+          SpecialMenu("Create E-Mail",'m',11,"CreateMailFromORDsm");
+      */
+        end else begin
+        SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
+        SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
+        SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+        SpecialMenu("друк ZEBRA",'',0,"PrintORZebraDsm")
+        SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
+        if (StandardHansa==false) then begin
+        SpecialMenu("Перерахувати вагу та об'єм",' ',10,"RecalculateWeightORDsm");
+        end;
+        SpecialMenu("Поновити товари валют. прейск.",' ',7,"UpdatePricesORDsm");
+        SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+        SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
+        SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+        if (StandardHansa==false) then begin
+        SpecialMenu("Ціна попереднього продажу",' ',12,"ORLastSPrsm");
+        SpecialMenu("Роздрукувати внутрішнє замовлення",' ',4,"Or2FormORDsm");
+        end;
+        SpecialMenu("Резервування",' ',15,"OrderReservORDsm");
+        if (StandardHansa==false) then begin
+        SpecialMenu("Відправити для затвердження",' ',6,"ORSendforAcceptanceORDsm");
+        SpecialMenu("Скасувати запит на затвердження",' ',2,"CancelApprovalRequestDsm"); 
+        end;
+        SpecialMenu("Створити діяльність",'c',9,"CreateActFromORDsm");
+        SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+        SpecialMenu("Акт/накладна на аванс",'o',3,"DownPayFromORDsm");
+        if (HaseMail) then begin
+        SpecialMenu("Створити E-Mail",'m',11,"CreateMailFromORDsm");
+        end;
+        SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+        if (HasModTS) then begin
+        SpecialMenu("Створити проект",' ',9,"CreatePRFromORDsm");
+        SpecialMenu("Створити бюджет проекту",' ',10,"CreateTBBUFromORDsm");
+        end;
+        if (HasModPO) then begin
+          SpecialMenu("Створити замовлення",' ',4,"POFromORDsm");
+        end;
+        if (GuiType==kGuiiPhone) then begin
+          SpecialMenu("Підпис",' ',10,"SignORDsm");
+        end;
+        SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
+        SpecialMenu("Переміщення по складу",' ',8,"StockMovFromORDsm");
+        if (HasTaxMatrix) then begin
+        SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixORDsm"); 
+        end;
+        SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+        SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+        SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
+        SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
+    
+        SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
+        SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
+        SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
+        SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
       end;
-			v = v + 320;
-			ButtonFrame(10,v+vs,370,3,"Заполнить!!!");
-			EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,PasteCurDate);
-			EditField(h1+200,v,70,"Время",Normal,DespatchTime,false,PasteCurTime);
-			EditField(h1+20,v+=vs,250,"Точка выдачи",Normal,InvAddr4,false,SalesGroupSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 28 11 2019 y. at 2:48:48 PM
-			HalPushButton(400,v-25,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
-			
-			v = v + vs;
-			EditField(h1,v+=vs,-350,"Інформація",Normal,ShipAddr0,false,0);
-			EditField(h1,v+=vs,-350,"Кредит",Normal,TerminalID,false,0);
-			EditField(h1,v+=vs,-350,"замовлення",Normal,ShipAddr1,false,0);
-			EditField(h1,v+=vs,-350,"",Normal,ShipAddr2,false,0);
-			EditField(h1,v+=vs,-350,"",Normal,ShipAddr3,false,0);
-			EditField(h1,v+=vs,-350,"",Normal,DelAddr3,false,0);
-			EditField(h1,v+=vs,-350,"",Normal,DelAddr4,false,0);
-			v = v - 2*vs;
-			TextField(h1+520,370,-10,140,Math2,0);
-			EditField(h1+590,v+=vs,-50,"Сообщение",Normal,ORChatSend,false,0);
-			EnterSkip(ORChatSend);
-			EditField(-150,v+=vs,100,"Всього",ViewOnly ,Sum4,true,0);
-		
-			if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
-				SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
-				SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
-				SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
-				SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
-				SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
-		/*
-		email not working yet
-				SpecialMenu("Create E-Mail",'m',11,"CreateMailFromORDsm");
-		*/
-			end else begin
-			SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
-			SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
-			SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
-			SpecialMenu("друк ZEBRA",'',0,"PrintORZebraDsm")
-			SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
-			if (StandardHansa==false) then begin
-			SpecialMenu("Перерахувати вагу та об'єм",' ',10,"RecalculateWeightORDsm");
-			end;
-			SpecialMenu("Поновити товари валют. прейск.",' ',7,"UpdatePricesORDsm");
-			SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
-			SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
-			SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
-			if (StandardHansa==false) then begin
-			SpecialMenu("Ціна попереднього продажу",' ',12,"ORLastSPrsm");
-			SpecialMenu("Роздрукувати внутрішнє замовлення",' ',4,"Or2FormORDsm");
-			end;
-			SpecialMenu("Резервування",' ',15,"OrderReservORDsm");
-			if (StandardHansa==false) then begin
-			SpecialMenu("Відправити для затвердження",' ',6,"ORSendforAcceptanceORDsm");
-			SpecialMenu("Скасувати запит на затвердження",' ',2,"CancelApprovalRequestDsm"); 
-			end;
-			SpecialMenu("Створити діяльність",'c',9,"CreateActFromORDsm");
-			SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
-			SpecialMenu("Акт/накладна на аванс",'o',3,"DownPayFromORDsm");
-			if (HaseMail) then begin
-			SpecialMenu("Створити E-Mail",'m',11,"CreateMailFromORDsm");
-			end;
-			SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
-			if (HasModTS) then begin
-			SpecialMenu("Створити проект",' ',9,"CreatePRFromORDsm");
-			SpecialMenu("Створити бюджет проекту",' ',10,"CreateTBBUFromORDsm");
-			end;
-			if (HasModPO) then begin
-				SpecialMenu("Створити замовлення",' ',4,"POFromORDsm");
-			end;
-			if (GuiType==kGuiiPhone) then begin
-				SpecialMenu("Підпис",' ',10,"SignORDsm");
-			end;
-			SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
-			SpecialMenu("Переміщення по складу",' ',8,"StockMovFromORDsm");
-			if (HasTaxMatrix) then begin
-			SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixORDsm"); 
-			end;
-			SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
-			SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
-			SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
-			SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
-		
-			SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
-			SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
-			SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
-			SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
 			end;
 			EndWindow;
 		end else begin
