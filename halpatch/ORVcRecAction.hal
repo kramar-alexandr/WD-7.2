@@ -428,6 +428,7 @@ begin
 	
 	blockload(BCb);// Edit ************************** Tuesday, 23 June 2015 18:02:59
 	oldnr = ORr.SerNr;
+	res = 0;
 	
 	switch(ORr.OrderStatusCode)begin
 		case 0:ORr.OrderStatusText = "Новий";
@@ -449,8 +450,7 @@ begin
     res = -1;
     goto LORVcRecordCheck;
 	end;
-	
-  res = 0;
+
   insertmode = 1;//Rs_insert
   updatemode = 2;//Rs_update
   if (ORr.OKFlag==0) then begin
