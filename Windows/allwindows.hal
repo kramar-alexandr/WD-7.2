@@ -2695,6 +2695,14 @@ begin
 			SetWRect(20,80,950,400);
 			//Sizeable(-1,-1,0,-1);
 			UseView(ORVc);
+			show = true;
+			if(usercanaction("ViewAllOrderDetails",true)==false)then begin
+        BrowseButtons(false);
+        getwindowrecord(curwindow,ORr);
+        if(blank(ORr.SalesMan))then begin
+          show = false;
+        end;
+			end;
 			ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
 				HalPushButton(300,5,360,25,"PrintDoOrdFormButton","Друк");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
 			EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
@@ -2760,43 +2768,42 @@ begin
 			EditField(h2,v+=vs,150,"№ рах.",Normal,CustOrdNr,false,0);
 			v = v + vs;
 			//3
-		
-		
-		
-			MatrixBegin(3,v+=50,-50,v+170,-,200);
-			MatTypedRow(stp);
-			flipnr = 0;
-			Flip(flipnr); flipnr = flipnr + 1;
-			t = 1;
-			MatCol(t,24,"Товар",0,ArtCode,false,INSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:58
-			MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);
-			EnterSkip(ArtCode);
-			Flip(flipnr); flipnr = flipnr + 1;
-			t = 1;
-			MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+			if(show)then begin
+        MatrixBegin(3,v+=50,-50,v+170,-,200);
+        MatTypedRow(stp);
+        flipnr = 0;
+        Flip(flipnr); flipnr = flipnr + 1;
+        t = 1;
+        MatCol(t,24,"Товар",0,ArtCode,false,INSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+        MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);
+        EnterSkip(ArtCode);
+        Flip(flipnr); flipnr = flipnr + 1;
+        t = 1;
+        MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
 
-			MatCol(t,-434,"Серійний номер",0,SerialNr,false,SerialNrSClass);
-			MatCol(t,-330,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
-			MatCol(t,-255,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
-			MatCol(t,-220,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
-			MatCol(t,-150,"Коммент.",0,DopComment,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 27 01 2021 y. at 6:04:10 PM
+        MatCol(t,-434,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+        MatCol(t,-330,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
+        MatCol(t,-255,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
+        MatCol(t,-220,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
+        MatCol(t,-150,"Коммент.",0,DopComment,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 27 01 2021 y. at 6:04:10 PM
 
-			
-			Flip(flipnr); flipnr = flipnr + 1;
-			MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
-			MatCol(t,384,"Коммент.",0,DopComment,false,0);
-			MatCol(t,-180,"Склад",0,Location,true,0);
-			MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
-			MatCol(t,-60,"Друк",0,ORPrint,true,0);
-			EnterSkip(ORPrint);
-		
-			InsertRowTest;
-			DeleteRowTest;
-			EndMatrix;
-			vs = 20;
-			v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
-			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
-			//v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+      
+        Flip(flipnr); flipnr = flipnr + 1;
+        MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+        MatCol(t,384,"Коммент.",0,DopComment,false,0);
+        MatCol(t,-180,"Склад",0,Location,true,0);
+        MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
+        MatCol(t,-60,"Друк",0,ORPrint,true,0);
+        EnterSkip(ORPrint);
+    
+        InsertRowTest;
+        DeleteRowTest;
+        EndMatrix;
+        vs = 20;
+        v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+        v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+        //v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+      end;
 			v = v + 320;
 			ButtonFrame(10,v+vs,370,3,"Заполнить!!!");
 			EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,PasteCurDate);
