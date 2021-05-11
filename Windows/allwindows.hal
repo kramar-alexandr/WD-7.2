@@ -2693,6 +2693,7 @@ begin
 		if(currentcompany==13)then begin
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
 			SetWRect(20,80,950,400);
+			DynamicWindow;
 			//Sizeable(-1,-1,0,-1);
 			UseView(ORVc);
 			show = true;
