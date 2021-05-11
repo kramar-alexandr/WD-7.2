@@ -2692,9 +2692,9 @@ begin
 	end else begin
 		if(currentcompany==13)then begin
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
-			SetWRect(20,80,950,400);
+			SetWRect(20,80,950,450);
 			DynamicWindow;
-			//Sizeable(-1,-1,0,-1);
+			//Sizeable(0,0,0,0);
 			UseView(ORVc);
 			show = true;
 			if(usercanaction("ViewAllOrderDetails",true)==false)then begin
