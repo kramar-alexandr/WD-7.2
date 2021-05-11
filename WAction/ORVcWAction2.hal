@@ -2723,8 +2723,10 @@ record CUVc CUr;
 		if(nonblank(USr.Phone2))then begin
 			CUr.Code = ORr.CustCode;
 			if(readfirstmain(CUr,1,true))then begin
-				if(nonblank(USr.Phone2)and nonblank(NormalPhone(CUr.Phone)))then begin			
-					MakeBinotelCallFromExtNumToPhone(USr.Phone2,NormalPhone(CUr.Phone));
+				if(nonblank(USr.Phone2)and nonblank(NormalPhone(CUr.Phone)))then begin		
+				  if(currentuser!="SA")then begin	
+					  MakeBinotelCallFromExtNumToPhone(USr.Phone2,NormalPhone(CUr.Phone));
+					end;
 					if(blank(ORr.SalesMan))then begin
 					  ORr.SalesMan = currentuser;
 					  recordstore(ORr,true);
