@@ -6726,7 +6726,7 @@ begin
     if(usercanaction("ViewAllOrderDetails",true))then begin
       RlColKey(-235,-235,"Всього",Sum4,true,Sum4);
     end else begin
-      CalculatedColumn(-90,-90,"Всього","Sum4Calculation",true);
+      CalculatedColumn(-235,-235,"Всього","Sum4Calculation",true);
     end;
     //RlCol(-75,-75,"Попер. сплачено",DownPaySent,true);// Edit ************************** Wednesday, 24 September 2014 09:46:50
     RlColKey(-160,-160,"Шопс",ShopsMark,true,ShopsMark);// Edit ************************** Wednesday, 24 September 2014 09:46:50
