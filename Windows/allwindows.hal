@@ -2700,7 +2700,7 @@ begin
 			if(usercanaction("ViewAllOrderDetails",true)==false)then begin
         BrowseButtons(false);
         getwindowrecord(curwindow,ORr);
-        if(blank(ORr.SalesMan) or ORr.SalesMan=="PUSTYNNIKO")then begin
+        if(blank(ORr.SalesMan))then begin
           show = false;
         end;
 			end;
