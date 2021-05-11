@@ -1460,6 +1460,9 @@ LORVcRecordCheck:;
     ORr.OfficialSerNrSerie = "";
   end;
   
+  if(currentuser=="SA")then begin
+    res = 0;
+  end;
   
   ORVcRecordCheck = res;
   return;
