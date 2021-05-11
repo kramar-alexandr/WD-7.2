@@ -2826,7 +2826,7 @@ begin
         EnterSkip(ORChatSend);
         EditField(-150,v+=vs,100,"Всього",ViewOnly ,Sum4,true,0);
       end else begin
-        v = 400;
+        v = 600;
         StaticText(50,v,"_",true);
       end;
         if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
