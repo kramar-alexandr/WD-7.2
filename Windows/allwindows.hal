@@ -2710,7 +2710,11 @@ begin
 			ActiveFieldOnNew("CustCode");    
 			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
 			if(show)then begin
-        EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+			  if(usercanaction("ViewAllOrderDetails",true)==false)then begin
+          EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+        end else begin
+          v = v + vs;
+        end;
 			end else begin
 			  v = v + vs;
 			end;
@@ -2768,7 +2772,11 @@ begin
         //2
         //EditField(h2,v=60,150,"Отримувач",Normal,ShipAddr0,false,0);
         EditField(h2,v=60,150,"Доставка",Normal,ShipAddr1,false,0);
-        EditField(h2,v+=vs,150,"Телефон",Normal,Phone,false,0);
+        if(usercanaction("ViewAllOrderDetails",true)==false)then begin
+          EditField(h2,v+=vs,150,"Телефон",Normal,Phone,false,0);
+        end else begin
+          v+=vs;
+        end;
         EditField(h2,v+=vs,150,"Коментар",Normal,Comment,false,0);
         EditField(h2,v+=vs,150,"№ рах.",Normal,CustOrdNr,false,0);
         v = v + vs;
