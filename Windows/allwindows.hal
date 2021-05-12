@@ -2396,20 +2396,7 @@ begin
 			Tile(1,110,false,"1",OrdDate);
 			vs = 20; h1 = 110; h2 = 290; h3 = 530; h4 = -100;
 			EditField(h1,vm=(v=6),82,"Дата",Normal,OrdDate,false,PasteCurDate);
-
-		
-		
 			EditField(h3,v=vm,80,"Продавець",Normal,SalesMan,false,UserSClass);
-			if (StandardHansa==false) then begin
-			//EditField(h3,v+=vs,80,"Проект",Normal,PRCode,false,PRSClass);
-			end;
-			//EditField(h3,v+=vs,80,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
-			if (StandardHansa==false) then begin
-			//EditField(h3,v+=vs,80,"Вид рахунка",Normal,OrderType,false,SetSClass);
-			//EditField(h3,v+=vs,80,"Контракт",Normal,ORCONr,false,ORCOSClass);
-			//EditField(h3,v+=vs,80,"Фрахт",Normal,FrPrice,true,0);// Edit ************************** Wednesday, 22 April 2015 15:43:08
-			end;
-			//CheckBox(h4,v=6,0,"Закрито",Closed);
 			CheckBox(h4,v=6,0,"Зарезервовано",Reserved);
 			EnterSkip(Math);
 			Tile(2,220,true,"2",Math);
@@ -2713,10 +2700,10 @@ begin
 			  if(usercanaction("ViewAllOrderDetails",true)==false)then begin
           EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
         end else begin
-          v = v + vs;
+          v = v + 20;
         end;
 			end else begin
-			  v = v + vs;
+			  v = v + 20;
 			end;
 			if(currentcompany==13)then begin
 				HalPushButton(190,v,270,v+20,"CallToClientDsm","Дзвінок");
