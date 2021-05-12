@@ -2709,7 +2709,9 @@ begin
 			EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
 			ActiveFieldOnNew("CustCode");    
 			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
-			EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+			if(show)then begin
+        EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+			end;
 			if(currentcompany==13)then begin
 				HalPushButton(190,v,270,v+20,"CallToClientDsm","Дзвінок");
 			end;
