@@ -2732,6 +2732,7 @@ record CUVc CUr;
 					  MakeBinotelCallFromExtNumToPhone(USr.Phone2,NormalPhone(CUr.Phone));
 					end;
 					if(blank(ORr.SalesMan))then begin
+					  millisleep(10000);
 					  ORr.SalesMan = currentuser;
 					  recordstore(ORr,true);
 					  putwindowrecord(wn,ORr);
