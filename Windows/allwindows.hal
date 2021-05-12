@@ -2697,7 +2697,7 @@ begin
 			ActiveFieldOnNew("CustCode");    
 			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
 			if(show)then begin
-			  if(usercanaction("ViewAllOrderDetails",true) or ORr.SerNr==-1)then begin
+			  if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
           EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
         end else begin
           v = v + 20;
@@ -2759,7 +2759,7 @@ begin
         //2
         //EditField(h2,v=60,150,"Отримувач",Normal,ShipAddr0,false,0);
         EditField(h2,v=60,150,"Доставка",Normal,ShipAddr1,false,0);
-        if(usercanaction("ViewAllOrderDetails",true) or ORr.SerNr==-1)then begin
+        if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
           EditField(h2,v+=vs,150,"Телефон",Normal,Phone,false,0);
         end else begin
           v = v + vs;
@@ -2900,14 +2900,8 @@ begin
 			Sizeable(-1,-1,0,0);
 			UseView(ORVc);
 			DynamicWindow;
-			show = true;
-			if(usercanaction("ViewAllOrderDetails",true)==false)then begin
-        BrowseButtons(false);
-        getwindowrecord(curwindow,ORr);
-        if(blank(ORr.SalesMan))then begin
-          show = false;
-        end;
-			end;
+
+      BrowseButtons(false);      
 			ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
 				HalPushButton(300,5,360,25,"PrintDoOrdFormButton","Друк");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
 			EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
