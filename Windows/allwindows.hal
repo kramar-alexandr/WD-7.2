@@ -2775,7 +2775,7 @@ begin
         if(usercanaction("ViewAllOrderDetails",true)==false)then begin
           EditField(h2,v+=vs,150,"Телефон",Normal,Phone,false,0);
         end else begin
-          v+=vs;
+          v = v + vs;
         end;
         EditField(h2,v+=vs,150,"Коментар",Normal,Comment,false,0);
         EditField(h2,v+=vs,150,"№ рах.",Normal,CustOrdNr,false,0);
@@ -6733,7 +6733,9 @@ begin
   end;
   RlColKey(pos,pos,"Номер рах. клієнту",CustOrdNr,false,CustOrdNr); 
   pos = pos + 80;
-  RlColKey(pos,pos,"Клієнт",CustCode,false,CustCode); 
+  if(usercanaction("ViewAllOrderDetails",true))then begin
+    RlColKey(pos,pos,"Клієнт",CustCode,false,CustCode); 
+  end;
   pos = pos + 60;
   RlColKey(pos,pos,"Найменув.",Addr0,false,Name); 
   if (IsEnterprise) then begin
