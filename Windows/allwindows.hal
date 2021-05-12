@@ -2687,7 +2687,7 @@ begin
 			if(usercanaction("ViewAllOrderDetails",true)==false)then begin
         BrowseButtons(false);
         getwindowrecord(curwindow,ORr);
-        if(blank(ORr.SalesMan))then begin
+        if(blank(ORr.SalesMan) and ORr.SerNr>-1)then begin
           show = false;
         end;
 			end;
