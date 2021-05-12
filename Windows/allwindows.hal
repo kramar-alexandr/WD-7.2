@@ -2711,6 +2711,8 @@ begin
 			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
 			if(show)then begin
         EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+			end else begin
+			  v = v + vs;
 			end;
 			if(currentcompany==13)then begin
 				HalPushButton(190,v,270,v+20,"CallToClientDsm","Дзвінок");
