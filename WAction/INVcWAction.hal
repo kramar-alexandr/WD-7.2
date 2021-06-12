@@ -532,6 +532,25 @@ begin
   return;
 end;
 
+
+global
+function Boolean ORDClassOnOpenWindow(Integer wn)
+begin
+  record ORVc ORr;
+  Integer AcceptanceStatusFlag;
+  
+  //GetWindowRecord(wn,ORr);
+  //ORDClassOnOpenWindowRemote(ORr,AcceptanceStatusFlag);
+  //PutWindowString(wn,"AcceptanceStatusFlag",StringFromSet(443,AcceptanceStatusFlag));  
+  if(currentcompany==13)then begin
+    ReRunWindowDef(wn);
+  end;
+  
+  ORDClassOnOpenWindow = false;
+  return;
+end;
+
+
 global
 function Boolean IN2SClassOnOpenWindow(Integer wn)
 begin
