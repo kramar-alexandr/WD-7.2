@@ -2681,7 +2681,6 @@ begin
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
 			SetWRect(20,80,950,450);
 			DynamicWindow;
-			Modality(1);
 			//Sizeable(0,0,0,0);
 			UseView(ORVc);
 			getwindowrecord(curwindow,ORr);
