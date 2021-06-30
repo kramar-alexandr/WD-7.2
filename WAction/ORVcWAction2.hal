@@ -2773,6 +2773,8 @@ begin
     
     if(currentcompany=13)then begin
     	duplOK = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);
+		end else begin
+		  duplOK = true;
 		end;
   return;
 end;
