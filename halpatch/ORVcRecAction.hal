@@ -1271,56 +1271,58 @@ begin
               goto LORVcRecordCheck;
             end;  
           end;   
-          if ((ORr.Reserved!=0 or (ORr.OKFlag!=0 and ORr.Reserved==0))) then begin// Edit ************************** Monday, July 7, 2014 at 12:17:45
-            if (true) then begin
-              switch (INr.ItemType) begin
-                case 1:
-                  location = ORrw.Location;
-                  if (blank(location)) then begin
-                    location = ORr.Location;
-                  end;  
-                  if (blank(location)) then begin
-                    location = MSb.MainStock;
-                  end;  
-                  orsrv = ORrw.Quant;
-                  FindStockValue(ORrw.ArtCode,location,ISr);
-                  for (j=0;j<i;j=j+1) begin
-                    MatRowGet(ORr,j,OR2rw);
-                    if (OR2rw.ArtCode==ORrw.ArtCode) then begin
-                      orsrv = orsrv + OR2rw.Quant;
+          if(stat==updatemode)then begin
+            if (ORr.Reserved!=0 and OR2r.Reserved==0) then begin// Edit ************************** Monday, July 7, 2014 at 12:17:45
+              if (true) then begin
+                switch (INr.ItemType) begin
+                  case 1:
+                    location = ORrw.Location;
+                    if (blank(location)) then begin
+                      location = ORr.Location;
+                    end;  
+                    if (blank(location)) then begin
+                      location = MSb.MainStock;
+                    end;  
+                    orsrv = ORrw.Quant;
+                    FindStockValue(ORrw.ArtCode,location,ISr);
+                    for (j=0;j<i;j=j+1) begin
+                      MatRowGet(ORr,j,OR2rw);
+                      if (OR2rw.ArtCode==ORrw.ArtCode) then begin
+                        orsrv = orsrv + OR2rw.Quant;
+                      end;
                     end;
-                  end;
-                  orsrved = 0;
-                  if (stat==updatemode) then begin
-                    if (RecordValid(OR2r)) then begin
-                      if (OR2r.Reserved!=0) then begin
-                        for (j=0;j<MatRowCnt(OR2r);j=j+1) begin
-                          MatRowGet(OR2r,j,OR2rw);
-                          if (OR2rw.ArtCode==ORrw.ArtCode) then begin
-                            orsrved = orsrved + OR2rw.Quant;
+                    orsrved = 0;
+                    if (stat==updatemode) then begin
+                      if (RecordValid(OR2r)) then begin
+                        if (OR2r.Reserved!=0) then begin
+                          for (j=0;j<MatRowCnt(OR2r);j=j+1) begin
+                            MatRowGet(OR2r,j,OR2rw);
+                            if (OR2rw.ArtCode==ORrw.ArtCode) then begin
+                              orsrved = orsrved + OR2rw.Quant;
+                            end;
                           end;
                         end;
                       end;
                     end;
-                  end;
-                  if(ISr.RsrvQty<0) then begin// Edit ************************** Monday, July 7, 2014 at 12:18:18
-                    ISr.RsrvQty = 0;// Edit ************************** Monday, July 7, 2014 at 12:18:22
-                  end;// Edit ************************** Monday, July 7, 2014 at 12:18:24
-                  if ((orsrv)>(ISr.Instock-ISr.RsrvQty+orsrved)) then begin // StockRsrvQty ?
-                    if(ORr.OrderClass!="SHOPS")then begin
-											if (ISr.RsrvQty==0) then begin
-                        RecordCheckError(20011,"",i,"Quant");
+                    if(ISr.RsrvQty<0) then begin// Edit ************************** Monday, July 7, 2014 at 12:18:18
+                      ISr.RsrvQty = 0;// Edit ************************** Monday, July 7, 2014 at 12:18:22
+                    end;// Edit ************************** Monday, July 7, 2014 at 12:18:24
+                    if ((orsrv)>(ISr.Instock-ISr.RsrvQty+orsrved)) then begin // StockRsrvQty ?
+                      if(ORr.OrderClass!="SHOPS")then begin
+                        if (ISr.RsrvQty==0) then begin
+                          RecordCheckError(20011,"",i,"Quant");
+                        end else begin
+                          RecordCheckError(31088,ISr.RsrvQty,i,"Quant");
+                        end;
                       end else begin
-                        RecordCheckError(31088,ISr.RsrvQty,i,"Quant");
+                        if(currentuser!="SA1")then begin
+                          Messagebox(20011," " & ORrw.ArtCode & " " & USetStr(6716) & " " & i);// Edit ************************** Monday, 6 April 2015 10:25:33
+                        end;
                       end;
-                    end else begin
-                    	if(currentuser!="SA1")then begin
-												Messagebox(20011," " & ORrw.ArtCode & " " & USetStr(6716) & " " & i);// Edit ************************** Monday, 6 April 2015 10:25:33
-                    	end;
                     end;
-                  end;
-                case 2:
-//                  checkit
+                  case 2:
+  //                  checkit
+                end;
               end;
             end;
           end;
