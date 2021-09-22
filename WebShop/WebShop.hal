@@ -680,7 +680,7 @@ begin
 	  if(c!=(chr(92) & "u"))then begin
 	    res["1"] = res["1"] & getstringfromarea(tmparr,i,1);
 	  end else begin
-	    ucode = getstringfromarea(tmparr,i,6);
+	    ucode = getstringfromarea(tmparr,i+2,4);
 	    lmes = POSNETHexToLong(ucode);
 	    int = lmes;
 	    res["1"] = res["1"] & uchr(int);
