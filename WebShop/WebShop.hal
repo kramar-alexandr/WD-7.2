@@ -655,6 +655,7 @@ begin
   longint lmes;
   area tmparr;
   
+  res["1"] = "";
   res[""] = str;
   //res["1"] = str;
   i=0;
