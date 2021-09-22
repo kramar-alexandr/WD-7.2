@@ -688,6 +688,7 @@ begin
 	    int = lmes;
 	    //weboutstring("|uchr|" & uchr(int) & "|");
 	    res["1"] = res["1"] & uchr(int);
+	    logtext(0,int);
 	    i=i+5;
 	  end;
 	end;
