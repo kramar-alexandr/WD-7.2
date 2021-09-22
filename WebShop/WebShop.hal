@@ -655,10 +655,24 @@ begin
   longint lmes;
   
   res[""] = str;
-  res["1"] = str;
+  //res["1"] = str;
   i=0;
   slen = Len(res[""]);
 	
+	if(slen>0)then begin
+		for(i=0;i<slen;i=i+1)begin
+			c = mid(res[""],i,2);
+			if(c==(chr(92) & "u"))then begin
+				ucode = mid(res[""],i,6);
+				lmes = POSNETHexToLong(ucode);
+				int = lmes;
+				res[""] = left(res[""],i) & uchr(int) & right(res[""], (len(res[""])-(i+6)));
+				slen = Len(res[""]);
+			end;
+		end;
+	end;
+	
+	weboutstring(0,"slen= " & slen);
 	if(slen>0)then begin
 		for(i=0;i<slen;i=i+1)begin
 			c = mid(res[""],i,2);
