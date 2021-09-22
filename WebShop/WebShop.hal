@@ -672,7 +672,7 @@ begin
 			end;
 		end;
 	end;
-	
+	weboutstring("<BR>");
 	addstringtoarea(str,tmparr);
 	slen = getarealength(tmparr);
 	for(i=0;i<slen;i=i+1)begin
@@ -680,7 +680,8 @@ begin
 	  if(c!=(chr(92) & "u"))then begin
 	    res["1"] = res["1"] & getstringfromarea(tmparr,i,1);
 	  end else begin
-	    ucode = getstringfromarea(tmparr,i+2,4);
+	    ucode = getstringfromarea(tmparr,i,6);
+	    weboutstring("|" & ucode & "|");
 	    lmes = POSNETHexToLong(ucode);
 	    int = lmes;
 	    res["1"] = res["1"] & uchr(int);
