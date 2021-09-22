@@ -674,7 +674,7 @@ begin
 		end;
 	end;
 	//weboutstring("<BR>");
-	addstringtoarea(str,tmparr);
+	addtexttoarea(str,tmparr);
 	slen = getarealength(tmparr);
 	for(i=0;i<slen;i=i+1)begin
 	  c = getstringfromarea(tmparr,i,2);
