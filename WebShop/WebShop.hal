@@ -672,7 +672,7 @@ begin
 			end;
 		end;
 	end;
-	weboutstring("<BR>");
+	//weboutstring("<BR>");
 	addstringtoarea(str,tmparr);
 	slen = getarealength(tmparr);
 	for(i=0;i<slen;i=i+1)begin
@@ -681,13 +681,13 @@ begin
 	    res["1"] = res["1"] & getstringfromarea(tmparr,i,1);
 	  end else begin
 	    ucode = getstringfromarea(tmparr,i,6);
-	    weboutstring("|" & ucode & "|");
+	    //weboutstring("|" & ucode & "|");
 	    lmes = POSNETHexToLong(ucode);
-	    weboutstring("|lmes|" & lmes & "|");
+	    //weboutstring("|lmes|" & lmes & "|");
 	    int = lmes;
-	    weboutstring("|uchr|" & uchr(int) & "|");
+	    //weboutstring("|uchr|" & uchr(int) & "|");
 	    res["1"] = res["1"] & uchr(int);
-	    i=i+6;
+	    i=i+5;
 	  end;
 	end;
 		
