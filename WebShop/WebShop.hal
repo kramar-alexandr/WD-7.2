@@ -1078,7 +1078,7 @@ vector string 255 tradeinfo;
 					ORr.CustOrdNr = orderid;
 					
 					if(len(tradeinfo[""])>0)then begin
-					  AddToText("Trade Info:",ORr);
+					  AddToText("Trade Info: ",ORr);
 					  AddToText(tradeinfo[""],ORr);
 					end;
 					
