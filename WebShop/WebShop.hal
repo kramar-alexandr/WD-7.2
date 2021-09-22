@@ -911,7 +911,7 @@ end;
 
 global webpublic updating procedure WebBitrixOrder()
 begin
-area areply,orderarea,rawarea;
+area areply,orderarea,rawarea,tmparr;
 Boolean TrHs,testf,comma,TrHs1;
 record WebSyncRegVc WSRr;
 record WebSyncBlock WSBb;
@@ -935,7 +935,7 @@ row ORVc ORrw;
 longint acnt;
 string 5 c1,c2;
 record SMSConfigBlock SMSConfigb;
-    
+vector string 255 tradeinfo;
   
 
   logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrder");
@@ -982,6 +982,7 @@ record SMSConfigBlock SMSConfigb;
 				end;
 				payment = ChekUnicode(JSONGet(inputjson,"payment"));	
 				address = ChekUnicode(JSONGet(inputjson,"address"));	
+				tradeinfo[""] = ChekUnicode(JSONGet(inputjson,"tradeinfo"));					
 				first_name = ChekUnicode(JSONGet(inputjson,"first_name"));	
 				summary = JSONGet(inputjson,"summary");	
 				note = ChekUnicode(JSONGet(inputjson,"note"));	
@@ -1075,6 +1076,19 @@ record SMSConfigBlock SMSConfigb;
 						case"according": ORr.ShipAddr3 = "Ћплата по реквизитам";
 					end;					
 					ORr.CustOrdNr = orderid;
+					
+					if(len(tradeinfo[""])>40)then begin
+					  addtexttoarea(tradeinfo[""],tmparr);
+					  if(nonblank(getstringfromarea(tmparr,0,40)))then begin
+					    ORr.ShipAddr0 = getstringfromarea(tmparr,0,40);
+					  end;
+					  if(nonblank(getstringfromarea(tmparr,40,40)))then begin
+					    ORr.ShipAddr1 = getstringfromarea(tmparr,40,40);
+					  end;
+					  if(nonblank(getstringfromarea(tmparr,80,40)))then begin
+					    ORr.ShipAddr2 = getstringfromarea(tmparr,80,40);
+					  end;
+					end;
 					
 					ORr.Addr0 = last_name & " " & first_name;
 					logtext(0,"buyoneclick " & buyoneclick);
