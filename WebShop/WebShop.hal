@@ -683,7 +683,9 @@ begin
 	    ucode = getstringfromarea(tmparr,i,6);
 	    weboutstring("|" & ucode & "|");
 	    lmes = POSNETHexToLong(ucode);
+	    weboutstring("|lmes|" & lmes & "|");
 	    int = lmes;
+	    weboutstring("|uchr|" & int & "|");
 	    res["1"] = res["1"] & uchr(int);
 	    i=i+6;
 	  end;
