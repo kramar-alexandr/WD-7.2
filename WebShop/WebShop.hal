@@ -655,6 +655,7 @@ begin
   longint lmes;
   
   res[""] = str;
+  res["1"] = str;
   i=0;
   slen = Len(res[""]);
 	
@@ -984,7 +985,7 @@ vector string 255 vres;
 				payment = ChekUnicode(JSONGet(inputjson,"payment"),vres);	
 				address = ChekUnicode(JSONGet(inputjson,"address"),vres);	
 				tradeinfo[""] = ChekUnicode(JSONGet(inputjson,"tradeinfo"),vres);	
-				weboutstring(vres[""]);				
+				weboutstring(vres["1"]);				
 				first_name = ChekUnicode(JSONGet(inputjson,"first_name"),vres);	
 				summary = JSONGet(inputjson,"summary");	
 				note = ChekUnicode(JSONGet(inputjson,"note"),vres);	
