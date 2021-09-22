@@ -690,7 +690,9 @@ begin
 	    i=i+5;
 	  end;
 	end;
-		
+	weboutstring(res["1"]);
+	weboutstring("<BR>");
+	weboutstring("<NL>");
   ChekUnicode = res[""];
   return;
 end;
