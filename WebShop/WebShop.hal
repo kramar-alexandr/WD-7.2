@@ -685,7 +685,7 @@ begin
 	    lmes = POSNETHexToLong(ucode);
 	    weboutstring("|lmes|" & lmes & "|");
 	    int = lmes;
-	    weboutstring("|uchr|" & int & "|");
+	    weboutstring("|uchr|" & uchr(int) & "|");
 	    res["1"] = res["1"] & uchr(int);
 	    i=i+6;
 	  end;
