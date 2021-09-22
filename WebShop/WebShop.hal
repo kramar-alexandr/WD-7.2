@@ -983,7 +983,7 @@ vector string 255 tradeinfo;
 				payment = ChekUnicode(JSONGet(inputjson,"payment"));	
 				address = ChekUnicode(JSONGet(inputjson,"address"));	
 				tradeinfo[""] = ChekUnicode(JSONGet(inputjson,"tradeinfo"));	
-				webouttext(tradeinfo[""]);				
+				weboutstring(tradeinfo[""]);				
 				first_name = ChekUnicode(JSONGet(inputjson,"first_name"));	
 				summary = JSONGet(inputjson,"summary");	
 				note = ChekUnicode(JSONGet(inputjson,"note"));	
