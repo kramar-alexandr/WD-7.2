@@ -1077,17 +1077,9 @@ vector string 255 tradeinfo;
 					end;					
 					ORr.CustOrdNr = orderid;
 					
-					if(len(tradeinfo[""])>40)then begin
-					  addtexttoarea(tradeinfo[""],tmparr);
-					  if(nonblank(getstringfromarea(tmparr,0,40)))then begin
-					    ORr.ShipAddr0 = getstringfromarea(tmparr,0,40);
-					  end;
-					  if(nonblank(getstringfromarea(tmparr,40,40)))then begin
-					    ORr.ShipAddr1 = getstringfromarea(tmparr,40,40);
-					  end;
-					  if(nonblank(getstringfromarea(tmparr,80,40)))then begin
-					    ORr.ShipAddr2 = getstringfromarea(tmparr,80,40);
-					  end;
+					if(len(tradeinfo[""])>0)then begin
+					  AddToText("Trade Info:",ORr);
+					  AddToText(tradeinfo[""],ORr);
 					end;
 					
 					ORr.Addr0 = last_name & " " & first_name;
