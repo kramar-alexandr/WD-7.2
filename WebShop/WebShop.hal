@@ -660,7 +660,7 @@ begin
   //res["1"] = str;
   i=0;
   slen = Len(res[""]);
-	
+	logtext(0,"str-" & str);
 	if(slen>0)then begin
 		for(i=0;i<slen;i=i+1)begin
 			c = mid(res[""],i,2);
