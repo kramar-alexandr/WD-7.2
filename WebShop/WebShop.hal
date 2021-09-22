@@ -672,7 +672,7 @@ begin
 		end;
 	end;
 	
-	weboutstring(0,"slen= " & slen);
+	weboutstring("slen= " & slen);
 	if(slen>0)then begin
 		for(i=0;i<slen;i=i+1)begin
 			c = mid(res[""],i,2);
