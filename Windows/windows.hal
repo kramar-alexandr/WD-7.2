@@ -15,14 +15,14 @@ external procedure FORMDEF3_UKR(); //Edit***************************Sasha2,12:11
 //##ii
 procedure dummy() //##ii
 begin //##ii
-  SetLangMode(LangUkrainian,"UKR",0); //##ii
+  SetLangMode(LangRussian,"RUS",0); //##ii
   return; //##ii
 end; //##ii
 
 
 
 window CUSalesRepRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -37,7 +37,7 @@ begin
 end;
 
 window SalesReportRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -58,7 +58,7 @@ return;
 end;
 
 window SalesReportForManagersRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -72,7 +72,7 @@ return;
 end;
 
 window MyFullStockRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -95,7 +95,7 @@ return;
 end;
 
 window MyFullStockManRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -110,7 +110,7 @@ return;
 end;
 
 window ShopsReportRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -127,7 +127,7 @@ begin
 end;
 
 window CheckInvalidShopsItemsRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -143,7 +143,7 @@ begin
 end;
 
 window NewINRClass:2
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h2,h3,h4,v,v1,vm,vs,v2,temp;
   WindowBegin("Визначте звіт по складу (модифікований)",NewINRClass,CGRcW,RcType);
@@ -263,7 +263,7 @@ end;
 
 
 window MyBonusRClass:1  //Edit***************************Sasha2,13:10 10.09.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vm;
   WindowBegin("Визначте звіт Bonus",MyBonusRClass,CGRcW,RcType);
@@ -273,7 +273,7 @@ begin
 end; //Edit***************************Sasha2,13:10 10.09.2014 }
 
 window POSCurncyTClass:1 //Edit***************************Sasha2,17:28 11.09.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs,f;
   WindowBegin("Настройка валюти ЕККА",POSCurncyTClass,CGSbl,-);
@@ -286,7 +286,7 @@ begin
 end; //Edit***************************Sasha2,17:28 11.09.2014 }
 
 window PayComisBlockTClass:1 //Edit***************************Sasha2,17:28 11.09.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs,f;
   WindowBegin("Налаштування комісії з оплати",PayComisBlockTClass,CGSbl,-);
@@ -306,7 +306,7 @@ end; //Edit***************************Sasha2,17:28 11.09.2014 }
 
 
 window LocalMachineAccTClass:1 //Edit***************************Sasha2,17:28 11.09.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs,f;
  WindowBegin("Рахунки продавців ЕККА",LocalMachineAccTClass,CGHbl,-);
@@ -357,7 +357,7 @@ begin
 //------------------------------------------All windows for Zebra ---------------------------------------------------------------------
  
 window GigieneTextDClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
  WindowBegin("Товар",GigieneTextDClass,CGview,-);
   SetWRect(20,80,800,400);
@@ -373,7 +373,7 @@ begin
 end; //Edit***************************Sasha2,16:12 25.09.2014 }
   
 window GigieneTextLClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Опис товару",GigieneTextLClass,CGmlist,-);
   SpawnClass(GigieneTextDClass);
@@ -387,7 +387,7 @@ begin
 end; //Edit***************************Sasha2,16:12 25.09.2014 }
 
 window MyPrintLabelDialogTClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs,f;
 	WindowBegin("Надрукуваті наклейки",MyPrintLabelDialogTClass,CGother,RcType);
@@ -410,7 +410,7 @@ begin
 end; //Edit***************************Sasha2,16:12 25.09.2014 }
   
 window GigieneLabelDialogTClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs,f;
   	WindowBegin("Надрукуваті наклейки",GigieneLabelDialogTClass,CGother,RcType);
@@ -426,7 +426,7 @@ begin
 end; //Edit***************************Sasha2,16:12 25.09.2014 }
 
 window ZebraPrinterTClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs,f;
   WindowBegin("Настройка принтера Zebra",ZebraPrinterTClass,CGSbl,-);
@@ -447,7 +447,7 @@ end; //Edit***************************Sasha2,16:12 25.09.2014 }
 //------------------------------------------All windows for Zebra ---------------------------------------------------------------------
 
 window ImportPLClass:1 //Edit***************************Sasha2,9:58 02.10.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real vs;
   WindowBegin("Імпорт цін",ImportPLClass,CGIcW,RcType);
@@ -461,7 +461,7 @@ begin
 end;
 
 window ImportUniversalLClass:1 //Edit***************************Sasha2,9:58 02.10.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real vs;
   WindowBegin("Импорт",ImportUniversalLClass,CGIcW,RcType);
@@ -471,7 +471,7 @@ begin
 end;
 
 window SerPrintCustomTClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs;
   WindowBegin("Фіскальний принтер",SerPrintCustomTClass,CGSbl,-);
@@ -483,7 +483,7 @@ begin
 end;
 
 window MyVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
 WindowBegin("Maintenance",MyVClass,CGMnt,RcType);
   SetWRect(20,120,360,220);
@@ -510,7 +510,7 @@ end;
 
 
 window UpdSerSyncVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
 WindowBegin("Maintenance",UpdSerSyncVClass,CGMnt,RcType);
   SetWRect(20,120,360,220);
@@ -518,7 +518,7 @@ WindowBegin("Maintenance",UpdSerSyncVClass,CGMnt,RcType);
 end;
 
 window UpdPLSyncVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
 WindowBegin("Maintenance",UpdPLSyncVClass,CGMnt,RcType);
   SetWRect(20,120,360,220);
@@ -526,7 +526,7 @@ WindowBegin("Maintenance",UpdPLSyncVClass,CGMnt,RcType);
 end;
 
 window UpdINSyncVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
 WindowBegin("Maintenance",UpdINSyncVClass,CGMnt,RcType);
   SetWRect(20,120,360,220);
@@ -535,7 +535,7 @@ end;
 
 
 window MyShopsRecalcVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
 WindowBegin("Maintenance",MyShopsRecalcVClass,CGMnt,RcType);
   SetWRect(20,120,360,220);
@@ -544,7 +544,7 @@ WindowBegin("Maintenance",MyShopsRecalcVClass,CGMnt,RcType);
 end;
 
 window MyLabelItemLClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 	WindowBegin("Цінники товарів",MyLabelItemLClass,CGmlist,-);
     SpawnClass(MyLabelItemDClass);
@@ -563,7 +563,7 @@ begin
 end; //Edit***************************Sasha2,13:02 22.10.2014 }
 
 window MyLabelItemDClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 	real h,h1,h2,h3,h4,v,vs,t;
 	WindowBegin("Цінник товару",MyLabelItemDClass,CGview,-);
@@ -621,7 +621,7 @@ end; //Edit***************************Sasha2,13:02 22.10.2014 }
 
 
 window MyLabelItemSClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 	WindowBegin("Вставити цінник",MyLabelItemSClass,CGslist,-);
   	SetWRect(210,80,750,298);
@@ -638,7 +638,7 @@ begin
 end; //Edit***************************Sasha2,13:02 22.10.2014 }
 
 window CopyFrINToMyLabelItemVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Перенесення цінників в регістр товарів",CopyFrINToMyLabelItemVClass,CGMnt,RcType);
   SetWRect(20,120,360,220);
@@ -646,7 +646,7 @@ begin
 end;
 
 /*window MyLabelItemFClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Определите формы документов для цінників",MyLabelItemFClass,CGHbl,HBlRecType);
   SetBlid(ItemLabFormBlock);
@@ -655,7 +655,7 @@ begin
 end; //Edit***************************Sasha2,12:11 23.10.2014 }*/
 
 window LabelItem1RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
@@ -669,7 +669,7 @@ begin
 end; 
 
 window LabelItem2RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
@@ -683,7 +683,7 @@ begin
 end; 
 
 window LabelItem3RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
@@ -697,7 +697,7 @@ begin
 end; 
 
 window LabelItem4RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
@@ -711,7 +711,7 @@ begin
 end; 
 
 window LabelItem5RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
@@ -725,7 +725,7 @@ begin
 end; 
 
 window LabelItem6RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
@@ -739,7 +739,7 @@ begin
 end; 
 
 window LabelItem7RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
@@ -753,7 +753,7 @@ begin
 end; 
 
 window LabelItem8RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
@@ -767,7 +767,7 @@ begin
 end; 
 
 window LabelItem9RClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
@@ -786,7 +786,7 @@ end;
 //Edit***************************Sasha2,16:07 24.10.2014 }
 
 window LabelStockItemsRClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h;
 	
@@ -813,7 +813,7 @@ end; //Edit***************************Sasha2,16:07 24.10.2014 }
 
 
 window MyRepricingLClass:1 //Edit***************************Sasha2,16:07 24.10.2014 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vm,vs,t;
 WindowBegin("Друк цінників",MyRepricingLClass,CGmlist,-);
@@ -833,7 +833,7 @@ WindowBegin("Друк цінників",MyRepricingLClass,CGmlist,-);
 end;
   
 window MyRepricingDClass:1 // Edit ************************** Friday, 9 January 2015 10:45:39
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vm,vs,t;
   WindowBegin("Друк цінників",MyRepricingDClass,CGview,-);
@@ -879,7 +879,7 @@ end;
 
 
 window IVCashToIVVClass:1 // Edit ************************** Dima  15.01.2015
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
 	real h,v,vs;
 WindowBegin("Створити акти/накладні із накладних ЕККА",MyVClass,CGMnt,RcType);
@@ -893,7 +893,7 @@ end;
 
 
 window ARDClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,t,v,vs;
   WindowBegin("Прайс поинт лист",ARDClass,CGview,-);
@@ -915,7 +915,7 @@ begin
 end;
 
 window ARLClass:10
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","iPad") 
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","iPad") 
 begin
   WindowBegin("ARVc",ARLClass,CGmlist,-); 
   SetWRect(20,80,800,298);
@@ -932,7 +932,7 @@ begin
 end;
 
 window APDClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,t,v,vs;
   WindowBegin("Прайс поинт лист",APDClass,CGview,-);
@@ -955,7 +955,7 @@ begin
 end;
 
 window APLClass:10
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","iPad") 
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","iPad") 
 begin
   WindowBegin("ARVc",APLClass,CGmlist,-); 
   SetWRect(20,80,800,298);
@@ -973,7 +973,7 @@ begin
 end;
 
 window ARPayDClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,t,v,vs;
   WindowBegin("ARPayVc",ARPayDClass,CGview,-);
@@ -999,7 +999,7 @@ begin
 end;
 
 window ARPayLClass:10
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","iPad") 
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","iPad") 
 begin
   WindowBegin("ARPayVc",ARPayLClass,CGmlist,-); 
   SetWRect(20,80,800,298);
@@ -1016,7 +1016,7 @@ begin
 end;
 
 window RetailSalesRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -1042,7 +1042,7 @@ end;
 
 
 window MyReservStatRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -1057,7 +1057,7 @@ end;
 
 
 window WebSyncTClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,f,v,vs;
 WindowBegin("Настройка синхронизации WEB",WebSyncTClass,CGSbl,-);
@@ -1071,7 +1071,7 @@ WindowBegin("Настройка синхронизации WEB",WebSyncTClass,CGSbl,-);
 end;
 
 window WebSyncMatTClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,f,v;
   WindowBegin("Настройка WEB matrix",WebSyncMatTClass,CGHbl,-);
@@ -1087,7 +1087,7 @@ real h,f,v;
 end;
 
 window MyCrWebSync1VClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Create WebSynReg",MyCrWebSync1VClass,CGMnt,-);
   SetWRect(20,80,400,300);
@@ -1097,7 +1097,7 @@ begin
 end;
 
 window MyCrWebSync2VClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Create WebSynReg",MyCrWebSync2VClass,CGMnt,-);
   SetWRect(20,80,400,300);
@@ -1107,7 +1107,7 @@ begin
 end;
 
 window MyCrWebSync3VClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Create WebSynReg",MyCrWebSync3VClass,CGMnt,-);
   SetWRect(20,80,400,300);
@@ -1117,7 +1117,7 @@ begin
 end;
 
 window WebSyncRegDClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real v,vm;
   WindowBegin("Web Sync Register",WebSyncRegDClass,CGview,-);
@@ -1133,7 +1133,7 @@ real v,vm;
 end;
 
 window WebSyncRegLClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Web Sync Registers",WebSyncRegLClass,CGmlist,-);
   SpawnClass(WebSyncRegDClass);
@@ -1150,7 +1150,7 @@ begin
 end;
 
 window DellZerroWebSyncRegVClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 	WindowBegin("Знищити віртуальні товари з переліку синхронізації",DellZerroWebSyncRegVClass,CGMnt,-);
   SetWRect(20,80,400,300);
@@ -1161,7 +1161,7 @@ end;
 
 
 window InventMyRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin  
    WindowBegin("Інвентаризація",InventMyRClass,CGRcW,RcType);
     SetWRect(20,120,360,280);
@@ -1173,7 +1173,7 @@ end;
 
 
 window SalesGroupDClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,v,vs;
   WindowBegin("Група продажу",SalesGroupDClass,CGview,-);
@@ -1188,7 +1188,7 @@ end;
  
  
 window SalesGroupLClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin 
   WindowBegin("Групи продажу",SalesGroupLClass,CGmlist,-);
   SetWRect(20,80,400,298);
@@ -1204,7 +1204,7 @@ begin
 end;  
 
 window SalesGroupSClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin   
   WindowBegin("Визначте групу продажу",SalesGroupSClass,CGslist,-);
   SetWRect(20,80,400,298);
@@ -1220,7 +1220,7 @@ begin
 end; 
 
 window ObjectsAccTClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin 
   WindowBegin("Рахунки об'єктів",ObjectsAccTClass,CGHbl,-);
   SetBlid(ObjectsAccBlock);
@@ -1239,7 +1239,7 @@ begin
 
   //******** Issues windows begin *********
  window IssueSClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin  
 real vs,v,h,h1,h2,h3;
    WindowBegin("Скарги",IssueSClass,CGslist,-);	// S
@@ -1255,7 +1255,7 @@ real vs,v,h,h1,h2,h3;
  end;    
   
   window IssueLClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin 
 real vs,v,h,h1,h2,h3;
   WindowBegin("Скарги",IssueLClass,CGmlist,-);	// L
@@ -1271,7 +1271,7 @@ real vs,v,h,h1,h2,h3;
  end;      
     
     window IssueDClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin 
 real vs,v,h,h1,h2,h3;
   WindowBegin("Скарги",IssueDClass,CGview,-);	//D
@@ -1289,7 +1289,7 @@ real vs,v,h,h1,h2,h3;
   
   
   window DefectSClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin 
 real vs,v,h,h1,h2,h3;
   WindowBegin("Дефекти",DefectSClass,CGslist,-);	// S
@@ -1305,7 +1305,7 @@ real vs,v,h,h1,h2,h3;
   end;   
   
   window DefectLClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin 
 real vs,v,h,h1,h2,h3;
   WindowBegin("Дефект",DefectLClass,CGmlist,-);	// L
@@ -1321,7 +1321,7 @@ real vs,v,h,h1,h2,h3;
   end;     
     
     window DefectDClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin 
 real vs,v,h,h1,h2,h3;
   WindowBegin("Дефект",DefectDClass,CGview,-);	//D
@@ -1337,7 +1337,7 @@ real vs,v,h,h1,h2,h3;
  
  
 window SVOHistSerialLClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin 
 real vs,v,h,h1,h2,h3;
   WindowBegin("Серийки в заказах",SVOHistSerialLClass,CGmlist,-);	// L
@@ -1367,7 +1367,7 @@ real vs,v,h,h1,h2,h3;
  end;    
  
 window POSClientRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin 
 real vs,v,h,h1,h2,h3;
  WindowBegin("Клиенты с карточками",POSClientRClass,CGRcW,RcType);
@@ -1377,7 +1377,7 @@ real vs,v,h,h1,h2,h3;
 end;
 
 window CleaningVClass:1 //Edit---------------Vitalii 17:22 13.07.2015
-	wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+	wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 	real h,v,vs;
 
@@ -1437,7 +1437,7 @@ begin
 end;
 
 window ImportOfRegisterRewriteIClass:1 //Edit---------------Vitalii 17:23 13.07.2015
-	wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+	wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 	WindowBegin("Імпорт регистрів",ImportOfRegisterRewriteIClass,CGIcW,RcType);
 		SetWRect(80,80,400,200);
@@ -1446,7 +1446,7 @@ begin
 end;
 
 window ImportOfRegisterIClass:1 //Edit---------------Vitalii 17:23 13.07.2015
-	wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+	wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 	WindowBegin("Імпорт регистрів",ImportOfRegisterIClass,CGIcW,RcType);
 		SetWRect(80,80,400,200);
@@ -1454,7 +1454,7 @@ begin
 end;
 
 window TermoPrinterTClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs,f;
   WindowBegin("Налаштування принтерa чеків",TermoPrinterTClass,CGSbl,-);
@@ -1472,7 +1472,7 @@ end; //Edit***************************Sasha2,16:12 25.09.2014 }
 
 
 window MyCashFlowTClass:1
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Настройка звіту Cash Flow",MyCashFlowTClass,CGHbl,-);
   SetBlid(MyCashFlowBlock);
@@ -1494,7 +1494,7 @@ begin
 end;  
 
 window MyCashFlowDirectTClass:1 
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin  
    WindowBegin("Настройка звіту Cash Flow - Прямий метод",MyCashFlowDirectTClass,CGHbl,-);
   SetBlid(MyCashFlowDRBlock);
@@ -1516,7 +1516,7 @@ begin
 end;
 
 window SVOPartnerFinishedRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vm,vs;
   WindowBegin("Визначте звіт виконаних замовлень партнерів",SVOPartnerFinishedRClass,CGRcW,RcType);
@@ -1530,7 +1530,7 @@ end;
 
 
 window PrintSVOPartFinTClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 integer v,mtrw,h,heiz;
 string 255 stattxt;
@@ -1553,7 +1553,7 @@ L99:;
 end;
 
 window LocationClassificationSClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Оберіть склад",LocationClassificationSClass,CGother,HBlRecType);
   SetWRect(240,80,520,291);
@@ -1563,7 +1563,7 @@ begin
 end;
 
 window TRDiffRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,hacc,v,vm,vm2,vs;
   Integer tilenr;
@@ -1581,7 +1581,7 @@ begin
 end;
 
 window INITImportIClass:1	//Edit***************************Sasha2,17:17 06.01.2016 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,v,vs;
 Integer i;
@@ -1608,7 +1608,7 @@ end; //Edit***************************Sasha2,17:18 06.01.2016 }
   
   
 window ItemTurnoverRClass:1	//Edit***************************Sasha2,17:17 06.01.2016 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,v,vs; 
   WindowBegin("Аналiз оборотностi товарiв",ItemTurnoverRClass,CGRcW,RcType);
@@ -1624,7 +1624,7 @@ end;
 
 
 window CostDiffRClass:1	
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,v,vs; 
   WindowBegin("Порівняння собівартості в проводках та історії",CostDiffRClass,CGRcW,RcType);
@@ -1636,7 +1636,7 @@ end;
   
   
 window FindErrorInIHRClass:1	//Edit***************************Sasha2,17:17 06.01.2016 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,v,vs; 
   WindowBegin("История товаров техническая",FindErrorInIHRClass,CGRcW,RcType);
@@ -1649,7 +1649,7 @@ end;
 
 
 window ObjInitBalVClass:1// Edit ************************** Friday, 4 March 2016 16:58:27
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs;
   WindowBegin("Перенос начального сальдо по объектам",RenameCertainDIVClass,CGMnt,RcType);
@@ -1666,7 +1666,7 @@ end;
 
 
 window CreationPUsVClass:1// Edit ************************** Friday, 4 March 2016 16:58:27
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs;
   WindowBegin("Создание поступлений",CreationPUsVClass,CGMnt,RcType);
@@ -1682,7 +1682,7 @@ end;
 
 
 window MyAddBalanceVClass:1// Edit ************************** Friday, 4 March 2016 16:58:27
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs;
   WindowBegin("Создание поступлений",MyAddBalanceVClass,CGMnt,RcType);
@@ -1708,7 +1708,7 @@ begin
 end;
 
 window SaleWeekByVERClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -1727,7 +1727,7 @@ end;
 
 
 window WebINImportIClass:1	//Edit***************************Sasha2,17:17 06.01.2016 {
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,v,vs;
 Integer i;
@@ -1794,7 +1794,7 @@ begin
 end;
 
 window NotSamsungItemsRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -1810,7 +1810,7 @@ begin
 end;
 
 window SamsungSendFilesByMailEXCELVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
  real h;
 WindowBegin("Вивантаження excel для Samsung",SamsungSendFilesByMailEXCELVClass,CGMnt,RcType);
@@ -1822,7 +1822,7 @@ end;
 
 
 window SamsungItemsTClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,f,v;
   WindowBegin("Настройка WEB matrix",SamsungItemsTClass,CGHbl,-);
@@ -1840,7 +1840,7 @@ real h,f,v;
 end;
 
 window FOPDataTClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,f,v;
   WindowBegin("Реквизиты для чека",FOPDataTClass,CGHbl,-);
@@ -1857,7 +1857,7 @@ real h,f,v;
 end;
 
 window FOPDataSClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real h,f,v;
   WindowBegin("Реквизиты для чека",FOPDataSClass,CGother,HBlRecType);
@@ -1869,7 +1869,7 @@ real h,f,v;
 end;
 
 window ORCheckPrintWClass:2
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real f,h,v,vs;
   WindowBegin("Оповещение",ORCheckPrintWClass,CGother,RcType);
@@ -1883,7 +1883,7 @@ begin
 end;
 
 window MoveForServiceDClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -1967,7 +1967,7 @@ begin
 end;
 
 window MoveForServiceLClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Переміщення товару для обслуговування",MoveForServiceLClass,CGmlist,SHView);
   SpawnClass(MoveForServiceDClass);
@@ -1985,7 +1985,7 @@ begin
 end;
 
 window CompNamesSClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,iPad")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,iPad")
 begin
   WindowBegin("Оберіть компанію",CompNamesSClass,CGother,HBlRecType);
   if (GuiType==kGuiiPhone) then begin
@@ -1999,7 +1999,7 @@ begin
 end;
 
 window RemoveSecondCurFromRegistersVClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vm,vs;
   WindowBegin("Прибрати другу базову валюту в документах",RemoveSecondCurFromRegistersVClass,CGMnt,RcType);
@@ -2029,7 +2029,7 @@ begin
 end;
 
 window TransferBlocksFromCompToCurCompVClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -2043,7 +2043,7 @@ begin
 end;
 
 window GetLeftOverFromAnotherCompVClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -2088,7 +2088,7 @@ begin
 end;
 
 window MoveShopsToCompVClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -2102,7 +2102,7 @@ begin
 end;
 
 window ConfirmInnerSaleTClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,iPad")  
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer,iPad")  
 begin
   real h,h2,v,vs;
   WindowBegin("Підтвердити внутр. продаж",ConfirmInnerSaleTClass,CGother,RcType);  
@@ -2127,7 +2127,7 @@ end;
 
 
 window CreateLoyaltyCardsVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
  real h,h2,v,vs;
 WindowBegin("Maintenance",CreateLoyaltyCardsVClass,CGMnt,RcType);
@@ -2146,7 +2146,7 @@ WindowBegin("Maintenance",CreateLoyaltyCardsVClass,CGMnt,RcType);
 end;
 
 window DeleteLoyaltyCardsVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
  real h,h2,v,vs;
 WindowBegin("Maintenance",DeleteLoyaltyCardsVClass,CGMnt,RcType);
@@ -2163,7 +2163,7 @@ WindowBegin("Maintenance",DeleteLoyaltyCardsVClass,CGMnt,RcType);
 end;
 
 window MoveOldItemsVClass:1 // Edit ************************** Friday, 17 October 2014 11:47:19
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
  begin
  real h,h2,v,vs;
 WindowBegin("Розділити старі товари",MoveOldItemsVClass,CGMnt,RcType);
@@ -2178,7 +2178,7 @@ WindowBegin("Розділити старі товари",MoveOldItemsVClass,CGMnt,RcType);
 end;
 
 window LoyaltyCardListRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -2194,7 +2194,7 @@ begin
 end;
 
 window DeleteCUListRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -2210,7 +2210,7 @@ begin
 end;
 
 window BPIJobCostDClass:1 // Edit ************************** Friday, 9 January 2015 10:45:39
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vm,vs,t;
   WindowBegin("Зарбітьня відомість",BPIJobCostDClass,CGview,-);
@@ -2239,7 +2239,7 @@ begin
 end;
 
 window BPIJobCostLClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Заробітьня відомість",BPIJobCostLClass,CGmlist,SHView);
   SpawnClass(BPIJobCostDClass);
@@ -2257,7 +2257,7 @@ begin
 end;
 
 window SalesReportAccRClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 	real h,v,vm,vs,t;
   WindowBegin("Звіт по продажам eMail",SalesReportAccRClass,CGRcW,RcType);
@@ -2268,7 +2268,7 @@ end;
 
 
 window PriceChangeLClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -2306,7 +2306,7 @@ end;
 
 
 window RejectStrSClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   WindowBegin("Оберіть причину скасування",RejectStrSClass,CGother,HBlRecType);
   SetWRect(240,80,520,291);
@@ -2316,7 +2316,7 @@ begin
 end;
 
 window SaledItemsFromPURClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
@@ -2331,7 +2331,7 @@ end;
 
 
 window SMSConfigTClass:1
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
 real vs,v,h,h1,h2,h3;
 
@@ -2355,7 +2355,7 @@ end;
 
 
 window SelectSVOPointWClass:1 //Edit-------------------Vitalii 15:51 04.11.2016
- wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs;
 WindowBegin("Выберите внутренний номер",SelectSVOPointWClass,CGother,RcType);
@@ -2375,7 +2375,7 @@ end;
 
 
 window ORReport2RClass:1 
-  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v;
   WindowBegin("Отчет по заказам",ORReport2RClass,CGRcW,RcType);

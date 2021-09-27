@@ -73,8 +73,8 @@ begin
   CUr.EGOFlag = StringToInt(ImportField);
   CUr.InvAddr3 = ImportField;
   CUr.DelAddr3 = ImportField;
-  CUr.xArea = ImportField;
-  CUr.xAreaName = ImportField;
+  ImportField;
+  ImportField;
   CUr.InvAddr4 = ImportField;
   CUr.DelAddr4 = ImportField;
   CUr.WebConf = ImportField;
@@ -128,7 +128,7 @@ begin
   CUr.IBANCode = ImportField;
   ImportField;
   ImportField;
-  CUr.xAcceptanceGroup = ImportField;
+  ImportField;
   CUr.WebServiceChannel = StringToInt(ImportField);
   CUr.SkypeName = ImportField;
   CUr.Region = ImportField;
@@ -155,7 +155,7 @@ begin
   CUr.Salutation1 = ImportField;
   CUr.Salutation2 = ImportField;
   CUr.Salutation3 = ImportField;
-  CUr.xUserCode = ImportField;
+  ImportField;
   CUr.DealerType = StringToInt(ImportField);
   CUr.GroupInv = StringToInt(ImportField);
   CUr.AddressBooks = ImportField;
@@ -246,6 +246,7 @@ begin
   record CUVc CUr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagcu5");
     ReadImportTagcu5Record(CUr);
     RecordImportStore(CUr,false);
   end;
@@ -324,6 +325,7 @@ begin
   record ItemHistVc ItemHistr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagItemHistVc2");
     ReadImportTagItemHistVc2Record(ItemHistr);
     RecordImportStore(ItemHistr,false);
   end;
@@ -443,6 +445,7 @@ begin
   record RetVc Retr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagRetVc");
     ReadImportTagRetVcRecord(Retr);
     RecordImportStore(Retr,false);
   end;
@@ -613,6 +616,7 @@ begin
   record StockMovVc StockMovr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagstockmov1");
     ReadImportTagstockmov1Record(StockMovr);
     RecordImportStore(StockMovr,false);
   end;
@@ -881,6 +885,7 @@ begin
   record ORVc ORr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagORVc2");
     ReadImportTagORVc2Record(ORr);
     RecordImportStore(ORr,false);
   end;
@@ -1140,6 +1145,7 @@ begin
   record IVCashVc IVCashr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagivcash2");
     ReadImportTagivcash2Record(IVCashr);
     RecordImportStore(IVCashr,false);
   end;
@@ -1328,6 +1334,7 @@ begin
   record SVOVc SVOr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagSVOVc");
     ReadImportTagSVOVcRecord(SVOr);
     RecordImportStore(SVOr,false);
   end;
@@ -1365,8 +1372,8 @@ begin
   INr.UPrice1 = StringToVal(ImportField,M423Val);
   INr.ItemType = StringToInt(ImportField);
   INr.Group = ImportField;
-  INr.x1 = ImportField;
-  INr.x2 = ImportField;
+  ImportField;
+  ImportField;
   INr.InPrice = StringToVal(ImportField,M45Val);
   INr.InvCode = ImportField;
   INr.ExtraCost = StringToVal(ImportField,M4Val);
@@ -1379,7 +1386,7 @@ begin
   INr.Bonus = StringToVal(ImportField,M4Qty);
   INr.Recepy = ImportField;
   INr.Markup = StringToVal(ImportField,M4Qty);
-  INr.x3 = ImportField;
+  ImportField;
   INr.BarCode = ImportField;
   INr.UpdateCost = StringToInt(ImportField);
   INr.LastPriceChange = StringToDate(ImportField);
@@ -1425,7 +1432,7 @@ begin
   INr.DispGroups = ImportField;
   INr.HazLevCode = ImportField;
   INr.Density = StringToVal(ImportField,M45Val);
-  INr.xClassification = ImportField;
+  ImportField;
   INr.CredSalesAcc = ImportField;
   INr.CredEUSalesAcc = ImportField;
   INr.CredExpSalesAcc = ImportField;
@@ -1559,7 +1566,7 @@ begin
   INr.LCustInt5 = StringToInt(ImportField);
   
   rwcnt = 0;
-  
+    
   while (NextImportLine(false)) begin
     ClearRow(INr,INrw,1);
     INrw.LangCode = ImportField;
@@ -1581,7 +1588,7 @@ begin
     MatRowPut(INr,rwcnt,INrw);
     rwcnt = rwcnt + 1;
   end;
-  
+    
   while (NextImportLine(false)) begin
     tstr = ImportField;
     if nonblank(tstr) then begin
@@ -1590,7 +1597,7 @@ begin
       end;
     end;
   end;
-  
+    
   return;
 end;
 
@@ -1600,6 +1607,7 @@ begin
   record INVc INr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagartikel5");
     ReadImportTagartikel5Record(INr);
     RecordImportStore(INr,false);
   end;
@@ -1652,6 +1660,7 @@ begin
   record CCatVc CCatr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagCCatVc2");
     ReadImportTagCCatVc2Record(CCatr);
     RecordImportStore(CCatr,false);
   end;
@@ -1686,6 +1695,7 @@ begin
   record SalesGroupVc SalesGroupr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagSalesGroupVc");
     ReadImportTagSalesGroupVcRecord(SalesGroupr);
     RecordImportStore(SalesGroupr,false);
   end;
@@ -1756,8 +1766,8 @@ begin
   PUr.TruckInfo = ImportField;
   PUr.Driver = ImportField;
   PUr.CMRText = ImportField;
-  PUr.xBookVariance = StringToInt(ImportField);
-  PUr.xVarTransDate = StringToDate(ImportField);
+  StringToInt(ImportField);
+  StringToDate(ImportField);
   PUr.LangCode = ImportField;
   PUr.TAX1Sum = StringToVal(ImportField,M4Val);
   PUr.TAX2Sum = StringToVal(ImportField,M4Val);
@@ -1888,6 +1898,7 @@ begin
   record PUVc PUr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagpurchase2");
     ReadImportTagpurchase2Record(PUr);
     RecordImportStore(PUr,false);
   end;
@@ -1934,9 +1945,9 @@ begin
   IVr.pdrdays = StringToLongint(ImportField);
   IVr.CustCat = ImportField;
   IVr.pdComment = ImportField;
-  IVr.x1 = ImportField;
+  ImportField;
   IVr.InvType = StringToInt(ImportField);
-  IVr.xStatFlag = StringToInt(ImportField);
+  StringToInt(ImportField);
   IVr.PriceList = ImportField;
   IVr.Objects = ImportField;
   IVr.InclVAT = StringToInt(ImportField);
@@ -2237,6 +2248,7 @@ begin
   record IVVc IVr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagIVVc3");
     ReadImportTagIVVc3Record(IVr);
     RecordImportStore(IVr,false);
   end;
@@ -2376,6 +2388,7 @@ begin
   record UserVc Userr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTaguser2");
     ReadImportTaguser2Record(Userr);
     RecordImportStore(Userr,false);
   end;
@@ -2409,7 +2422,7 @@ begin
   SHr.Addr2 = ImportField;
   SHr.Addr3 = ImportField;
   SHr.Prntdf = StringToInt(ImportField);
-  SHr.x1 = ImportField;
+  ImportField;
   SHr.ShipMode = ImportField;
   SHr.OKFlag = StringToInt(ImportField);
   SHr.Location = ImportField;
@@ -2447,7 +2460,7 @@ begin
   SHr.TAX1Sum = StringToVal(ImportField,M4Val);
   SHr.DeliveryMan = ImportField;
   SHr.Sign = ImportField;
-  SHr.xForkLifyQueUse = StringToInt(ImportField);
+  StringToInt(ImportField);
   SHr.TotPalletNr = StringToVal(ImportField,M4UVal);
   SHr.Region = ImportField;
   SHr.TAX2Sum = StringToVal(ImportField,M4Val);
@@ -2514,7 +2527,7 @@ begin
     SHrw.UnitZval = StringToVal(ImportField,M4UVal);
     SHrw.MeasWeight = StringToVal(ImportField,M423Val);
     SHrw.PosCode = ImportField;
-    SHrw.xCoefficient = ImportField;
+    ImportField;
     SHrw.CostAcc = ImportField;
     SHrw.WAB2 = StringToVal(ImportField,M45Val);
     SHrw.TAX2Code = ImportField;
@@ -2545,6 +2558,7 @@ begin
   record SHVc SHr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagship1");
     ReadImportTagship1Record(SHr);
     RecordImportStore(SHr,false);
   end;
@@ -2598,6 +2612,7 @@ begin
   record LocalMachineVc LocalMachiner;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagLocalMachineVc2");
     ReadImportTagLocalMachineVc2Record(LocalMachiner);
     RecordImportStore(LocalMachiner,false);
   end;
@@ -2676,6 +2691,7 @@ begin
   record SRVc SRr;
   
   while (NextImportLine(false)) begin
+    logtext(0,"ReadImportTagSRVc");
     ReadImportTagSRVcRecord(SRr);
     RecordImportStore(SRr,false);
   end;
@@ -2691,4 +2707,16 @@ begin
   SRr.SerNr = StringToLongint(ImportField);
   ReadRecordIdStrSRVc = BuildRecordIdStr(SRr,compnr);
   return;
+end;
+
+
+global
+function LongInt RHistVcRecordImportTest(var record RHistVc RHr,record RHistVc RH2r,LongInt long3,LongInt long4)
+begin
+  LongInt res;
+  
+  res = 0;
+  
+  RHistVcRecordImportTest = res;
+return;
 end;

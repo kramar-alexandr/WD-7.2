@@ -1,0 +1,1491 @@
+external procedure RateField(real,real,real,string,integer,string,boolean,real,real,string,boolean);
+external function boolean AddBicToMasterWindow(integer,var real,var real,real,real,real,real);
+external function Boolean IsIntEnabActive(var string,var string,var Boolean,var string);
+external function Boolean TouchScreenLookVertical();
+external procedure ARS2RClass_Def();
+external procedure ALLVATRClass_Def();
+external procedure SysEClass_Tool(Integer,var real,var real);
+external procedure GTransEClass_Tool(Integer,var real,var real);
+external procedure GTrans2EClass_Tool(Integer,var real,var real,var real);
+external procedure GBaseEClass_Tool(Integer,var real,var real);
+external procedure TransGenVClass_Tool(Integer,var real,var real);
+external procedure GetCurUser(var record UserVc);
+external procedure JobRClass_UKR();
+external function string 60 UserDefined(string,string);
+external outer function string 255 MasterBannerURL();
+external procedure ItemStatusUserSettings(string,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean);
+external function Boolean AllowedInCountry(integer);
+external function Integer ResourceWindowResourceType();
+external function Boolean ResPlan_Rental();
+external function Boolean ResPlan_ProdOperations();
+remote function Boolean ReadPOSButtons(string,string,longint,var string,var string,var string,var record POSButtonsVc,var Integer);
+external function Boolean TouchScreenLook();
+external procedure ExtractObj(string,var Integer,var string);
+external function Boolean IsSessionOpen(string,string,Date,Time);
+external procedure CntNPTSPaymentCurrencies(var Array string,var Array string,var Array Integer,var Array string,var Integer);
+remote procedure CntPOSCurrencies(var Array string,var Array Boolean,var Integer);
+external function Boolean CheckOffLineRecords(Boolean);
+external function string 60 TileUserDefined(string,Integer,var Integer);
+external function Boolean CUVATNrColumn;
+external function Integer GetInternetEnablerCountry();
+external function Integer CntVarietyCode(Integer,var Array string);
+external function Boolean UseTaxTemplatesforTaxCalc();
+remote procedure TablesViewWClassDo(record LocalMachineBlock,string,Array string,Array string,Array string,Array string,Array Integer,var Integer,var LongInt);
+external function string 20 GetMenuCode(string);
+external procedure DrawModifierButtons(var Integer);
+remote procedure ForkLiftQueueArray(string,string,var Array string,var Array string,var Array string,var Array string,var Array val,var Array Integer,var Array string,var Integer,Boolean,LongInt,LongInt,string);
+
+external function Boolean DisplayLoginButtons();
+external function Integer LoginShortcutsLines(Integer);
+external function Integer LoginShortcutsPos(Real,Integer);
+
+external procedure DefineTTRRowTypes(Integer);
+external function real ItemButtons(string,Integer);
+external procedure HWStoreWClassAddProducts(Integer);
+external function Boolean HasCharts();
+external function Boolean HasNewRegistration();
+external function Boolean ActivityIsForAcceptanceOrFYI(record ActVc,Boolean,Boolean);
+// TravelLog
+external function Integer LoginShortcuts();
+external function Boolean TestConfigurationEnabler(string);
+remote function Integer CustomerSalesPaymentTermType(string);
+// POS Standalone
+external function Boolean DefCustCodeSetup();
+// in-apps
+external function Boolean HasInAppsAvailable();
+external function Integer CountCountries();
+
+// Language functions ENG
+external function Boolean DisplayLoginKeyPad_ENG();
+external function string 255 VATZoneEditFieldLabelUKR(Integer);
+external function real VATZoneButtonsLabelsUKR(real,real,real,real);
+external procedure LoginButtons2_ENG(Real,Real);
+external procedure FORMDEF_ENG();
+external function string 255 DemoMsgWClassTitle_ENG(Boolean,Boolean);
+external procedure TBEClassDef_ENG();
+external function string 255 VATZoneNameENG();
+external procedure TSERW_ENG();
+external procedure TSERWNT_ENG();
+external procedure TSERWTouch_ENG();
+external procedure TSERWTEST_ENG();
+external procedure INVFORM_ENG(Boolean);
+external procedure DisplayRecordDetails_ukr(LongInt,LongInt,string,date,time,string,string,string,string,string,string,string,string,string,string,string,Integer,string,string,string,val,string,Boolean,string,string);
+external procedure DrawPOSInterface_ENG(string,string,record POSButtonsVc,Integer,string,Integer);
+external procedure DisplayRecordDetailsCustDisplay_ENG(LongInt,LongInt,string,date,time,string,string,string,string,string,string,Integer,string,string,string,val);
+external function string 255 ResDayWClassWindowTitle_ENG();
+external function string 255 ResMonWClassWindowTitle_ENG();
+external function string 255 RTMonWClassWindowTitle_ENG();
+external procedure SetupNightAuditWindowControls_ENG(Boolean);
+external procedure CURClassDefinitionENG();
+external function real DrawPaymentModesButtons_IV_ENG(real);
+external function real FunctionButtons_ENG(string);
+external procedure CreditCardWindowHeader_ENG(Boolean,Boolean,Real);
+external procedure CreditCardWindowButtons_ENG(string,string,real);
+external procedure CreditCardWindowInvoiceDetail_ENG(Real);
+external procedure CreditCardWindowDeliveryDetail_ENG(Real);
+external function real DrawPaymentModesButtons_ENG();
+external procedure DrawBarMenuTiles_ENG(string);
+external procedure DrawRestPMOtherPay_ENG();
+external procedure DisplayRecordDetailsRA_ukr(LongInt,LongInt,string,date,time,string,string,string,string,string,string,Integer,string,LongInt,Date,string,LongInt,string);
+external procedure DrawModifierButtons2_ENG(var integer,var integer);
+external procedure OKCancel_ENG();
+external procedure DefineElearningURLCacheLClass_ENG();
+external procedure DefineElearningURLCacheDClass_ENG();
+external function real TravelLogDeductions_ENG(real,real);
+external procedure LoginButtons_ENG(Real);
+external procedure FORMDEF2_ENG();
+external procedure FORMDEF3_ENG();
+external procedure ARS2RClass_ENG();
+external procedure ALLVATRClass_ENG();
+
+external function Boolean IsStandardERP();
+external function Boolean IsEnterprise();
+external function Boolean StandardHansa();
+external function Boolean HasATOL();
+
+external function Boolean HasAccessGroups();
+external function Boolean HasApprovals();
+external function Boolean HasCCPayments();
+external function Boolean HasAdvancedAccounting();
+external function Boolean HasAdvancedCRM();
+external function Boolean HasAdvancedPricing();
+external function Boolean HasAdvancedStock();
+external function Boolean HasBar();
+external function Boolean HasBase2();
+external function Boolean HasBranch();
+external function Boolean HasCategories();
+external function Boolean HasCommunicator();
+external function Boolean HasConsignmentStock();
+external function Boolean HasContactClassification();
+external function Boolean HasContactRelations();
+external function Boolean HasConsolidation();
+external function Boolean HasCountryPerCustomer();
+external function Boolean HasCustItem();
+external function Boolean HasCustomerSearchKey();
+external function Boolean HasDefineColumns();
+external function Boolean HasDeliveryAddress();
+external function Boolean HasDepartments();
+external function Boolean HasETaxDocuments();
+external function Boolean HasEInvoicing();
+external function Boolean HasEndorsedChecks();
+external function Boolean HasExtraNLComment();
+external function Boolean HasExtTax();
+external function Boolean HasFavouriteActTypes();
+external function Boolean HasFormEditor();
+external function Boolean HasFreightAdvanced();
+external function Boolean HasHideCostPrice();
+external function Boolean HasHotelInterface();
+external function Boolean HasGuestUserDefined();
+external function Boolean HasJewelleryInterface();
+external function Boolean HasIncomeAndExpenseBook();
+external function Boolean HasIOUChecks();
+external function Boolean HasItemClassification();
+external function Boolean HasItemGroups();
+external function Boolean HasKPIs();
+external function Boolean HasLanguages();
+external function Boolean HasLimitedAccess();
+external function Boolean HasLocalMachines();
+external function Boolean HasMainPartner();
+external function Boolean HasMultiCurrency();
+external function Boolean HasMultiLocations();
+external function Boolean HasLoyaltyCards();
+external function Boolean HasObjects();
+external function Boolean HasOfficialSerNr();
+external function Boolean HasPreferedOfficialSerNr();
+external function Boolean HasNumberSeries();
+external function Boolean HasPersons();
+external function Boolean HasPocketScreen();
+external function Boolean HasPositions();
+external function Boolean HasProjects();
+external function Boolean HasPriceLists();
+external function Boolean HasQualityControl();
+external function Boolean HasReconLevel2();
+external function Boolean HasReminderLevel();
+external function Boolean HasRemoteBackup();
+external function Boolean HasResourceDisplayGroups();
+external function Boolean HasRussianPrepayment();
+external function Boolean HasRoute();
+external function Boolean HasSalesman();
+external function Boolean HasSecondQuantity();
+external function Boolean HasSerialNumbers();
+external function Boolean HasSettlementDiscount();
+external function Boolean HasSimulations();
+external function Boolean hasSimAccruals();
+external function Boolean HasSkypeConnection();
+external function Boolean HasSIPServerConnection();
+external function Boolean HasTaxMatrix();
+external function Boolean HasTestFeatures();
+external function Boolean HasMetroTestFeatures();
+external function Boolean HasTouchScreenDevice();
+external function Boolean HasTouchScreenLook();
+external function Boolean HasTREO();
+external function Boolean HasVarieties();
+external function Boolean HasVATZone();
+external function Boolean HasWithholdingTax();
+external function Boolean HasWithholdingTaxAdvanced();
+
+external function Boolean HasStandardCRM();
+external function Boolean HasStandardOrganizer();
+external function Boolean HasStandardCommunicator();
+
+external function Boolean HasEMail();
+external function Boolean HasExternalEMail();
+
+external function Boolean HasModAT2();
+external function Boolean HasModCheck();
+external function Boolean HasModCL();
+external function Boolean HasModCO();
+external function Boolean HasModCourses();
+external function Boolean HasModCredMan();
+external function Boolean HasModCRM();
+external function Boolean HasModExp();
+external function Boolean HasModHotel();
+external function Boolean HasModHRM();
+external function Boolean HasModIN();
+external function Boolean HasModNL();
+external function Boolean HasModPO();
+external function Boolean HasModPOS();
+external function Boolean HasModPL();
+external function Boolean HasModPP();
+external function Boolean HasModProd();
+external function Boolean HasModQT();
+external function Boolean HasModRent();
+external function Boolean HasModRest();
+external function Boolean HasModRsrt();
+external function Boolean HasModSO();
+external function Boolean HasModSL();
+external function Boolean HasModSVO();
+external function Boolean HasModTS();
+external function Boolean HasModWHM();
+external function Boolean HasModDI();
+
+//##ii
+procedure dummy() //##ii
+begin //##ii
+  SetLangMode(LangRussian,"RUS",0); //##ii
+  return; //##ii
+end; //##ii
+
+
+window ORDClass:2
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs,h5,flipnr,width,vv;
+  string 255 label;
+  boolean show;
+  record ORVc ORr;
+	if(CurrentCompany!=13) then begin 
+		if(UserCanAction("ManagerView",false)==false)then begin
+			//if(false) then begin 
+			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
+			SetWRect(20,80,750,460);
+			Sizeable(-1,-1,0,0);
+			UseView(ORVc);
+			ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
+				HalPushButton(300,5,360,25,"PrintDoOrdFormButton","Друк");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
+			EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
+			ActiveFieldOnNew("CustCode");    
+			CommunicateButton;
+			Tile(0,74,false,"",CustCode);
+			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
+			EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+			EnterSkip(PayDeal);
+			EditField(h=255,v=vm,-40,"Найменув.",Normal,Addr0,false,0);
+			if(currentcompany==13)then begin
+				HalPushButton(h,v+20,h+80,v+35,"CallToClientDsm","Дзвінок");
+			end;
+			if (StandardHansa==false) then begin
+			EditField(h+200,vm=(v+=20),135,"Офіц. №",Normal,OfficialSerNr,false,LegalInvNrSClass);
+			CheckBox(h4=-100,v,0,"OK",OKFlag);
+			end else begin
+				CheckBox(h4=-100,vm=(v+=20),0,"OK",OKFlag);
+			end;
+			TileButton(1,"Умови");
+			TileButton(2,"Товари");
+			TileButton(3,"Валюта");
+			TileButton(4,"Умови доставки");
+			TileButton(5,"Прейскурант");
+			TileButton(6,"Адреса актів/накл.");
+			TileButton(7,"Адреса доставки");
+			Tile(1,110,false,"1",OrdDate);
+			vs = 20; h1 = 110; h2 = 290; h3 = 530; h4 = -100;
+			EditField(h1,vm=(v=6),82,"Дата",Normal,OrdDate,false,PasteCurDate);
+			EditField(h1,v+=vs,25,"Умови сплати",Normal,PayDeal,false,PDSClass);
+			EditField(h1,v+=vs,82,"Дата резервування",Normal,ReservToDate,false,PasteCurDate);// Edit ************************** Wednesday, July 9, 2014 at 13:43:49
+			EditField(h1,v+=vs,82,"Дата відправл.",Normal,DespatchDate,false,PasteCurDate);
+			EditField(h1,v+=vs,82,"Дата звірки Shops",Normal,DateshopRevise,false,PasteCurDate);
+			EditField(h2,v=vm,135,"Посилання",Normal,OurContact,false,0);
+			EditField(h2,v+=vs,135,"Посилання",Normal,CustContact,false,ContactSClass);
+			EditField(h2,v+=vs,135,"Об'єкт",Normal,Objects,false,ObjSClass);
+			EditField(h2,v+=vs,135,"Ссылка",Normal,RefStr,false,0);
+			EditField(h2,v+=vs,135,"№ рах. у клієнта",Normal,CustOrdNr,false,0);		
+			EditField(h3,v=vm,80,"Продавець",Normal,SalesMan,false,UserSClass);
+			if (StandardHansa==false) then begin
+			EditField(h3,v+=vs,80,"Проект",Normal,PRCode,false,PRSClass);
+			end;
+			EditField(h3,v+=vs,80,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
+			if (StandardHansa==false) then begin
+			EditField(h3,v+=vs,80,"Вид рахунка",Normal,OrderType,false,SetSClass);
+			EditField(h3,v+=vs,80,"Фрахт",Normal,FrPrice,true,0);// Edit ************************** Wednesday, 22 April 2015 15:43:08
+			end;
+			CheckBox(h4,v=6,0,"Закрито",Closed);
+			CheckBox(h4,v+=16,0,"Зарезервовано",Reserved);
+			EnterSkip(Math);
+			Tile(2,220,true,"2",Math);
+			EditField(55,-41,50,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
+			if (UseTaxTemplatesforTaxCalc==false) then begin
+			if (UserCanAction("ViewCostPrice",true)) then begin
+					EditField(160,-41,70,"Приб. %",Normal,GPProc,true,0);
+					EditField(120,-21,70,"Всього ВД",ViewOnly,TotGP,true,0); // Edit ************************** Wednesday, July 9, 2014 at 13:48:33
+			end;
+			EditField(290,-41,70,"Подат. 2",ViewOnly,TAX2Sum,true,0);
+			EditField(290,-21,70,"Дод. податок",ViewOnly,TAX1Sum,true,0);
+			end else begin
+			end;
+			EditField(410,-41,100,"Кіл-ть",ViewOnly,TotQty,true,0);// Edit ************************** Monday, 8 August 2011 14:58:32
+
+			EditField(410,-21,100,"Осн.",ViewOnly,BaseSum4,true,0);
+			EditField(-150,-41,100,"Разом",ViewOnly ,Sum1,true,0);
+			EditField(-150,-21,100,"Всього",ViewOnly ,Sum4,true,0);
+			v = 24;
+			MatrixBegin(3,v,-50,-49,-,200);
+			MatTypedRow(stp);
+			flipnr = 0;
+			Flip(flipnr); flipnr = flipnr + 1;
+			MatText(t=9,32,"Разом",true);
+			MatCol(t,100,"",0,Spec,false,0);
+			MatColTL(t,-80,"Сума",0,-1,ViewOnly,0,Sum,true,0);
+			MatText(t=17,32,"Заголовок",true);
+			MatCol(t,100,"",0,Spec,false,0);
+			MatCol(t=1,32,"Товар",0,ArtCode,false,ForSaleINSClass);
+			t = 1;
+			if (HasVarieties) then begin
+			MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);
+			end else begin
+				MatCol(t,144,"Qty",0,Quant,true,0); //!!PRODTRANSLATE// Edit ************************** Monday, July 14, 2014 at 10:35:22
+			end;
+			EnterSkip(ArtCode);
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,32,"Товар",0,ArtCode,false,ForSaleINSClass);
+			if (HasVarieties) then begin
+				MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);// Edit ************************** Monday, July 14, 2014 at 10:35:19
+			end else begin
+				MatCol(t,144,"Qty",0,Quant,true,0); //!!PRODTRANSLATE// Edit ************************** Monday, July 14, 2014 at 10:35:13
+			end;
+			EnterSkip(ArtCode);
+			MatText(t=10,32,"Цей та наступні рядки не будуть друкуватись",false);
+			MatText(t=kInvoiceRowTypePerceptionTax,32,"Податок",true);
+			MatCol(t,132,"",0,Region,false,0);
+			MatCol(t,252,"",0,TAX2Prc,true,0);
+			MatCol(t,292,"",0,Sum,true,0);
+			MatCol(t,372,"",0,SalesAcc,false,0);
+			MatCol(t,452,"",0,Spec,false,0);
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+			MatCol(t,-180,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
+			MatCol(t,-105,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
+			MatCol(t,-70,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			MatCol(t,-180,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:27
+			MatCol(t,-105,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:23
+			MatCol(t,-70,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:15
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Товар",0,Spec,false,0);
+			if (UseTaxTemplatesforTaxCalc) then begin
+				MatCol(t,-284,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+				MatCol(t,-224,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+				MatCol(t,-164,"Об'єкт",0,Objects,false,ObjSClass);
+				MatCol(t,-70,"Ш-н",0,TaxTemplateCode,false,TaxTemplateSClass);
+			end else begin
+				MatCol(t,-264,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+				MatCol(t,-184,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+				MatCol(t,-124,"Об'єкт",0,Objects,false,ObjSClass);
+				MatCol(t,-30,"ПДВ",0,VATCode,false,VATCodeSClass);
+			end;
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			if (UseTaxTemplatesforTaxCalc) then begin
+				MatCol(t,-284,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+				MatCol(t,-224,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+				MatCol(t,-164,"Об'єкт",0,Objects,false,ObjSClass);
+				MatCol(t,-70,"Ш-н",0,TaxTemplateCode,false,TaxTemplateSClass);
+			end else begin
+				MatCol(t,-264,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+				MatCol(t,-184,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+				MatCol(t,-124,"Об'єкт",0,Objects,false,ObjSClass);
+				MatCol(t,-30,"ПДВ",0,VATCode,false,VATCodeSClass);
+			end;
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Товар",0,Spec,false,0);
+			MatCol(t,344,"Тип замовл.",0,OrderType,false,SetSClass);
+			if (UserCanAction("ViewCostPrice",true)) then begin
+				MatCol(t,-245,"Ціна",0,Price,true,PLSClass);
+				MatCol(t,-175,"%",0,vRebate,true,0);
+				MatCol(t,-140,"Вар-ть",0,BasePrice,true,0);
+				MatCol(t,-70,"Прибуток",0,rowGP,true,0);
+			end else begin
+				MatCol(t,-235,"Ціна",0,Price,true,PLSClass);
+				MatCol(t,-135,"%",0,vRebate,true,0);
+				MatCol(t,-100,"Сума",0,Sum,true,0);
+			end;
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			if (UserCanAction("ViewCostPrice",true)) then begin
+				MatCol(t,-245,"Ціна",0,Price,true,PLSClass);
+				MatCol(t,-175,"%",0,vRebate,true,0);
+				MatCol(t,-140,"Вар-ть",0,BasePrice,true,0);
+				MatCol(t,-70,"Приб.",0,rowGP,true,0);
+			end else begin
+				MatCol(t,-235,"Ціна",0,Price,true,PLSClass);
+				MatCol(t,-135,"%",0,vRebate,true,0);
+				MatCol(t,-100,"Сума",0,Sum,true,0);
+			end;
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Тов.",0,Spec,false,0);
+			MatCol(t,-300,"Продавець",0,Salesmen,false,UserSClass); 
+			MatCol(t,-236,"Відв. 1",0,Shipd1,true,0); 
+			MatCol(t,-184,"Відв. 2",0,Shipd2,true,0); 
+			MatCol(t,-132,"Накладна",0,Invd,true,0); 
+			MatCol(t,-80,"Шопс",0,Shopd,true,0); // Edit ************************** Friday, 31 October 2014 16:18:27
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменув.",0,Spec,false,0);
+			MatCol(t,-290,"Відв. 1",0,Shipd1,true,0);
+			MatCol(t,-220,"Відв. 2",0,Shipd2,true,0);
+			MatCol(t,-150,"Накладна",0,Invd,true,0);
+			MatCol(t,-80,"Структура",0,Recepy,false,RecSClass);
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Товар",0,Spec,false,0);
+			MatCol(t,-290,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+			MatCol(t,-150,"Запл. відв.",0,PlanShipRow,true,PasteCurDate);
+			MatCol(t,-70,"Множник ціни",0,PriceFactor,true,0);
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			MatCol(t,-290,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+			MatCol(t,-150,"Запл. відв.",0,PlanShipRow,true,PasteCurDate);
+			MatCol(t,-70,"Множник ціни",0,PriceFactor,true,0);
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Товар",0,Spec,false,0);
+			MatCol(t,-315,"Накладна",0,ShipNote,false,0);
+			MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
+			MatCol(t,-145,"Гарант.",0,GarantyFor,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:39:16 PM
+			MatCol(t,-90,"Друк",0,ORPrint,true,0);
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			MatCol(t,-315,"Накладна",0,ShipNote,false,0);
+			MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
+			if (StandardHansa==false) then begin
+			MatCol(t,-145,"Місце",0,Position,true,UsedPosSClass);
+			end;
+			MatCol(t,-90,"Джерело",0,Source,true,SourceSClass);
+			if (StandardHansa==false) then begin
+				Flip(flipnr); flipnr = flipnr + 1;
+			MatCol(t=1,144,"Дата отрим.",0,PickingDate,false,PasteCurDate);
+			MatCol(t,-390,"Час отрим.",0,PickingTime,false,PasteCurTime);
+			MatCol(t,-320,"Дата зав.",0,InloadingDate,true,PasteCurDate);
+			MatCol(t,-230,"Час зав.",0,InloadingTime,true,PasteCurTime);
+			MatCol(t,-160,"Дата відп.",0,DespatchRowDate,true,PasteCurDate);
+			MatCol(t,-70,"Час відп.",0,DespatchRowTime,true,PasteCurTime);
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Дата отрим.",0,PickingDate,false,PasteCurDate);
+			MatCol(t,-390,"Час отрим.",0,PickingTime,false,PasteCurTime);
+			MatCol(t,-320,"Дата зав.",0,InloadingDate,true,PasteCurDate);
+			MatCol(t,-230,"Час зав.",0,InloadingTime,true,PasteCurTime);
+			MatCol(t,-160,"Дата відп.",0,DespatchRowDate,true,PasteCurDate);
+			MatCol(t,-70,"Час відп",0,DespatchRowTime,true,PasteCurTime);
+			end;
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Товар",0,Spec,false,0);
+			MatCol(t,-315,"Од-ці",0,UnitCode,false,UnitSClass);
+			MatCol(t,-260,"К-ть од.",0,UnitFactQuant,true,0);
+			MatCol(t,-200,"Шир.",0,UnitXval,true,0);
+			MatCol(t,-160,"Шир.",0,UnitYval,true,0);
+			MatCol(t,-120,"Глиб.",0,UnitZval,true,0);
+			MatCol(t,-80,"Ціна од-ці",0,UnitFactPrice,true,0);
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			MatCol(t,-315,"Од-ці",0,UnitCode,false,UnitSClass);
+			MatCol(t,-260,"К-ть од.",0,UnitFactQuant,true,0);
+			MatCol(t,-200,"Шир.",0,UnitXval,true,0);
+			MatCol(t,-160,"Шир.",0,UnitYval,true,0);
+			MatCol(t,-120,"Глиб.",0,UnitZval,true,0);
+			MatCol(t,-80,"Ціна од-ці",0,UnitFactPrice,true,0);
+			InsertRowTest;
+			DeleteRowTest;
+			EndMatrix;
+			vs = 20;
+			v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,5,"E");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,6,"F");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,7,"G");
+			if (StandardHansa==false) then begin
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,8,"H");
+			end;
+			Tile(3,70,false,"3",FrRate);
+			vs = 20;
+			EditField(h=110,v=6,50,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
+			EditField(h,v+vs,50,"Осн. валюта 1",Normal,BaseRate1,true,0);
+			EditField(h,v+(vs*2),50,"Осн. валюта 2",Normal,BaseRate2,true,0); 
+			EditField(h2=295,v,50,"Курс",Normal,FrRate,true,0);
+			RateField(h3=360,v,50,":",Normal,"ToRateB1",true,h3+60,v+14,"Осн. валюта 1",false);
+			RateField(h3,v+=vs,50,":",Normal,"ToRateB2",true,h3+60,v+14,"Осн. валюта 2",false);
+			Tile(4,110,false,"4",ShipDeal);
+			vs = 20; h1 = 110; h2 = 290; h3 = 530; h4 = -100;
+			EditField(h1,v=6,80,"Умова відван-ня",Normal,ShipDeal,false,ShipDealSClass);
+			EditField(h1,v+=vs,80,"Спосіб відван-ня",Normal,ShipMode,false,DMSClass);
+			if (StandardHansa==false) then begin
+			EditField(h1,v+=vs,80,"Маршрут",Normal,Sorting,false,DelRouteSClass);
+			end;
+			EditField(h1,v+=vs,80,"Склад",Normal,Location,false,LocationSClass);
+			if (StandardHansa==false) then begin
+				EditField(h1,v+=vs,80,"Філія",Normal,BranchID,false,AllCUSClass);
+			end;
+			EditField(h2,v=vm,80,"Разом: кількість",ViewOnly,TotQty,true,0);
+			EditField(h2,v+=vs,80,"вага",ViewOnly,TotWeight,true,0);
+			EditField(h2,v+=vs,80,"об'єм",ViewOnly,TotVolume,true,0);
+			EditField(h2,v+=vs,80,"Фрахт",Normal,FrPrice,true,0);
+			EditField(h2,v+=vs,80,"Код інтрасту",Normal,IntrastatTransCode,true,IntrastatTransCodeSClass); 
+			if (StandardHansa==false) then begin
+			EditField(h3,v,80,"Код фрахту",Normal,FrVATCode,true,VATCodeSClass);
+			end;
+			CheckBox(473,v=vm,0,"Накладна перед відвантаженням",InvBeforeShip);
+			Tile(5,130,false,"5",PriceList);
+			h3 = 530;
+			EditField(h1,v=vm,80,"Прейскурант",Normal,PriceList,false,PLDefSClass);
+			EditField(h1,v+=vs,80,"Таблиця знижок",ViewOnly,RebCode,false,0); 
+			EditField(h1,v+=vs,80,"Акт/накл:",Normal,InvoiceToCode,false,CUSClass);
+			if (StandardHansa==false) then begin
+			EditField(h1,v+=vs,80,"Кредитна карта",Normal,CreditCard,false,CreditCardSClass);
+			EditField(h1,v+=vs,80,"Авторизація",Normal,AuthorizationCode,false,0);
+			end;
+			v = vm;
+			if (StandardHansa==false) then begin
+				EditField(h2,v,80,"Група продажу",Normal,SalesGroup,false,SalesGroupSClass);
+				v = v + vs;
+			end;
+			EditField(h2,v,80,"Мова",Normal,LangCode,false,LangSClass);
+			if (StandardHansa==false) then begin
+			EditField(h2,v+=vs,80,"Комісія",Normal,Commision,true,0);
+			EditField(h2,v+=vs,80,"Разом вкл. ком.",ViewOnly,SumIncCom,true,0);
+			end;
+			if (HasTREO) then begin
+			EditField(h3,v=vm,80,"Номер TREO",Normal,TREONr,false,0);
+			EditField(h3,v+=vs,80,"Терм. дії TREO до",Normal,TREOExpDate,false,PasteCurDate);
+			end;
+			Tile(6,250,false,"6",Addr1);
+			label = UserDefined("CUVc","InvAddr0");
+			if (blank(label)) then begin label = "Отримувач"; end;
+			EditField(h=110,v=6,-20,label,Normal,Addr1,false,0);
+			label = UserDefined("CUVc","InvAddr1");
+			if (blank(label)) then begin label = "Адреса"; end;
+			EditField(h,v+=vs, -20,label,Normal,Addr2,false,0);
+			EditField(h,v+=vs,150,"Телефон",Normal,Phone,false,0);
+			EditField(h1,v+=vs,-20,"Коментар",Normal,Comment,false,0);
+			label = UserDefined("CUVc","InvAddr2");
+			EditField(h,v+=vs, -20,label,Normal,Addr3,false,0);
+			label = UserDefined("CUVc","InvAddr3");
+			EditField(h,v+=vs, -20,label,Normal,InvAddr3,false,0);
+			label = UserDefined("CUVc","InvAddr4");
+			EditField(h,v+=vs, -20,label,Normal,InvAddr4,false,0);
+			EditField(h,vm=(v+=vs),80,"Країна",Normal,InvCountry,false,CountrySClass);
+			if (HasLocalization("BRA")) then begin 
+				EditField(h2-89,v,232,"",ViewOnly,InvCountryName,false,0);
+				h5 = -170;
+				width = 150;
+			end else begin
+				h5 = -270;
+				width = 135;
+			end;
+			EditField(h5,v,width,"Рахунок",Normal,BankCode,false,BankSClass);
+
+			EditField(h2=-170,v=vm,150,"Регіон",Normal,Region,false,RegionSClass); 
+			EditField(h2,v+=vs,150,"ІПН",Normal,VATNr,false,0);
+			EditField(h2,v+=vs,150,"GLN",ViewOnly,RecipientGLN,false,0);
+			EditField(h2,v+=vs,150,"Факс",Normal,Fax,false,0);
+			Tile(7,170,false,"7",ShipAddr0);
+			if (StandardHansa==false) then begin
+			EditField(h1,v=6,80,"Адреса",Normal,DelAddrCode,false,DelAddr3SClass);
+			EditField(h1,v+=vs,-20,"Доставка",Normal,ShipAddr0,false,0);
+			end else begin
+				EditField(h1,v=6,-20,"Доставка",Normal,ShipAddr0,false,0);
+			end;
+			EditField(h1,v+=vs,-20,"на адресу",Normal,ShipAddr1,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,ShipAddr2,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,ShipAddr3,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,DelAddr3,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,DelAddr4,false,0);
+			EditField(h1,v+=vs,80,"Країна",Normal,DelCountry,false,CountrySClass);
+			if (HasLocalization("BRA")) then begin 
+				EditField(h1+91,v,232,"",ViewOnly,DelCountryName,false,0);
+				h5 = -170;
+				width = -20;
+			end;  
+			EditField(h2,v,150,"GLN постачання",ViewOnly,DelRecipientGLN,false,0);
+		//  EditField(h1+200,v,80,"#VAT Code#",Normal,CustVATCode,false,0);
+			EnterSkip(OrdDate);
+			if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
+				SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+				SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+				SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+				SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+				SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+
+			end else begin
+			SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
+			SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
+			SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+			SpecialMenu("друк ZEBRA",'',0,"PrintORZebraDsm")
+			SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
+			if (StandardHansa==false) then begin
+			SpecialMenu("Перерахувати вагу та об'єм",' ',10,"RecalculateWeightORDsm");
+			end;
+			SpecialMenu("Поновити товари валют. прейск.",' ',7,"UpdatePricesORDsm");
+			SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+			SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
+			SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+			if (StandardHansa==false) then begin
+			SpecialMenu("Ціна попереднього продажу",' ',12,"ORLastSPrsm");
+			SpecialMenu("Роздрукувати внутрішнє замовлення",' ',4,"Or2FormORDsm");
+			end;
+			SpecialMenu("Резервування",' ',15,"OrderReservORDsm");
+			if (StandardHansa==false) then begin
+			SpecialMenu("Відправити для затвердження",' ',6,"ORSendforAcceptanceORDsm");
+			SpecialMenu("Скасувати запит на затвердження",' ',2,"CancelApprovalRequestDsm"); 
+			end;
+			SpecialMenu("Створити діяльність",'c',9,"CreateActFromORDsm");
+			SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+			SpecialMenu("Акт/накладна на аванс",'o',3,"DownPayFromORDsm");
+			if (HaseMail) then begin
+			SpecialMenu("Створити E-Mail",'m',11,"CreateMailFromORDsm");
+			end;
+			SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+			if (HasModTS) then begin
+			SpecialMenu("Створити проект",' ',9,"CreatePRFromORDsm");
+			SpecialMenu("Створити бюджет проекту",' ',10,"CreateTBBUFromORDsm");
+			end;
+			if (HasModPO) then begin
+				SpecialMenu("Створити замовлення",' ',4,"POFromORDsm");
+			end;
+			if (GuiType==kGuiiPhone) then begin
+				SpecialMenu("Підпис",' ',10,"SignORDsm");
+			end;
+			SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
+			SpecialMenu("Переміщення по складу",' ',8,"StockMovFromORDsm");
+			if (HasTaxMatrix) then begin
+			SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixORDsm"); 
+			end;
+			SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+			SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+			SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
+			SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
+		
+			SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
+			SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
+			SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
+			SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
+			end;
+			EndWindow;
+		end else begin
+			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
+			SetWRect(20,80,750,460);
+			Sizeable(-1,-1,0,0);
+			UseView(ORVc);
+			ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
+				HalPushButton(300,5,360,25,"PrintDoOrdFormButton","Друк");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
+			EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
+			ActiveFieldOnNew("CustCode");    
+			CommunicateButton;
+			Tile(0,74,false,"",CustCode);
+			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
+			EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+			EnterSkip(PayDeal);
+			EditField(h=255,v=vm,-40,"Найменув.",Normal,Addr0,false,0);
+			if (StandardHansa==false) then begin
+			EditField(h+50,vm=(v+=20),135,"№ рах. у клієнта",Normal,CustOrdNr,false,0);
+			CheckBox(h4=-100,v,0,"OK",OKFlag);
+			end else begin
+				CheckBox(h4=-100,vm=(v+=20),0,"OK",OKFlag);
+			end;
+		//  CheckBox(h+120,vm,0,"Закрито",Closed);
+		//  CheckBox(h+240,vm,0,"Зарезервовано",Reserved);
+			TileButton(1,"Умови");
+			TileButton(2,"Товари");
+
+			TileButton(3,"Адреса доставки");
+			Tile(1,110,false,"1",OrdDate);
+			vs = 20; h1 = 110; h2 = 290; h3 = 530; h4 = -100;
+			EditField(h1,vm=(v=6),82,"Дата",Normal,OrdDate,false,PasteCurDate);
+			EditField(h3,v=vm,80,"Продавець",Normal,SalesMan,false,UserSClass);
+			CheckBox(h4,v=6,0,"Зарезервовано",Reserved);
+			EnterSkip(Math);
+			Tile(2,220,true,"2",Math);
+		//  CheckBox(20,-20,0,"OK",OKFlag);
+
+			EditField(-150,-21,100,"Всього",ViewOnly ,Sum4,true,0);
+			v = 24;
+			MatrixBegin(3,v,-50,-49,-,200);
+			MatTypedRow(stp);
+			flipnr = 0;
+			Flip(flipnr); flipnr = flipnr + 1;
+			MatText(t=9,32,"Разом",true);
+			MatCol(t,100,"",0,Spec,false,0);
+			MatColTL(t,-80,"Сума",0,-1,ViewOnly,0,Sum,true,0);
+			MatText(t=17,32,"Заголовок",true);
+			MatCol(t,100,"",0,Spec,false,0);
+			MatCol(t=1,32,"Товар",0,ArtCode,false,ForSaleINSClass);
+		//  MatCol(t,94,"Var",0,VARList,true,VARSClass);
+		//  MatCol(t,144,"Кіл",0,Quant,true,0);
+			t = 1;
+			if (HasVarieties) then begin
+			MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);
+			end else begin
+				MatCol(t,144,"Qty",0,Quant,true,0); //!!PRODTRANSLATE// Edit ************************** Monday, July 14, 2014 at 10:35:22
+			end;
+			EnterSkip(ArtCode);
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,32,"Товар",0,ArtCode,false,ForSaleINSClass);
+		//  MatCol(t,94,"Var",0,VARList,true,VARSClass);
+		//  MatCol(t,144,"Qty",0,Quant,true,0);
+			if (HasVarieties) then begin
+			MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);// Edit ************************** Monday, July 14, 2014 at 10:35:19
+			end else begin
+				MatCol(t,144,"Qty",0,Quant,true,0); //!!PRODTRANSLATE// Edit ************************** Monday, July 14, 2014 at 10:35:13
+			end;
+			EnterSkip(ArtCode);
+			MatText(t=10,32,"Цей та наступні рядки не будуть друкуватись",false);
+			MatText(t=kInvoiceRowTypePerceptionTax,32,"Податок",true);
+			MatCol(t,132,"",0,Region,false,0);
+			MatCol(t,252,"",0,TAX2Prc,true,0);
+			MatCol(t,292,"",0,Sum,true,0);
+			MatCol(t,372,"",0,SalesAcc,false,0);
+			MatCol(t,452,"",0,Spec,false,0);
+			Flip(flipnr); flipnr = flipnr + 1;
+		//  MatCol(t=1,194,"Наймен.",0,Spec,false,0);
+			t = 1;
+			MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+			MatCol(t,-180,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
+			MatCol(t,-105,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
+			MatCol(t,-70,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			MatCol(t,-180,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:27
+			MatCol(t,-105,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:23
+			MatCol(t,-70,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:15
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Товар",0,Spec,false,0);
+			if (UseTaxTemplatesforTaxCalc) then begin
+				MatCol(t,-284,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+				MatCol(t,-224,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+				MatCol(t,-164,"Об'єкт",0,Objects,false,ObjSClass);
+				MatCol(t,-70,"Ш-н",0,TaxTemplateCode,false,TaxTemplateSClass);
+			end else begin
+				MatCol(t,-264,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+				MatCol(t,-184,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+				MatCol(t,-124,"Об'єкт",0,Objects,false,ObjSClass);
+				MatCol(t,-30,"ПДВ",0,VATCode,false,VATCodeSClass);
+			end;
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			if (UseTaxTemplatesforTaxCalc) then begin
+				MatCol(t,-284,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+				MatCol(t,-224,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+				MatCol(t,-164,"Об'єкт",0,Objects,false,ObjSClass);
+				MatCol(t,-70,"Ш-н",0,TaxTemplateCode,false,TaxTemplateSClass);
+			end else begin
+				MatCol(t,-264,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+				MatCol(t,-184,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+				MatCol(t,-124,"Об'єкт",0,Objects,false,ObjSClass);
+				MatCol(t,-30,"ПДВ",0,VATCode,false,VATCodeSClass);
+			end;
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Товар",0,Spec,false,0);
+			MatCol(t,344,"Тип замовл.",0,OrderType,false,SetSClass);
+			if (UserCanAction("ViewCostPrice",true)) then begin
+				MatCol(t,-245,"Ціна",0,Price,true,PLSClass);
+				MatCol(t,-175,"%",0,vRebate,true,0);
+				MatCol(t,-140,"Вар-ть",0,BasePrice,true,0);
+				MatCol(t,-70,"Прибуток",0,rowGP,true,0);
+			end else begin
+				MatCol(t,-235,"Ціна",0,Price,true,PLSClass);
+				MatCol(t,-135,"%",0,vRebate,true,0);
+				MatCol(t,-100,"Сума",0,Sum,true,0);
+			end;
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			if (UserCanAction("ViewCostPrice",true)) then begin
+				MatCol(t,-245,"Ціна",0,Price,true,PLSClass);
+				MatCol(t,-175,"%",0,vRebate,true,0);
+				MatCol(t,-140,"Вар-ть",0,BasePrice,true,0);
+				MatCol(t,-70,"Приб.",0,rowGP,true,0);
+			end else begin
+				MatCol(t,-235,"Ціна",0,Price,true,PLSClass);
+				MatCol(t,-135,"%",0,vRebate,true,0);
+				MatCol(t,-100,"Сума",0,Sum,true,0);
+			end;
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Тов.",0,Spec,false,0);
+			MatCol(t,-300,"Продавець",0,Salesmen,false,UserSClass); 
+			MatCol(t,-236,"Відв. 1",0,Shipd1,true,0); 
+			MatCol(t,-184,"Відв. 2",0,Shipd2,true,0); 
+			MatCol(t,-132,"Накладна",0,Invd,true,0); 
+			MatCol(t,-80,"Шопс",0,Shopd,true,0); // Edit ************************** Friday, 31 October 2014 16:18:27
+			//MatCol(t,-80,"Структура",0,Recepy,false,RecSClass);// Edit ************************** Friday, 31 October 2014 16:17:44
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменув.",0,Spec,false,0);
+			MatCol(t,-290,"Відв. 1",0,Shipd1,true,0);
+			MatCol(t,-220,"Відв. 2",0,Shipd2,true,0);
+			MatCol(t,-150,"Накладна",0,Invd,true,0);
+			MatCol(t,-80,"Структура",0,Recepy,false,RecSClass);
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Товар",0,Spec,false,0);
+			MatCol(t,-290,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+			MatCol(t,-150,"Запл. відв.",0,PlanShipRow,true,PasteCurDate);
+			MatCol(t,-70,"Множник ціни",0,PriceFactor,true,0);
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			MatCol(t,-290,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+			MatCol(t,-150,"Запл. відв.",0,PlanShipRow,true,PasteCurDate);
+			MatCol(t,-70,"Множник ціни",0,PriceFactor,true,0);
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Товар",0,Spec,false,0);
+			MatCol(t,-315,"Накладна",0,ShipNote,false,0);
+			MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
+			if (StandardHansa==false) then begin
+			MatCol(t,-145,"Місце",0,Position,true,UsedPosSClass);
+			end;
+			//MatCol(t,-90,"Джерело",0,Source,true,SourceSClass);
+			MatCol(t,-90,"Друк",0,ORPrint,true,0);
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			MatCol(t,-315,"Накладна",0,ShipNote,false,0);
+			MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
+			if (StandardHansa==false) then begin
+			MatCol(t,-145,"Місце",0,Position,true,UsedPosSClass);
+			end;
+			MatCol(t,-90,"Джерело",0,Source,true,SourceSClass);
+			if (StandardHansa==false) then begin
+				Flip(flipnr); flipnr = flipnr + 1;
+			MatCol(t=1,144,"Дата отрим.",0,PickingDate,false,PasteCurDate);
+			MatCol(t,-390,"Час отрим.",0,PickingTime,false,PasteCurTime);
+			MatCol(t,-320,"Дата зав.",0,InloadingDate,true,PasteCurDate);
+			MatCol(t,-230,"Час зав.",0,InloadingTime,true,PasteCurTime);
+			MatCol(t,-160,"Дата відп.",0,DespatchRowDate,true,PasteCurDate);
+			MatCol(t,-70,"Час відп.",0,DespatchRowTime,true,PasteCurTime);
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Дата отрим.",0,PickingDate,false,PasteCurDate);
+			MatCol(t,-390,"Час отрим.",0,PickingTime,false,PasteCurTime);
+			MatCol(t,-320,"Дата зав.",0,InloadingDate,true,PasteCurDate);
+			MatCol(t,-230,"Час зав.",0,InloadingTime,true,PasteCurTime);
+			MatCol(t,-160,"Дата відп.",0,DespatchRowDate,true,PasteCurDate);
+			MatCol(t,-70,"Час відп",0,DespatchRowTime,true,PasteCurTime);
+			end;
+			Flip(flipnr); flipnr = flipnr + 1;
+			t = 1;
+			MatCol(t,144,"Товар",0,Spec,false,0);
+			MatCol(t,-315,"Од-ці",0,UnitCode,false,UnitSClass);
+			MatCol(t,-260,"К-ть од.",0,UnitFactQuant,true,0);
+			MatCol(t,-200,"Шир.",0,UnitXval,true,0);
+			MatCol(t,-160,"Шир.",0,UnitYval,true,0);
+			MatCol(t,-120,"Глиб.",0,UnitZval,true,0);
+			MatCol(t,-80,"Ціна од-ці",0,UnitFactPrice,true,0);
+			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+			MatCol(t,-315,"Од-ці",0,UnitCode,false,UnitSClass);
+			MatCol(t,-260,"К-ть од.",0,UnitFactQuant,true,0);
+			MatCol(t,-200,"Шир.",0,UnitXval,true,0);
+			MatCol(t,-160,"Шир.",0,UnitYval,true,0);
+			MatCol(t,-120,"Глиб.",0,UnitZval,true,0);
+			MatCol(t,-80,"Ціна од-ці",0,UnitFactPrice,true,0);
+			InsertRowTest;
+			DeleteRowTest;
+			EndMatrix;
+			vs = 20;
+			v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,5,"E");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,6,"F");
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,7,"G");
+			if (StandardHansa==false) then begin
+			v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,8,"H");
+			end;
+			Tile(3,170,false,"3",ShipAddr0);
+			if (StandardHansa==false) then begin
+			//EditField(h1,v=6,80,"Адреса",Normal,DelAddrCode,false,DelAddr3SClass);
+			EditField(h1,v=6,-20,"Доставка",Normal,ShipAddr0,false,0);
+			end else begin
+				EditField(h1,v=6,-20,"Доставка",Normal,ShipAddr0,false,0);
+			end;
+			EditField(h1,v+=vs,-20,"на адресу",Normal,ShipAddr1,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,ShipAddr2,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,ShipAddr3,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,DelAddr3,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,DelAddr4,false,0);
+			//EditField(h1,v+=vs,80,"Країна",Normal,DelCountry,false,CountrySClass);
+			if (HasLocalization("BRA")) then begin 
+				EditField(h1+91,v,232,"",ViewOnly,DelCountryName,false,0);
+				h5 = -170;
+				width = -20;
+			end;  
+			//EditField(h2,v,150,"GLN постачання",ViewOnly,DelRecipientGLN,false,0);
+		//  EditField(h1+200,v,80,"#VAT Code#",Normal,CustVATCode,false,0);
+			EnterSkip(OrdDate);
+			if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
+				SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+				SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+				SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+				SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+				SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+		/*
+		email not working yet
+				SpecialMenu("Create E-Mail",'m',11,"CreateMailFromORDsm");
+		*/
+			end else begin
+			SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
+			SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
+			SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+			SpecialMenu("друк ZEBRA",'',0,"PrintORZebraDsm")
+			SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
+			if (StandardHansa==false) then begin
+			SpecialMenu("Перерахувати вагу та об'єм",' ',10,"RecalculateWeightORDsm");
+			end;
+			SpecialMenu("Поновити товари валют. прейск.",' ',7,"UpdatePricesORDsm");
+			SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+			SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
+			SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+			if (StandardHansa==false) then begin
+			SpecialMenu("Ціна попереднього продажу",' ',12,"ORLastSPrsm");
+			SpecialMenu("Роздрукувати внутрішнє замовлення",' ',4,"Or2FormORDsm");
+			end;
+			SpecialMenu("Резервування",' ',15,"OrderReservORDsm");
+			if (StandardHansa==false) then begin
+			SpecialMenu("Відправити для затвердження",' ',6,"ORSendforAcceptanceORDsm");
+			SpecialMenu("Скасувати запит на затвердження",' ',2,"CancelApprovalRequestDsm"); 
+			end;
+			SpecialMenu("Створити діяльність",'c',9,"CreateActFromORDsm");
+			SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+			SpecialMenu("Акт/накладна на аванс",'o',3,"DownPayFromORDsm");
+			if (HaseMail) then begin
+			SpecialMenu("Створити E-Mail",'m',11,"CreateMailFromORDsm");
+			end;
+			SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+			if (HasModTS) then begin
+			SpecialMenu("Створити проект",' ',9,"CreatePRFromORDsm");
+			SpecialMenu("Створити бюджет проекту",' ',10,"CreateTBBUFromORDsm");
+			end;
+			if (HasModPO) then begin
+				SpecialMenu("Створити замовлення",' ',4,"POFromORDsm");
+			end;
+			if (GuiType==kGuiiPhone) then begin
+				SpecialMenu("Підпис",' ',10,"SignORDsm");
+			end;
+			SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
+			SpecialMenu("Переміщення по складу",' ',8,"StockMovFromORDsm");
+			if (HasTaxMatrix) then begin
+			SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixORDsm"); 
+			end;
+			SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+			SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+			SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
+			SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
+		
+			SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
+			SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
+			SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
+			SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
+
+
+			end;
+			EndWindow;
+		end;
+	end else begin
+		if(currentcompany==13)then begin
+			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
+			SetWRect(20,80,950,450);
+			DynamicWindow;
+			//Sizeable(0,0,0,0);
+			UseView(ORVc);
+			getwindowrecord(curwindow,ORr);
+			show = true;
+			if(usercanaction("ViewAllOrderDetails",true)==false)then begin
+        BrowseButtons(false);
+        if(blank(ORr.SalesMan) and ORr.SerNr>-1)then begin
+          show = false;
+        end;
+			end;
+			ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
+				HalPushButton(300,5,360,25,"PrintDoOrdFormButton","Друк");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
+			EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
+			ActiveFieldOnNew("CustCode");    
+			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
+			if(show)then begin
+			  if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
+          EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+        end else begin
+          v = v + 20;
+        end;
+			end else begin
+			  v = v + 20;
+			end;
+			if(currentcompany==13)then begin
+				HalPushButton(190,v,270,v+20,"CallToClientDsm","Дзвінок");
+			end;
+			EnterSkip(PayDeal);
+			EditField(h=255,v=vm,-120,"Найменув.",Normal,Addr0,false,0);
+		
+			//EditField(h+100,vm=(v+=20),80,"№ рах.",Normal,CustOrdNr,false,0);
+			CheckBox(h4=-110,v,0,"OK",OKFlag);
+			CheckBox(h4,v+20,0,"Зарезервовано",Reserved);
+			EditField(h3=320,v+=20,100,"Статус",Normal,OrderStatusText,false,OrderStatusSClass);
+			EditField(h3=510,v,100,"Продавець",normal,SalesMan,false,UserSClass);
+			if(show)then begin
+        HalPushButton(h3-100+220,v,h3+270,v+20,"OrderSetToST6Dsm","Готовий до видачі");
+      
+        EditField(h3-100+160,v+25,70,"Г.Видав.",ViewOnly,DoneMan,false,0);
+        EditField(h3-100+270,v+25,70,"Дата",ViewOnly,DoneDate,false,0);
+        EditField(h3-100+270,v+50,70,"Час",ViewOnly,DoneTime,false,0);
+      
+        vv = v+25;
+        EditField(h3+330,vv,70,"Готівка",Normal,PayVal01,false,0);
+        EditField(h3+330,vv+=20,70,"Термінал",Normal,PayVal02,false,0);
+        EditField(h3+330,vv+=20,70,"Б/Н без ПДВ",Normal,PayVal03,false,0);
+        EditField(h3+330,vv+=20,70,"Кредит",Normal,PayVal04,false,0);
+        EditField(h3+330,vv+=20,70,"ОЧ Приват",Normal,PayVal05,false,0);
+      
+      
+        HalPushButton(h3-100,v+=20,h3,v+=20,"OrderSetToST1Dsm","В роботі");
+        CheckBox(h3+10,v+7+25,0,"",TTNMark);
+        EditField(h3+80,v+7+25,80,"ТТН",Normal,TTNNumber,false,0);	
+    
+        EditField(h3+80,v+27+25,80,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
+        HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST5Dsm","Не додзвонилися");
+        HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST2Dsm","Відправлений");
+        HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST3Dsm","Виконаний");
+        CheckBox(h3+10,v+7,0,"",RejectMark);
+        EditField(h3+80,v+7,-110,"Причина",Normal,RejectStr,false,RejectStrSClass);
+        //EditField(h3+80,v+27,-20,"Вид рахунка",Normal,OrderType,false,SetSClass);
+        HalPushButton(h3-100,v+=5,h3,v+=20,"OrderSetToST4Dsm","Відхилено");
+        //1 
+        v = 60;
+        h1=75;
+        h2 = 255;
+        vs = 20;
+        EditField(h1,v,70,"Дата",Normal,OrdDate,false,PasteCurDate);	
+        EditField(h1,v+=vs,25,"Умови сплт.",Normal,PayDeal,false,PDSClass);
+        EditField(h1,v+=vs,70,"Склад",Normal,Location,false,LocationSClass);
+        EditField(h1,v+=vs,70,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
+        HalPushButton(h1+70,v+17,h1+130,v+25,"OrderCustomerInfoDsm","Звіт");
+        EditField(h1,v+=vs,40,"Пост.Кл.",ViewOnly,OrderCnt,false,0);
+
+    
+        //2
+        //EditField(h2,v=60,150,"Отримувач",Normal,ShipAddr0,false,0);
+        EditField(h2,v=60,150,"Доставка",Normal,ShipAddr1,false,0);
+        if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
+          EditField(h2,v+=vs,150,"Телефон",Normal,Phone,false,0);
+        end else begin
+          v = v + vs;
+        end;
+        EditField(h2,v+=vs,150,"Коментар",Normal,Comment,false,0);
+        EditField(h2,v+=vs,150,"№ рах.",Normal,CustOrdNr,false,0);
+        v = v + vs;
+        //3
+        if(show)then begin
+          MatrixBegin(3,v+=50,-50,v+170,-,200);
+          MatTypedRow(stp);
+          flipnr = 0;
+          Flip(flipnr); flipnr = flipnr + 1;
+          t = 1;
+          MatCol(t,24,"Товар",0,ArtCode,false,INSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+          MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);
+          EnterSkip(ArtCode);
+          Flip(flipnr); flipnr = flipnr + 1;
+          t = 1;
+          MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+
+          MatCol(t,-434,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+          MatCol(t,-330,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
+          MatCol(t,-255,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
+          MatCol(t,-220,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
+          MatCol(t,-150,"Коммент.",0,DopComment,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 27 01 2021 y. at 6:04:10 PM
+
+      
+          Flip(flipnr); flipnr = flipnr + 1;
+          MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+          MatCol(t,384,"Коммент.",0,DopComment,false,0);
+          MatCol(t,-180,"Склад",0,Location,true,0);
+          MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
+          MatCol(t,-60,"Друк",0,ORPrint,true,0);
+          EnterSkip(ORPrint);
+    
+          InsertRowTest;
+          DeleteRowTest;
+          EndMatrix;
+          vs = 20;
+          v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+          v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+          //v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+        end;
+        v = v + 320;
+        ButtonFrame(10,v+vs,370,3,"Заполнить!!!");
+        EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,PasteCurDate);
+        EditField(h1+200,v,70,"Время",Normal,DespatchTime,false,PasteCurTime);
+        EditField(h1+20,v+=vs,250,"Точка выдачи",Normal,InvAddr4,false,SalesGroupSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 28 11 2019 y. at 2:48:48 PM
+        HalPushButton(400,v-25,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
+      
+        v = v + vs;
+        EditField(h1,v+=vs,-350,"Інформація",Normal,ShipAddr0,false,0);
+        EditField(h1,v+=vs,-350,"Кредит",Normal,TerminalID,false,0);
+        EditField(h1,v+=vs,-350,"замовлення",Normal,ShipAddr1,false,0);
+        EditField(h1,v+=vs,-350,"",Normal,ShipAddr2,false,0);
+        EditField(h1,v+=vs,-350,"",Normal,ShipAddr3,false,0);
+        EditField(h1,v+=vs,-350,"",Normal,DelAddr3,false,0);
+        EditField(h1,v+=vs,-350,"",Normal,DelAddr4,false,0);
+        v = v - 2*vs;
+        TextField(h1+520,370,-10,140,Math2,0);
+        EditField(h1+590,v+=vs,-50,"Сообщение",Normal,ORChatSend,false,0);
+        EnterSkip(ORChatSend);
+        EditField(-150,v+=vs,100,"Всього",ViewOnly ,Sum4,true,0);
+      end else begin
+        v = 600;
+        StaticText(50,v,"_",true);
+      end;
+        if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
+          SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+          SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+          SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+          SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+          SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+      /*
+      email not working yet
+          SpecialMenu("Create E-Mail",'m',11,"CreateMailFromORDsm");
+      */
+        end else begin
+        SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
+        SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
+        SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+        SpecialMenu("друк ZEBRA",'',0,"PrintORZebraDsm")
+        SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
+        if (StandardHansa==false) then begin
+        SpecialMenu("Перерахувати вагу та об'єм",' ',10,"RecalculateWeightORDsm");
+        end;
+        SpecialMenu("Поновити товари валют. прейск.",' ',7,"UpdatePricesORDsm");
+        SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+        SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
+        SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+        if (StandardHansa==false) then begin
+        SpecialMenu("Ціна попереднього продажу",' ',12,"ORLastSPrsm");
+        SpecialMenu("Роздрукувати внутрішнє замовлення",' ',4,"Or2FormORDsm");
+        end;
+        SpecialMenu("Резервування",' ',15,"OrderReservORDsm");
+        if (StandardHansa==false) then begin
+        SpecialMenu("Відправити для затвердження",' ',6,"ORSendforAcceptanceORDsm");
+        SpecialMenu("Скасувати запит на затвердження",' ',2,"CancelApprovalRequestDsm"); 
+        end;
+        SpecialMenu("Створити діяльність",'c',9,"CreateActFromORDsm");
+        SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+        SpecialMenu("Акт/накладна на аванс",'o',3,"DownPayFromORDsm");
+        if (HaseMail) then begin
+        SpecialMenu("Створити E-Mail",'m',11,"CreateMailFromORDsm");
+        end;
+        SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+        if (HasModTS) then begin
+        SpecialMenu("Створити проект",' ',9,"CreatePRFromORDsm");
+        SpecialMenu("Створити бюджет проекту",' ',10,"CreateTBBUFromORDsm");
+        end;
+        if (HasModPO) then begin
+          SpecialMenu("Створити замовлення",' ',4,"POFromORDsm");
+        end;
+        if (GuiType==kGuiiPhone) then begin
+          SpecialMenu("Підпис",' ',10,"SignORDsm");
+        end;
+        SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
+        SpecialMenu("Переміщення по складу",' ',8,"StockMovFromORDsm");
+        if (HasTaxMatrix) then begin
+        SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixORDsm"); 
+        end;
+        SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+        SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+        SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
+        SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
+    
+        SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
+        SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
+        SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
+        SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
+        end;
+      
+			EndWindow;
+		end else begin
+			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
+			SetWRect(20,80,750,460);
+			Sizeable(-1,-1,0,0);
+			UseView(ORVc);
+			DynamicWindow;
+
+      BrowseButtons(false);      
+			ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
+				HalPushButton(300,5,360,25,"PrintDoOrdFormButton","Друк");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
+			EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
+			ActiveFieldOnNew("CustCode");    
+			CommunicateButton;
+			Tile(0,74,false,"",CustCode);
+			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
+			EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+			EnterSkip(PayDeal);
+			EditField(h=255,v=vm,-40,"Найменув.",Normal,Addr0,false,0);
+			if (StandardHansa==false) then begin
+			EditField(h+50,vm=(v+=20),135,"№ рах. у клієнта",Normal,CustOrdNr,false,0);
+			CheckBox(h4=-100,v,0,"OK",OKFlag);
+			end else begin
+				CheckBox(h4=-100,vm=(v+=20),0,"OK",OKFlag);
+			end;
+			TileButton(1,"Умови");
+			TileButton(2,"Товари");
+			TileButton(3,"Адреса доставки");
+			Tile(1,110,false,"1",OrdDate);
+			vs = 20; h1 = 110; h2 = 290; h3 = 530; h4 = -100;
+			EditField(h1,vm=(v=6),82,"Дата",Normal,OrdDate,false,PasteCurDate);
+			EditField(h3,v=vm,80,"Продавець",Normal,SalesMan,false,UserSClass);
+			if (StandardHansa==false) then begin
+			//EditField(h3,v+=vs,80,"Проект",Normal,PRCode,false,PRSClass);
+			end;
+			//EditField(h3,v+=vs,80,"Клас рахунка",Normal,OrderClass,false,OrderClassSClass);
+			if (StandardHansa==false) then begin
+			end;
+			CheckBox(h4,v=6,0,"Зарезервовано",Reserved);
+			EnterSkip(Math);
+			Tile(2,220,true,"2",Math);
+			EditField(-150,-21,100,"Всього",ViewOnly ,Sum4,true,0);
+			v = 24;
+			if(show)then begin
+        MatrixBegin(3,v,-50,-49,-,200);
+        MatTypedRow(stp);
+        flipnr = 0;
+        Flip(flipnr); flipnr = flipnr + 1;
+        MatText(t=9,32,"Разом",true);
+        MatCol(t,100,"",0,Spec,false,0);
+        MatColTL(t,-80,"Сума",0,-1,ViewOnly,0,Sum,true,0);
+        MatText(t=17,32,"Заголовок",true);
+        MatCol(t,100,"",0,Spec,false,0);
+        MatCol(t=1,32,"Товар",0,ArtCode,false,ForSaleINSClass);
+        t = 1;
+        if (HasVarieties) then begin
+        MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);
+        end else begin
+          MatCol(t,144,"Qty",0,Quant,true,0); //!!PRODTRANSLATE// Edit ************************** Monday, July 14, 2014 at 10:35:22
+        end;
+        EnterSkip(ArtCode);
+        MatCol(t=kInvoiceRowTypeStructuredItemComponent,32,"Товар",0,ArtCode,false,ForSaleINSClass);
+        if (HasVarieties) then begin
+        MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);// Edit ************************** Monday, July 14, 2014 at 10:35:19
+        end else begin
+          MatCol(t,144,"Qty",0,Quant,true,0); //!!PRODTRANSLATE// Edit ************************** Monday, July 14, 2014 at 10:35:13
+        end;
+        EnterSkip(ArtCode);
+        MatText(t=10,32,"Цей та наступні рядки не будуть друкуватись",false);
+        MatText(t=kInvoiceRowTypePerceptionTax,32,"Податок",true);
+        MatCol(t,132,"",0,Region,false,0);
+        MatCol(t,252,"",0,TAX2Prc,true,0);
+        MatCol(t,292,"",0,Sum,true,0);
+        MatCol(t,372,"",0,SalesAcc,false,0);
+        MatCol(t,452,"",0,Spec,false,0);
+        Flip(flipnr); flipnr = flipnr + 1;
+      //  MatCol(t=1,194,"Наймен.",0,Spec,false,0);
+        t = 1;
+        MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+        MatCol(t,-180,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
+        MatCol(t,-105,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
+        MatCol(t,-70,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
+        MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+        MatCol(t,-180,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:27
+        MatCol(t,-105,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:23
+        MatCol(t,-70,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:15
+        Flip(flipnr); flipnr = flipnr + 1;
+        t = 1;
+        MatCol(t,144,"Товар",0,Spec,false,0);
+        if (UseTaxTemplatesforTaxCalc) then begin
+          MatCol(t,-284,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+          MatCol(t,-224,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+          MatCol(t,-164,"Об'єкт",0,Objects,false,ObjSClass);
+          MatCol(t,-70,"Ш-н",0,TaxTemplateCode,false,TaxTemplateSClass);
+        end else begin
+          MatCol(t,-264,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+          MatCol(t,-184,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+          MatCol(t,-124,"Об'єкт",0,Objects,false,ObjSClass);
+          MatCol(t,-30,"ПДВ",0,VATCode,false,VATCodeSClass);
+        end;
+        MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+        if (UseTaxTemplatesforTaxCalc) then begin
+          MatCol(t,-284,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+          MatCol(t,-224,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+          MatCol(t,-164,"Об'єкт",0,Objects,false,ObjSClass);
+          MatCol(t,-70,"Ш-н",0,TaxTemplateCode,false,TaxTemplateSClass);
+        end else begin
+          MatCol(t,-264,"Код товара клієнта",0,CustArtCode,false,CUINSClass); 
+          MatCol(t,-184,"Рах. реаліз.",0,SalesAcc,false,AccSClass); 
+          MatCol(t,-124,"Об'єкт",0,Objects,false,ObjSClass);
+          MatCol(t,-30,"ПДВ",0,VATCode,false,VATCodeSClass);
+        end;
+        Flip(flipnr); flipnr = flipnr + 1;
+        t = 1;
+        MatCol(t,144,"Товар",0,Spec,false,0);
+        MatCol(t,344,"Тип замовл.",0,OrderType,false,SetSClass);
+        if (UserCanAction("ViewCostPrice",true)) then begin
+          MatCol(t,-245,"Ціна",0,Price,true,PLSClass);
+          MatCol(t,-175,"%",0,vRebate,true,0);
+          MatCol(t,-140,"Вар-ть",0,BasePrice,true,0);
+          MatCol(t,-70,"Прибуток",0,rowGP,true,0);
+        end else begin
+          MatCol(t,-235,"Ціна",0,Price,true,PLSClass);
+          MatCol(t,-135,"%",0,vRebate,true,0);
+          MatCol(t,-100,"Сума",0,Sum,true,0);
+        end;
+        MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+        if (UserCanAction("ViewCostPrice",true)) then begin
+          MatCol(t,-245,"Ціна",0,Price,true,PLSClass);
+          MatCol(t,-175,"%",0,vRebate,true,0);
+          MatCol(t,-140,"Вар-ть",0,BasePrice,true,0);
+          MatCol(t,-70,"Приб.",0,rowGP,true,0);
+        end else begin
+          MatCol(t,-235,"Ціна",0,Price,true,PLSClass);
+          MatCol(t,-135,"%",0,vRebate,true,0);
+          MatCol(t,-100,"Сума",0,Sum,true,0);
+        end;
+        Flip(flipnr); flipnr = flipnr + 1;
+        t = 1;
+        MatCol(t,144,"Тов.",0,Spec,false,0);
+        MatCol(t,-300,"Продавець",0,Salesmen,false,UserSClass); 
+        MatCol(t,-236,"Відв. 1",0,Shipd1,true,0); 
+        MatCol(t,-184,"Відв. 2",0,Shipd2,true,0); 
+        MatCol(t,-132,"Накладна",0,Invd,true,0); 
+        MatCol(t,-80,"Шопс",0,Shopd,true,0); // Edit ************************** Friday, 31 October 2014 16:18:27
+        //MatCol(t,-80,"Структура",0,Recepy,false,RecSClass);// Edit ************************** Friday, 31 October 2014 16:17:44
+        MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменув.",0,Spec,false,0);
+        MatCol(t,-290,"Відв. 1",0,Shipd1,true,0);
+        MatCol(t,-220,"Відв. 2",0,Shipd2,true,0);
+        MatCol(t,-150,"Накладна",0,Invd,true,0);
+        MatCol(t,-80,"Структура",0,Recepy,false,RecSClass);
+        Flip(flipnr); flipnr = flipnr + 1;
+        t = 1;
+        MatCol(t,144,"Товар",0,Spec,false,0);
+        MatCol(t,-290,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+        MatCol(t,-150,"Запл. відв.",0,PlanShipRow,true,PasteCurDate);
+        MatCol(t,-70,"Множник ціни",0,PriceFactor,true,0);
+        MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+        MatCol(t,-290,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+        MatCol(t,-150,"Запл. відв.",0,PlanShipRow,true,PasteCurDate);
+        MatCol(t,-70,"Множник ціни",0,PriceFactor,true,0);
+        Flip(flipnr); flipnr = flipnr + 1;
+        t = 1;
+        MatCol(t,144,"Товар",0,Spec,false,0);
+        MatCol(t,-315,"Накладна",0,ShipNote,false,0);
+        MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
+        if (StandardHansa==false) then begin
+        MatCol(t,-145,"Місце",0,Position,true,UsedPosSClass);
+        end;
+        //MatCol(t,-90,"Джерело",0,Source,true,SourceSClass);
+        MatCol(t,-90,"Друк",0,ORPrint,true,0);
+        MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+        MatCol(t,-315,"Накладна",0,ShipNote,false,0);
+        MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
+        if (StandardHansa==false) then begin
+        MatCol(t,-145,"Місце",0,Position,true,UsedPosSClass);
+        end;
+        MatCol(t,-90,"Джерело",0,Source,true,SourceSClass);
+        if (StandardHansa==false) then begin
+          Flip(flipnr); flipnr = flipnr + 1;
+        MatCol(t=1,144,"Дата отрим.",0,PickingDate,false,PasteCurDate);
+        MatCol(t,-390,"Час отрим.",0,PickingTime,false,PasteCurTime);
+        MatCol(t,-320,"Дата зав.",0,InloadingDate,true,PasteCurDate);
+        MatCol(t,-230,"Час зав.",0,InloadingTime,true,PasteCurTime);
+        MatCol(t,-160,"Дата відп.",0,DespatchRowDate,true,PasteCurDate);
+        MatCol(t,-70,"Час відп.",0,DespatchRowTime,true,PasteCurTime);
+        MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Дата отрим.",0,PickingDate,false,PasteCurDate);
+        MatCol(t,-390,"Час отрим.",0,PickingTime,false,PasteCurTime);
+        MatCol(t,-320,"Дата зав.",0,InloadingDate,true,PasteCurDate);
+        MatCol(t,-230,"Час зав.",0,InloadingTime,true,PasteCurTime);
+        MatCol(t,-160,"Дата відп.",0,DespatchRowDate,true,PasteCurDate);
+        MatCol(t,-70,"Час відп",0,DespatchRowTime,true,PasteCurTime);
+        end;
+        Flip(flipnr); flipnr = flipnr + 1;
+        t = 1;
+        MatCol(t,144,"Товар",0,Spec,false,0);
+        MatCol(t,-315,"Од-ці",0,UnitCode,false,UnitSClass);
+        MatCol(t,-260,"К-ть од.",0,UnitFactQuant,true,0);
+        MatCol(t,-200,"Шир.",0,UnitXval,true,0);
+        MatCol(t,-160,"Шир.",0,UnitYval,true,0);
+        MatCol(t,-120,"Глиб.",0,UnitZval,true,0);
+        MatCol(t,-80,"Ціна од-ці",0,UnitFactPrice,true,0);
+        MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
+        MatCol(t,-315,"Од-ці",0,UnitCode,false,UnitSClass);
+        MatCol(t,-260,"К-ть од.",0,UnitFactQuant,true,0);
+        MatCol(t,-200,"Шир.",0,UnitXval,true,0);
+        MatCol(t,-160,"Шир.",0,UnitYval,true,0);
+        MatCol(t,-120,"Глиб.",0,UnitZval,true,0);
+        MatCol(t,-80,"Ціна од-ці",0,UnitFactPrice,true,0);
+        InsertRowTest;
+        DeleteRowTest;
+        EndMatrix;
+        vs = 20;
+        v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+        v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+        v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+        v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
+        v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,5,"E");
+        v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,6,"F");
+        v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,7,"G");
+        if (StandardHansa==false) then begin
+        v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,8,"H");
+        end;
+			end;
+			
+			Tile(3,170,false,"3",ShipAddr0);
+			if (StandardHansa==false) then begin
+			//EditField(h1,v=6,80,"Адреса",Normal,DelAddrCode,false,DelAddr3SClass);
+			EditField(h1,v=6,-20,"Доставка",Normal,ShipAddr0,false,0);
+			end else begin
+				EditField(h1,v=6,-20,"Доставка",Normal,ShipAddr0,false,0);
+			end;
+			EditField(h1,v+=vs,-20,"на адресу",Normal,ShipAddr1,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,ShipAddr2,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,ShipAddr3,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,DelAddr3,false,0);
+			EditField(h1,v+=vs,-20,"",Normal,DelAddr4,false,0);
+			//EditField(h1,v+=vs,80,"Країна",Normal,DelCountry,false,CountrySClass);
+			if (HasLocalization("BRA")) then begin 
+				EditField(h1+91,v,232,"",ViewOnly,DelCountryName,false,0);
+				h5 = -170;
+				width = -20;
+			end;  
+			//EditField(h2,v,150,"GLN постачання",ViewOnly,DelRecipientGLN,false,0);
+		//  EditField(h1+200,v,80,"#VAT Code#",Normal,CustVATCode,false,0);
+			EnterSkip(OrdDate);
+			if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
+				SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+				SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+				SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+				SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+				SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+		/*
+		email not working yet
+				SpecialMenu("Create E-Mail",'m',11,"CreateMailFromORDsm");
+		*/
+			end else begin
+			SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
+			SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
+			SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+			SpecialMenu("друк ZEBRA",'',0,"PrintORZebraDsm")
+			SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
+			if (StandardHansa==false) then begin
+			SpecialMenu("Перерахувати вагу та об'єм",' ',10,"RecalculateWeightORDsm");
+			end;
+			SpecialMenu("Поновити товари валют. прейск.",' ',7,"UpdatePricesORDsm");
+			SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+			SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
+			SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+			if (StandardHansa==false) then begin
+			SpecialMenu("Ціна попереднього продажу",' ',12,"ORLastSPrsm");
+			SpecialMenu("Роздрукувати внутрішнє замовлення",' ',4,"Or2FormORDsm");
+			end;
+			SpecialMenu("Резервування",' ',15,"OrderReservORDsm");
+			if (StandardHansa==false) then begin
+			SpecialMenu("Відправити для затвердження",' ',6,"ORSendforAcceptanceORDsm");
+			SpecialMenu("Скасувати запит на затвердження",' ',2,"CancelApprovalRequestDsm"); 
+			end;
+			SpecialMenu("Створити діяльність",'c',9,"CreateActFromORDsm");
+			SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+			SpecialMenu("Акт/накладна на аванс",'o',3,"DownPayFromORDsm");
+			if (HaseMail) then begin
+			SpecialMenu("Створити E-Mail",'m',11,"CreateMailFromORDsm");
+			end;
+			SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+			if (HasModTS) then begin
+			SpecialMenu("Створити проект",' ',9,"CreatePRFromORDsm");
+			SpecialMenu("Створити бюджет проекту",' ',10,"CreateTBBUFromORDsm");
+			end;
+			if (HasModPO) then begin
+				SpecialMenu("Створити замовлення",' ',4,"POFromORDsm");
+			end;
+			if (GuiType==kGuiiPhone) then begin
+				SpecialMenu("Підпис",' ',10,"SignORDsm");
+			end;
+			SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
+			SpecialMenu("Переміщення по складу",' ',8,"StockMovFromORDsm");
+			if (HasTaxMatrix) then begin
+			SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixORDsm"); 
+			end;
+			SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+			SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+			SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
+			SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
+		
+			SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
+			SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
+			SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
+			SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
+
+
+			end;
+			EndWindow;
+		end;
+	end;
+end;

@@ -1,0 +1,101 @@
+//##ii
+procedure dummy() //##ii
+begin //##ii
+  SetLangMode(LangRussian,"RUS",0); //##ii
+  return; //##ii
+end; //##ii
+
+window INDClass:8
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  integer tilenr;
+  real h,h1,h2,h3,h4,h5,h6,v,vm,vs;
+  string 255 label;
+
+  WindowBegin("Товар",INDClass,CGview,-);
+  SetWRect(20,80,800,400);
+  Sizeable(-1,-1,-1,0);
+  DynamicWindow;
+  UseView(INVc);
+  Tile(0,87,false,"",Code); 
+  v = 6; vs = 20; h = 155; h1 = 300; h2 = 385; h3 = 395; h4 = 285; h5 = 433;
+  EditField(h,v, 150,"Код товару",Normal,Code,false,0);
+  EditField(h2,v,80,"Група",Normal,Group,false,ITSClass);
+  EditField(h,v+=vs,-40,"Найменування",Normal,Name,false,0);
+  tilenr = 1;
+  TileButton(tilenr,"Друк цінників"); tilenr = tilenr + 1; //Edit***************************Sasha2,13:43 22.10.2014
+  TileButton(tilenr,"Опис"); tilenr = tilenr + 1;
+  TileButton(tilenr,"Опис товарів"); tilenr = tilenr + 1;
+
+  tilenr = 1;
+  CheckBox(h,v+=vs,0,"Закрито",Terminated);
+  CheckBox(h2,v,0,"Не для продажу",NotForSales);
+  Tile(tilenr,70,false,tilenr,LName);  tilenr = tilenr + 1; //Edit***************************Sasha2, 15:57 22.10.2014 {
+  v=20; 
+  //h=120;
+  EditField(h,v,400, "Найменування товару",Normal,LName,false,0);
+  EditField(h,v+=20,400, "Коментар",Normal,LComment,false,0);
+  v=v+20;
+  EditField(h,v+=20,100, "Прайс",Normal,LPriceList,false,PLDefSClass);
+  //EditField(h,v+=20,100, "Форма документа",Normal,LDefFormCode,false,DocSClass);
+  //EditField(h,v+=20,100, "Валюта",Normal,LCurncyCode,false,CurncyCodeSClass);
+  v=20;
+  ButtonFrame(h+=450,v,60,5,"Розмір");
+  RadioButton(h,v,0,0,USetStr(31034),LSize);
+  RadioButton(h,v+=16,1,0,USetStr(31035),LSize);
+  RadioButton(h,v+=16,2,0,USetStr(31036),LSize);
+  RadioButton(h,v+=16,3,0,USetStr(31037),LSize);
+  RadioButton(h,v+=16,4,0,USetStr(31038),LSize);
+  RadioButton(h,v+=16,5,0,USetStr(31039),LSize);
+  RadioButton(h,v+=16,6,0,USetStr(31040),LSize); //Edit***************************Sasha2,15:57 22.10.2014 }
+  RadioButton(h,v+=16,7,0,"1*5 SAMS",LSize); //Edit***************************Sasha2,15:57 22.10.2014 }
+  Tile(tilenr,120,true,tilenr,Math);  tilenr = tilenr + 1;
+  v = 24;
+  MatrixBegin(4,v,-50,-40,-,99);
+  Flip(1); //Edit***************************Sasha2,16:04 22.10.2014 {
+  MatCol(1,24,"Товар - Тип",0,LParam,false,0);
+  MatCol(1,-350,"Товар - Варіанти",0,LName,false,0);
+  Flip(2);
+  MatCol(1,24,"Опис",0,LComment1,false,0);
+  Flip(3);
+  MatCol(1,24,"Підпис",0,LComment2,false,0);
+  Flip(4);
+  MatCol(1,24,"Додатковий текст",0,LComment3,false,0);
+  MatCol(1,150,"Країна походження",0,LComment4,false,0); 
+  Flip(5); //Edit***************************Sasha2,16:05 22.10.2014 }
+  MatCol(1,24,"Мова",0,LangCode,false,LangSClass);
+  MatCol(1,94,"Текст",0,Text,false,0);
+  InsertRowTest;
+  DeleteRowTest;
+  EndMatrix;
+  vs = 20;
+  v = 18;  VTab(-35,v,-16,v+vs,ToolFlip,1,"A"); //Edit***************************Sasha2,16:07 22.10.2014 {
+  v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+  v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+  v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
+  v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,5,"E"); //Edit***************************Sasha2,16:07 22.10.2014 }
+  Tile(tilenr,400,false,tilenr,-); tilenr = tilenr + 1;// Edit ************************** Friday, 17 October 2014 10:48:33
+  h=170;
+  EditFieldTL(h,v=vs,400,"НАЗВА:",M4Str,Normal,50,GigieneText1,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"ОПИС:",M4Str,Normal,50,GigieneText2,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"ВИРОБНИК:",M4Str,Normal,50,GigieneText3,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"КРАЇНА ВИРОБНИК:",M4Str,Normal,50,GigieneText4,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"ДИСТРИБ'ЮТОР:",M4Str,Normal,50,GigieneText5,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"СЕРТИФІКАЦІЯ:",M4Str,Normal,50,GigieneText6,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"ГАРАНТІЯ:",M4Str,Normal,50,GigieneText7,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"ТЕРМІН ЕКСПЛУАТАЦІЇ:",M4Str,Normal,50,GigieneText8,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"УМОВИ ЗБЕРІГАННЯ:",M4Str,Normal,50,GigieneText9,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок10",M4Str,Normal,50,GigieneText10,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок11",M4Str,Normal,50,GigieneText11,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок12",M4Str,Normal,50,GigieneText12,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок13",M4Str,Normal,50,GigieneText13,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок14",M4Str,Normal,50,GigieneText14,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок15",M4Str,Normal,50,GigieneText15,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок16",M4Str,Normal,50,GigieneText16,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок17",M4Str,Normal,50,GigieneText17,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок18",M4Str,Normal,50,GigieneText18,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок19",M4Str,Normal,50,GigieneText19,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+  EditFieldTL(h,v+=vs,400,"Рядок20",M4Str,Normal,50,GigieneText20,false,0);// Edit ************************** Friday, 17 October 2014 10:48:37
+
+  EndWindow;
+end;
