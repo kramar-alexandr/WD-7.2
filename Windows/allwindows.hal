@@ -993,113 +993,6 @@ if (HasTouchScreenLook==false) then begin
   end;
 end else begin
 
-  date td;
-  integer acnt,wn;
-  longint bm,lt,rt,tp,page;
-  real h,h2,h3,h4,v;
-  record IVVc IVr;
-  record LocalMachineBlock LMb;
-  record POSButtonsVc POSBr;
-  string 255 bc1,bc2,compname,lmc,nr,sessdesc,sm;
-  time tt;
-
-  BlockLoad(LMb);
-    
-    //StopAlert(LMb.POSButtonGroup);
-    
-    wn = CurWindow;
-    GetScreenSize(wn,tp,lt,bm,rt);
-    switch (GuiType) begin
-      case kGuiCocoa:      
-        bm = bm - 80;
-      case kGuiWindowsDesktop:
-        tp = tp + 30;
-        bm = bm - 40;
-        rt = rt - 55;
-        lt = lt - 45;
-      case kGuiGDI:
-        tp = tp + 30;
-        bm = bm - 40;
-        rt = rt - 55;
-        lt = lt - 45;
-      case kGuiWPF:
-        tp = tp + 30;
-        bm = bm - 40;
-        rt = rt - 55;
-        lt = lt - 45;
-    end;
-    
-    page = StringToInt(GetWindowString(wn,"touchscreenwindowpage"));
-    if (page<1) then begin
-      page = 1;
-    end;
-    //stopalert("about to call ReadPOSButtons, page:" & page);
-    ReadPOSButtons("IVDClass",LMb.POSButtonGroup,page,bc1,bc2,compname,POSBr,acnt); 
-    SetWRect(lt,tp,rt,bm); 
-//    AbsoluteWindowSize;
-    if (TestEnablerFile("EnNoFullscreenWindow")==false) then begin 
-      FullscreenWindow;
-    end;
-    BrowseButtons(false);
-    Sizeable(-1,-1,0,0);
-    BrowseButtons(false);
-    DynamicWindow;
-    UseView(IVVc);
-    ActiveFieldOnNew("ivcashcommand");
-    ToolBar;
-//    PushButton(-340,5,-340 + 34,5+18,ToolPasteSpec,"v");
-    EndToolBar;
-    
-    v = 20;
-    h = -300; h2 = -150; h3 = -70; h4 = -10;
-    
-    wn = CurWindow;
-    if (wn>0) then begin
-      switch (GetWindowClass(wn)) begin
-        case "IVDClass":
-          GetWindowRecord(wn,IVr);
-      end;
-    end;
-    td = IVr.TransDate;
-    if (blankdate(td)) then begin td = CurrentDate; end;
-    tt = IVr.TransTime;
-    if (blanktime(tt)) then begin tt = CurrentTime; end;
-    lmc = IVr.MachineName;
-    if (blanktime(lmc)) then begin lmc = LMb.LocalMachineCode; end;
-    sm = IVr.SalesMan;
-    if (blanktime(sm)) then begin sm = CurrentUser; end;
-    nr = "Акт/накл.: "; 
-    if (IVr.SerNr>0) then begin
-      nr = nr & IVr.SerNr;
-    end;
-        
-    if (IsSessionOpen(IVr.MachineName,IVr.DrawerCode,CurrentDate,CurrentTime)) then begin
-      sessdesc = "Сесія ЕККА відкрита"; 
-    end else begin
-      sessdesc = "*** Сесія ЕККА закрита ***";     
-    end;
-    
-    // StopAlert("IsSessionOpen(" & IVr.MachineName & "," & IVr.DrawerCode & "," & IVr.TransDate & "," & IVr.TransTime & "); -> " & sessdesc);
-    
-    DisplayRecordDetails_ukr(10,26,compname,td,tt,lmc,sm,nr,IVr.CustCode,IVr.Addr0,IVr.Addr1,IVr.Addr2,IVr.Addr3,IVr.Phone,IVr.Objects,IVr.LoyaltyCardNr,LMb.ShowBaggerSupervisor,"","","",blankval,sessdesc,true,IVr.OfficialSerNr,IVr.TaxAdminServSeal);
-    
-    if (bm<650) then begin
-      SoftEditFieldTLX(360,6,h4,"",M4Str,ViewOnly,100,20,patM4black,"CustomerDisplayData_Line1",true,0); 
-      SoftEditFieldTLX(360,36,h4,"",M4Str,ViewOnly,100,30,patM4black,"CustomerDisplayData_Line2",true,0); 
-    end else begin
-      SoftEditFieldTLX(360,6,h4,"",M4Str,ViewOnly,100,30,patM4black,"CustomerDisplayData_Line1",true,0); 
-      SoftEditFieldTLX(360,46,h4,"",M4Str,ViewOnly,100,50,patM4black,"CustomerDisplayData_Line2",true,0); 
-    end;
-    
-    switch (LMb.POSButtonsPosition) begin
-      case kPOSButtonsPositionLeft:
-        SoftEditField(110,-22,200,"Товар/Команда"  ,Normal ,"ivcashcommand",false,0,M4Str,255); 
-      case kPOSButtonsPositionRight:
-        SoftEditField(-260,-22,200,"Товар/Команда"  ,Normal ,"ivcashcommand",false,0,M4Str,255); 
-    end;
-    SoftEditField(2000,-22,200,""  ,Normal ,"ivcashcommandlastitemsernrf",false,0,M4Str,255);         
-    DrawPOSInterface_UKR(bc1,bc2,POSBr,acnt,"",100); 
-    BottomBar;
 end;
   EndWindow;
 end;
@@ -3479,7 +3372,7 @@ begin
   v = 6;
   vm = v;
   EditField(h,vm,55,"Рахунок реалізації",Normal,SalesAcc,false,AccSClass);
-  EditField(h,v+=vs,55,VATZoneNameUKR & "Рахунок реалізації",Normal,EUSalesAcc,false,AccSClass);
+  EditField(h,v+=vs,55,"Рахунок реалізації",Normal,EUSalesAcc,false,AccSClass);
   EditField(h,v+=vs,55,"Рах-к реаліз-ї експорту",Normal,ExpSalesAcc,false,AccSClass);
   if (StandardHansa==false) then begin
   EditField(h,v+=vs,55,"Рах-к реаліз-ї платного серв.",Normal,SVOInvbleSalesAcc,false,AccSClass); 
@@ -3491,7 +3384,7 @@ begin
   EditField(h,v+=vs,55,"Використані матеріали",Normal,ProjMaterialsUsageAcc,false,AccSClass);
 
   EditField(h2=360,v=vm,55,"Місц. рах. витрат",Normal,CostAcc,false,AccSClass); 
-  EditField(h2,v+=vs,55,VATZoneNameUKR & "Рахунок витрат",Normal,EUCostAcc,false,AccSClass);
+  EditField(h2,v+=vs,55,"Рахунок витрат",Normal,EUCostAcc,false,AccSClass);
   EditField(h2,v+=vs,55,"Експ. рах. витрат",Normal,ExpCostAcc,false,AccSClass);
   if (StandardHansa==false) then begin
   EditField(h2,v+=vs,55,"Рах. витрат серв.",Normal,SVOInvbleCostAcc,false,AccSClass);
@@ -3501,13 +3394,13 @@ begin
   EditField(h2,v+=vs,55,"Рах. WIP готелю",Normal,HotelWIPAcc,false,AccSClass); 
   end;
   EditField(h2=530,v=vm,20,"Код ПДВ",Normal,VATCode,false,VATCodeSClass); 
-  EditField(h2,v+=vs,20,VATZoneNameUKR & "Код ПДВ",Normal,VATCodeEU,false,VATCodeSClass);
+  EditField(h2,v+=vs,20,"Код ПДВ",Normal,VATCodeEU,false,VATCodeSClass);
   EditField(h2,v+=vs,20,"Код ПДВ, експ.",Normal,VATCodeExp,false,VATCodeSClass);
   CheckBox(h2,v+=20,0,"Обчислювати податкові сбори",Perceptions);
   if (StandardHansa==false) then begin
   CheckBox(h2,v+=16,0,"Обчислювати утримання",Withholdings);
   EditField(h2=670,v=vm,50,"Шабл. под",Normal,TaxTemplateCode,false,TaxTemplateSClass); 
-  EditField(h2,v+=vs,50,VATZoneNameUKR & "Шабл. под",Normal,TaxTemplateCodeEU,false,TaxTemplateSClass);
+  EditField(h2,v+=vs,50,"Шабл. под",Normal,TaxTemplateCodeEU,false,TaxTemplateSClass);
   EditField(h2,v+=vs,50,"Шабл. под., експорт",Normal,TaxTemplateCodeExp,false,TaxTemplateSClass);
   end;
   if (GuiType==kGuiiPhone) then begin

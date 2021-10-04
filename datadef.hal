@@ -13,7 +13,7 @@ SourceFile("halcust\\FPrinter",0);
 SourceFile("halcust\\LabelPrint",0);
 SourceFile("halcust\\WebShop",0);// Edit ************************** Thursday, 26 March 2015 10:36:06
 SourceFile("halcust\\SetComp",0);
-
+Exec_file("halcust\\datadef_cust.hal");
 
 begin 
 
@@ -343,7 +343,6 @@ begin
   EndRecordAdd;
 	
 	RecordAddBegin(INVc,"Cust_INVc");
-	  RecordField(Math2,M4TextField,0,0);
     RecordField(GigieneText1,M4Str,200,0);// Edit ************************** Friday, 17 October 2014 10:22:17
     RecordField(GigieneText2,M4Str,200,0);// Edit ************************** Friday, 17 October 2014 10:22:17
     RecordField(GigieneText3,M4Str,200,0);// Edit ************************** Friday, 17 October 2014 10:22:17
