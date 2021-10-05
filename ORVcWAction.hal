@@ -136,3 +136,19 @@ BEGIN
   ProdVcRecordRemoveTest = res; 
   RETURN;
 END;
+
+global
+function LongInt CUVcRecordRemoveTest(var record CUVc Prodr,record CUVc Prod2r,LongInt long3,LongInt long4)
+BEGIN
+  LongInt res;
+  record DBLockBlock DBLockRec;
+
+  res = 1;
+  res = inner.CUVcRecordRemoveTest(Prodr,Prod2r,long3,long4);
+  
+  if(currentuser=="SA1")then begin
+    res = 1;
+  end;
+  CUVcRecordRemoveTest = res; 
+  RETURN;
+END;
