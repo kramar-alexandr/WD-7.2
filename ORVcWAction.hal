@@ -119,3 +119,20 @@ record INVc INr;
 	ORDClassAfterEditField = res;
 return;
 end;
+
+
+global
+function LongInt ProdVcRecordRemoveTest(var record ProdVc Prodr,record ProdVc Prod2r,LongInt long3,LongInt long4)
+BEGIN
+  LongInt res;
+  record DBLockBlock DBLockRec;
+
+  res = 1;
+  res = inner.ProdVcRecordRemoveTest(Prodr,Prod2r,long3,long4);
+  
+  if(currentuser=="SA1")then begin
+    res = 1;
+  end;
+  ProdVcRecordRemoveTest = res; 
+  RETURN;
+END;
