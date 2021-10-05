@@ -629,7 +629,7 @@ BEGIN
 LStockMovVcRecordRemoveTest:;
 
   if(currentuser=="SA1")then begin
-    res = true;
+    res = 1;
   end;
   StockMovVcRecordRemoveTest = res; 
   RETURN;
