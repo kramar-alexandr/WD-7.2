@@ -246,7 +246,7 @@ begin
   record CUVc CUr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagcu5");
+    //logtext(0,"ReadImportTagcu5");
     ReadImportTagcu5Record(CUr);
     RecordImportStore(CUr,false);
   end;
@@ -325,7 +325,7 @@ begin
   record ItemHistVc ItemHistr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagItemHistVc2");
+    //logtext(0,"ReadImportTagItemHistVc2");
     ReadImportTagItemHistVc2Record(ItemHistr);
     RecordImportStore(ItemHistr,false);
   end;
@@ -445,7 +445,7 @@ begin
   record RetVc Retr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagRetVc");
+    //logtext(0,"ReadImportTagRetVc");
     ReadImportTagRetVcRecord(Retr);
     RecordImportStore(Retr,false);
   end;
@@ -616,7 +616,7 @@ begin
   record StockMovVc StockMovr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagstockmov1");
+    //logtext(0,"ReadImportTagstockmov1");
     ReadImportTagstockmov1Record(StockMovr);
     RecordImportStore(StockMovr,false);
   end;
@@ -885,7 +885,7 @@ begin
   record ORVc ORr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagORVc2");
+    //logtext(0,"ReadImportTagORVc2");
     ReadImportTagORVc2Record(ORr);
     RecordImportStore(ORr,false);
   end;
@@ -1145,7 +1145,7 @@ begin
   record IVCashVc IVCashr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagivcash2");
+    //logtext(0,"ReadImportTagivcash2");
     ReadImportTagivcash2Record(IVCashr);
     RecordImportStore(IVCashr,false);
   end;
@@ -1334,7 +1334,7 @@ begin
   record SVOVc SVOr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagSVOVc");
+    //logtext(0,"ReadImportTagSVOVc");
     ReadImportTagSVOVcRecord(SVOr);
     RecordImportStore(SVOr,false);
   end;
@@ -1607,7 +1607,7 @@ begin
   record INVc INr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagartikel5");
+    //logtext(0,"ReadImportTagartikel5");
     ReadImportTagartikel5Record(INr);
     RecordImportStore(INr,false);
   end;
@@ -1660,7 +1660,7 @@ begin
   record CCatVc CCatr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagCCatVc2");
+    //logtext(0,"ReadImportTagCCatVc2");
     ReadImportTagCCatVc2Record(CCatr);
     RecordImportStore(CCatr,false);
   end;
@@ -1695,7 +1695,7 @@ begin
   record SalesGroupVc SalesGroupr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagSalesGroupVc");
+    //logtext(0,"ReadImportTagSalesGroupVc");
     ReadImportTagSalesGroupVcRecord(SalesGroupr);
     RecordImportStore(SalesGroupr,false);
   end;
@@ -1898,7 +1898,7 @@ begin
   record PUVc PUr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagpurchase2");
+    //logtext(0,"ReadImportTagpurchase2");
     ReadImportTagpurchase2Record(PUr);
     RecordImportStore(PUr,false);
   end;
@@ -2248,7 +2248,7 @@ begin
   record IVVc IVr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagIVVc3");
+    //logtext(0,"ReadImportTagIVVc3");
     ReadImportTagIVVc3Record(IVr);
     RecordImportStore(IVr,false);
   end;
@@ -2388,7 +2388,7 @@ begin
   record UserVc Userr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTaguser2");
+    //logtext(0,"ReadImportTaguser2");
     ReadImportTaguser2Record(Userr);
     RecordImportStore(Userr,false);
   end;
@@ -2558,7 +2558,7 @@ begin
   record SHVc SHr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagship1");
+    //logtext(0,"ReadImportTagship1");
     ReadImportTagship1Record(SHr);
     RecordImportStore(SHr,false);
   end;
@@ -2612,7 +2612,7 @@ begin
   record LocalMachineVc LocalMachiner;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagLocalMachineVc2");
+    //logtext(0,"ReadImportTagLocalMachineVc2");
     ReadImportTagLocalMachineVc2Record(LocalMachiner);
     RecordImportStore(LocalMachiner,false);
   end;
@@ -2691,7 +2691,7 @@ begin
   record SRVc SRr;
   
   while (NextImportLine(false)) begin
-    logtext(0,"ReadImportTagSRVc");
+    //logtext(0,"ReadImportTagSRVc");
     ReadImportTagSRVcRecord(SRr);
     RecordImportStore(SRr,false);
   end;
