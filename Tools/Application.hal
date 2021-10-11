@@ -642,7 +642,7 @@ begin
     end;
     ResetRecordStatusesServer;
     InitTXIdleTasks;//Server
-    InitIdleTasks;//Server
+    //InitIdleTasks;//Server// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 11 10 2021 y. at 1:15:46 PM
     CheckDatabaseID;//Server
     InitSysRunIdleTasks(0);//Server
     StdLocationsCheck;
