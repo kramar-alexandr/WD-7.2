@@ -43,12 +43,6 @@ begin
     t1 = StringToTime("22:50");
     t2 = StringToTime("23:00");
     t3 = StringToTime("10:00");
-    //t4 = StringToTime("14:00");
-    //t5 = StringToTime("16:00");
-    //t6 = StringToTime("18:00");
-    //t7 = StringToTime("20:00");
-    //t8 = StringToTime("22:00");
-    //t9 = StringToTime("00:00");
     
     curt = CurrentTime; 
     hr = GetHour(curt);
@@ -68,7 +62,7 @@ begin
     	AutoRun;// Edit ************************** Tuesday, 1 November 2016 11:19:29
     end;
         
-    min = getminute(CurrentTime);
+    /*min = getminute(CurrentTime);
     if(right(min,1)=="5" and currentdate>stringtodate("25/08/2016"))then begin
 			if (SetCompany(9,false)) then begin
 				SSLr.TransDate = addday(currentdate,-1);
@@ -76,11 +70,11 @@ begin
 					goto lCustTimeTableActionRun;
 				end;
 			end;
-    end;
+    end;*/
     
     
     
-    if (curtnew>=t1 and curtnew<t2 and SetCompany(9,false)) then begin
+   /* if (curtnew>=t1 and curtnew<t2 and SetCompany(9,false)) then begin
 lCustTimeTableActionRun:;
 			startdate = addday(currentdate,-2);
 			
@@ -102,7 +96,7 @@ lCustTimeTableActionRun:;
 			
     	ResetCompany(curcomp); 
     end;
-    
+    */
 
 return;
 end; //Edit***************************Sasha2,11:48 25.04.2016 }
