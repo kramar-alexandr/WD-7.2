@@ -1295,26 +1295,6 @@ begin
   return;
 end;
 
-/*
-global
-function Boolean StockMovDClassOnOpenWindow(Integer wn)
-begin
-  record StockMovVc StockMovr;
-  record eShipTaxAuthReplyVc eSTARr;
-  
-TaxAdminServSeal is in StockMovVc record
-  GetWindowRecord(wn,StockMovr);
-  if (HasLocalization("PRT")) then begin
-    eSTARr.FileName = "StockMovVc";
-    eSTARr.TransNr = StockMovr.SerNr;
-    ReadLastKey("FNTransNr",eSTARr,2,true);
-    PutWindowString(wn,"TaxAdminServSeal",eSTARr.TaxAdminServSeal);
-  end;  
-  StockMovDClassOnOpenWindow = false;
-  return;
-end;
-*/
-
 global
 procedure StockMovDClassBarcodeData(Integer wn,string bcdata)
 begin
@@ -1372,11 +1352,6 @@ LStockMovDClassBarcodeDataDo:;
     
     PutWindowRecord(wn,SMr);
     if (StockMovDClassSwitchRow(wn,rows)) then begin end;
-    
-    //MatRowGet(SMr,rows,SMrw);
-    //SMrw.Qty = 1;
-    //MatRowPut(SMr,rows,SMrw);
-    //PutWindowRecord(wn,SMr);
   end else begin
     PutWindowRecord(wn,SMr);
     Beep;
@@ -1388,7 +1363,7 @@ LStockMovDClassBarcodeDataOut:;
   return;
 end;
 
-global //Edit***************************Sasha2,14:41 29.08.2014 {
+/*global //Edit***************************Sasha2,14:41 29.08.2014 { krash siste
 procedure StockMovDClassButtonFlags(Integer wn,var Boolean duplOK,var Boolean newOK,var Boolean saveOK,var Boolean restOK)
 begin
 	record ORVc ORr;
@@ -1407,7 +1382,7 @@ begin
   	end;	
 
   return;
-end; //Edit***************************Sasha2,14:42 29.08.2014 }
+end; //Edit***************************Sasha2,14:42 29.08.2014 }*/
 
 global //Edit***************************Sasha2,16:39 23.07.2015 {
 updating procedure UpdatePricesInORFromStockMovDsm()
