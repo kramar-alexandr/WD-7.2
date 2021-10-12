@@ -21,7 +21,7 @@ external function LongInt CalcARRnColumnSpacing(LongInt,Integer,var LongInt,var 
 external procedure ExtractObj(string,var Integer,var string); //Edit***************************Sasha2,10:51 30.11.2015
 external function Boolean SetInSet2(string,string); //Edit***************************Sasha2,10:56 30.11.2015
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global
 function string 255 CreateInvoiceNumberDisputedMark(LongInt SerNr, string OfficialSerNr, Integer Disputed)

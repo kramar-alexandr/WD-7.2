@@ -2,7 +2,7 @@ external procedure M4PadString(string,Integer,string,Boolean,var string);
 external procedure ValToText(val,Integer,string,string,var string);
 external function roundmode SetRoundModeD(Integer);
 
-SetLangMode(LangUkrainian,"UKR",0); 
+SetLangMode(LangRussian,"RUS",0); 
 
 
 

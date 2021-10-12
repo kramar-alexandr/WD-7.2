@@ -5,7 +5,7 @@ external procedure AlarmMessage(record ActVc,integer,string);
 external procedure ExtractObj(string,var Integer,var string);
 external procedure RemoteUserFunction(string,string,string,string);// Edit ************************** Thursday, 20 July 2017 16:34:18
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 
 global webpublic updating procedure WebBinotelAPICallEnd()

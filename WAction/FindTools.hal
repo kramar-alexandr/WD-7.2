@@ -3,7 +3,7 @@ remote procedure FindSHSerial(var record SHVc,string,var boolean,var integer,var
 
 //Edit-------------------Vitalii 15:37 04.12.2015 from Odessa
 
-  SetLangMode(LangUkrainian,"UKR",0);
+  SetLangMode(LangRussian,"RUS",0);
 
   
 function Boolean FindSubString(string Search,string Source)

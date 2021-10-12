@@ -73,7 +73,7 @@ remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
 external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
 
 	SetLangMode(LangRussian,"RUS",0);
-	SetLangMode(LangUkrainian,"UKR",0);
+	SetLangMode(LangRussian,"RUS",0);
 
 global
 function Boolean ORDClassCustCodeEFAfter(Integer wn,Integer fn,Integer rownr,Integer changedf) //ABR_____________________________________________________19.06.19

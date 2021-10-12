@@ -1,6 +1,6 @@
 remote function Boolean Getformcode(Integer,Integer,string,string,string,LongInt,LongInt,string,string,Integer,string,var string);
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global
 procedure SVOPartnerFinishedRn(record RcVc RepSpec)

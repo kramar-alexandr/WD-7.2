@@ -83,7 +83,7 @@ external procedure ORSumup(var record ORVc);// Edit ************************** T
 external procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
 
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 
 // Edit Start ---------------------------------------------- Edit Start

@@ -1,5 +1,5 @@
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 
 global procedure  CurrentUserStockMovsRn(record RcVc RepSpec)

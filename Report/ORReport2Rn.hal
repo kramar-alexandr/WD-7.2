@@ -1,6 +1,6 @@
 external procedure GetCurUser(var record UserVc);
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global procedure ORReport2Rn(record RcVc RepSpec) 
 begin

@@ -1,4 +1,4 @@
-SetLangMode(LangUkrainian,"UKR",0); 
+SetLangMode(LangRussian,"RUS",0); 
 global
 updating function longint BPIJobCostVcRecordCheck(record BPIJobCostVc JSr,record BPIJobCostVc JS2r,LongInt stat,LongInt long4)
 begin

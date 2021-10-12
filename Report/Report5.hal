@@ -5,7 +5,7 @@ external procedure ExtractObj(string,var Integer,var string);
 
 // Ђналґз оборотностґ товарґв
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global procedure FindCostAndQty(record INVc INr,record LocalMachineAccBlock LMAb,date sd,date ed,var val qty,var val eqty,var val cost,var val ecost,var val midcost,var val midqty,string location,var val turncost, var val turnqty, var val toserv,var val puqty)
 begin

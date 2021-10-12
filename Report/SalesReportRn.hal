@@ -6,7 +6,7 @@ external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,va
 external function roundmode SetRoundModeD(Integer);
 
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global //Edit***************************Sasha2,8:58 02.02.2015 {
 function val CalcSumForSales(val rowsum,val rowquant,val tqty,val invfr,val invto1,integer cred, val foundqty,boolean credf)

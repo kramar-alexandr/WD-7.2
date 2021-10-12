@@ -12,7 +12,7 @@ external updating function Boolean SendServiceRequest(string,Boolean,area,var Ar
 external updating function Boolean ServiceRequestAsync(string,string,Boolean,area,string);
 external procedure ReadTXServiceReply(var record TXServiceReplyVc,var Area,Boolean);
 external procedure prt(string,string,var boolean);
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global procedure PhnCrdRn (record RcVc RepSpec)//Edit---------------Anton  
 begin

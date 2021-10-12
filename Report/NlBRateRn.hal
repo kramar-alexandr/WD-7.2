@@ -5,7 +5,7 @@ external function Boolean GetFullCurncyRateDate(var string,Date,var val,var val,
 external procedure MockObjFromVATCode(string,var string);
 external function val MulWithRateToBase1(var string,Date,val,roundmode);// Edit ************************** Wednesday, 10 February 2016 14:13:41
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 procedure ListExchangeRates(record RcVc RepSpec)
 begin

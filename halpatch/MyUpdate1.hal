@@ -11,7 +11,7 @@ remote updating function Integer CreateVIFromPO(LongInt,record RcVc,var record V
 external procedure GetItemVATCode(string,Integer,var string,Boolean);
 external procedure VICalcEReb(record VIVc);
 
-	SetLangMode(LangUkrainian,"UKR",0);
+	SetLangMode(LangRussian,"RUS",0);
 
 
 global updating procedure RecalcWebRegMn()

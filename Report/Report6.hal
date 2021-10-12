@@ -2,7 +2,7 @@ external procedure ExtractObj(string,var Integer,var string);
 external function LongInt CountWorkingDays(Date,Date,string,string);// Edit ************************** Friday, 2 December 2016 10:19:42
 external procedure M4PadString(string,Integer,string,Boolean,var string);
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 function val GetItemPrice(string artcode, string PLCode)
 begin

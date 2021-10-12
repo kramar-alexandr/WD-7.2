@@ -2,7 +2,7 @@ remote function date GetDateOfSerial(string,string,date); //Edit****************
 remote updating procedure UpdBalSMSRemote(boolean);// Edit ************************** Monday, 13 February 2017 15:20:58
 
 
-SetLangMode(LangUkrainian,"UKR",0); 
+SetLangMode(LangRussian,"RUS",0); 
 
 
 //**********************************************************************************************************************************************************************

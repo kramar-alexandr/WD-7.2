@@ -8,7 +8,7 @@ external function LongInt POSNETHexToLong(string);
 external procedure ORVc_PasteSum(var record ORVc,Integer,var Boolean);
 external updating function boolean EasySendTurboSMS(string, string);
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 procedure CR(var area areply)
 begin

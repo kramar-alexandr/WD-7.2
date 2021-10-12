@@ -1,5 +1,5 @@
 external function roundmode SetRoundModeD(Integer);
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global
 procedure ExportCashInvoicesEn(record RcVc RepSpec)

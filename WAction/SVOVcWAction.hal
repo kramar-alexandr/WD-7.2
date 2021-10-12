@@ -35,7 +35,7 @@ external global function string 200 DuplicateSVOSerial(string);// Edit *********
 // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 3 June 2015 16:58:34
 	
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 	
 global
 updating procedure ORFromSVODsm()

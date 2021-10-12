@@ -17,7 +17,7 @@ external function LongInt DateDiff(Date,Date);
 external procedure StockMovSumUp(var record StockMovVc);
 
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global procedure SENDSMS(record SVOVc SVOr,record SVOVc SVO2r)
 begin

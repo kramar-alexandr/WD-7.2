@@ -5,7 +5,7 @@ remote function Boolean Getformcode(Integer,Integer,string,string,string,LongInt
 //##ii
 procedure dummy() //##ii
 begin //##ii
-  SetLangMode(LangUkrainian,"UKR",0); //##ii
+  SetLangMode(LangRussian,"RUS",0); //##ii
   return; //##ii
 end; //##ii
 

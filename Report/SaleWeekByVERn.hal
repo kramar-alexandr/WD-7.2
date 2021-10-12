@@ -7,7 +7,7 @@ external function roundmode SetRoundModeD(Integer);
 external procedure CollectCostMyInvoice(record IVVc,integer,var array val,var array val,var array string,var array val,var array date,var array string,var array string,var array val,var integer,integer,longint,var array val,var array val,var array val,var array val, var array val,var array val,var array string,var array string,var array string,record BaseCurBlock);
 
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 function string 255 GetIStoreVendor(string vendor,string code,string serialnr)
 begin

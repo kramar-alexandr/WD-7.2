@@ -1,4 +1,4 @@
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 external procedure CollectSerials(var record StockMovVc,string,string,integer);
 external procedure ExtractObj(string,var Integer,var string);

@@ -2,7 +2,7 @@ external procedure APRn(record RcVc);
 external procedure ARRn(record RcVc);
 external function longint DateDiff(date,date);
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global updating procedure AutoUnreservOrderMn()
 begin

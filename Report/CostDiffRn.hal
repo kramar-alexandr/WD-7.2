@@ -1,7 +1,7 @@
 external function val AbsoluteVal(val);
 external procedure GetLocationAcc(string,var string,var string);
 
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 
 

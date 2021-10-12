@@ -1,4 +1,4 @@
-SetLangMode(LangUkrainian,"UKR",0);
+SetLangMode(LangRussian,"RUS",0);
 
 
 global procedure GetMyTurnover(string AccName,record RcVc RepSpec,var val MonthTurnover,var val YearTurnover)
