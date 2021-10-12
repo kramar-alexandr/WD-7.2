@@ -1,5 +1,4 @@
 remote function Boolean Getformcode(Integer,Integer,string,string,string,LongInt,LongInt,string,string,Integer,string,var string);
-external function Boolean MySendWebRequest(string,longint,longint,boolean,string,string,string,string,boolean,area,var area,integer);
 
 SetLangMode(LangUkrainian,"UKR",0);
 

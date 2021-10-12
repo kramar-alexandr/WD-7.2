@@ -1,7 +1,5 @@
 SetLangMode(LangUkrainian,"RUS",0);
 
-external function boolean MySendRawWebRequest(string, string, boolean, string, string, string, string, boolean, area, var area, integer);
-
 // only for 8.x
 global
 function string 255 StrReplace(string original,string target,string replacement) 

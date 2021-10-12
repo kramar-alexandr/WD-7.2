@@ -2,7 +2,6 @@ external updating procedure AddTextToNote(var record NotepadVc,string);
 external procedure SalesReportAccRn(record RcVc);
 external procedure SalesReportIVCashRn(record RcVc);
 external procedure SalesReportIVRn(record RcVc);
-external function boolean MySendWebRequest(string,integer,longint,boolean,string,string,string,string,boolean,area,var area,integer);
 
 global
 updating procedure CleaningMn()
@@ -897,7 +896,7 @@ record IVVc IVr;
 	addtexttoarea("\"path\":\"/usr/local/bin/HW7.2Server/Stock/" & "SalesPOS.txt" & "\"",request);
 	addtexttoarea("}",request);
 
-	MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
+	SendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
 	
 	
 	
@@ -932,7 +931,7 @@ record IVVc IVr;
 	addtexttoarea("\"path\":\"/usr/local/bin/HW7.2Server/Stock/" & "SalesIV.txt" & "\"",request);
 	addtexttoarea("}",request);
 
-	MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
+	SendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
 
 	
 	setfileonserver(false);

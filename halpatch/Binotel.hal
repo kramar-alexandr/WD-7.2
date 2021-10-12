@@ -1,10 +1,7 @@
 external function string 255 StrReplace(string,string,string);
 external procedure UTCTimeToDate(LongInt,var Date,var Time);
-external function boolean MySendWebRequest(string,integer,longint,boolean,string,string,string,string,boolean,area,var area,integer);
-external function Boolean MySendAsyncWebRequest(string,longint,boolean,string,string,string,string,area,string,integer);
 external procedure FindUserMailboxName(string,var string,var string);
 external procedure AlarmMessage(record ActVc,integer,string);
-external procedure MySendWebRequest(string,integer,longint, boolean,string,string,string,string,boolean,area,area,integer);
 external procedure ExtractObj(string,var Integer,var string);
 external procedure RemoteUserFunction(string,string,string,string);// Edit ************************** Thursday, 20 July 2017 16:34:18
 
