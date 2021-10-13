@@ -58,7 +58,7 @@ external function Integer CountCountries();
 // Language functions ENG
 external function Boolean DisplayLoginKeyPad_ENG();
 external function string 255 VATZoneEditFieldLabelUKR(Integer);
-external function real VATZoneButtonsLabelsUKR(real,real,real,real);
+external function real VATZoneButtonsLabelsRUS(real,real,real,real);
 external procedure LoginButtons2_ENG(Real,Real);
 external procedure FORMDEF_ENG();
 external function string 255 DemoMsgWClassTitle_ENG(Boolean,Boolean);
@@ -865,9 +865,9 @@ if (HasTouchScreenLook==false) then begin
   RadioButton(h3,v+=16,kAcceptanceStatePending,0,"очікування",AcceptanceStatus);
   RadioButton(h3,v+=16,kAcceptanceStateApproved,0,"затверджено",AcceptanceStatus);
   RadioButton(h3,v+=16,kAcceptanceStateRejected,0,"незатверджено",AcceptanceStatus);  
-  v = VATZoneButtonsLabelsUKR(h3=290,v=vm,140,16);
+  v = VATZoneButtonsLabelsRUS(h3=290,v=vm,140,16);
   end else begin
-    v = VATZoneButtonsLabelsukr(h3=290,v=vm+40,140,16);
+    v = VATZoneButtonsLabelsRUS(h3=290,v=vm+40,140,16);
   end;
   EditField(h2=-170,v=vm,150,"Регіон",Normal,Region,false,RegionSClass); 
   EditField(h2,v+=vs,150,"ІПН",Normal,VATNr,false,0);
@@ -5128,7 +5128,7 @@ begin
   
   EditField(h+100,v,80,"Гр.П.",Normal,SalesGroup,false,0);// Edit ************************** Monday, 22 February 2016 11:00:04
   
-  v = VATZoneButtonsLabelsUKR(h2,v=vm+vs,140,16);
+  v = VATZoneButtonsLabelsRUS(h2,v=vm+vs,140,16);
   Tile(5,90,false,"5",Comment1); vs = 20;
   EditField(h=75,v=6,-20,"Ком.",Normal,Comment1,false,0);
   EditField(h,v+=vs,-20,"",Normal,Comment2,false,0);
@@ -5513,7 +5513,7 @@ begin
       if (HasVATZone) then begin
         Tile(tilenr,120,false,tilenr,InvoiceNr); tilenr = tilenr + 1;
         v = 20;
-        v = VATZoneButtonsLabelsUKR(h,v,150,16);
+        v = VATZoneButtonsLabelsRUS(h,v,150,16);
       end;
     SpecialMenu("Balance",'=',0,"BalanceVIDsm"); //!!PRODTRANSLATE
       if (HasModCL) then begin
@@ -5898,9 +5898,9 @@ begin
   RadioButton(h3,v+=16,kAcceptanceStatePending,0,"очікування",AcceptanceStatus);
   RadioButton(h3,v+=16,kAcceptanceStateApproved,0,"затвердженно",AcceptanceStatus);
   RadioButton(h3,v+=16,kAcceptanceStateRejected,0,"незатверджено",AcceptanceStatus);    
-  v = VATZoneButtonsLabelsUKR(h3=290,v=vm,140,16);
+  v = VATZoneButtonsLabelsRUS(h3=290,v=vm,140,16);
       end else begin
-        v = VATZoneButtonsLabelsUKR(h3=290,v=vm+20,140,16);
+        v = VATZoneButtonsLabelsRUS(h3=290,v=vm+20,140,16);
       end;
   EditField(h2=-170,v=vm,150,"Регіон",Normal,Region,false,RegionSClass); 
   EditField(h2,v+=vs,150,"ІПН.",Normal,VATNr,false,0);
@@ -6536,7 +6536,7 @@ begin
   end;
 //  EditField(h,v+=vs,120,"Channel",Normal,WebServiceChannel,false,SetSClass);
   v = 130;
-  v = VATZoneButtonsLabelsUKR(h5+30,v,150,16);
+  v = VATZoneButtonsLabelsRUS(h5+30,v,150,16);
   Tile(tilenr,130,false,tilenr,AccAP); tilenr = tilenr + 1;
   EditField(h,v=6,80,"Рахунок кредиторів",Normal,AccAP,false,AccSClass);
   EditField(h,v+=vs,80,"Рахунок витрат",Normal,AccCost,false,AccSClass);

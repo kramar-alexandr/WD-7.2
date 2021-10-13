@@ -58,7 +58,7 @@ external function Integer CountCountries();
 // Language functions ENG
 external function Boolean DisplayLoginKeyPad_ENG();
 external function string 255 VATZoneEditFieldLabelUKR(Integer);
-external function real VATZoneButtonsLabelsUKR(real,real,real,real);
+external function real VATZoneButtonsLabelsRUS(real,real,real,real);
 external procedure LoginButtons2_ENG(Real,Real);
 external procedure FORMDEF_ENG();
 external function string 255 DemoMsgWClassTitle_ENG(Boolean,Boolean);
