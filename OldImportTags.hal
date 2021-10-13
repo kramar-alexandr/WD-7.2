@@ -2237,6 +2237,8 @@ begin
     IVrw.MotherSecondarySerialNr = ImportField;
     IVrw.MotherAlternateDeviceID = ImportField;
     IVrw.UnitComment = ImportField;
+    MatRowPut(IVr,rwcnt,IVrw);
+    rwcnt = rwcnt + 1;
   end;
   
   return;
