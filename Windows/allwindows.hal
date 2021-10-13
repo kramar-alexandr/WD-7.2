@@ -6296,7 +6296,7 @@ begin
   CheckBox(h1+80,v=6,0,"Клієнт",CUType);
   CheckBox(h1+80,v+=16,0,"Постачальник",VEType);
   if (HasModHotel) then begin
-  CheckBox(h1+80,v+=16,0,"Гість",GuestType);
+  //CheckBox(h1+80,v+=16,0,"Гість",GuestType);
   end;
   if (HasJewelleryInterface) then begin
     CheckBox(h1+80,v+=16,0,"Не вкл у розсилку",NoLetterPosting); 
@@ -6310,7 +6310,7 @@ begin
   if (StandardHansa==false) then begin
     CheckBox(h1+180,v,0,"Ділер",DealerType); v = v + 16; //Edit***************************Sasha2,10:10 09.12.2015
   end;
-  CheckBox(h1+180,v,0,"Партнер(A-Service)",Partner); //Edit***************************Sasha2,10:18 09.12.2015
+  CheckBox(h1+180,v,0,"Партнер(A-Service)",PartnerMark); //Edit***************************Sasha2,10:18 09.12.2015
 //  HalPushButton(h1+170,v=10,h1+170+100,v+20,"CreditInfoCUDsm","Credit Info");
 //  HalPushButton(h1+170,v=10,h1+170+100,v+20,"UpdCustomerAddressCUDsm","Поновити адресу");
   tilenr = 1;
