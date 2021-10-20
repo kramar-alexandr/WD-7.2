@@ -464,9 +464,7 @@ begin
   if (!ServerMode) then begin
     LogCashDrawerAction(CurrentUser,LMb.LocalMachineCode,"",LMb.TerminalID,kPOSActionLogin);
   end;
-logtext(0,"IsDoingManagerOverride " & IsDoingManagerOverride);
 if (IsDoingManagerOverride==false) then begin
-  logtext(0,"onloginaction " & onloginaction);
   switch (onloginaction) begin
     case 1:
       reshot = OnLoginRemote_RestAcc(RestAccr,newf,resve,rescont,cleanmail,CurrentDate,CurrentTime,CurrentUser,forcestockmaint,DBStatus,VEIVNr,clockinaction,mailboxnr,mailboxname);
@@ -648,7 +646,6 @@ LOtherwise01:;
       accpetancef = true;
       reshot = OnLoginRemote3_compat(newf,resve,rescont,cleanmail,CurrentDate,CurrentTime,CurrentUser,forcestockmaint,DBStatus,aVEIVNr,aVEIVComp,clockinaction,accpetancef,acptRepSpec,mailboxnr,mailboxname,LMb.LocalMachineCode,aSPDr);
       reshot = true;  
-      logtext(0,"accpetancef " & accpetancef);    
       
       if(currentcompany==13)then begin
 				acptRepSpec.f1 = CurrentUser;// Edit ************************** Thursday, 13 October 2016 16:26:39
@@ -662,7 +659,6 @@ LOtherwise01:;
 				nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);// Edit ************************** Thursday, 13 October 2016 10:49:44
       end;
       if (true) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 10 2021 y. at 11:22:58 PM
-      logtext(0,"OpenMasterWClass2");
         nwn = OpenMasterWClass2(mailboxnr,mailboxname);
         if(currentcompany!=13)then begin
 					nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);  
