@@ -1151,7 +1151,8 @@ begin
 	addtexttoarea("P1" & chr(13) & chr(10),aLabel);
 	
 	addtexttoarea(chr(13) & chr(10),aLabel);
-		
+	
+  messagebox(0,"ZebraPrint.epl");
 	CreateFile("ZebraPrint.epl");
 	closefile;
 	SetExportCodepage("CP1251");
