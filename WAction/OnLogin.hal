@@ -649,7 +649,7 @@ LOtherwise01:;
       reshot = OnLoginRemote3_compat(newf,resve,rescont,cleanmail,CurrentDate,CurrentTime,CurrentUser,forcestockmaint,DBStatus,aVEIVNr,aVEIVComp,clockinaction,accpetancef,acptRepSpec,mailboxnr,mailboxname,LMb.LocalMachineCode,aSPDr);
       reshot = true;  
       logtext(0,"accpetancef " & accpetancef);    
-      if (accpetancef) then begin
+      if (true) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 10 2021 y. at 11:22:58 PM
       logtext(0,"OpenMasterWClass2");
         nwn = OpenMasterWClass2(mailboxnr,mailboxname);
         if(currentcompany!=13)then begin
