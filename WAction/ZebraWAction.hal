@@ -945,7 +945,7 @@ end;
 
 
 
-global procedure PrintORZebraDsm1(Integer size)
+global procedure PrintORZebraPR(Integer size)
 begin
 record RcVc RepSpec;
 record ORVc ORr, newORr;
@@ -1172,8 +1172,8 @@ global procedure PrintORZebraDsm()
 begin
   
   messagebox(0,"PrintORZebraDsm");  
-  PrintORZebraDsm1(0);
-  PrintORZebraDsm1(1);
+  PrintORZebraPR(0);
+  PrintORZebraPR(1);
 return;
 end;
 
