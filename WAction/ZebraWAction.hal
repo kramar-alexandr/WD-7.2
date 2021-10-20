@@ -1085,7 +1085,7 @@ end;*/
 		end;
 	  end;
     
-  
+  messagebox(0,"ZebraPrint.epl");
 	CreateFile("ZebraPrint.epl");
 	closefile;
 	WriteAreaToFile(aLabel,"ZebraPrint.epl",0);
