@@ -464,7 +464,9 @@ begin
   if (!ServerMode) then begin
     LogCashDrawerAction(CurrentUser,LMb.LocalMachineCode,"",LMb.TerminalID,kPOSActionLogin);
   end;
+logtext(0,"IsDoingManagerOverride " & IsDoingManagerOverride);
 if (IsDoingManagerOverride==false) then begin
+  logtext(0,"onloginaction " & onloginaction);
   switch (onloginaction) begin
     case 1:
       reshot = OnLoginRemote_RestAcc(RestAccr,newf,resve,rescont,cleanmail,CurrentDate,CurrentTime,CurrentUser,forcestockmaint,DBStatus,VEIVNr,clockinaction,mailboxnr,mailboxname);
