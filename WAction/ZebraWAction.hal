@@ -1169,8 +1169,10 @@ end;
 
 global procedure PrintORZebraDsm()
 begin
-PrintORZebraDsm1(0);
-PrintORZebraDsm1(1);
+  
+  messagebox(0,"PrintORZebraDsm");  
+  PrintORZebraDsm1(0);
+  PrintORZebraDsm1(1);
 return;
 end;
 
