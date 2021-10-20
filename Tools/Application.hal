@@ -479,7 +479,7 @@ begin
       if (RecordStore(Userr,false)) then begin
         oldcomp = CurrentCompany;
         if (SetCompany(1,false)) then begin
-          LoginWithCredentials(Userr.Code,"");
+          //LoginWithCredentials(Userr.Code,"");
         end;
         ResetCompany(oldcomp);
       end;
