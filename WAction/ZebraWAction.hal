@@ -961,6 +961,8 @@ SetExportCodePage("CP1251");
   
 blockload(ZPb);
 
+logtext(0,"PrintORZebraPR");
+
 printername = ZPb.PrinterName;
 wn = curwindow;
 Getwindowrecord(wn,ORr);
@@ -1084,7 +1086,8 @@ end;*/
 		  addtexttoarea(chr(13) & chr(10),aLabel);
 		end;
 	  end;
-    
+  
+  logtext(0,"CreateFile ZebraPrint.epl");
 	CreateFile("ZebraPrint.epl");
 	closefile;
 	WriteAreaToFile(aLabel,"ZebraPrint.epl",0);
@@ -1169,6 +1172,7 @@ end;
 global procedure PrintORZebraDsm()
 begin
   
+  logtext(0,"PrintORZebraDsm");
   PrintORZebraPR(0);
   PrintORZebraPR(1);
 return;
