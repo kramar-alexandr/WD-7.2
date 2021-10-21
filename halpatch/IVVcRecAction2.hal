@@ -33,7 +33,6 @@ external function string 255 FindTaxAuthID(string,record IVVc);
 external function string 255 FindTaxAuthIDControlCode(string,record IVVc);
 external updating procedure UpdateLiqInfoFromCreditNote(LongInt,val,string,val,LongInt,LongInt,Boolean);
 external updating procedure DeleteLiqInfoFromOrg(LongInt,Integer);
-external updating procedure UpdateCUServiceIV(record IVVc,string,LongInt,Date);
 external function Boolean IsSessionOpen(string,string,Date,Time);
 external updating procedure IVUpdateCostPrice(record IVVc);
 external function Integer ArtCodePrimaryCostModel(string);
@@ -94,7 +93,6 @@ external procedure PastePDInInv(var record IVVc,string,Boolean);
 external updating procedure DeleteRentIVs(LongInt);
 external updating procedure AddToTheCustomerAccount(string,date,string,LongInt,val);
 external procedure InvVat(Integer,Integer,Integer,Integer,string,val,var val,var val,var val,var val,var val);
-external function Boolean EInvoiceWithPDFFileTest(string,string,var record EInvCUVc);
 external updating procedure RoyaltyIVRemoved(record IVVc);
 external updating procedure SaveTrans(record TRVc); //Edit***************************Sasha2,14:03 31.08.2015
 external updating procedure AddTTrans_IVVc(record TRVc,record IVVc); //Edit***************************Sasha2,14:03 31.08.2015
@@ -366,9 +364,7 @@ BEGIN
       if (IVr.InvType==kInvoiceTypeCredit or IVr.InvType==kInvoiceTypeCreditSpecialSales) then begin
         UpdateTBIVFromCredInv(IVr);
       end;
-      if (EInvoiceWithPDFFileTest(IVr.CustCode,IVr.CurncyCode,EInvCUr)) then begin 
-        CreateAndAttachPdfIV(IVr);
-      end;
+
     end;  
     RecalculetWeightVolumeIVVc(IVr,false);
   end;
@@ -874,9 +870,7 @@ BEGIN
       if (IVr.InvType==kInvoiceTypeCredit or IVr.InvType==kInvoiceTypeCreditSpecialSales) then begin
         res = PUFromCreditNote(IVr,true);
       end;      
-      if (EInvoiceWithPDFFileTest(IVr.CustCode,IVr.CurncyCode,EInvCUr)) then begin 
-        CreateAndAttachPdfIV(IVr);
-      end;
+
     end;
     RecalculetWeightVolumeIVVc(IVr,false);
   end;
@@ -951,7 +945,6 @@ begin
   if (BatchStat(IVr,true,true)) then begin end;
   StoreUnOKHistory("IVVc",IVr.SerNr,CurrentDate,CurrentTime,CurrentUser);
   DeleteLiqInfoFromOrg(IVr.SerNr,IVYc);
-  UpdateCUServiceIV(IVr,"IVVc",IVr.SerNr,IVr.PayDate);
   RemoveFromCustomerAccount(IVr);
   UpdateRecalcStockNeeded(1);
   if (IVr.UpdStockFlag==0) then begin  
@@ -1020,7 +1013,6 @@ BEGIN
       MakeActFromSubSys_IVVc(IVr,false);   
 //      UpdateSHFromInv(IVr); done in UpdateOrderFromInv
       if (ihef==false) then begin
-        UpdateCUServiceIV(IVr,"IVVc",IVr.SerNr,IVr.PayDate);
         AddToCustomerAccount(IVr);
         IVUpdateCredMan(IVr,CredManEventr,true,false);
         IVCreateBuyBack(IVr);
@@ -1104,7 +1096,6 @@ BEGIN
       IVUpdateCredMan(IVr,CredManEventr,false,true);
       IVUpdateCostPrice(IVr);
       DeleteLiqInfoFromOrg(IVr.SerNr,IVYc);
-      UpdateCUServiceIV(IVr,"IVVc",IVr.SerNr,IVr.PayDate);
       RemoveFromCustomerAccount(IVr);
       IVVc_LoyaltyCardPointsRedemption(IVr,true);
       CancelGSXEnrollmentContracts(IVr);
