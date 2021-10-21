@@ -1087,17 +1087,17 @@ end;*/
 		end;
 	  end;
   
-  logtext(0,"CreateFile ZebraPrint.epl");
-	CreateFile("ZebraPrint.epl");
-	closefile;
-	WriteAreaToFile(aLabel,"ZebraPrint.epl",0);
-	millisleep(50);
-	if (WindowsMode==1) then begin
-	  RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & "ZebraPrint.epl" & " \\\\" & ZPb.ParamStr1 & "\\" & printername & "\"");
-	end;
-	if (WindowsMode==0) then begin
-	  RunProgram("/usr/bin/lp","-d " & printername & " -o raw ZebraPrint.epl");
-	end;
+    logtext(0,"CreateFile ZebraPrint.epl");
+    CreateFile("ZebraPrint.epl");
+    closefile;
+    WriteAreaToFile(aLabel,"ZebraPrint.epl",0);
+    millisleep(50);
+    if (WindowsMode==1) then begin
+      RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & "ZebraPrint.epl" & " \\\\" & ZPb.ParamStr1 & "\\" & printername & "\"");
+    end;
+    if (WindowsMode==0) then begin
+      RunProgram("/usr/bin/lp","-d " & printername & " -o raw ZebraPrint.epl");
+    end;
   end;
   
 return;
