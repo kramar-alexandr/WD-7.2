@@ -350,22 +350,7 @@ begin
   record EInvCUVc EInvCUr;  
 
   res = true;
-  if (IVr.NoEInvoice==0) then begin
-  if (InvoiceToEInvoiceQueueTest(0,IVr.CustCode,IVr.CurncyCode,EInvCUr)) then begin
-    BlockLoad(IEb);
-    switch (IEb.RegInCountry) begin
-      case 3://Sweden
-      case 4:
-        res = ValidEInvoiceData_Rows_Finland(IVr,IVrw,errcode,gotofield);
-      case 99://HansaMail
-        switch (CurrentCompany) begin
-          case 40:
-            res = ValidEInvoiceData_Rows_Finland(IVr,IVrw,errcode,gotofield);
-        end;
-    end;
-  end;
-  end;
-LValidEInvoiceData_Rows:;  
+  // Edit ************************** BPI Ukraine - KramarAlexandr - 04, 21 10 2021 y. at 1:29:26 PM 
   ValidEInvoiceData_Rows = res;
   return;
 end;

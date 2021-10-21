@@ -528,37 +528,7 @@ begin
   record EInvCUVc EInvCUr;  
   
   res = true;
-  if (IVr.NoEInvoice==0) then begin
-  if (InvoiceToEInvoiceQueueTest(0,CUr.Code,IVr.CurncyCode,EInvCUr)) then begin
-    BlockLoad(IEb);
-    BlockLoad(CYb);
-    BlockLoad(BCb);
-    BlockLoad(Bkpb);
-    switch (IEb.RegInCountry) begin
-      case 2:
-        goto LLValidEInvoiceData01;
-      case 3:
-        res = ValidEInvoiceData_Sweden(IVr,CYb,CUr,EInvCUr,BCb,errcode,gotofield);
-      case 4:
-        res = ValidEInvoiceData_Finland(IVr,CYb,CUr,EInvCUr,Bkpb,BCb,errcode,gotofield);
-      case 26:
-      LLValidEInvoiceData01:;
-        res = ValidEInvoiceData_Norway(IVr,CYb,CUr,EInvCUr,BCb,errcode,gotofield);
-      case 99://HansaMail
-        switch (CurrentCompany) begin
-          case 24:
-            res = ValidEInvoiceData_Sweden(IVr,CYb,CUr,EInvCUr,BCb,errcode,gotofield);
-          case 39:
-            res = ValidEInvoiceData_Sweden(IVr,CYb,CUr,EInvCUr,BCb,errcode,gotofield);
-          case 40:
-            res = ValidEInvoiceData_Finland(IVr,CYb,CUr,EInvCUr,Bkpb,BCb,errcode,gotofield);
-          case 82:
-            res = ValidEInvoiceData_Sweden(IVr,CYb,CUr,EInvCUr,BCb,errcode,gotofield);
-        end;
-    end;
-  end;  
-  end;
-LValidEInvoiceData:;  
+  // Edit ************************** BPI Ukraine - KramarAlexandr - 04, 21 10 2021 y. at 1:29:59 PM
   ValidEInvoiceData = res;
   return;
 end;
