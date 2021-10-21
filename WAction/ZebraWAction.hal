@@ -1708,3 +1708,13 @@ begin
   //SetWindowState(wn,Rs_normal)
 	return;
 end;
+
+global
+function Boolean ToDoWClassOnClose(Integer wn,Integer wn2)
+begin
+	
+	if(currentcompany==13)then begin
+		ToDoWClassOnClose = true;
+  end;
+  return;
+end;
