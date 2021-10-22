@@ -1,4 +1,3 @@
-remote procedure ReadSer(var integer,string,var array val,var array string,var array string,var array string,var array real,var array date,date);
 external procedure DellSUPP();
 remote procedure DellINMn();
 external procedure SynchServToOfflineSettingsm();

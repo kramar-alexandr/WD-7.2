@@ -2,15 +2,12 @@ external procedure RateField(real,real,real,string,integer,string,boolean,real,r
 external function boolean AddBicToMasterWindow(integer,var real,var real,real,real,real,real);
 external function Boolean IsIntEnabActive(var string,var string,var Boolean,var string);
 external function Boolean TouchScreenLookVertical();
-external procedure ARS2RClass_Def();
-external procedure ALLVATRClass_Def();
 external procedure SysEClass_Tool(Integer,var real,var real);
 external procedure GTransEClass_Tool(Integer,var real,var real);
 external procedure GTrans2EClass_Tool(Integer,var real,var real,var real);
 external procedure GBaseEClass_Tool(Integer,var real,var real);
 external procedure TransGenVClass_Tool(Integer,var real,var real);
 external procedure GetCurUser(var record UserVc);
-external procedure JobRClass_UKR();
 external function string 60 UserDefined(string,string);
 external outer function string 255 MasterBannerURL();
 external procedure ItemStatusUserSettings(string,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean);
@@ -57,7 +54,6 @@ external function Integer CountCountries();
 
 // Language functions ENG
 external function Boolean DisplayLoginKeyPad_ENG();
-external function string 255 VATZoneEditFieldLabelUKR(Integer);
 external function real VATZoneButtonsLabelsRUS(real,real,real,real);
 external procedure LoginButtons2_ENG(Real,Real);
 external procedure FORMDEF_ENG();
@@ -69,7 +65,6 @@ external procedure TSERWNT_ENG();
 external procedure TSERWTouch_ENG();
 external procedure TSERWTEST_ENG();
 external procedure INVFORM_ENG(Boolean);
-external procedure DisplayRecordDetails_ukr(LongInt,LongInt,string,date,time,string,string,string,string,string,string,string,string,string,string,string,Integer,string,string,string,val,string,Boolean,string,string);
 external procedure DrawPOSInterface_ENG(string,string,record POSButtonsVc,Integer,string,Integer);
 external procedure DisplayRecordDetailsCustDisplay_ENG(LongInt,LongInt,string,date,time,string,string,string,string,string,string,Integer,string,string,string,val);
 external function string 255 ResDayWClassWindowTitle_ENG();
@@ -86,7 +81,6 @@ external procedure CreditCardWindowDeliveryDetail_ENG(Real);
 external function real DrawPaymentModesButtons_ENG();
 external procedure DrawBarMenuTiles_ENG(string);
 external procedure DrawRestPMOtherPay_ENG();
-external procedure DisplayRecordDetailsRA_ukr(LongInt,LongInt,string,date,time,string,string,string,string,string,string,Integer,string,LongInt,Date,string,LongInt,string);
 external procedure DrawModifierButtons2_ENG(var integer,var integer);
 external procedure OKCancel_ENG();
 external procedure DefineElearningURLCacheLClass_ENG();
@@ -98,7 +92,6 @@ external procedure FORMDEF3_ENG();
 external procedure ARS2RClass_ENG();
 external procedure ALLVATRClass_ENG();
 
-external function Boolean IsStandardERP();
 external function Boolean IsEnterprise();
 external function Boolean StandardHansa();
 external function Boolean HasATOL();

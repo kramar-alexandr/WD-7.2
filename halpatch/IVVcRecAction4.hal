@@ -44,7 +44,6 @@ external function Boolean IsDigit(string);
 external procedure ReverseString(string,var string);
 external function Boolean CurencyCodeIsISO(string);
 external function Boolean CustomerCountryCodeIsISO(string);
-external function Boolean InvoiceToEInvoiceQueueTest(Integer,string,string,var record EInvCUVc);
 external function Boolean ExistStockTrans(string,Date,var Integer,var string,string,LongInt,record MainStockBlock);
 remote function boolean ArgEInvoiceBeingSentRemote(longint,string,Boolean);
 

@@ -30,7 +30,6 @@ external function Integer CheckSerialStatus(string,string,var string);
 external function Boolean IsSerialNrCorrect(string);
 external function Boolean CheckAllowedSize(record INVc,val,val,val);
 external function Boolean VATAccIsClosed(string,var string,Integer);
-external function Boolean InvoiceToEInvoiceQueueTest(Integer,string,string,var record EInvCUVc);
 external function Boolean IVVcGiftCertificateCheck(record IVVc,Integer,row IVVc,Integer,var val);
 external function Boolean ReadFirstItem(string,var record INVc,Boolean,Boolean);
 external function val MulRateToBase1(var string,val,val,val,val,val,val,roundmode);

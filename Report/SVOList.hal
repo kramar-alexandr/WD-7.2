@@ -4,7 +4,6 @@ external procedure HTDetailLevel(Integer,var string);
 external procedure HTCusts(string, string,var string);
 external procedure HTStdProb(string,var string );
 external procedure HT2Per(Date, Date , var string);
-remote procedure CountNumberRepeatPhone(string,var array longint,var integer );
 external function LongInt CountWorkingDays(Date,Date,string,string);
 external function LongInt DateDiff(Date,Date);
 
@@ -322,7 +321,6 @@ array longint sernr;
 integer count;
 integer i;
 		
-	CountNumberRepeatPhone(RepSpec.f1,sernr,count);
   startreportnoheaderjob("§нформацґЯ по телефону клґ№нта");
 	
 	startformat(15);
