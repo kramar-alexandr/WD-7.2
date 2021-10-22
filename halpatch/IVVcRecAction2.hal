@@ -28,7 +28,6 @@ external updating procedure UpdateRecalcStockNeeded(Integer);
 external procedure CalcPrice(val,val,val,var val,Integer);
 external updating procedure IVCreateBuyBack(record IVVc);
 external updating procedure IVUpdateCredMan(record IVVc,var record CredManEventVc,Boolean,Boolean);
-external updating procedure UpdateCOCUHistRecord(string,LongInt,string,LongInt,Boolean);
 external function string 255 FindTaxAuthID(string,record IVVc);
 external function string 255 FindTaxAuthIDControlCode(string,record IVVc);
 external updating procedure UpdateLiqInfoFromCreditNote(LongInt,val,string,val,LongInt,LongInt,Boolean);
@@ -275,7 +274,6 @@ BEGIN
     RemoveFromCustomerAccount(IVr);
     InvalidateJob(IVr);
     IVUpdateCredMan(IVr,CredManEventr,false,true);
-    UpdateCOCUHistRecord("IVVc",IVr.SerNr,"",-1,true);
     if (nonblank(IVr.OfficialSerNr)) then begin 
       DeleteOffSerNr(IVr.SerNr,"IVVc");
     end;
@@ -1060,9 +1058,6 @@ BEGIN
           end;
         end;
       end;
-    end;
-    if (IVr.OKFlag==0 and IV2r.OKFlag==0) then begin
-      UpdateCOCUHistRecord("IVVc",IV2r.SerNr,"IVVc",IVr.SerNr,false);
     end;
   end;
   if ((IVr.OKFlag==1) and (IV2r.OKFlag==1)) then begin
