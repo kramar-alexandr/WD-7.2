@@ -10,7 +10,6 @@ external function Boolean HasSerialNumbers();
 external function Boolean HasSecondQuantity();
 external function Boolean HasVarieties();
 external function Boolean HasMultiCurrency();
-external procedure FORMDEF3_UKR(); //Edit***************************Sasha2,12:11 23.10.2014
 
 //##ii
 procedure dummy() //##ii
@@ -650,7 +649,6 @@ end;
 begin
   WindowBegin("Определите формы документов для цінників",MyLabelItemFClass,CGHbl,HBlRecType);
   SetBlid(ItemLabFormBlock);
-  FORMDEF3_UKR;
   EndWindow;
 end; //Edit***************************Sasha2,12:11 23.10.2014 }*/
 

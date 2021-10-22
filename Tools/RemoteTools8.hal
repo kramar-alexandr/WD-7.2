@@ -61,7 +61,6 @@ external procedure GetCurUser(var record UserVc);
 external procedure IVVc_PasteSalesMan(var record IVVc,string);
 external procedure FindUserMailboxName(string,var string,var string);
 external procedure GetUserDefActTypes(string,string,var string,var Integer,var Integer);
-external function longint GetUserSerNrSeries(longint);// Edit ************************** Tuesday, 2 June 2015 18:37:37
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -612,7 +611,7 @@ begin
   RecordNew(WSp);
   if (PasteWOInWS(WOp,WSp)) then begin end;
   if (WSp.SerNr<=0) then begin
-    WSp.SerNr = NextSerNr("WSVc",WSp.TransDate,GetUserSerNrSeries(-1),false,"");// Edit ************************** Tuesday, 2 June 2015 18:38:12
+    WSp.SerNr = NextSerNr("WSVc",WSp.TransDate,-1,false,"");// Edit ************************** Tuesday, 2 June 2015 18:38:12
   end;                      
   if (WSp.SerNr<=0) then begin goto LRecordAction_raPasteWOInWS; end;
   WSSumup(WSp);
@@ -638,7 +637,7 @@ begin
   RecordNew(WSp);
   if (PasteSVOInWS(SVOp,WSp)) then begin end;
   if (WSp.SerNr<=0) then begin
-    WSp.SerNr = NextSerNr("WSVc",WSp.TransDate,GetUserSerNrSeries(-1),false,""); // Edit ************************** Tuesday, 2 June 2015 18:38:12
+    WSp.SerNr = NextSerNr("WSVc",WSp.TransDate,-1,false,""); // Edit ************************** Tuesday, 2 June 2015 18:38:12
   end;                      
   if (WSp.SerNr<=0) then begin goto LRecordAction_raPasteSVOInWS; end;
   WSSumup(WSp);

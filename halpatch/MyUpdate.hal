@@ -1,5 +1,4 @@
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
-external procedure RebuildStockMn(record RcVc);
 external function Boolean GetItemPriceDiscount3(string,val,var record INVc,string,val,val,val,val,val,string,string,string,string,
                                                 var val,var string,var val,var string,var val,var string,Integer,var Boolean,Date,
                                                 string,Boolean,var Boolean,string,var string,var val,string);
@@ -8,18 +7,6 @@ external function Boolean PasteCUInSVO(var record SVOVc,var string);
 external function roundmode SetRoundModeD(Integer);
 
 
-global updating procedure ARRStock()
-begin
-record RcVc RepSpec;
-
-  ReportDefaults(RepSpec,"RebuildStockVClass");
-  RepSpec.repname = "RebuildStockMn";
-  RepSpec.flags[1] = 1;
-  RepSpec.flags[2] = 0;
-  RunMaintenance(RepSpec);
-
-return;
-end;
 
 global
 procedure MyMyPrintSMRecord(record SMVc SMr,Integer type,Val Curr)
