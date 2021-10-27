@@ -30,7 +30,7 @@ external function Boolean GSXCreateCarryInRepair(string,string,var record SVOVc,
 remote updating function boolean RecordAction_raPasteSVOInQT(var record QTVc,record SVOVc);
 external function Boolean OpenContactRecord(string,string);
 external updating function Integer RecordAction_raPasteSVOInOrder(var record ORVc,var record SVOVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 10:12:47 AM
-external global function string 200 DuplicateSVOSerial(string);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 10:13:30 AM
+remote global function string 200 DuplicateSVOSerial(string);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 10:13:30 AM
 
 // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 3 June 2015 16:58:34
