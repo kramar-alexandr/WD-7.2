@@ -977,22 +977,22 @@ begin
 			EditField(h1=75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
 			EditField(h1,v+=vs,70,"Дата",Normal,OrdDate,false,PasteCurDate);	
 			EditField(h1,v+=vs,70,"№ рах.",Normal,CustOrdNr,false,0);
-			EditField(h1,v+=vs,140,"Найменув.",Normal,Addr0,false,0);
 			
-		
 			if(show)then begin
 			  if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
-          EditField(h1,v+=vs,95,"Клієнт",Normal,CustCode,false,CUSClass);
+          EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
         end else begin
           v = v + 20;
         end;
 			end else begin
 			  v = v + 20;
 			end;
-			
-			HalPushButton(190,v,270,v+20,"CallToClientDsm","Дзвінок");
+			if(currentcompany==13)then begin
+				HalPushButton(190,v,270,v+20,"CallToClientDsm","Дзвінок");
+			end;
 			EnterSkip(PayDeal);
-			
+			EditField(h=255,v=vm,-120,"Найменув.",Normal,Addr0,false,0);
+		
 			//EditField(h+100,vm=(v+=20),80,"№ рах.",Normal,CustOrdNr,false,0);
 			CheckBox(h4=-110,v,0,"OK",OKFlag);
 			CheckBox(h4,v+20,0,"Зарезервовано",Reserved);
