@@ -1002,7 +1002,7 @@ begin
         EditField(h3+330,vv+=20,70,"Б/Н без ПДВ",Normal,PayVal03,false,0);
         EditField(h3+330,vv+=20,70,"Кредит",Normal,PayVal04,false,0);
         EditField(h3+330,vv+=20,70,"ОЧ Приват",Normal,PayVal05,false,0);
-        EditField(h3+330,vv+=20,100,"Всього",ViewOnly ,Sum4,true,0);
+        EditField(h3+330,vv+=20,70,"Всього",ViewOnly ,Sum4,true,0);
         HalPushButton(h3-100,v+=20,h3,v+=20,"OrderSetToST1Dsm","В роботі");
         CheckBox(h3+10,v+7+25,0,"",TTNMark);
         EditField(h3+80,v+7+25,80,"ТТН",Normal,TTNNumber,false,0);	
