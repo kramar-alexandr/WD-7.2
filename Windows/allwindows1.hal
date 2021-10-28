@@ -972,7 +972,6 @@ begin
 			ActiveFieldOnNew("CustCode");  
 			  
 			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
-			EditField(h1,v+=vs,70,"Дата",Normal,OrdDate,false,PasteCurDate);	
 			if(show)then begin
 			  if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
           EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
@@ -1021,8 +1020,8 @@ begin
         h1=75;
         h2 = 255;
         vs = 20;
-        
-        EditField(h1,v,25,"Умови сплт.",Normal,PayDeal,false,PDSClass);
+        EditField(h1,v,70,"Дата",Normal,OrdDate,false,PasteCurDate);	
+        EditField(h1,v+=vs,25,"Умови сплт.",Normal,PayDeal,false,PDSClass);
         EditField(h1,v+=vs,70,"Склад",Normal,Location,false,LocationSClass);
         EditField(h1,v+=vs,70,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
         HalPushButton(h1+70,v+17,h1+130,v+25,"OrderCustomerInfoDsm","Звіт");
