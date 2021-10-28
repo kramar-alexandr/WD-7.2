@@ -958,9 +958,6 @@ begin
 			DynamicWindow;
 			//Sizeable(0,0,0,0);
 			UseView(ORVc);
-			
-			vs = 20;
-			
 			getwindowrecord(curwindow,ORr);
 			show = true;
 			if(usercanaction("ViewAllOrderDetails",true)==false)then begin
@@ -974,7 +971,7 @@ begin
 			EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
 			ActiveFieldOnNew("CustCode");  
 			  
-			EditField(h1=75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
+			EditField(75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
 			EditField(h1,v+=vs,70,"Дата",Normal,OrdDate,false,PasteCurDate);	
 			if(show)then begin
 			  if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
@@ -1023,7 +1020,7 @@ begin
         v = 60;
         h1=75;
         h2 = 255;
-        
+        vs = 20;
         
         EditField(h1,v,25,"Умови сплт.",Normal,PayDeal,false,PDSClass);
         EditField(h1,v+=vs,70,"Склад",Normal,Location,false,LocationSClass);
@@ -1041,7 +1038,7 @@ begin
           v = v + vs;
         end;
         EditField(h2,v+=vs,150,"Коментар",Normal,Comment,false,0);
-        
+        EditField(h2,v+=vs,150,"№ рах.",Normal,CustOrdNr,false,0);
         v = v + vs;
         //3
         if(show)then begin
