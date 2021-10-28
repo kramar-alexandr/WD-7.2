@@ -976,8 +976,6 @@ begin
 			  
 			EditField(h1=75,vm=(v=6),95,"Номер",Normal,SerNr,false,TSerSClass);
 			EditField(h1,v+=vs,70,"Дата",Normal,OrdDate,false,PasteCurDate);	
-			EditField(h1,v+=vs,70,"№ рах.",Normal,CustOrdNr,false,0);
-			
 			if(show)then begin
 			  if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
           EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
