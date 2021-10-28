@@ -1076,12 +1076,12 @@ begin
           //v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
         end;
         v = v + 320;
-        /*
         ButtonFrame(10,v+vs,370,3,"Заполнить!!!");
         EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,PasteCurDate);
         EditField(h1+200,v,70,"Время",Normal,DespatchTime,false,PasteCurTime);
         EditField(h1+20,v+=vs,250,"Точка выдачи",Normal,InvAddr4,false,SalesGroupSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 28 11 2019 y. at 2:48:48 PM
         */       
+        HalPushButton(400,v-25,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
       
         v = v + vs;
         EditField(h1,v+=vs,-350,"Інформація",Normal,ShipAddr0,false,0);
@@ -1092,7 +1092,6 @@ begin
         EditField(h1,v+=vs,-350,"",Normal,DelAddr3,false,0);
         EditField(h1,v+=vs,-350,"",Normal,DelAddr4,false,0);
         v = v - 2*vs;
-        HalPushButton(400,v-25,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
         TextField(h1+520,370,-10,140,Math2,0);
         EditField(h1+590,v+=vs,-50,"Сообщение",Normal,ORChatSend,false,0);
         EnterSkip(ORChatSend);
