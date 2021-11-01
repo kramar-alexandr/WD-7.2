@@ -75,6 +75,26 @@ begin
     RecordField(PayVal03,M4Val,0,0);
     RecordField(PayVal04,M4Val,0,0);
     RecordField(PayVal05,M4Val,0,0);
+    
+    RecordField(InWorkMan,M4Code,50,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:48 PM
+    RecordField(InWorkDate,M4Date,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:49 PM
+    RecordField(InWorkTime,M4Time,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:51 PM
+    
+    RecordField(NoCallMan,M4Code,50,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:48 PM
+    RecordField(NoCallDate,M4Date,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:49 PM
+    RecordField(NoCallTime,M4Time,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:51 PM
+    
+    RecordField(SentMan,M4Code,50,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:48 PM
+    RecordField(SentDate,M4Date,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:49 PM
+    RecordField(SentTime,M4Time,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:51 PM
+    
+    RecordField(ReadyToSentMan,M4Code,50,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:48 PM
+    RecordField(ReadyToSentDate,M4Date,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:49 PM
+    RecordField(ReadyToSentTime,M4Time,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:51 PM
+    
+    RecordField(RejectMan,M4Code,50,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:48 PM
+    RecordField(RejectDate,M4Date,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:49 PM
+    RecordField(RejectTime,M4Time,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:51 PM
   
   
     ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28

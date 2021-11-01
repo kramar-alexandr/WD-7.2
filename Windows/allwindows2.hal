@@ -1,0 +1,419 @@
+external procedure RateField(real,real,real,string,integer,string,boolean,real,real,string,boolean);
+external function boolean AddBicToMasterWindow(integer,var real,var real,real,real,real,real);
+external function Boolean IsIntEnabActive(var string,var string,var Boolean,var string);
+external function Boolean TouchScreenLookVertical();
+external procedure SysEClass_Tool(Integer,var real,var real);
+external procedure GTransEClass_Tool(Integer,var real,var real);
+external procedure GTrans2EClass_Tool(Integer,var real,var real,var real);
+external procedure GBaseEClass_Tool(Integer,var real,var real);
+external procedure TransGenVClass_Tool(Integer,var real,var real);
+external procedure GetCurUser(var record UserVc);
+external function string 60 UserDefined(string,string);
+external outer function string 255 MasterBannerURL();
+external procedure ItemStatusUserSettings(string,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean,var Boolean);
+external function Boolean AllowedInCountry(integer);
+external function Integer ResourceWindowResourceType();
+external function Boolean ResPlan_Rental();
+external function Boolean ResPlan_ProdOperations();
+remote function Boolean ReadPOSButtons(string,string,longint,var string,var string,var string,var record POSButtonsVc,var Integer);
+external function Boolean TouchScreenLook();
+external procedure ExtractObj(string,var Integer,var string);
+external function Boolean IsSessionOpen(string,string,Date,Time);
+external procedure CntNPTSPaymentCurrencies(var Array string,var Array string,var Array Integer,var Array string,var Integer);
+remote procedure CntPOSCurrencies(var Array string,var Array Boolean,var Integer);
+external function Boolean CheckOffLineRecords(Boolean);
+external function string 60 TileUserDefined(string,Integer,var Integer);
+external function Boolean CUVATNrColumn;
+external function Integer GetInternetEnablerCountry();
+external function Integer CntVarietyCode(Integer,var Array string);
+external function Boolean UseTaxTemplatesforTaxCalc();
+remote procedure TablesViewWClassDo(record LocalMachineBlock,string,Array string,Array string,Array string,Array string,Array Integer,var Integer,var LongInt);
+external function string 20 GetMenuCode(string);
+external procedure DrawModifierButtons(var Integer);
+remote procedure ForkLiftQueueArray(string,string,var Array string,var Array string,var Array string,var Array string,var Array val,var Array Integer,var Array string,var Integer,Boolean,LongInt,LongInt,string);
+
+external function Boolean DisplayLoginButtons();
+external function Integer LoginShortcutsLines(Integer);
+external function Integer LoginShortcutsPos(Real,Integer);
+
+external procedure DefineTTRRowTypes(Integer);
+external function real ItemButtons(string,Integer);
+external procedure HWStoreWClassAddProducts(Integer);
+external function Boolean HasCharts();
+external function Boolean HasNewRegistration();
+external function Boolean ActivityIsForAcceptanceOrFYI(record ActVc,Boolean,Boolean);
+// TravelLog
+external function Integer LoginShortcuts();
+external function Boolean TestConfigurationEnabler(string);
+remote function Integer CustomerSalesPaymentTermType(string);
+// POS Standalone
+external function Boolean DefCustCodeSetup();
+// in-apps
+external function Boolean HasInAppsAvailable();
+external function Integer CountCountries();
+
+// Language functions ENG
+external function Boolean DisplayLoginKeyPad_ENG();
+external function real VATZoneButtonsLabelsRUS(real,real,real,real);
+external procedure LoginButtons2_ENG(Real,Real);
+external procedure FORMDEF_ENG();
+external function string 255 DemoMsgWClassTitle_ENG(Boolean,Boolean);
+external procedure TBEClassDef_ENG();
+external function string 255 VATZoneNameENG();
+external procedure TSERW_ENG();
+external procedure TSERWNT_ENG();
+external procedure TSERWTouch_ENG();
+external procedure TSERWTEST_ENG();
+external procedure INVFORM_ENG(Boolean);
+external procedure DrawPOSInterface_ENG(string,string,record POSButtonsVc,Integer,string,Integer);
+external procedure DisplayRecordDetailsCustDisplay_ENG(LongInt,LongInt,string,date,time,string,string,string,string,string,string,Integer,string,string,string,val);
+external function string 255 ResDayWClassWindowTitle_ENG();
+external function string 255 ResMonWClassWindowTitle_ENG();
+external function string 255 RTMonWClassWindowTitle_ENG();
+external procedure SetupNightAuditWindowControls_ENG(Boolean);
+external procedure CURClassDefinitionENG();
+external function real DrawPaymentModesButtons_IV_ENG(real);
+external function real FunctionButtons_ENG(string);
+external procedure CreditCardWindowHeader_ENG(Boolean,Boolean,Real);
+external procedure CreditCardWindowButtons_ENG(string,string,real);
+external procedure CreditCardWindowInvoiceDetail_ENG(Real);
+external procedure CreditCardWindowDeliveryDetail_ENG(Real);
+external function real DrawPaymentModesButtons_ENG();
+external procedure DrawBarMenuTiles_ENG(string);
+external procedure DrawRestPMOtherPay_ENG();
+external procedure DrawModifierButtons2_ENG(var integer,var integer);
+external procedure OKCancel_ENG();
+external procedure DefineElearningURLCacheLClass_ENG();
+external procedure DefineElearningURLCacheDClass_ENG();
+external function real TravelLogDeductions_ENG(real,real);
+external procedure LoginButtons_ENG(Real);
+external procedure FORMDEF2_ENG();
+external procedure FORMDEF3_ENG();
+external procedure ARS2RClass_ENG();
+external procedure ALLVATRClass_ENG();
+
+external function Boolean IsEnterprise();
+external function Boolean StandardHansa();
+external function Boolean HasATOL();
+
+external function Boolean HasAccessGroups();
+external function Boolean HasApprovals();
+external function Boolean HasCCPayments();
+external function Boolean HasAdvancedAccounting();
+external function Boolean HasAdvancedCRM();
+external function Boolean HasAdvancedPricing();
+external function Boolean HasAdvancedStock();
+external function Boolean HasBar();
+external function Boolean HasBase2();
+external function Boolean HasBranch();
+external function Boolean HasCategories();
+external function Boolean HasCommunicator();
+external function Boolean HasConsignmentStock();
+external function Boolean HasContactClassification();
+external function Boolean HasContactRelations();
+external function Boolean HasConsolidation();
+external function Boolean HasCountryPerCustomer();
+external function Boolean HasCustItem();
+external function Boolean HasCustomerSearchKey();
+external function Boolean HasDefineColumns();
+external function Boolean HasDeliveryAddress();
+external function Boolean HasDepartments();
+external function Boolean HasETaxDocuments();
+external function Boolean HasEInvoicing();
+external function Boolean HasEndorsedChecks();
+external function Boolean HasExtraNLComment();
+external function Boolean HasExtTax();
+external function Boolean HasFavouriteActTypes();
+external function Boolean HasFormEditor();
+external function Boolean HasFreightAdvanced();
+external function Boolean HasHideCostPrice();
+external function Boolean HasHotelInterface();
+external function Boolean HasGuestUserDefined();
+external function Boolean HasJewelleryInterface();
+external function Boolean HasIncomeAndExpenseBook();
+external function Boolean HasIOUChecks();
+external function Boolean HasItemClassification();
+external function Boolean HasItemGroups();
+external function Boolean HasKPIs();
+external function Boolean HasLanguages();
+external function Boolean HasLimitedAccess();
+external function Boolean HasLocalMachines();
+external function Boolean HasMainPartner();
+external function Boolean HasMultiCurrency();
+external function Boolean HasMultiLocations();
+external function Boolean HasLoyaltyCards();
+external function Boolean HasObjects();
+external function Boolean HasOfficialSerNr();
+external function Boolean HasPreferedOfficialSerNr();
+external function Boolean HasNumberSeries();
+external function Boolean HasPersons();
+external function Boolean HasPocketScreen();
+external function Boolean HasPositions();
+external function Boolean HasProjects();
+external function Boolean HasPriceLists();
+external function Boolean HasQualityControl();
+external function Boolean HasReconLevel2();
+external function Boolean HasReminderLevel();
+external function Boolean HasRemoteBackup();
+external function Boolean HasResourceDisplayGroups();
+external function Boolean HasRussianPrepayment();
+external function Boolean HasRoute();
+external function Boolean HasSalesman();
+external function Boolean HasSecondQuantity();
+external function Boolean HasSerialNumbers();
+external function Boolean HasSettlementDiscount();
+external function Boolean HasSimulations();
+external function Boolean hasSimAccruals();
+external function Boolean HasSkypeConnection();
+external function Boolean HasSIPServerConnection();
+external function Boolean HasTaxMatrix();
+external function Boolean HasTestFeatures();
+external function Boolean HasMetroTestFeatures();
+external function Boolean HasTouchScreenDevice();
+external function Boolean HasTouchScreenLook();
+external function Boolean HasTREO();
+external function Boolean HasVarieties();
+external function Boolean HasVATZone();
+external function Boolean HasWithholdingTax();
+external function Boolean HasWithholdingTaxAdvanced();
+
+external function Boolean HasStandardCRM();
+external function Boolean HasStandardOrganizer();
+external function Boolean HasStandardCommunicator();
+
+external function Boolean HasEMail();
+external function Boolean HasExternalEMail();
+
+external function Boolean HasModAT2();
+external function Boolean HasModCheck();
+external function Boolean HasModCL();
+external function Boolean HasModCO();
+external function Boolean HasModCourses();
+external function Boolean HasModCredMan();
+external function Boolean HasModCRM();
+external function Boolean HasModExp();
+external function Boolean HasModHotel();
+external function Boolean HasModHRM();
+external function Boolean HasModIN();
+external function Boolean HasModNL();
+external function Boolean HasModPO();
+external function Boolean HasModPOS();
+external function Boolean HasModPL();
+external function Boolean HasModPP();
+external function Boolean HasModProd();
+external function Boolean HasModQT();
+external function Boolean HasModRent();
+external function Boolean HasModRest();
+external function Boolean HasModRsrt();
+external function Boolean HasModSO();
+external function Boolean HasModSL();
+external function Boolean HasModSVO();
+external function Boolean HasModTS();
+external function Boolean HasModWHM();
+
+SetLangMode(LangRussian,"RUS",0); //##ii
+ 
+window ORDClass:2
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs,h5,flipnr,width,vv;
+  string 255 label;
+  boolean show;
+  record ORVc ORr;
+	
+  WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
+    SetWRect(20,80,1050,450);
+    DynamicWindow;
+    //Sizeable(0,0,0,0);
+    UseView(ORVc);
+    
+    vs = 20;
+    getwindowrecord(curwindow,ORr);/////открыть ототоатвс
+    show = true;
+    if(usercanaction("ViewAllOrderDetails",true)==false)then begin
+      BrowseButtons(false);
+      if(blank(ORr.SalesMan) and ORr.SerNr>-1)then begin
+        show = false;
+      end;
+    end;
+    ToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:09
+      HalPushButton(300,5,360,25,"PrintDoOrdFormButton","Друк");// Edit ************************** Wednesday, July 9, 2014 at 13:50:08
+    EndToolBar;// Edit ************************** Wednesday, July 9, 2014 at 13:50:10
+    ActiveFieldOnNew("CustCode");    
+    
+    
+    //(1)
+    EditField(75,vm=(v=6),100,"Дата",Normal,OrdDate,false,PasteCurDate);	
+    EditField(75,v+=vs,100,"Номер",Normal,SerNr,false,TSerSClass);
+    EditField(75,v+=vs,100,"№ рах.",Normal,CustOrdNr,false,0);
+    EditField(75,v+=vs,100,"Найменув.",Normal,Addr0,false,0);
+    
+    if(show)then begin
+      if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
+        EditField(75,v+=vs,100,"Клієнт",Normal,CustCode,false,CUSClass);
+      end else begin
+        v = v + 20;
+      end;
+    end else begin
+      v = v + 20;
+    end;
+    if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
+      EditField(75,v+=vs,100,"Телефон",Normal,Phone,false,0);
+    end else begin
+      v = v + vs;
+    end;
+    EditField(75,v+=vs,100,"Склад",Normal,Location,false,LocationSClass);
+    EditField(75,v+=vs,40,"Пост.Кл.",ViewOnly,OrderCnt,false,0);
+    
+    // Middle buttons
+    HalPushButton(185,v=100,250,v+20,"CallToClientDsm","Дзвінок");
+    HalPushButton(185,v+27,250,v+35,"OrderCustomerInfoDsm","Звіт");
+      
+    //(2)
+    EditField(h2=250,v=6,100,"Продавець",normal,SalesMan,false,UserSClass);
+    HalPushButton(h2,v+=20,h2+130,v+=20,"OrderSetToST1Dsm","В роботі");
+    HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST5Dsm","Не додзвонилися");
+    HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST2Dsm","Відправлений");
+    HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST6Dsm","Готовий до видачі");
+    HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST3Dsm","Виконаний");
+    HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST4Dsm","Відхилено");
+    
+    
+    //(3)
+    EditField(h3=420,v=6,100,"Статус",Normal,OrderStatusText,false,OrderStatusSClass);
+    EditField(h3,v+=25,70,"Дата",ViewOnly,InWorkDate,false,0);
+    EditField(h3,v+=25,70,"Дата",ViewOnly,NoCallDate,false,0);
+    EditField(h3,v+=25,70,"Дата",ViewOnly,SentDate,false,0);
+    EditField(h3,v+=25,70,"Дата",ViewOnly,ReadyToSentDate,false,0);
+    EditField(h3,v+=25,70,"Дата",ViewOnly,DoneDate,false,0);
+    EditField(h3,v+=25,70,"Дата",ViewOnly,RejectDate,false,0);
+    //(4)
+    v=6;
+    h3 = 520;
+    EditField(h3,v+=25,70,"1",ViewOnly,InWorkTime,false,0);
+    EditField(h3,v+=25,70,"2",ViewOnly,NoCallTime,false,0);
+    EditField(h3,v+=25,70,"3",ViewOnly,SentTime,false,0);
+    CheckBox(h3+160,v,0,"",TTNMark);
+    EditField(h3+210,v,90,"ТТН",Normal,TTNNumber,false,0);	
+    EditField(h3,v+=25,70,"4",ViewOnly,ReadyToSentTime,false,0);
+    EditField(h3,v+=25,70,"5",ViewOnly,DoneTime,false,0);
+    EditField(h3,v+=25,70,"6",ViewOnly,RejectTime,false,0);
+    CheckBox(h3+160,v,0,"",RejectMark);
+    EditField(h3+250,v,-20,"Причина",Normal,RejectStr,false,RejectStrSClass);
+    //(5)
+    v=6;
+    h3 = 600;
+    EditField(h3,v+=25,70,"",ViewOnly,InWorkMan,false,0);
+    EditField(h3,v+=25,70,"",ViewOnly,NoCallMan,false,0);
+    EditField(h3,v+=25,70,"",ViewOnly,SentMan,false,0);
+    EditField(h3,v+=25,70,"",ViewOnly,ReadyToSentMan,false,0);
+    EditField(h3,v+=25,70,"",ViewOnly,DoneMan,false,0);
+    EditField(h3,v+=25,70,"",ViewOnly,RejectMan,false,0);
+    //(6)
+    EditField(h3,v=6,80,"Вид рахунка",Normal,OrderClass,false,OrderClassSClass);
+    
+    CheckBox(h4=-110,v=6,0,"OK",OKFlag);
+    CheckBox(h4,v+=vs,0,"Зарезервовано",Reserved);
+    
+    if(show)then begin
+  
+      vv = v+25;
+      EditField(h4,v+=vs,70,"Готівка",Normal,PayVal01,false,0);
+      EditField(h4,v+=vs,70,"Термінал",Normal,PayVal02,false,0);
+      EditField(h4,v+=vs,70,"Б/Н без ПДВ",Normal,PayVal03,false,0);
+      EditField(h4,v+=vs,70,"Кредит",Normal,PayVal04,false,0);
+      EditField(h4,v+=vs,70,"ОЧ Приват",Normal,PayVal05,false,0);
+      EditField(h4,v+=vs,70,"Всього",ViewOnly ,Sum4,true,0);
+  
+      //1 
+      v = 60;
+      h1=75;
+      h2 = 255;
+      
+
+      v = v + vs;
+      //3
+      if(show)then begin
+        MatrixBegin(3,v=200,-50,v+170,-,200);
+        MatTypedRow(stp);
+        flipnr = 0;
+        Flip(flipnr); flipnr = flipnr + 1;
+        t = 1;
+        MatCol(t,24,"Товар",0,ArtCode,false,INSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+        MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);
+        EnterSkip(ArtCode);
+        Flip(flipnr); flipnr = flipnr + 1;
+        t = 1;
+        MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+
+        MatCol(t,-434,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+        MatCol(t,-330,"Ціна",0,Price,true,PLSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:43
+        MatCol(t,-255,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
+        MatCol(t,-220,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
+        MatCol(t,-150,"Коммент.",0,DopComment,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 27 01 2021 y. at 6:04:10 PM
+
+        Flip(flipnr); flipnr = flipnr + 1;
+        MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+        MatCol(t,384,"Коммент.",0,DopComment,false,0);
+        MatCol(t,-180,"Склад",0,Location,true,0);
+        MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
+        MatCol(t,-60,"Друк",0,ORPrint,true,0);
+        EnterSkip(ORPrint);
+
+        InsertRowTest;
+        DeleteRowTest;
+        EndMatrix;
+        vs = 20;
+        v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+        v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+      end;
+      v = v + 320;
+      HalPushButton(400,v,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
+  
+      EditField(h1,v+=vs,-450,"Інформація",Normal,ShipAddr0,false,0);
+      EditField(h1,v+=vs,-450,"Кредит",Normal,TerminalID,false,0);
+      EditField(h1,v+=vs,-450,"замовлення",Normal,ShipAddr1,false,0);
+      EditField(h1,v+=vs,-450,"",Normal,ShipAddr2,false,0);
+      EditField(h1,v+=vs,-450,"",Normal,ShipAddr3,false,0);
+      EditField(h1,v+=vs,-450,"",Normal,DelAddr3,false,0);
+      EditField(h1,v+=vs,-450,"",Normal,DelAddr4,false,0);
+      v = v - 2*vs;
+      TextField(h1+520,370,-10,100,Math2,0);
+      EditField(h1+590,v+=2+vs,-20,"Сообщение",Normal,ORChatSend,false,0);
+      EnterSkip(ORChatSend);
+    end else begin
+      v = 600;
+      StaticText(50,v,"_",true);
+    end;
+   
+    SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
+    SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
+    SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+    SpecialMenu("друк ZEBRA",'',0,"PrintORZebraDsm")
+    SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
+    SpecialMenu("Поновити товари валют. прейск.",' ',7,"UpdatePricesORDsm");
+    SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+    SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
+    SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+    SpecialMenu("Резервування",' ',15,"OrderReservORDsm");
+    SpecialMenu("Створити діяльність",'c',9,"CreateActFromORDsm");
+    SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+    SpecialMenu("Акт/накладна на аванс",'o',3,"DownPayFromORDsm");
+    SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+    if (HasModPO) then begin
+      SpecialMenu("Створити замовлення",' ',4,"POFromORDsm");
+    end;
+    SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
+    SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+    SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+    SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
+    SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
+
+    SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
+    SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
+    SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
+    SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
+
+  EndWindow;
+		
+end;
