@@ -977,7 +977,7 @@ begin
           EditField(75,v+=vs,100,"Номер",Normal,SerNr,false,TSerSClass);
           EditField(75,v+=vs,100,"№ рах.",Normal,CustOrdNr,false,0);
         end;
-        EditField(75,v+=vs,100,"Найменув.",Normal,Addr0,false,0);
+        EditField(75,v+=vs,150,"Найменув.",Normal,Addr0,false,0);
     
         if(show)then begin
           if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
@@ -1026,14 +1026,14 @@ begin
           //(4)
           v=6;
           h3 = 520;
-          EditField(h3,v+=25,70,"1",ViewOnly,InWorkTime,false,0);
-          EditField(h3,v+=25,70,"2",ViewOnly,NoCallTime,false,0);
-          EditField(h3,v+=25,70,"3",ViewOnly,SentTime,false,0);
+          EditField(h3,v+=25,70,"",ViewOnly,InWorkTime,false,0);
+          EditField(h3,v+=25,70,"",ViewOnly,NoCallTime,false,0);
+          EditField(h3,v+=25,70,"",ViewOnly,SentTime,false,0);
           CheckBox(h3+160,v,0,"",TTNMark);
           EditField(h3+210,v,90,"ТТН",Normal,TTNNumber,false,0);	
-          EditField(h3,v+=25,70,"4",ViewOnly,ReadyToSentTime,false,0);
-          EditField(h3,v+=25,70,"5",ViewOnly,DoneTime,false,0);
-          EditField(h3,v+=25,70,"6",ViewOnly,RejectTime,false,0);
+          EditField(h3,v+=25,70,"",ViewOnly,ReadyToSentTime,false,0);
+          EditField(h3,v+=25,70,"",ViewOnly,DoneTime,false,0);
+          EditField(h3,v+=25,70,"",ViewOnly,RejectTime,false,0);
           CheckBox(h3+160,v,0,"",RejectMark);
           EditField(h3+250,v,-20,"Причина",Normal,RejectStr,false,RejectStrSClass);
           //(5)
@@ -1106,7 +1106,7 @@ begin
           end;
           v = v + 320;
           HalPushButton(400,v,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
-  
+          EditField(h1,v+=vs,-450,"Коментар",Normal,Comment,false,0);
           EditField(h1,v+=vs,-450,"Інформація",Normal,ShipAddr0,false,0);
           EditField(h1,v+=vs,-450,"Кредит",Normal,TerminalID,false,0);
           EditField(h1,v+=vs,-450,"замовлення",Normal,ShipAddr1,false,0);
