@@ -972,9 +972,11 @@ begin
     
     
         //(1)
-        EditField(75,vm=(v=6),100,"Дата",Normal,OrdDate,false,PasteCurDate);	
-        EditField(75,v+=vs,100,"Номер",Normal,SerNr,false,TSerSClass);
-        EditField(75,v+=vs,100,"№ рах.",Normal,CustOrdNr,false,0);
+        if(show)then begin
+          EditField(75,vm=(v=6),100,"Дата",Normal,OrdDate,false,PasteCurDate);	
+          EditField(75,v+=vs,100,"Номер",Normal,SerNr,false,TSerSClass);
+          EditField(75,v+=vs,100,"№ рах.",Normal,CustOrdNr,false,0);
+        end;
         EditField(75,v+=vs,100,"Найменув.",Normal,Addr0,false,0);
     
         if(show)then begin
