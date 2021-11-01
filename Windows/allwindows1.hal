@@ -986,17 +986,22 @@ begin
         end else begin
           v = v + 20;
         end;
-        if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
-          EditField(75,v+=vs,100,"Телефон",Normal,Phone,false,0);
-        end else begin
-          v = v + vs;
+        if(show)then begin
+          if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
+            EditField(75,v+=vs,100,"Телефон",Normal,Phone,false,0);
+          end else begin
+            v = v + vs;
+          end;
         end;
-        EditField(75,v+=vs,100,"Склад",Normal,Location,false,LocationSClass);
-        EditField(75,v+=vs,40,"Пост.Кл.",ViewOnly,OrderCnt,false,0);
-    
+        if(show)then begin
+          EditField(75,v+=vs,100,"Склад",Normal,Location,false,LocationSClass);
+          EditField(75,v+=vs,40,"Пост.Кл.",ViewOnly,OrderCnt,false,0);
+        end;
         // Middle buttons
         HalPushButton(185,v=100,250,v+20,"CallToClientDsm","Дзвінок");
-        HalPushButton(185,v+27,250,v+35,"OrderCustomerInfoDsm","Звіт");
+        if(show)then begin
+          HalPushButton(185,v+27,250,v+35,"OrderCustomerInfoDsm","Звіт");
+        end;
         if(show)then begin
           //(2)
           EditField(h2=250,v=6,100,"Продавець",normal,SalesMan,false,UserSClass);
