@@ -26,10 +26,7 @@ BEGIN
   val valv;
   
   valv = round(tmpvalv,defaultcurroundoff);
-  
-  logtext(0,"AddEuroCurncyNomARTrRow2 valv " & valv);
-  logtext(0,"AddEuroCurncyNomARTrRow2 valv * 100 " & valv * 100);
-  
+    
   BlockLoad(TRb);
   curflag = false;
   if (curncy<>"") then begin
