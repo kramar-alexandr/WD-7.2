@@ -23,7 +23,9 @@ BEGIN
   val temp,base2val;
   val localcurval,blankv;
   record CYBlock TRb;
-
+  
+  logtext(0,"AddEuroCurncyNomARTrRow2 valv " & valv);
+  
   BlockLoad(TRb);
   curflag = false;
   if (curncy<>"") then begin
