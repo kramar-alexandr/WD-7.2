@@ -8,7 +8,7 @@ external procedure NoDupObjs(string,var string);
 external procedure GetBaseCurncy(Integer,var string);
 
 global
-procedure AddEuroCurncyNomARTrRow2(record TRVc TRp,string acc,string objs,string vatcod,string comm,val valv,val valv2,Boolean accf,
+procedure AddEuroCurncyNomARTrRow2(record TRVc TRp,string acc,string objs,string vatcod,string comm,val tmpvalv,val valv2,Boolean accf,
              Boolean dcflag,var val totsump,string curncy,val frrate,val torate1,val torate2,val baserate1,val baserate2,
              val curval,val nomval,string CompCode,LongInt SerNr,Integer Typ,val qp,Date duep,LongInt insertrownr,
              Boolean negamf,string taccnumber,string tfilename,string tcode,string rvrsvatcode)
@@ -23,6 +23,9 @@ BEGIN
   val temp,base2val;
   val localcurval,blankv;
   record CYBlock TRb;
+  val valv;
+  
+  valv = round(tmpvalv,defaultcurroundoff);
   
   logtext(0,"AddEuroCurncyNomARTrRow2 valv " & valv);
   logtext(0,"AddEuroCurncyNomARTrRow2 valv * 100 " & valv * 100);
