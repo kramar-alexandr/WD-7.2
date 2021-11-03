@@ -2707,7 +2707,8 @@ record CUVc CUr;
 					if(blank(ORr.SalesMan))then begin
 					  millisleep(10000);
 					  ORr.SalesMan = currentuser;
-					  
+					end;
+					if(blank(ORr.InWorkMan))then begin
 					  ORr.OrderStatusCode = 1;
             switch(ORr.OrderStatusCode)begin
               case 0:ORr.OrderStatusText = "Новий";
