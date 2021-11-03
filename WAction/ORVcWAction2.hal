@@ -2665,19 +2665,6 @@ begin
 end;
 
 global
-function Boolean ORDClassOnOpenWindow(Integer wn)
-begin
-  record ORVc ORr;
-  Integer AcceptanceStatusFlag;
-  
-  GetWindowRecord(wn,ORr);
-  ORDClassOnOpenWindowRemote(ORr,AcceptanceStatusFlag);
-  PutWindowString(wn,"AcceptanceStatusFlag",StringFromSet(443,AcceptanceStatusFlag));  
-  ORDClassOnOpenWindow = false;
-  return;
-end;
-
-global
 procedure ORDClassOnWindowRecordChange(Integer wn)
 begin
   record ORVc ORr;
