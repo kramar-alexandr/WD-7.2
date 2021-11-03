@@ -2707,6 +2707,21 @@ record CUVc CUr;
 					if(blank(ORr.SalesMan))then begin
 					  millisleep(10000);
 					  ORr.SalesMan = currentuser;
+					  
+					  ORr.OrderStatusCode = 1;
+            switch(ORr.OrderStatusCode)begin
+              case 0:ORr.OrderStatusText = "Новий";
+              case 1:ORr.OrderStatusText = "В роботі";
+              case 2:ORr.OrderStatusText = "Відправлено";
+              case 3:ORr.OrderStatusText = "Виконано";
+              case 4:ORr.OrderStatusText = "Відхилено";	
+              case 5:ORr.OrderStatusText = "Не додзвонилися";	
+              case 6:ORr.OrderStatusText = "Готовий до видачі";
+            end;
+            ORr.InWorkMan = currentuser;
+            ORr.InWorkDate = currentdate;
+            ORr.InWorkTime = currenttime;
+					  
 					  recordstore(ORr,true);
 					  putwindowrecord(wn,ORr);
 					  ReRunWindowDef(wn);
