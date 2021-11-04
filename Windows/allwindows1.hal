@@ -949,7 +949,7 @@ begin
 			EndWindow;
 		end;
 	end else begin
-		if(currentcompany==13)then begin  
+		if(currentcompany==13 and usercanaction("SimpleORWindow",true))then begin  
       WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
         SetWRect(20,80,1050,450);
         DynamicWindow;

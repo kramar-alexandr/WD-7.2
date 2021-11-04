@@ -628,6 +628,7 @@ begin
   StrSetText(ManagerView,"Вид окон для менеджеров"); //Edit_______________________________________ABR 19.06.19
   StrSetText(AllowEditCommentsAndTextFieldOR,"Дозволити редагувати коментарі та нотатки в рахунках клієнтів");//Edit_______________________________________ABR 04.11.19 11:50
   StrSetText(ViewAllOrderDetails,"Просмотр деталей заказа перед звонком");// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 11 05 2021 y. at 5:42:12 PM
+  StrSetText(SimpleORWindow,"Упрощенное окно ИМ");// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 11 05 2021 y. at 5:42:12 PM
   EndStrSet;
 	
 	
