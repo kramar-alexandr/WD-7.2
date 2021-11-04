@@ -1196,7 +1196,7 @@ begin
 			Tile(2,220,true,"2",Math);
 			EditField(-150,-21,100,"Всього",ViewOnly ,Sum4,true,0);
 			v = 24;
-			if(show)then begin
+			if(true)then begin
         MatrixBegin(3,v,-50,-49,-,200);
         MatTypedRow(stp);
         flipnr = 0;
