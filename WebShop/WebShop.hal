@@ -844,7 +844,6 @@ vector string 255 vres;
 						case"self": ORr.ShipAddr1 = "Самовывоз со склада";
 						case"door": ORr.ShipAddr1 = "Доставка до дверей";
 					end;
-					ORr.OrderClass = "SALES";
 					switch(delivery_region)begin
 						case"0": ORr.ShipAddr2 = "Курьером"; ORr.OrderClass = "INTDL";
 						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»"; ORr.OrderClass = "INTNP";
@@ -935,7 +934,7 @@ end;
 
 global webpublic updating procedure WebBitrixOrder()
 begin
-area areply,orderarea,rawarea;
+area areply,orderarea,rawarea,tmparr;
 Boolean TrHs,testf,comma,TrHs1;
 record WebSyncRegVc WSRr;
 record WebSyncBlock WSBb;
@@ -1085,11 +1084,12 @@ vector string 255 vres;
 						case"self": ORr.ShipAddr1 = "Самовывоз со склада";
 						case"door": ORr.ShipAddr1 = "Доставка до дверей";
 					end;
+					ORr.OrderClass = "SALES";
 					switch(delivery_region)begin
-						case"0": ORr.ShipAddr2 = "Курьером";
-						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»";
-						case"2": ORr.ShipAddr2 = "Самовывоз";
-						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)";
+						case"0": ORr.ShipAddr2 = "Курьером"; ORr.OrderClass = "INTDL";
+						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»"; ORr.OrderClass = "INTNP";
+						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";
+						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)"; ORr.OrderClass = "INTDL";
 					end;
 					switch(payment)begin
 						case"cash": ORr.ShipAddr3 = "Наличными";
@@ -1158,9 +1158,8 @@ vector string 255 vres;
 						
 						ORDchsum(ORr,k);
 						ORSumup(ORr);
-						
 					end;
-					ORr.OrderClass = "SALES";
+					
 					recordinsert(ORr,true);    
 					
 					if(nonblank(phone))then begin
