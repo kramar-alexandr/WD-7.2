@@ -2212,6 +2212,12 @@ begin
   ORr.OfficialSerNrSerie = "";
   ORr.OrderStatusCode = 0;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 2:37:05 PM
   ORr.OrderStatusText = "Новий";// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 2:37:07 PM
+  if(currentcompany==13)then begin
+    if(nonblank(currentuser))then begin
+      ORr.OrderClass = "CALDL";
+    end;
+  end;
+  
   ORVcRecordDefaults = res;  
   return;
 end;
