@@ -646,32 +646,55 @@ end;
 
 
 global
-function string 255 ChekUnicode(string str)
+function string 255 ChekUnicode(string str,var vector string res)
 begin
   string 10 c, c1;
   string 10 ucode;
-  string 255 res,tmp; 
+  string 255 tmp; 
   integer slen,i,int;
   longint lmes;
+  area tmparr;
   
-  res = str;
+  res["1"] = "";
+  res[""] = str;
+  //res["1"] = str;
   i=0;
-  slen = Len(res);
-	
+  slen = Len(res[""]);
+	logtext(0,"str-" & str);
 	if(slen>0)then begin
 		for(i=0;i<slen;i=i+1)begin
-			c = mid(res,i,2);
+			c = mid(res[""],i,2);
 			if(c==(chr(92) & "u"))then begin
-				ucode = mid(res,i,6);
+				ucode = mid(res[""],i,6);
 				lmes = POSNETHexToLong(ucode);
 				int = lmes;
-				res = left(res,i) & uchr(int) & right(res, (len(res)-(i+6)));
-				slen = Len(res);
+				res[""] = left(res[""],i) & uchr(int) & right(res[""], (len(res[""])-(i+6)));
+				slen = Len(res[""]);
 			end;
 		end;
 	end;
-		
-  ChekUnicode = res;
+	//weboutstring("<BR>");
+	addtexttoarea(str,tmparr);
+	slen = getarealength(tmparr);
+	for(i=0;i<slen;i=i+1)begin
+	  c = getstringfromarea(tmparr,i,2);
+	  logtext(0,"c " & c);
+	  if(c!=(chr(92) & "u"))then begin
+	    res["1"] = res["1"] & getstringfromarea(tmparr,i,1);
+	    logtext(0,i & " i " & getstringfromarea(tmparr,i,1));
+	  end else begin
+	    ucode = getstringfromarea(tmparr,i,6);
+	    //weboutstring("|" & ucode & "|");
+	    lmes = POSNETHexToLong(ucode);
+	    //weboutstring("|lmes|" & lmes & "|");
+	    int = lmes;
+	    //weboutstring("|uchr|" & uchr(int) & "|");
+	    res["1"] = res["1"] & uchr(int);
+	    logtext(0,int);
+	    i=i+5;
+	  end;
+	end;
+  ChekUnicode = res[""];
   return;
 end;
 
@@ -702,7 +725,7 @@ row ORVc ORrw;
 longint acnt;
 string 5 c1,c2;
 record SMSConfigBlock SMSConfigb;
-    
+vector string 255 vres;
   
 
   logtext(0,"WebGetISOrder");
@@ -739,24 +762,24 @@ record SMSConfigBlock SMSConfigb;
 			if(stringtolongint(orderid)>0)then begin
 				writeareatofile(orderarea,"iStoreOrders/" & orderid & ".txt",0);
 					
-				delivery_region = ChekUnicode(JSONGet(inputjson,"delivery_region"));	
-				delivery_type = ChekUnicode(JSONGet(inputjson,"delivery_type"));	
-				last_name = ChekUnicode(JSONGet(inputjson,"last_name"));	
+				delivery_region = ChekUnicode(JSONGet(inputjson,"delivery_region"),vres);	
+				delivery_type = ChekUnicode(JSONGet(inputjson,"delivery_type"),vres);	
+				last_name = ChekUnicode(JSONGet(inputjson,"last_name"),vres);	
 				phone = JSONGet(inputjson,"phone");	
-				payment = ChekUnicode(JSONGet(inputjson,"payment"));	
-				address = ChekUnicode(JSONGet(inputjson,"address"));	
-				first_name = ChekUnicode(JSONGet(inputjson,"first_name"));	
+				payment = ChekUnicode(JSONGet(inputjson,"payment"),vres);	
+				address = ChekUnicode(JSONGet(inputjson,"address"),vres);	
+				first_name = ChekUnicode(JSONGet(inputjson,"first_name"),vres);	
 				summary = JSONGet(inputjson,"summary");	
-				note = ChekUnicode(JSONGet(inputjson,"note"));	
-				email = ChekUnicode(JSONGet(inputjson,"email"));	
-				ensure = ChekUnicode(JSONGet(inputjson,"ensure"));	
-				is_credit = ChekUnicode(JSONGet(inputjson,"is_credit"));	
+				note = ChekUnicode(JSONGet(inputjson,"note"),vres);	
+				email = ChekUnicode(JSONGet(inputjson,"email"),vres);	
+				ensure = ChekUnicode(JSONGet(inputjson,"ensure"),vres);	
+				is_credit = ChekUnicode(JSONGet(inputjson,"is_credit"),vres);	
 				discount_percent = JSONGet(inputjson,"discount_percent");	
 				datetxt = JSONGet(inputjson,"date");	
 				buyoneclick = JSONGet(inputjson,"buyoneclick");	
 				storeH = JSONGet(inputjson,"store/hansa");	
-				storeN = ChekUnicode(JSONGet(inputjson,"store/name"));	
-				phone = NormPhoneNum(ChekUnicode(phone));
+				storeN = ChekUnicode(JSONGet(inputjson,"store/name"),vres);	
+				phone = NormPhoneNum(ChekUnicode(phone,vres));
 
 				
 				CUr.Code = phone;
@@ -936,7 +959,8 @@ row ORVc ORrw;
 longint acnt;
 string 5 c1,c2;
 record SMSConfigBlock SMSConfigb;
-    
+vector string 255 tradeinfo;
+vector string 255 vres;
   
 
   logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrder");
@@ -974,27 +998,29 @@ record SMSConfigBlock SMSConfigb;
 			if(stringtolongint(orderid)>0)then begin
 				writeareatofile(orderarea,"BitrixiStoreOrders/" & orderid & ".txt",0);
 					
-				delivery_region = ChekUnicode(JSONGet(inputjson,"delivery_region"));	
-				delivery_type = ChekUnicode(JSONGet(inputjson,"delivery_type"));	
-				last_name = ChekUnicode(JSONGet(inputjson,"last_name"));	
+				delivery_region = ChekUnicode(JSONGet(inputjson,"delivery_region"),vres);	
+				delivery_type = ChekUnicode(JSONGet(inputjson,"delivery_type"),vres);	
+				last_name = ChekUnicode(JSONGet(inputjson,"last_name"),vres);	
 				phone = JSONGet(inputjson,"phone");	
 				if(left(phone,3)=="+38")then begin
 					phone = right(phone,len(phone)-3);
 				end;
-				payment = ChekUnicode(JSONGet(inputjson,"payment"));	
-				address = ChekUnicode(JSONGet(inputjson,"address"));	
-				first_name = ChekUnicode(JSONGet(inputjson,"first_name"));	
+				payment = ChekUnicode(JSONGet(inputjson,"payment"),vres);	
+				address = ChekUnicode(JSONGet(inputjson,"address"),vres);	
+				tradeinfo[""] = ChekUnicode(JSONGet(inputjson,"tradeinfo"),vres);	
+				tradeinfo[""] = vres["1"];				
+				first_name = ChekUnicode(JSONGet(inputjson,"first_name"),vres);	
 				summary = JSONGet(inputjson,"summary");	
-				note = ChekUnicode(JSONGet(inputjson,"note"));	
-				email = ChekUnicode(JSONGet(inputjson,"email"));	
-				ensure = ChekUnicode(JSONGet(inputjson,"ensure"));	
-				is_credit = ChekUnicode(JSONGet(inputjson,"is_credit"));	
+				note = ChekUnicode(JSONGet(inputjson,"note"),vres);	
+				email = ChekUnicode(JSONGet(inputjson,"email"),vres);	
+				ensure = ChekUnicode(JSONGet(inputjson,"ensure"),vres);	
+				is_credit = ChekUnicode(JSONGet(inputjson,"is_credit"),vres);	
 				discount_percent = JSONGet(inputjson,"discount_percent");	
 				datetxt = JSONGet(inputjson,"date");	
 				buyoneclick = JSONGet(inputjson,"buyoneclick");	
 				storeH = JSONGet(inputjson,"store/hansa");	
-				storeN = ChekUnicode(JSONGet(inputjson,"store/name"));	
-				phone = NormPhoneNum(ChekUnicode(phone));
+				storeN = ChekUnicode(JSONGet(inputjson,"store/name"),vres);	
+				phone = NormPhoneNum(ChekUnicode(phone,vres));
 
 				
 				CUr.Code = phone;
@@ -1077,6 +1103,11 @@ record SMSConfigBlock SMSConfigb;
 					end;					
 					ORr.CustOrdNr = orderid;
 					
+					if(len(tradeinfo[""])>0)then begin
+					  AddToText("Trade Info: ",ORr);
+					  AddToText(tradeinfo[""],ORr);
+					end;
+					
 					ORr.Addr0 = last_name & " " & first_name;
 					logtext(0,"buyoneclick " & buyoneclick);
 					if(buyoneclick=="true")then begin
@@ -1096,10 +1127,10 @@ record SMSConfigBlock SMSConfigb;
 					ORr.SerNr = NextSerNr("ORVc",ORr.OrdDate,-1,false,"");    
 					for(i=0;i<JSONCountChildren(inputjson,"items");i=i+1) begin
 						articlerow = JSONGet(inputjson,"items/["  & i & "]/item/article");
-						fullnamerow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/fullname"));
+						fullnamerow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/fullname"),vres);
 						pricerow = JSONGet(inputjson,"items/["  & i & "]/item/price");
 						countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
-						commentrow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/comment"));
+						commentrow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/comment"),vres);
 						
 						sumrow = JSONGet(inputjson,"items/["  & i & "]/discount_summary");
 						k = matrowcnt(ORr);
