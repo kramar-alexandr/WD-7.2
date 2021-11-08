@@ -2371,6 +2371,16 @@ begin
   if (nonblank(CUr.WarnText1)) then begin
     MessageBox(0,CUr.WarnText1);
   end;
+  if(currentcompany==13)then begin
+    if(nonblank(currentuser))then begin
+      ORr.OrderClass = "CALDL";
+      ORr.OrderStatusText = "В роботі";
+      ORr.OrderStatusCode = 1;
+      ORr.InWorkMan = currentuser;
+      ORr.InWorkDate = currentdate;
+      ORr.InWorkTime = currenttime;
+    end;
+  end;
   if (GetCustAndBal(CUr,limit,bal,CLb.Base,CLb.OwnCheques,CLb.ThirdCheques,CLb.IOUCheques,CLb.ThirdIOUCheques,CLb.ORSaveWarn,limitdaysf)) then begin
     if (CLb.IVPaste==1) then begin
       if (limitdaysf) then begin
