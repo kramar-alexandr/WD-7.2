@@ -2215,6 +2215,11 @@ begin
   if(currentcompany==13)then begin
     if(nonblank(currentuser))then begin
       ORr.OrderClass = "CALDL";
+      ORr.OrderStatusText = "В роботі";
+      ORr.OrderStatusCode = 1;
+      ORr.InWorkMan = currentuser;
+      ORr.InWorkDate = currentdate;
+      ORr.InWorkTime = currenttime;
     end;
   end;
   
