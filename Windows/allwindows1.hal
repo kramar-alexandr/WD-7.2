@@ -1122,7 +1122,7 @@ begin
           EditField(h1,v+=vs,-450,"",Normal,DelAddr3,false,0);
           EditField(h1,v+=vs,-450,"",Normal,DelAddr4,false,0);
           v = v - 2*vs;
-          TextField(h1+520,370,-10,200,Math2,0);
+          TextField(h1+520,370,-10,150,Math2,0);
           EditField(h1+590,v+=2+vs,-20,"Сообщение",Normal,ORChatSend,false,0);
           EnterSkip(ORChatSend);
         end else begin
