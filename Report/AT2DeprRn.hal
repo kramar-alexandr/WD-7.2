@@ -1,14 +1,12 @@
 external function LongInt MonthDiff(Date,Date);
 external function Boolean SetInSet2(string,string);
-external function val CurMonthWrOfQty(Date,Integer,record AT2UnitVc,var val);
 external procedure RevaluationOnDate(Integer,Integer,string,Date,Date,var val,var val,var string);
-external procedure DeprSegmentNew(Integer,record DprModVc,Date,Date,val,var val,var val,val);
-external procedure DeprSegment(Date,Date,Integer,record DprModVc,Date,Date,Date,val,var val,var val,var val,var val,var Integer,val);
+external procedure DeprSegmentNew3(Integer,record DprModVc,Date,Date,val,var val,var val,val,record AT2UnitVc,val);
 external procedure HT2Per(Date, Date , var string);
 external procedure HTModel(Integer,var string);
 external procedure HTValuesPerMonth(Integer,var string);
 external procedure HTInventoryNrs(string,string,var string);
-external updating procedure AddSMDprRowRows(record RcVc,record AT2UnitVc,val,val,Integer,var record SMVc,var string);
+external procedure AddSMDprRowRows(record RcVc,record AT2UnitVc,val,val,Integer,var record SMVc,var string);
 external function Boolean GetNextData_Asset(Integer,record AT2UnitVc,record DprModVc,Date,Date,Integer,Boolean,
                                             var Date,var string,var val,var val,var val,var Date,var val,var val,var Boolean);
 external function Boolean GetLastDprStartVal(Integer,string,val,var val,var val);
@@ -19,6 +17,7 @@ external function Boolean CheckifAT2UnitSold(string,Date);
 external procedure PrintSMRecord(record SMVc,Integer);
 external procedure SMSumup(var record SMVc);
 external function Boolean GetInventoryNrWrofSoldQuant(string,Date,Date,var val,var val,var val,var Date);
+external function roundmode SetRoundModeD(Integer);
 
 function Date LastDprDate(Date dat,string InventoryNr,Integer Model,Integer typ,var val revinitdeprval) 
 begin
@@ -237,99 +236,147 @@ BEGIN
 END;          
 */
 
-procedure PrintInventoryNrResult(Boolean partf,record AT2UnitVc ATUnitr,val InitDeprVal,val PurchVal,val startval,val invdprbef,var val invdprv,val invrevdprv,val invrevdprbef,
-                                 val wrofsum,val wrofdprsum,val revbef,val fwdbal,val endbal,
-                                 Integer ArtMode,Integer InclRevDpr,Integer SkipDisposed)
-BEGIN   
+procedure PrintDprModelInfo(record DprModVc DMr,Date sd, Date ed,Integer ArtMode)
+begin
+  string 255 tstr,t2;
+  
   if (ArtMode==1) then begin
+    tstr = USetStr(5293);
+    tstr = tstr & " ";
+    t2 = sd;
+    tstr = tstr & t2;
+    t2 = ed;
+    tstr = tstr & ":";
+    tstr = tstr & t2;
+    StartFormat(15);
+    OutString(20,0,tstr,false);
+    tstr = DMr.Description;
+    tstr = tstr & " ";
+    if (DMr.DeprPerc==0) then begin
+      t2 = 100/DMr.LifecycleYears;
+    end else begin
+      t2 = DMr.DeprPerc;
+    end;
+    tstr = tstr & t2;
+    tstr = tstr & "%";
+    OutString(200,0,tstr,false);
+    EndFormat; 
+  end else begin
+    tstr = DMr.Code;
+    tstr = tstr & " ";
+    if (DMr.DeprPerc==0) then begin
+      t2 = 100/DMr.LifecycleYears;
+    end else begin
+      t2 = DMr.DeprPerc;
+    end;
+    tstr = tstr & t2;
+    tstr = tstr & "%";
+    OutString(3,0,tstr,false);
+  end;
+  return;
+end;
+
+procedure PrintInventoryNrResult(Boolean partf,record AT2UnitVc ATUnitr,record DprModVc DMr,val InitDeprVal,val PurchVal,val startval,val invdprbef,var val invdprv,val invrevdprv,val invrevdprbef,
+                                 val wrofsum,val wrofdprsum,val revbef,val fwdbal,val endbal,
+                                 Integer ArtMode,Integer InclRevDpr,Integer SkipDisposed,Integer datef,boolean printf)
+BEGIN
+  Date sd,ed;
+  
+  if (printf) then begin
+    
+  StartFormat(15);
+    OutString(0,0, ATUnitr.AT2Code,false);
+    OutString(0,0, ATUnitr.AT2Class,false); 
+    OutString(0,"DblAT2UnitVc",ATUnitr.InventoryNr,false);
+    OutString(2,0,ATUnitr.DepCode,false);// Edit ************************** Thursday, 9 December 2010 10:36:19
+    OutString(2,0,ATUnitr.RespPerson,false);// Edit ************************** Thursday, 9 December 2010 10:36:19
+    OutString(2,0,ATUnitr.Description,false);
+    OutString(2,0,ATUnitr.SerialNr,false);
+    OutString(2,0,ATUnitr.Quantity,false);// Edit ************************** Thursday, 9 December 2010 13:42:50
+    OutVal(3,0,PurchVal,M4Val,true);
+    OutVal(4,0,(PurchVal-invdprbef),M4Val,true);//-InitDeprVal
+    OutVal(5,0,(startval-PurchVal),M4Val,true);
+    OutVal(6,0,invdprv,M4Val,true);
+    if ((startval-wrofsum)<=0) then begin
+      OutVal(1,0,(startval-wrofsum),M4Val,true);//+InitDeprVal
+      end else begin
+      OutVal(1,0,(startval-(invdprv+invdprbef+wrofsum)),M4Val,true);//+InitDeprVal
+    end;
+  EndFormat;	
+  /*  
     if ((invdprbef+ATUnitr.ResVal)>=startval) then begin
       invdprv = 0;
-    end;   
-    StartFormat(15);
-     OutString(100,0,USetStr(5292),false);
-     OutVal(4,0,InitDeprVal,M4Val,true);
-    EndFormat;    
-    StartFormat(15);
-     OutString(100,0,USetStr(5288),false);
-     OutVal(4,0,PurchVal,M4Val,true);
-     OutVal(5,0,(startval-PurchVal),M4Val,true);
-     OutVal(1,0,startval,M4Val,true);
-    EndFormat;    
-    StartFormat(15);
-     OutString(100,0,USetStr(5289),false);
-     OutVal(4,0,invdprbef,M4Val,true);
-     OutVal(5,0,invdprv,M4Val,true);
-     OutVal(1,0,(invdprv+invdprbef),M4Val,true);
-    EndFormat;      
-    StartFormat(15);
-     OutString(100,0,USetStr(5290),false);
-     OutVal(4,0,(PurchVal-invdprbef),M4Val,true);//-InitDeprVal
-     OutVal(5,0,(startval-PurchVal-invdprv),M4Val,true);
-     if ((startval-wrofsum)<=0) then begin
-       OutVal(1,0,startval-wrofsum,M4Val,true);//+InitDeprVal
-     end else begin
-       OutVal(1,0,(startval-(invdprv+invdprbef)),M4Val,true);//+InitDeprVal
-     end;
-    EndFormat;    
-    Gray_Divider(0,1);
-  end else begin
-  /*
-    StartFormat(15);
-     if (partf) then begin
-       OutString(15,"DblAT2UnitVc",ATUnitr.InventoryNr,false);
-     end else begin
-       OutString(0,"DblAT2UnitVc",ATUnitr.InventoryNr,false);
-     end;
-     OutString(2,0,ATUnitr.Description,false);
-     OutVal(3,0,PurchVal,M4Val,true);
-     OutVal(4,0,(PurchVal-invdprbef),M4Val,true);//-InitDeprVal
-     OutVal(5,0,(startval-PurchVal),M4Val,true);
-     OutVal(6,0,invdprv,M4Val,true);
-     switch (SkipDisposed) begin
-       case 0://Incl Disposed
+    end;
+    if (ArtMode==1) then begin
+      StartFormat(15);
+       OutString(100,0,USetStr(5292),false);
+       OutVal(4,0,InitDeprVal,M4Val,true);
+      EndFormat;    
+      StartFormat(15);
+       OutString(100,0,USetStr(5288),false);
+       OutVal(4,0,PurchVal,M4Val,true);
+       OutVal(5,0,(startval-PurchVal),M4Val,true);
+       OutVal(1,0,startval,M4Val,true);
+      EndFormat;    
+      StartFormat(15);
+       OutString(100,0,USetStr(5289),false);
+       OutVal(4,0,invdprbef,M4Val,true);
+       OutVal(5,0,invdprv,M4Val,true);
+       OutVal(1,0,(invdprv+invdprbef),M4Val,true);
+      EndFormat;      
+      StartFormat(15);
+       OutString(100,0,USetStr(5290),false);
+       OutVal(4,0,(PurchVal-invdprbef),M4Val,true);//-InitDeprVal
+       OutVal(5,0,(startval-PurchVal-invdprv),M4Val,true);
+       if ((startval-wrofsum)<=0) then begin
+         OutVal(1,0,startval-wrofsum,M4Val,true);//+InitDeprVal
+       end else begin
          OutVal(1,0,(startval-(invdprv+invdprbef)),M4Val,true);//+InitDeprVal
-       case 1://Skip Disposed
-         if ((startval-wrofsum)<=0) then begin
-           OutVal(1,0,(startval-wrofsum),M4Val,true);//+InitDeprVal
-         end else begin
-           OutVal(1,0,(startval-(invdprv+invdprbef+wrofsum)),M4Val,true);//+InitDeprVal
-         end;
-       case 2://Include Disposed in Period
-         OutVal(1,0,(startval-(invdprv+invdprbef)),M4Val,true);//+InitDeprVal
-     end;
-    EndFormat; 
-
-*/
-
-    StartFormat(15);
-	OutString(0,0, ATUnitr.AT2Code,false);
-	OutString(0,0, ATUnitr.AT2Class,false); 
-     OutString(0,"DblAT2UnitVc",ATUnitr.InventoryNr,false);
-     OutString(2,0,ATUnitr.DepCode,false);// Edit ************************** Thursday, 9 December 2010 10:36:19
-     OutString(2,0,ATUnitr.RespPerson,false);// Edit ************************** Thursday, 9 December 2010 10:36:19
-     OutString(2,0,ATUnitr.Description,false);
-     OutString(2,0,ATUnitr.SerialNr,false);
-     OutString(2,0,ATUnitr.Quantity,false);// Edit ************************** Thursday, 9 December 2010 13:42:50
-     OutVal(3,0,PurchVal,M4Val,true);
-     OutVal(4,0,(PurchVal-invdprbef),M4Val,true);//-InitDeprVal
-     OutVal(5,0,(startval-PurchVal),M4Val,true);
-     OutVal(6,0,invdprv,M4Val,true);
-     if ((startval-wrofsum)<=0) then begin
-       OutVal(1,0,(startval-wrofsum),M4Val,true);//+InitDeprVal
-     end else begin
-       OutVal(1,0,(startval-(invdprv+invdprbef+wrofsum)),M4Val,true);//+InitDeprVal
-     end;
-    EndFormat;	
-  end;  
+       end;
+      EndFormat;    
+      Gray_Divider(0,1);
+    end else begin
+      StartFormat(15);
+       if (partf) then begin
+         OutString(15,"DblAT2UnitVc",ATUnitr.InventoryNr,false);
+       end else begin
+         OutString(0,"DblAT2UnitVc",ATUnitr.InventoryNr,false);
+       end;
+       OutString(2,0,ATUnitr.Description,false);
+       PrintDprModelInfo(DMr,sd,ed,ArtMode);
+       if (datef) then begin  
+         OutString(8,0,ATUnitr.PurchaseDate,false);
+       end;
+       OutVal(4,0,PurchVal,M4Val,true);
+       OutVal(5,0,(PurchVal-invdprbef),M4Val,true);//-InitDeprVal
+       OutVal(6,0,(startval-PurchVal),M4Val,true);
+       OutVal(7,0,invdprv,M4Val,true);
+       switch (SkipDisposed) begin
+         case 0://Incl Disposed
+           OutVal(1,0,(startval-(invdprv+invdprbef)),M4Val,true);//+InitDeprVal
+         case 1://Skip Disposed
+           if ((startval-wrofsum)<=0) then begin
+             OutVal(1,0,(startval-wrofsum),M4Val,true);//+InitDeprVal
+           end else begin
+             OutVal(1,0,(startval-(invdprv+invdprbef+wrofsum)),M4Val,true);//+InitDeprVal
+           end;
+         case 2://Include Disposed in Period
+           OutVal(1,0,(startval-(invdprv+invdprbef)),M4Val,true);//+InitDeprVal
+       end;
+      EndFormat;    
+    end; */ 
+  end;
+  
   RETURN;
 END;
 
+global
 procedure PrintInventoryNrResultTotals(val resval,val InitDeprVal,val PurchVal,val startval,val invdprbef,var val invdprv,val wrofsum,val revbef,Integer ArtMode,Integer SkipDisposed)
-BEGIN   
+BEGIN
+  if ((invdprbef+resval)>=startval) then begin
+    invdprv = 0;
+  end;
   if (ArtMode==1) then begin
-    if ((invdprbef+resval)>=startval) then begin
-      invdprv = 0;
-    end;   
     StartFormat(15);
      OutString(100,0,USetStr(5292),false);
      OutVal(4,0,InitDeprVal,M4Val,true);
@@ -364,17 +411,21 @@ BEGIN
            end;
          end;
        case 2://Include Disposed in Period
+         if ((startval-wrofsum)<=0) then begin
+          OutVal(1,0,startval-wrofsum,M4Val,true);//+InitDeprVal
+        end else begin
          OutVal(1,0,startval-(invdprv+invdprbef),M4Val,true);//+InitDeprVal
+        end;
      end;
     EndFormat;    
     Gray_Divider(0,1);
   end else begin
     StartFormat(15);
      OutString(2,0,USetStr(5290),false);
-     OutVal(3,0,PurchVal,M4Val,true);
-     OutVal(4,0,PurchVal-invdprbef,M4Val,true);//-InitDeprVal
-     OutVal(5,0,startval-PurchVal,M4Val,true);
-     OutVal(6,0,invdprv,M4Val,true);
+     OutVal(4,0,PurchVal,M4Val,true);
+     OutVal(5,0,PurchVal-invdprbef,M4Val,true);//-InitDeprVal
+     OutVal(6,0,startval-PurchVal,M4Val,true);
+     OutVal(7,0,invdprv,M4Val,true);
      switch (SkipDisposed) begin
        case 0://Incl Disposed
           OutVal(1,0,(startval-(invdprv+invdprbef)),M4Val,true);//+InitDeprVal
@@ -394,33 +445,6 @@ BEGIN
     EndFormat;  
   end;  
   RETURN;          
-END;
-          
-procedure PrintDprModelData(record DprModVc DMr,Date sd, Date ed)
-BEGIN
-  string 255 tstr,t2;
-  
-    tstr = USetStr(5293);
-    tstr = tstr & " ";
-    t2 = sd;
-    tstr = tstr & t2;
-    t2 = ed;
-    tstr = tstr & ":";
-    tstr = tstr & t2;
-    StartFormat(15);
-     OutString(20,0,tstr,false);
-     tstr = DMr.Description;
-     tstr = tstr & " ";
-     if (DMr.DeprPerc==0) then begin
-       t2 = 100/DMr.LifecycleYears;
-     end else begin
-       t2 = DMr.DeprPerc;
-     end;
-     tstr = tstr & t2;
-     tstr = tstr & "%";
-     OutString(200,0,tstr,false);
-    EndFormat; 
-  RETURN;
 END;
 
 global
@@ -583,20 +607,20 @@ BEGIN
 END;
 
 procedure DepreciationCalculation(Integer Model,Integer Comparison,Integer ArtMode,Integer PrintPeriodVals,Integer mode,Integer InclRevDpr,Integer SkipDisposed,
-                             record AT2UnitVc ATUnitr,var record DprModVc DMr,
+                             record AT2UnitVc ATUnitr,var record DprModVc DMr,Boolean dprmodelf,
                              val purchval,var val startval,var val resval,
                              Date startdate,Date enddate,
                              var val invdpr,var val invrevdpr,
                              var val totacumdpr,var val totrevacumdpr,
                              var val assetqty,
                              var val wrofqty,var val wrofsum,var val wrofdprsum,
-                             var val lastrevval,var val revinperiod)
+                             var val lastrevval,var val revinperiod,Boolean roundf,Integer prevmode,Integer datef,val currentdepr)
 begin
   Integer lComparison;
   Date nexted,wrofd,lstartdate,lenddate;
   Date sd,ed,blankd;
   string 10 nextdmcode,dmcode;
-  val nextstartval,nextresval,nextinitdeprval,nextwrofqty,tmp;
+  val nextstartval,nextresval,nextinitdeprval,nextwrofqty,tmp,taccum;
   Boolean stopdprf,qdeductedf;
   val dpr,dpr2,revval;
   val t,acumdpr,revacumdpr,q,nextwrdpr,nwrdpr,lassetqty,revinitdeprval;
@@ -606,7 +630,7 @@ begin
   Date dtd;
   val dstartval,dresval;
   string 255 ddmcode;
-  
+
   lassetqty = assetqty;
   if (lassetqty<=0) then begin
     dpr = (startval-resval);
@@ -621,11 +645,10 @@ begin
   end;
   lstartdate = startdate;
   lenddate = enddate;
-  
-  if (lstartdate>lenddate) then begin  	
+  if (lstartdate>lenddate) then begin
     goto LDepreciationCalculation;
   end;
-		
+
   switch (lComparison) begin
     case 0:    
       lstartdate.day = 1;
@@ -643,45 +666,15 @@ begin
       lastdprd = LastDprDate(enddate,ATUnitr.InventoryNr,Model,0,revinitdeprval);
       assetrevaluatedf = nonblankdate(lastdprd);
   end;
-    
   while (GetNextData_Asset(Model,ATUnitr,DMr,lstartdate,lenddate,lComparison,assetrevaluatedf,nexted,nextdmcode,nextstartval,nextresval,nextinitdeprval,wrofd,nextwrofqty,nextwrdpr,stopdprf)) begin
     qdeductedf = false;
     nwrdpr = 0;
-/*
-    if (AT2Ab.LastMonthDispDprCalc!=0) then begin
-      switch (lComparison) begin
-        case 0: 
-          if (startdate==lstartdate) then begin          
-            q = CurMonthWrOfQty(lstartdate,lComparison,ATUnitr,nwrdpr);
-            lassetqty = lassetqty - q;
-            if (q!=0) then begin
-              wrofsum = wrofsum + nextwrofqty*startval;
-              wrofdprsum = wrofdprsum + q*nwrdpr;
-              qdeductedf = true;
-            end;
-          end;
-        case 2: 
-          if (startdate==lstartdate) then begin
-            q = CurMonthWrOfQty(lstartdate,lComparison,ATUnitr,nwrdpr);
-            lassetqty = lassetqty - q;
-            if (q!=0) then begin
-              wrofsum = wrofsum + nextwrofqty*startval;
-              wrofdprsum = wrofdprsum + nextwrofqty*nextwrdpr;
-              qdeductedf = true;
-            end;
-          end;          
-      end;
-    end;   
-*/    
     RevaluationOnDate(Model,lComparison,ATUnitr.InventoryNr,lstartdate,blankd,startval,resval,dmcode);
     if (HasLocalization("LTU")) then begin
       dstartval = blankval;
       RevaluationOnDate(3,lComparison,ATUnitr.InventoryNr,lstartdate,enddate,dstartval,dresval,ddmcode);
     end;
     
-//StopAlert("sd " & sd & " ed " & ed & " nextwrofqty " & nextwrofqty & " lassetqty " & lassetqty);
-
-//StopAlert("sd " & sd & " ed " & ed & " nextstartval " & nextstartval & " startval " & startval & " lstartdate " & lstartdate);
     if (nonblank(dmcode)) then begin
       if (dmcode!=DMr.Code) then begin
         DMr.Code = dmcode;
@@ -699,17 +692,34 @@ begin
     end;
     revinperiod = revval;
     
-//StopAlert("lassetqty " & lassetqty & " startval " & startval & " resval " & resval & " nextwrofqty  " & nextwrofqty & " sd " & sd & " ed " & ed);
-
+    taccum = totacumdpr;
+    switch (DMr.DeprMethod) begin  
+      case 2: taccum = taccum + acumdpr;
+      case 3: taccum = taccum + acumdpr;
+      case 5: taccum = taccum + acumdpr;
+    end;
+    if (HasLocalization("CZE,SVK")) then begin
+      if (roundf and sd.Year==GetYear(ATUnitr.StartingDate1) and sd.Year<2020) then begin
+        DMr.DeprRnd = 99;
+      end else begin
+        if (prevmode!=0) then begin
+          DMr.DeprRnd = prevmode;
+        end;
+      end;
+      if (acumdpr>0 and currentdepr>0) then begin
+        taccum = currentdepr;
+      end;
+    end;
     if ((lassetqty*(startval-resval))>totacumdpr) then begin
       switch (DMr.DeprMethod) begin  
-        case 1: DeprSegmentNew(lComparison,DMr,sd,ed,startval,dpr,resval,totacumdpr);
-        case 2: DeprSegmentNew(lComparison,DMr,sd,ed,startval,dpr,resval,acumdpr+totacumdpr);
-        case 3: DeprSegmentNew(lComparison,DMr,sd,ed,startval,dpr,resval,acumdpr+totacumdpr);
-        case 4: DeprSegmentNew(lComparison,DMr,sd,ed,startval,dpr,resval,totacumdpr);
-        case 5: DeprSegmentNew(lComparison,DMr,sd,ed,startval,dpr,resval,acumdpr+totacumdpr);
-      end; 
+        case 1: DeprSegmentNew3(lComparison,DMr,sd,ed,startval,dpr,resval,taccum,ATUnitr,currentdepr);
+        case 2: DeprSegmentNew3(lComparison,DMr,sd,ed,startval,dpr,resval,taccum,ATUnitr,currentdepr);
+        case 3: DeprSegmentNew3(lComparison,DMr,sd,ed,startval,dpr,resval,taccum,ATUnitr,currentdepr);
+        case 4: DeprSegmentNew3(lComparison,DMr,sd,ed,startval,dpr,resval,taccum,ATUnitr,currentdepr);
+        case 5: DeprSegmentNew3(lComparison,DMr,sd,ed,startval,dpr,resval,taccum,ATUnitr,currentdepr);
+      end;
     end;
+
     if (HasLocalization("LTU")) then begin
       if (blank(dstartval)==false) then begin
         startval = dstartval;
@@ -722,7 +732,6 @@ begin
       invdpr = dpr;
     end else begin
       if (invdpr>(lassetqty*startval-lassetqty*resval)) then begin
-//        invdpr = invdpr - lassetqty*dpr;
         invdpr = invdpr - lassetqty*startval-lassetqty*resval;
         dpr = (startval-resval);
         if ((invdpr+dpr)>(lassetqty*startval-lassetqty*resval)) then begin
@@ -730,29 +739,29 @@ begin
         end;
         if (dpr<0) then begin dpr = 0; end;
         invdpr = invdpr + lassetqty*dpr;
-      end; 
+      end;
     end;
     if (revval!=0) then begin
       dpr2 = blankval; 
-      DeprSegmentNew(lComparison,DMr,sd,ed,revval,dpr2,resval,totrevacumdpr);
+      DeprSegmentNew3(lComparison,DMr,sd,ed,revval,dpr2,resval,totrevacumdpr,ATUnitr,currentdepr);
       invrevdpr = invrevdpr + dpr2*lassetqty;
     end;
-//StopAlert("sd " & sd & " ed " & ed & " dpr " & dpr & " revval " & revval);
 
     if ((ArtMode==1) and (mode==1)) begin
-      PrintDprModelData(DMr,sd,ed);
+      if (dprmodelf) then begin
+        PrintDprModelInfo(DMr,sd,ed,ArtMode);
+      end;
       if (dpr!=0) and (PrintPeriodVals!=0)  then begin
         t = dpr*lassetqty; 
-        PrintInventoryNrResult(false,ATUnitr,0.00,purchval*ATUnitr.Quantity,startval*ATUnitr.Quantity,0,t,0,dpr2*lassetqty,wrofsum,wrofdprsum,revinperiod*ATUnitr.Quantity,0,0,ArtMode,InclRevDpr,SkipDisposed);
+        PrintInventoryNrResult(false,ATUnitr,DMr,0.00,purchval*ATUnitr.Quantity,startval*ATUnitr.Quantity,0,t,0,dpr2*lassetqty,wrofsum,wrofdprsum,revinperiod*ATUnitr.Quantity,0,0,ArtMode,InclRevDpr,SkipDisposed,datef,true);
       end;
     end;    
     if (nonblank(nextdmcode)) then begin
       if (nextdmcode!=DMr.Code) then begin
         DMr.Code = nextdmcode;
-        if (ReadFirstMain(DMr,1,true)) then begin end;
+        ReadFirstMain(DMr,1,true);
       end;
     end;
-//    if (AT2Ab.LastMonthDispDprCalc!=0) then begin
     if (false) then begin
       switch (lComparison) begin
         otherwise 
@@ -769,15 +778,12 @@ begin
           wrofsum = wrofsum + nextwrofqty*startval;
           wrofdprsum = wrofdprsum + nextwrofqty*nextwrdpr;
         case 1:
-  //      lassetqty = lassetqty - nextwrofqty;
         case 2:
           lassetqty = lassetqty - nextwrofqty;
-//          wrofsum = wrofsum + nextwrofqty*startval;
           wrofsum = wrofsum + nextwrofqty*startval;
           wrofdprsum = wrofdprsum + nextwrofqty*nextwrdpr;
       end;      
     end;
-//StopAlert("2.lassetqty " & lassetqty & " SkipDisposed " & SkipDisposed & " nextwrofqty  " & nextwrofqty & " sd " & sd & " ed " & ed);
     wrofqty = wrofqty + nextwrofqty;
     switch (SkipDisposed) begin
       case 0:
@@ -787,14 +793,10 @@ begin
         end;
       case 2:
     end;
-    if (DateInRange(wrofd,startdate,enddate)) then begin
-    end;
     
     acumdpr = acumdpr + dpr;
     lstartdate = AddDay(nexted,1);
     lenddate = enddate;
-
-//StopAlert("lstartdate " & lstartdate & " lenddate " & lenddate);
 
     if (nonblank(nextstartval)) then begin
       startval = nextstartval;        
@@ -811,8 +813,7 @@ begin
       goto LDepreciationCalculation;
     end;
   end;
-    
-LDepreciationCalculation:;  
+LDepreciationCalculation:;
   totacumdpr = totacumdpr + acumdpr;
   totrevacumdpr = totrevacumdpr + revacumdpr;
 
@@ -824,47 +825,111 @@ LDepreciationCalculation:;
   RETURN;
 END;
 
-/*
-          if (DateInRange(wrofd,sStartDate,sEndDate)) then begin
-            wrofsum = wrofsum + wrofqty*startval;
-            lastwrofd = wrofd;
-            totwrofqty = totwrofqty + wrofqty;
-            totwrofsum = totwrofsum + wrofsum;
-          end;
-          if (nonblankdate(wrofd)) then begin//wrofd<sStartDate
-            switch (DMr.DeprMethod) begin
-              case 1: dprbefwrof = dprbefwrof + dprv;
-              case 2: dprbefwrof = dprbefwrof + dprbef;
-              case 3: dprbefwrof = dprbefwrof + dprbef;
-            end;
-          end;
-          totwrofsum = totwrofsum - dprbefwrof;
-        end;
+procedure OneInventoryNrDepreciation_DepreciationBeforeCurrentPeriod_SVK(record AT2UnitVc orgATUr,record DprModVc DMr,
+                                    Integer mode,Integer ArtMode,Date sStartDate,
+                                    Integer Model,Integer UseFiscalVal,Integer LastOfficialRev,Integer Comparison,Integer SkipDisposed,
+                                    Integer InclRevDpr,Integer PrintPeriodVals,
+                                    val assetqty,val purchval,var val startval,val resval,val wrofqty,val wrofsum,val wrofdprsum,
+                                    Date stdprdate,Date aenddatebef,
+                                    var val acumdpr,var val invdprbef,var Boolean roundf,var Integer prevmode,Integer datef,var val currentdepr,date sEndDate)
+begin
+  Date pysd,ed,fullyearsd,enddatebef,td,ed2;
+  record AT2UnitVc ATUr;
+  val t,lastrevval;
+  val fullyearacumdpr,fullyearrevacumdpr,fullyearinvdprbef,fullyearinvrevdprbef,tfullyearacumdpr;
+  val pyinvdprv,pyinvrevdprv,pyacumdpr,pyrevacumdpr,pyinvdprbef,pyinvrevdprbef;
+  Boolean testf,firstf,dodeprf;
 
-*/
+  RecordCopy(ATUr,orgATUr);
+  invdprbef = blankval;
+
+  td = orgATUr.StartingDate1; td.month = 1; td.day = 1;
+  ATUr.StartingDate1 = td;
+  enddatebef = aenddatebef; enddatebef.month = 12; enddatebef.day = 31;
+
+  fullyearsd = ATUr.StartingDate1;
+  pysd = stdprdate;
+  testf = true;
+  if (pysd<enddatebef and (pysd.year!=sStartDate.year or (pysd.year==sStartDate.year and sEndDate.year!=sStartDate.year))) then begin
+    dodeprf = true;
+  end;
+
+  firstf = true;
+  while (testf) begin
+    ed = pysd; ed.month = 12; ed.day = 31;
+    pyinvdprv = blankval;
+    pyacumdpr = fullyearacumdpr;
+    if (prevmode==0) then begin
+      prevmode = DMr.DeprRnd;
+    end;
+    roundf = true;
+    if (dodeprf) then begin
+      DepreciationCalculation(Model,Comparison,ArtMode,PrintPeriodVals,mode,InclRevDpr,SkipDisposed,ATUr,DMr,false,purchval,startval,resval,fullyearsd,ed,fullyearinvdprbef,fullyearinvrevdprbef,tfullyearacumdpr,fullyearrevacumdpr,assetqty,wrofqty,wrofsum,wrofdprsum,lastrevval,t,roundf,prevmode,datef,blankval);
+    end;
+    roundf = false;
+    if (tfullyearacumdpr!=blankval) then begin
+      currentdepr = tfullyearacumdpr - fullyearacumdpr;
+    end;
+    if !(sStartDate.year==GetYear(orgATUr.StartingDate1) and sStartDate.day==1 and sStartDate.month==1 and sEndDate.day==31 and sEndDate.month==12) then begin
+      if (sStartDate.day==1 and sStartDate.month==1 and sEndDate.day==31 and sEndDate.month==12) then begin
+        ed2 = AddYear(sEndDate,-1);
+      end else begin
+        ed2 = sEndDate;
+        ed2 = AddMonth(ed2,-1);
+        ed2.day = DaysInMonth(ed2.year,ed2.month);
+      end;
+      if (ed2>pysd) then begin
+        DepreciationCalculation(Model,Comparison,ArtMode,PrintPeriodVals,mode,InclRevDpr,SkipDisposed,ATUr,DMr,true,purchval,startval,resval,pysd,ed2,pyinvdprv,pyinvrevdprv,pyacumdpr,pyrevacumdpr,assetqty,wrofqty,wrofsum,wrofdprsum,lastrevval,t,roundf,prevmode,datef,currentdepr);
+      end;
+    end;
+    invdprbef = invdprbef + pyinvdprv;
+    pysd = AddYear(pysd,1);
+    fullyearsd = AddYear(fullyearsd,1);
+
+    if (firstf) then begin
+      firstf = false;
+      fullyearacumdpr = tfullyearacumdpr;
+    end;
+    testf = false;
+    fullyearacumdpr = tfullyearacumdpr;
+  end;
+  if (MatRowCnt(DMr)>0) then begin
+    if ((enddatebef.year-stdprdate.year+1)==MatRowCnt(DMr)) then begin
+      //last year of revaluation takes it all
+      invdprbef = startval;
+    end;
+  end;
+
+  acumdpr = fullyearacumdpr;
+  if (acumdpr>=startval) then begin
+    acumdpr = invdprbef;
+  end;
+  return;
+end;
 
 global
-procedure OneInventoryNrDepreciation(record AT2UnitVc ATUnitr,Integer mode,Integer ArtMode,Date sStartDate,Date sEndDate,
+procedure OneInventoryNrDepreciation2(record AT2UnitVc ATUnitr,Integer mode,Integer ArtMode,Date sStartDate,Date sEndDate,
                                      Integer Model,Integer UseFiscalVal,Integer LastOfficialRev,Integer Comparison,Integer SkipDisposed,
                                      Integer InclRevDpr,Integer PrintPeriodVals,
                                      var val totwrofqty,var val totwrofsum,var val totwrofdprsum,var val purchval,var val startval,var val invdprv,var val invdprbef,
                                      var val invrevdprv,var val invrevdprbef,var val revbef,var val fwdassetqty,var val assetqty,
-                                     var val thestartval)
-BEGIN
+                                     var val thestartval,Integer datef,boolean printf)
+begin
   string 20 dmcode;
-  Date sd,pd,ed,dprstartdate,startdate,enddate,usedfromdate,enddatebef,revenddate;
+  Date sd,pd,ed,td,dprstartdate,startdate,enddate,usedfromdate,enddatebef,revenddate;
   val dprbef,resval,mindprval,dprv,portstartval,lastrevval,revinitdeprval;
   val wrofsum,t,wrofqty,wrofdprsum,aqty;
   val wq,sq;
   record DprModVc DMr;
-  Boolean skipwriteof,wroff,stopdprf;  
+  Boolean skipwriteof,wroff,stopdprf,roundf;  
   Date bd,wrofd;
   Date nextsd,nexted;
   Date stdprdate;
-  Integer lComparison,alreadydonef;
-  val acumdpr,revacumdpr;
+  Integer lComparison,alreadydonef,prevmode;
+  val acumdpr,revacumdpr,currentdepr;
   Date lastdprd;
-
+  record AT2UnitVc tmpATUr;
+  
   invdprv = blankval;
   invdprbef = blankval;
   totwrofqty = blankval;
@@ -906,7 +971,7 @@ BEGIN
         if (blank(startval)) then begin
           startval = ATUnitr.PurchVal2;
         end;
-        if (blank(purchval)) then begin
+        if (nonblank(ATUnitr.PurchVal2)) then begin
           purchval = ATUnitr.PurchVal2;
         end;
       end;
@@ -964,6 +1029,7 @@ BEGIN
       end;
 */
   end;
+  totwrofqty = totwrofqty + wq + sq;
   
   startval = purchval;//only for declining
   switch (LastOfficialRev) begin
@@ -992,8 +1058,14 @@ BEGIN
     end;
   end;
 
-  DepreciationCalculation(Model,Comparison,ArtMode,PrintPeriodVals,mode,InclRevDpr,SkipDisposed,ATUnitr,DMr,purchval,startval,resval,stdprdate,enddatebef,invdprbef,invrevdprbef,acumdpr,revacumdpr,assetqty,wrofqty,wrofsum,wrofdprsum,lastrevval,revbef);
-  
+  if (HasLocalization("CZE,SVK")) then begin
+    OneInventoryNrDepreciation_DepreciationBeforeCurrentPeriod_SVK(ATUnitr,DMr,mode,ArtMode,sStartDate,Model,UseFiscalVal,LastOfficialRev,Comparison,SkipDisposed,
+                                    InclRevDpr,PrintPeriodVals,assetqty,purchval,startval,resval,wrofqty,wrofsum,wrofdprsum,stdprdate,enddatebef,acumdpr,invdprbef,
+                                    roundf,prevmode,datef,currentdepr,sEndDate);
+  end else begin
+    DepreciationCalculation(Model,Comparison,ArtMode,PrintPeriodVals,mode,InclRevDpr,SkipDisposed,ATUnitr,DMr,true,purchval,startval,resval,stdprdate,enddatebef,invdprbef,invrevdprbef,acumdpr,revacumdpr,assetqty,wrofqty,wrofsum,wrofdprsum,lastrevval,revbef,roundf,prevmode,datef,blankval);
+  end;
+
   if (blank(revinitdeprval)==false) then begin
 //    invdprbef = revinitdeprval;
   end;
@@ -1015,20 +1087,23 @@ BEGIN
       aqty = assetqty - wrofqty;
   end;
   if (aqty>0) then begin
-    DepreciationCalculation(Model,Comparison,ArtMode,PrintPeriodVals,mode,InclRevDpr,SkipDisposed,ATUnitr,DMr,purchval,startval,resval,startdate,enddate,invdprv,invrevdprv,acumdpr,revacumdpr,aqty,wrofqty,wrofsum,wrofdprsum,lastrevval,t);
+    if (HasLocalization("CZE,SVK")) then begin
+      RecordCopy(tmpATUr,ATUnitr);
+      td = ATUnitr.StartingDate1; td.month = 1; td.day = 1;
+      tmpATUr.StartingDate1 = td;
+      DepreciationCalculation(Model,Comparison,ArtMode,PrintPeriodVals,mode,InclRevDpr,SkipDisposed,tmpATUr,DMr,true,purchval,startval,resval,startdate,enddate,invdprv,invrevdprv,acumdpr,revacumdpr,aqty,wrofqty,wrofsum,wrofdprsum,lastrevval,t,roundf,prevmode,datef,currentdepr);
+    end else begin
+      DepreciationCalculation(Model,Comparison,ArtMode,PrintPeriodVals,mode,InclRevDpr,SkipDisposed,ATUnitr,DMr,true,purchval,startval,resval,startdate,enddate,invdprv,invrevdprv,acumdpr,revacumdpr,aqty,wrofqty,wrofsum,wrofdprsum,lastrevval,t,roundf,prevmode,datef,blankval);
+    end;
   end else begin
-    invdprbef = startval-resval;    
+    invdprbef = startval - resval;
   end;
-//Trace("2.invdprbef " & invdprbef, " invdprv " & invdprv & " aqty " & aqty);
-  
+
   totwrofsum = totwrofsum + wrofsum;
   totwrofdprsum = totwrofdprsum + wrofdprsum;
 
-//StopAlert("invdprbef " & invdprbef& " invdprv " & invdprv);
   if (DMr.LifecycleYears>0) then begin
     if (DMr.LifecycleYears==1) then begin
-//      invdprv = invdprv - invdprbef;
-//what is it for ? 
     end else begin
       if (DprYearsPassed(usedfromdate,DMr.LifecycleYears,sEndDate)) then begin
         if (DprYearsPassed(usedfromdate,DMr.LifecycleYears,sStartDate)) then begin
@@ -1037,7 +1112,6 @@ BEGIN
           if (DprYearsPassed(usedfromdate,DMr.LifecycleYears-1,sEndDate)) then begin//last year
             if (assetqty>0) then begin
               if ((invdprbef + invdprv)<(ATUnitr.Quantity*startval)) then begin
-//StopAlert("invdprv " & invdprv & " wrofsum " & wrofsum);                
                 invdprv = ATUnitr.Quantity*startval - invdprbef;
               end;
             end;
@@ -1050,7 +1124,6 @@ BEGIN
       if (DateInRange(revenddate,sStartDate,sEndDate)) and (MonthDiff(sStartDate,sEndDate)==12) then begin
             if (assetqty>0) then begin
               if ((invdprbef + invdprv)<(ATUnitr.Quantity*startval)) then begin
-//StopAlert("invdprv " & invdprv & " wrofsum " & wrofsum);                
                 invdprv = ATUnitr.Quantity*startval - invdprbef;
               end;
             end;
@@ -1070,7 +1143,6 @@ BEGIN
   end else begin
     t = purchval*ATUnitr.Quantity;
   end;
-//StopAlert("2. invdprv " & invdprv & " invdprbef " & invdprbef & " t " & t & " resval " & resval);  
   if ((invdprv+invdprbef)>(t - ATUnitr.Quantity*resval)) then begin
     if (invdprv!=0) then begin
       if (invdprbef>(t - ATUnitr.Quantity*resval)) then begin
@@ -1082,19 +1154,42 @@ BEGIN
     end else begin
       invdprbef = t-ATUnitr.Quantity*resval;
     end;
-  end; 
-//StopAlert(" invdprv " & invdprv & " invdprbef " & invdprbef & " t " & t & " startval " & startval);  
-LSKIPASSET:; 
+  end;
 
-  RETURN;
-END;
+  if (comparison==2) then begin
+    switch (DMr.DeprRnd) begin
+      case 20:
+        invdprv = Round(invdprv,SetRoundModeD(0));
+      otherwise
+        invdprv = Round(invdprv,SetRoundModeD(DMr.DeprRnd));
+    end;
+  end;
+
+LSKIPASSET:; 
+  return;
+end;
+
+global
+procedure OneInventoryNrDepreciation(record AT2UnitVc ATUnitr,Integer mode,Integer ArtMode,Date sStartDate,Date sEndDate,
+                                     Integer Model,Integer UseFiscalVal,Integer LastOfficialRev,Integer Comparison,Integer SkipDisposed,
+                                     Integer InclRevDpr,Integer PrintPeriodVals,
+                                     var val totwrofqty,var val totwrofsum,var val totwrofdprsum,var val purchval,var val startval,var val invdprv,var val invdprbef,
+                                     var val invrevdprv,var val invrevdprbef,var val revbef,var val fwdassetqty,var val assetqty,
+                                     var val thestartval)
+begin
+  OneInventoryNrDepreciation2(ATUnitr,mode,ArtMode,sStartDate,sEndDate,Model,UseFiscalVal,LastOfficialRev,Comparison,SkipDisposed,InclRevDpr,PrintPeriodVals,
+                                     totwrofqty,totwrofsum,totwrofdprsum,purchval,startval,invdprv,invdprbef,invrevdprv,invrevdprbef,revbef,fwdassetqty,assetqty,
+                                     thestartval,0,false);
+  return;
+end;
 
 procedure AT2DeprCalculation_Parts(Boolean printf,record RcVc RepSpec,string MotherInventoryNr,
                                    var val partswrofqty,var val partswrofsum,var val partswrofdprsum,var val partspurchval,var val partsstartval,var val partsinvdprv,
                                    var val partsinvdprbef,var val partsinvrevdprv,var val partsinvrevdprbef,var val partsrevbef,var val partsfwdassetqty,
-                                   var val partsassetqty,var val partsthestartval)
+                                   var val partsassetqty,var val partsthestartval,boolean printf)
 begin
   record AT2UnitVc ATUnitr;
+  record DprModVc DMr;
   Boolean found;
   val wrofqty,wrofsum,wrofdprsum,purchval,startval,invdprv,invdprbef,invrevdprv,invrevdprbef,revbef,fwdassetqty,assetqty,thestartval;
   val InitDeprVal;
@@ -1133,13 +1228,15 @@ begin
       thestartval = blankval;
       if (RepSpec.flags[12]==2) then begin
         if (RepSpec.ArtMode!=0) then begin
-          PrintInventoryNrDescr(true,ATUnitr,RepSpec.ArtMode);
+          if (printf) then begin
+            PrintInventoryNrDescr(true,ATUnitr,RepSpec.ArtMode);
+          end;
         end;
       end;
-      OneInventoryNrDepreciation(ATUnitr,1,RepSpec.ArtMode,RepSpec.sStartDate,RepSpec.sEndDate,
+      OneInventoryNrDepreciation2(ATUnitr,1,RepSpec.ArtMode,RepSpec.sStartDate,RepSpec.sEndDate,
                                  RepSpec.flags[1],RepSpec.flags[7],RepSpec.flags[3],RepSpec.Comparison,RepSpec.flags[5],
                                  RepSpec.flags[10],RepSpec.flags[11],
-                                 wrofqty,wrofsum,wrofdprsum,purchval,startval,invdprv,invdprbef,invrevdprv,invrevdprbef,revbef,fwdassetqty,assetqty,thestartval);
+                                 wrofqty,wrofsum,wrofdprsum,purchval,startval,invdprv,invdprbef,invrevdprv,invrevdprbef,revbef,fwdassetqty,assetqty,thestartval,RepSpec.flags[13],printf);
 
       if (RepSpec.flags[12]==2) then begin
         switch (RepSpec.flags[0]) begin
@@ -1149,10 +1246,10 @@ begin
             InitDeprVal = ATUnitr.InitDeprVal2*ATUnitr.Quantity;
         end;
         if (printf) then begin
-          PrintInventoryNrResult(true,ATUnitr,InitDeprVal,thestartval*assetqty,startval*assetqty,invdprbef,
+          PrintInventoryNrResult(true,ATUnitr,DMr,InitDeprVal,thestartval*assetqty,startval*assetqty,invdprbef,
                                  invdprv,invrevdprv,invrevdprbef,wrofsum,wrofdprsum,
                                  revbef*ATUnitr.Quantity,ATUnitr.Quantity*purchval,assetqty*startval,
-                                 RepSpec.ArtMode,RepSpec.flags[10],RepSpec.flags[5]);
+                                 RepSpec.ArtMode,RepSpec.flags[10],RepSpec.flags[5],RepSpec.flags[13],true);
         end;
       end;
 
@@ -1176,8 +1273,15 @@ begin
 end;
 
 global
-updating procedure AT2DeprCalculation(record RcVc RepSpec,Integer mode,var val totinitdprval,var val totpurchval,var val totstartval,var val totdprbef,var val totdprv,var val totresval,var val totwrofsum,var val totrevbef,
-                                      var val totthestartval)
+updating procedure AT2DeprStoreSimulation(record SMVc SMr)
+begin
+  SMr.SerNr = NextSerNr("SMVc",SMr.TransDate,-1,false,"");  
+  RecordInsert(SMr,false);
+  return;
+end;
+
+global
+procedure AT2DeprCalculation(record RcVc RepSpec,Integer mode,var val totinitdprval,var val totpurchval,var val totstartval,var val totdprbef,var val totdprv,var val totresval,var val totwrofsum,var val totrevbef,var val totthestartval,boolean printf)
 BEGIN
   record AT2UnitVc ATUnitr;
   Boolean TrHs,found,testf,writtenoff,assetqtynegf;
@@ -1200,7 +1304,6 @@ BEGIN
   val invrevdprv,invrevdprbef,revbef,assetqty,fwdassetqty;
   val totwrofdprsum;
   val partswrofqty,partswrofsum,partswrofdprsum,partspurchval,partsstartval,partsinvdprv,partsinvdprbef,partsinvrevdprv,partsinvrevdprbef,partsrevbef,partsfwdassetqty,partsassetqty,partsthestartval;
-  
   
   frinv = FirstInRange(RepSpec.f2,30);    
   toinv = LastInRange(RepSpec.f2,30);    
@@ -1284,9 +1387,6 @@ BEGIN
         testf = blank(ATUnitr.MotherInvNr);
       end;
     end;
-    
-    
-    
     found = TrHs and testf;
     if (found) then begin
       assetqtynegf = false;
@@ -1294,29 +1394,30 @@ BEGIN
         if (mode==1) then begin    
           if (nonblank(lastat2class)) then begin
             if (lastat2class!=ATUnitr.AT2Class) then begin
-              switch (RepSpec.ArtMode) begin
-                case 0:
-                  Gray_Divider(2,1);
-                  StartFormat(15);
-                   OutString(100,0,lastat2class,false);
-                   OutVal(3,0,classpurchval,M4Val,true);
-                   OutVal(4,0,classpurchval-classinvdprbef,M4Val,true);
-                   OutVal(6,0,classinvdprv,M4Val,true);
-                   OutVal(1,0,(classstartval-(classinvdprv+classinvdprbef+classwrofsum)),M4Val,true);
-                  EndFormat;
-                  Gray_Divider(2,1);
-                  classinvdprv = blankval;
-                  classinvdprbef = blankval;
-                  classpurchval = blankval;
-                  classwrofsum = blankval;
-                  classwrofdprsum = blankval;
-                  classstartval = blankval;
+              if (printf) then begin
+                switch (RepSpec.ArtMode) begin
+                  case 0:
+                    Gray_Divider(2,1);
+                    StartFormat(15);
+                     OutString(100,0,lastat2class,false);
+                     OutVal(4,0,classpurchval,M4Val,true);
+                     OutVal(5,0,classpurchval-classinvdprbef,M4Val,true);
+                     OutVal(7,0,classinvdprv,M4Val,true);
+                     OutVal(1,0,(classstartval-(classinvdprv+classinvdprbef+classwrofsum)),M4Val,true);
+                    EndFormat;
+                    Gray_Divider(2,1);
+                    classinvdprv = blankval;
+                    classinvdprbef = blankval;
+                    classpurchval = blankval;
+                    classwrofsum = blankval;
+                    classwrofdprsum = blankval;
+                    classstartval = blankval;
+                end;
+                end;
               end;
             end;
           end;
-        end;
-      end;        
-         
+      end;
       if (blank(commentstr)) then begin
         commentstr = ATUnitr.InventoryNr;
       end;
@@ -1327,7 +1428,7 @@ BEGIN
         if (mode!=0) then begin       
           AT2DeprCalculation_Parts(false,RepSpec,ATUnitr.InventoryNr,
                                    partswrofqty,partswrofsum,partswrofdprsum,partspurchval,partsstartval,partsinvdprv,partsinvdprbef,partsinvrevdprv,
-                                   partsinvrevdprbef,partsrevbef,partsfwdassetqty,partsassetqty,partsthestartval);
+                                   partsinvrevdprbef,partsrevbef,partsfwdassetqty,partsassetqty,partsthestartval,printf);
         end;
       end;
       wrofsum = blankval;
@@ -1337,17 +1438,26 @@ BEGIN
       invdprbef = blankval;
       invrevdprv = blankval;
       invrevdprbef = blankval;
-
-      OneInventoryNrDepreciation(ATUnitr,mode,RepSpec.ArtMode,RepSpec.sStartDate,RepSpec.sEndDate,
-                                 RepSpec.flags[1],RepSpec.flags[7],RepSpec.flags[3],RepSpec.Comparison,RepSpec.flags[5],
-                                 RepSpec.flags[10],RepSpec.flags[11],
-                                 wrofqty,wrofsum,wrofdprsum,purchval,startval,invdprv,invdprbef,invrevdprv,invrevdprbef,revbef,fwdassetqty,assetqty,thestartval);
-
+      if (HasLocalization("CZE,SVK")) then begin
+        OneInventoryNrDepreciation2(ATUnitr,mode,RepSpec.ArtMode,RepSpec.sStartDate,RepSpec.sEndDate,
+                                   RepSpec.flags[1],RepSpec.flags[7],RepSpec.flags[3],RepSpec.Comparison,RepSpec.flags[5],
+                                   RepSpec.flags[10],RepSpec.flags[11],
+                                   wrofqty,wrofsum,wrofdprsum,purchval,startval,invdprv,invdprbef,invrevdprv,invrevdprbef,revbef,fwdassetqty,assetqty,thestartval,RepSpec.flags[13],printf);
+      end else begin
+        OneInventoryNrDepreciation2(ATUnitr,mode,RepSpec.ArtMode,RepSpec.sStartDate,RepSpec.sEndDate,
+                                   RepSpec.flags[1],RepSpec.flags[7],RepSpec.flags[3],RepSpec.Comparison,RepSpec.flags[5],
+                                   RepSpec.flags[10],RepSpec.flags[11],
+                                   wrofqty,wrofsum,wrofdprsum,purchval,startval,invdprv,invdprbef,invrevdprv,invrevdprbef,revbef,fwdassetqty,assetqty,thestartval,RepSpec.flags[13],printf);
+      end;
       if (wrofqty!=0) then begin
         if (RepSpec.ArtMode!=0) begin
           StartFormat(15);
-           OutString(200,0,USetStr(9648),false);
-           OutVal(320,0,wrofqty,M4Val,true);
+           OutString(100,0,USetStr(9648),false);
+           OutVal(1,0,wrofqty,M4Val,true);
+          EndFormat;
+          StartFormat(15);
+           OutString(100,0,USetStr(9652),false);
+           OutVal(1,0,assetqty,M4Val,true);
           EndFormat;
         end;
       end;
@@ -1373,8 +1483,7 @@ BEGIN
       classwrofsum = classwrofsum + wrofsum;
       classwrofdprsum = classwrofdprsum + wrofdprsum;
       classpurchval = classpurchval + purchval*ATUnitr.Quantity;
-      classstartval = classstartval + thestartval*ATUnitr.Quantity;   
-         
+      classstartval = classstartval + thestartval*ATUnitr.Quantity;      
       if (mode==1) then begin  
         totinitdprval = totinitdprval + InitDeprVal;
         totrevbef = totrevbef + revbef;
@@ -1406,29 +1515,28 @@ BEGIN
         end;
         if (RepSpec.ArtMode==0) then begin
           if (mode!=0) then begin  
-          	      
             switch (RepSpec.flags[12]) begin
               case 1:
                 t = invdprv + partsinvdprv;
-                PrintInventoryNrResult(false,ATUnitr,InitDeprVal,thestartval*assetqty+partsthestartval,startval*assetqty+partsstartval,invdprbef+partsinvdprbef,
+                PrintInventoryNrResult(false,ATUnitr,DMr,InitDeprVal,thestartval*assetqty+partsthestartval,startval*assetqty+partsstartval,invdprbef+partsinvdprbef,
                                        t,invrevdprv+partsinvrevdprv,invrevdprbef+partsinvrevdprbef,wrofsum+partswrofsum,wrofdprsum+partswrofdprsum,
                                        revbef*ATUnitr.Quantity+partsrevbef,ATUnitr.Quantity*purchval+partspurchval,assetqty*startval+partsstartval,
-                                       RepSpec.ArtMode,RepSpec.flags[10],RepSpec.flags[5]);
+                                       RepSpec.ArtMode,RepSpec.flags[10],RepSpec.flags[5],RepSpec.flags[13],printf);
     
               case 2:
                 t = invdprv + partsinvdprv;
-                PrintInventoryNrResult(false,ATUnitr,InitDeprVal,thestartval*assetqty+partsthestartval,startval*assetqty+partsstartval,invdprbef+partsinvdprbef,
+                PrintInventoryNrResult(false,ATUnitr,DMr,InitDeprVal,thestartval*assetqty+partsthestartval,startval*assetqty+partsstartval,invdprbef+partsinvdprbef,
                                        t,invrevdprv+partsinvrevdprv,invrevdprbef+partsinvrevdprbef,wrofsum+partswrofsum,wrofdprsum+partswrofdprsum,
                                        revbef*ATUnitr.Quantity+partsrevbef,ATUnitr.Quantity*purchval+partspurchval,assetqty*startval+partsstartval,
-                                       RepSpec.ArtMode,RepSpec.flags[10],RepSpec.flags[5]);
+                                       RepSpec.ArtMode,RepSpec.flags[10],RepSpec.flags[5],RepSpec.flags[13],printf);
    
                 if (mode!=0) then begin       
                   AT2DeprCalculation_Parts(true,RepSpec,ATUnitr.InventoryNr,
                                            partswrofqty,partswrofsum,partswrofdprsum,partspurchval,partsstartval,partsinvdprv,partsinvdprbef,partsinvrevdprv,
-                                           partsinvrevdprbef,partsrevbef,partsfwdassetqty,partsassetqty,partsthestartval);
+                                           partsinvrevdprbef,partsrevbef,partsfwdassetqty,partsassetqty,partsthestartval,printf);
                 end;
               otherwise
-                PrintInventoryNrResult(false,ATUnitr,InitDeprVal,thestartval*assetqty,startval*assetqty,invdprbef,invdprv,invrevdprv,invrevdprbef,wrofsum,wrofdprsum,revbef*ATUnitr.Quantity,ATUnitr.Quantity*purchval,assetqty*startval,RepSpec.ArtMode,RepSpec.flags[10],RepSpec.flags[5]);
+                PrintInventoryNrResult(false,ATUnitr,DMr,InitDeprVal,thestartval*assetqty,startval*assetqty,invdprbef,invdprv,invrevdprv,invrevdprbef,wrofsum,wrofdprsum,revbef*ATUnitr.Quantity,ATUnitr.Quantity*purchval,assetqty*startval,RepSpec.ArtMode,RepSpec.flags[10],RepSpec.flags[5],RepSpec.flags[13],printf);
             end;
             totwrofsum =  partswrofsum + totwrofsum;
             totwrofdprsum = partswrofdprsum + totwrofdprsum;
@@ -1447,13 +1555,13 @@ BEGIN
         end else begin
 //        t = invdprv;
 //        PrintInventoryNrResult(ATUnitr,InitDeprVal,thestartval*ATUnitr.Quantity,startval*ATUnitr.Quantity,invdprbef,t,invrevdprv,invrevdprbef,wrofsum,wrofdprsum,revbef*ATUnitr.Quantity,ATUnitr.Quantity*purchval,assetqty*startval,RepSpec.ArtMode,RepSpec.flags[10]);
-          PrintInventoryNrResult(false,ATUnitr,InitDeprVal,thestartval*assetqty,startval*assetqty,invdprbef,invdprv,invrevdprv,invrevdprbef,wrofsum,wrofdprsum,revbef*ATUnitr.Quantity,ATUnitr.Quantity*purchval,assetqty*startval,RepSpec.ArtMode,RepSpec.flags[10],RepSpec.flags[5]);
+          PrintInventoryNrResult(false,ATUnitr,DMr,InitDeprVal,thestartval*assetqty,startval*assetqty,invdprbef,invdprv,invrevdprv,invrevdprbef,wrofsum,wrofdprsum,revbef*ATUnitr.Quantity,ATUnitr.Quantity*purchval,assetqty*startval,RepSpec.ArtMode,RepSpec.flags[10],RepSpec.flags[5],RepSpec.flags[13],printf);
           switch (RepSpec.flags[12]) begin
             case 2:
               if (mode!=0) then begin       
                 AT2DeprCalculation_Parts(true,RepSpec,ATUnitr.InventoryNr,
                                          partswrofqty,partswrofsum,partswrofdprsum,partspurchval,partsstartval,partsinvdprv,partsinvdprbef,partsinvrevdprv,
-                                         partsinvrevdprbef,partsrevbef,partsfwdassetqty,partsassetqty,partsthestartval);
+                                         partsinvrevdprbef,partsrevbef,partsfwdassetqty,partsassetqty,partsthestartval,printf);
               end;
           end;
         end;
@@ -1463,7 +1571,7 @@ BEGIN
         totwrofdprsum = totwrofdprsum + wrofdprsum; 
         wrofsum = blankval;
       end;
-      if (mode!=1) then begin 
+      if (mode!=1) then begin       
         AddSMDprRowRows(RepSpec,ATUnitr,invdprv,invrevdprv,mode,SMr,commentstr);
         if (mode==0) then begin
           MaintTrace(ATUnitr.InventoryNr);
@@ -1477,17 +1585,20 @@ LSKIPASSET:;
   if (sorting==1) then begin
     if (mode==1) then begin    
       if (nonblank(lastat2class)) then begin
+        if (printf) then begin
           switch (RepSpec.ArtMode) begin
             case 0:
               Gray_Divider(2,1);
               StartFormat(15);
-               OutString(100,0,lastat2class,false);
-               OutVal(3,0,classpurchval,M4Val,true);
-               OutVal(4,0,classpurchval-classinvdprbef,M4Val,true);
-               OutVal(6,0,classinvdprv,M4Val,true);
-               OutVal(1,0,(classstartval-(classinvdprv+classinvdprbef+classwrofsum)),M4Val,true);
+              OutString(100,0,lastat2class,false);
+              OutVal(4,0,classpurchval,M4Val,true);
+              OutVal(5,0,classpurchval-classinvdprbef,M4Val,true);
+              OutVal(6,0,((classinvdprv-classstartval)+classinvdprbef+classwrofsum),M4Val,true);
+              OutVal(7,0,classinvdprv,M4Val,true);
+              OutVal(1,0,((classpurchval-classinvdprbef-classinvdprv+((classinvdprv-classstartval)+classinvdprbef+classwrofsum))),M4Val,true);
               EndFormat;
               Gray_Divider(2,1);
+            end;
           end;
       end;
     end;
@@ -1507,39 +1618,45 @@ LSKIPASSET:;
             SMr.Comment = USetStr(9649);
             SMr.Comment = SMr.Comment & ": " & RepSpec.sStartDate;
             SMr.Comment = SMr.Comment & ":" & RepSpec.sEndDate;
-            if (RecordInsert(SMr,false)) then begin end;
+            qupdating.AT2DeprStoreSimulation(SMr);
+//            if (RecordInsert(SMr,false)) then begin end;
           end;  
         end;  
       end;  
       if (mode==2) then begin      
         if (MatRowCnt(SMr)>0) then begin 
           SMSumup(SMr);             
-          PrintSMRecord(SMr,1);
+          if (printf) then begin
+            PrintSMRecord(SMr,1);
+          end;
         end;  
-      end;          
+      end;
     end;
-  end;  
+  end;
   
-  RETURN;
-END;  
+  return;
+end;
 
 global
 updating procedure AT2DeprRn(record RcVc RepSpec)
-BEGIN    
+begin    
   val totdprbef,totdprv,totinitdprval,totpurchval,totstartval,totresval,totwrofsum,totrevbef,totthestartval;
   
   StartReportJob(USetStr(9635));
   PrintAT2DprHeader(RepSpec);
   EndHeader;
-  SetRepCol(2,70);
-  SetRepCol(3,220);
   if (RepSpec.ArtMode==0) then begin
-    SetRepCol(4,300);
-    SetRepCol(5,360);
-    SetRepCol(6,420);
+    SetRepCol(2,60);
+    SetRepCol(3,140);
+    SetRepCol(4,250);
+    SetRepCol(5,300);
+    SetRepCol(6,360);
+    SetRepCol(7,420);
+    if (RepSpec.flags[13]) then begin
+      SetRepCol(3,125);
+      SetRepCol(8,175);
+    end;
     StartFormat(15);    
-     OutString(0,0,USetStr(9131),false);
-     OutString(0,0,"HA",false);
      OutString(0,0,USetStr(9001),false);
      OutString(2,0,USetStr(9046),false);// Edit ************************** Monday, 17 January 2011 13:59:38
      OutString(2,0,USetStr(4863),false);
@@ -1554,6 +1671,8 @@ BEGIN
     EndFormat;
     Gray_Divider(0,1);
   end else begin
+    SetRepCol(2,70);
+    SetRepCol(3,220);
     SetRepCol(4,320);
     SetRepCol(5,400);
     StartFormat(15);
@@ -1563,7 +1682,7 @@ BEGIN
     EndFormat;    
     Gray_Divider(0,1);
   end;
-  AT2DeprCalculation(RepSpec,1,totinitdprval,totpurchval,totstartval,totdprbef,totdprv,totresval,totwrofsum,totrevbef,totthestartval);
+  AT2DeprCalculation(RepSpec,1,totinitdprval,totpurchval,totstartval,totdprbef,totdprv,totresval,totwrofsum,totrevbef,totthestartval,true);
   Black_Divider(0,1);
   if (RepSpec.ArtMode==0) then begin
     PrintInventoryNrResultTotals(totresval,totinitdprval,totthestartval,totstartval,totdprbef,totdprv,totwrofsum,totrevbef,RepSpec.ArtMode,RepSpec.flags[5]);
@@ -1572,8 +1691,8 @@ BEGIN
   end;
   Black_Divider(0,1);
   EndJob;
-  RETURN;
-END;
+  return;
+end;
 
 
 global updating procedure AT2DeprEn()
