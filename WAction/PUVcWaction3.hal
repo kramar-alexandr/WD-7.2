@@ -126,6 +126,13 @@ BEGIN
   end else begin
     res = PUVcRowEFActiveCheck(fieldname,wn,wnst,rownr);
   end;
+  
+  if(fieldname=="RetailPrice")then begin
+    res = true;
+  end;
+
+  
+  
 LPUDClassActiveEditField:;
   PUDClassActiveEditField = res;
   RETURN;
