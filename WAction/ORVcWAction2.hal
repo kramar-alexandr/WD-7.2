@@ -71,9 +71,9 @@ external function Boolean PasteCustInOrder(var record ORVc,string,string,var str
 external function string 20 NormalPhone(string);
 remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
 external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
+remote procedure HandleBixolonWarranty(record ORVc,var area);	//Edit **********************************************Vas-P	10/11/2021
 
-	SetLangMode(LangRussian,"RUS",0);
-	SetLangMode(LangRussian,"RUS",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global
 function Boolean ORDClassCustCodeEFAfter(Integer wn,Integer fn,Integer rownr,Integer changedf) //ABR_____________________________________________________19.06.19
@@ -2767,3 +2767,49 @@ begin
 		end;
   return;
 end;
+
+
+//Edit **********************************************Vas-P	added 10/11/2021
+global 
+procedure PrintBixolonWarrantyReceipt(area aFile)
+begin
+	record ReceiptPrinterBlock RPb;
+	String 100 filename;
+
+
+    blockload(RPb);
+    filename = "BixolonWarranty.txt";
+    WriteAreaToFile(aFile,filename,0);
+    millisleep(100);
+    if (WindowsMode==1) then begin
+  			RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & filename & " \\\\" & RPb.CompNameWin & "\\" & RPb.PrinterNameWin & "\"");
+    end; 
+    if (WindowsMode==0) then begin
+		    RunProgram("/usr/bin/lp","-d " & RPb.PrinterNameMac & " -o raw " & filename);
+    end;     
+end;
+
+//Edit **********************************************Vas-P	added 10/11/2021
+global procedure PrintBixolonWarrantyExecute(record ORVc ORr)
+BEGIN
+  area aFile;
+  Boolean testf;
+	
+  SetExportCodePage("CP1251");
+  HandleBixolonWarranty(ORr,aFile);//Для сервиса
+  PrintBixolonWarrantyReceipt(aFile);
+
+  RETURN;
+END;
+
+
+global procedure PrintBixolonExecuteDsm()
+begin
+  record ORVc ORr;
+  
+  getwindowrecord(curwindow,ORr);
+  PrintBixolonWarrantyExecute(ORr);
+  
+return;
+end;
+

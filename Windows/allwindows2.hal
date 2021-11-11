@@ -368,6 +368,7 @@ begin
         v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
       end;
       v = v + 320;
+			HalPushButton(250,v,400,v+45,"PrintBixolonExecuteDsm","„рук гарантґйного");//Edit **********************************************Vas-P	10/11/2021
       HalPushButton(400,v,550,v+45,"ORPrintLabelDsm","„рук етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
   
       EditField(h1,v+=vs,-450,"§нформацґЯ",Normal,ShipAddr0,false,0);
