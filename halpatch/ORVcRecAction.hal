@@ -2134,8 +2134,9 @@ begin
   if (nonblank(ORr.OfficialSerNr)) then begin
     UpdateOffSerNr(ORr.SerNr,"ORVc",0,ORr.OfficialSerNr,false);
   end;
+  
   if(currentcompany==13)then begin
-		SendORStatusToViber(ORr,"0");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+		SendORStatusToViber(ORr,ORr.OrderStatusCode);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
   end;
   ORVcRecordSaveAfter = res; 
   return;
