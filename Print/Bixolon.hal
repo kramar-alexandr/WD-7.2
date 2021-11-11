@@ -497,3 +497,215 @@ begin
   addtexttoarea(chr(29) & chr(86) & "1",aFile);
   
 end;
+
+//Edit **********************************************Vas-P	10/11/2021
+procedure TLTOARR(integer length,string text,var area atext)
+begin
+  string 255 res;
+  
+  if(length==0)then begin
+    res = text;
+    addtexttoarea(text,atext);
+    addtexttoarea(chr(13) & chr(10),atext);
+  end else begin
+    res = text;
+LTLTOARR:;
+    if(len(res)>length)then begin
+      addtexttoarea(left(res,length),atext);
+      addtexttoarea(chr(13) & chr(10),atext);
+      res = right(res,len(res)-length);
+      goto LTLTOARR;
+    end else begin
+      addtexttoarea(res,atext);
+      addtexttoarea(chr(13) & chr(10),atext);
+    end;
+  end;
+  
+return;
+end;
+
+
+//Edit **********************************************Vas-P	added 10/11/2021
+global 
+updating procedure HandleBixolonWarranty(record ORVc ORr,var area aFile)
+begin
+	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize;
+	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
+	string 10 BigLetterOn,BigLetterOff,SmallLetterOn;
+	string 100 SetFontA,SetFontB;
+	string 10 rebate;
+	val sumreb;
+	integer checklength,rwcnt,i;
+	row ORVc ORrw;
+	
+	
+	checklength = 42;
+	
+	SetFontA = chr(27) & chr(33) & chr(0);
+	SetFontB = chr(27) & chr(33) & chr(1);
+	SetLeftAlignment = chr(27) & chr(97) & "0";
+	SetMiddleAlignment = chr(27) & chr(97) & "1";
+	SetRightAlignment = chr(27) & chr(97) & "2";
+	SetBoldOn = chr(27) & chr(69) & "1";
+	SetBoldOff = chr(27) & chr(69) & "0";
+	SetUnderlineOn = chr(27) & chr(45) & "2";
+	SetUnderlineOff = chr(27) & chr(45) & "0";
+	BigLetterOn = chr(27) & chr(33)  & chr(32);
+	SmallLetterOn = chr(27) & chr(33)  & chr(1);
+	BigLetterOff = chr(27) & chr(33) & chr(0);
+	
+	
+	SetAreaZeroSize(aFile);
+	
+	rwcnt = MatRowCnt(ORr);
+	for(i=0;i<rwcnt;i=i+1) begin
+		MatRowGet(ORr,i,ORrw);
+		
+		addtexttoarea(SetMiddleAlignment,aFile);
+		addtexttoarea(SetBoldOn,aFile);
+		TLTOARR(checklength,"ГАРАНТІЙНИЙ ТАЛОН",aFile);
+		addtexttoarea(SetBoldOff,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"Шановний клієнте!",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"Здійснюючи покупки в нашому магазинi, ви",aFile);
+		TLTOARR(checklength,"можете розраховувати на повноцінне та",aFile);
+		TLTOARR(checklength,"якісне гарантійне обслуговування. Будь",aFile);
+		TLTOARR(checklength,"ласка, ознайомтесь із правилами отримання",aFile);
+		TLTOARR(checklength,"гарантійних послуг.",aFile);
+		TLTOARR(checklength,"Гарантійний талон видається не тільки на",aFile);
+		TLTOARR(checklength,"продукти компанії Аррlе, але й на",aFile);
+		TLTOARR(checklength,"акустику та іншу техніку.",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		addtexttoarea(SetBoldOn,aFile);
+		TLTOARR(checklength,"Адреса сервісного центру",aFile);
+		addtexttoarea(SetBoldOff,aFile);
+		
+		TLTOARR(checklength,"………………………………………………………………………",aFile);
+		TLTOARR(checklength,"………………………………………………………………………",aFile);
+		TLTOARR(checklength,"………………………………………………………………………",aFile);
+		TLTOARR(checklength,"………………………………………………………………………",aFile);
+		TLTOARR(checklength,"………………………………………………………………………",aFile);
+		TLTOARR(checklength,"………………………………………………………………………",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"Для отримання гарантійних послуг, вам",aFile);
+		TLTOARR(checklength,"необхідно надати товарний чек та гарантій-",aFile);
+		TLTOARR(checklength,"ний талон, заповнений продавцем. За цих",aFile);
+		TLTOARR(checklength,"умов ви маєтеправо на безкоштовне усунення",aFile);
+		TLTOARR(checklength,"всіх несправностей, що виникли протягом",aFile);
+		TLTOARR(checklength,"гарантійного періоду не з вашої вини.",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		addtexttoarea(SetUnderlineOn,aFile);
+		TLTOARR(checklength,ORrw.Spec,aFile);
+		addtexttoarea(SetUnderlineOff,aFile);
+		TLTOARR(checklength,"НАЗВА ТОВАРУ",aFile);
+		
+		addtexttoarea(SetUnderlineOn,aFile);		
+		TLTOARR(checklength,ORrw.SerialNr,aFile);
+		addtexttoarea(SetUnderlineOff,aFile);
+		TLTOARR(checklength,"СЕРІЙНИЙ НОМЕР",aFile);
+		
+		addtexttoarea(SetUnderlineOn,aFile);		
+		TLTOARR(checklength,ORr.OrdDate,aFile);
+		addtexttoarea(SetUnderlineOff,aFile);
+		TLTOARR(checklength,"ДАТА ПРОДАЖУ",aFile);
+		
+		addtexttoarea(SetUnderlineOn,aFile);
+		TLTOARR(checklength,ORrw.GarantyFor,aFile);
+		addtexttoarea(SetUnderlineOff,aFile);
+		TLTOARR(checklength,"ТЕРМІН ГАРАНТІЇ(МІСЯЦІВ)",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		addtexttoarea(SetBoldOn,aFile);
+		TLTOARR(checklength,"З умовами гарантії погоджуюся",aFile);
+		addtexttoarea(SetBoldOff,aFile);
+		addtexttoarea(SetUnderlineOn,aFile);
+		TLTOARR(checklength,"………………………………………………………………………",aFile);
+		addtexttoarea(SetUnderlineOff,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		addtexttoarea(SetBoldOn,aFile);
+		TLTOARR(checklength,"Ця гарантія не розповсюджується:",aFile);
+		addtexttoarea(SetBoldOff,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"1.На косметичні пошкодження, включаючи,",aFile);
+		TLTOARR(checklength,"окрім іншого, подряпини, вм’ятини, та",aFile);
+		TLTOARR(checklength,"зламані пластикові деталі портів.",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"2.На пошкодження, викликані використанням",aFile);
+		TLTOARR(checklength,"виробів інших фірм.",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"3.На недоліки, що були спричинені",aFile);
+		TLTOARR(checklength,"внаслідок недбалого поводження (включно,",aFile);
+		TLTOARR(checklength,"без обмеження, пошкодження, що заподіяні",aFile);
+		TLTOARR(checklength,"гострими предметами, вигинанням, стискан-",aFile);
+		TLTOARR(checklength,"ням, падінням, контактом з рідиною, вогнем",aFile);
+		TLTOARR(checklength,"тощо), чи спричинені неправильним",aFile);
+		TLTOARR(checklength,"використанням виробу, включаючи використа-",aFile);
+		TLTOARR(checklength,"ння всупереч інструкціям, що супроводжують",aFile);
+		TLTOARR(checklength,"виріб.",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"4.На пошкодження, спричинені землетрусами,",aFile);
+		TLTOARR(checklength,"нещасними випадками, дією непереборних",aFile);
+		TLTOARR(checklength,"сил, впливом на виріб магнітного чи іншого",aFile);
+		TLTOARR(checklength,"шкідливого випромінювання, потраплянням",aFile);
+		TLTOARR(checklength,"всередину виробу сторонніх предметів, у ",aFile);
+		TLTOARR(checklength,"тому числі комах, збоями в роботі або ",aFile);
+		TLTOARR(checklength,"невідповідністю стандартам мереж",aFile);
+		TLTOARR(checklength,"електроживлення, навмисними або необережни",aFile);
+		TLTOARR(checklength,"мидіями з вашого боку, або з боку третіх",aFile);
+		TLTOARR(checklength,"осіб.",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"5.Якщо виріб було відкрито, модифіковано",aFile);
+		TLTOARR(checklength,"або відремонтовано особою,  що не є",aFile);
+		TLTOARR(checklength,"представником уповноваженого сервісного",aFile);
+		TLTOARR(checklength,"центру, якщо цей виріб відремонтовано з",aFile);
+		TLTOARR(checklength,"використанням несанкціонованих запасних",aFile);
+		TLTOARR(checklength,"частин, коли серійний номер виробу було",aFile);
+		TLTOARR(checklength,"видалено, витерто, затерто, змінено,",aFile);
+		TLTOARR(checklength,"чи він є нерозбірливим, або у разі, якщо",aFile);
+		TLTOARR(checklength,"пошкодження виникли внаслідок обслуговува-",aFile);
+		TLTOARR(checklength,"ння(включаючи оновлення та розширення).",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"6.На пошкодження, спричинені внаслідок",aFile);
+		TLTOARR(checklength,"використання виробу не у відповідності з",aFile);
+		TLTOARR(checklength,"опублікованими рекомендаціями компанії",aFile);
+		TLTOARR(checklength,"виробника.",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"7.Якщо виріб піддавався впливу зовнішніх ",aFile);
+		TLTOARR(checklength,"факторів (наприклад корозії, окислюванню",aFile);
+		TLTOARR(checklength,"та ін.) або перебував поза дозволеного",aFile);
+		TLTOARR(checklength,"виробником діапазону температури, волого-",aFile);
+		TLTOARR(checklength,"сті та ін., який вказано в технічних ",aFile);
+		TLTOARR(checklength,"специфікаціях, або на нього проливалася",aFile);
+		TLTOARR(checklength,"їжа або рідина, чи мали вплив хімічні",aFile);
+		TLTOARR(checklength,"речовини.",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"8.На дефекти, які виникли у зв’язку з",aFile);
+		TLTOARR(checklength,"нормальним зносом або нормальним старінням",aFile);
+		TLTOARR(checklength,"виробу.",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		TLTOARR(checklength,"9.На збережену інформацію та налаштування",aFile);
+		TLTOARR(checklength,"користувача (фотографії, музика, пошта,",aFile);
+		TLTOARR(checklength,"контакти та ін.)",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		//Cut receipt  
+		addtexttoarea(chr(29) & chr(86) & "1",aFile);
+	end;
+  
+end;
