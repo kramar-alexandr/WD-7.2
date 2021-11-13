@@ -2013,7 +2013,7 @@ begin
           EasySendTurboSMS(ORr.Phone,smstext);
         end;
       end;
-      SendORStatusToViber(ORr,ORr.OrderStatusCode);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+      SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
     end;
   end;
 
@@ -2156,7 +2156,7 @@ begin
         EasySendTurboSMS(ORr.Phone,smstext);
       end;
     end;
-		SendORStatusToViber(ORr,ORr.OrderStatusCode);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+		SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
   end;
   ORVcRecordSaveAfter = res; 
   return;
