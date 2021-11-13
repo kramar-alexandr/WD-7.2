@@ -2008,9 +2008,9 @@ begin
         CancelApprovalRequestActivities(kAcceptanceOR,"ORVc",ORr.SerNr,ORr.CustCode);
       end;
   end;
-  if(ORr.Phone!=OR2r.Phone or ORr.OrderStatusCode!=OR2r.OrderStatusCode)then begin
+  if(ORr.Phone!=OR2r.Phone)then begin
     if(currentcompany==13)then begin
-      SendORStatusToViber(ORr,ORr.OrderStatusCode);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+      SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
     end;
   end;
 
@@ -2146,7 +2146,7 @@ begin
   end;
   
   if(currentcompany==13)then begin
-		SendORStatusToViber(ORr,2);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+		SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
   end;
   ORVcRecordSaveAfter = res; 
   return;

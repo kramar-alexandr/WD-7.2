@@ -1351,29 +1351,27 @@ begin
 	writeareatofile(replyarea,"sendMessageToSergeyReply.txt",0);
 	
 	
-	if(status=="2" or status=="3" or status=="5")then begin
-		https://www.istore.ua/ajax/status.php
-		setareazerosize(resarea);
-		setareazerosize(replyarea);
-		
-		addtexttoarea("Content-Type: application/json" & chr(13) & chr(10),resarea);// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 15 11 2020 y. at 1:29:54 PM
-		addtexttoarea(chr(13) & chr(10),resarea);
-		addtexttoarea("{" & chr(13) & chr(10),resarea);
-		
-		ordid = ORr.CustOrdNr;
-		if(blank(ordid))then begin
-		  ordid = ORr.SerNr;
-		end;
-		addtexttoarea("\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"," & chr(13) & chr(10),resarea);
-		addtexttoarea("\"orderId\":\"" & ordid & "\"," & chr(13) & chr(10),resarea);
-		addtexttoarea("\"status\":\"" & status & "\"" & chr(13) & chr(10),resarea);
-		
-		addtexttoarea("}" & chr(13) & chr(10),resarea);
-		AddTextToArea("" & chr(13) & chr(10),resarea);
-		writeareatofile(resarea,"SendORStatusToViber_status.txt",1);
-		SendRawWebRequest("www.istore.ua","443",true,"POST","/ajax/status.php","application/json","",false,resarea,replyarea,5);
-		writeareatofile(replyarea,"SendORStatusToViber_status_replyarea.txt",1);
-	end;
+  https://www.istore.ua/ajax/status.php
+  setareazerosize(resarea);
+  setareazerosize(replyarea);
+  
+  addtexttoarea("Content-Type: application/json" & chr(13) & chr(10),resarea);// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 15 11 2020 y. at 1:29:54 PM
+  addtexttoarea(chr(13) & chr(10),resarea);
+  addtexttoarea("{" & chr(13) & chr(10),resarea);
+  
+  ordid = ORr.CustOrdNr;
+  if(blank(ordid))then begin
+    ordid = ORr.SerNr;
+  end;
+  addtexttoarea("\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"," & chr(13) & chr(10),resarea);
+  addtexttoarea("\"orderId\":\"" & ordid & "\"," & chr(13) & chr(10),resarea);
+  addtexttoarea("\"status\":\"" & status & "\"" & chr(13) & chr(10),resarea);
+  
+  addtexttoarea("}" & chr(13) & chr(10),resarea);
+  AddTextToArea("" & chr(13) & chr(10),resarea);
+  writeareatofile(resarea,"SendORStatusToViber_status.txt",1);
+  SendRawWebRequest("www.istore.ua","443",true,"POST","/ajax/status.php","application/json","",false,resarea,replyarea,5);
+  writeareatofile(replyarea,"SendORStatusToViber_status_replyarea.txt",1);
 		
 return;
 end;
