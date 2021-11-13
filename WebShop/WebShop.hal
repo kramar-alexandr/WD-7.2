@@ -1332,7 +1332,7 @@ end;
 global procedure SendORStatusToViber(record ORVc ORr, string status)
 begin
 	area resarea,replyarea;
-	string 255 LogPass,EncodedLogPass;
+	string 255 LogPass,EncodedLogPass,ordid;
 	
 	LogPass = "hansa-server" & ":" & "7s44wkjm7U8374N7o1mkJN2vM";
 	EncodedLogPass = "Authorization: Basic " & Base64Encode(LogPass);
@@ -1360,6 +1360,10 @@ begin
 		addtexttoarea(chr(13) & chr(10),resarea);
 		addtexttoarea("{" & chr(13) & chr(10),resarea);
 		
+		ordid = ORr.CustOrdNr;
+		if(blank(ordid))then begin
+		  ordid = ORr.SerNr;
+		end;
 		addtexttoarea("\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"," & chr(13) & chr(10),resarea);
 		addtexttoarea("\"orderId\":\"" & ORr.CustOrdNr & "\"," & chr(13) & chr(10),resarea);
 		addtexttoarea("\"status\":\"" & status & "\"" & chr(13) & chr(10),resarea);
