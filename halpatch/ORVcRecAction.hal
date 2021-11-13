@@ -432,7 +432,7 @@ begin
 	res = 0;
 	
 	if(currentuser=="SA")then begin
-	   goto LORVcRecordCheck;
+	   //goto LORVcRecordCheck;
 	end;
 	
 	switch(ORr.OrderStatusCode)begin
