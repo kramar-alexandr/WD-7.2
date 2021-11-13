@@ -792,6 +792,11 @@ begin
       goto LORVcRecordCheck;  
     end;
   end;  
+  if(currentcompany==13)then begin
+    if(blank(ORr.CustOrdNr))then begin
+      ORr.CustOrdNr = "M" & ORr.SerNr;
+    end;
+  end;
   if (OSb.RequireCustOrdNo!=0) then begin
     if (blank(ORr.CustOrdNr)) then begin
       RecordCheckError(2281,"",-1,"CustOrdNr");
