@@ -1351,7 +1351,7 @@ begin
 	writeareatofile(replyarea,"sendMessageToSergeyReply.txt",0);
 	
 	
-	if((status=="0" and blank(ORr.CustOrdNr)) or status=="2" or status=="3" or status=="5")then begin
+	if(status=="2" or status=="3" or status=="5")then begin
 		https://www.istore.ua/ajax/status.php
 		setareazerosize(resarea);
 		setareazerosize(replyarea);
@@ -1365,7 +1365,7 @@ begin
 		  ordid = ORr.SerNr;
 		end;
 		addtexttoarea("\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"," & chr(13) & chr(10),resarea);
-		addtexttoarea("\"orderId\":\"" & ORr.CustOrdNr & "\"," & chr(13) & chr(10),resarea);
+		addtexttoarea("\"orderId\":\"" & ordid & "\"," & chr(13) & chr(10),resarea);
 		addtexttoarea("\"status\":\"" & status & "\"" & chr(13) & chr(10),resarea);
 		
 		addtexttoarea("}" & chr(13) & chr(10),resarea);
