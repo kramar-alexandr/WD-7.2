@@ -81,7 +81,6 @@ forward function val GetINCostPrice(string,string,Boolean);// Edit *************
 external procedure ORDchsum(var record ORVc,Integer);// Edit ************************** Thursday, 4 September 2014 10:45:26
 external procedure ORSumup(var record ORVc);// Edit ************************** Thursday, 4 September 2014 10:47:57
 external procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
-external updating function boolean EasySendTurboSMS(string, string);
 
 
 SetLangMode(LangRussian,"RUS",0);
@@ -1980,8 +1979,7 @@ updating function LongInt ORVcRecordUpdateAfter(var record ORVc ORr,record ORVc 
 begin
   LongInt res;
   val bc1v;
-  string 255 smstext;
-  
+
 //  ORObjectStats(ORr,OR2r); it is stored only and not used ever
   UpdateVARItemsOR(ORr);
   UpdateStockResFromOR(ORr);
@@ -2005,15 +2003,9 @@ begin
         CancelApprovalRequestActivities(kAcceptanceOR,"ORVc",ORr.SerNr,ORr.CustCode);
       end;
   end;
-  if(ORr.Phone!=OR2r.Phone)then begin
+  if(ORr.Phone!=OR2r.Phone or ORr.OrderStatusCode!=OR2r.OrderStatusCode)then begin
     if(currentcompany==13)then begin
-      if(nonblank(ORr.Phone))then begin
-        if(len(ORr.Phone)==10)then begin
-          smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера 0800330334";
-          //EasySendTurboSMS(ORr.Phone,smstext);//Отключил - все идет через Сергея
-        end;
-      end;
-      SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+      SendORStatusToViber(ORr,ORr.OrderStatusCode);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
     end;
   end;
 
@@ -2139,7 +2131,6 @@ global
 updating function LongInt ORVcRecordSaveAfter(var record ORVc ORr,record ORVc OR2r,LongInt long3,LongInt long4)
 begin
   LongInt res;
-  string 255 smstext;
 
 //  ORObjectStats(ORr,OR2r);it is stored only and not used ever
   CreateActFromOR(ORr);
@@ -2150,13 +2141,7 @@ begin
   end;
   
   if(currentcompany==13)then begin
-    if(nonblank(ORr.Phone))then begin
-      if(len(ORr.Phone)==10)then begin
-        smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера 0800330334";
-        //Отключил - все идет через СергеяEasySendTurboSMS(ORr.Phone,smstext);
-      end;
-    end;
-		SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+		SendORStatusToViber(ORr,2);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
   end;
   ORVcRecordSaveAfter = res; 
   return;
