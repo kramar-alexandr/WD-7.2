@@ -2010,7 +2010,7 @@ begin
       if(nonblank(ORr.Phone))then begin
         if(len(ORr.Phone)==10)then begin
           smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера 0800330334";
-          EasySendTurboSMS(ORr.Phone,smstext);
+          //EasySendTurboSMS(ORr.Phone,smstext);//Отключил - все идет через Сергея
         end;
       end;
       SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
@@ -2153,7 +2153,7 @@ begin
     if(nonblank(ORr.Phone))then begin
       if(len(ORr.Phone)==10)then begin
         smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера 0800330334";
-        EasySendTurboSMS(ORr.Phone,smstext);
+        //Отключил - все идет через СергеяEasySendTurboSMS(ORr.Phone,smstext);
       end;
     end;
 		SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM

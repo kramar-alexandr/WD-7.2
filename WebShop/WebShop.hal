@@ -917,7 +917,7 @@ vector string 255 vres;
 						if(len(phone)==10)then begin
 							if(SMSConfigb.Balance>0)then begin
 								smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера 0800330334";
-								EasySendTurboSMS(phone,smstext);
+								//Отключил - все идет через СергеяEasySendTurboSMS(phone,smstext);
 							end;
 						end;
 					end;
@@ -1166,7 +1166,7 @@ vector string 255 vres;
 						if(len(phone)==10)then begin
 							if(SMSConfigb.Balance>0)then begin
 								smstext = "iStore Ваш заказ №" & ORr.SerNr & " принят ожидайте звонка менеджера 0800330334";
-								EasySendTurboSMS(phone,smstext);
+								//Отключил - все идет через СергеяEasySendTurboSMS(phone,smstext);
 							end;
 						end;
 					end;
@@ -1351,7 +1351,7 @@ begin
 	writeareatofile(replyarea,"sendMessageToSergeyReply.txt",0);
 	
 	
-	if(status=="2" or status=="3" or status=="5")then begin
+	if(status=="0" or status=="2" or status=="3" or status=="5")then begin
 		https://www.istore.ua/ajax/status.php
 		setareazerosize(resarea);
 		setareazerosize(replyarea);
