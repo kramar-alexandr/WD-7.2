@@ -1331,7 +1331,7 @@ end;
 
 global procedure SendORStatusToViber(record ORVc ORr, string status)
 begin
-	area resarea,replyarea;
+	area resarea,replyarea,logarea;
 	string 255 LogPass,EncodedLogPass;
 	
 	LogPass = "hansa-server" & ":" & "7s44wkjm7U8374N7o1mkJN2vM";
@@ -1344,11 +1344,16 @@ begin
 	//AddTextToArea("{\""& status &"\":",resarea);
 	CreateORJson(ORr,resarea);
 	//AddTextToArea("}",resarea);
-	writeareatofile(resarea,"ordertoviber.txt",0);
+	addtexttoarea(currentdate & " " & currenttime & ORr.SerNr & chr(13) & chr(10),logarea);
+	writeareatofile(logarea,"ordertoviber.txt",1);
+	writeareatofile(resarea,"ordertoviber.txt",1);
 	
 	SendRawWebRequest("viber.a-service.ua","443",true,"POST","/istore/sender.php","application/json","",false,resarea,replyarea,5);
 	
-	writeareatofile(replyarea,"sendMessageToSergeyReply.txt",0);
+	setareazerosize(logarea);
+	addtexttoarea(currentdate & " " & currenttime & ORr.SerNr & chr(13) & chr(10),logarea);
+	writeareatofile(logarea,"sendMessageToSergeyReply.txt",1);
+	writeareatofile(replyarea,"sendMessageToSergeyReply.txt",1);
 	
 	
 	/*if(status=="2" or status=="3" or status=="5")then begin  // Не работает сейчас
