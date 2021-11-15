@@ -1091,6 +1091,7 @@ vector string 255 vres;
 						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";
 						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)"; ORr.OrderClass = "INTDL";
 					end;
+					
 					switch(payment)begin
 						case"cash": ORr.ShipAddr3 = "Наличными";
 						case"bank": ORr.ShipAddr3 = "Б/Н";
@@ -1104,6 +1105,7 @@ vector string 255 vres;
 					ORr.CustOrdNr = orderid;
 					
 					if(len(tradeinfo[""])>0)then begin
+					  ORr.OrderClass = "TRADE";
 					  AddToText("Trade Info: ",ORr);
 					  AddToText(tradeinfo[""],ORr);
 					end;
