@@ -527,7 +527,7 @@ end;
 
 //Edit **********************************************Vas-P	added 10/11/2021
 global 
-updating procedure HandleBixolonWarranty(record ORVc ORr,var area aFile)
+updating procedure HandleBixolonWarranty(record ORVc ORr,var area aFile,integer k)
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -558,8 +558,8 @@ begin
 	SetAreaZeroSize(aFile);
 	
 	rwcnt = MatRowCnt(ORr);
-	for(i=0;i<rwcnt;i=i+1) begin
-		MatRowGet(ORr,i,ORrw);
+	//for(i=0;i<k;i=i+1) begin
+		MatRowGet(ORr,k,ORrw);
 		
 		addtexttoarea(SetMiddleAlignment,aFile);
 		addtexttoarea(SetBoldOn,aFile);
@@ -706,6 +706,6 @@ begin
 		
 		//Cut receipt  
 		addtexttoarea(chr(29) & chr(86) & "1",aFile);
-	end;
+	//end;
   
 end;
