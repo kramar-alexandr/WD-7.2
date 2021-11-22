@@ -1108,7 +1108,7 @@ begin
           end;
           v = v + 320;
           HalPushButton(400,v,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
-          HalPushButton(400,v+20,550,v+65,"PrintBixolonExecuteDsm","Друк гарантійного");//Edit **********************************************Vas-P	10/11/2021
+          HalPushButton(400,v+30,550,v+75,"PrintBixolonExecuteDsm","Друк гарантійного");//Edit **********************************************Vas-P	10/11/2021
 
           
           ButtonFrame(10,v+vs,370,2,"Заполнить!!!");
