@@ -1107,8 +1107,10 @@ begin
             v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
           end;
           v = v + 320;
-					HalPushButton(400,v,350,v+45,"PrintBixolonExecuteDsm","Друк гарантійного");//Edit **********************************************Vas-P	10/11/2021
           HalPushButton(400,v,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
+          HalPushButton(400,v+50,550,v+95,"PrintBixolonExecuteDsm","Друк гарантійного");//Edit **********************************************Vas-P	10/11/2021
+
+          
           ButtonFrame(10,v+vs,370,2,"Заполнить!!!");
           EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,PasteCurDate);
           EditField(h1+200,v,70,"Время",Normal,DespatchTime,false,PasteCurTime);
