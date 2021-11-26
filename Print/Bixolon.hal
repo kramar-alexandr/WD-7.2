@@ -538,7 +538,7 @@ lTLTOARRVECTOR:;
     if(len(res)>length)then begin
       addtexttoarea(left(res,length),atext);
       addtexttoarea(chr(13) & chr(10),atext);
-      res = right(res,len(res)-length);
+      res = trim(right(res,len(res)-length));
       goto lTLTOARRVECTOR;
     end else begin
       addtexttoarea(res,atext);
@@ -606,9 +606,14 @@ begin
 		//TLTOARR(checklength,"ласка, ознайомтесь із правилами отримання",aFile);
 		//TLTOARR(checklength,"гарантійних послуг.",aFile);
 		TLTOARRVECTOR(checklength,text,aFile);
-		TLTOARR(checklength,"Гарантійний талон видається не тільки на",aFile);
-		TLTOARR(checklength,"продукти компанії Аррlе, але й на",aFile);
-		TLTOARR(checklength,"акустику та іншу техніку.",aFile);
+		
+		text[""] = "";
+		text[""] = "Гарантійний талон видається не тільки на продукти компанії Аррlе, але й на акустику та іншу техніку.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		
+		//TLTOARR(checklength,"Гарантійний талон видається не тільки на",aFile);
+		//TLTOARR(checklength,"продукти компанії Аррlе, але й на",aFile);
+		//TLTOARR(checklength,"акустику та іншу техніку.",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		addtexttoarea(SetBoldOn,aFile);
@@ -619,12 +624,15 @@ begin
 		TLTOARR(checklength,"вул. Велика Васильківська, 21",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
-		TLTOARR(checklength,"Для отримання гарантійних послуг, Вам",aFile);
-		TLTOARR(checklength,"необхідно надати товарний чек та гарантій-",aFile);
-		TLTOARR(checklength,"ний талон, заповнений продавцем. За цих",aFile);
-		TLTOARR(checklength,"умов Ви маєтеправо на безкоштовне усунення",aFile);
-		TLTOARR(checklength,"всіх несправностей, що виникли протягом",aFile);
-		TLTOARR(checklength,"гарантійного періоду не з вашої вини.",aFile);
+		text[""] = "";
+		text[""] = "Для отримання гарантійних послуг, Вам необхідно надати товарний чек та гарантійний талон, заповнений продавцем. За цих умов Ви маєтеправо на безкоштовне усунення всіх несправностей, що виникли протягом гарантійного періоду не з вашої вини.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		//TLTOARR(checklength,"Для отримання гарантійних послуг, Вам",aFile);
+		//TLTOARR(checklength,"необхідно надати товарний чек та гарантій-",aFile);
+		//TLTOARR(checklength,"ний талон, заповнений продавцем. За цих",aFile);
+		//TLTOARR(checklength,"умов Ви маєтеправо на безкоштовне усунення",aFile);
+		//TLTOARR(checklength,"всіх несправностей, що виникли протягом",aFile);
+		//TLTOARR(checklength,"гарантійного періоду не з вашої вини.",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
