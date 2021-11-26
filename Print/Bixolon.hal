@@ -526,7 +526,9 @@ end;
 
 procedure TLTOARRVECTOR(integer length,vector string text,var area atext)
 begin
-  string 255 res;
+  string 255 res,c;
+  integer newlength,i;
+  
   
   if(length==0)then begin
     res = text[""];
@@ -536,9 +538,19 @@ begin
     res = text[""];
 lTLTOARRVECTOR:;
     if(len(res)>length)then begin
-      addtexttoarea(left(res,length),atext);
+      newlength = length;
+      for(i=0;i<length;i=i+1)begin
+        c = mid(res,i,1);
+        if(c==" ")then begin
+          newlength = i;
+        end;
+      end;
+      if(newlength==0)then begin
+        newlength = length;
+      end;
+      addtexttoarea(left(res,newlength),atext);
       addtexttoarea(chr(13) & chr(10),atext);
-      res = trim(right(res,len(res)-length));
+      res = trim(right(res,len(res)-newlength));
       goto lTLTOARRVECTOR;
     end else begin
       addtexttoarea(res,atext);
