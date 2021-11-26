@@ -524,6 +524,31 @@ LTLTOARR:;
 return;
 end;
 
+procedure TLTOARRVECTOR(integer length,vector string text,var area atext)
+begin
+  string 255 res;
+  
+  if(length==0)then begin
+    res = text[""];
+    addtexttoarea(text[""],atext);
+    addtexttoarea(chr(13) & chr(10),atext);
+  end else begin
+    res = text[""];
+lTLTOARRVECTOR:;
+    if(len(res)>length)then begin
+      addtexttoarea(left(res,length),atext);
+      addtexttoarea(chr(13) & chr(10),atext);
+      res = right(res,len(res)-length);
+      goto lTLTOARRVECTOR;
+    end else begin
+      addtexttoarea(res,atext);
+      addtexttoarea(chr(13) & chr(10),atext);
+    end;
+  end;
+  
+return;
+end;
+
 
 //Edit **********************************************Vas-P	added 10/11/2021
 global 
@@ -538,6 +563,7 @@ begin
 	integer checklength,rwcnt,i;
 	row ORVc ORrw;
 	integer k;
+	vector string 255 text;
 	
 	
 	checklength = 56;
@@ -571,11 +597,15 @@ begin
 		TLTOARR(checklength,"Шановний клієнте!",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
-		TLTOARR(checklength,"Здійснюючи покупки в нашому магазинi, Ви",aFile);
-		TLTOARR(checklength,"можете розраховувати на повноцінне та",aFile);
-		TLTOARR(checklength,"якісне гарантійне обслуговування. Будь",aFile);
-		TLTOARR(checklength,"ласка, ознайомтесь із правилами отримання",aFile);
-		TLTOARR(checklength,"гарантійних послуг.",aFile);
+		text[""] = "Здійснюючи покупки в нашому магазинi, Ви можете розраховувати на повноцінне та якісне гарантійне обслуговування. Будь ласка, ознайомтесь із правилами отримання гарантійних послуг.";
+		//text[""] = text[""] & "Здійснюючи покупки в нашому магазинi, Ви можете розраховувати на повноцінне та";
+		
+		//TLTOARR(checklength,"Здійснюючи покупки в нашому магазинi, Ви",aFile);
+		//TLTOARR(checklength,"можете розраховувати на повноцінне та",aFile);
+		//TLTOARR(checklength,"якісне гарантійне обслуговування. Будь",aFile);
+		//TLTOARR(checklength,"ласка, ознайомтесь із правилами отримання",aFile);
+		//TLTOARR(checklength,"гарантійних послуг.",aFile);
+		TLTOARR(checklength,TLTOARRVECTOR,aFile);
 		TLTOARR(checklength,"Гарантійний талон видається не тільки на",aFile);
 		TLTOARR(checklength,"продукти компанії Аррlе, але й на",aFile);
 		TLTOARR(checklength,"акустику та іншу техніку.",aFile);
@@ -600,7 +630,7 @@ begin
 		
 		rwcnt = MatRowCnt(ORr);
 	  for(i=0;i<rwcnt;i=i+1) begin
-      MatRowGet(ORr,k,ORrw);
+      MatRowGet(ORr,i,ORrw);
       if(ORrw.GarantyFor>0)then begin
         
         
