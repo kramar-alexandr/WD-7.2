@@ -605,7 +605,7 @@ begin
 		//TLTOARR(checklength,"якісне гарантійне обслуговування. Будь",aFile);
 		//TLTOARR(checklength,"ласка, ознайомтесь із правилами отримання",aFile);
 		//TLTOARR(checklength,"гарантійних послуг.",aFile);
-		TLTOARR(checklength,TLTOARRVECTOR,aFile);
+		TLTOARRVECTOR(checklength,text,aFile);
 		TLTOARR(checklength,"Гарантійний талон видається не тільки на",aFile);
 		TLTOARR(checklength,"продукти компанії Аррlе, але й на",aFile);
 		TLTOARR(checklength,"акустику та іншу техніку.",aFile);
