@@ -677,12 +677,6 @@ begin
       end;
 		end;
 		
-		addtexttoarea(SetBoldOn,aFile);
-		TLTOARR(checklength,"З умовами гарантії погоджуюся",aFile);
-		addtexttoarea(SetBoldOff,aFile);
-		addtexttoarea(SetUnderlineOn,aFile);
-		TLTOARR(checklength,"………………………………………………………………………",aFile);
-		addtexttoarea(SetUnderlineOff,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		addtexttoarea(SetBoldOn,aFile);
@@ -787,6 +781,20 @@ begin
 		//TLTOARR(checklength,"контакти та ін.)",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
+		addtexttoarea(SetBoldOn,aFile);
+		TLTOARR(checklength,"З умовами гарантії погоджуюся",aFile);
+		addtexttoarea(SetBoldOff,aFile);
+		addtexttoarea(SetUnderlineOn,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		TLTOARR(checklength,"========================================================",aFile);
+		
+		addtexttoarea(SetUnderlineOff,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
 		//Cut receipt  
 		addtexttoarea(chr(29) & chr(86) & "1",aFile);
   
