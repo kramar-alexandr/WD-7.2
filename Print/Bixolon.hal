@@ -529,7 +529,7 @@ end;
 global 
 updating procedure HandleBixolonWarranty(record ORVc ORr,var area aFile)
 begin
-	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize;
+	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
 	string 10 BigLetterOn,BigLetterOff,SmallLetterOn;
 	string 100 SetFontA,SetFontB;
@@ -540,7 +540,7 @@ begin
 	integer k;
 	
 	
-	checklength = 42;
+	checklength = 56;
 	
 	SetFontA = chr(27) & chr(33) & chr(0);
 	SetFontB = chr(27) & chr(33) & chr(1);
@@ -554,11 +554,12 @@ begin
 	BigLetterOn = chr(27) & chr(33)  & chr(32);
 	SmallLetterOn = chr(27) & chr(33)  & chr(1);
 	BigLetterOff = chr(27) & chr(33) & chr(0);
-	
+	PrintImage = chr(28) & chr(112) & chr(1) & chr(00);
 	
 	SetAreaZeroSize(aFile);
 	
 	
+		addtexttoarea(PrintImage,aFile);
 		
 		addtexttoarea(SetMiddleAlignment,aFile);
 		addtexttoarea(SetBoldOn,aFile);
@@ -566,6 +567,7 @@ begin
 		addtexttoarea(SetBoldOff,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
+		addtexttoarea(SetLeftAlignment,aFile);
 		TLTOARR(checklength,"Шановний клієнте!",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
