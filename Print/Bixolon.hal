@@ -592,7 +592,7 @@ begin
 	BigLetterOn = chr(27) & chr(33)  & chr(32);
 	SmallLetterOn = chr(27) & chr(33)  & chr(1);
 	BigLetterOff = chr(27) & chr(33) & chr(0);
-	PrintImage = chr(27) & chr(112) & chr(1) & chr(00);
+	PrintImage = chr(27) & chr(112) & chr(1) & chr(0);
 	
 	SetAreaZeroSize(aFile);
 	
