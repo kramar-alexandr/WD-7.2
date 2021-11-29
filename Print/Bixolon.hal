@@ -666,11 +666,8 @@ begin
         TLTOARR(checklength,ORrw.Spec,aFile);
         
         addtexttoarea(SetUnderlineOff,aFile);
-        TLTOARR(checklength,"‘…§‰ˆ‰ Œ…:",aFile);
-        addtexttoarea(SetUnderlineOn,aFile);		
-        TLTOARR(checklength,ORrw.SerialNr,aFile);
-        
-        addtexttoarea(SetUnderlineOff,aFile);
+        TLTOARR(checklength,"‘…§‰ˆ‰ Œ…: " & ORrw.SerialNr,aFile);
+
         TLTOARR(checklength,"„€’€ „€†“: " & ORr.OrdDate,aFile);
         addtexttoarea(SetBoldOn,aFile);
         TLTOARR(checklength,"’…Œ§ ƒ€€’§º (Œ§‘Ÿ–§‚): " & ORrw.GarantyFor,aFile);
