@@ -596,7 +596,7 @@ begin
 	
 	
 	///1d 28 4c 06 00 30 45 30 30 01 01 0a
-	PrintImage = chr(12) & chr(40) & chr(76) & chr(6) &  chr(0) & chr(48) & chr(69) & chr(48) & chr(48) & chr(1) & chr(1);
+	PrintImage = chr(29) & chr(40) & chr(76) & chr(6) &  chr(0) & chr(48) & chr(69) & chr(48) & chr(48) & chr(1) & chr(1);
 	
 	SetAreaZeroSize(aFile);
 	
