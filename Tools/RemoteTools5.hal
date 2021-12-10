@@ -543,7 +543,7 @@ END;
 If we don't have it we create delivery with 600 rows for example, should we do it?
 Lucy wanted me to fix it
 */
-updating function Boolean SaveShipment(Array record StockMovVc aStockMovr,var Integer asmcnt,record SHVc SHp,record CUVc CUr,record ORVc ORr,record PlanDeliveryBlock PDb,var val totv,var val totw,var val totq,var Integer srw)
+updating function Boolean SaveShipment(Array record StockMovVc aStockMovr,var Integer asmcnt,record SHVc SHp,record CUVc CUr,record ORVc ORr,record PlanDeliveryBlock PlanDelRec,var val totv,var val totw,var val totq,var Integer srw)
 BEGIN
   Boolean res;
   LongInt ornr,newnr;
@@ -551,11 +551,16 @@ BEGIN
   Date dat;
   Integer i;
   
+  logtext(0,"SaveShipment " & SHp.SerNr);
+  
   res = true;
-  ornr = SHp.OrderNr;  
+  ornr = SHp.OrderNr;
   if ((MatRowCnt(SHp)>0) and (SHp.SerNr!=-1)) then begin
     SHSumUp(SHp);
     if (RecordInsert(SHp,false)) then begin
+    	CreateRecordLink(ORr,CurrentCompany,SHp,CurrentCompany);// Edit ************************** Friday, 17 March 2015 12:47:23
+      CreateRecordLink(SHp,CurrentCompany,ORr,CurrentCompany);// Edit ************************** Friday, 17 March 2015 12:47:23
+      
       res = StoreShipmentStockMovements(SHp,aStockMovr,asmcnt,false);
       if (res==false) then begin goto LSaveShipment; end;
       srw = 0;
@@ -574,25 +579,25 @@ BEGIN
         end;
       end;
       CUr.Code = ORr.CustCode;
-      switch (CUr.DeliveryBasedOn) begin
-       case 1:
-         if (nonblank(ORr.PlanShip)) then begin
-           SHp.ShipDate = StringToDate(ORr.PlanShip);
-         end;
-      end;
-      if (CUr.OnHoldFlag!=0) then begin 
-        if (ISMAINTENANCE==false) then begin
-          res = 1300;
+        switch (CUr.DeliveryBasedOn) begin
+         case 1:
+           if (nonblank(ORr.PlanShip)) then begin
+             SHp.ShipDate = StringToDate(ORr.PlanShip);
+           end;
         end;
-        goto LSaveShipment; 
-      end;
-      if (CUr.blockedFlag!=0) then begin
-        if (ISMAINTENANCE==false) then begin
-          res = 1265;
+        if (CUr.OnHoldFlag!=0) then begin 
+          if (ISMAINTENANCE==false) then begin
+            res = 1300;
+          end;
+          goto LSaveShipment; 
         end;
-        goto LSaveShipment;
-      end;
-     if (PDb.PreventDelivery!=0) then begin
+        if (CUr.blockedFlag!=0) then begin
+          if (ISMAINTENANCE==false) then begin
+            res = 1265;
+          end;
+          goto LSaveShipment;
+        end;
+     if (PlanDelRec.PreventDelivery!=0) then begin
        dat = StringToDate(ORr.PlanShip);
        if (SHp.ShipDate<dat) then begin
          goto LSaveShipment;
