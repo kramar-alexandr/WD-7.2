@@ -972,6 +972,7 @@ L10PasteOrdInShip:;
       end else begin
         totq = totq + SHrw.Ship;
       end;
+      logtext(0,i & " totq " & totq);
       SHrw.BasePrice = ORrw.Price;
       SHrw.BBCostPrice = ORrw.BasePrice;
       SHrw.UnitXval = ORrw.UnitXval;
