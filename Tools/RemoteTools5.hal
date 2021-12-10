@@ -858,6 +858,7 @@ begin
   SHp.ORCOType = SalesContractType(ORr.ORCONr);
   rwcnt = MatRowCnt(ORr);
   srw = 0;
+  logtext(0,"rwcnt " & rwcnt);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(ORr,i,ORrw);
     remn = ORrw.Quant - ORrw.Shipd1;
