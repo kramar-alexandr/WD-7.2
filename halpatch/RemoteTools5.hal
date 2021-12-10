@@ -492,6 +492,8 @@ BEGIN
   Date dat;
   Integer i;
   
+  logtext(0,"SaveShipment " & SHp.SerNr);
+  
   res = true;
   ornr = SHp.OrderNr;
   if ((MatRowCnt(SHp)>0) and (SHp.SerNr!=-1)) then begin
