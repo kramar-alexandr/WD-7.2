@@ -1015,6 +1015,7 @@ L10PasteOrdInShip:;
               MatRowPut(SHp,srw-1,SHrw);
               remn = remn - t1;
               if (srw>=200) then begin
+                logtext(0,"SaveShipment 1");
                 if (SaveShipment(aStockMovr,asmcnt,SHp,CUr,ORr,PDb,totv,totw,totq,srw)==false) then begin
                   goto LPasteOrdInShip;
                 end;
@@ -1047,6 +1048,7 @@ L10PasteOrdInShip:;
         end;
       end;
       if ((srw>=200) and (i!=(rwcnt-1))) then begin
+        logtext(0,"SaveShipment 2");
         if (SaveShipment(aStockMovr,asmcnt,SHp,CUr,ORr,PDb,totv,totw,totq,srw)==false) then begin
           goto LPasteOrdInShip;
         end;
