@@ -815,6 +815,7 @@ begin
       goto LPasteOrdInShip;
     end;
   end;
+  logtext(0,2);
   SHp.TREONr = ORr.TREONr;
   SHp.SHClass = ORr.OrderClass;
   SHp.OrderNr = ORr.SerNr;
