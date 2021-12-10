@@ -1063,6 +1063,10 @@ L10PasteOrdInShip:;
     end;
 LSKIPROW:;    
   end;
+  
+  logtext(0,"totq " & totq);
+  logtext(0,"SH rows " & matrowcnt(SHp));
+  
   if (totq<=0) then begin
     while (MatRowCnt(SHp)>0) begin
       MatRowDelete(SHp,0);
