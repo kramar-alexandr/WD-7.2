@@ -545,6 +545,7 @@ BEGIN
             testf = false;
           end;
           if (testf) then begin  
+            messagebox(0,1);
             r = RecordAction_raPasteOrdInShip2(SHr,ORr.SerNr,warning);
             if (r==0) then begin
               if (MatRowCnt(SHr)!=0) then begin
