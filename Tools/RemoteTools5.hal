@@ -821,7 +821,7 @@ begin
     end;
   end;
   logtext(0,2);
-  SHp.SerNr = NextSerNr("SHVc",SHp.ShipDate,newnr,false,"");
+  SHp.SerNr = NextSerNr("SHVc",SHp.ShipDate,-1,false,"");
   SHp.TREONr = ORr.TREONr;
   SHp.SHClass = ORr.OrderClass;
   SHp.OrderNr = ORr.SerNr;
