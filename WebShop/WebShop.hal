@@ -1311,6 +1311,8 @@ begin
 	boolean TrHs;
 	boolean testf;
 	
+	logtext(0,"WebGetOneOrderByPhone " & WebRemoteIPAddress);
+	logtext(0,"phone " & webgetarg("phone"));
 	if(WebRemoteIPAddress=="89.184.91.217")then begin
 	
 		setcompany(13,false);
