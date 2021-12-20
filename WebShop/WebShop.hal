@@ -1311,24 +1311,26 @@ begin
 	boolean TrHs;
 	boolean testf;
 	
-	logtext(0,"WebGetOneOrderByPhone " & WebRemoteIPAddress);
+	logtext(0,"++++++++++++++++++++++++++++++++++++++WebGetOneOrderByPhone " & WebRemoteIPAddress);
 	logtext(0,"phone " & webgetarg("phone"));
 	if(WebRemoteIPAddress=="89.184.91.217")then begin
 	
 		setcompany(13,false);
 		ORr.CustCode = webgetarg("phone");
-		TrHs = true;
-		AddTextToArea("{\"orders\":[",resarea);
-	
-		while(loopkey("CustCode",ORr,1,TrHs))begin
-			if(ORr.CustCode==webgetarg("phone"))then begin
-				CreateORJson(ORr,resarea);
-			end else begin
-				TrHs = false;
-			end;
+		if(nonblank(ORr.CustCode))then begin
+      TrHs = true;
+      AddTextToArea("{\"orders\":[",resarea);
+  
+      while(loopkey("CustCode",ORr,1,TrHs))begin
+        if(ORr.CustCode==webgetarg("phone"))then begin
+          CreateORJson(ORr,resarea);
+        end else begin
+          TrHs = false;
+        end;
+      end;
+      AddTextToArea("]}",resarea);
+      weboutarea(resarea);
 		end;
-		AddTextToArea("]}",resarea);
-		weboutarea(resarea);
 	end;
 return;
 end;
