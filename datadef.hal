@@ -219,6 +219,8 @@ begin
     RecordField(ItemFrPartner,M4Mark,0,0); //Edit***************************Sasha2,13:47 08.12.2015
     RecordField(Risk01,M4Str,255,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 4 July 2019 14:47:24
     RecordField(Risk02,M4Str,255,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 4 July 2019 14:47:23
+    RecordField(Phone2,M4Str,255,0);
+    
     //----------End Custom
   
 

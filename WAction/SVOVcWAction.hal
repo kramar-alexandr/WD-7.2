@@ -31,6 +31,9 @@ remote updating function boolean RecordAction_raPasteSVOInQT(var record QTVc,rec
 external function Boolean OpenContactRecord(string,string);
 external updating function Integer RecordAction_raPasteSVOInOrder(var record ORVc,var record SVOVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 10:12:47 AM
 remote global function string 200 DuplicateSVOSerial(string);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 10:13:30 AM
+external procedure PrintBixolonReceipt(area);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 23 12 2021 y. at 11:25:02 AM
+remote procedure HandleSVOAct1(record SVOVc,var area);
+remote procedure HandleSVOAct2(record SVOVc,var area);
 
 // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 3 June 2015 16:58:34
@@ -1681,3 +1684,31 @@ BEGIN
   NotepadDClassOnEnterKey = res;
   RETURN;
 END;
+
+global procedure PrintSVOActExecute(record SVOVc SVOr)
+BEGIN
+  area aFile;
+  Boolean testf;
+	
+  SetExportCodePage("CP1251");
+  HandleSVOAct1(SVOr,aFile);//Для сервиса
+  PrintBixolonReceipt(aFile);
+
+  millisleep(2000);
+  HandleSVOAct2(SVOr,aFile);//Для клиента
+  PrintBixolonReceipt(aFile);
+		
+  RETURN;
+END;
+
+
+
+global procedure PrintSVOActExecuteDsm()
+begin
+  record SVOVc SVOr;
+  
+  getwindowrecord(curwindow,SVOr);
+  PrintSVOActExecute(SVOr);
+  
+return;
+end;

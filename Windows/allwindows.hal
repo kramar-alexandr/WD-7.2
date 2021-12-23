@@ -4704,6 +4704,146 @@ end;
 window SVODClass:1
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
+  real h,h1,h2,h3,h4,t,v,vm,vs,vx,height;
+  string 255 label;
+  Integer mode; //Edit***************************Sasha2,15:56 27.10.2016
+  
+  if (UserCanAction("UnOKAll",false)) then begin //Edit***************************Sasha2,15:56 27.10.2016
+    mode = Normal;
+  end else begin
+    mode = ViewOnly;
+  end;
+  
+	WindowBegin("Замовлення на обслуговування",SVODClass,CGview,-);
+  if(windowsmode==1)then begin
+  	  SetWRect(20,80,850,620);
+  end else begin
+  	  SetWRect(20,80,850,600);
+  end;
+  AutoSizeWindow(false);
+  DynamicWindow;
+  UseView(SVOVc);
+  ToolBar;
+  HalPushButton(250,5,350,25,"WorkSheetSVODsm","План робіт");
+  HalPushButton(370,5,480,25,"WorkSheetSVOSalesDsm","Роботи пройомки");
+	HalPushButton(500,5,600,25,"PrintDoSVOFormButton","Друк");	//Edit----------------------Dima  09.02.2015
+  EndToolBar;
+  ActiveFieldOnNew("Kontinfo1");  
+  //FormName(SVOForm);
+  vs = 20; h3 = 550;
+  //Tile(0,130,false,"",CustCode);
+		EditField(h=90,v=6, 82,"Номер",Normal,SerNr,false,TSerSClass);
+		EditField(h,v+=vs,60,"Дата замовл.",mode,TransDate,false,PasteCurDate);
+    EditField(h,v+=vs,100,"Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
+  
+    v = 6;
+//		EditField(255,v,100,"Гр.Пр.",ViewOnly,SalesGroup,false,0);
+		EditField(255,v,100,"Менеджер",normal,SalesMan,false,UserSClass);
+		EditField(255,v+=vs,100, "Кл.",Normal,CustCode,false,CUSClass);
+    EditField(255,v+=vs,100,"Власник",ViewOnly,Addr0,false,0);
+
+    v = 10;
+    
+    //WebPage(420,v,560,v+150,"","$HWStore");
+    
+		CheckBox(-80,v,0,"Виконано",DoneMark);
+		v = v+vs;
+    //halpushbutton(700,v,800,v+=10,"FastPaySVODsm","Швидка оплата");// Edit ************************** Friday, 25 November 2016 11:32:03 
+    h4 = -80;
+		
+		v=40;
+		vm = (v + vs);
+	
+		
+		h2=440;
+		vm = 0;
+		v = 6;
+		vs = 16;
+		ButtonFrame(h2,v,120,4,"");
+		RadioButton(h2,v,0,0,"В очікуванні",OrderStatus);
+		RadioButton(h2,v+=vs,5,0,"На діагностиці",OrderStatus);
+		RadioButton(h2,v+=vs,1,0,"Діаг. заверш.",OrderStatus);
+		RadioButton(h2,v+=vs,4,0,"На узгодженні",OrderStatus);
+		h2=570;
+		v = 6;
+		vm = (v + vs);
+		RadioButton(h2,v,8,0,"Не дозвонились",OrderStatus);
+		RadioButton(h2,v+=vs,9,0,"Узгоджено",OrderStatus);
+		RadioButton(h2,v+=vs,6,0,"Предан на Аутсорс",OrderStatus);
+		RadioButton(h2,v+=vs,3,0,"Очікує запч.",OrderStatus);
+		RadioButton(h2,v+=vs,2,0,"Ремонт виконано",OrderStatus);
+		RadioButton(h2,v+=vs,7,0,"Готов к выдаче",OrderStatus);
+		//vm = vm + 32;
+  	vm = 20;
+  	vs = 20;
+		v = v + 45;
+		//TileButton(1,"Дата");
+		//TileButton(2,"Товари");
+  	//Tile(1,85,false,"1",CustContact);
+		h2=h2-40;
+	
+		//v=vm-20;
+		v = v - 3*vm;
+		vx = v;
+		v = v + 20;
+		v = vx-2*vs;
+		EnterSkip(Math);
+  //Tile(2,380,false,"2",Math);
+		//v = 24;
+		v = 150;
+		MatrixBegin(3,v,-50,v+45,-,1);
+		MatTypedRow(stp);
+		Flip(0);
+		MatCol(t=1,32,"Товар",0,ArtCode,false,INSClass);
+		MatCol(t,94,"Кіл-ть",0,Quant,true,0);
+		Flip(1);
+		MatCol(t=1,144,"Сер. №",0,SerialNr,false,SVOSerSClass);
+		EnterSkip(ItemType);
+		MatCol(t=1,250,"Наймен.",0,Spec,false,0);
+		EnterSkip(ArtCode);
+		MatCol(t,-84,"Тип",0,ItemType,false,SetSClass);
+		InsertRowTest;
+		DeleteRowTest;
+		EndMatrix;
+		
+		
+		v = 200;
+		EditField(h=100,v,300,"ПІБ",Normal,Vlastnik,false,0);
+		//EditField(h,v+=vs,120,"Призвище",Normal,Priynato,false,0);	
+	
+		EditField(h,v+=vs,100,"Тел.1",Normal,Kontinfo1,false,0);	
+		//HalPushButton(h+110,v-3,h+180,v+15,"CallToClientDsm","Дзвінок");
+		EditField(h+220,v,100,"Тел.2",Normal,Phone2,false,0);	
+		//HalPushButton(h+330,v-3,h+410,v+15,"CallToClient2Dsm","Дзвінок");
+		
+		//EditField(-130,v,-105,"Пост.Кл.",ViewOnly,CustomField9,false,0);	// Edit ************************** Thursday, 30 June 2016 10:21:49
+		//HalPushButton(-90,v-3,-50,v+15,"ServClientOrderDsm","Звіт");
+	
+		EditField(h,v+=vs,300,"e-mail",Normal,Kontinfo2,false,0);	
+		EditField(h,v+=vs,300,"Адреса клієнта",Normal,Kontinfo3,false,0);
+		v=v+10;
+		EditField(h,v+=vs,300,"Скарги власн.",Normal,Comment1,false,0);
+		EditField(h,v+=vs,300,"",Normal,Comment2,false,0);
+		//HalPushButton(10,v-3,90,v+155,"IssuesButtonDsm","Скарги"); // Edit Dima ************* 2018-02-27 04:15 PM
+		v=v+10;
+		EditField(h,v+=vs,300,"Наявні деф.",Normal,Comment3,false,0); // Edit Dima ************* 2018-02-26 12:24 PM
+		EditField(h,v+=vs,300,"",Normal,Comment4,false,0); // Edit Dima ************* 2018-02-26 12:26 PM
+		//HalPushButton(10,v-5,90,v+15,"DefectsButtonDsm","Дефекти"); // Edit Dima ************* 2018-02-26 12:38 PM
+		v=v+10;
+		EditField(h,v+=vs,300,"Комплектність",Normal,Zaryadka,false,0);
+    EditField(h,v+=vs,300,"",Normal,Garanty,false,0);
+		EditField(h,v+=vs,300,"Інше:",Normal,Inshe,false,0);
+		//v=v+10;
+		EditField(h,v+=vs,70,"Виробник",Normal,Region,false,ITSClass);	
+
+  SpecialMenu("Друкувати акт Bixolon",' ',0,"PrintSVOActExecuteDsm");// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 04 2021 y. at 4:35:01 PM
+  EndWindow;
+end;
+
+/*
+window SVODClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   string 255 label;
 	WindowBegin("Замовлення на обслуговування",SVODClass,CGview,-);
@@ -4876,7 +5016,7 @@ begin
   end;
   SpecialMenu("Статус оплат по замовленню",' ',0,"SVOPaymentRnDsm");
   EndWindow;
-end;
+end;*/
 
 window CCatDClass:2
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
