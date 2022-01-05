@@ -930,7 +930,7 @@ begin
   addtexttoarea(SetUnderlineOff,aFile);
   TLTOARR(cjecklength,"- ‚артґсть дґагностики пристро»в (платных",aFile);
   TLTOARR(cjecklength,"та гарантiйних): iPhone - 250грн.,",aFile);
-  TLTOARR(cjecklength,"iPad - 400грн., MacBook - 400грн., ",aFile);
+  TLTOARR(cjecklength,"iPad - 400грн., MacBook - 500грн., ",aFile);
   TLTOARR(cjecklength,"iMac - 1000грн., моноблокґв - 400грн.,",aFile);
   TLTOARR(cjecklength,"смартфонґв - 250грн., планшетґв- 300грн.,",aFile);
   TLTOARR(cjecklength,"навушникґв- 250,00грн.",aFile);
