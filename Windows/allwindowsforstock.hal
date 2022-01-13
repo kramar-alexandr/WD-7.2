@@ -226,7 +226,7 @@ begin
   Integer tilenr,f,flipnr;
   integer sQuant,sSentQuant;
   
-  WindowBegin("Переміщення товарів",StockMovDClass,CGview,-);
+  WindowBegin("Переміщення товарів 2",StockMovDClass,CGview,-);
   if (HasJewelleryInterface) then begin
     SetWRect(20,80,850,400);
   end else begin
