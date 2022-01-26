@@ -1045,6 +1045,7 @@ begin
           EditField(h3,v+=25,70,"",ViewOnly,NoCallMan,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,SentMan,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,ReadyToSentMan,false,0);
+          EditField(h3+100,v,70,"Точка:",Normal,TochkaVidachi,false,TochkaVidachiSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 01 2022 y. at 10:18:35 AM
           EditField(h3,v+=25,70,"",ViewOnly,DoneMan,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,RejectMan,false,0);
           //(6)

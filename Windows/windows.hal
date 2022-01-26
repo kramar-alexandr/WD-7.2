@@ -2391,3 +2391,56 @@ begin
 	
   EndWindow;
 end;
+
+
+
+
+window TochkaVidachiSClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	WindowBegin("Статус оплаты",TochkaVidachiSClass,CGslist,-);
+  	SetWRect(210,80,750,298);
+  	Sizeable(-1,-1,0,0);
+  	UseView(TochkaVidachiVc);
+  	SpawnClass(TochkaVidachiDClass);
+  	RecordList(4,17,-21,-39);
+  	RlColKey(4,20,"Код",Code,false,Code);
+  	RlCol(144,144,"Адрес",Addr01,false);
+ 	 SearchField("Search");
+ 	 EndWindow;
+end;
+
+window TochkaVidachiDClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+real vs,v,h,h1,h2,h3;
+  WindowBegin("Статус оплаты",TochkaVidachiDClass,CGview,-);	// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 4 April 2018 09:51:33
+  //SetWRect(20,80,850,720);
+  //Sizeable(-1,-1,0,0);
+  UseView(TochkaVidachiVc);
+  vs = 20; h3 = 550;
+  EditField(h=90,v=6,70,"Код",Normal,Code,false,0);
+  EditField(h=90,v+=20,250,"Адрес 1",Normal,Addr01,false,0);
+  EditField(h=90,v+=20,250,"Адрес 2",Normal,Addr02,false,0);
+  EditField(h=90,v+=20,250,"Адрес 3",Normal,Addr03,false,0);
+  EndWindow;
+ end; 
+
+
+window TochkaVidachiLClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+
+  WindowBegin("Статус оплаты",TochkaVidachiLClass,CGmList,-);
+  SpawnClass(TochkaVidachiDClass);
+	UseView(TochkaVidachiVc);
+  SetWRect(64,80,800,298);
+  Sizeable(-1,-1,0,0);
+	RecordList(4,17,-21,-39);
+	RlColKey(4,20,"Код",Code,false,Code);
+  RlCol(144,144,"Адрес",Addr01,false);
+  SearchField("Поиск");
+  EndWindow;
+end;

@@ -34,6 +34,9 @@ begin
 	
 	Setting("Настройки друку рахунків",ORDPrintDataLClass,modSO);// Edit ************************** Monday, 31 July 2017 16:47:13
 	Setting("Настройки друку актів",IVCPrintDataLClass,modPOS);// Edit ************************** Monday, 31 July 2017 16:47:15
+	Setting("Точки выдачи",TochkaVidachiLClass,modSO);
+
+	
 	
 	Report("Звіт по нак. карткам за тел.ном чи eMail",PhnCrdRClass,PhnCrdRn,0,modPOS);
 	Report("Звіт по майбутнім платежам постачальникам",FuturePaymentVERClass,FuturePaymentVERn,0,modPL);

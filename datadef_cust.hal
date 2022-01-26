@@ -905,7 +905,16 @@ RecordBegin(BinotelCallEndVc,-,"");//Edit-------------------Vitalii 17:10 03.11.
     RecordField(Sign,M4Str,255,0);
 	EndBlock;	
 	
-	
+  RecordBegin(TochkaVidachiVc,-,"");	// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 01 2022 y. at 9:59:15 AM
+    RecordField(Code,M4Code,20,0);
+    RecordField(Addr01,M4Str,250,0);
+    RecordField(Addr02,M4Str,250,0);
+    RecordField(Addr03,M4Str,250,0);
+		MainKeyBegin(Code,0);
+		KeySegment(Code);
+  EndRecord; 
+  
+  	
 return;
 end;
 	
