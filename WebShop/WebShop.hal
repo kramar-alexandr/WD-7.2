@@ -1234,6 +1234,8 @@ procedure CreateORJson(record ORVc ORr, var area resarea)
 begin
 	row ORVc ORrw;
 	integer i,rwcnt;
+	record TochkaVidachiVc TVr;
+	string 255 tochkavidachi;
 	
 	AddTextToArea("{",resarea);
 	
@@ -1254,6 +1256,17 @@ begin
 	addParamToJSONArea("Phone",NormalizeStrToJson(ORr.Phone),resarea);
 	addParamToJSONArea("Comment",NormalizeStrToJson(ORr.Comment),resarea);
 	addParamToJSONArea("CustOrdNr",NormalizeStrToJson(ORr.CustOrdNr),resarea);
+	
+	if(nonblank(ORr.TochkaVidachi))then begin
+	  TVr.Code = ORr.TochkaVidachi;
+	  readfirstmain(TVr,1,true);
+	  tochkavidachi = TVr.Addr01;
+	end;
+	
+	addParamToJSONArea("TochkaVidachiCode",NormalizeStrToJson(ORr.TochkaVidachi),resarea);
+	addParamToJSONArea("TochkaVidachiAddr01",NormalizeStrToJson(tochkavidachi),resarea);
+	
+	
 	
 	AddTextToArea("\"items\":[",resarea);
 	rwcnt = matrowcnt(ORr);
