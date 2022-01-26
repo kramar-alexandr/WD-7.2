@@ -1500,6 +1500,11 @@ BEGIN
 		res = true; 
     goto LORDClassActiveEditField; 
 	end;
+	if(fieldname=="TochkaVidachi")then begin
+		check = true;
+		res = true; 
+    goto LORDClassActiveEditField; 
+	end;
   
   
   
