@@ -1840,16 +1840,33 @@ end;
 window FOPDataTClass:1
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
-real h,f,v;
+real h,f,v,vs;
   WindowBegin("Реквизиты для чека",FOPDataTClass,CGHbl,-);
     SetBlid(FOPDataBlock);
     SetWRect(64,80,600,600);
     Sizeable(-1,-1,0,0);
     h=100;f=200;v=6;
       MatrixBegin(5,16,-20,-20,-,2000);
+        Flip(0);
         MatCol(1,24,"Название",0,Name,false,0);
-        MatCol(1,300,"Код",0,ID,false,0);
+        Flip(1);
+        MatCol(1,-200,"Код",0,ID,false,0);
+        Flip(2);
+        MatCol(1,100,"Фиск. Имя",0,FisName,false,0);
+        MatCol(1,200,"Фиск. Адрес",0,FisAddress,false,0);
+        MatCol(1,300,"Фиск. ИД",0,FisID,false,0);
+        Flip(3);
+        MatCol(1,100,"Login",0,FisLogin,false,0);
+        MatCol(1,200,"Passwd",0,FisPasswd,false,0);
+        Flip(4);
+        MatCol(1,100,"Token",0,FisToken,false,0);
+        
+        
       EndMatrix;
+      v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
+      v=v+ vs; VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+      v=v+ vs; VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
+      v=v+ vs; VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
   EndWindow;
   return;
 end;
