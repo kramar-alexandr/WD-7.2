@@ -96,7 +96,14 @@ begin
     RecordField(RejectDate,M4Date,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:49 PM
     RecordField(RejectTime,M4Time,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:51 PM
     RecordField(TochkaVidachi,M4Code,20,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 01 2022 y. at 10:16:27 AM
-  
+    
+    RecordField(FiscalID,M4Str,255,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 05 01 2022 y. at 2:06:37 PM
+    RecordField(FiscalCode,M4Str,255,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 05 01 2022 y. at 2:06:37 PM
+    RecordField(FiscalDate,M4Str,255,0);
+    RecordField(FiscalNum,M4Str,255,0);
+    RecordField(tax_url,M4Str,255,0);
+    
+    
     ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28
     ArrayField(ORPrint,M4Int,0,0);
     ArrayField(GarantyFor,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:14:26 PM
