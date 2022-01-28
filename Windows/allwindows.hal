@@ -979,6 +979,7 @@ if (HasTouchScreenLook==false) then begin
     SpecialMenu("Перевірка статусу гарантії",'w',26,"WarrantyStatusIVDsm");
     if (CurrentCompany==8) then begin //A-Service 
 			SpecialMenu("Печатать чек",'p',27,"PrintIVReceiptDsm"); //Edit----------------------Dima  21.09.2015
+			SpecialMenu("Печатать Фискальный Чек",'',28,"PrintFiscalORReceiptDsm"); // Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 11:17:46 AM
 		end;
 //  SpecialMenu("TESTSendArgEInvoiceFECAESolicitar",' ',25,"TESTSendArgEInvoiceFECAESolicitar"); 
 //  SpecialMenu("Test Mex E-Invoices",'1',0,"TestMexEInvoices");
@@ -4172,6 +4173,7 @@ begin
   SpecialMenu("Відкрити податкову матрицю",' ',25,"OpenVatMatrixIVCashDsm"); 
   //if (CurrentCompany==14) then begin 
   SpecialMenu("Печатать чек",'p',26,"PrintIVCashReceiptDsm"); //Edit***************************Sasha2,9:53 17.03.2017
+  SpecialMenu("Печатать Фискальный Чек",'',28,"PrintFiscalORReceiptDsm"); // Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 11:17:46 AM
   //end;
   end;
   end;

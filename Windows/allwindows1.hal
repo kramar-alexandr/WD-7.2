@@ -636,6 +636,7 @@ begin
 			SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
 			SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
 			SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
+			SpecialMenu("Печатать Фискальный Чек",'',28,"PrintFiscalORReceiptDsm"); // Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 11:17:46 AM
 			end;
 			EndWindow;
 		end else begin
@@ -943,6 +944,7 @@ begin
 			SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
 			SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
 			SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
+			SpecialMenu("Печатать Фискальный Чек",'',28,"PrintFiscalORReceiptDsm"); // Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 11:17:46 AM
 
 
 			end;
@@ -1161,6 +1163,7 @@ begin
         SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
         SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
         SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
+        SpecialMenu("Печатать Фискальный Чек",'',28,"PrintFiscalORReceiptDsm"); // Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 11:17:46 AM
 
       EndWindow;
 		
@@ -1572,6 +1575,7 @@ begin
 			SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
 			SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
 			SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
+			SpecialMenu("Печатать Фискальный Чек",'',28,"PrintFiscalORReceiptDsm"); // Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 11:17:46 AM
 			end;
 			EndWindow;
 		end;
