@@ -663,6 +663,14 @@ BlockBegin(FOPDataBlock,-,"");
 	ArrayBegin(Math,-,1);
 	ArrayField(Name,M4Str,200,0);
 	ArrayField(ID,M4Str,200,0);
+	
+	ArrayField(FisName,M4Str,255,0);
+  ArrayField(FisAddress,M4Str,255,0);
+  ArrayField(FisID,M4Str,255,0);
+  ArrayField(FisLogin,M4Str,255,0);
+  ArrayField(FisPasswd,M4Str,255,0);
+  ArrayField(FisToken,M4Str,255,0);
+	
 	EndArray;
 EndBlock;
 

@@ -2407,8 +2407,11 @@ begin
 
 end;
 
+
+
+
 global 
-updating procedure PrintORReceiptDsm()		//Edit----------------------Dima  21.09.2015
+updating procedure PrintFiscalORReceiptDsm()		//Edit----------------------Dima  21.09.2015
 begin
 	area aFile;
 	integer wn;
