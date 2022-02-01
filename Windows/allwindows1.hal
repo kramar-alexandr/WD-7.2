@@ -510,6 +510,12 @@ begin
 			if (StandardHansa==false) then begin
 			EditField(h1,v+=vs,80,"Кредитна карта",Normal,CreditCard,false,CreditCardSClass);
 			EditField(h1,v+=vs,80,"Авторизація",Normal,AuthorizationCode,false,0);
+			EditField(h1,v+=vs,280,"Fiscal №",Normal,FiscalID,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 06 01 2022 y. at 3:03:51 PM
+      EditField(h1,v+=vs,280,"Fiscal Code",Normal,FiscalCode,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 06 01 2022 y. at 3:03:32 PM
+      EditField(h1,v+=vs,280,"Fiscal Date/Time",Normal,FiscalDate,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 06 01 2022 y. at 3:03:21 PM
+      EditField(h1,v+=vs,280,"Fiscal Number",Normal,FiscalNum,false,0);
+      EditField(h1,v+=vs,280,"Fiscal Tax URL",Normal,tax_url,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 06 01 2022 y. at 3:26:43 PM
+
 			end;
 			v = vm;
 			if (StandardHansa==false) then begin
@@ -1449,6 +1455,12 @@ begin
 			if (StandardHansa==false) then begin
 			EditField(h1,v+=vs,80,"Кредитна карта",Normal,CreditCard,false,CreditCardSClass);
 			EditField(h1,v+=vs,80,"Авторизація",Normal,AuthorizationCode,false,0);
+			EditField(h1,v+=vs,280,"Fiscal №",Normal,FiscalID,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 06 01 2022 y. at 3:03:51 PM
+      EditField(h1,v+=vs,280,"Fiscal Code",Normal,FiscalCode,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 06 01 2022 y. at 3:03:32 PM
+      EditField(h1,v+=vs,280,"Fiscal Date/Time",Normal,FiscalDate,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 06 01 2022 y. at 3:03:21 PM
+      EditField(h1,v+=vs,280,"Fiscal Number",Normal,FiscalNum,false,0);
+      EditField(h1,v+=vs,280,"Fiscal Tax URL",Normal,tax_url,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 06 01 2022 y. at 3:26:43 PM
+
 			end;
 			v = vm;
 			if (StandardHansa==false) then begin

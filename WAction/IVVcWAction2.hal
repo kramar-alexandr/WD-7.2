@@ -2460,20 +2460,23 @@ begin
 
     if(nonblank(RepSpec.f2))then begin
       if(readfirstmain(ORr,1,true))then begin
-        ORr.PayVal01 = ORr.Sum4;
         if((ORr.PayVal01 + ORr.PayVal02 + ORr.PayVal03 + ORr.PayVal04 + ORr.PayVal05)==ORr.Sum4)then begin
-          blockload(FOPb);
-          rwcnt = matrowcnt(FOPb);
-          for(i=0;i<rwcnt;i=i+1)begin
-            matrowget(FOPb,i,FOPrw);
-            if(FOPrw.FisLogin==RepSpec.f2)then begin
-              foundf = true;
-              res = FiscalizeOrder(ORr,RepSpec.f2);
-              if(nonblank(res))then begin
-                messagebox(0,res);
-                goto lPrintFiscalORReceiptPrintDsm;
-              end else begin
-                putwindowrecord(mwn,ORr);
+          
+          if(blank(ORr.FiscalID))then begin
+            blockload(FOPb);
+            rwcnt = matrowcnt(FOPb);
+            for(i=0;i<rwcnt;i=i+1)begin
+              matrowget(FOPb,i,FOPrw);
+              if(FOPrw.FisLogin==RepSpec.f2)then begin
+                foundf = true;
+                res = FiscalizeOrder(ORr,RepSpec.f2);
+                i=rwcnt;
+                if(nonblank(res))then begin
+                  messagebox(0,res);
+                  goto lPrintFiscalORReceiptPrintDsm;
+                end else begin
+                  putwindowrecord(mwn,ORr);
+                end;
               end;
             end;
           end;

@@ -1913,7 +1913,7 @@ window ORCheckFiscalPrintWClass:2
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real f,h,v,vs;
-  WindowBegin("Оповещение",ORCheckFiscalPrintWClass,CGother,RcType);
+  WindowBegin("Печать фискалього чека!",ORCheckFiscalPrintWClass,CGother,RcType);
   UseView(RcVc);
   CloseOnCancel;
   SetWRect(20,80,490,170);
