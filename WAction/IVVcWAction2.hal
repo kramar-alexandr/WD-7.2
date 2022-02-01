@@ -2439,6 +2439,27 @@ begin
 return;
 end;
 
+
+
+global procedure PrintFiscalREciept(string user,string fopname,longint ivsernr)
+begin
+  record ORVc ORr;
+  area aFile;
+  
+  if(nonblank(user) and ivsernr>-1 and user==currentuser)then begin
+    ORr.SerNr = ivsernr;
+    if(readfirstmain(ORr,1,true))then begin
+      SetExportCodePage("CP1251");
+      HandleORReceiptPrinting(ORr,aFile,fopname);
+      PrintBixolonReceipt(aFile);
+      millisleep(1000);
+      PrintBixolonReceipt(aFile);
+    end;
+  end;
+  
+return;
+end;
+
 global 
 updating procedure PrintFiscalORReceiptPrintDsm()		//Edit----------------------Dima  21.09.2015
 begin
@@ -2477,16 +2498,17 @@ begin
                 end else begin
                   putwindowrecord(mwn,ORr);
                 end;
+                closewindow(wn);
               end;
             end;
+          end else begin
+            SetExportCodePage("CP1251");
+            HandleORReceiptPrinting(ORr,aFile,RepSpec.f1);
+            PrintBixolonReceipt(aFile);
+            millisleep(1000);
+            PrintBixolonReceipt(aFile);
+            closewindow(wn);
           end;
-        
-          SetExportCodePage("CP1251");
-          HandleORReceiptPrinting(ORr,aFile,RepSpec.f1);
-          PrintBixolonReceipt(aFile);
-          millisleep(1000);
-          PrintBixolonReceipt(aFile);
-          closewindow(wn);
         end else begin
           messagebox(0,"Заповніть способи сплати рахунку! До суми " & ORr.Sum4);
         end;

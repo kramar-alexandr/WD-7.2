@@ -11,6 +11,7 @@ external updating function Boolean SendServiceRequest(string,Boolean,area,var Ar
 external updating function Boolean ServiceRequestAsync(string,string,Boolean,area,string);
 external procedure ReadTXServiceReply(var record TXServiceReplyVc,var Area,Boolean);
 external procedure prt(string,string,var boolean);
+external procedure PrintFiscalREciept(string,string,longint);
 
 
 //----------------------------------------------------------------------------------------------------
@@ -473,9 +474,12 @@ begin
 	string 200 session;
 	boolean check;
 	json jobj;
-	string 100 node;
+	string 255 node,tstr,user,loginstr,fopname;
 	area nl;
 	record ORVc ORr;
+	record FOPDataBlock FOPb;
+	row FOPDataBlock FOPrw;
+	integer i;
 	
 	addtexttoarea(chr(13) & chr(10) & currentdate & " " & currenttime & chr(13) & chr(10),nl);
 	
@@ -493,7 +497,21 @@ begin
         ORr.FiscalDate = JSONGet(jobj,"fiscal_date");
         ORr.tax_url = JSONGet(jobj,"tax_url");
         recordstore(ORr,true);
-        //AllClientsRemoteAsync.PrintFiscalREciept(JSONGet(jobj,"User"),ORr.SerNr);
+        
+        tstr = JSONGet(jobj,"User");
+        user = firstinrange(tstr,20);
+        loginstr = lastinrange(tstr,20);
+        blockload(FOPb);
+        for(i=0;i<matrowcnt(FOPb);i=i+1)begin
+          matrowget(FOPb,i,FOPrw);
+          if(loginstr==FOPrw.FisLogin)then begin
+            fopname = FOPrw.Name;
+          end;
+        end;
+        
+        
+        
+        AllClientsRemoteAsync.PrintFiscalREciept(user,fopname,ORr.SerNr);
       end;
     end;
 	end else begin
@@ -549,7 +567,7 @@ begin
   
         addtexttoarea("{",receipt);
         addtexttoarea("\"SerNr\":" & "\"" & ORr.SerNr & "\",",receipt);
-        addtexttoarea("\"User\":" & "\"" & CurrentUser & "\",",receipt);
+        addtexttoarea("\"User\":" & "\"" & CurrentUser & ":" & FOPrw.FisLogin  & "\",",receipt);
         addtexttoarea("\"items\"\:[",receipt);
   
         creditcard = 0;
