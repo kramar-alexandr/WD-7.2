@@ -1349,6 +1349,35 @@ begin
 end; // Edit ************************** BPI Ukraine - KramarAlexandr - 03, 22 05 2019 y. at 6:25:47 PM
 
 
+global // Edit ************************** BPI Ukraine - KramarAlexandr - 03, 22 05 2019 y. at 6:04:37 PM
+function Boolean FiscalFOPDataSClassOnOpenWindow(Integer wn)
+begin
+  Array string 255 astr;
+  Integer i,acnt;
+  record FOPDataBlock FOPb;
+  row FOPDataBlock FOPrw;
+
+  blockload(FOPb);
+  acnt = matrowcnt(FOPb);
+  for (i=0;i<acnt;i=i+1) begin
+  	matrowget(FOPb,i,FOPrw);
+  	if(nonblank(FOPrw.FisLogin))then begin
+      SetListString(wn,len(FOPrw.Name),FOPrw.Name,false);    
+    end;
+  end;
+  FiscalFOPDataSClassOnOpenWindow = false;
+  return;
+end;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 22 05 2019 y. at 6:04:40 PM
+
+global // Edit ************************** BPI Ukraine - KramarAlexandr - 03, 22 05 2019 y. at 6:25:50 PM
+function Boolean FiscalFOPDataSClassOnOKWindow(Integer wn)
+begin
+  PasteFromSysList(wn,200);
+  FiscalFOPDataSClassOnOKWindow = false;
+  return;
+end; // Edit ************************** BPI Ukraine - KramarAlexandr - 03, 22 05 2019 y. at 6:25:47 PM
+
+
 
 global //Edit***************************Sasha2,14:51 14.12.2015 {
 function Boolean LocationClassificationSClassOnOKWindow(Integer wn)

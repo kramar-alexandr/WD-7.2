@@ -1883,6 +1883,18 @@ real h,f,v;
   return;
 end;
 
+window FiscalFOPDataSClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,f,v;
+  WindowBegin("Реквизиты для чека",FiscalFOPDataSClass,CGother,HBlRecType);
+    SetWRect(240,80,520,291);
+		Sizeable(-1,-1,-1,0);
+		StringList(9,9,-20,-10);
+  EndWindow;
+  return;
+end;
+
 window ORCheckPrintWClass:2
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
@@ -1894,6 +1906,20 @@ begin
   h = 100; v = 20; vs = 30; f = 100;
   EditFieldTL(h,v,-40,"ФОП",M4Str,Normal,60,f1,false,FOPDataSClass);
   HalPushButton(h,v+=vs,h+f,25,"PrintORReceiptPrintDsm","Печать");
+  EndWindow;
+end;
+
+window ORCheckFiscalPrintWClass:2
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real f,h,v,vs;
+  WindowBegin("Оповещение",ORCheckFiscalPrintWClass,CGother,RcType);
+  UseView(RcVc);
+  CloseOnCancel;
+  SetWRect(20,80,490,170);
+  h = 100; v = 20; vs = 30; f = 100;
+  EditFieldTL(h,v,-40,"ФОП",M4Str,Normal,60,f1,false,FiscalFOPDataSClass);
+  HalPushButton(h,v+=vs,h+f,25,"PrintFiscalORReceiptPrintDsm","Печать");
   EndWindow;
 end;
 

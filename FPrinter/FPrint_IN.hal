@@ -15,6 +15,33 @@ external procedure prt(string,string,var boolean);
 
 //----------------------------------------------------------------------------------------------------
 
+function string 255 NormalizeStrToJson (string Str)
+begin
+	integer strln,i;
+	string 255 NormStr;
+	
+
+	NormStr = "";
+	strln = len(Str);
+	for (i=0;i<strln;i=i+1)begin
+		if(mid(Str,i,1)==chr(34))then begin
+			NormStr = NormStr & chr(92) & mid(Str,i,1);
+		end else begin
+			if(mid(Str,i,1)==chr(92))then begin
+				NormStr = NormStr & chr(92) & mid(Str,i,1);
+			end else begin
+				NormStr = NormStr & mid(Str,i,1);
+			end;
+		end;
+	end;
+	
+	
+	NormalizeStrToJson = NormStr;
+	
+	return
+end;
+
+
 global updating procedure MyCashInMn()
 begin
   record RcVc RepSpec;
@@ -435,5 +462,144 @@ begin
   end;
   PutWindowRecord(wn,RepSpec);
   CashEventsTClassOnOpenWindow = false;
+  return;
+end;
+
+
+
+
+
+
+global
+updating procedure FiscalizeOrder(var record ORVc ORr,string login)
+begin
+	row ORVc ORrw;
+	integer rwcnt,i;
+	boolean isfirst,ifcash,ifcreditcard,ifvoucher,ifprepay;
+	string 100 tstr;
+	longint cash,creditcard,voucher,prepay;
+	area nl,a_req,replyarea,receipt;
+	record LocalMachineVc LMr;
+	json jobj;
+	record FOPDataBlock FOPb;
+	row FOPDataBlock FOPrw;
+	
+	blockload(FOPb);
+  rwcnt = matrowcnt(FOPb);
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(FOPb,i,FOPrw);
+    if(FOPrw.FisLogin==login)then begin 
+
+
+      if(blank(FOPrw.FisToken))then begin
+        if(nonblank(FOPrw.FisLogin) and nonblank(FOPrw.FisPasswd))then begin
+          addtexttoarea("{\"login\":\"" & FOPrw.FisLogin & "\",\"password\":\"" & FOPrw.FisPasswd & "\"}",a_req);
+          if(SendWebRequest("s.erpjs.biz","443",-1,true,"POST","/checkbox/public/login","application/json","",false,a_req,replyarea,10))then begin  //WORK! 
+            jobj = parsejsonarea(replyarea);
+            if(nonblank(JSONGet(jobj,"token")))then begin
+              FOPrw.FisToken = JSONGet(jobj,"token");
+              matrowput(FOPb,i,FOPrw);
+              blockstore(FOPb);
+            end;
+            logtext(0,"EndRequest");
+          end;
+        end;
+      end;
+  
+      addtexttoarea(chr(13) & chr(10) & currentuser & " " & currentdate & " " & currenttime & chr(13) & chr(10),nl);
+  
+      logtext(0,"IVVc_PasteFiscalPrintText " & FOPrw.FisToken);
+  
+      if(nonblank(FOPrw.FisToken))then begin
+  
+        addtexttoarea("{",receipt);
+        addtexttoarea("\"SerNr\":" & "\"" & ORr.SerNr & "\",",receipt);
+        addtexttoarea("\"User\":" & "\"" & CurrentUser & "\",",receipt);
+        addtexttoarea("\"items\"\:[",receipt);
+  
+        creditcard = 0;
+        cash = 0;
+        voucher = 0;
+  
+        isfirst = false;
+        rwcnt = matrowcnt(ORr);
+        for(i=0;i<rwcnt;i=i+1) begin
+          matrowget(ORr,i,ORrw);
+          if(ORrw.stp==1)then begin
+            if(isfirst)then begin
+              addtexttoarea(",",receipt);
+            end;
+            isfirst = true;
+        
+            addtexttoarea("{",receipt);
+            addtexttoarea("\"itemCode\":" & "\"" & ORrw.ArtCode & "\",",receipt);
+            addtexttoarea("\"itemQuantity\":" & "\"" & stringtolongint(ORrw.Quant*1000) & "\",",receipt);
+            addtexttoarea("\"itemDescription\":" & "\"" & NormalizeStrToJson(ORrw.Spec) & "\",",receipt);
+            addtexttoarea("\"itemPrice\":" & "\"" & stringtolongint(ORrw.Price*100) & "\",",receipt);
+            addtexttoarea("\"itemSum\":" & "\"" & stringtolongint(ORrw.Sum*100) & "\"",receipt);
+            addtexttoarea("}",receipt);
+          end;
+        end;
+        addtexttoarea("],",receipt);
+        ifcash = false;
+        if(ORr.PayVal01>0)then begin
+          tstr = "Cash";
+          cash = cash + stringtolongint(ORr.PayVal01*100);
+          ifcash = true;
+        end;
+        if(tstr=="Cash")then begin
+          addtexttoarea("\"cash\":" & "\"" & cash & "\"",receipt);
+        end;
+  
+        ifcreditcard = false;
+        if(ORr.PayVal02>0)then begin
+          tstr = "CreditCard";
+          creditcard = creditcard + stringtolongint(ORr.PayVal02*100);
+          ifcreditcard = true;
+        end;
+        if(ORr.PayVal03>0)then begin
+          tstr = "CreditCard";
+          creditcard = creditcard + stringtolongint(ORr.PayVal03*100);
+          ifcreditcard = true;
+        end;
+        if(ORr.PayVal04>0)then begin
+          tstr = "CreditCard";
+          creditcard = creditcard + stringtolongint(ORr.PayVal04*100);
+          ifcreditcard = true;
+        end;
+        if(ORr.PayVal05>0)then begin
+          tstr = "CreditCard";
+          creditcard = creditcard + stringtolongint(ORr.PayVal05*100);
+          ifcreditcard = true;
+        end;
+
+        if(tstr=="CreditCard")then begin
+          if(ifcash)then begin
+            addtexttoarea(",",receipt);
+          end;
+          addtexttoarea("\"creditcard\":" & "\"" & creditcard & "\"",receipt);
+        end;
+  
+  
+        if(!ifcash and !ifcreditcard and !ifvoucher and !ifprepay)then begin
+          addtexttoarea("\"cash\":" & "\"" & stringtolongint(ORr.Sum4*100) & "\"",receipt);
+        end;
+  
+  
+  
+        addtexttoarea("}",receipt);
+    
+    
+        SetWebHeaders("Authorization: Bearer " & FOPrw.FisToken);//WEB HEADERS!
+        SendAsyncWebRequest("s.erpjs.biz",443,443,true,"POST","/checkbox/basic/complete-sell","application/json","",receipt,"IVVc_PasteFiscalPrintTextReply",20);
+  
+        writeareatofile(nl,"FiscalRequest.txt",1);
+        writeareatofile(receipt,"FiscalRequest.txt",1);
+      end else begin
+        logtext(0,"Blank Token for " & currentuser);
+      end;
+    end;
+  end;	
+	
   return;
 end;
