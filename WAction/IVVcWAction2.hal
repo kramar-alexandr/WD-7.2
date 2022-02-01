@@ -61,7 +61,7 @@ remote procedure HandleORReceiptPrinting(record IVVc,var area,string);//Edit----
 remote function string 255 FiscalizeOrder(var record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 12:06:22 PM
 
 
-	SetLangMode(LangRussian,"RUS",0);
+SetLangMode(LangRussian,"RUS",0);
 
 global
 function Boolean IVCashDClassActiveEditField(Integer wn,string fieldname,Integer fn,Integer wnst,Integer rownr,Integer changed)
@@ -2384,6 +2384,34 @@ begin
 end;
 
 global 
+updating procedure PrintORReceiptDsm()		//Edit----------------------Dima  21.09.2015
+begin
+	area aFile;
+	integer wn;
+	record ORVc ORr;
+	record RcVc RepSpec;
+	record FOPDataBlock FOPb;
+	row FOPDataBlock FOPrw;
+	
+		wn = CurWindow;
+		if (WindowState(wn)==Rs_normal) then begin
+  		DeselectWindow(wn,false);
+  		GetWindowRecord(wn,ORr);
+   		
+   		blockload(FOPb);
+   		if(matrowcnt(FOPb)>0)then begin
+   			matrowget(FOPb,0,FOPrw);
+   		end;
+   		RepSpec.long1 = ORr.SerNr;
+   		RepSpec.f1 = FOPrw.Name;
+   		OpenWindow("ORCheckPrintWClass",1,0,"","",RepSpec); 
+		end else begin
+		  MessageBox(1356,"");
+		end;
+end;
+
+
+global 
 updating procedure PrintORReceiptPrintDsm()		//Edit----------------------Dima  21.09.2015
 begin
 	area aFile;
@@ -2415,7 +2443,7 @@ global
 updating procedure PrintFiscalORReceiptPrintDsm()		//Edit----------------------Dima  21.09.2015
 begin
 	area aFile;
-	integer wn,i,rwcnt;
+	integer wn,i,rwcnt,mwn;
 	record ORVc ORr;
 	record RcVc RepSpec;
 	record FOPDataBlock FOPb;
@@ -2425,12 +2453,14 @@ begin
 	
 	
 		wn = CurWindow;
+		mwn = motherwindow(wn);
 		DeselectWindow(wn,false);
 		GetWindowRecord(wn,RepSpec);
 		ORr.SerNr = RepSpec.long1;
-    
-    if(blank(RepSpec.f2))then begin
+
+    if(nonblank(RepSpec.f2))then begin
       if(readfirstmain(ORr,1,true))then begin
+        ORr.PayVal01 = ORr.Sum4;
         if((ORr.PayVal01 + ORr.PayVal02 + ORr.PayVal03 + ORr.PayVal04 + ORr.PayVal05)==ORr.Sum4)then begin
           blockload(FOPb);
           rwcnt = matrowcnt(FOPb);
@@ -2443,7 +2473,7 @@ begin
                 messagebox(0,res);
                 goto lPrintFiscalORReceiptPrintDsm;
               end else begin
-                putwindowrecord(wn,ORr);
+                putwindowrecord(mwn,ORr);
               end;
             end;
           end;

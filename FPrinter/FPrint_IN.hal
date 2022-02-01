@@ -467,7 +467,42 @@ end;
 
 
 
-
+global updating procedure ORVc_PasteFiscalPrintTextReply(Area a_reply,Area a_replyheader,boolean timeout)
+begin
+	xml sopaxml;
+	string 200 session;
+	boolean check;
+	json jobj;
+	string 100 node;
+	area nl;
+	record ORVc ORr;
+	
+	addtexttoarea(chr(13) & chr(10) & currentdate & " " & currenttime & chr(13) & chr(10),nl);
+	
+	writeareatofile(nl,"FiscalReply.txt",1);
+	writeareatofile(a_reply,"FiscalReply.txt",1);
+	
+	jobj = parsejsonarea(a_reply);
+	if(JSONGet(jobj,"status")=="DONE")then begin
+    if (JSONNodeExists(jobj,"SerNr")) then begin
+      ORr.SerNr = stringtolongint(JSONGet(jobj,"SerNr"));
+      if(readfirstmain(ORr,1,true))then begin
+        ORr.FiscalID = JSONGet(jobj,"id");
+        ORr.FiscalNum = JSONGet(jobj,"shift/cash_register/fiscal_number");
+        ORr.FiscalCode = JSONGet(jobj,"fiscal_code");
+        ORr.FiscalDate = JSONGet(jobj,"fiscal_date");
+        ORr.tax_url = JSONGet(jobj,"tax_url");
+        recordstore(ORr,true);
+        //AllClientsRemoteAsync.PrintFiscalREciept(JSONGet(jobj,"User"),ORr.SerNr);
+      end;
+    end;
+	end else begin
+	  
+	end;
+	
+	
+return;
+end;
 
 
 global
@@ -591,7 +626,7 @@ begin
     
     
         SetWebHeaders("Authorization: Bearer " & FOPrw.FisToken);//WEB HEADERS!
-        SendAsyncWebRequest("s.erpjs.biz",443,443,true,"POST","/checkbox/basic/complete-sell","application/json","",receipt,"IVVc_PasteFiscalPrintTextReply",20);
+        SendAsyncWebRequest("s.erpjs.biz",443,443,true,"POST","/checkbox/basic/complete-sell","application/json","",receipt,"ORVc_PasteFiscalPrintTextReply",20);
   
         writeareatofile(nl,"FiscalRequest.txt",1);
         writeareatofile(receipt,"FiscalRequest.txt",1);
