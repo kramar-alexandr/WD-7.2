@@ -60,6 +60,9 @@ remote procedure HandleIVReceiptPrinting(record IVVc,var area);//Edit-----------
 remote procedure HandleORReceiptPrinting(record IVVc,var area,string);//Edit----------------------Dima  21.09.2015
 remote function string 255 FiscalizeOrder(var record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 12:06:22 PM
 
+
+	SetLangMode(LangRussian,"RUS",0);
+
 global
 function Boolean IVCashDClassActiveEditField(Integer wn,string fieldname,Integer fn,Integer wnst,Integer rownr,Integer changed)
 BEGIN
