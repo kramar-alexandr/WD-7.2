@@ -566,7 +566,7 @@ begin
     if(getarealength(qrArea)>100)then begin
       alen = CountLinesInArea(qrArea);
       for(ai=0;ai<alen;ai=ai+1)begin
-        vstr[""] = convertstringfromcodepage("CP1251",GetLineFromArea(qrArea,ai));
+        vstr[""] = convertstringfromcodepage("WINDOWS-1251",GetLineFromArea(qrArea,ai));
         //OutComPort(1,vstr[""]);
         addtexttoarea(vstr[""],aFile);
         addtexttoarea(vstr[""],tmpar);
