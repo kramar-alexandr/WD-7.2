@@ -2344,7 +2344,7 @@ begin
   		DeselectWindow(wn,false);
   		GetWindowRecord(wn,WSr);
    		
-   		//SetExportCodePage("CP1251");
+   		SetExportCodePage("CP1251");
    		HandleWSReceiptPrinting(WSr,aFile);
    		AddAreaToArea(aFile,aFile);
      	PrintBixolonReceipt(aFile); 
@@ -2450,7 +2450,7 @@ begin
   if(nonblank(user) and ivsernr>-1 and user==currentuser)then begin
     ORr.SerNr = ivsernr;
     if(readfirstmain(ORr,1,true))then begin
-      SetExportCodePage("CP1251");
+      //SetExportCodePage("CP1251");
       HandleORReceiptPrinting(ORr,aFile,fopname);
       PrintBixolonReceipt(aFile);
       millisleep(1000);
