@@ -1058,7 +1058,7 @@ begin
           EditField(h3,v+=25,70,"",ViewOnly,RejectMan,false,0);
           //(6)
           EditField(h3,v=6,80,"Вид рахунка",Normal,OrderClass,false,OrderClassSClass);
-          EditField(h3,v=6,80,"Фиск. №",ViewOnly,FisID,false,0);
+          EditField(h3,v=6,80,"Фиск. №",ViewOnly,FiscalCode,false,0);
     
           CheckBox(h4=-110,v=6,0,"OK",OKFlag);
           CheckBox(h4,v+=vs,0,"Зарезервовано",Reserved);
