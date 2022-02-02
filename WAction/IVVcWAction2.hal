@@ -2445,6 +2445,7 @@ global procedure PrintFiscalREciept(string user,string fopname,longint ivsernr)
 begin
   record ORVc ORr;
   area aFile;
+  integer wn;
   
   if(nonblank(user) and ivsernr>-1 and user==currentuser)then begin
     ORr.SerNr = ivsernr;
@@ -2454,6 +2455,10 @@ begin
       PrintBixolonReceipt(aFile);
       millisleep(1000);
       PrintBixolonReceipt(aFile);
+      wn = FindWindow("ORDClass");
+      if(wn>0)then begin
+        putwindowrecord(wn,ORr);
+      end;
     end;
   end;
   
