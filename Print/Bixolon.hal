@@ -569,11 +569,12 @@ begin
         vstr[""] = GetLineFromArea(qrArea,ai);
         //OutComPort(1,vstr[""]);
         addtexttoarea(vstr[""],aFile);
+        addtexttoarea(vstr[""],tmpar);
       end;
     end;
-    addtexttoarea(chr(10),aFile);;
-    //writeareatofile(tmpar,"tmpar.txt",0);
-    //filetocomport(1,"tmpar.txt");
+    addtexttoarea(chr(10),aFile);
+    writeareatofile(tmpar,"tmpar.txt",0);
+    filetocomport(1,"tmpar.txt");
     tstr ="";
     
     if(left(ORr.FiscalNum,4)=="TEST")then begin
