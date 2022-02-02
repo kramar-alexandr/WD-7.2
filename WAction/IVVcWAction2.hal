@@ -2344,7 +2344,7 @@ begin
   		DeselectWindow(wn,false);
   		GetWindowRecord(wn,WSr);
    		
-   		SetExportCodePage("CP1251");
+   		//SetExportCodePage("CP1251");
    		HandleWSReceiptPrinting(WSr,aFile);
    		AddAreaToArea(aFile,aFile);
      	PrintBixolonReceipt(aFile); 
