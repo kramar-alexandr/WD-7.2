@@ -56,6 +56,7 @@ begin
   
   TVr.Code = ORr.TochkaVidachi;
   if(readfirstmain(TVr,1,true))then begin
+    windowdook(wn,0);
     OrderSetToST6Dsm;
   end;
   
