@@ -2,7 +2,7 @@ remote inner procedure ORDchsum(var record ORVc,Integer);
 remote inner function Boolean ORDchrsum(var record ORVc,Integer);
 remote inner procedure ORSumup(var record ORVc);
 remote inner procedure RecalcCOMValOR(var record ORVc);
-external updating procedure OrderSetToST6Dsm();
+external inner updating procedure OrderSetToST6Dsm();
 
 SetLangMode(LangRussian,"RUS",0);
 
