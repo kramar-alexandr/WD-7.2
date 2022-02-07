@@ -2491,6 +2491,10 @@ begin
           messagebox(0,"Фискальный чек только на терминальные оплаты. В случае вопросов обратитесь к сис. админу");
           goto lPrintFiscalORReceiptPrintDsm;
         end;
+        if(ORr.Location!="INV#1_KVZ")then begin
+          messagebox(0,"Фискалки только с INV#1_KVZ");
+          goto lPrintFiscalORReceiptPrintDsm;
+        end;
         rwcnt = matrowcnt(ORr);
         for(i=0;i<rwcnt;i=i+1)begin
           matrowget(ORr,i,ORrw);
