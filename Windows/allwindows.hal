@@ -3611,9 +3611,9 @@ begin
   pos = pos + 32;
   RlColKey(pos,pos,"Дата рах.",OrdDate,false,OrdDate); 
   pos = pos + 80;
-  if (HasMultiLocations) then begin
-    //RlColKey(pos,pos,"Склад",Location,false,Location); // Edit ************************** Monday, 8 September 2014 18:31:11
-    //pos = pos + 60;
+  if(usercanaction("ViewAllOrderDetails",true))then begin
+    RlColKey(pos,pos,"Склад",Location,false,Location); // Edit ************************** Monday, 8 September 2014 18:31:11
+    pos = pos + 60;
   end;
   RlColKey(pos,pos,"Номер рах. клієнту",CustOrdNr,false,CustOrdNr); 
   pos = pos + 80;
@@ -3623,8 +3623,8 @@ begin
   pos = pos + 60;
   RlColKey(pos,pos,"Найменув.",Addr0,false,Name); 
   if (IsEnterprise) then begin
-    RlColKey(-280,-280,"Вид",OrderClass,false,OrderClass);
     if(usercanaction("ViewAllOrderDetails",true))then begin
+      RlColKey(-280,-280,"Вид",OrderClass,false,OrderClass);
       RlColKey(-235,-235,"Всього",Sum4,true,Sum4);
     end else begin
       CalculatedColumn(-235,-235,"Всього","Sum4Calculation",true);
