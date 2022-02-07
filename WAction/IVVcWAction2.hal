@@ -2471,6 +2471,7 @@ begin
 	area aFile;
 	integer wn,i,rwcnt,mwn;
 	record ORVc ORr;
+	row ORVc ORrw;
 	record RcVc RepSpec;
 	record FOPDataBlock FOPb;
 	row FOPDataBlock FOPrw;
@@ -2486,6 +2487,19 @@ begin
 
     if(nonblank(RepSpec.f2))then begin
       if(readfirstmain(ORr,1,true))then begin
+        if(ORr.PayVal02!=ORr.Sum4)then begin
+          messagebox(0,"Фискальный чек только на терминальные оплаты. В случае вопросов обратитесь к сис. админу");
+          goto lPrintFiscalORReceiptPrintDsm;
+        end;
+        rwcnt = matrowcnt(ORr);
+        for(i=0;i<rwcnt;i=i+1)begin
+          matrowget(ORr,i,ORrw);
+          if(ORrw.stp==1 and ORrw.Sum!=0 and ORrw.Quant==0)then begin
+            messagebox(0,"Все товары должны быть с положительным кол-вом");
+            goto lPrintFiscalORReceiptPrintDsm;
+          end;
+        end;
+        
         if((ORr.PayVal01 + ORr.PayVal02 + ORr.PayVal03 + ORr.PayVal04 + ORr.PayVal05)==ORr.Sum4)then begin
           
           if(blank(ORr.FiscalID))then begin
