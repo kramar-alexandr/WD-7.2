@@ -382,6 +382,9 @@ begin
 					realpriceuah[ressize] = IVrw.Price;
 					realsumuah[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize];
 					realcostuah[ressize] = curcost[ressize];
+					if(realcostuah[ressize]==0 and cost[ressize]!=0)then begin
+					  realcostuah[ressize] = cost[ressize] * PUr.FrRate * PUr.ToRateB1;
+					end;
 					realpricebase[ressize] = IVrw.Price / PUr.FrRate * PUr.ToRateB1;
 					realsumbase[ressize] = IVrw.Sum/IVrw.Quant*qty[ressize] / PUr.FrRate * PUr.ToRateB1;
 					
