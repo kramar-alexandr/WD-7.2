@@ -1695,8 +1695,8 @@ BEGIN
   PrintBixolonReceipt(aFile);
 
   millisleep(2000);
-  HandleSVOAct2(SVOr,aFile);//Для клиента
-  PrintBixolonReceipt(aFile);
+  //HandleSVOAct2(SVOr,aFile);//Для клиента
+  //PrintBixolonReceipt(aFile);
 		
   RETURN;
 END;
