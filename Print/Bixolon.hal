@@ -1143,9 +1143,6 @@ begin
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,SVOr.Vlastnik,aFile);
   TLTOARR(cjecklength,"__________________________________________",aFile);
-  addtexttoarea(chr(13) & chr(10),aFile);
-  TLTOARR(cjecklength,SVOr.Vlastnik,aFile);
-  TLTOARR(cjecklength,"__________________________________________",aFile);
   TLTOARR(cjecklength," ",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength," ",aFile);
