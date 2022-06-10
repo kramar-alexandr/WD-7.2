@@ -12,7 +12,7 @@ begin
 
   Name = "";
   Address = "Київ, вул. Червоноармійська, 21";
-  Phone = "Телефон (073)170-46-46";	
+  Phone = "Телефон (093)170-45-00";	
   
 return;
 end;
@@ -968,7 +968,8 @@ begin
 	
 	adresses(SVOr,Name,Address,Phone,eMail);
 	
-	TLTOARR(cjecklength,Name,aFile);
+	TLTOARR(cjecklength,"Магазин iStore Оболонь",aFile);
+	TLTOARR(cjecklength,"Точка прийому техніки Apple",aFile);	
 	TLTOARR(cjecklength,Address,aFile);
 	TLTOARR(cjecklength,Phone,aFile);
   
