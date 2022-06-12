@@ -1685,7 +1685,7 @@ BEGIN
   RETURN;
 END;
 
-global procedure PrintSVOActExecute(record SVOVc SVOr)
+global procedure PrintSVOActExecute1(record SVOVc SVOr)
 BEGIN
   area aFile;
   Boolean testf;
@@ -1694,7 +1694,16 @@ BEGIN
   HandleSVOAct1(SVOr,aFile);//Для сервиса
   PrintBixolonReceipt(aFile);
 
-  millisleep(2000);
+  RETURN;
+END;
+
+
+global procedure PrintSVOActExecute2(record SVOVc SVOr)
+BEGIN
+  area aFile;
+  Boolean testf;
+
+  SetExportCodePage("CP1251");
   HandleSVOAct2(SVOr,aFile);//Для клиента
   PrintBixolonReceipt(aFile);
 		
@@ -1708,7 +1717,17 @@ begin
   record SVOVc SVOr;
   
   getwindowrecord(curwindow,SVOr);
-  PrintSVOActExecute(SVOr);
+  PrintSVOActExecute1(SVOr);
+  
+return;
+end;
+
+global procedure PrintSVOActExecuteDsm()
+begin
+  record SVOVc SVOr;
+  
+  getwindowrecord(curwindow,SVOr);
+  PrintSVOActExecute2(SVOr);
   
 return;
 end;
