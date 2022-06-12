@@ -1712,7 +1712,7 @@ END;
 
 
 
-global procedure PrintSVOActExecuteDsm()
+global procedure PrintSVOActExecute1Dsm()
 begin
   record SVOVc SVOr;
   
@@ -1722,7 +1722,7 @@ begin
 return;
 end;
 
-global procedure PrintSVOActExecuteDsm()
+global procedure PrintSVOActExecute2Dsm()
 begin
   record SVOVc SVOr;
   
