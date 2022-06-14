@@ -1438,6 +1438,7 @@ begin
   
   if(usercanaction("VievCostPrice",true)==false)then begin
     RepSpec.flags[14] = 0;
+    logtext(0,"VievCostPrice");
   end;
   
   
