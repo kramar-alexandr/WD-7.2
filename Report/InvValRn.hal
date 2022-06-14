@@ -1436,11 +1436,8 @@ begin
   BlockLoad(CAb);
   BlockLoad(RoundRec);
   
-  if(usercanaction("VievCostPrice",true)==false)then begin
-    RepSpec.flags[14] = 0;
-    logtext(0,"VievCostPrice");
-  end;
-  
+
+  RepSpec.flags[14] = 0;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 14 06 2022 y. at 9:14:40 PM
   
   vatflag = 0;
   StartReportJob(USetStr(2322));
