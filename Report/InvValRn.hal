@@ -1435,6 +1435,12 @@ begin
   BlockLoad(mst);
   BlockLoad(CAb);
   BlockLoad(RoundRec);
+  
+  if(usercanaction("VievCostPrice",true)==false)then begin
+    RepSpec.flags[14] = 0;
+  end;
+  
+  
   vatflag = 0;
   StartReportJob(USetStr(2322));
   if (RepSpec.PocketPC == 0) then begin
