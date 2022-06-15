@@ -1436,9 +1436,9 @@ begin
   BlockLoad(CAb);
   BlockLoad(RoundRec);
   
-
-  RepSpec.flags[14] = 0;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 14 06 2022 y. at 9:14:40 PM
-  
+  if(usercanaction("ViewCostPrice",true)==false)then begin
+    RepSpec.flags[14] = 0;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 14 06 2022 y. at 9:14:40 PM
+  end;
   vatflag = 0;
   StartReportJob(USetStr(2322));
   if (RepSpec.PocketPC == 0) then begin
