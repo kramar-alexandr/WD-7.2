@@ -2698,9 +2698,9 @@ record CUVc CUr;
 	
 	wn = curwindow;
 	getwindowrecord(wn,ORr);
-	winman = ORr.InWorkMan;
+	winman = ORr.SalesMan;
 	readfirstmain(ORr,1,true);
-	if(winman!=ORr.InWorkMan)then begin
+	if(winman!=ORr.SalesMan)then begin
 	  putwindowrecord(wn,ORr);
 		ReRunWindowDef(wn);
 		goto lCallToClientDsm;
@@ -2717,7 +2717,6 @@ record CUVc CUr;
 					  MakeBinotelCallFromExtNumToPhone(USr.Phone2,NormalPhone(CUr.Phone));
 					end;
 					if(blank(ORr.SalesMan))then begin
-					  millisleep(10000);
 					  ORr.SalesMan = currentuser;
 					end;
 					if(blank(ORr.InWorkMan))then begin
