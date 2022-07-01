@@ -12,7 +12,7 @@ begin
 
   Name = "";
   Address = "Київ, вул. Червоноармійська, 21";
-  Phone = "Телефон (073)170-46-46";	
+  Phone = "Телефон (093)170-45-00";	
   
 return;
 end;
@@ -134,7 +134,9 @@ begin
 	addtexttoarea(chr(13) & chr(10),aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);
-	
+  addtexttoarea(chr(13) & chr(10),aFile);
+	addtexttoarea(chr(13) & chr(10),aFile);
+	addtexttoarea(chr(13) & chr(10),aFile);	
 
 //Cut receipt  
   addtexttoarea(chr(29) & chr(86) & "1",aFile);
@@ -251,7 +253,9 @@ begin
 	addtexttoarea(chr(13) & chr(10),aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);
-	
+	addtexttoarea(chr(13) & chr(10),aFile);
+	addtexttoarea(chr(13) & chr(10),aFile);
+	addtexttoarea(chr(13) & chr(10),aFile);
 
 //Cut receipt  
   addtexttoarea(chr(29) & chr(86) & "1",aFile);
@@ -592,12 +596,16 @@ begin
       addtexttoarea(chr(13) & chr(10),aFile);
       addtexttoarea(chr(13) & chr(10),aFile);
       addtexttoarea(chr(13) & chr(10),aFile);
+      addtexttoarea(chr(13) & chr(10),aFile);
     end;
     
     
   end else begin
     addtexttoarea(chr(13) & chr(10),aFile);
     addtexttoarea("НЕФІСКАЛЬНИЙ ЧЕК" & chr(13) & chr(10) ,aFile);
+    addtexttoarea(chr(13) & chr(10),aFile);
+    addtexttoarea(chr(13) & chr(10),aFile);
+    addtexttoarea(chr(13) & chr(10),aFile);
     addtexttoarea(chr(13) & chr(10),aFile);
     addtexttoarea(chr(13) & chr(10),aFile);
   end;
@@ -954,11 +962,11 @@ begin
 	SetAreaZeroSize(aFile);
 
 	//LOGO
-	addtexttoarea(PrintImage,aFile);
+	//addtexttoarea(PrintImage,aFile);
 	//addtexttoarea(SetMiddleAlignment,aFile);
 	//addtexttoarea("А-Сервіс",aFile);
 	
-	addtexttoarea(chr(13) & chr(10),aFile);
+	//addtexttoarea(chr(13) & chr(10),aFile);
 	
 	addtexttoarea(SetMiddleAlignment,aFile);
 	TLTOARR(cjecklength,SVOr.SerNr,aFile);
@@ -968,7 +976,8 @@ begin
 	
 	adresses(SVOr,Name,Address,Phone,eMail);
 	
-	TLTOARR(cjecklength,Name,aFile);
+	TLTOARR(cjecklength,"Магазин iStore Оболонь",aFile);
+	TLTOARR(cjecklength,"Точка прийому техніки Apple",aFile);	
 	TLTOARR(cjecklength,Address,aFile);
 	TLTOARR(cjecklength,Phone,aFile);
   
@@ -998,7 +1007,7 @@ begin
   //DeagInf
   TLTOARR(cjecklength,"__________________________________________",aFile);
   addtexttoarea(SetBoldOn,aFile);
-  TLTOARR(cjecklength,"Сервісний центр прийняв на діагностику",aFile);
+  TLTOARR(cjecklength,"Техніка прийнята у точці прийому",aFile);
   TLTOARR(cjecklength,"виріб:",aFile);
   addtexttoarea(SetBoldOff,aFile);
   matrowget(SVOr,0,SVOrw);
@@ -1009,7 +1018,7 @@ begin
   TLTOARR(cjecklength,"Зар.пристрій: " & SVOr.Zaryadka,aFile);
   TLTOARR(cjecklength,"Інше: " & SVOr.Inshe,aFile);
   TLTOARR(cjecklength,"Гарантія: " & SVOr.Garanty,aFile);
-  
+
   //nespravnost
   TLTOARR(cjecklength,"__________________________________________",aFile);
   addtexttoarea(SetBoldOn,aFile);
@@ -1022,10 +1031,10 @@ begin
   addtexttoarea(SetBoldOff,aFile);
   TLTOARR(0,SVOr.Comment3,aFile);
   TLTOARR(0,SVOr.Comment4,aFile);
-    
+  
   addtexttoarea(SetBoldOn,aFile);
   addtexttoarea(SetUnderlineOn,aFile);
-  TLTOARR(cjecklength,"Правила обслуговування сервісного центру: ",aFile);
+  TLTOARR(cjecklength,"Правила обслуговування сервісного центру А-сервiс: ",aFile);
   addtexttoarea(SetUnderlineOff,aFile);
   TLTOARR(cjecklength,"- Вартість діагностики пристроїв (платных",aFile);
   TLTOARR(cjecklength,"та гарантiйних): iPhone - 250грн.,",aFile);
@@ -1035,8 +1044,8 @@ begin
   TLTOARR(cjecklength,"навушників- 250,00грн.",aFile);
   //addtexttoarea(SetBoldOff,aFile);
   TLTOARR(cjecklength,"__________________________________________",aFile);
-  
-  TLTOARR(cjecklength,"- Обладнання приймається до сервісного",aFile);
+
+  TLTOARR(cjecklength,"- Обладнання прийнято для передачі в сервісний центр А-сервiс",aFile);
   TLTOARR(cjecklength,"центру для проведення діагностики,",aFile);
   TLTOARR(cjecklength,"а у випадку необхідності подальшого",aFile);
   TLTOARR(cjecklength,"його ремонту. ",aFile);
@@ -1051,7 +1060,7 @@ begin
   TLTOARR(cjecklength,"компенсації вартості виробу, моральної",aFile);
   TLTOARR(cjecklength,"шкоди тощо.",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
-  
+
   TLTOARR(cjecklength,"- Діагностика обладнання виконується про-",aFile);
   TLTOARR(cjecklength,"тягом 3 робочих днів з моменту підтверджен",aFile);
   TLTOARR(cjecklength,"ня наявності дефекту у сервісному центрі.",aFile);
@@ -1059,9 +1068,9 @@ begin
   TLTOARR(cjecklength,"становить 14 днів.",aFile);
   TLTOARR(cjecklength,"У випадку відсутності запчастин на складі",aFile);
   TLTOARR(cjecklength,"сервісного центру термін ремонту може бути",aFile);
-  TLTOARR(cjecklength,"подовжено на 30 днів.",aFile);
+  TLTOARR(cjecklength,"подовжено на 90 днів.",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
-  
+
   //addtexttoarea(SetBoldOn,aFile);
   TLTOARR(cjecklength,"- Сервісний центр не несе відповідальності",aFile);
   TLTOARR(cjecklength,"за збереження будь-якої інформації, про-",aFile);
@@ -1122,7 +1131,7 @@ begin
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"Власник: " & SVOr.Vlastnik,aFile);
   TLTOARR(cjecklength,"__________________________________________",aFile);
-  
+
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"Обладнання до ремонту прийняв(ла):",aFile);
   USr.Code = SVOr.SalesMan;
@@ -1192,10 +1201,10 @@ begin
 
 	//LOGO
 	
-	addtexttoarea(PrintImage,aFile);
+	//addtexttoarea(PrintImage,aFile);
 	//addtexttoarea(SetMiddleAlignment,aFile);
 	//addtexttoarea("А-Сервіс",aFile);
-	addtexttoarea(chr(13) & chr(10),aFile);
+	//addtexttoarea(chr(13) & chr(10),aFile);
 	
 	addtexttoarea(SetMiddleAlignment,aFile);
 	TLTOARR(cjecklength,SVOr.SerNr,aFile);
