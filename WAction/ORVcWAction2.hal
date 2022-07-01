@@ -2692,12 +2692,19 @@ record UserVc USr;
 string 100 host,page,getParam;
 area mainRequest,replyarea;
 longint port;
-string 50 location;
+string 50 location,winman;
 record ORVc ORr;
 record CUVc CUr;
 	
 	wn = curwindow;
 	getwindowrecord(wn,ORr);
+	winman = ORr.InWorkMan;
+	readfirstmain(ORr,1,true);
+	if(winman!=ORr.InWorkMan)then begin
+	  putwindowrecord(wn,ORr);
+		ReRunWindowDef(wn);
+		goto lCallToClientDsm;
+	end;
 	
 	USr.Code = currentuser;
 	
@@ -2736,7 +2743,7 @@ record CUVc CUr;
 			end;
 		end;
 	end;
-
+lCallToClientDsm:;
 return
 end;
 
