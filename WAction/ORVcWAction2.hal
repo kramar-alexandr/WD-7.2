@@ -2701,8 +2701,7 @@ record CUVc CUr;
 	winman = ORr.SalesMan;
 	readfirstmain(ORr,1,true);
 	if(winman!=ORr.SalesMan)then begin
-	  putwindowrecord(wn,ORr);
-		ReRunWindowDef(wn);
+	  closewindow(wn);
 		goto lCallToClientDsm;
 	end;
 	
