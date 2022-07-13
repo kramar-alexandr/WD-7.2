@@ -1422,10 +1422,10 @@ BEGIN
   if (FIELDINFORM("F_ATTBETALA")) then begin
     PrintValueInclZero("F_ATTBETALA",ORr.Sum4,M4Val,LangNrr,SysFormatRec,false);
   end;
-  if (FIELDINFORM("F_SUMMA")) then begin
+  /*if (FIELDINFORM("F_SUMMA")) then begin
     PrintValueInclZero("F_SUMMA",ORr.Sum1,M4Val,LangNrr,SysFormatRec,false);
   end;
-  /*t = round(ORTotalSumWithoutVAT(ORr),SetRoundModeD(2));			//Edit ----Dima--------------------21.01.2015     MOVE UP
+  t = round(ORTotalSumWithoutVAT(ORr),SetRoundModeD(2));			//Edit ----Dima--------------------21.01.2015     MOVE UP
   logtext(0,t);
 	sumnovat = round(t,SetRoundModeD(2));// Edit ************************** Friday, 13 February 2015 17:04:24
   if (FIELDINFORM("F_SUMMA")) then begin		
