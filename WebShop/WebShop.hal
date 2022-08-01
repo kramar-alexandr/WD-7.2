@@ -928,7 +928,7 @@ return;
 end;
 
 
-global webpublic updating procedure WebBitrixOrder()
+global webpublic updating procedure WebBitrixOrderAsync(area rawarea)
 begin
 area areply,orderarea,rawarea,tmparr;
 Boolean TrHs,testf,comma,TrHs1;
@@ -958,14 +958,12 @@ vector string 255 tradeinfo;
 vector string 255 vres;
   
 
-  logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrder");
+  logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrderAsync");
   
   SetCompany(13,false);
   
   blockload(SMSConfigb);
-  
-		webgetpostdata(rawarea);
-		
+  		
 		for(i=0;i<getarealength(rawarea)-1;i=i+1)begin
 			c2 = getstringfromarea(rawarea,i,2);
 			c1 = getstringfromarea(rawarea,i,1);
@@ -1175,6 +1173,18 @@ vector string 255 vres;
 	
   ResetCompany(13);
   
+return;
+end;
+
+global webpublic updating procedure WebBitrixOrder()
+begin
+  area request;
+  
+  logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrderAsync");
+  webgetpostdata(request);
+  webgetpostdate(request);
+  qupdating.WebBitrixOrderAsync(request);
+  weboutstring("ok");
 return;
 end;
 
