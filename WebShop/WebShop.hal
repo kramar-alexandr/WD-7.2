@@ -1173,6 +1173,8 @@ vector string 255 vres;
 	
   ResetCompany(13);
   
+  logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrderAsyncEND");
+  
 return;
 end;
 
@@ -1180,10 +1182,11 @@ global webpublic updating procedure WebBitrixOrder()
 begin
   area request;
   
-  logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrderAsync");
+  logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrder");
   webgetpostdata(request);
   qupdating.WebBitrixOrderAsync(request);
   weboutstring("ok");
+  logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixEnd");
 return;
 end;
 
