@@ -928,9 +928,9 @@ return;
 end;
 
 
-global webpublic updating procedure WebBitrixOrderAsync(area rawarea)
+global updating procedure WebBitrixOrderAsync(area rawarea)
 begin
-area areply,orderarea,rawarea,tmparr;
+area areply,orderarea,tmparr;
 Boolean TrHs,testf,comma,TrHs1;
 record WebSyncRegVc WSRr;
 record WebSyncBlock WSBb;
@@ -1182,7 +1182,6 @@ begin
   
   logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrderAsync");
   webgetpostdata(request);
-  webgetpostdate(request);
   qupdating.WebBitrixOrderAsync(request);
   weboutstring("ok");
 return;
