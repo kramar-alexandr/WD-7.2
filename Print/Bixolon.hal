@@ -896,6 +896,36 @@ begin
 		
 		text[""] = "9.На збережену інформацію та налаштування користувача (фотографії, музика, пошта, контакти та ін.)";
 		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "ДІЇ КОМПАНІЇ APPLE У РАЗІ ОТРИМАННЯ ГАРАНТІЙНОЇ ПРЕТЕНЗІЇ";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Якщо протягом Гарантійного періоду ви звертаєтеся до компанії Apple на підставі цієї гарантії, компанія Apple на власний розсуд:";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "(i) відремонтує Продукт Apple, застосувавши нові або раніше використовувані деталі Apple, які були перевірені та відповідають функціональним вимогам Apple; або";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+
+    text[""] = "(ii) замінить Продукт Apple таким самим продуктом (або, за вашою згодою, таким, що має аналогічні чи в цілому подібні характеристики, що й оригінальний продукт,";
+    text[""] = text[""] & "наприклад іншою моделлю з тими самими функціями або тією самою моделлю іншого кольору), який є новим або складається з нових і/або раніше використовуваних оригінальних деталей Apple,";
+    text[""] = text[""] & "що були перевірені та відповідають функціональним вимогам Apple; або";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+
+    text[""] = "(iii) поверне вам витрачені кошти в обмін на дефектний Продукт Apple.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Зверніть увагу, що замінний продукт або замінні деталі переходять у вашу власність. А несправний продукт, повернений до компанії Apple, або його несправні деталі, стають її власністю.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+
+
+		
 		//TLTOARR(checklength,"9.На збережену інформацію та налаштування",aFile);
 		//TLTOARR(checklength,"користувача (фотографії, музика, пошта,",aFile);
 		//TLTOARR(checklength,"контакти та ін.)",aFile);
