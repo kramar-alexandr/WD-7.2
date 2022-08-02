@@ -928,7 +928,7 @@ begin
 		addtexttoarea(chr(13) & chr(10),aFile);
 
     addtexttoarea(SetMiddleAlignment,aFile);
-    tax_url = "http://qrcoder.ru/code/?https%3A%2F%2Fwww.apple.com%2Flegal%2Fwarranty%2Fproducts%2Femea-vad-universal-warranty-ukranian.html&4&0";
+    tax_url = "https://www.apple.com/legal/warranty/products/emea-vad-universal-warranty-ukranian.html";
     getQRCode(tax_url,qrArea);
     if(getarealength(qrArea)>100)then begin
       alen = CountLinesInArea(qrArea);
