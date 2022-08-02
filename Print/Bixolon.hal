@@ -693,6 +693,9 @@ begin
 	row ORVc ORrw;
 	integer k;
 	vector string 255 text;
+	string 255 tax_url;
+	area qrArea;
+	longint alen,ai;
 	
 	
 	checklength = 56;
@@ -924,7 +927,16 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 
-
+    
+    tax_url = "http://qrcoder.ru/code/?https%3A%2F%2Fwww.apple.com%2Flegal%2Fwarranty%2Fproducts%2Femea-vad-universal-warranty-ukranian.html&4&0";
+    getQRCode(tax_url,qrArea);
+    if(getarealength(qrArea)>100)then begin
+      alen = CountLinesInArea(qrArea);
+      for(ai=0;ai<alen;ai=ai+1)begin
+        text[""] = convertstringfromcodepage("WINDOWS-1251",GetLineFromArea(qrArea,ai));
+        addtexttoarea(text[""],aFile);
+      end;
+    end;
 		
 		//TLTOARR(checklength,"9.На збережену інформацію та налаштування",aFile);
 		//TLTOARR(checklength,"користувача (фотографії, музика, пошта,",aFile);
