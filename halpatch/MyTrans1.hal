@@ -76,7 +76,7 @@ begin
           logtext(0,"Status " & statustext);
           if(status>0 and status!=ORr.TTNStatusCode)then begin
             ORr.TTNStatusCode = status;
-            ORr.TTNNStatus = status;
+            ORr.TTNNStatus = statustext;
             recordstore(ORr,true);
           end;
          
