@@ -55,8 +55,8 @@ begin
       if(SendWebRequest("api.novaposhta.ua","443",-1,true,"POST","/v2.0/json/","application/json","",false,a_req,replyarea,10))then begin  //WORK! 
         jobj = parsejsonarea(replyarea);
           writeareatofile(replyarea,"NPStatus.txt",0);
-          logtext(0,"statusCode " & JSONGet(jobj,"data[0]/StatusCode"));
-          logtext(0,"Status " & JSONGet(jobj,"data[0]/Status"));
+          logtext(0,"statusCode " & JSONGet(jobj,"data/[0]/StatusCode"));
+          logtext(0,"Status " & JSONGet(jobj,"data/[0]/Status"));
          
       end;
       TrHs = false;
