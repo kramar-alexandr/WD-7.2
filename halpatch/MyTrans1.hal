@@ -24,7 +24,7 @@ begin
   TrHs = true;
   while(loopbackkey("OrdDate",ORr,1,TrHs))begin
     testf = true;
-    if(ORr.OrdDate<addday(currentdate,14))then begin TrHs = false; testf = false; end;
+    if(ORr.OrdDate<addday(currentdate,-14))then begin TrHs = false; testf = false; end;
     if(blank(ORr.TTNNumber) or ORr.TTNMark==0)then begin testf = false; end;
     
     if(testf)then begin
