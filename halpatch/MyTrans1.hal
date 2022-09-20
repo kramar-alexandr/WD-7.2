@@ -78,10 +78,10 @@ begin
           ORr.TTNStatusCode = status;
           ORr.TTNNStatus = statustext;
           recordstore(ORr,true);
-          TrHs = false;
+          
         end;
       end;
-      
+      TrHs = false;
       
       logtext(0,ORr.SerNr & " " & ORr.OrdDate & "  " & ORr.TTNNumber & " status code " & ORr.TTNStatusCode & " status " & ORr.TTNNStatus);
     end;
