@@ -15,6 +15,9 @@ updating procedure UpdateNPStatuses()
 begin
   record ORVc ORr;
   boolean TrHs,testf;
+  string 100 path;
+  area a_req,replyarea;
+  json jobj;
   
   setcompany(13,false);
   
@@ -28,6 +31,36 @@ begin
     if(blank(ORr.TTNNumber) or ORr.TTNMark==0)then begin testf = false; end;
     
     if(testf)then begin
+      path = "https://api.novaposhta.ua/v2.0/json/";
+      
+      addtexttoarea("{",a_req);
+      addtexttoarea("   \"modelName\": \"TrackingDocument\",",a_req);
+      addtexttoarea("   \"calledMethod\": \"getStatusDocuments\",",a_req);
+      addtexttoarea("   \"methodProperties\": {",a_req);
+      addtexttoarea("\"Documents\" : [",a_req);
+      addtexttoarea("{",a_req);
+      addtexttoarea("\"DocumentNumber\":\"" & ORr.TTNNumber & "\"",a_req);
+      //addtexttoarea("\"Phone\":\"380600000000\"",a_req);
+      addtexttoarea("}",a_req);
+      addtexttoarea(",",a_req);
+      addtexttoarea("{",a_req);
+      addtexttoarea("\"DocumentNumber\":\"" & ORr.TTNNumber & "\"",a_req);
+      //addtexttoarea("\"Phone\":\"380600000000\"",a_req);
+      addtexttoarea("}",a_req);
+      addtexttoarea("]",a_req);
+      addtexttoarea("   }",a_req);
+      addtexttoarea("}",a_req);
+      
+      
+      if(SendWebRequest("api.novaposhta.ua","443",-1,true,"POST","/v2.0/json/","application/json","",false,a_req,replyarea,10))then begin  //WORK! 
+        jobj = parsejsonarea(replyarea);
+        
+          logtext(0,"statusCode " & JSONGet(jobj,"data/statusCode"));
+          logtext(0,"statusCode " & JSONGet(jobj,"data/Status"));
+         
+      end;
+      TrHs = false;
+      
       logtext(0,ORr.SerNr & " " & ORr.OrdDate & "  " & ORr.TTNNumber & " status code " & ORr.TTNStatusCode & " status " & ORr.TTNNStatus);
     end;
   end;
