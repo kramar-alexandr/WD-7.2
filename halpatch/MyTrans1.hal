@@ -48,6 +48,8 @@ begin
     if(testf)then begin
       path = "https://api.novaposhta.ua/v2.0/json/";
       
+      setareazerosize(a_req);
+      setareazerosize(replyarea);
       addtexttoarea("{",a_req);
       addtexttoarea("   \"modelName\": \"TrackingDocument\",",a_req);
       addtexttoarea("   \"calledMethod\": \"getStatusDocuments\",",a_req);
