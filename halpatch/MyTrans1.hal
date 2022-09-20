@@ -69,20 +69,19 @@ begin
       
       if(SendWebRequest("api.novaposhta.ua","443",-1,true,"POST","/v2.0/json/","application/json","",false,a_req,replyarea,10))then begin  //WORK! 
         jobj = parsejsonarea(replyarea);
-          writeareatofile(replyarea,"NPStatus.txt",0);
-          statustext = ChekUnicode(JSONGet(jobj,"data/[0]/Status"),vres);
-          status = stringtoint(JSONGet(jobj,"data/[0]/StatusCode"));
-          logtext(0,"statusCode " & status);
-          logtext(0,"Status " & statustext);
-          if(status>0)then begin
-            ORr.TTNStatusCode = status;
-            ORr.TTNNStatus = statustext;
-            recordstore(ORr,true);
-            
-          end;
-         
+        writeareatofile(replyarea,"NPStatus.txt",0);
+        statustext = ChekUnicode(JSONGet(jobj,"data/[0]/Status"),vres);
+        status = stringtoint(JSONGet(jobj,"data/[0]/StatusCode"));
+        logtext(0,"statusCode " & status);
+        logtext(0,"Status " & statustext);
+        if(status>0 and status!=ORr.TTNStatusCode)then begin
+          ORr.TTNStatusCode = status;
+          ORr.TTNNStatus = statustext;
+          recordstore(ORr,true);
+          TrHs = false;
+        end;
       end;
-      TrHs = false;
+      
       
       logtext(0,ORr.SerNr & " " & ORr.OrdDate & "  " & ORr.TTNNumber & " status code " & ORr.TTNStatusCode & " status " & ORr.TTNNStatus);
     end;
