@@ -10,6 +10,31 @@ external procedure UpdateMasterWClassOnKPIs(string);
 SetLangMode(LangRussian,"RUS",0);
 
 
+
+updating procedure UpdateNPStatuses()
+begin
+  record ORVc ORr;
+  boolean TrHs,testf;
+  
+  setcompany(13,false);
+  
+  logtext(0,"UpdateNPStatuses");
+  
+  ORr.OrdDate = currentdate;
+  TrHs = true;
+  while(loopbackkey("OrdDate",ORr,1,TrHs))begin
+    testf = true;
+    if(ORr.OrdDate<addday(currentdate,14))then begin TrHs = false; testf = false; end;
+    if(blank(ORr.TTNNumber) or ORr.TTNMark==0)then begin testf = false; end;
+    
+    if(testf)then begin
+      logtext(0,ORr.SerNr & " " & ORr.OrdDate & "  " & ORr.TTNNumber & " status code " & ORr.TTNStatusCode & " status " & ORr.TTNNStatus);
+    end;
+  end;
+  
+return;
+end;
+
 global //Edit***************************Sasha2,11:48 25.04.2016 { 
 updating procedure CustTimeTableAction()
 begin
@@ -90,7 +115,7 @@ lCustTimeTableActionRun:;
     	ResetCompany(curcomp); 
     end;
     */
-
+    UpdateNPStatuses;
 return;
 end; //Edit***************************Sasha2,11:48 25.04.2016 }
 
