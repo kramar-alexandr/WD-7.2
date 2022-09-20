@@ -6,6 +6,7 @@ external procedure ORVc_PasteCurncyCode(var record ORVc,string);
 external updating procedure AutoRun();// Edit ************************** Tuesday, 1 November 2016 11:19:27
 external procedure WebGenRnForMail();// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 21 08 2019 y. at 2:10:39 PM
 external procedure UpdateMasterWClassOnKPIs(string);
+external function string 255 ChekUnicode(string,var vector string);
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -18,6 +19,7 @@ begin
   string 100 path;
   area a_req,replyarea;
   json jobj;
+  vector string 255 vres;
   
   setcompany(13,false);
   
@@ -56,7 +58,7 @@ begin
         jobj = parsejsonarea(replyarea);
           writeareatofile(replyarea,"NPStatus.txt",0);
           logtext(0,"statusCode " & JSONGet(jobj,"data/[0]/StatusCode"));
-          logtext(0,"Status " & urldecode(JSONGet(jobj,"data/[0]/Status")));
+          logtext(0,"Status " & ChekUnicode(JSONGet(jobj,"data/[0]/Status"),vres));
          
       end;
       TrHs = false;
