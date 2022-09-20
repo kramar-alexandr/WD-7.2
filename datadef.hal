@@ -103,6 +103,9 @@ begin
     RecordField(FiscalNum,M4Str,255,0);
     RecordField(tax_url,M4Str,255,0);
     
+    RecordField(TTNStatusCode,M4Mark,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 20 09 2022 y. at 9:56:14 PM
+    RecordField(TTNNStatus,M4Str,200,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 20 09 2022 y. at 9:56:16 PM
+
     
     ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28
     ArrayField(ORPrint,M4Int,0,0);
