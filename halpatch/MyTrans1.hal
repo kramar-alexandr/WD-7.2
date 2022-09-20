@@ -20,6 +20,8 @@ begin
   area a_req,replyarea;
   json jobj;
   vector string 255 vres;
+  integer status;
+  string 25 statustext;
   
   setcompany(13,false);
   
@@ -31,6 +33,17 @@ begin
     testf = true;
     if(ORr.OrdDate<addday(currentdate,-14))then begin TrHs = false; testf = false; end;
     if(blank(ORr.TTNNumber) or ORr.TTNMark==0)then begin testf = false; end;
+    
+    
+    switch(ORr.TTNStatusCode)begin
+      case 2:testf = false;
+      case 3:testf = false;
+      case 9:testf = false;
+      case 11:testf = false;
+      case 102:testf = false;
+    end;
+    
+
     
     if(testf)then begin
       path = "https://api.novaposhta.ua/v2.0/json/";
@@ -57,8 +70,15 @@ begin
       if(SendWebRequest("api.novaposhta.ua","443",-1,true,"POST","/v2.0/json/","application/json","",false,a_req,replyarea,10))then begin  //WORK! 
         jobj = parsejsonarea(replyarea);
           writeareatofile(replyarea,"NPStatus.txt",0);
-          logtext(0,"statusCode " & JSONGet(jobj,"data/[0]/StatusCode"));
-          logtext(0,"Status " & ChekUnicode(JSONGet(jobj,"data/[0]/Status"),vres));
+          statustext = ChekUnicode(JSONGet(jobj,"data/[0]/Status"),vres);
+          status = stringtoint(JSONGet(jobj,"data/[0]/StatusCode"));
+          logtext(0,"statusCode " & status);
+          logtext(0,"Status " & statustext);
+          if(status>0 and status!=ORr.TTNStatusCode)then begin
+            ORr.TTNStatusCode = status;
+            ORr.TTNNStatus = status;
+            recordstore(ORr,true);
+          end;
          
       end;
       TrHs = false;

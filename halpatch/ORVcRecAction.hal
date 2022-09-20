@@ -463,6 +463,14 @@ begin
       if (OR2r.OKFlag==1) then begin unokf = true; end;
     end;
   end;
+  
+  if(stat==updatemode)then begin
+    if(ORr.TTNNumber!=OR2r.TTNNumber)then begin
+      ORr.TTNStatusCode = 0;
+      ORr.TTNNStatus = "";
+    end;
+  end;
+  
   if (unokf) then begin
     errcode = IsUnOKAllowed_ORVc(ORr);
     if (errcode!=0) then begin
