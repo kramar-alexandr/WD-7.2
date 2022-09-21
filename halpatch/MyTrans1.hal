@@ -7,6 +7,7 @@ external updating procedure AutoRun();// Edit ************************** Tuesday
 external procedure WebGenRnForMail();// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 21 08 2019 y. at 2:10:39 PM
 external procedure UpdateMasterWClassOnKPIs(string);
 external function string 255 ChekUnicode(string,var vector string);
+external updating function boolean EasySendTurboSMS(string, string);
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -21,7 +22,8 @@ begin
   json jobj;
   vector string 255 vres;
   integer status;
-  string 25 statustext;
+  string 25 statustext,phone;
+  record CUVc CUr;
   
   setcompany(13,false);
   
@@ -85,7 +87,26 @@ begin
           recordstore(ORr,true);
           if(ORr.TTNStatusCode==7)then begin
             //Send Message
-            //‘åðãåßEasySendTurboSMS(phone,ORr.TTNNumber & "" & ORr.TTNNStatus);
+            if(nonblank(ORr.Phone))then begin
+              phone = ORr.Phone;
+            end else begin
+              CUr.Code = ORr.CustCode;
+              readfirstmain(CUr,1,true);
+              phone = CUr.Phone;
+              if(blank(phone))then begin
+                phone = CUr.Mobile;
+              end;
+              if(blank(phone))then begin
+                phone = CUr.AltPhone;
+              end;
+            end;
+            phone  = trim(phone);
+            if(len(phone)>10)then begin
+              phone = right(phone,10);
+            end;
+            if(nonblank(phone))then begin
+              EasySendTurboSMS(phone,ORr.TTNNumber & "" & ORr.TTNNStatus);
+            end;
           end;
         end;
       end;
