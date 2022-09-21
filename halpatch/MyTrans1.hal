@@ -80,7 +80,6 @@ begin
           ORr.TTNStatusCode = status;
           ORr.TTNNStatus = statustext;
           recordstore(ORr,true);
-          TrHs = false;
         end;
       end;
       
@@ -172,7 +171,9 @@ lCustTimeTableActionRun:;
     	ResetCompany(curcomp); 
     end;
     */
-    UpdateNPStatuses;
+    if(right(currenttime,1)=="0")then begin
+      UpdateNPStatuses;
+    end;
 return;
 end; //Edit***************************Sasha2,11:48 25.04.2016 }
 
