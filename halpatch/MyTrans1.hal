@@ -39,6 +39,9 @@ begin
       case 2:testf = false;
       case 3:testf = false;
       case 9:testf = false;
+      case 7:testf = false;
+      case 8:testf = false;
+      case 10:testf = false;
       case 11:testf = false;
       case 102:testf = false;
     end;
