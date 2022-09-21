@@ -83,6 +83,10 @@ begin
           ORr.TTNStatusCode = status;
           ORr.TTNNStatus = statustext;
           recordstore(ORr,true);
+          if(ORr.TTNStatusCode==7)then begin
+            //Send Message
+            //‘åðãåßEasySendTurboSMS(phone,ORr.TTNNumber & "" & ORr.TTNNStatus);
+          end;
         end;
       end;
       
@@ -174,7 +178,7 @@ lCustTimeTableActionRun:;
     	ResetCompany(curcomp); 
     end;
     */
-    if(right(currenttime,1)=="0")then begin
+    if(curt.minute==0)then begin
       UpdateNPStatuses;
     end;
 return;
