@@ -105,7 +105,7 @@ begin
               phone = right(phone,10);
             end;
             if(nonblank(phone))then begin
-              EasySendTurboSMS(phone,ORr.TTNNumber & " " & ORr.TTNNStatus);
+              EasySendTurboSMS(phone,"Замовлення #" & ORr.SerNr & " ТТН " & ORr.TTNNumber & " " & ORr.TTNNStatus);
             end;
           end;
         end;
