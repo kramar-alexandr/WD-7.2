@@ -23,7 +23,7 @@ begin
 	Register("ARVc","ARVc",ARVc,modDBMain);
     Register("ARPayVc","ARPayVc",ARPayVc,modDBMain);
     Register("APVc","APVc",APVc,modDBMain);
-	
+	Setting("Serial Number Support Register",SerBalLClass,modDBMain);
 	Setting("Додаткові витрати",ExtrCostLClass,modSL);//Edit_________________ABR 29.09.2018 17:23
 	
 	Report("Отчет по стутаусам заказов",ORReport2RClass,ORReport2Rn,0,modSO); // Edit ************************** BPI Ukraine - KramarAlexandr - 01, 08 02 2021 y. at 3:17:18 PM
