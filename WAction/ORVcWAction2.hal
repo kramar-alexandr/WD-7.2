@@ -2266,6 +2266,22 @@ LORDClassOKFlagButtonAction:;
 END;
 
 global
+function Boolean ORDClassPrintedButtonAction(Integer wn,Integer value)
+BEGIN
+  Boolean res;
+  record ORVc ORr;
+  record ORVc prevORr;
+  Integer err;
+   
+  res = false; 
+  if (UserCanAction("UnOKAll",true)) then begin
+    res = true;
+  end;  
+  ORDClassPrintedButtonAction = res;
+  RETURN;
+END;
+
+global
 function Boolean ORDClassClosedButtonAction(Integer wn,Integer value)
 BEGIN
   Boolean res;
@@ -2800,7 +2816,7 @@ begin
 end;
 
 //Edit **********************************************Vas-P	added 10/11/2021
-global procedure PrintBixolonWarrantyExecute(record ORVc ORr)
+global updating procedure PrintBixolonWarrantyExecute(var record ORVc ORr)
 BEGIN
   area aFile;
   Boolean testf;
@@ -2811,17 +2827,25 @@ BEGIN
   SetExportCodePage("CP1251");
   HandleBixolonWarranty(ORr,aFile);//Для сервиса
   PrintBixolonWarrantyReceipt(aFile);
+  ORr.Printed = 1;
+  recordstore(ORr,true);
 
   RETURN;
 END;
 
 
-global procedure PrintBixolonExecuteDsm()
+global updating procedure PrintBixolonExecuteDsm()
 begin
   record ORVc ORr;
   
+  deselectwindow(curwindow,true);
   getwindowrecord(curwindow,ORr);
-  PrintBixolonWarrantyExecute(ORr);
+  if(ORr.Printed==0)then begin
+    PrintBixolonWarrantyExecute(ORr);
+    putwindowrecord(curwindow,ORr);
+  end else begin
+    messagebox(0,"Вже надруковано");
+  end; 
   
 return;
 end;

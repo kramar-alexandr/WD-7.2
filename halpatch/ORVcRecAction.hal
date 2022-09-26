@@ -81,9 +81,48 @@ forward function val GetINCostPrice(string,string,Boolean);// Edit *************
 external procedure ORDchsum(var record ORVc,Integer);// Edit ************************** Thursday, 4 September 2014 10:45:26
 external procedure ORSumup(var record ORVc);// Edit ************************** Thursday, 4 September 2014 10:47:57
 external procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
+external updating function LongInt RecordAction_raPasteOrdInShip2(var record SHVc,LongInt,var string);
 
 
 SetLangMode(LangRussian,"RUS",0);
+
+procedure GetRecordCheckDetails(var string errstr,var string errfield,var Integer rwnr)
+begin
+  Longint tsz,pos,sz;
+  Integer l,i;
+  area logfile;
+  string 255 tstr;
+
+  tsz = FileSize("hansa.log");
+  pos = tsz-600;
+  if (pos<0) then begin
+    pos = 0;
+  end;
+  sz = tsz-pos;
+  LoadFileToArea("hansa.log",pos,sz,logfile);
+  l = CountLinesInArea(logfile);
+  tstr = GetLineFromArea(logfile,l-2);
+  if (InString(tstr,"RecordCheckError")>0) then begin
+    pos = InString(tstr," field:");
+    for (i=pos+7;i<len(tstr);i=i+1) begin
+      if (mid(tstr,i,1)==" ") then begin
+        i = len(tstr);
+      end else begin
+        errfield = errfield & mid(tstr,i,1);
+      end;
+    end;
+    pos = InString(tstr," text:");
+    for (i=pos+7;i<len(tstr);i=i+1) begin
+      if (mid(tstr,i,1)=="\"") then begin
+        i = len(tstr);
+      end else begin
+        errstr = errstr & mid(tstr,i,1);
+      end;
+    end;
+  end;
+
+  return;
+end;
 
 
 // Edit Start ---------------------------------------------- Edit Start
@@ -2474,4 +2513,100 @@ begin
   end;
   ORVcRecordInIndex = res;
   return;
+end;
+
+
+
+global updating function boolean TryToFinishOrder(var record ORVc ORr,var string msg)
+begin
+  boolean res;
+  integer i,rwcnt;
+  row ORVc ORrw;
+  record INVc INr;
+  LongInt r;
+  record SHVc SHr,oldSHr;
+  row SHVc SHrw;
+  string 255 errstr,errfield;
+  Integer rwnr,errrow;
+  
+  rwcnt = matrowcnt(ORr);
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(ORr,i,ORrw);
+    if(ORrw.stp==1)then begin
+      if(ORrw.Shipd1!=0)then begin
+        res = false;
+        msg = "Відвантаження вже існує? Перевірте і зробіть все вручну.";
+        goto lTryToFinishOrder;
+      end;
+      if(ORrw.Invd!=0)then begin
+        res = false;
+        msg = "Акт вже існує? Перевірте і зробіть все вручну.";
+        goto lTryToFinishOrder;
+      end;
+      INr.Code = ORrw.ArtCode;
+      if(readfirstmain(INr,1,true))then begin
+        if(INr.SerNrf>0)then begin
+          if(blank(ORrw.SerialNr))then begin
+            res = false;
+            msg = "Серійний номер товару " & ORrw.ArtCode & " відсутній";
+            goto lTryToFinishOrder;
+          end;
+          if(ORrw.Quant!=1)then begin
+            res = false;
+            msg = "Кількість " & ORrw.ArtCode & " не дорівнює 1";
+            goto lTryToFinishOrder;
+          end;
+        end;
+      end else begin
+        res = false;
+        msg = "Невідомий товар";
+        goto lTryToFinishOrder;
+      end;
+    end;
+  end;
+  if(blank(ORr.Location))then begin
+    res = false;
+    msg = "Вкажіть склад відвантаження";
+    goto lTryToFinishOrder;
+  end;
+  
+  if (ORr.OKFlag!=1) then begin
+    if (ORr.Closed!=0) then begin
+      r = RecordAction_raPasteOrdInShip2(SHr,ORr.SerNr,msg);
+      if (r==0) then begin
+        rwcnt = matrowcnt(SHr);
+        for(i=0;i<rwcnt;i=i+1)begin
+          matrowget(SHr,i,SHrw);
+          if(SHrw.Ordered!=SHrw.Ship)then begin
+            res = false;
+            msg = "Відвантаження не повне. Перевірте документи";
+            goto lTryToFinishOrder;
+          end;
+        end;
+        recordcopy(oldSHr,SHr);
+        if (RecordUpdate(oldSHr,SHr,true)==0) then begin
+          res = true;
+        end else begin
+          GetRecordCheckDetails(errstr,errfield,rwnr);
+        end;
+        
+        
+      end;
+    end else begin
+      res = false;
+      msg = "Рахунок Закритий";
+      goto lTryToFinishOrder;
+    end;
+  end else begin
+    res = false;
+    msg = "Рахунок не Ок";
+    goto lTryToFinishOrder;
+  end;
+  
+  //SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+	//			SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+  
+lTryToFinishOrder:;
+  TryToFinishOrder = res;
+return;
 end;
