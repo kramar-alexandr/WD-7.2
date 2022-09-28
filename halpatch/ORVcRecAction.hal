@@ -2529,6 +2529,8 @@ begin
   string 255 errstr,errfield;
   Integer rwnr,errrow;
   
+  logtext(0, "TryToFinishOrder " & ORr.SerNr);
+  
   rwcnt = matrowcnt(ORr);
   for(i=0;i<rwcnt;i=i+1)begin
     matrowget(ORr,i,ORrw);
@@ -2536,16 +2538,19 @@ begin
       if(ORrw.Shipd1!=0)then begin
         res = false;
         msg = "Відвантаження вже існує? Перевірте і зробіть все вручну.";
+        logtext(0,msg);
         goto lTryToFinishOrder;
       end;
       if(ORrw.Invd!=0)then begin
         res = false;
         msg = "Акт вже існує? Перевірте і зробіть все вручну.";
+        logtext(0,msg);
         goto lTryToFinishOrder;
       end;
       if(nonblank(ORrw.Location))then begin
         res = false;
         msg = "Склади в рядках товарів недопустимі";
+        logtext(0,msg);
         goto lTryToFinishOrder;
       end;
       
@@ -2555,17 +2560,20 @@ begin
           if(blank(ORrw.SerialNr))then begin
             res = false;
             msg = "Серійний номер товару " & ORrw.ArtCode & " відсутній";
+            logtext(0,msg);
             goto lTryToFinishOrder;
           end;
           if(ORrw.Quant!=1)then begin
             res = false;
             msg = "Кількість " & ORrw.ArtCode & " не дорівнює 1";
+            logtext(0,msg);
             goto lTryToFinishOrder;
           end;
         end;
       end else begin
         res = false;
         msg = "Невідомий товар";
+        logtext(0,msg);
         goto lTryToFinishOrder;
       end;
     end;
@@ -2573,6 +2581,7 @@ begin
   if(blank(ORr.Location))then begin
     res = false;
     msg = "Вкажіть склад відвантаження";
+    logtext(0,msg);
     goto lTryToFinishOrder;
   end;
 
@@ -2586,6 +2595,7 @@ begin
           if(SHrw.Ordered!=SHrw.Ship)then begin
             res = false;
             msg = "Відвантаження не повне. Перевірте документи";
+            logtext(0,msg);
             goto lTryToFinishOrder;
           end;
         end;
@@ -2602,11 +2612,13 @@ begin
     end else begin
       res = false;
       msg = "Рахунок Закритий";
+      logtext(0,msg);
       goto lTryToFinishOrder;
     end;
   end else begin
     res = false;
     msg = "Рахунок не Ок";
+    logtext(0,msg);
     goto lTryToFinishOrder;
   end;
   
