@@ -666,11 +666,11 @@ begin
   
   if (RecordValid(OR2r)) then begin
     if (ORr.OKFlag==1) and (OR2r.OKFlag<>1) then begin
-      if (UserCanAction("OROK",true)==false) then begin
+      /*if (UserCanAction("OROK",true)==false) then begin
         RecordCheckError(1274,StringFromStringSet(3,"OROK"),-1,"SerNr");      
         res = -1;
         goto LORVcRecordCheck;
-      end;  
+      end;  */
     end;
     if (OR2r.OKFlag!=0) and (ORr.OKFlag==0)  then begin
       if (UserCanAction("UnOKOR",true)==false) and (UserCanAction("UnOKAll",true)==false) then begin
@@ -1098,11 +1098,11 @@ begin
     end; 
   end;
   if (transf) then begin
-    if (UserCanAction("OROK",true)==false) then begin
+    /*if (UserCanAction("OROK",true)==false) then begin
       RecordCheckError(1274,StringFromStringSet(3,"OROK"),-1,"SerNr");      
       res = -1;
       goto LORVcRecordCheck;
-    end;
+    end;*/
   end;  
   if (ValidEInvoiceData_OR(ORr,CUr,errcode,tstr)==false) then begin
     RecordCheckError(errcode,"",-1,tstr);      

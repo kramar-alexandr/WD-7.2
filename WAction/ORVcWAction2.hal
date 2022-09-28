@@ -2262,10 +2262,10 @@ BEGIN
       end;
     end;
   end;  
-  if (UserCanAction("OROK",true)==false) then begin
+  /*if (UserCanAction("OROK",true)==false) then begin
     res = false;
     MessageBox(1274,StringFromStringSet(3,"OROK"));
-  end;  
+  end;  */
 LORDClassOKFlagButtonAction:;  
   ORDClassOKFlagButtonAction = res;
   RETURN;
@@ -2309,7 +2309,7 @@ BEGIN
   Integer i;
   Integer wn;
   
-  if (UserCanAction("OROK",true)) then begin
+  if (true/*UserCanAction("OROK",true)*/) then begin
     wn = CurWindow;
     i = 1;
     while (GetRecordFromBrowse(ORr,wn,i)) begin
