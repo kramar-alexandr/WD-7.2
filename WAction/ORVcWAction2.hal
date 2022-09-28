@@ -523,7 +523,7 @@ BEGIN
     GetWindowRecord(wn,ORr);
     if (ORr.OKFlag!=0) then begin //Edit***************************Sasha2,14:51 19.09.2014
       if (ORr.Closed==0) then begin
-        if (UserCanAction("ORToSH",true)) then begin
+        if (true) then begin
           testf = true;
           if (ORr.OKFlag==0) then begin 
             if (UserCanAction("NotOKORToSH",false)) then begin
@@ -1395,7 +1395,7 @@ begin
 	row ORVc ORrw;
 	boolean foundf;
 	
-	if(ORr.PayVal01!=0 or ORr.PayVal02!=0 or ORr.PayVal03!=0 or ORr.PayVal04!=0 or ORr.PayVal05!=0)then begin
+	if(ORr.PayVal01!=0 or ORr.PayVal02!=0 or ORr.PayVal03!=0 or ORr.PayVal04!=0 or ORr.PayVal05!=0 or ORr.PayVal06!=0 or ORr.PayVal07!=0)then begin
 		blockload(PCb);
 		
 		if(PCb.PayVal01!=0)then begin
@@ -1412,6 +1412,12 @@ begin
 		end;
 		if(PCb.PayVal05!=0)then begin
 			comsum = comsum + ORr.PayVal05 / 100 * PCb.PayVal05;
+		end;
+		if(PCb.PayVal06!=0)then begin
+			comsum = comsum + ORr.PayVal06 / 100 * PCb.PayVal06;
+		end;
+		if(PCb.PayVal07!=0)then begin
+			comsum = comsum + ORr.PayVal07 / 100 * PCb.PayVal07;
 		end;
 		
 		if(comsum==0)then begin

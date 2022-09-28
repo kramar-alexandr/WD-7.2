@@ -2425,7 +2425,7 @@ begin
 		ORr.SerNr = RepSpec.long1;
 
 		if(readfirstmain(ORr,1,true))then begin
-			if((ORr.PayVal01 + ORr.PayVal02 + ORr.PayVal03 + ORr.PayVal04 + ORr.PayVal05)==ORr.Sum4)then begin
+			if((ORr.PayVal01 + ORr.PayVal02 + ORr.PayVal03 + ORr.PayVal04 + ORr.PayVal05 + ORr.PayVal06 + ORr.PayVal07)==ORr.Sum4)then begin
 				SetExportCodePage("CP1251");
 				HandleORReceiptPrinting(ORr,aFile,RepSpec.f1);
 				PrintBixolonReceipt(aFile);
@@ -2504,7 +2504,7 @@ begin
           end;
         end;
         
-        if((ORr.PayVal01 + ORr.PayVal02 + ORr.PayVal03 + ORr.PayVal04 + ORr.PayVal05)==ORr.Sum4)then begin
+        if((ORr.PayVal01 + ORr.PayVal02 + ORr.PayVal03 + ORr.PayVal04 + ORr.PayVal05 + ORr.PayVal06 + ORr.PayVal07)==ORr.Sum4)then begin
           
           if(blank(ORr.FiscalID))then begin
             blockload(FOPb);

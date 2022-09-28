@@ -1045,7 +1045,7 @@ begin
           EditField(h3,v+=25,70,"",ViewOnly,DoneTime,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,RejectTime,false,0);
           CheckBox(h3+160,v,0,"",RejectMark);
-          EditField(h3+250,v,-20,"Причина",Normal,RejectStr,false,RejectStrSClass);
+          EditField(h2+250,v+vs,-180,"Причина",Normal,RejectStr,false,RejectStrSClass);
           //(5)
           v=6;
           h3 = 600;
@@ -1071,9 +1071,11 @@ begin
           vv = v+25;
           EditField(h4,v+=vs,70,"Готівка",Normal,PayVal01,false,0);
           EditField(h4,v+=vs,70,"Термінал",Normal,PayVal02,false,0);
+          EditField(h4,v+=vs,70,"Термінал 2",Normal,PayVal06,false,0);
           EditField(h4,v+=vs,70,"Б/Н без ПДВ",Normal,PayVal03,false,0);
           EditField(h4,v+=vs,70,"Кредит",Normal,PayVal04,false,0);
-          EditField(h4,v+=vs,70,"ОЧ Приват",Normal,PayVal05,false,0);
+          EditField(h4,v+=vs,70,"iBan",Normal,PayVal05,false,0);
+          EditField(h4,v+=vs,70,"Переказ",Normal,PayVal07,false,0);
           EditField(h4,v+=vs,70,"Всього",ViewOnly ,Sum4,true,0);
   
           //1 
@@ -1085,7 +1087,7 @@ begin
           v = v + vs;
           //3
           if(show)then begin
-            MatrixBegin(3,v=200,-50,v+170,-,200);
+            MatrixBegin(3,v=260,-50,v+100,-,200);
             MatTypedRow(stp);
             flipnr = 0;
             Flip(flipnr); flipnr = flipnr + 1;

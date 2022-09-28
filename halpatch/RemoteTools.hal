@@ -49,6 +49,7 @@ external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,va
 external procedure StockMovSumUp(var record StockMovVc);
 external function LongInt GetCurUserLastNr(string);
 external procedure IVVc_PasteSalesMan(var record IVVc,string);
+external function Boolean IVVc_PasteArtCode(var record IVVc,Integer,var string,var string,Boolean,var Integer);
 
 global
 procedure GetItemSalesAccFromOR(record ORVc ORr,var string salesacc)
@@ -503,7 +504,7 @@ end;
 function Integer PasteSHRowsToIV(record RcVc RepSpec,record ORVc ORp,record IVVc IVp,Integer NoRetFromOR,Integer SHIncludesAllORRows,Integer AllowInvBeforeShip,Integer UpdateInv,Integer UseDiscount,var val orsum,
                           Boolean maintf,array record XSrsVc aXSrsr,var Integer axsrscnt)
 BEGIN
-  Integer res;
+  Integer res,sernrf;
   record INVc INr;
   record SHVc SHr;
   row SHVc SHrw;
@@ -527,6 +528,9 @@ BEGIN
   record TaxMatrixVc TMr;
   record XSrsVc XSrsr;
   vector val vinvd;
+  string 30 warning,tstr;
+  record TochkaVidachiVc TVr;
+  val fr,to1,to2,br1,br2;
   
   sd = StringToDate(FirstInRange(RepSpec.f4,10));
   ed = StringToDate(LastInRange(RepSpec.f4,10));
@@ -774,7 +778,144 @@ LSKIPIVROW:;
         end;        
       end;  
     end;
-  end;  
+  end; 
+  logtext(0,"PasteSHRowsToIVPasteSHRowsToIVPasteSHRowsToIV");
+  logtext(0,"lastshnr " & lastshnr);
+  logtext(0,"totshv " & totshv);
+  
+  if (lastshnr>0) and (totshv>0) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 27 09 2022 y. at 12:06:39 PM
+    for (shi=0;shi<matrowcnt(ORp);shi=shi+1) begin
+      MatRowGet(ORp,shi,ORrw);
+      logtext(0,"ORrw " & ORrw.ArtCode);
+      if (ORrw.stp==1 and nonblank(ORrw.ArtCode) and ORrw.Invd<=ORrw.Quant and ORrw.ArtCode=="COM") then begin
+        
+        INr.Code = ORrw.ArtCode;
+        if(readfirstmain(INr,1,true))then begin
+          if(INr.ItemType==kItemTypePlain)then begin
+            ClearRow(IVp,IVrw,1);
+            
+            //IVrw.OrdRow = shi;
+            IVrw.Spec = ORrw.Spec;
+            IVrw.ArtCode = ORrw.ArtCode;
+            MatRowPut(IVp,ivcnt,IVrw);
+            IVVc_PasteArtCode(IVp,ivcnt,warning,warning,false,sernrf);
+            MatRowGet(IVp,ivcnt,IVrw);
+            IVrw.Location = ORrw.Location;
+
+            IVrw.SerialNr = ORrw.SerialNr;            
+            IVrw.Quant = 1;
+            IVrw.Price = ORrw.Price;
+            IVrw.vRebate = ORrw.vRebate;
+
+            IVrw.VATCode = ORrw.VATCode;
+            IVrw.Objects = ORrw.Objects;
+            IVrw.PriceFactor = ORrw.PriceFactor;
+            IVrw.Recepy = ORrw.Recepy;
+            IVrw.MotherArtCode = ORrw.MotherArtCode;
+            IVrw.RecipeQuant = ORrw.RecipeQuant;
+            IVrw.VARList = ORrw.VARList;            
+            IVrw.TAX2Code = ORrw.TAX2Code;
+            IVrw.TAX2Prc = ORrw.TAX2Prc;
+            IVrw.TAX2Reb = ORrw.TAX2Reb;
+            IVrw.TAX1Reb = ORrw.TAX1Reb;
+            IVrw.TAX2Acc = ORrw.TAX2Acc;
+            IVrw.Location = ORrw.Location;
+            if (blank(IVrw.Location)) then begin
+              IVrw.Location = ORp.Location;
+            end;
+            IVrw.NotUpdStockFlag = 1;
+            IVrw.OrdNr = ORp.SerNr;
+            CalcSum(IVrw.Quant,IVrw.Price,IVrw.PriceFactor,IVrw.vRebate,tv,UseDiscount);
+            IVrw.Sum = tv;
+
+            if ((IVrw.Sum==0) and (IVrw.Quant==blankval) and (IVrw.Price==blankval)) then begin
+              IVrw.Sum = blankval;
+            end;
+
+            IVrw.BasePrice = ORrw.BasePrice;
+
+            if (nonblank(IVrw.ArtCode)) then begin
+              tv = IVrw.Quant*IVrw.BasePrice;   // cost  
+              if (IVrw.PriceFactor!=0) then begin
+                tv = tv/IVrw.PriceFactor;
+              end;
+              s = MulRateToBase1(IVp.CurncyCode,IVrw.Sum,IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);// sales
+              UnpackRowFieldMatrix(IVrw,"TaxMatrix",TMr);
+              FindSalesExVat(TMr,IVrw.VATCode,s,IVp.InclVAT,IVp.NoTAXonVAT,rowsum);
+              IVrw.rowGP = rowsum - tv;          // GP    
+            end else begin
+              IVrw.rowGP = 0;
+              IVrw.BasePrice = 0;
+            end;
+            IVrw.Coefficient = INr.UnitCoefficient;
+            IVrw.RepaExVAT = CalcItemRepa(INr.RepaPricePerWeight,INr.Weight,IVrw.Quant,IVp.CurncyCode,
+                                          IVp.FrRate,IVp.ToRateB1,IVp.ToRateB2,IVp.BaseRate1,IVp.BaseRate2,DefaultCurRoundOff);
+            if (IVrw.RepaExVAT!=0) then begin
+              repaf = true;
+            end;
+            orsum = orsum + IVrw.Sum;
+
+            IVrw.TaxTemplateCode = ORrw.TaxTemplateCode;
+            UnpackRowFieldMatrix(ORrw,"TaxMatrix",TMr);
+            PackRowFieldMatrix(IVrw,"TaxMatrix",TMr);
+            RowCalculateTaxMatrix_IVVc(IVp,ivcnt,IVrw);
+            MatRowPut(IVp,ivcnt,IVrw);
+            if (IVDchrsum(IVp,ivcnt)) then begin end;
+            ivcnt = ivcnt + 1;
+          end;
+        end;
+      end;
+    end;
+  end;
+  
+  if ((lastshnr>0) and (totshv>0)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 27 09 2022 y. at 12:06:39 PM
+		if(ORp.PayVal01>0 or ORp.PayVal02>0)then begin
+			TVr.Code = ORp.TochkaVidachi;
+      if(readfirstmain(TVr,1,true))then begin
+        if(ORp.PayVal01>0 and nonblank(TVr.PMCash))then begin
+          ClearRow(IVp,IVrw,kInvoiceRowTypeCreditCardPayment);
+          IVrw.CurncyCode = IVp.CurncyCode;
+          tstr = IVrw.CurncyCode;
+          GetFullCurncyRate(tstr,IVp.TransDate,fr,to1,to2,br1,br2);
+          IVrw.CurncyCode = tstr;
+          IVrw.FrRate = fr;
+          IVrw.ToRateB1 = to1; 
+          IVrw.ToRateB2 = to2;
+          IVrw.BaseRate1 = br1;
+          IVrw.BaseRate2 = br2;    
+          IVrw.PayMode =  TVr.PMCash;
+          IVrw.Sum = ORp.PayVal01;        
+    
+          MatRowPut(IVp,ivcnt,IVrw);
+          if (IVDchrsum(IVp,ivcnt)) then begin end;
+          IVsumup(IVp,true);
+          ivcnt = ivcnt + 1;
+        end;
+        
+        if(ORp.PayVal02>0 and nonblank(TVr.PMTerminal))then begin
+          ClearRow(IVp,IVrw,kInvoiceRowTypeCreditCardPayment);
+          IVrw.CurncyCode = IVp.CurncyCode;
+          tstr = IVrw.CurncyCode;
+          GetFullCurncyRate(tstr,IVp.TransDate,fr,to1,to2,br1,br2);
+          IVrw.CurncyCode = tstr;
+          IVrw.FrRate = fr;
+          IVrw.ToRateB1 = to1; 
+          IVrw.ToRateB2 = to2;
+          IVrw.BaseRate1 = br1;
+          IVrw.BaseRate2 = br2;    
+          IVrw.PayMode =  TVr.PMTerminal;
+          IVrw.Sum = ORp.PayVal02;        
+    
+          MatRowPut(IVp,ivcnt,IVrw);
+          if (IVDchrsum(IVp,ivcnt)) then begin end;
+          IVsumup(IVp,true);
+          ivcnt = ivcnt + 1;
+        end;
+        
+      end;
+    end;
+  end;
+     
   if (lastshnr>0) and (totshv>0) then begin
     ClearRow(IVp,IVrw,1);
     IVrw.Spec = USetStr(20526);
@@ -1414,6 +1555,7 @@ L20PasteOrdInInv:;
       end;
       FillDropSHArray(ORp.SerNr,aDropSHr,adscnt);
   end;
+  logtext(0,"PasteOrdInInvPasteOrdInInvPasteOrdInInvPasteOrdInInv " & ORp.OrderType);
   switch (ORp.OrderType) begin
     case kOrderTypeDropShip:
     otherwise

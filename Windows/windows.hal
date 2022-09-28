@@ -296,9 +296,11 @@ begin
   vs = 20;
 	EditField(h,v+=vs,f,"Готівка",Normal,PayVal01,false,0); 
 	EditField(h,v+=vs,f,"Термінал",Normal,PayVal02,false,0); 
+	EditField(h,v+=vs,f,"Термінал 2",Normal,PayVal06,false,0); 
 	EditField(h,v+=vs,f,"Б/Н без ПДВ",Normal,PayVal03,false,0); 
 	EditField(h,v+=vs,f,"Кредит",Normal,PayVal04,false,0); 
-	EditField(h,v+=vs,f,"ОЧ Приват",Normal,PayVal05,false,0); 
+	EditField(h,v+=vs,f,"iBan",Normal,PayVal05,false,0); 
+	EditField(h,v+=vs,f,"Переказ",Normal,PayVal07,false,0); 
   EndWindow;
 end; //Edit***************************Sasha2,17:28 11.09.2014 }
 
@@ -2441,7 +2443,7 @@ end;
 window TochkaVidachiSClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
-	WindowBegin("Статус оплаты",TochkaVidachiSClass,CGslist,-);
+	WindowBegin("Точка выдачи",TochkaVidachiSClass,CGslist,-);
   	SetWRect(210,80,750,298);
   	Sizeable(-1,-1,0,0);
   	UseView(TochkaVidachiVc);
@@ -2457,7 +2459,7 @@ window TochkaVidachiDClass:1
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin 
 real vs,v,h,h1,h2,h3;
-  WindowBegin("Статус оплаты",TochkaVidachiDClass,CGview,-);	// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 4 April 2018 09:51:33
+  WindowBegin("Точка выдачи",TochkaVidachiDClass,CGview,-);	// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 4 April 2018 09:51:33
   //SetWRect(20,80,850,720);
   //Sizeable(-1,-1,0,0);
   UseView(TochkaVidachiVc);
@@ -2466,6 +2468,8 @@ real vs,v,h,h1,h2,h3;
   EditField(h=90,v+=20,250,"Адрес 1",Normal,Addr01,false,0);
   EditField(h=90,v+=20,250,"Адрес 2",Normal,Addr02,false,0);
   EditField(h=90,v+=20,250,"Адрес 3",Normal,Addr03,false,0);
+  EditField(h=90,v+=20,250,"Наличные",Normal,PMCash,false,PMSClass);
+  EditField(h=90,v+=20,250,"Терминал",Normal,PMTerminal,false,PMSClass);
   EndWindow;
  end; 
 
@@ -2476,7 +2480,7 @@ begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
 
-  WindowBegin("Статус оплаты",TochkaVidachiLClass,CGmList,-);
+  WindowBegin("Точка выдачи",TochkaVidachiLClass,CGmList,-);
   SpawnClass(TochkaVidachiDClass);
 	UseView(TochkaVidachiVc);
   SetWRect(64,80,800,298);

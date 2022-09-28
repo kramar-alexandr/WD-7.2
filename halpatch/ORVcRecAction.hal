@@ -2543,6 +2543,12 @@ begin
         msg = "Акт вже існує? Перевірте і зробіть все вручну.";
         goto lTryToFinishOrder;
       end;
+      if(nonblank(ORrw.Location))then begin
+        res = false;
+        msg = "Склади в рядках товарів недопустимі";
+        goto lTryToFinishOrder;
+      end;
+      
       INr.Code = ORrw.ArtCode;
       if(readfirstmain(INr,1,true))then begin
         if(INr.SerNrf>0)then begin
@@ -2569,9 +2575,9 @@ begin
     msg = "Вкажіть склад відвантаження";
     goto lTryToFinishOrder;
   end;
-  
-  if (ORr.OKFlag!=1) then begin
-    if (ORr.Closed!=0) then begin
+
+  if (ORr.OKFlag>0) then begin
+    if (ORr.Closed==0) then begin
       r = RecordAction_raPasteOrdInShip2(SHr,ORr.SerNr,msg);
       if (r==0) then begin
         rwcnt = matrowcnt(SHr);
@@ -2584,6 +2590,7 @@ begin
           end;
         end;
         recordcopy(oldSHr,SHr);
+        SHr.OKFlag = 1;
         if (RecordUpdate(oldSHr,SHr,true)==0) then begin
           res = true;
         end else begin

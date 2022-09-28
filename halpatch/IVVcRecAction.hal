@@ -540,7 +540,7 @@ BEGIN
         MatRowPut(IVp,i,IVrw);
       end;
     end; 
-    if (stpPaymentsExistF and paymentsSum!=IVp.Sum4) then begin
+    if (stpPaymentsExistF and paymentsSum!=IVp.Sum4 and IVp.OrderNr==-1) then begin
       RecordCheckError(24177,". " & paymentsSum,-1,"Sum4");
   		res = -1;
   		goto L99;
@@ -1659,7 +1659,7 @@ LkInvoiceTypeCredit:;
             testf = true;
           end;
         end;
-        if (testf) then begin
+        if (testf and IVp.OrderNr==-1) then begin
           RecordCheckError(24177,"",MatRowCnt(IVp),"Sum");      
           res = -1; 
           goto L99;
@@ -1689,7 +1689,7 @@ LkInvoiceTypeCredit:;
           end;
         end;
       end;
-      if (testf) then begin
+      if (testf and IVp.OrderNr==-1) then begin
         RecordCheckError(24177,"",MatRowCnt(IVp),"Sum");      
         res = -1; 
         goto L99;

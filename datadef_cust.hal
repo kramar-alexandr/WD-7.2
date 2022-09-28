@@ -57,6 +57,8 @@ begin
   RecordField(PayVal03,M4Val,0,0);
   RecordField(PayVal04,M4Val,0,0);
   RecordField(PayVal05,M4Val,0,0);
+  RecordField(PayVal06,M4Val,0,0);
+  RecordField(PayVal07,M4Val,0,0);
   EndBlock;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 16 02 2021 y. at 10:56:17 AM
   
     
@@ -918,6 +920,9 @@ RecordBegin(BinotelCallEndVc,-,"");//Edit-------------------Vitalii 17:10 03.11.
     RecordField(Addr01,M4Str,250,0);
     RecordField(Addr02,M4Str,250,0);
     RecordField(Addr03,M4Str,250,0);
+    RecordField(PMCash,M4Str,10,0);
+    RecordField(PMTerminal,M4Str,10,0);
+    
 		MainKeyBegin(Code,0);
 		KeySegment(Code);
   EndRecord; 

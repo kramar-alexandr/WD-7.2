@@ -108,6 +108,9 @@ begin
     RecordField(Finished,M4Mark,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 09 2022 y. at 5:05:02 PM
     RecordField(Printed,M4Mark,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 09 2022 y. at 5:05:02 PM
     
+    RecordField(PayVal06,M4Val,0,0);
+    RecordField(PayVal07,M4Val,0,0);
+    
     ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28
     ArrayField(ORPrint,M4Int,0,0);
     ArrayField(GarantyFor,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:14:26 PM

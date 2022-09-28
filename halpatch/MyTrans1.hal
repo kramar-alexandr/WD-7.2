@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean PODClassAfterEditField(Integer,string,Integer,Integer,Integer);
 external function Boolean PUDClassAfterEditField(Integer,string,Integer,Integer,Integer);
 external function LongInt GetCurUserLastNr(string);

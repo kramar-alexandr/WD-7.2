@@ -320,9 +320,11 @@ begin
       vv = v+25;
       EditField(h4,v+=vs,70,"Готівка",Normal,PayVal01,false,0);
       EditField(h4,v+=vs,70,"Термінал",Normal,PayVal02,false,0);
+      EditField(h4,v+=vs,70,"Термінал 2",Normal,PayVal06,false,0);
       EditField(h4,v+=vs,70,"Б/Н без ПДВ",Normal,PayVal03,false,0);
       EditField(h4,v+=vs,70,"Кредит",Normal,PayVal04,false,0);
-      EditField(h4,v+=vs,70,"ОЧ Приват",Normal,PayVal05,false,0);
+      EditField(h4,v+=vs,70,"iBan",Normal,PayVal05,false,0);
+      EditField(h4,v+=vs,70,"Переказ",Normal,PayVal07,false,0);
       EditField(h4,v+=vs,70,"Всього",ViewOnly ,Sum4,true,0);
   
       //1 
