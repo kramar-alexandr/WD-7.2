@@ -82,6 +82,8 @@ external procedure ORDchsum(var record ORVc,Integer);// Edit *******************
 external procedure ORSumup(var record ORVc);// Edit ************************** Thursday, 4 September 2014 10:47:57
 external procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
 external updating function LongInt RecordAction_raPasteOrdInShip2(var record SHVc,LongInt,var string);
+external procedure FindStockValueInclStockReserv(LongInt,string,string,string,var record ItemStatusVc,var val);
+external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
 
 
 SetLangMode(LangRussian,"RUS",0);
@@ -433,7 +435,7 @@ begin
   string 255 tstr,errstr;
   Boolean gentrans,transf,unokf,testf,test2f;
   record OrdSettBlock OSb;
-  string 20 location,oldOfficialSerNr;
+  string 20 location,oldOfficialSerNr,loc3,loc2;
   val orsrv,orsrved;
   record OrderClassVc OrderClassr;
   record DMVc DMr;
@@ -459,12 +461,14 @@ begin
   Boolean initotcheckf;  
   record CUUserLabelBlock CUUerLb;
   record CountryVc Countryr;
-  val frrate;// Edit ************************** Thursday, 4 September 2014 10:40:39
+  val frrate,prev,stockreservq;// Edit ************************** Thursday, 4 September 2014 10:40:39
   val percent,minpercent;// Edit ************************** Thursday, 4 September 2014 10:40:40
   record PLVc PLr;// Edit ************************** Thursday, 4 September 2014 10:40:41
 	record BaseCurBlock BCb;// Edit ************************** Tuesday, 23 June 2015 18:03:02
 	record ORVc oldORr;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 4:14:28 PM
 	boolean TrHs;
+	record SerNrTrackBlock SNrb;
+	
 	
 	blockload(BCb);// Edit ************************** Tuesday, 23 June 2015 18:02:59
 	oldnr = ORr.SerNr;
@@ -1391,6 +1395,66 @@ begin
             goto LORVcRecordCheck;
           end;
         end;
+        
+        
+        
+        
+        if(stat==updatemode)then begin
+          if (ORr.OKFlag!=0 and OR2r.OKFlag==0) then begin// Edit ************************** Monday, July 7, 2014 at 12:17:45
+            
+            if (nonblank(ORrw.Location)) then begin
+              loc2 = ORrw.Location;
+            end else begin
+              loc2 = location;
+            end;
+            
+            blockload(SNrb);
+            prev = 0;
+            for (j=0;j<i;j=j+1) begin
+              MatRowGet(ORr,j,OR2rw);
+              if (nonblank(OR2rw.Location)) then begin
+                loc3 = OR2rw.Location;
+              end else begin
+                loc3 = location;
+              end;
+              testf = true;
+              if (loc3!=loc2) then begin testf = false; end;
+              if (OR2rw.ArtCode!=ORrw.ArtCode) then begin testf = false; end;
+              if (INr.SerNrf!=0) then begin
+                if ((OR2rw.SerialNr!=ORrw.SerialNr) or (SNrb.BulkSerialNos!=0)) then begin testf = false; end;
+              end;
+              if (testf) then begin
+                prev = prev + (OR2rw.Quant - OR2rw.Shipd2);
+              end;
+            end;  
+          
+            prev = prev + (ORrw.Quant - ORrw.Shipd2);
+            switch (INr.ItemType) begin
+              case 1:    
+                       
+                if (SNrb.BulkSerialNos!=0) then begin
+                  FindStockValueInclStockReserv(-1,ORrw.ArtCode,"",loc2,ISr,stockreservq);
+                end else begin
+                  if(blank(ORrw.SerialNr))then begin
+                    RecordCheckError(1240,"",i,"SerialNr");      
+                    res = -1; 
+                    goto LORVcRecordCheck;
+                  end;
+                  FindStockValueInclStockReserv(-1,ORrw.ArtCode,ORrw.SerialNr,loc2,ISr,stockreservq);
+                end;
+                logtext(0,"prev+stockreservq " & prev & " + " & stockreservq);
+                logtext(0,"ISr.Instock " & ISr.Instock);
+                if (ISr.Instock<(prev+stockreservq)) then begin
+                  RecordCheckError(1247,"",i,"Quant");      
+                  res = -1;
+                  goto LORVcRecordCheck;
+                end;
+            end;
+          end;
+        end;
+        
+        
+        
         if (ORrw.Sum!=0) then begin
           if (blank(ORrw.ArtCode)) then begin
             RecordCheckError(1130,ORrw.ArtCode,i,"ArtCode");      
