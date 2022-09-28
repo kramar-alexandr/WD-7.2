@@ -2853,7 +2853,7 @@ begin
     end else begin
       messagebox(0,"‚же надруковано");
     end; 
-  end end else begin
+  end else begin
     messagebox(0,"‡початку заЋкейте чек");
   end;
   
