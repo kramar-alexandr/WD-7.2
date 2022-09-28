@@ -1400,7 +1400,14 @@ begin
         
         
         if(stat==updatemode)then begin
-          if (ORr.OKFlag!=0 and OR2r.OKFlag==0) then begin// Edit ************************** Monday, July 7, 2014 at 12:17:45
+          if (ORr.OKFlag!=0 and OR2r.OKFlag==0 and currentcompany==13) then begin// Edit ************************** Monday, July 7, 2014 at 12:17:45
+            
+            if(nonblank(ORrw.Location) and (ORrw.Location!=ORr.Location))then begin
+              RecordCheckError(1768,"",i,"Location");      
+              res = -1;
+              goto LORVcRecordCheck;
+            end;
+            
             
             if (nonblank(ORrw.Location)) then begin
               loc2 = ORrw.Location;
