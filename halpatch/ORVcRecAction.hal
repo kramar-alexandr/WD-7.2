@@ -2547,7 +2547,7 @@ begin
         logtext(0,msg);
         goto lTryToFinishOrder;
       end;
-      if(nonblank(ORrw.Location))then begin
+      if(nonblank(ORrw.Location) and (ORrw.Location!=ORr.Location))then begin
         res = false;
         msg = "Склади в рядках товарів недопустимі";
         logtext(0,msg);
