@@ -1511,6 +1511,11 @@ BEGIN
 		res = true; 
     goto LORDClassActiveEditField; 
 	end;
+	if(fieldname=="TTNNumber")then begin
+		check = true;
+		res = true; 
+    goto LORDClassActiveEditField; 
+	end;
   
   
   
