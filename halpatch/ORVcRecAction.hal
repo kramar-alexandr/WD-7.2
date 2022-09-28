@@ -2667,8 +2667,8 @@ begin
         SHr.OKFlag = 1;
         if (RecordUpdate(oldSHr,SHr,true)==0) then begin
           res = true;
+          readfirstmain(ORr,1,true);
           ORr.Finished = 1;
-          
         end else begin
           GetRecordCheckDetails(errstr,errfield,rwnr);
         end;
