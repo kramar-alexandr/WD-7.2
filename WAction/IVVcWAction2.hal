@@ -2398,13 +2398,17 @@ begin
   		DeselectWindow(wn,false);
   		GetWindowRecord(wn,ORr);
    		
-   		blockload(FOPb);
-   		if(matrowcnt(FOPb)>0)then begin
-   			matrowget(FOPb,0,FOPrw);
+   		if(ORr.OrderStatusCode==2 or ORr.OrderStatusCode==4)then begin
+        blockload(FOPb);
+        if(matrowcnt(FOPb)>0)then begin
+          matrowget(FOPb,0,FOPrw);
+        end;
+        RepSpec.long1 = ORr.SerNr;
+        RepSpec.f1 = FOPrw.Name;
+        OpenWindow("ORCheckPrintWClass",1,0,"","",RepSpec); 
+   		end else begin
+   		  MessageBox(0,"Завершіть або відправте замовлення");
    		end;
-   		RepSpec.long1 = ORr.SerNr;
-   		RepSpec.f1 = FOPrw.Name;
-   		OpenWindow("ORCheckPrintWClass",1,0,"","",RepSpec); 
 		end else begin
 		  MessageBox(1356,"");
 		end;
