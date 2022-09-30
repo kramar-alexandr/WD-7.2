@@ -2398,7 +2398,7 @@ begin
   		DeselectWindow(wn,false);
   		GetWindowRecord(wn,ORr);
    		
-   		if(ORr.OrderStatusCode==2 or ORr.OrderStatusCode==4)then begin
+   		if(ORr.OrderStatusCode==2 or ORr.OrderStatusCode==3)then begin
         blockload(FOPb);
         if(matrowcnt(FOPb)>0)then begin
           matrowget(FOPb,0,FOPrw);
