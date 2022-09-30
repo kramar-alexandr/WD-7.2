@@ -70,6 +70,7 @@ row CLInVc CLInrw;
     matrowget(IVr,i,newIVrw);
     if(newIVrw.stp==kInvoiceRowTypeCreditCardPayment)then begin
       sum = sum - newIVrw.Sum;
+      enddate = IVr.InvDate;
     end;
   end;
   
