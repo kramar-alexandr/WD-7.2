@@ -52,7 +52,7 @@ record IPrsVc newIPr;
 boolean TrHs,testf,testf1;
 record IVVc newIVr;
 row IVVc newIVrw;
-integer mtrw,i;
+integer mtrw,i,rwcnt;
 record CLOutVc CLOutr;
 row CLOutVc CLOutrw;
 record IPVc IPr;
@@ -64,6 +64,15 @@ row CLInVc CLInrw;
   newIPr.IVNr = IVr.SerNr;
   TrHs = true;
   testf1 = true;
+  
+  rwcnt = matrowcnt(IVr);
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(IVr,i,newIVrw);
+    if(newIVrw.stp==kInvoiceRowTypeCreditCardPayment)then begin
+      sum = sum - newIVrw.Sum;
+    end;
+  end;
+  
   while(loopkey("IVKey",newIPr,1,TrHs))begin
     if(newIPr.IVNr!=IVr.SerNr)then begin TrHs = false; end;
     
