@@ -395,7 +395,7 @@ begin
 	while(loopkey("OrdDate",ORr,1,TrHs))begin
 	  testf = true;
 	  if(ORr.OrdDate>RepSpec.sEndDate)then begin TrHs = false; testf = false; end;
-	  if(nonblank(RepSpec.f1) and RepSpec.f1!=ORr.OrderClass)then begin TrHs = false; testf = false; end;
+	  if(nonblank(RepSpec.f1) and RepSpec.f1!=ORr.OrderClass)then begin testf = false; end;
 	  
 	  if(testf)then begin
 	    col = 50;
