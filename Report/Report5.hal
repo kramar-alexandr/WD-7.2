@@ -342,3 +342,75 @@ begin
 	
 return;
 end;
+
+
+
+global procedure ORCustJrRn(record RcVc RepSpec)
+begin
+	record INVc INr;
+	record ITVc ITr;
+	date sd,ed;
+	val qty,cost,eqty,ecost,midcost,midqty,turncost,turnqty,toserv,puqty;
+	string 50 location,group,artcode,loc;
+	record LocalMachineAccBlock LMAb;
+	string 10 key;
+	integer kynum;
+	boolean TrHs,testf;
+	record LocationVc Locr;
+	integer pos,col;
+	record ORVc ORr;
+	
+	blockload(LMAb);
+	
+	sd = RepSpec.sStartDate;
+	ed = RepSpec.sEndDate;
+	if(ed>currentdate)then begin
+		ed = currentdate;
+	end;
+	location = RepSpec.f3;
+	group = RepSpec.f2;
+	artcode = RepSpec.f1;
+	
+	startreportnoheaderjob("Аналiз оборотностi товарiв");
+	
+	
+	startformat(15);
+	outstring(0,0,"Період",false);
+	outstring(0,0,sd & ":" & ed,false);
+	endformat;
+	
+	startformat(15);
+	endformat;
+	col = 50;
+	startformat(15);
+		outstring(0,0,"Рахуно",false);
+		outstring(col,0,"Дата",false); col = col + 50;
+		outstring(col,0,"Клієнт",false); col = col + 50;
+		outstring(col,0,"Ім'я",false); col = col + 100;
+		outstring(col,0,"Комментар",false); col = col + 50;
+	endformat;
+	
+	TrHs = true;
+	ORr.OrdDate = RepSpec.sStartDate;
+	while(loopkey("OrdDate",ORr,1,TrHs))begin
+	  testf = true;
+	  if(ORr.OrdDate>RepSpec.sEndDate)then begin TrHs = false; testf = false; end;
+	  if(nonblank(RepSpec.f1) and RepSpec.f1!=ORr.OrderClass)then begin TrHs = false; testf = false; end;
+	  
+	  if(testf)then begin
+	    col = 50;
+	    startformat(15);
+        outstring(0,"DblORVc",ORr.SerNr,false);
+        outstring(col,0,ORr.OrdDate,false); col = col + 50;
+        outstring(col,0,ORr.CustCode,false); col = col + 50;
+        outstring(col,0,ORr.Addr0,false); col = col + 100;
+        OutText(col,255,ORr);
+        //outstring(col,0,"Комментар",false); col = col + 50;
+      endformat;
+	  end;
+	end;
+	
+	endjob;
+	
+return;
+end;

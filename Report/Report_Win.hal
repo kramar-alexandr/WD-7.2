@@ -397,7 +397,13 @@ begin
     SetWRect(20,120,350,300);
     EditFieldTL(h,v+=20,80,"На дату",M4Date,Normal,0,d1,false,PasteCurDate);
   EndWindow;
-
   
+  v = 20;
+  WindowBegin("Выгрузка заказов",ORCustJrRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    PeriodField(h,v,"Період");
+    EditField(h,v+=20,100,"Вид рахунка",Normal,f1,false,OrderClassSClass);
+  EndWindow;
+    
   return;
   end;

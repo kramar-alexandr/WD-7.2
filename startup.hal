@@ -83,6 +83,8 @@ begin
 	
 	Report("Аналiз оборотностi товарiв",ItemTurnoverRClass,ItemTurnoverRn,0,modSO);
 	
+	Report("Выгрузка данных по счетам",ORCustJrRClass,ORCustJrRn,0,modSO);
+	
 	Report("Розбіжність складу з балансом",StockBalDiffRClass,StockBalDiffRn,0,modIN);
 	Report("Розбіжність складу з балансом",StockBalDiffRClass,StockBalDiffRn,0,modNL);
 	
