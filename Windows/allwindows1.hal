@@ -1055,7 +1055,7 @@ begin
           EditField(h3,v+=25,70,"",ViewOnly,ReadyToSentMan,false,0);
           EditField(h3+100,v,160,"",ViewOnly,TTNNStatus,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 20 09 2022 y. at 9:58:20 PM
           EditField(h3,v+=25,70,"",ViewOnly,DoneMan,false,0);
-          CheckBox(h3+140,v,0,"Без СМС",NoSMS);
+          CheckBox(h3+110,v,0,"Без СМС",NoSMS);
           EditField(h3+140,v+vs,70,"Точка:",Normal,TochkaVidachi,false,TochkaVidachiSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 01 2022 y. at 10:18:35 AM
           EditField(h3,v+=25,70,"",ViewOnly,RejectMan,false,0);
           //(6)
