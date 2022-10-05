@@ -1045,7 +1045,7 @@ begin
           EditField(h3,v+=25,70,"",ViewOnly,DoneTime,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,RejectTime,false,0);
           CheckBox(h3+160,v,0,"",RejectMark);
-          CheckBox(h3+360,v,0,"Без СМС",NoSMS);
+          CheckBox(h3+260,v,0,"Без СМС",NoSMS);
           EditField(h2+250,v+vs,-180,"Причина",Normal,RejectStr,false,RejectStrSClass);
           //(5)
           v=6;
