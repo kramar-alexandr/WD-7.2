@@ -72,6 +72,7 @@ external function string 20 NormalPhone(string);
 remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
 external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
 remote procedure HandleBixolonWarranty(record ORVc,var area);	//Edit **********************************************Vas-P	10/11/2021
+remote function val CommisionCodeBlockComission(string);
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -1395,7 +1396,7 @@ begin
 	row ORVc ORrw;
 	boolean foundf;
 	
-	if(ORr.PayVal01!=0 or ORr.PayVal02!=0 or ORr.PayVal03!=0 or ORr.PayVal04!=0 or ORr.PayVal05!=0 or ORr.PayVal06!=0 or ORr.PayVal07!=0)then begin
+	if(ORr.PayVal01!=0 or ORr.PayVal02!=0 or ORr.PayVal03!=0 or ORr.PayVal04!=0 or ORr.PayVal05!=0 or ORr.PayVal06!=0 or ORr.PayVal07!=0 or ORr.PayValWithCom!=0)then begin
 		blockload(PCb);
 		
 		if(PCb.PayVal01!=0)then begin
@@ -1419,7 +1420,10 @@ begin
 		if(PCb.PayVal07!=0)then begin
 			comsum = comsum + ORr.PayVal07 / 100 * PCb.PayVal07;
 		end;
-		
+		if(CommisionCodeBlockComission(ORr.ComisionCode)!=0)then begin
+			comsum = comsum + ORr.PayValWithCom / 100 * CommisionCodeBlockComission(ORr.ComisionCode);
+		end;
+				
 		if(comsum==0)then begin
 			rwcnt = matrowcnt(ORr);
 			for(i=0;i<rwcnt;i=i+1)begin

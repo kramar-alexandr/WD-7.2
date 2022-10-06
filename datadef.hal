@@ -111,6 +111,8 @@ begin
     RecordField(PayVal06,M4Val,0,0);
     RecordField(PayVal07,M4Val,0,0);
     RecordField(NoSMS,M4Mark,0,0);
+    RecordField(PayValWithCom,M4Val,0,0);
+    RecordField(ComisionCode,M4Code,20,0);
     
     ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28
     ArrayField(ORPrint,M4Int,0,0);

@@ -468,6 +468,8 @@ begin
 	record ORVc oldORr;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 4:14:28 PM
 	boolean TrHs;
 	record SerNrTrackBlock SNrb;
+	record CommisionCodeBlock CommisionCodeb;
+	row CommisionCodeBlock CommisionCoderw;
 	
 	
 	blockload(BCb);// Edit ************************** Tuesday, 23 June 2015 18:02:59
@@ -710,6 +712,28 @@ begin
     res = -1;
     goto LORVcRecordCheck;        
   end;
+  
+  if(ORr.PayValWithCom!=0 and blank(ORr.ComisionCode))then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 06 10 2022 y. at 8:26:00 PM
+    RecordCheckError(1256,"",-1,"ComisionCode");      
+    res = -1;
+    goto LORVcRecordCheck;     
+  end;
+  if(ORr.PayValWithCom!=0 and nonblank(ORr.ComisionCode))then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 06 10 2022 y. at 8:26:00 PM
+    blockload(CommisionCodeb);
+    testf = false;
+    for(i=0;i<matrowcnt(CommisionCodeb);i=i+1)begin
+      matrowget(CommisionCodeb,i,CommisionCoderw);
+      if(CommisionCoderw.Code==ORr.ComisionCode)then begin
+        testf = true;
+      end;
+    end;
+    if(testf==false)then begin
+      RecordCheckError(1120,"",-1,"ComisionCode");      
+      res = -1;
+      goto LORVcRecordCheck;    
+    end;
+  end;
+  
   switch (stat) begin
     case Rs_update:
       if (ORr.OKFlag!=0) and (OR2r.OKFlag==0) then begin

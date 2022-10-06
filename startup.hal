@@ -13,6 +13,7 @@ begin
 	Module("СМС повідомлення","",730,modSMS);//Edit-------------------Vitalii 11:39 25.03.2016
 
 	Setting("Налаштування СМС",SMSConfigTClass,modSMS);
+	Setting("Налаштування комісії Б/Н оплат",CommisionCodeTClass,modSO);
 
 	
 	Register("Заробітьня відомість","Заробітьня відомість",BPIJobCostVc,modExp);

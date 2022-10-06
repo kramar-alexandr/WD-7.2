@@ -927,7 +927,16 @@ RecordBegin(BinotelCallEndVc,-,"");//Edit-------------------Vitalii 17:10 03.11.
 		KeySegment(Code);
   EndRecord; 
   
-  	
+  BlockBegin(CommisionCodeBlock,-,"");
+		RecordField(Math,M4Matrix,0,0);
+		ArrayBegin(Math,-,1);
+			ArrayField(Code,M4Code,20,0);
+			ArrayField(Percent,M4Val,0,0);
+			ArrayField(PayMode,M4Code,10,0);
+			ArrayField(Comment,M4Str,200,0);
+		EndArray;
+	EndBlock;
+  
 return;
 end;
 	

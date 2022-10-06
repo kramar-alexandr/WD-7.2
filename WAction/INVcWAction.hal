@@ -1411,3 +1411,34 @@ begin
   return;
 end; //Edit***************************Sasha2,13:21 14.12.2015 ]
 
+
+
+
+global //Edit***************************Sasha2,14:20 14.12.2015 {
+function Boolean CommisionCodeSClassOnOpenWindow(Integer wn)
+begin
+  Array string 255 astr;
+  Integer i,acnt;
+  record CommisionCodeBlock CommisionCodeb;
+  row CommisionCodeBlock CommisionCoderw;
+  string 255 tstr;
+  
+  blockload(CommisionCodeb);
+  
+  for (i=0;i<matrowcnt(CommisionCodeb);i=i+1) begin
+    matrowget(CommisionCodeb,i,CommisionCoderw);
+    tstr = CommisionCoderw.Code & "     " & CommisionCoderw.Comment;
+    SetListString(wn,len(tstr),tstr,false);    
+  end;
+  CommisionCodeSClassOnOpenWindow = false;
+  return;
+end; //Edit***************************Sasha2,14:20 14.12.2015 }
+
+
+global //Edit***************************Sasha2,14:51 14.12.2015 {
+function Boolean CommisionCodeSClassOnOKWindow(Integer wn)
+begin
+  PasteFromSysList(wn,-2);
+  CommisionCodeSClassOnOKWindow = false;
+  return;
+end; //Edit***************************Sasha2,14:51 14.12.2015 }

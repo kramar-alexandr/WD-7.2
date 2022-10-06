@@ -635,6 +635,11 @@ begin
           creditcard = creditcard + stringtolongint(ORr.PayVal07*100);
           ifcreditcard = true;
         end;
+        if(ORr.PayValWithCom>0)then begin
+          tstr = "CreditCard";
+          creditcard = creditcard + stringtolongint(ORr.PayValWithCom*100);
+          ifcreditcard = true;
+        end;
 
         if(tstr=="CreditCard")then begin
           if(ifcash)then begin

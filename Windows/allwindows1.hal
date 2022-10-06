@@ -226,6 +226,9 @@ begin
   string 255 label;
   boolean show;
   record ORVc ORr;
+  
+  goto lSimpleORWindow;
+  
 	if(CurrentCompany!=13) then begin 
 		if(UserCanAction("ManagerView",false)==false)then begin
 			//if(false) then begin 
@@ -957,7 +960,8 @@ begin
 			EndWindow;
 		end;
 	end else begin
-		if(usercanaction("SimpleORWindow",true))then begin  
+		if(usercanaction("SimpleORWindow",true))then begin 
+lSimpleORWindow:;
       WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
         SetWRect(20,80,1050,450);
         DynamicWindow;
@@ -1046,6 +1050,12 @@ begin
           EditField(h3,v+=25,70,"",ViewOnly,RejectTime,false,0);
           CheckBox(h3+160,v,0,"",RejectMark);
           EditField(h2+250,v+vs,-180,"Причина",Normal,RejectStr,false,RejectStrSClass);
+          
+          h1 = 140;
+          EditField(h1,v+vs+vs,70,"Б/Н без ПДВ (архів)",ViewOnly,PayVal03,false,0);
+          EditField(h1+=200,v+vs+vs,70,"Кредит (архів)",ViewOnly,PayVal04,false,0);
+          EditField(h1+=200,v+vs+vs,70,"iBan (архів)",ViewOnly,PayVal05,false,0);
+          EditField(h1+=200,v+vs+vs,70,"Переказ (архів)",ViewOnly,PayVal07,false,0);
           //(5)
           v=6;
           h3 = 600;
@@ -1073,10 +1083,12 @@ begin
           EditField(h4,v+=vs,70,"Готівка",Normal,PayVal01,false,0);
           EditField(h4,v+=vs,70,"Термінал",Normal,PayVal02,false,0);
           EditField(h4,v+=vs,70,"Термінал 2",Normal,PayVal06,false,0);
-          EditField(h4,v+=vs,70,"Б/Н без ПДВ",Normal,PayVal03,false,0);
-          EditField(h4,v+=vs,70,"Кредит",Normal,PayVal04,false,0);
-          EditField(h4,v+=vs,70,"iBan",Normal,PayVal05,false,0);
-          EditField(h4,v+=vs,70,"Переказ",Normal,PayVal07,false,0);
+          //EditField(h4,v+=vs,70,"Б/Н без ПДВ",Normal,PayVal03,false,0);
+          //EditField(h4,v+=vs,70,"Кредит",Normal,PayVal04,false,0);
+          //EditField(h4,v+=vs,70,"iBan",Normal,PayVal05,false,0);
+          //EditField(h4,v+=vs,70,"Переказ",Normal,PayVal07,false,0);
+          EditField(h4,v+=vs,70,"Б/Н з комісією",Normal,PayValWithCom,false,0);
+          EditField(h4,v+=vs,70,"Коммісія",Normal,ComisionCode,false,CommisionCodeSClass);
           EditField(h4,v+=vs,70,"Всього",ViewOnly ,Sum4,true,0);
   
           //1 

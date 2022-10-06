@@ -131,6 +131,9 @@ record INVc INr;
 		case "PayVal05": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
 		case "PayVal06": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
 		case "PayVal07": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+		case "PayValWithCom": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end; 
+		case "ComisionCode": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
+		
 		case "TochkaVidachi": if(changed==1)then begin ReadyToVidach(ORr,wn); end;  
 		
 		

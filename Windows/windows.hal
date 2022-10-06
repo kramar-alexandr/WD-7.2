@@ -2491,3 +2491,31 @@ begin
   SearchField("Поиск");
   EndWindow;
 end;
+
+
+window CommisionCodeTClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin 
+  WindowBegin("Налаштування комісії Б/Н оплат",CommisionCodeTClass,CGHbl,-);
+  SetBlid(CommisionCodeBlock);
+  SetWRect(64,80,600,200);
+    MatrixBegin(5,27,-21,-20,-,99);
+    MatCol(1,24,"Код",0,Code,false,0);
+    MatCol(1,90,"Комісія %",0,Percent,false,0);
+    MatCol(1,160,"Спосіб оплати",0,PayMode,false,PMSClass);
+    MatCol(1,240,"Коментар",0,Comment,false,0);
+
+    EndMatrix;
+  EndWindow; 
+ end;  
+ 
+ 
+ window CommisionCodeSClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Оберіть склад",CommisionCodeSClass,CGother,HBlRecType);
+  SetWRect(240,80,520,291);
+  Sizeable(-1,-1,-1,0);
+  StringList(9,9,-20,-10);
+  EndWindow;
+end;
