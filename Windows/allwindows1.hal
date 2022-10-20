@@ -1056,7 +1056,7 @@ lSimpleORWindow:;
           EditField(h1+=200,v+vs+vs,70,"Кредит (архів)",ViewOnly,PayVal04,false,0);
           EditField(h1+=200,v+vs+vs,70,"iBan (архів)",ViewOnly,PayVal05,false,0);
           EditField(h1+=200,v+vs+vs,70,"Переказ (архів)",ViewOnly,PayVal07,false,0);
-          HalPushButton(h1+150,v+vs+vs+vs,h1+50,v+vs+vs+vs+vs,"CreateActFromORDDsm","Замовити");
+          HalPushButton(h1+150,v+vs+vs+vs,h1+200,v+vs+vs+vs+vs,"CreateActFromORDDsm","Замовити");
           //(5)
           v=6;
           h3 = 600;
