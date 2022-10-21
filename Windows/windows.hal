@@ -461,6 +461,20 @@ begin
   EndWindow;
 end;
 
+window ImportINClass:1 //Edit***************************Sasha2,9:58 02.10.2014 {
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real vs;
+  WindowBegin("Імпорт товаров",ImportPLClass,CGIcW,RcType);
+  SetWRect(80,80,530,190);    
+  StaticText(10,vs=25,"Опис формату файла для імпорту",false);
+  StaticText(10,vs=vs+10,"Для нових товарів",false);
+  StaticText(10,vs=vs+20,"1 стовпчик: Код",false);
+  StaticText(10,vs=vs+20,"2 стовпчик: Назва",false);
+  EndWindow;
+end;
+
+
 window ImportUniversalLClass:1 //Edit***************************Sasha2,9:58 02.10.2014 {
  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
