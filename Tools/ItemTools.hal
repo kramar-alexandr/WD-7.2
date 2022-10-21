@@ -367,6 +367,8 @@ begin
 				RecordStore(INr,true);
 			end;
 		end else begin
+		  INr.Name = SN1;
+		  recordstore(INr,true);
 			Logtext(0,"Item Exist" & SN);
 		end;
 		if (NextImportLine(true)) then begin end;
