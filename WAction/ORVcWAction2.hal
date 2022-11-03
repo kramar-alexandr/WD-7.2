@@ -2869,3 +2869,17 @@ begin
 return;
 end;
 
+
+
+global
+function Boolean ORLClassOnOpenWindow(Integer wn)
+begin
+  date dt;
+  record UserVc Userr;
+  string 50 subset;
+	
+	
+	
+  ORLClassOnOpenWindow = false;
+  return;
+end;

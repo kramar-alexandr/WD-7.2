@@ -112,3 +112,37 @@ begin
 
 return;
 end;
+
+
+
+global webpublic updating procedure WebUpdateORSalesGroup()
+begin
+  record ORVc ORr;
+  
+  setcompany(13,false);
+  
+  while(loopmain(ORr,1,true))begin
+    if(ORr.OrdDate>currentdate)then begin
+      if(nonblankdate(ORr.PlanShipDate))then begin
+        ORr.OrdDate = ORr.PlanShipDate;
+        recordstore(ORr,true);
+      end;      
+    end;
+    if(ORr.OrdDate>currentdate)then begin
+      if(nonblankdate(ORr.RegDate))then begin
+        ORr.OrdDate = ORr.RegDate;
+        recordstore(ORr,true);
+      end;      
+    end;
+    
+    if(blank(ORr.SalesGroup))then begin
+      ORr.SalesGroup = "NOTNP";
+      if(ORr.OrderClass=="INTNP")then begin
+        ORr.SalesGroup = "NP";
+      end;
+      recordstore(ORr,true);
+    end;
+  end;
+  
+return;
+end;
