@@ -2878,7 +2878,11 @@ begin
   record UserVc Userr;
   string 50 subset;
 	
-	
+	if(currentcompany==13)then begin
+	  if(currentuser=="SA")then begin
+      setwindowsubset(wn,"NP");
+	  end;
+	end;
 	
   ORLClassOnOpenWindow = false;
   return;
