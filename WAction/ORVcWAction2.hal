@@ -1290,7 +1290,7 @@ begin
   res = true;
   GetWindowRecord(wn,ORr);
   
-  check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
+  check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
 	if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
 		if(rownr>-1)then begin
 			if(currentuser!="SAUNOK" and check==false)then begin
@@ -1494,7 +1494,7 @@ BEGIN
   
   DT_BANKflag = false;
   
-	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
+	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
 	if(fieldname=="SerialNr")then begin
 		check = true;
 		res = true; 
@@ -1764,7 +1764,7 @@ BEGIN
   record ORVc OR2r;
   record StockMovVc StockMovr; //Edit***************************Sasha2,10:40 11.02.2016
 
-	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
+	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
 
 
   res = true; 
@@ -2802,7 +2802,7 @@ begin
     duplOK = false;
     
     if(currentcompany=13)then begin
-    	duplOK = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);
+    	duplOK = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);
 		end else begin
 		  duplOK = true;
 		end;

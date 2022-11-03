@@ -90,7 +90,7 @@ record INVc INr;
 	res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
 	
 	
-	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);
+	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);
 	
 	usercanaction("AllowUpperPrice",false)
 	
