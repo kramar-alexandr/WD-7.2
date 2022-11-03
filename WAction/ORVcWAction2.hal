@@ -2879,8 +2879,11 @@ begin
   string 50 subset;
 	
 	if(currentcompany==13)then begin
-	  if(currentuser=="SA")then begin
-      setwindowsubset(wn,"NP");
+	  Userr.Code = currentuser;
+	  if(readfirstmain(Userr,1,true))then begin
+	    if(nonblank(Userr.SalesGroup))then begin
+	      setwindowsubset(wn,Userr.SalesGroup);
+	    end;
 	  end;
 	end;
 	

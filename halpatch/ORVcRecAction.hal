@@ -2336,7 +2336,10 @@ begin
   ORr.OurContact = USr.CurOurContact;
   ORr.Location = USr.Location;
   ORr.SalesMan = USr.Code;
-  ORr.SalesGroup = USr.SalesGroup;  
+  ORr.SalesGroup = USr.SalesGroup; 
+  if(currentcompany==13)then begin
+    ORr.SalesGroup = "NOTNP";
+  end;
   if (SingleUserMode) then begin
     ORr.SerNr = NextSerNr("ORVc",ORr.OrdDate,-1,false,"");
   end;
