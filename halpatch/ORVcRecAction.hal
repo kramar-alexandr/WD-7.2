@@ -2277,6 +2277,11 @@ begin
   if (blank(ORr.OfficialSerNr)) then begin
     FindNextORVcOfficialSerialNr(ORr);
   end;
+  
+  if(blank(ORr.SalesGroup))then begin
+    ORr.SalesGroup = "NOTNP";
+  end;
+  
   ORVcRecordSave = res; 
   return;
 end;
