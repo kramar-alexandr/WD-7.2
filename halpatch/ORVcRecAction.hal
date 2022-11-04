@@ -2117,6 +2117,13 @@ begin
   SetORFlags(ORr);
   SetORAcceptanceFlag(ORr,OR2r,stat);
   RecalculateWeightORVc(ORr,false);  
+  
+  if(ORr.OrderClass!=OR2r.OrderClass)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 04 11 2022 y. at 9:56:11 AM
+    if(ORr.OrderClass=="INTNP")then begin
+      ORr.SalesGroup = "NP";
+    end;
+  end;
+  
   ORVcRecordUpdate = res; 
   return;
 end;
