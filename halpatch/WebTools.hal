@@ -136,7 +136,7 @@ begin
       end;      
     end;
     
-    if(blank(ORr.SalesGroup) or ORr.SalesGroup=="NOTNP")then begin
+    if(blank(ORr.SalesGroup))then begin
       ORr.SalesGroup = "NOTNP";
       if(ORr.OrderClass=="INTNP")then begin
         ORr.SalesGroup = "NP";
