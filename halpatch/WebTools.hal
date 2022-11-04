@@ -138,9 +138,6 @@ begin
     
     if(blank(ORr.SalesGroup))then begin
       ORr.SalesGroup = "NOTNP";
-      if(ORr.OrderClass=="INTNP")then begin
-        ORr.SalesGroup = "NP";
-      end;
       recordstore(ORr,true);
     end;
   end;
