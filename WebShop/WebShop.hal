@@ -1081,7 +1081,7 @@ vector string 255 vres;
 					ORr.OrderClass = "INTDL";
 					switch(delivery_region)begin
 						case"0": ORr.ShipAddr2 = "Курьером"; ORr.OrderClass = "INTDL";
-						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»"; ORr.OrderClass = "INTNP";
+						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»"; ORr.OrderClass = "INTNP";ORr.SalesGroup = "NP";
 						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";
 						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)"; ORr.OrderClass = "INTDL";
 					end;
