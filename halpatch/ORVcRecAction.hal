@@ -516,6 +516,10 @@ begin
     end;
   end;
   
+  if(ORr.OrdDate>currentdate)then begin
+    ORr.OrdDate = ORr.RegDate;
+  end;
+  
   if (unokf) then begin
     errcode = IsUnOKAllowed_ORVc(ORr);
     if (errcode!=0) then begin
