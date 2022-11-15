@@ -123,16 +123,13 @@ begin
   
   while(loopmain(ORr,1,true))begin
     
-    if(ORr.SalesGroup=="NOTNP")then begin
-      if(ORr.OrderClass=="INTDL")then begin
-        ORr.SalesGroup = "NP";
-        recordstore(ORr,true);
-      end;
-      if(ORr.OrderClass=="TRADE")then begin
-        ORr.SalesGroup = "NP";
+    if(ORr.SalesGroup=="NP")then begin
+      if(ORr.OrderClass=="INTPC")then begin
+        ORr.SalesGroup = "NOTNP";
         recordstore(ORr,true);
       end;
     end;
+    
   end;
   
 return;
