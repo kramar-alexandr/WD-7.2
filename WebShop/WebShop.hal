@@ -843,7 +843,7 @@ vector string 255 vres;
 					switch(delivery_region)begin
 						case"0": ORr.ShipAddr2 = "Курьером"; ORr.OrderClass = "INTDL";ORr.SalesGroup = "NP";
 						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»"; ORr.OrderClass = "INTNP";ORr.SalesGroup = "NP";
-						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";
+						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";ORr.SalesGroup = "NOTNP";
 						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)"; ORr.OrderClass = "INTDL";ORr.SalesGroup = "NP";
 					end;
 					switch(payment)begin
@@ -1083,7 +1083,7 @@ vector string 255 vres;
 					switch(delivery_region)begin
 						case"0": ORr.ShipAddr2 = "Курьером"; ORr.OrderClass = "INTDL";ORr.SalesGroup = "NP";
 						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»"; ORr.OrderClass = "INTNP";ORr.SalesGroup = "NP";
-						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";
+						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";ORr.SalesGroup = "NOTNP";
 						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)"; ORr.OrderClass = "INTDL";ORr.SalesGroup = "NP";
 					end;
 					
