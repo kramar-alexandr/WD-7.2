@@ -743,7 +743,7 @@ end;
 
 //Edit **********************************************Vas-P	added 10/11/2021
 global 
-updating procedure HandleBixolonWarranty(record ORVc ORr,var area aFile)
+updating procedure HandleBixolonWarranty(record ORVc ORr,var area aFile,boolean bixolonnewimg)
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -778,7 +778,9 @@ begin
 	
 	
 	///1d 28 4c 06 00 30 45 30 30 01 01 0a
-	//PrintImage = chr(29) & chr(40) & chr(76) & chr(6) &  chr(0) & chr(48) & chr(69) & chr(48) & chr(48) & chr(1) & chr(1);
+	if(bixolonnewimg)then begin
+	  PrintImage = chr(29) & chr(40) & chr(76) & chr(6) &  chr(0) & chr(48) & chr(69) & chr(48) & chr(48) & chr(1) & chr(1);
+	end;
 	
 	SetAreaZeroSize(aFile);
 	
