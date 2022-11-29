@@ -2460,7 +2460,7 @@ begin
   SetWRect(20,80,540,150);
   h=150;
 	
-  EditField(h,v+=20,-20,"Пошук (>4 символів)",Normal,f1,false,0);
+  EditField(h,v+=20,-20,"Пошук",Normal,f1,false,0);
 	
 	
   EndWindow;

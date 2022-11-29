@@ -61,7 +61,7 @@ begin
 	
 	StartReportNoHeaderJob("Пошук замовлень");
 	
-	if(blank(RepSpec.f1) or len(RepSpec.f1)<5)then begin
+	if(blank(RepSpec.f1) or len(RepSpec.f1)<4)then begin
 	  StartFormat(15);
      OutString(0,0,"Визничте що шукати",false);
     EndFormat;
@@ -72,6 +72,7 @@ begin
      OutString(50,0,"№ рах.",false);
      OutString(100,0,"Дата",false);
      OutString(150,0,"Найменув.",false);
+     OutString(300,0,"Телефон",false);
      OutString(350,0,"Всього",false);
      OutString(400,0,"Час.",false);
      OutString(1,0,"Статус",true);
@@ -126,6 +127,7 @@ begin
           OutString(50,0,ORr.CustOrdNr,false);
           OutDate(100,0,ORr.OrdDate,false);
           OutString(150,0,ORr.Addr0,false);
+          OutString(300,0,ORr.Phone,false);
           OutString(350,0,ORr.Sum4,false);
           OutString(400,0,ORr.RegTime,false);
           OutString(1,0,ORr.OrderStatusText,true);
