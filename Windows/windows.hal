@@ -2452,6 +2452,21 @@ begin
 end;
 
 
+window ORSearchRClass:1 
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v;
+  WindowBegin("Пошук замовлень",ORSearchRClass,CGRcW,RcType);
+  SetWRect(20,80,540,150);
+  h=150;
+	
+  EditField(h,v+=20,-20,"Пошук (>4 символів)",Normal,f1,false,0);
+	
+	
+  EndWindow;
+end;
+
+
 
 
 window TochkaVidachiSClass:1 //Edit***************************Sasha2,13:00 22.10.2014 {
