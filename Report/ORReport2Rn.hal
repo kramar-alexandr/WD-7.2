@@ -55,6 +55,8 @@ begin
 	boolean TrHs,testf;
 	record NotepadVc Noter;
 	area atstr;
+	integer i,rwcnt;
+	row ORVc ORrw;
 	
 	
 	StartReportNoHeaderJob("Пошук замовлень");
@@ -81,9 +83,38 @@ begin
       recordnew(Noter);
     
       setareazerosize(atstr);
-      AddRecordToArea(ORr,"ORVc",atstr);
-      ADDAREATOTEXTFIELD(atstr,Noter);
-    
+      //AddRecordToArea(ORr,"ORVc",atstr);
+      //ADDAREATOTEXTFIELD(atstr,Noter);
+      AddToText(ORr.CustCode,Noter);
+      
+      AddToText(ORr.OrdDate,Noter);
+      AddToText(ORr.CustOrdNr,Noter);
+      AddToText(ORr.Addr0,Noter);
+      AddToText(ORr.Phone,Noter);
+      AddToText(ORr.Location,Noter);
+      AddToText(ORr.SalesMan,Noter);
+      AddToText(ORr.OrderStatusText,Noter);
+      AddToText(ORr.TTNNumber,Noter);
+      AddToText(ORr.RejectStr,Noter);
+      AddToText(ORr.OrderClass,Noter);
+      AddToText(ORr.ShipAddr0,Noter);
+      AddToText(ORr.TerminalID,Noter);
+      AddToText(ORr.ShipAddr1,Noter);
+      AddToText(ORr.ShipAddr2,Noter);
+      AddToText(ORr.ShipAddr3,Noter);
+      AddToText(ORr.DelAddr3,Noter);
+      AddToText(ORr.DelAddr4,Noter);
+      
+      rwcnt = matrowcnt(ORr);
+      for(i=0;i<rwcnt;i=i+1)begin
+        matrowget(ORr,i,ORrw);
+        AddToText(ORrw.ArtCode,Noter);
+        AddToText(ORrw.SerialNr,Noter);
+        AddToText(ORrw.DopComment,Noter);
+        AddToText(ORrw.Spec,Noter);
+      end;
+      
+
       if(STRINGINTEXT(RepSpec.f1,Noter))then begin
         testf = true;
       end;
