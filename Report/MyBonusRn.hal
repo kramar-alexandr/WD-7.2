@@ -282,6 +282,23 @@ return;
 end;
 
 
+function string 255 cutcomas(string input)
+begin
+  string 255 res;
+  integer i; 
+    
+    for(i=0;i<len(input);i=i+1)begin
+      if(mid(input,i,1)==chr(34))then begin
+        //do nothing
+      end else begin
+        res = res & mid(input,i,1);
+      end;
+    end;
+  
+  cutcomas = res;
+return;
+end;
+
 global procedure MyBonusRn(record RcVc RepSpec)
 begin
   record ExtrCostVc ECr; 
@@ -680,7 +697,7 @@ begin
 										end;
                     LBBlockw.Group = group;
                     LBBlockw.ArtCode = IVrw.ArtCode;
-                    LBBlockw.Spec = IVrw.Spec;
+                    LBBlockw.Spec = cutcomas(IVrw.Spec);
                     if(currentcompany==2)then begin
 											LBBlockw.Serial = serial[j];
 										end;
@@ -758,7 +775,7 @@ begin
 										end;
                     LBBlockw.Group = group;
                     LBBlockw.ArtCode = IVrw.ArtCode;
-                    OutString(pos[7],0,IVrw.Spec,false);
+                    OutString(pos[7],0,cutcomas(IVrw.Spec),false);
                     if(currentcompany==2)then begin
 											LBBlockw.Serial = serial[j];
 										end;
@@ -1079,7 +1096,7 @@ l1:;
 		end;
 			OutString(pos[6],0,LBBlockw.Group,false);
 			OutString(pos[6],0,LBBlockw.ArtCode,false);
-			OutString(pos[7],0,LBBlockw.Spec,false);
+			OutString(pos[7],0,cutcomas(LBBlockw.Spec),false);
 			OutString(pos[7],0,LBBlockw.InStock,false);
 		if(currentcompany==2)then begin
 			OutString(pos[7],0,LBBlockw.Serial,false);
@@ -1391,7 +1408,7 @@ begin
                     end;
                     OutString(pos[6],0,group,false);
                     OutString(pos[6],0,IVrw.ArtCode,false);
-                    OutString(pos[7],0,Left(IVrw.Spec,30),false);
+                    OutString(pos[7],0,Left(cutcomas(IVrw.Spec),30),false);
                     quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
                     costorig = realcostuah[j];
                     sumcostorig = costorig*quant;
@@ -1432,7 +1449,7 @@ begin
                     end;
 										OutString(pos[6],0,group,false);
                     OutString(pos[6],0,IVrw.ArtCode,false);
-                    OutString(pos[7],0,Left(IVrw.Spec,30),false);
+                    OutString(pos[7],0,Left(cutcomas(IVrw.Spec),30),false);
                     quant = IVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
                     curorig = round(IVr.FrRate/IVr.ToRateB1,defaultcurroundoff);
                     if(curorig==0)then begin
@@ -1723,7 +1740,7 @@ l1:;
 														end;
 														OutString(pos[6],0,group,false);
 														OutString(pos[6],0,newIVrw.ArtCode,false);
-														OutString(pos[7],0,Left(newIVrw.Spec,30),false);
+														OutString(pos[7],0,Left(cutcomas(newIVrw.Spec),30),false);
 														quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
 														MyCost = realcostbase[j];
 														curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
