@@ -430,6 +430,7 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
       if(true/*IPrsr.IVNr==IPrsr.TransNr*/) then begin
       //----------------------------------------------------------------SALE
         IVr.SerNr=IPrsr.IVNr;       
+        logtext(0,"Bonus IPrsr " & IPrsr.IVNr & " - " & IPrsr.TransNr);
         ReadFirstMain(IVr,1,true);       
         if(IVr.OKFlag==1 and IVr.Invalid!=1)then begin
           sum = IVr.Sum4;
@@ -590,10 +591,6 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
                         notenr1=notenr1+1;
                       end;
                     end;
-                    
-                    
-      //COSTZERO:;
-
                   end;
                 end;
                 
@@ -691,7 +688,7 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
                     gporig = sumorig - sumcostorig;
                     LBBlockw.GPUAH = gporig;
                     LBBlockw.RecRate = uahpurate[j]; 
-					LBBlockw.RecCurrent = curncyarr[j]; 
+					          LBBlockw.RecCurrent = curncyarr[j]; 
                     LBBlockw.InvRate = uahcurrate[j]; 
                     LBBlockw.InvCur = IVr.CurncyCode; //Edit***************************Sasha2,11:34 27.04.2015 }
                     If(NonBlank(CUr.Code)) then begin
@@ -705,8 +702,8 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
                     end;
 										
                   MatRowPut(LBBlockr,rcw,LBBlockw);
-				  rcw=rcw+1;
-				  ClearRow(LBBlockr,LBBlockw,10);
+                  rcw=rcw+1;
+                  ClearRow(LBBlockr,LBBlockw,10);
                 end; //Edit***************************Sasha2,15:52 23.04.2015
                 if(foundqty<IVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
 						      if (Left(IVr.CurncyCode,3)=="UAH") then begin
@@ -782,9 +779,9 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
 											LBBlockw.SaleOrder = IVr.OrderNr;
 										
 					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
-				MatRowPut(LBBlockr,rcw,LBBlockw);
-				rcw=rcw+1;
-				ClearRow(LBBlockr,LBBlockw,1);
+                MatRowPut(LBBlockr,rcw,LBBlockw);
+                rcw=rcw+1;
+                ClearRow(LBBlockr,LBBlockw,1);
               end;
             end;
             goto l1;
@@ -825,11 +822,11 @@ l1:;
 									end;             		
 								end;
 							
-								invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
-								invto1 = IVr.ToRateB1;
-								if(IVr.CurncyCode==BCb.BaseCur2)then begin
-									invfr = IVr.BaseRate2;
-									invto1 = IVr.BaseRate1;
+								invfr = newIVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
+								invto1 = newIVr.ToRateB1;
+								if(newIVr.CurncyCode==BCb.BaseCur2)then begin
+									invfr = newIVr.BaseRate2;
+									invto1 = newIVr.BaseRate1;
 								end;
 								if(invfr==0 or invto1==0)then begin
 									invfr = 1;
