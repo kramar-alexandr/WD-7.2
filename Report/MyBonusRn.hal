@@ -471,7 +471,7 @@ begin
                 cred =-1;
                 IVr.SerNr = IPrsr.TransNr;       
                 ReadFirstMain(IVr,1,true);
-                enddate =  IVr.InvDate;
+                enddate = IVr.InvDate;
                 sum = 0;
               end;
 						end;
