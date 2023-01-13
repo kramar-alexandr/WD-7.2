@@ -444,17 +444,7 @@ begin
           if(IVr.InvType==kInvoiceTypeCredit)then begin
           	cred =-1;
           end;
-          if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 13 01 2023 y. at 1:08:29 PM
-						newIVr.SerNr = IPrsr.TransNr;
-						if(readfirstmain(newIVr,1,true))then begin
-						  if(newIVr.InvType==kInvoiceTypeCredit)then begin
-                cred =-1;
-                IVr.SerNr = IPrsr.TransNr;       
-                ReadFirstMain(IVr,1,true); 
-                sum = 0;
-              end;
-						end;
-					end;
+          
           
           
           
@@ -473,6 +463,20 @@ begin
     			end; //Edit***************************Sasha2,16:00 23.04.2015 }
           GetIVSumAndDate(IPrsr,IVr,enddate,sum,curncy);
           firstenddate = enddate;
+          
+          if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 13 01 2023 y. at 1:08:29 PM
+						newIVr.SerNr = IPrsr.TransNr;
+						if(readfirstmain(newIVr,1,true))then begin
+						  if(newIVr.InvType==kInvoiceTypeCredit)then begin
+                cred =-1;
+                IVr.SerNr = IPrsr.TransNr;       
+                ReadFirstMain(IVr,1,true);
+                enddate =  IVr.InvDate;
+                sum = 0;
+              end;
+						end;
+					end;
+          
           
           if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** Monday, 13 June 2016 16:02:42
 						newIVr.SerNr = IPrsr.TransNr;
