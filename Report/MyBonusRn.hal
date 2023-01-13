@@ -430,7 +430,7 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
       if(true/*IPrsr.IVNr==IPrsr.TransNr*/) then begin
       //----------------------------------------------------------------SALE
         IVr.SerNr=IPrsr.IVNr;       
-        logtext(0,"Bonus IPrsr " & IPrsr.IVNr & " - " & IPrsr.TransNr);
+        
         ReadFirstMain(IVr,1,true);       
         if(IVr.OKFlag==1 and IVr.Invalid!=1)then begin
           sum = IVr.Sum4;
@@ -471,7 +471,7 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
 						end;
 					end;
           
-          
+          logtext(0,"Bonus IPrsr " & IPrsr.IVNr & " - " & IPrsr.TransNr & " enddate " & enddate);
           if(nonblank(enddate) and sum<=0) then begin
             mtrw = matrowcnt(IVr);
             For(i=0;i<mtrw;i=i+1) begin
@@ -777,8 +777,7 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
 											LBBlockw.ServiceMan = enginer;
 											LBBlockw.ServiceOrder = IVr.SVONr;
 											LBBlockw.SaleOrder = IVr.OrderNr;
-										
-					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
+					          end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
                 MatRowPut(LBBlockr,rcw,LBBlockw);
                 rcw=rcw+1;
                 ClearRow(LBBlockr,LBBlockw,1);
