@@ -327,8 +327,13 @@ begin
 	integer cred;
 	vector boolean usedinvno;
 	integer rcw, rowcnt;
-val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
+  val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
+  vector boolean invused;
+  
+  
+  
 	blockload(BCb);
+	
     rcw = 1;
   startreportnoheaderjob("Bonus");
   //paydatenew = "";
@@ -446,6 +451,7 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
                 cred =-1;
                 IVr.SerNr = IPrsr.TransNr;       
                 ReadFirstMain(IVr,1,true); 
+                sum = 0;
               end;
 						end;
 					end;
@@ -484,7 +490,8 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
 					end;
           
           logtext(0,"Bonus IPrsr " & IPrsr.IVNr & " - " & IPrsr.TransNr & " enddate " & enddate & " IPrsr.TransType " & IPrsr.TransType);
-          if(nonblank(enddate) and sum<=0) then begin
+          if(nonblank(enddate) and sum<=0 and invused[IVr.SerNr]==false) then begin
+            invused[IVr.SerNr] = true;
             mtrw = matrowcnt(IVr);
             For(i=0;i<mtrw;i=i+1) begin
             matrowget(IVr,i,IVrw);
