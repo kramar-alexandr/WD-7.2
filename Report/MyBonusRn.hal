@@ -444,6 +444,8 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
 						if(readfirstmain(newIVr,1,true))then begin
 						  if(newIVr.InvType==kInvoiceTypeCredit)then begin
                 cred =-1;
+                IVr.SerNr = IPrsr.TransNr;       
+                ReadFirstMain(IVr,1,true); 
               end;
 						end;
 					end;
