@@ -282,23 +282,6 @@ return;
 end;
 
 
-function string 255 cutcomas(string input)
-begin
-  string 255 res;
-  integer i; 
-    
-    for(i=0;i<len(input);i=i+1)begin
-      if(mid(input,i,1)==chr(34))then begin
-        //do nothing
-      end else begin
-        res = res & mid(input,i,1);
-      end;
-    end;
-  
-  cutcomas = res;
-return;
-end;
-
 global procedure MyBonusRn(record RcVc RepSpec)
 begin
   record ExtrCostVc ECr; 
@@ -344,13 +327,8 @@ begin
 	integer cred;
 	vector boolean usedinvno;
 	integer rcw, rowcnt;
-  val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
-  vector boolean invused;
-  
-  
-  
+val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
 	blockload(BCb);
-	
     rcw = 1;
   startreportnoheaderjob("Bonus");
   //paydatenew = "";
@@ -452,7 +430,6 @@ begin
       if(true/*IPrsr.IVNr==IPrsr.TransNr*/) then begin
       //----------------------------------------------------------------SALE
         IVr.SerNr=IPrsr.IVNr;       
-        
         ReadFirstMain(IVr,1,true);       
         if(IVr.OKFlag==1 and IVr.Invalid!=1)then begin
           sum = IVr.Sum4;
@@ -461,9 +438,6 @@ begin
           if(IVr.InvType==kInvoiceTypeCredit)then begin
           	cred =-1;
           end;
-          
-          
-          
           
           curncy = IVr.CurncyCode;
           enddate = "";
@@ -481,20 +455,6 @@ begin
           GetIVSumAndDate(IPrsr,IVr,enddate,sum,curncy);
           firstenddate = enddate;
           
-          if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 13 01 2023 y. at 1:08:29 PM
-						newIVr.SerNr = IPrsr.TransNr;
-						if(readfirstmain(newIVr,1,true))then begin
-						  if(newIVr.InvType==kInvoiceTypeCredit)then begin
-                cred =-1;
-                IVr.SerNr = IPrsr.TransNr;       
-                ReadFirstMain(IVr,1,true);
-                enddate = IVr.InvDate;
-                sum = 0;
-              end;
-						end;
-					end;
-          
-          
           if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** Monday, 13 June 2016 16:02:42
 						newIVr.SerNr = IPrsr.TransNr;
 						if(readfirstmain(newIVr,1,true))then begin
@@ -510,9 +470,8 @@ begin
 						end;
 					end;
           
-          logtext(0,"Bonus IPrsr " & IPrsr.IVNr & " - " & IPrsr.TransNr & " enddate " & enddate & " IPrsr.TransType " & IPrsr.TransType);
-          if(nonblank(enddate) and sum<=0 and invused[IVr.SerNr]==false) then begin
-            invused[IVr.SerNr] = true;
+          
+          if(nonblank(enddate) and sum<=0) then begin
             mtrw = matrowcnt(IVr);
             For(i=0;i<mtrw;i=i+1) begin
             matrowget(IVr,i,IVrw);
@@ -631,6 +590,10 @@ begin
                         notenr1=notenr1+1;
                       end;
                     end;
+                    
+                    
+      //COSTZERO:;
+
                   end;
                 end;
                 
@@ -697,7 +660,7 @@ begin
 										end;
                     LBBlockw.Group = group;
                     LBBlockw.ArtCode = IVrw.ArtCode;
-                    LBBlockw.Spec = cutcomas(IVrw.Spec);
+                    LBBlockw.Spec = IVrw.Spec;
                     if(currentcompany==2)then begin
 											LBBlockw.Serial = serial[j];
 										end;
@@ -728,7 +691,7 @@ begin
                     gporig = sumorig - sumcostorig;
                     LBBlockw.GPUAH = gporig;
                     LBBlockw.RecRate = uahpurate[j]; 
-					          LBBlockw.RecCurrent = curncyarr[j]; 
+					LBBlockw.RecCurrent = curncyarr[j]; 
                     LBBlockw.InvRate = uahcurrate[j]; 
                     LBBlockw.InvCur = IVr.CurncyCode; //Edit***************************Sasha2,11:34 27.04.2015 }
                     If(NonBlank(CUr.Code)) then begin
@@ -742,8 +705,8 @@ begin
                     end;
 										
                   MatRowPut(LBBlockr,rcw,LBBlockw);
-                  rcw=rcw+1;
-                  ClearRow(LBBlockr,LBBlockw,10);
+				  rcw=rcw+1;
+				  ClearRow(LBBlockr,LBBlockw,10);
                 end; //Edit***************************Sasha2,15:52 23.04.2015
                 if(foundqty<IVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
 						      if (Left(IVr.CurncyCode,3)=="UAH") then begin
@@ -775,7 +738,7 @@ begin
 										end;
                     LBBlockw.Group = group;
                     LBBlockw.ArtCode = IVrw.ArtCode;
-                    OutString(pos[7],0,cutcomas(IVrw.Spec),false);
+                    OutString(pos[7],0,IVrw.Spec,false);
                     if(currentcompany==2)then begin
 											LBBlockw.Serial = serial[j];
 										end;
@@ -817,10 +780,11 @@ begin
 											LBBlockw.ServiceMan = enginer;
 											LBBlockw.ServiceOrder = IVr.SVONr;
 											LBBlockw.SaleOrder = IVr.OrderNr;
-					          end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
-                MatRowPut(LBBlockr,rcw,LBBlockw);
-                rcw=rcw+1;
-                ClearRow(LBBlockr,LBBlockw,1);
+										
+					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
+				MatRowPut(LBBlockr,rcw,LBBlockw);
+				rcw=rcw+1;
+				ClearRow(LBBlockr,LBBlockw,1);
               end;
             end;
             goto l1;
@@ -861,11 +825,11 @@ l1:;
 									end;             		
 								end;
 							
-								invfr = newIVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
-								invto1 = newIVr.ToRateB1;
-								if(newIVr.CurncyCode==BCb.BaseCur2)then begin
-									invfr = newIVr.BaseRate2;
-									invto1 = newIVr.BaseRate1;
+								invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
+								invto1 = IVr.ToRateB1;
+								if(IVr.CurncyCode==BCb.BaseCur2)then begin
+									invfr = IVr.BaseRate2;
+									invto1 = IVr.BaseRate1;
 								end;
 								if(invfr==0 or invto1==0)then begin
 									invfr = 1;
@@ -1096,7 +1060,7 @@ l1:;
 		end;
 			OutString(pos[6],0,LBBlockw.Group,false);
 			OutString(pos[6],0,LBBlockw.ArtCode,false);
-			OutString(pos[7],0,cutcomas(LBBlockw.Spec),false);
+			OutString(pos[7],0,LBBlockw.Spec,false);
 			OutString(pos[7],0,LBBlockw.InStock,false);
 		if(currentcompany==2)then begin
 			OutString(pos[7],0,LBBlockw.Serial,false);
@@ -1408,7 +1372,7 @@ begin
                     end;
                     OutString(pos[6],0,group,false);
                     OutString(pos[6],0,IVrw.ArtCode,false);
-                    OutString(pos[7],0,Left(cutcomas(IVrw.Spec),30),false);
+                    OutString(pos[7],0,Left(IVrw.Spec,30),false);
                     quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
                     costorig = realcostuah[j];
                     sumcostorig = costorig*quant;
@@ -1449,7 +1413,7 @@ begin
                     end;
 										OutString(pos[6],0,group,false);
                     OutString(pos[6],0,IVrw.ArtCode,false);
-                    OutString(pos[7],0,Left(cutcomas(IVrw.Spec),30),false);
+                    OutString(pos[7],0,Left(IVrw.Spec,30),false);
                     quant = IVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
                     curorig = round(IVr.FrRate/IVr.ToRateB1,defaultcurroundoff);
                     if(curorig==0)then begin
@@ -1740,7 +1704,7 @@ l1:;
 														end;
 														OutString(pos[6],0,group,false);
 														OutString(pos[6],0,newIVrw.ArtCode,false);
-														OutString(pos[7],0,Left(cutcomas(newIVrw.Spec),30),false);
+														OutString(pos[7],0,Left(newIVrw.Spec,30),false);
 														quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
 														MyCost = realcostbase[j];
 														curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
