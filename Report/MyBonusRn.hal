@@ -471,7 +471,7 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
 						end;
 					end;
           
-          logtext(0,"Bonus IPrsr " & IPrsr.IVNr & " - " & IPrsr.TransNr & " enddate " & enddate);
+          logtext(0,"Bonus IPrsr " & IPrsr.IVNr & " - " & IPrsr.TransNr & " enddate " & enddate & " IPrsr.TransType " & IPrsr.TransType);
           if(nonblank(enddate) and sum<=0) then begin
             mtrw = matrowcnt(IVr);
             For(i=0;i<mtrw;i=i+1) begin
