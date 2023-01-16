@@ -1022,69 +1022,75 @@ l1:;
 												end;
 												
 												
-												
-												LBBlockw.CustCode = newIVr.CustCode;
-                        LBBlockw.CustName = newIVr.Addr0;
-                        LBBlockw.InvDate = newIVr.InvDate;
-                        LBBlockw.PayTerm = newIVr.PayDate;
-                        if (blankdate(enddate)) then begin
-                          LBBlockw.PayDate = newIVr.PayDate;
-                        end else begin
-                          LBBlockw.PayDate = enddate;
-                        end;
-                        LBBlockw.InvNr = newIVr.SerNr;
-                        if(currentcompany==2)then begin
-                          LBBlockw.OrderNr = newIVr.OrderNr;
-                        end;
-                        LBBlockw.Group = group;
-                        LBBlockw.ArtCode = IVrw.ArtCode;
-                        LBBlockw.Spec = IVrw.Spec;
-                        if(currentcompany==2)then begin
-                          LBBlockw.Serial = serial[j];
-                        end;
-                        LBBlockw.InStock = indate[j];// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 15:54:57
-                        quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
-                        LBBlockw.Qty = quant;
-                        salesprice = realpricebase[j];
-                        priceorig = realpriceuah[j]; //Edit***************************Sasha2,11:37 24.04.2015 }
-                        LBBlockw.Price = realpricebase[j];
-                        LBBlockw.PriceUAH = realpriceuah[j];
+												CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
+												foundqty = 0;
+												For(j=0;j<ressize;j=j+1) begin
+													foundqty = foundqty + qty[j];
+												end;
+												For(j=0;j<ressize;j=j+1) begin //Edit***************************Sasha2,15:54 23.04.2015 }
+                          LBBlockw.CustCode = newIVr.CustCode;
+                          LBBlockw.CustName = newIVr.Addr0;
+                          LBBlockw.InvDate = newIVr.InvDate;
+                          LBBlockw.PayTerm = newIVr.PayDate;
+                          if (blankdate(enddate)) then begin
+                            LBBlockw.PayDate = newIVr.PayDate;
+                          end else begin
+                            LBBlockw.PayDate = enddate;
+                          end;
+                          LBBlockw.InvNr = newIVr.SerNr;
+                          if(currentcompany==2)then begin
+                            LBBlockw.OrderNr = newIVr.OrderNr;
+                          end;
+                          LBBlockw.Group = group;
+                          LBBlockw.ArtCode = newIVrw.ArtCode;
+                          LBBlockw.Spec = newIVrw.Spec;
+                          if(currentcompany==2)then begin
+                            LBBlockw.Serial = serial[j];
+                          end;
+                          LBBlockw.InStock = indate[j];// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 15:54:57
+                          quant = qty[j]; //Edit***************************Sasha2,11:39 24.04.2015
+                          LBBlockw.Qty = quant;
+                          salesprice = realpricebase[j];
+                          priceorig = realpriceuah[j]; //Edit***************************Sasha2,11:37 24.04.2015 }
+                          LBBlockw.Price = realpricebase[j];
+                          LBBlockw.PriceUAH = realpriceuah[j];
                     
-                        MyCost = realcostbase[j];
-                        LBBlockw.Cost = realcostbase[j];
-                        curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
-                        if(curorig==0)then begin
-                          curorig = 1;
-                        end;
-                        costorig = realcostuah[j];
-                        sumcostorig = costorig*quant;
-                        LBBlockw.CostUAH = realcostuah[j];
-                        salessum = realsumbase[j];
-                        sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }
-                        LBBlockw.Sum = salessum;
-                        LBBlockw.SumUAH = sumorig;
-                        LBBlockw.SumCost = MyCost*quant;
-                        LBBlockw.SumCostUAH = sumcostorig;
-                        LBBlockw.GP = salessum-(MyCost*quant);
-                        gporig = sumorig - sumcostorig;
-                        LBBlockw.GPUAH = gporig;
-                        LBBlockw.RecRate = uahpurate[j]; 
-                        LBBlockw.RecCurrent = curncyarr[j]; 
-                        LBBlockw.InvRate = uahcurrate[j]; 
-                        LBBlockw.InvCur = newIVr.CurncyCode; //Edit***************************Sasha2,11:34 27.04.2015 }
-                        If(NonBlank(CUr.Code)) then begin
-                          LBBlockw.SalesMan = CUr.SalesMan;
-                        end; 
-                        LBBlockw.InvSalesMan = newIVr.SalesMan;
-                        if(currentcompany!=2)then begin
-                          LBBlockw.ServiceMan = enginer;
-                          LBBlockw.ServiceOrder = newIVr.SVONr;
-                          LBBlockw.SaleOrder = newIVr.OrderNr;
-                        end;
+                          MyCost = realcostbase[j];
+                          LBBlockw.Cost = realcostbase[j];
+                          curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
+                          if(curorig==0)then begin
+                            curorig = 1;
+                          end;
+                          costorig = realcostuah[j];
+                          sumcostorig = costorig*quant;
+                          LBBlockw.CostUAH = realcostuah[j];
+                          salessum = realsumbase[j];
+                          sumorig = realsumuah[j]; //Edit***************************Sasha2,11:48 24.04.2015 }
+                          LBBlockw.Sum = salessum;
+                          LBBlockw.SumUAH = sumorig;
+                          LBBlockw.SumCost = MyCost*quant;
+                          LBBlockw.SumCostUAH = sumcostorig;
+                          LBBlockw.GP = salessum-(MyCost*quant);
+                          gporig = sumorig - sumcostorig;
+                          LBBlockw.GPUAH = gporig;
+                          LBBlockw.RecRate = uahpurate[j]; 
+                          LBBlockw.RecCurrent = curncyarr[j]; 
+                          LBBlockw.InvRate = uahcurrate[j]; 
+                          LBBlockw.InvCur = newIVr.CurncyCode; //Edit***************************Sasha2,11:34 27.04.2015 }
+                          If(NonBlank(CUr.Code)) then begin
+                            LBBlockw.SalesMan = CUr.SalesMan;
+                          end; 
+                          LBBlockw.InvSalesMan = newIVr.SalesMan;
+                          if(currentcompany!=2)then begin
+                            LBBlockw.ServiceMan = enginer;
+                            LBBlockw.ServiceOrder = newIVr.SVONr;
+                            LBBlockw.SaleOrder = newIVr.OrderNr;
+                          end;
                     
-                        MatRowPut(LBBlockr,rcw,LBBlockw);
-                        rcw=rcw+1;
-                        ClearRow(LBBlockr,LBBlockw,10);
+                          MatRowPut(LBBlockr,rcw,LBBlockw);
+                          rcw=rcw+1;
+                          ClearRow(LBBlockr,LBBlockw,10);
+                        end;
 												
 												
 										 end;
