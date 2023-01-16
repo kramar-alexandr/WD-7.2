@@ -74,7 +74,6 @@ date bd;
     if(newIVrw.stp==kInvoiceRowTypeCreditCardPayment)then begin
       sum = sum - newIVrw.Sum;
       enddate = IVr.InvDate;
-      logtext(0,"01 enddate " & enddate);
       onlycredit = false;
     end;
   end;
@@ -96,7 +95,6 @@ date bd;
               if(blank(enddate) and sum<=0)then begin
                 if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin// Edit ************************** Wednesday, 6 April 2011 11:18:12
                   enddate = newIVr.TransDate;
-                  logtext(0,"02 enddate " & enddate);
                   onlycredit = false;
                 end else begin testf1 = false; end;// Edit ************************** Wednesday, 6 April 2011 11:18:11
               end;
@@ -105,7 +103,6 @@ date bd;
               if(blank(enddate) and sum<=0)then begin
                 if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin// Edit ************************** Wednesday, 6 April 2011 11:18:14
                   enddate = newIVr.TransDate;
-                  logtext(0,"03 enddate " & enddate);
                   onlycredit = false;
                 end else begin testf1 = false; end;// Edit ************************** Wednesday, 6 April 2011 11:18:14
               end;
@@ -117,7 +114,6 @@ date bd;
               if(blank(enddate) and sum<=0)then begin
                 if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin// Edit ************************** Wednesday, 6 April 2011 11:18:17
                   enddate = newIVr.TransDate;
-                  logtext(0,"04 enddate " & enddate);
                 end else begin testf1 = false; end;// Edit ************************** Wednesday, 6 April 2011 11:18:16
               end;
             end else begin
@@ -125,7 +121,6 @@ date bd;
               if(blank(enddate) and sum<=0)then begin
                 if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin// Edit ************************** Wednesday, 6 April 2011 11:18:19
                   enddate = newIVr.TransDate;
-                  logtext(0,"05 enddate " & enddate);
                 end else begin testf1 = false; end;// Edit ************************** Wednesday, 6 April 2011 11:18:18
               end;
             end;
@@ -145,7 +140,6 @@ date bd;
                 if(blank(enddate) and sum<=0)then begin
                   if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin// Edit ************************** Wednesday, 6 April 2011 11:18:21
                     enddate = IPr.TransDate;
-                    logtext(0,"06 enddate " & enddate);
                     onlycredit = false;
                   end else begin testf1 = false; end;// Edit ************************** Wednesday, 6 April 2011 11:18:22
                 end;
@@ -167,7 +161,6 @@ date bd;
                 if(blank(enddate) and sum<=0)then begin
                   if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin// Edit ************************** Wednesday, 6 April 2011 11:18:25
                     enddate = CLInr.TransDate;
-                    logtext(0,"07 enddate " & enddate);
                     onlycredit = false;
                   end else begin testf1 = false; end;// Edit ************************** Wednesday, 6 April 2011 11:18:26
                 end;
@@ -189,7 +182,6 @@ date bd;
                 if(blank(enddate) and sum<=0)then begin
                   if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin
                     enddate = CLOutr.TransDate;
-                    logtext(0,"08 enddate " & enddate);
                     onlycredit = false;
                   end else begin testf1 = false; end;
                 end;
@@ -496,9 +488,7 @@ begin
     			end; //Edit***************************Sasha2,16:00 23.04.2015 }
           GetIVSumAndDate(IPrsr,IVr,enddate,sum,curncy);
           firstenddate = enddate;
-          
-          logtext(0,IVr.SerNr & " enddate " & enddate);
-          
+                    
           if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** Monday, 13 June 2016 16:02:42
 						newIVr.SerNr = IPrsr.TransNr;
 						if(readfirstmain(newIVr,1,true))then begin
@@ -1357,6 +1347,24 @@ begin
     				invto1 = 1;
     			end; //Edit***************************Sasha2,16:00 23.04.2015 }
           GetIVSumAndDate(IPrsr,IVr,enddate,sum,curncy);
+          
+          
+          if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** Monday, 13 June 2016 16:02:42
+						newIVr.SerNr = IPrsr.TransNr;
+						if(readfirstmain(newIVr,1,true))then begin
+							if(nonblankdate(enddate))then begin
+								enddate = newIVr.InvDate;
+								cred = 1;
+								if(newIVr.InvType==kInvoiceTypeCredit)then begin
+									cred =-1;
+								end;
+								sum = cred * newIVr.Sum4;
+								goto l2;
+							end;
+						end;
+					end;
+          
+          
           if(nonblank(enddate) and sum<=0) then begin
             mtrw = matrowcnt(IVr);
             For(i=0;i<mtrw;i=i+1) begin
