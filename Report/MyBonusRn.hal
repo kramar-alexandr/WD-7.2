@@ -330,6 +330,7 @@ begin
   val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
   record IPVc IPr;
   row IPVc IPrw;
+  date bd;
   
   
 	blockload(BCb);
@@ -460,7 +461,7 @@ begin
           end;
           
           curncy = IVr.CurncyCode;
-          enddate = "";
+          enddate = bd;
           firstenddate = "";
           invfr = IVr.FrRate; //Edit***************************Sasha2,16:00 23.04.2015 {
     			invto1 = IVr.ToRateB1;
