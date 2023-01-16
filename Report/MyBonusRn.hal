@@ -478,7 +478,7 @@ begin
           if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** Monday, 13 June 2016 16:02:42
 						newIVr.SerNr = IPrsr.TransNr;
 						if(readfirstmain(newIVr,1,true))then begin
-							if(blankdate(enddate) or enddate<RepSpec.sStartDate or enddate>=IVr.InvDate)then begin
+							if(nonblankdate(enddate))then begin
 								enddate = newIVr.InvDate;
 								cred = 1;
 								if(newIVr.InvType==kInvoiceTypeCredit)then begin
