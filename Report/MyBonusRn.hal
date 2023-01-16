@@ -478,7 +478,7 @@ begin
           if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** Monday, 13 June 2016 16:02:42
 						newIVr.SerNr = IPrsr.TransNr;
 						if(readfirstmain(newIVr,1,true))then begin
-							if(blankdate(enddate) or enddate<RepSpec.sStartDate)then begin
+							if(blankdate(enddate) or enddate<RepSpec.sStartDate or enddate>=IVr.InvDate)then begin
 								enddate = newIVr.InvDate;
 								cred = 1;
 								if(newIVr.InvType==kInvoiceTypeCredit)then begin
@@ -494,7 +494,7 @@ begin
           if(nonblank(enddate) and sum<=0) then begin
             mtrw = matrowcnt(IVr);
             For(i=0;i<mtrw;i=i+1) begin
-            matrowget(IVr,i,IVrw);
+              matrowget(IVr,i,IVrw);
               if(nonblank(IVrw.ArtCode) and IVrw.stp==kInvoiceRowTypeNormal)then begin
                 tstr = "";
                 group = "";
@@ -711,7 +711,7 @@ begin
                     gporig = sumorig - sumcostorig;
                     LBBlockw.GPUAH = gporig;
                     LBBlockw.RecRate = uahpurate[j]; 
-					LBBlockw.RecCurrent = curncyarr[j]; 
+                    LBBlockw.RecCurrent = curncyarr[j]; 
                     LBBlockw.InvRate = uahcurrate[j]; 
                     LBBlockw.InvCur = IVr.CurncyCode; //Edit***************************Sasha2,11:34 27.04.2015 }
                     If(NonBlank(CUr.Code)) then begin
@@ -725,8 +725,8 @@ begin
                     end;
 										
                   MatRowPut(LBBlockr,rcw,LBBlockw);
-				  rcw=rcw+1;
-				  ClearRow(LBBlockr,LBBlockw,10);
+                  rcw=rcw+1;
+                  ClearRow(LBBlockr,LBBlockw,10);
                 end; //Edit***************************Sasha2,15:52 23.04.2015
                 if(foundqty<IVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
 						      if (Left(IVr.CurncyCode,3)=="UAH") then begin
@@ -802,9 +802,9 @@ begin
 											LBBlockw.SaleOrder = IVr.OrderNr;
 										
 					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
-				MatRowPut(LBBlockr,rcw,LBBlockw);
-				rcw=rcw+1;
-				ClearRow(LBBlockr,LBBlockw,1);
+                MatRowPut(LBBlockr,rcw,LBBlockw);
+                rcw=rcw+1;
+                ClearRow(LBBlockr,LBBlockw,1);
               end;
             end;
             goto l1;
@@ -1035,10 +1035,10 @@ l1:;
 	//____________________Begin_________________
 	TrHs = true;
 	while(LoopMain(ECr,1,TrHs)) begin
-	ssSumcost=0;
-  ssSumcostUAH=0;
-	sscost=0;
-	sscostUAH=0;
+    ssSumcost=0;
+    ssSumcostUAH=0;
+    sscost=0;
+    sscostUAH=0;
 		for( rowcnt = 0; rowcnt < MatrowCnt(LBBlockr); rowcnt = rowcnt + 1) begin
 			testf = false;
 			MatRowGet(LBBlockr,rowcnt,LBBlockw);
@@ -1156,7 +1156,7 @@ begin
   array val rate,qty,cost,curcost; //Edit***************************Sasha2,15:29 23.04.2015
 	array date indate; //Edit***************************Sasha2,15:29 23.04.2015
 	array string 100 vecode,serial,curncyarr; //Edit***************************Sasha2,15:29 23.04.2015
-	integer ressize,foundqty; //Edit***************************Sasha2,15:29 23.04.2015
+	integer ressize,foundqty,rwcnt; //Edit***************************Sasha2,15:29 23.04.2015
   val t,invfr,invto1,quant,sumcur,sumusd; //Edit***************************Sasha2,15:48 23.04.2015
   array integer pos; //Edit***************************Sasha2,11:15 27.04.2015
 	record BaseCurBlock BCb;
@@ -1166,6 +1166,8 @@ begin
 	longint worksheet,CredNo;
 	val totSum,totCost,totGP;
 	integer cred;
+	record IPVc IPr;
+  row IPVc IPrw;
 	
 	blockload(BCb);
 
@@ -1213,6 +1215,21 @@ begin
     
     if(testf)then begin
       if(true/*IPrsr.IVNr==IPrsr.TransNr*/) then begin
+      
+        if(IPrsr.TransType==1)then begin
+          IPr.SerNr = IPrsr.TransNr;
+          if(readfirstmain(IPr,1,true))then begin
+            rwcnt = matrowcnt(IPr);
+            for(i=0;i<rwcnt;i=i+1)begin
+              matrowget(IPr,i,IPrw);
+              if(IPrw.InvoiceNr==IPrsr.IVNr)then begin
+                if(IPrw.RecVal<0)then begin
+                  goto l2;
+                end;
+              end;
+            end;
+          end;
+        end;
       //----------------------------------------------------------------SALE
         IVr.SerNr=IPrsr.IVNr;
         ReadFirstMain(IVr,1,true);
@@ -1363,9 +1380,6 @@ begin
                         notenr1=notenr1+1;
                       end;
                     end;
-                    
-                   
-
                   end;
                 end;
                 
@@ -1457,13 +1471,13 @@ begin
 					      end; //CurrentUser == enginer
               end;
             end;
-            goto l1;
+            goto l2;
           end;
           
         end;
       end;
       
-l1:;
+l2:;
       if(nonblank(enddate) and sum<=0) then begin
         IPrs2r.IVNr = IPrsr.IVNr;
         testf2 = true;
