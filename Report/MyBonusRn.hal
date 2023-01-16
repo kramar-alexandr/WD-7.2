@@ -316,7 +316,7 @@ begin
   array val rate,qty,cost,curcost; //Edit***************************Sasha2,15:29 23.04.2015
 	array date indate; //Edit***************************Sasha2,15:29 23.04.2015
 	array string 100 vecode,serial,curncyarr; //Edit***************************Sasha2,15:29 23.04.2015
-	integer ressize,foundqty; //Edit***************************Sasha2,15:29 23.04.2015
+	integer ressize,foundqty,rwcnt; //Edit***************************Sasha2,15:29 23.04.2015
   val t,invfr,invto1,quant,sumcur,sumusd; //Edit***************************Sasha2,15:48 23.04.2015
   array integer pos; //Edit***************************Sasha2,11:15 27.04.2015
 	record BaseCurBlock BCb;
@@ -327,7 +327,11 @@ begin
 	integer cred;
 	vector boolean usedinvno;
 	integer rcw, rowcnt;
-val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
+  val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
+  record IPVc IPr;
+  row IPVc IPrw;
+  
+  
 	blockload(BCb);
     rcw = 1;
   startreportnoheaderjob("Bonus");
@@ -428,6 +432,22 @@ val ssSumcost,ssSumcostUAH,sscost,sscostUAH;
     if(testf)then begin
     
       if(true/*IPrsr.IVNr==IPrsr.TransNr*/) then begin
+        
+        if(IPrsr.TransType==1)then begin
+          IPr.SerNr = IPrsr.TransNr;
+          if(readfirstmain(IPr,1,true))then begin
+            rwcnt = matrowcnt(IPr);
+            for(i=0;i<rwcnt;i=i+1)begin
+              matrowget(IPr,i,IPrw);
+              if(IPrw.InvoiceNr==IPrsr.IVNr)then begin
+                if(IPrw.RecVal<0)then begin
+                  goto l1;
+                end;
+              end;
+            end;
+          end;
+        end;
+        
       //----------------------------------------------------------------SALE
         IVr.SerNr=IPrsr.IVNr;       
         ReadFirstMain(IVr,1,true);       
