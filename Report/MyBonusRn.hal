@@ -476,6 +476,8 @@ begin
           GetIVSumAndDate(IPrsr,IVr,enddate,sum,curncy);
           firstenddate = enddate;
           
+          logtext(0,IVr.SerNr & " enddate " & enddate);
+          
           if(IPrsr.IVNr!=IPrsr.TransNr and IPrsr.TransType==0)then begin// Edit ************************** Monday, 13 June 2016 16:02:42
 						newIVr.SerNr = IPrsr.TransNr;
 						if(readfirstmain(newIVr,1,true))then begin
