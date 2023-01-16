@@ -59,7 +59,10 @@ record IPVc IPr;
 row IPVc IPrw;
 record CLInVc CLInr;
 row CLInVc CLInrw;
-
+boolean onlycredit;
+date bd;
+  
+  onlycredit = true;
 
   newIPr.IVNr = IVr.SerNr;
   TrHs = true;
@@ -72,6 +75,7 @@ row CLInVc CLInrw;
       sum = sum - newIVrw.Sum;
       enddate = IVr.InvDate;
       logtext(0,"01 enddate " & enddate);
+      onlycredit = false;
     end;
   end;
   
@@ -93,6 +97,7 @@ row CLInVc CLInrw;
                 if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin// Edit ************************** Wednesday, 6 April 2011 11:18:12
                   enddate = newIVr.TransDate;
                   logtext(0,"02 enddate " & enddate);
+                  onlycredit = false;
                 end else begin testf1 = false; end;// Edit ************************** Wednesday, 6 April 2011 11:18:11
               end;
             end else begin
@@ -101,11 +106,12 @@ row CLInVc CLInrw;
                 if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin// Edit ************************** Wednesday, 6 April 2011 11:18:14
                   enddate = newIVr.TransDate;
                   logtext(0,"03 enddate " & enddate);
+                  onlycredit = false;
                 end else begin testf1 = false; end;// Edit ************************** Wednesday, 6 April 2011 11:18:14
               end;
             end;
           end;
-          if(newIVrw.stp==3)then begin
+          if(newIVrw.stp==kInvoiceRowTypeCredit)then begin
             if(newIVr.CurncyCode==curncy)then begin
               sum = sum - newIVr.Sum4; 
               if(blank(enddate) and sum<=0)then begin
@@ -140,6 +146,7 @@ row CLInVc CLInrw;
                   if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin// Edit ************************** Wednesday, 6 April 2011 11:18:21
                     enddate = IPr.TransDate;
                     logtext(0,"06 enddate " & enddate);
+                    onlycredit = false;
                   end else begin testf1 = false; end;// Edit ************************** Wednesday, 6 April 2011 11:18:22
                 end;
               end;
@@ -161,6 +168,7 @@ row CLInVc CLInrw;
                   if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin// Edit ************************** Wednesday, 6 April 2011 11:18:25
                     enddate = CLInr.TransDate;
                     logtext(0,"07 enddate " & enddate);
+                    onlycredit = false;
                   end else begin testf1 = false; end;// Edit ************************** Wednesday, 6 April 2011 11:18:26
                 end;
               end;
@@ -182,6 +190,7 @@ row CLInVc CLInrw;
                   if(IPrsr.TransNr==newIPr.TransNr and testf1)then begin
                     enddate = CLOutr.TransDate;
                     logtext(0,"08 enddate " & enddate);
+                    onlycredit = false;
                   end else begin testf1 = false; end;
                 end;
               end;
@@ -190,7 +199,11 @@ row CLInVc CLInrw;
         end;        
       end;
     end;
+  end;
   
+  if(onlycredit and nonblankdate(enddate))then begin
+    enddate = bd;
+    sum = IVr.Sum4;
   end;
 
 return;
