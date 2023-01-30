@@ -72,6 +72,9 @@ external function string 20 NormalPhone(string);
 remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
 external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
 remote procedure HandleBixolonWarranty(record ORVc,var area,boolean);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarranty6(record ORVc,var area,boolean);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarranty12(record ORVc,var area,boolean);	//Edit **********************************************Vas-P	10/11/2021
+
 remote function val CommisionCodeBlockComission(string);
 
 SetLangMode(LangRussian,"RUS",0);
@@ -2841,10 +2844,33 @@ BEGIN
   Boolean testf;
   integer rwcnt,i;
   row ORVc ORrw;
+  boolean m6flag,m12flag;
   
 	
   SetExportCodePage("CP1251");
-  HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"));//Для сервиса
+  rwcnt = matrowcnt(ORr);
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(ORr,i,ORrw);
+    if(ORrw.ArtCode=="ISTORE_WAR_6")then begin
+      m6flag = true;
+    end;
+    if(ORrw.ArtCode=="ISTORE_WAR_12")then begin
+      m12flag = true;
+    end;
+  end;
+  
+  if(m12flag)then begin
+    HandleBixolonWarranty12(ORr,aFile,fileexists("BixolonNewIMG"));//12 months
+  end else begin
+    if(m6flag)then begin
+      HandleBixolonWarranty6(ORr,aFile,fileexists("BixolonNewIMG"));//6 months
+    end else begin
+      HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"));//Для сервиса обычная гарантия
+    end;
+  end;
+  
+  
+  
   PrintBixolonWarrantyReceipt(aFile);
   ORr.Printed = 1;
   recordstore(ORr,true);
