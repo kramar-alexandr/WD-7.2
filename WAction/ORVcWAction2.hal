@@ -72,8 +72,7 @@ external function string 20 NormalPhone(string);
 remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
 external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
 remote procedure HandleBixolonWarranty(record ORVc,var area,boolean);	//Edit **********************************************Vas-P	10/11/2021
-remote procedure HandleBixolonWarranty6(record ORVc,var area,boolean);	//Edit **********************************************Vas-P	10/11/2021
-remote procedure HandleBixolonWarranty12(record ORVc,var area,boolean);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarrantyM(record ORVc,var area,boolean,integer);	//Edit **********************************************Vas-P	10/11/2021
 
 remote function val CommisionCodeBlockComission(string);
 
@@ -2860,10 +2859,10 @@ BEGIN
   end;
   
   if(m12flag)then begin
-    HandleBixolonWarranty12(ORr,aFile,fileexists("BixolonNewIMG"));//12 months
+    HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),12);//12 months
   end else begin
     if(m6flag)then begin
-      HandleBixolonWarranty6(ORr,aFile,fileexists("BixolonNewIMG"));//6 months
+      HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),6);//6 months
     end else begin
       HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"));//Для сервиса обычная гарантия
     end;
