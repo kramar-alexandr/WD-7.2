@@ -890,8 +890,11 @@ begin
 		text[""] = text[""] & " ви можете подати заявку на гарантійне обслуговування до компанії Apple, навіть якщо Продукт Apple було придбано в стороннього продавця.";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "Інформацію про особу, яка прийняла на себе зобов’язання щодо продукту Apple, придбаного в Королівстві Саудівська Аравія,";
-		text[""] = text[""] & " Об’єднаних Арабських Еміратах чи Україні, див. На сторінці https://www.apple.com/legal/warranty/obligor.html.";
+		text[""] = text[""] & " Об’єднаних Арабських Еміратах чи Україні, див. На сторінці:";
 		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "https://www.apple.com/legal/warranty/obligor.html";
+		TLTOARRVECTOR(checklength,text,aFile);
+		
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		text[""] = "Примітка. Усі претензії за обмеженою річною гарантією Apple розглядаються на умовах, визначених у цьому гарантійному документі.";
