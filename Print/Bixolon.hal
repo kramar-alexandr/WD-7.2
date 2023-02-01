@@ -792,49 +792,13 @@ begin
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(SetMiddleAlignment,aFile);
 		addtexttoarea(SetBoldOn,aFile);
-		TLTOARR(checklength,"ГАРАНТІЙНИЙ ТАЛОН",aFile);
+		TLTOARR(checklength,"ГАРАНТІЙНИЙ ТАЛОН ВІД ВИРОБНИКА",aFile);
+		TLTOARR(checklength,"Обмежена річна гарантія Apple",aFile);
 		addtexttoarea(SetBoldOff,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		addtexttoarea(SetLeftAlignment,aFile);
-		TLTOARR(checklength,"Шановний клієнте!",aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
-		
-		text[""] = "Здійснюючи покупки в нашому магазинi, Ви можете розраховувати на повноцінне та якісне гарантійне обслуговування. Будь ласка, ознайомтесь із правилами отримання гарантійних послуг.";
-		//text[""] = text[""] & "Здійснюючи покупки в нашому магазинi, Ви можете розраховувати на повноцінне та";
-		
-		//TLTOARR(checklength,"Здійснюючи покупки в нашому магазинi, Ви",aFile);
-		//TLTOARR(checklength,"можете розраховувати на повноцінне та",aFile);
-		//TLTOARR(checklength,"якісне гарантійне обслуговування. Будь",aFile);
-		//TLTOARR(checklength,"ласка, ознайомтесь із правилами отримання",aFile);
-		//TLTOARR(checklength,"гарантійних послуг.",aFile);
-		TLTOARRVECTOR(checklength,text,aFile);
-		
-		text[""] = "Гарантійний талон видається не тільки на продукти компанії Аррlе, але й на акустику та іншу техніку.";
-		TLTOARRVECTOR(checklength,text,aFile);
-		
-		//TLTOARR(checklength,"Гарантійний талон видається не тільки на",aFile);
-		//TLTOARR(checklength,"продукти компанії Аррlе, але й на",aFile);
-		//TLTOARR(checklength,"акустику та іншу техніку.",aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
-		
-		addtexttoarea(SetBoldOn,aFile);
-		TLTOARR(checklength,"Адреса сервісного центру:",aFile);
-		addtexttoarea(SetBoldOff,aFile);
-		
-		TLTOARR(checklength,"м.Київ",aFile);
-		TLTOARR(checklength,"вул. Бойчука 1/2",aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
-		
-		text[""] = "Для отримання гарантійних послуг, Вам необхідно надати товарний чек та гарантійний талон, заповнений продавцем. За цих умов Ви маєтеправо на безкоштовне усунення всіх несправностей, що виникли протягом гарантійного періоду не з вашої вини.";
-		TLTOARRVECTOR(checklength,text,aFile);
-		//TLTOARR(checklength,"Для отримання гарантійних послуг, Вам",aFile);
-		//TLTOARR(checklength,"необхідно надати товарний чек та гарантій-",aFile);
-		//TLTOARR(checklength,"ний талон, заповнений продавцем. За цих",aFile);
-		//TLTOARR(checklength,"умов Ви маєтеправо на безкоштовне усунення",aFile);
-		//TLTOARR(checklength,"всіх несправностей, що виникли протягом",aFile);
-		//TLTOARR(checklength,"гарантійного періоду не з вашої вини.",aFile);
-    TLTOARR(checklength,"========================================================",aFile);
+		TLTOARR(checklength,"========================================================",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
@@ -854,6 +818,7 @@ begin
 
         TLTOARR(checklength,"ДАТА ПРОДАЖУ: " & ORr.OrdDate,aFile);
         addtexttoarea(SetBoldOn,aFile);
+        TLTOARR(checklength,"ДАТА ЗАКІНЧЕННЯ ГАРАНТІЙНОГО ТЕРМІНУ: " & addmonth(ORr.OrdDate,ORrw.GarantyFor),aFile);
         TLTOARR(checklength,"ТЕРМІН ГАРАНТІЇ (МІСЯЦІВ): " & ORrw.GarantyFor,aFile);
         addtexttoarea(SetBoldOff,aFile);
         addtexttoarea(chr(13) & chr(10),aFile);
@@ -861,7 +826,80 @@ begin
 		end;
 		
 		addtexttoarea(SetBoldOff,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		TLTOARR(checklength,"========================================================",aFile);
 		
+		TLTOARR(checklength,"Шановний клієнте!",aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Гарантійний термін експлуатації виробу дорівнює гарантійному строку. Строк гарантії відраховується з дати роздрібного продажу споживачеві.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "У разі виявлення несправностей, для здійснення діагностики та ремонту, просимо Вас звертатися в сервісний центр:";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "Сервісний центр А-сервіс: ";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        Адреса: Київ, вул.Бойчука 1/2";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        Телефон: +380 (93) 170 45 00";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        Веб-сайт:";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        www.a-service.ua";
+		TLTOARRVECTOR(checklength,text,aFile);
+		
+		
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "ОБМІН ТА ПОВЕРНЕННЯ ТОВАРУ";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+    TLTOARR(checklength,"Споживач перед придбанням товару перевіряє його комплектацію, відсутність пошкоджень або дефектів.",aFile);
+		TLTOARR(checklength,"Обмін або повернення товару належної якості здійснюється протягом 14 днів.",aFile);
+		text[""] = "Будь ласка, зверніть увагу, обміну або поверненню підлягає тільки новий товар, який не активований, який не був в експлуатації і";
+		text[""] = text[""] & " не має слідів використання. Обов’язково повинно бути збережено: повний комплект товару, цілісність, неушкодженість та";
+		text[""] = text[""] & " всі частини упаковки, ярлики, захисні плівки, заводське маркування.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		 
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "ГАРАНТІЯ APPLE";
+		TLTOARRVECTOR(checklength,text,aFile);
+		
+		text[""] = " Обмежена річна гарантія Apple є добровільною гарантією виробника. Вона надає права незалежно від прав, гарантованих законом про захист прав споживачів, зокрема щодо неякісних товарів.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "Таким чином, умови обмеженої річної гарантії Apple надаються додатково до прав, установлених законом про захист прав споживачів, а не замість таких прав.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = " Споживачі можуть вибирати, яким чином скористатися своїми правами: на основі обмеженої річної гарантії Apple або як передбачено законом про захист прав споживачів.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "Важливо! Умови та положення обмеженої річної гарантії Apple не застосовуються до претензій, заявлених на підставі закону про захист прав споживачів.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = " Додаткові відомості, що стосуються закону про захист прав споживачів, можна отримати на вебсайті Apple (www.apple.com/legal/warranty/statutoryrights.html) або в місцевій організації із захисту прав споживачів.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		 
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "НА ЩО ПОШИРЮЄТЬСЯ ЦЯ ГАРАНТІЯ";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Компанія Apple Distribution International Ltd, офіс якої розташовано за адресою Hollyhill Industrial Estate Hollyhill,";
+		text[""] = text[""] & " Cork, Republic of Ireland (Республіка Ірландія), або її правонаступник (далі — Apple) надає гарантію, що поширюється на дефекти";
+		text[""] = text[""] & " матеріалів і виготовлення в апаратному забезпеченні й аксесуарах Apple, які входили до комплекту постачання (далі — Продукт Apple)";
+		text[""] = text[""] & " і використовувалися відповідно до посібників користувача Apple, технічних характеристик та інших опублікованих інструкцій щодо";
+		text[""] = text[""] & " Продукту Apple. Гарантія діє протягом ОДНОГО (1) РОКУ з дати роздрібної покупки кінцевим користувачем (далі — Гарантійний період).";
+		text[""] = text[""] & " Компенсацію за обмеженою річною гарантією для продукту Apple можна отримати в місцевих центрах обслуговування Apple у більшості";
+		text[""] = text[""] & " країн світу (див. розділ «Порядок надання гарантійного обслуговування»). Якщо виявлено дефекти матеріалів або виготовлення,";
+		text[""] = text[""] & " ви можете подати заявку на гарантійне обслуговування до компанії Apple, навіть якщо Продукт Apple було придбано в стороннього продавця.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "Інформацію про особу, яка прийняла на себе зобов’язання щодо продукту Apple, придбаного в Королівстві Саудівська Аравія,";
+		text[""] = text[""] & " Об’єднаних Арабських Еміратах чи Україні, див. На сторінці https://www.apple.com/legal/warranty/obligor.html.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Примітка. Усі претензії за обмеженою річною гарантією Apple розглядаються на умовах, визначених у цьому гарантійному документі.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "Крім того, компанія Apple пропонує технічну підтримку телефоном протягом дев’яноста (90) днів із дати отримання продукту Apple.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "(www.apple.com/legal/warranty/products/emea-vad-universal-warranty-ukranian.html)";
+		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		TLTOARR(checklength,"========================================================",aFile);
 
@@ -872,18 +910,12 @@ begin
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		text[""] = "1.На косметичні пошкодження, включаючи, окрім іншого, подряпини, вм’ятини, та зламані пластикові деталі портів.";
-		TLTOARRVECTOR(checklength,text,aFile);
-		
-		//TLTOARR(checklength,"1.На косметичні пошкодження, включаючи,",aFile);
-		//TLTOARR(checklength,"окрім іншого, подряпини, вм’ятини, та",aFile);
-		//TLTOARR(checklength,"зламані пластикові деталі портів.",aFile);
+		TLTOARRVECTOR(checklength,text,aFile);		
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		text[""] = "2.На пошкодження, викликані використанням виробів інших фірм.";
 		TLTOARRVECTOR(checklength,text,aFile);
 		
-		//TLTOARR(checklength,"2.На пошкодження, викликані використанням",aFile);
-		//TLTOARR(checklength,"виробів інших фірм.",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		text[""] = "3.На недоліки, що були спричинені внаслідок недбалого поводження (включно, без обмеження, пошкодження, що заподіяні гострими предметами, вигинанням, стисканням, падінням, контактом з рідиною, вогнем";
@@ -891,74 +923,30 @@ begin
 
 		TLTOARRVECTOR(checklength,text,aFile);
 		
-		/*TLTOARR(checklength,"3.На недоліки, що були спричинені",aFile);
-		TLTOARR(checklength,"внаслідок недбалого поводження (включно,",aFile);
-		TLTOARR(checklength,"без обмеження, пошкодження, що заподіяні",aFile);
-		TLTOARR(checklength,"гострими предметами, вигинанням, стискан-",aFile);
-		TLTOARR(checklength,"ням, падінням, контактом з рідиною, вогнем",aFile);
-		TLTOARR(checklength,"тощо), чи спричинені неправильним",aFile);
-		TLTOARR(checklength,"використанням виробу, включаючи використа-",aFile);
-		TLTOARR(checklength,"ння всупереч інструкціям, що супроводжують",aFile);
-		TLTOARR(checklength,"виріб.",aFile);*/
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		text[""] = "4.На пошкодження, спричинені землетрусами, нещасними випадками, дією непереборних сил, впливом на виріб магнітного чи іншого шкідливого випромінювання, потраплянням";
     text[""] = text[""] & " всередину виробу сторонніх предметів, у тому числі комах, збоями в роботі або невідповідністю стандартам мереж електроживлення, навмисними або необережними діями з вашого боку, або з боку третіх осіб.";
     TLTOARRVECTOR(checklength,text,aFile);
     		
-		/*TLTOARR(checklength,"4.На пошкодження, спричинені землетрусами,",aFile);
-		TLTOARR(checklength,"нещасними випадками, дією непереборних",aFile);
-		TLTOARR(checklength,"сил, впливом на виріб магнітного чи іншого",aFile);
-		TLTOARR(checklength,"шкідливого випромінювання, потраплянням",aFile);
-		TLTOARR(checklength,"всередину виробу сторонніх предметів, у ",aFile);
-		TLTOARR(checklength,"тому числі комах, збоями в роботі або ",aFile);
-		TLTOARR(checklength,"невідповідністю стандартам мереж",aFile);
-		TLTOARR(checklength,"електроживлення, навмисними або необережни",aFile);
-		TLTOARR(checklength,"мидіями з вашого боку, або з боку третіх",aFile);
-		TLTOARR(checklength,"осіб.",aFile);*/
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		text[""] = "5.Якщо виріб було відкрито, модифіковано або відремонтовано особою,  що не є представником уповноваженого сервісного центру, якщо цей виріб відремонтовано з";
 		text[""] = text[""] & "використанням несанкціонованих запасних частин, коли серійний номер виробу було видалено, витерто, затерто, змінено, чи він є нерозбірливим, або у разі, якщо пошкодження виникли внаслідок обслуговування(включаючи оновлення та розширення).";
 		TLTOARRVECTOR(checklength,text,aFile);
-		//TLTOARR(checklength,"5.Якщо виріб було відкрито, модифіковано",aFile);
-		//TLTOARR(checklength,"або відремонтовано особою,  що не є",aFile);
-		//TLTOARR(checklength,"представником уповноваженого сервісного",aFile);
-		//TLTOARR(checklength,"центру, якщо цей виріб відремонтовано з",aFile);
-		//TLTOARR(checklength,"використанням несанкціонованих запасних",aFile);
-		//TLTOARR(checklength,"частин, коли серійний номер виробу було",aFile);
-		//TLTOARR(checklength,"видалено, витерто, затерто, змінено,",aFile);
-		//TLTOARR(checklength,"чи він є нерозбірливим, або у разі, якщо",aFile);
-		//TLTOARR(checklength,"пошкодження виникли внаслідок обслуговува-",aFile);
-		//TLTOARR(checklength,"ння(включаючи оновлення та розширення).",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		text[""] = "6.На пошкодження, спричинені внаслідок використання виробу не у відповідності з опублікованими рекомендаціями компанії виробника.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		//TLTOARR(checklength,"6.На пошкодження, спричинені внаслідок",aFile);
-		//TLTOARR(checklength,"використання виробу не у відповідності з",aFile);
-		//TLTOARR(checklength,"опублікованими рекомендаціями компанії",aFile);
-		//TLTOARR(checklength,"виробника.",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		text[""] = "7.Якщо виріб піддавався впливу зовнішніх факторів (наприклад корозії, окислюванню та ін.) або перебував поза дозволеного виробником діапазону температури, вологості та ін., який вказано в технічних";
 		text[""] = text[""] & " специфікаціях, або на нього проливалася їжа або рідина, чи мали вплив хімічні речовини.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		/*TLTOARR(checklength,"7.Якщо виріб піддавався впливу зовнішніх ",aFile);
-		TLTOARR(checklength,"факторів (наприклад корозії, окислюванню",aFile);
-		TLTOARR(checklength,"та ін.) або перебував поза дозволеного",aFile);
-		TLTOARR(checklength,"виробником діапазону температури, волого-",aFile);
-		TLTOARR(checklength,"сті та ін., який вказано в технічних ",aFile);
-		TLTOARR(checklength,"специфікаціях, або на нього проливалася",aFile);
-		TLTOARR(checklength,"їжа або рідина, чи мали вплив хімічні",aFile);
-		TLTOARR(checklength,"речовини.",aFile);*/
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		text[""] = "8.На дефекти, які виникли у зв’язку з нормальним зносом або нормальним старінням виробу.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		//TLTOARR(checklength,"8.На дефекти, які виникли у зв’язку з",aFile);
-		//TLTOARR(checklength,"нормальним зносом або нормальним старінням",aFile);
-		//TLTOARR(checklength,"виробу.",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		text[""] = "9.На збережену інформацію та налаштування користувача (фотографії, музика, пошта, контакти та ін.)";
@@ -1009,7 +997,10 @@ begin
 		
 		addtexttoarea(SetBoldOn,aFile);
 		addtexttoarea(SetUnderlineOn,aFile);
-		TLTOARR(checklength,"З умовами гарантії погоджуюся",aFile);
+		text[""] = "Товар отримав у цілому стані та повній комплектації";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "3 умовами гарантії ознайомлений і згоден";
+		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(SetBoldOff,aFile);
 		addtexttoarea(SetUnderlineOff,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
