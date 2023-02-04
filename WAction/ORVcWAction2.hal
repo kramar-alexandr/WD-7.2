@@ -2858,6 +2858,7 @@ BEGIN
          if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
             exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
             //setareazerosize(aFile);
+            logtext(0,"PrintBixolonWarrantyExecute 6 " & OR2rw.ArtCode);
             HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),6,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
          end;
       end;
@@ -2869,6 +2870,7 @@ BEGIN
          if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
             exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
             //setareazerosize(aFile);
+            logtext(0,"PrintBixolonWarrantyExecute 12 " & OR2rw.ArtCode);
             HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
          end;
       end;
