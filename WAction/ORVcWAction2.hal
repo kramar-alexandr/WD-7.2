@@ -2854,7 +2854,7 @@ BEGIN
     if((ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_USED_WAR_6") and ORrw.Price>0)then begin
       m6flag = true;
       for(j=0;j<rwcnt;j=j+1)begin
-         matrowget(ORr,i,OR2rw);
+         matrowget(ORr,j,OR2rw);
          if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
             exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
             //setareazerosize(aFile);
@@ -2865,7 +2865,7 @@ BEGIN
     if((ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_12") and ORrw.Price>0)then begin
       m12flag = true;
       for(j=0;j<rwcnt;j=j+1)begin
-         matrowget(ORr,i,OR2rw);
+         matrowget(ORr,j,OR2rw);
          if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
             exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
             //setareazerosize(aFile);
