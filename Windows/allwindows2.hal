@@ -359,7 +359,7 @@ begin
         MatCol(t,384,"Коммент.",0,DopComment,false,0);
         MatCol(t,-180,"Склад",0,Location,true,0);
         MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
-        MatCol(t,-60,"Друк",0,ORPrint,true,0);
+        MatCol(t,-60,"Друк ет.",0,ORPrint,true,0);
         EnterSkip(ORPrint);
 
         InsertRowTest;

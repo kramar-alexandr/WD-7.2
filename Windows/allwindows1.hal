@@ -424,7 +424,7 @@ begin
 			MatCol(t,-315,"Накладна",0,ShipNote,false,0);
 			MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
 			MatCol(t,-145,"Гарант.",0,GarantyFor,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:39:16 PM
-			MatCol(t,-90,"Друк",0,ORPrint,true,0);
+			MatCol(t,-90,"Друк ет.",0,ORPrint,true,0);
 			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
 			MatCol(t,-315,"Накладна",0,ShipNote,false,0);
 			MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
@@ -1124,7 +1124,7 @@ lSimpleORWindow:;
             MatCol(t,384,"Коммент.",0,DopComment,false,0);
             MatCol(t,-180,"Склад",0,Location,true,0);
             MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
-            MatCol(t,-60,"Друк",0,ORPrint,true,0);
+            MatCol(t,-60,"Друк ет.",0,ORPrint,true,0);
             EnterSkip(ORPrint);
 
             InsertRowTest;
@@ -1385,7 +1385,7 @@ lSimpleORWindow:;
 			MatCol(t,-315,"Накладна",0,ShipNote,false,0);
 			MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
 			MatCol(t,-145,"Гарант.",0,GarantyFor,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:39:16 PM
-			MatCol(t,-90,"Друк",0,ORPrint,true,0);
+			MatCol(t,-90,"Друк ет.",0,ORPrint,true,0);
 			MatCol(t=kInvoiceRowTypeStructuredItemComponent,144,"Найменування",0,Spec,false,0);
 			MatCol(t,-315,"Накладна",0,ShipNote,false,0);
 			MatCol(t,-210,"Склад",0,Location,false,LocationSClass);
