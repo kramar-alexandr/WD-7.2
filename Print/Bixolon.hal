@@ -782,7 +782,7 @@ begin
 	  PrintImage = chr(29) & chr(40) & chr(76) & chr(6) &  chr(0) & chr(48) & chr(69) & chr(48) & chr(48) & chr(1) & chr(1);
 	end;
 	
-	SetAreaZeroSize(aFile);
+	//SetAreaZeroSize(aFile);
 	
 	
 		addtexttoarea(PrintImage,aFile);
@@ -1063,7 +1063,7 @@ begin
 	  PrintImage = chr(29) & chr(40) & chr(76) & chr(6) &  chr(0) & chr(48) & chr(69) & chr(48) & chr(48) & chr(1) & chr(1);
 	end;
 	
-	SetAreaZeroSize(aFile);
+	//SetAreaZeroSize(aFile);
 	
 	
 		addtexttoarea(PrintImage,aFile);
