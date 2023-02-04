@@ -2841,7 +2841,7 @@ global updating procedure PrintBixolonWarrantyExecute(var record ORVc ORr)
 BEGIN
   area aFile;
   Boolean testf;
-  integer rwcnt,i,j;
+  integer rwcnt,i,j,needprint;
   row ORVc ORrw,OR2rw;
   boolean m6flag,m12flag;
   vector boolean exludeitems;
@@ -2851,31 +2851,34 @@ BEGIN
   rwcnt = matrowcnt(ORr);
   for(i=0;i<rwcnt;i=i+1)begin
     matrowget(ORr,i,ORrw);
-    if((ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_USED_WAR_6") and ORrw.Price>0)then begin
-      m6flag = true;
-      for(j=0;j<rwcnt;j=j+1)begin
-         matrowget(ORr,j,OR2rw);
-         if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
-            exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
-            //setareazerosize(aFile);
-            logtext(0,"PrintBixolonWarrantyExecute 6 " & OR2rw.ArtCode);
-            HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),6,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
-         end;
+    if(ORrw.GarantyFor>0)then begin
+      needprint = needprint + 1;
+      if((ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_USED_WAR_6") and ORrw.Price>0)then begin
+        m6flag = true;
+        for(j=0;j<rwcnt;j=j+1)begin
+           matrowget(ORr,j,OR2rw);
+           if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
+              exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+              //setareazerosize(aFile);
+              logtext(0,"PrintBixolonWarrantyExecute 6 " & OR2rw.ArtCode);
+              HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),6,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
+              needprint = needprint - 1;
+           end;
+        end;
       end;
-    end;
-    if((ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_12") and ORrw.Price>0)then begin
-      m12flag = true;
-      for(j=0;j<rwcnt;j=j+1)begin
-         matrowget(ORr,j,OR2rw);
-         if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
-            exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
-            //setareazerosize(aFile);
-            logtext(0,"PrintBixolonWarrantyExecute 12 " & OR2rw.ArtCode);
-            HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
-         end;
+      if((ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_12") and ORrw.Price>0)then begin
+        m12flag = true;
+        for(j=0;j<rwcnt;j=j+1)begin
+           matrowget(ORr,j,OR2rw);
+           if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
+              exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+              //setareazerosize(aFile);
+              logtext(0,"PrintBixolonWarrantyExecute 12 " & OR2rw.ArtCode);
+              HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
+              needprint = needprint - 1;
+           end;
+        end;
       end;
-      
-      
     end;
   end;
   
@@ -2889,8 +2892,9 @@ BEGIN
     end;
   end;*/
   
-  
-  HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"),exludeitems);
+  if(needprint>0)then begin
+    HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"),exludeitems);
+  end;
   PrintBixolonWarrantyReceipt(aFile);
   ORr.Printed = 1;
   recordstore(ORr,true);
