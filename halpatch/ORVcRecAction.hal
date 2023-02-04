@@ -470,7 +470,7 @@ begin
 	record SerNrTrackBlock SNrb;
 	record CommisionCodeBlock CommisionCodeb;
 	row CommisionCodeBlock CommisionCoderw;
-	
+	vector boolean serfound;
 	
 	blockload(BCb);// Edit ************************** Tuesday, 23 June 2015 18:02:59
 	oldnr = ORr.SerNr;
@@ -616,9 +616,52 @@ begin
   // Edit Start ---------------------------------------------- Edit Start
 	//Thursday, 4 September 2014 10:49:09
 	
+	
+	transf = false;
+  if (ORr.OKFlag==1) then begin
+    if (stat==insertmode) then begin transf = true; end;
+    if (stat==updatemode) then begin
+      if (OR2r.OKFlag==0) then begin transf = true; end;
+    end;
+  end;
+	
   rwcnt = matrowcnt(ORr);
   for(i=0;i<rwcnt;i=i+1) begin
     matrowget(ORr,i,ORrw);
+      
+      
+    if(transf)then begin
+      if(currentcompany==13)then begin
+        if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6")then begin
+          if(blank(ORrw.SerialNr))then begin
+            RecordCheckError(1240,"",i,"SerialNr");      
+            res = -1; 
+            goto LORVcRecordCheck;
+          end else begin
+            for(j=0;j<rwcnt;j=j+1)begin
+              matrowget(ORr,j,OR2rw);
+              if(i!=j)then begin
+                if(ORrw.SerialNr==OR2rw.SerialNr)then begin
+                  if(serfound[OR2rw.SerialNr]==true)then begin
+                    RecordCheckError(1240,"",i,"SerialNr");      
+                    res = -1; 
+                    goto LORVcRecordCheck;
+                  end;
+                  if(serfound[OR2rw.SerialNr]==false)then begin
+                    serfound[OR2rw.SerialNr] = true;
+                  end;
+                end;
+              end;
+            end;
+            if(serfound[ORrw.SerialNr]==false)then begin
+              RecordCheckError(1240,"",i,"SerialNr");      
+              res = -1; 
+              goto LORVcRecordCheck;
+            end;
+          end;
+        end;
+      end;  
+    end;
     
     if(currentcompany==1 or currentcompany==12)then begin
       if(not(Checkprice(ORrw.ArtCode,ORr.PriceList,ORrw.Price)) and ORrw.Sum>0)then begin

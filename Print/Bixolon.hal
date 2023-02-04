@@ -743,7 +743,7 @@ end;
 
 //Edit **********************************************Vas-P	added 10/11/2021
 global 
-updating procedure HandleBixolonWarranty(record ORVc ORr,var area aFile,boolean bixolonnewimg)
+updating procedure HandleBixolonWarranty(record ORVc ORr,var area aFile,boolean bixolonnewimg,vector boolean excludeitems)
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -805,7 +805,7 @@ begin
 		rwcnt = MatRowCnt(ORr);
 	  for(i=0;i<rwcnt;i=i+1) begin
       MatRowGet(ORr,i,ORrw);
-      if(ORrw.GarantyFor>0)then begin
+      if(ORrw.GarantyFor>0 and excludeitems[ORrw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
         
         
         addtexttoarea(SetUnderlineOff,aFile);
@@ -1025,7 +1025,7 @@ end;
 
 
 global 
-updating procedure HandleBixolonWarrantyM(record ORVc ORr,var area aFile,boolean bixolonnewimg,integer garmonths)
+updating procedure HandleBixolonWarrantyM(record ORVc ORr,var area aFile,boolean bixolonnewimg,integer garmonths,string needprint)
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -1082,7 +1082,7 @@ begin
 		rwcnt = MatRowCnt(ORr);
 	  for(i=0;i<rwcnt;i=i+1) begin
       MatRowGet(ORr,i,ORrw);
-      if(ORrw.GarantyFor>0)then begin
+      if(ORrw.GarantyFor>0 and needprint==(ORrw.ArtCode & ":" & ORrw.SerialNr))then begin
         addtexttoarea(SetUnderlineOff,aFile);
         TLTOARR(checklength,"çÄáÇÄ íéÇÄêì:",aFile);
         addtexttoarea(SetUnderlineOn,aFile);
