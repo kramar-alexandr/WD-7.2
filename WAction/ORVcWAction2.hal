@@ -2859,7 +2859,6 @@ BEGIN
             exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
             //setareazerosize(aFile);
             HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),6,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
-            PrintBixolonWarrantyReceipt(aFile);
          end;
       end;
     end;
@@ -2871,7 +2870,6 @@ BEGIN
             exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
             //setareazerosize(aFile);
             HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
-            PrintBixolonWarrantyReceipt(aFile);
          end;
       end;
       
@@ -2890,8 +2888,8 @@ BEGIN
   end;*/
   
   
-  
-  //PrintBixolonWarrantyReceipt(aFile);
+  HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"),exludeitems);
+  PrintBixolonWarrantyReceipt(aFile);
   ORr.Printed = 1;
   recordstore(ORr,true);
 
