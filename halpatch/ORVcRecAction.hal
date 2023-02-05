@@ -661,6 +661,7 @@ begin
               tstr = "";
               ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
               ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
+              logtext(0,"tstr " & tstr);
               if(nonblank(tstr))then begin
                 oldORr.SerNr = stringtolongint(tstr);
                 if(readfirstmain(oldORr,1,true))then begin
