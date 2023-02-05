@@ -2961,15 +2961,19 @@ begin
   
   deselectwindow(curwindow,true);
   getwindowrecord(curwindow,ORr);
-  if(ORr.OKFlag==1)then begin
-    if(ORr.Printed==0)then begin
-      PrintBixolonWarrantyExecute(ORr);
-      putwindowrecord(curwindow,ORr);
+  if(windowstate(curwindow)==0)then begin
+    if(ORr.OKFlag==1)then begin
+      if(ORr.Printed==0)then begin
+        PrintBixolonWarrantyExecute(ORr);
+        putwindowrecord(curwindow,ORr);
+      end else begin
+        messagebox(0,"‚же надруковано");
+      end; 
     end else begin
-      messagebox(0,"‚же надруковано");
-    end; 
+      messagebox(0,"‡початку заЋкейте чек");
+    end;
   end else begin
-    messagebox(0,"‡початку заЋкейте чек");
+    beep;
   end;
   
 return;
