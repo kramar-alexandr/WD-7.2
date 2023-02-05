@@ -1441,7 +1441,6 @@ begin
       artcode = tstr;
       ExtractObjWithSeparator(";",l,true,pos,tstr);
       serialnr = tstr;
-      ORrw.SerialNr = serialnr & ";" & ordernr;
       
       k = matrowcnt(ORr);
       ORrw.ArtCode = artcode;
@@ -1451,6 +1450,7 @@ begin
   		ORrw.Quant = 1;
   		MatRowPut(ORr,k,ORrw);
       ORVc_PasteQuant(ORr,k,true,chsum);
+      ORrw.SerialNr = serialnr & ";" & ordernr;
       ORDchrsum(ORr,k);
       ORSumup(ORr);
       
