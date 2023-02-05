@@ -941,6 +941,30 @@ begin
   return;
 end;
 
+
+
+global
+function string 40 SerialNrSClassPasteSpecialWindowClass(string defpsname)
+begin
+  string 40 psname;
+  record LocalMachineBlock LMb;
+  integer wn;
+  
+  wn = curwindow;
+  
+  psname = defpsname;
+  
+  if(getwindowclass(wn)=="ORDClass")then begin
+    psname = "TSerialNrSClass";
+  end;
+  
+    
+  SerialNrSClassPasteSpecialWindowClass = psname;
+  return;
+end;
+
+
+
 global
 function string 40 ObjSClassPasteSpecialWindowClass(string defpsname)
 begin
