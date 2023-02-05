@@ -1158,7 +1158,11 @@ begin
             StockNotShipped(RepSpec,ORr,RepSpec.Comparison,RepSpec.flags[5],RepSpec.OnlyUnprntd,frgr,togr,RepSpec.flags[11],MSb,printedf);
             AddCurncyTotals(acur,av1,curcnt,ORr.CurncyCode,iv);
           end;
-        end;    
+        end;  
+        
+        
+        logtext(0,ORr.SerNr & " RepSpec.ArtMode " & RepSpec.ArtMode & " showorderf " & showorderf);
+          
         if (RepSpec.ArtMode==0) then begin
 //           if (iv!=0) then begin
           if (showorderf) then begin // Orders with zero value should show. e.g: Free product to ship to customer.
