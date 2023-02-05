@@ -1071,10 +1071,13 @@ not needed any more
             goto L99;
           end;
           if (SNrb.BulkSerialNos==0) then begin
-            if (IsSerialNrCorrect(IVrw.SerialNr)==false) then begin
-              RecordCheckError(24154,IVrw.SerialNr,i,"SerialNr");      
-              res = -1; 
-              goto L99;
+            if(IVrw.ArtCode=="ISTORE_USED_WAR_12" or IVrw.ArtCode=="ISTORE_WAR_12" or IVrw.ArtCode=="ISTORE_USED_WAR_6" or IVrw.ArtCode=="ISTORE_WAR_6")then begin
+            end else begin
+              if (IsSerialNrCorrect(IVrw.SerialNr)==false) then begin
+                RecordCheckError(24154,IVrw.SerialNr,i,"SerialNr");      
+                res = -1; 
+                goto L99;
+              end;
             end;
           end;
           if (CheckSerialStatus(IVrw.ArtCode,IVrw.SerialNr,tstr)==2) then begin

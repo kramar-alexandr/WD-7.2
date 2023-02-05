@@ -1374,10 +1374,13 @@ begin
             res = -1;
             goto LORVcRecordCheck;
           end;
-          if (IsSerialNrCorrect(ORrw.SerialNr)==false) then begin
-            RecordCheckError(24154,ORrw.SerialNr,i,"SerialNr");      
-            res = -1; 
-            goto LORVcRecordCheck;
+          if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6")then begin
+          end else begin
+            if (IsSerialNrCorrect(ORrw.SerialNr)==false) then begin
+              RecordCheckError(24154,ORrw.SerialNr,i,"SerialNr");      
+              res = -1; 
+              goto LORVcRecordCheck;
+            end;
           end;
           if (CheckSerialStatus(ORrw.ArtCode,ORrw.SerialNr,tstr)==2) then begin
             RecordCheckError(2210," " & tstr,i,"SerialNr");      
