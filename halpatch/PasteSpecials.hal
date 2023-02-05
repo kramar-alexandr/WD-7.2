@@ -1451,6 +1451,7 @@ begin
   		MatRowPut(ORr,k,ORrw);
       ORVc_PasteQuant(ORr,k,true,chsum);
       ORrw.SerialNr = serialnr & ";" & ordernr;
+      MatRowPut(ORr,k,ORrw);
       ORDchrsum(ORr,k);
       ORSumup(ORr);
       
