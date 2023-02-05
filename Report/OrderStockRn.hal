@@ -826,6 +826,13 @@ begin
     sorting = 0;
   end;
   
+  if(RepSpec.flags[20]>0)then begin
+    ORr.CustCode = RepSpec.f2;
+    ckey = "CustCode";
+    keys = 1;
+    sorting = 0;
+  end;
+  
   TrHs = true;
   while (LoopKey(ckey,ORr,keys,TrHs)) begin
     if (TrHs) then begin
@@ -965,6 +972,9 @@ begin
       if (nonblank(RepSpec.f2)) then begin//OSCU key used
         if (RepSpec.f2!=ORr.CustCode) then begin
           testf = false;
+          if(RepSpec.flags[20]>0)then begin
+            TrHs = false;
+          end;
         end;
       end;
       
