@@ -73,7 +73,7 @@ remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
 external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
 remote procedure HandleBixolonWarranty(record ORVc,var area,boolean,vector boolean);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyM(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
-
+external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);
 remote function val CommisionCodeBlockComission(string);
 
 SetLangMode(LangRussian,"RUS",0);
@@ -2837,15 +2837,19 @@ begin
 end;
 
 //Edit **********************************************Vas-P	added 10/11/2021
-global updating procedure PrintBixolonWarrantyExecute(var record ORVc ORr)
+global updating procedure PrintBixolonWarrantyExecute(var record ORVc OR2r)
 BEGIN
   area aFile;
-  Boolean testf;
-  integer rwcnt,i,j,needprint;
+  Boolean testf,found;
+  integer rwcnt,i,j,needprint,rwcnt2;
   row ORVc ORrw,OR2rw;
   boolean m6flag,m12flag;
   vector boolean exludeitems;
+  record ORVc ORr,OR3r,oldORr;
+  string 100 oldsernr,tstr,thissernr;
+  integer pos;
   
+  recordcopy(ORr,OR2r);
 	
   SetExportCodePage("CP1251");
   rwcnt = matrowcnt(ORr);
@@ -2856,28 +2860,76 @@ BEGIN
     end;
     if((ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_USED_WAR_6") and ORrw.Price>0)then begin
       m6flag = true;
+      found = false;
       for(j=0;j<rwcnt;j=j+1)begin
          matrowget(ORr,j,OR2rw);
          if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
             exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
-            //setareazerosize(aFile);
-            logtext(0,"PrintBixolonWarrantyExecute 6 " & OR2rw.ArtCode);
-            HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),6,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
+            HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),6,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//6 months
             needprint = needprint - 1;
+            found = true;
          end;
+      end;
+      if(found==false)then begin
+        oldsernr = "";
+        pos = 0;
+        tstr = "";
+        ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
+        thissernr = tstr;
+        ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
+        if(nonblank(tstr))then begin
+          oldORr.SerNr = stringtolongint(tstr);
+          if(readfirstmain(oldORr,1,true))then begin
+            rwcnt2 = matrowcnt(oldORr);
+            for(j=0;j<rwcnt2;j=j+1)begin
+              matrowget(oldORr,j,OR2rw);
+              logtext(0,"ORrw.SerialNr==OR2rw.SerialNr " & thissernr & " == " & OR2rw.SerialNr);
+              if(thissernr==OR2rw.SerialNr)then begin
+                HandleBixolonWarrantyM(oldORr,aFile,fileexists("BixolonNewIMG"),6,OR2rw.ArtCode & ":" & thissernr);//6 months
+                createrecordlink(oldORr,currentcompany,ORr,currentcompany);
+                createrecordlink(ORr,currentcompany,oldORr,currentcompany);
+                found = true;
+              end;
+            end;
+          end;
+        end;
       end;
     end;
     if((ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_12") and ORrw.Price>0)then begin
       m12flag = true;
+      found = false;
       for(j=0;j<rwcnt;j=j+1)begin
          matrowget(ORr,j,OR2rw);
          if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
             exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
-            //setareazerosize(aFile);
-            logtext(0,"PrintBixolonWarrantyExecute 12 " & OR2rw.ArtCode);
             HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
             needprint = needprint - 1;
+            found = true;
          end;
+      end;
+      if(found==false)then begin
+        oldsernr = "";
+        pos = 0;
+        tstr = "";
+        ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
+        thissernr = tstr;
+        ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
+        if(nonblank(tstr))then begin
+          oldORr.SerNr = stringtolongint(tstr);
+          if(readfirstmain(oldORr,1,true))then begin
+            rwcnt2 = matrowcnt(oldORr);
+            for(j=0;j<rwcnt2;j=j+1)begin
+              matrowget(oldORr,j,OR2rw);
+              logtext(0,"ORrw.SerialNr==OR2rw.SerialNr " & thissernr & " == " & OR2rw.SerialNr);
+              if(thissernr==OR2rw.SerialNr)then begin
+                HandleBixolonWarrantyM(oldORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & thissernr);//6 months
+                createrecordlink(oldORr,currentcompany,ORr,currentcompany);
+                createrecordlink(ORr,currentcompany,oldORr,currentcompany);
+                found = true;
+              end;
+            end;
+          end;
+        end;
       end;
     end;
   end;
@@ -2896,8 +2948,8 @@ BEGIN
     HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"),exludeitems);
   end;
   PrintBixolonWarrantyReceipt(aFile);
-  ORr.Printed = 1;
-  recordstore(ORr,true);
+  OR2r.Printed = 1;
+  recordstore(OR2r,true);
 
   RETURN;
 END;

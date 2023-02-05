@@ -662,15 +662,12 @@ begin
               ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
               thissernr = tstr;
               ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
-              logtext(0,"tstr " & tstr);
               if(nonblank(tstr))then begin
                 oldORr.SerNr = stringtolongint(tstr);
                 if(readfirstmain(oldORr,1,true))then begin
                   rwcnt2 = matrowcnt(oldORr);
-                  logtext(0,"rwcnt2 " & rwcnt2);
                   for(j=0;j<rwcnt2;j=j+1)begin
                     matrowget(oldORr,j,OR2rw);
-                    logtext(0,"ORrw.SerialNr==OR2rw.SerialNr " & thissernr & " == " & OR2rw.SerialNr);
                     if(thissernr==OR2rw.SerialNr)then begin
                       if(serfound[OR2rw.SerialNr]==true)then begin
                         RecordCheckError(1240,"",i,"SerialNr");      
@@ -686,9 +683,7 @@ begin
               end;
             end;
             
-            
             if(serfound[ORrw.SerialNr]==false)then begin
-              
               RecordCheckError(1240,"",i,"SerialNr");      
               res = -1; 
               goto LORVcRecordCheck;
