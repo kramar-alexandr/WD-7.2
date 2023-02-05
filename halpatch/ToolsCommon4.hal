@@ -948,14 +948,24 @@ function string 40 SerialNrSClassPasteSpecialWindowClass(string defpsname)
 begin
   string 40 psname;
   record LocalMachineBlock LMb;
-  integer wn;
+  integer wn,rownr;
+  record ORVc ORr;
+  row ORVc ORrw;
   
   wn = curwindow;
   
   psname = defpsname;
   
   if(getwindowclass(wn)=="ORDClass")then begin
-    psname = "TSerialNrSClass";
+    getwindowrecord(wn,ORr);
+    rownr = WindowActiveRow(wn);
+    if(rownr>-1)then begin
+      matrowget(ORr,rownr,ORrw);
+      if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6")then begin
+        psname = "TSerialNrSClass";
+      end;
+    end;
+    
   end;
   
     
