@@ -1370,6 +1370,7 @@ begin
             goto LORVcRecordCheck;
           end;
           if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6")then begin
+            ORrw.GarantyFor = blankval;
           end else begin
             if (IsSerialNrCorrect(ORrw.SerialNr)==false) then begin
               RecordCheckError(24154,ORrw.SerialNr,i,"SerialNr");      
