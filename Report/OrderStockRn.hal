@@ -1039,6 +1039,8 @@ begin
         end;
       end;
       if ((nonblank(RepSpec.LastAcc)) and (item==false)) then begin testf = false; end;
+      
+      logtext(0,ORr.SerNr & " testf " & testf);
       if (testf) then begin
         if (ORr.InclVAT>0) then begin
           RecordClear(VATr);
