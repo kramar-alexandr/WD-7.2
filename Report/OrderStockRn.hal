@@ -883,19 +883,15 @@ begin
         if (ORr.InvFlag==2) then begin testf = true; end;
       end;
       if (ORr.OKFlag==0) then begin
-        //if (RepSpec.flags[17]==0) then begin testf = false; end;// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 05 02 2023 y. at 12:41:35 PM
+        if (RepSpec.flags[17]==0) then begin testf = false; end;
       end;
       if (ORr.OKFlag!=0) then begin
-        //if (RepSpec.flags[18]==0) then begin testf = false; end;// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 05 02 2023 y. at 12:41:37 PM
+        if (RepSpec.flags[18]==0) then begin testf = false; end;
       end;      
       if (nonblank(RepSpec.ObjStr)) then begin
         if (SetInSet2(RepSpec.ObjStr,ORr.Objects)==false) then begin testf = false; end;
       end;
-      if (nonblank(RepSpec.f2)) then begin//OSCU key used
-        if (RepSpec.f2!=ORr.CustCode) then begin
-          testf = false;
-        end;
-      end;
+      
       if ((nonblank(RepSpec.FirstAcc)) and (RepSpec.FirstAcc!=ORr.OrderClass)) then begin 
         testf = false; 
       end;
@@ -962,6 +958,16 @@ begin
       if (RepSpec.flags[12]==2) then begin
         if (ORr.Closed==0) then begin testf = false; end;
       end;
+      
+      if(RepSpec.flags[20]>0)then begin
+        testf = true;
+      end;
+      if (nonblank(RepSpec.f2)) then begin//OSCU key used
+        if (RepSpec.f2!=ORr.CustCode) then begin
+          testf = false;
+        end;
+      end;
+      
       if (testf) then begin
         recqty = 1;
         if (nonblank(RepSpec.f3) or nonblank(RepSpec.f9)) then begin
