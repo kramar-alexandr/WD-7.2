@@ -666,6 +666,7 @@ begin
                 oldORr.SerNr = stringtolongint(tstr);
                 if(readfirstmain(oldORr,1,true))then begin
                   rwcnt2 = matrowcnt(oldORr);
+                  logtext(0,"rwcnt2 " & rwcnt2);
                   for(j=0;j<rwcnt;j=j+1)begin
                     matrowget(oldORr,j,OR2rw);
                     if(ORrw.SerialNr==OR2rw.SerialNr)then begin
