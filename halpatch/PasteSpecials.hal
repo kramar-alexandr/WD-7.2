@@ -157,6 +157,12 @@ external procedure JobVcOpenResSClassArrayOnOpen(var array string,var array stri
 external procedure StandProblemSClassArrayOnOpen(var array string,var array string);
 external procedure PasteFromWn(Integer,string);
 external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);
+remote function Boolean ORVc_PasteArtCode(var record ORVc,Integer,var string,var string,Boolean); //Edit***************************Sasha2,12:06 22.01.2015
+remote procedure ORVc_PasteQuant(var record ORVc,Integer,Boolean,var Boolean); //Edit***************************Sasha2,12:06 22.01.2015
+remote procedure ORSumup(var record ORVc); //Edit***************************Sasha2,12:09 22.01.2015
+remote procedure ORDchsum(var record ORVc,Integer); //Edit***************************Sasha2,12:12 22.01.2015
+remote function Boolean ORDchrsum(var record ORVc,Integer); //Edit***************************Sasha2,12:07 22.01.2015
+
 
 global
 Function Boolean OcupResSClassOnOpenWindow(Integer wn)
@@ -1410,6 +1416,47 @@ function Boolean TSerialNrSClassClose(Integer wn)
 begin
   
   closewindow(curwindow);
+  
+return;
+end;
+
+global procedure DblSelAddWaranty(string dblstr,string l,Integer currepwn)
+begin
+  record RcVc RepSpec;
+  record ORVc ORr;
+  row ORVc ORrw;
+  integer pos,k;
+  string 150 tstr,ordernr,serialnr,artcode;
+  string 255 inwarning,warning;
+  Boolean chsum;
+  
+  getwindowrecord(currepwn,RepSpec);
+  if(RepSpec.flags[20]>0)then begin
+    getwindowrecord(RepSpec.flags[20],ORr);
+    if(ORr.OKFlag==0)then begin
+      pos = 0;
+      ExtractObjWithSeparator(";",l,true,pos,tstr);
+      ordernr = tstr;
+      ExtractObjWithSeparator(";",l,true,pos,tstr);
+      artcode = tstr;
+      ExtractObjWithSeparator(";",l,true,pos,tstr);
+      serialnr = tstr;
+      ORrw.SerialNr = serialnr & ";" & ordernr;
+      
+      k = matrowcnt(ORr);
+      ORrw.ArtCode = artcode;
+      matrowput(ORr,k,ORrw);
+  		ORVc_PasteArtCode(ORr,k,inwarning,warning,false);
+  		MatRowGet(ORr,k,ORrw);
+  		ORrw.Quant = 1;
+  		MatRowPut(ORr,k,ORrw);
+      ORVc_PasteQuant(ORr,k,true,chsum);
+      ORDchrsum(ORr,k);
+      ORSumup(ORr);
+      
+      putwindowrecord(RepSpec.flags[20],ORr);
+    end;
+  end;
   
 return;
 end;
