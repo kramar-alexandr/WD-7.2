@@ -1405,6 +1405,14 @@ begin
   return;
 END;
 
+global
+function Boolean TSerialNrSClassClose(Integer wn)
+begin
+  
+  closewindow(curwindow);
+  
+return;
+end;
 
 global
 function Boolean TSerialNrSClassOnOpenWindow(Integer wn)
@@ -1426,7 +1434,7 @@ begin
   record WSVc WSr;
   record Bud1Vc Bud1r;
   record Bud2Vc Bud2r;
-  
+    
   mwn = MotherWindow(wn);
   ar = WindowActiveRow(mwn);
   switch (GetWindowFileName(mwn)) begin      
@@ -1437,6 +1445,7 @@ begin
   RepSpec.TransStr = WindowActiveField(mwn);
   RepSpec.long1 = WindowActiveRow(mwn);
   PutWindowRecord(wn,RepSpec);
+  SelectWindow(wn);
   SelectWindow(wn);
   WindowFieldGoto(wn,RepSpec,-1,"f1",true);
   TSerialNrSClassOnOpenWindow = false;

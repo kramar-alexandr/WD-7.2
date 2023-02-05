@@ -1623,11 +1623,11 @@ begin
   WindowBegin("Assisted Tag/Object Entry",TRObjSClass,CGother,RcType);
   if (GuiType==kGuiMetro) then begin//temporarily added for Windows 8, until ToolBar implemented
     HalPushButton(-70,5,-10,22,"TRSerNrReplace","OK");
-    PushButton(-140,5,-80,22,ToolRestore,"Cancel");
+    HalPushButton(-140,5,-80,22,"TSerialNrSClassClose","Cancel");
   end else begin
     ToolBar;//doesnt work on Windows 8
     HalPushButton(-70,5,-10,22,"TRSerNrReplace","OK");
-    PushButton(-140,5,-80,22,ToolRestore,"Cancel");
+    HalPushButton(-140,5,-80,22,"TSerialNrSClassClose","Cancel");
     EndToolBar;
   end;
   DynamicWindow;
