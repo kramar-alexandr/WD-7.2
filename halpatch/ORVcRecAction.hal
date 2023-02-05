@@ -84,6 +84,7 @@ external procedure SendORStatusToViber(record ORVc,string);// Edit *************
 external updating function LongInt RecordAction_raPasteOrdInShip2(var record SHVc,LongInt,var string);
 external procedure FindStockValueInclStockReserv(LongInt,string,string,string,var record ItemStatusVc,var val);
 external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
+external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);
 
 
 SetLangMode(LangRussian,"RUS",0);
@@ -427,7 +428,7 @@ begin
   record MainStockBlock MSb;  
   row ORVc ORrw;
   row ORVc OR2rw;
-  Integer i,j,rwcnt,errcode;
+  Integer i,j,rwcnt,errcode,rwcnt2;
   LongInt oldnr,ErrorCode;
   LongInt newnr;
   val bal;
@@ -444,7 +445,7 @@ begin
   record ModuleBlock OptRec;
   record PlanDeliveryBlock PDb;
   val ordqty;
-  string 60 comment;
+  string 60 comment,oldsernr;
   record UserVc User;
   Boolean closingf;
   record TaxTemplateVc TTr;
@@ -456,7 +457,7 @@ begin
   val TotDownPaymentval;
   Array string 255 otcheckaccs;
   Array string 255 otcheckobjtyps;
-  Integer otcheckcnt;
+  Integer otcheckcnt,pos;
   record OTCheckBlock OTCheckr;
   Boolean initotcheckf;  
   record CUUserLabelBlock CUUerLb;
@@ -653,7 +654,37 @@ begin
                 end;
               end;
             end;
+            
             if(serfound[ORrw.SerialNr]==false)then begin
+              oldsernr = "";
+              pos = 0;
+              tstr = "";
+              ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
+              ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
+              if(nonblank(tstr))then begin
+                oldORr.SerNr = stringtolongint(tstr);
+                if(readfirstmain(oldORr,1,true))then begin
+                  rwcnt2 = matrowcnt(oldORr);
+                  for(j=0;j<rwcnt;j=j+1)begin
+                    matrowget(oldORr,j,OR2rw);
+                    if(ORrw.SerialNr==OR2rw.SerialNr)then begin
+                      if(serfound[OR2rw.SerialNr]==true)then begin
+                        RecordCheckError(1240,"",i,"SerialNr");      
+                        res = -1; 
+                        goto LORVcRecordCheck;
+                      end;
+                      if(serfound[OR2rw.SerialNr]==false)then begin
+                        serfound[OR2rw.SerialNr] = true;
+                      end;
+                    end;
+                  end;
+                end;
+              end;
+            end;
+            
+            
+            if(serfound[ORrw.SerialNr]==false)then begin
+              
               RecordCheckError(1240,"",i,"SerialNr");      
               res = -1; 
               goto LORVcRecordCheck;
