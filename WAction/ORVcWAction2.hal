@@ -2877,14 +2877,14 @@ BEGIN
         ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
         thissernr = tstr;
         ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
-        if(nonblank(tstr))then begin
+        if(nonblank(tstr) and nonblank(thissernr))then begin
           oldORr.SerNr = stringtolongint(tstr);
           if(readfirstmain(oldORr,1,true))then begin
             rwcnt2 = matrowcnt(oldORr);
             for(j=0;j<rwcnt2;j=j+1)begin
               matrowget(oldORr,j,OR2rw);
               logtext(0,"ORrw.SerialNr==OR2rw.SerialNr " & thissernr & " == " & OR2rw.SerialNr);
-              if(thissernr==OR2rw.SerialNr)then begin
+              if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0)then begin
                 HandleBixolonWarrantyM(oldORr,aFile,fileexists("BixolonNewIMG"),6,OR2rw.ArtCode & ":" & thissernr);//6 months
                 createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                 createrecordlink(ORr,currentcompany,oldORr,currentcompany);
@@ -2914,14 +2914,14 @@ BEGIN
         ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
         thissernr = tstr;
         ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
-        if(nonblank(tstr))then begin
+        if(nonblank(tstr) and nonblank(thissernr))then begin
           oldORr.SerNr = stringtolongint(tstr);
           if(readfirstmain(oldORr,1,true))then begin
             rwcnt2 = matrowcnt(oldORr);
             for(j=0;j<rwcnt2;j=j+1)begin
               matrowget(oldORr,j,OR2rw);
               logtext(0,"ORrw.SerialNr==OR2rw.SerialNr " & thissernr & " == " & OR2rw.SerialNr);
-              if(thissernr==OR2rw.SerialNr)then begin
+              if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0)then begin
                 HandleBixolonWarrantyM(oldORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & thissernr);//6 months
                 createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                 createrecordlink(ORr,currentcompany,oldORr,currentcompany);
