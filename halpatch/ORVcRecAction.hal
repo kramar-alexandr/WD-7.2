@@ -433,7 +433,7 @@ begin
   LongInt newnr;
   val bal;
   val limit,rsrvd;
-  string 255 tstr,errstr;
+  string 255 tstr,errstr,thissernr;
   Boolean gentrans,transf,unokf,testf,test2f;
   record OrdSettBlock OSb;
   string 20 location,oldOfficialSerNr,loc3,loc2;
@@ -660,6 +660,7 @@ begin
               pos = 0;
               tstr = "";
               ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
+              thissernr = tstr;
               ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
               logtext(0,"tstr " & tstr);
               if(nonblank(tstr))then begin
@@ -670,14 +671,14 @@ begin
                   for(j=0;j<rwcnt2;j=j+1)begin
                     matrowget(oldORr,j,OR2rw);
                     logtext(0,"ORrw.SerialNr==OR2rw.SerialNr " & ORrw.SerialNr & " == " & OR2rw.SerialNr);
-                    if(ORrw.SerialNr==OR2rw.SerialNr)then begin
-                      if(serfound[OR2rw.SerialNr]==true)then begin
+                    if(ORrw.SerialNr==thissernr)then begin
+                      if(serfound[thissernr]==true)then begin
                         RecordCheckError(1240,"",i,"SerialNr");      
                         res = -1; 
                         goto LORVcRecordCheck;
                       end;
-                      if(serfound[OR2rw.SerialNr]==false)then begin
-                        serfound[OR2rw.SerialNr] = true;
+                      if(serfound[thissernr]==false)then begin
+                        serfound[thissernr] = true;
                       end;
                     end;
                   end;
