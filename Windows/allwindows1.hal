@@ -229,7 +229,7 @@ begin
   
   //goto lSimpleORWindow;
   
-	if(CurrentCompany!=13) then begin 
+	if(CurrentCompany!=13 and CurrentCompany!=1) then begin 
 		if(UserCanAction("ManagerView",false)==false)then begin
 			//if(false) then begin 
 			WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
@@ -246,7 +246,7 @@ begin
 			EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
 			EnterSkip(PayDeal);
 			EditField(h=255,v=vm,-40,"Найменув.",Normal,Addr0,false,0);
-			if(currentcompany==13)then begin
+			if(currentcompany==13 or currentcompany==1)then begin
 				HalPushButton(h,v+20,h+80,v+35,"CallToClientDsm","Дзвінок");
 			end;
 			if (StandardHansa==false) then begin
@@ -1207,7 +1207,7 @@ lSimpleORWindow:;
 			EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
 			EnterSkip(PayDeal);
 			EditField(h=255,v=vm,-40,"Найменув.",Normal,Addr0,false,0);
-			if(currentcompany==13)then begin
+			if(currentcompany==13 or currentcompany==1)then begin
 				HalPushButton(h,v+20,h+80,v+35,"CallToClientDsm","Дзвінок");
 			end;
 			if (StandardHansa==false) then begin
