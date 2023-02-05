@@ -883,10 +883,10 @@ begin
         if (ORr.InvFlag==2) then begin testf = true; end;
       end;
       if (ORr.OKFlag==0) then begin
-        if (RepSpec.flags[17]==0) then begin testf = false; end;
+        //if (RepSpec.flags[17]==0) then begin testf = false; end;// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 05 02 2023 y. at 12:41:35 PM
       end;
       if (ORr.OKFlag!=0) then begin
-        if (RepSpec.flags[18]==0) then begin testf = false; end;
+        //if (RepSpec.flags[18]==0) then begin testf = false; end;// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 05 02 2023 y. at 12:41:37 PM
       end;      
       if (nonblank(RepSpec.ObjStr)) then begin
         if (SetInSet2(RepSpec.ObjStr,ORr.Objects)==false) then begin testf = false; end;
