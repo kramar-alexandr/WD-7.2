@@ -188,7 +188,6 @@ begin
         OutString(330,0,"Серійний номер",false);
         OutString(330,0,"Продавець",false);
       end;
-      OutString(330,0,"Cost",false);
       OutString(370,0,"Кіл-ть",false);
       OutString(405,0,"Знижка",false);
       OutString(460,0,"Сума",true);
