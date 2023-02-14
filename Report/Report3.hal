@@ -169,6 +169,9 @@ begin
   boolean testf,TrHs;
   string 20 mykey;
   integer mtrw,i;
+  record ORVc ORr;
+  record SHVc SHr;
+  row SHVc SHrw;
   
   startreportnoheaderjob("Історія продажів по клієнту");
   
@@ -180,6 +183,12 @@ begin
       OutString(120,0,"Товар",false);
       OutString(200,0,"Найменування",false);
       OutString(330,0,"Ціна",false);
+      if(RepSpec.Media==mtExcel)then begin
+        OutString(330,0,"Собівартість",false);
+        OutString(330,0,"Серійний номер",false);
+        OutString(330,0,"Продавець",false);
+      end;
+      OutString(330,0,"Cost",false);
       OutString(370,0,"Кіл-ть",false);
       OutString(405,0,"Знижка",false);
       OutString(460,0,"Сума",true);
@@ -212,6 +221,9 @@ begin
       end;
       
       if(testf)then begin
+        ORr.SerNr = IVr.OrderNr;
+        if (ReadFirstMain(ORr,1,true)) then begin
+        end;
         mtrw = matrowcnt(IVr);
 
         for(i=0;i<mtrw;i=i+1)begin
@@ -226,6 +238,11 @@ begin
                 OutString(120,0,IVrw.ArtCode,false);
                 OutString(200,0,IVrw.Spec,false);
                 OutString(310,0,IVrw.Price,false);
+                if(RepSpec.Media==mtExcel)then begin
+                  OutString(330,0,IVrw.FIFO,false);
+                  OutString(330,0,IVrw.SerialNr,false);
+                  OutString(330,0,ORr.SalesMan,false);
+                end;
                 OutString(370,0,IVrw.Quant,false);
                 OutString(405,0,IVrw.vRebate,false);
                 OutString(460,0,IVrw.Sum,false);
