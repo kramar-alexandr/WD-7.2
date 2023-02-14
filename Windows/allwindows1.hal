@@ -632,7 +632,6 @@ begin
 				SpecialMenu("Підпис",' ',10,"SignORDsm");
 			end;
 			SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
-			SpecialMenu("Переміщення по складу",' ',8,"StockMovFromORDsm");
 			if (HasTaxMatrix) then begin
 			SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixORDsm"); 
 			end;
@@ -640,7 +639,9 @@ begin
 			SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
 			SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
 			SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
-		
+		  
+		  SpecialMenu("Створити переміщення",' ',8,"StockMovFromORDsm");
+		  
 			SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
 			SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
 			SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
