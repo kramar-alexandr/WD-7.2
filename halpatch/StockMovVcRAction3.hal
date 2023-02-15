@@ -197,7 +197,10 @@ BEGIN
   LongInt res;
   Boolean ihef;
   record ORVc ORr; //Edit***************************Sasha2,17:48 31.10.2014
-
+  record ActVc Actr,oldActr;
+  record RLinkVc RLr;
+  Integer cnt;
+  
   if (nonblank(StockMovr.ThrouLocation)) then begin
     if (StockMovr.SentOKFlag!=0) then begin
       ihef = ItemHistExistsThrou("StockMovVc",StockMovr.SerNr,StockMovr.ToLocation);
@@ -215,6 +218,17 @@ BEGIN
   end;
   StockMovUpdateSerialNr(StockMovr,StockMov2r,false);
   if ((StockMovr.OKFlag!=0) and (StockMov2r.OKFlag==0)) then begin
+    
+    cnt = 0;
+    while(ReadRecordLink(ORr,cnt,Actr,RLr)) begin// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 15 02 2023 y. at 2:58:00 PM
+      cnt = cnt + 1;
+      if(Actr.SerNr>0 and Actr.ActType=="COMPL")then begin
+        recordcopy(oldActr,Actr);
+        Actr.OKFlag = 1;
+        recordupdate(oldActr,Actr,true);
+      end;
+    end;
+  
     if (ihef==false) then begin
       if (UpdateForkLiftQueue(StockMovr,true)) then begin end;
       UpdateStockResFromStockMov(StockMovr);
