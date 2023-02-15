@@ -2108,30 +2108,46 @@ updating procedure StockMovFromORDsm()
 BEGIN
   record ORVc ORr;
   record StockMovVc StockMovr;
-  Integer wn,r,nwn;
-
+  Integer wn,r,nwn,cnt;
+  record StockMovVc SMr;
+	record RLinkVc RLr;
+	boolean found;
+	
   wn = CurWindow;
   DeselectWindow(wn,false);
-  if (WindowState(wn)==Rs_normal and HasModIN) then begin
-    GetWindowRecord(wn,ORr);
-    if (UserCanAction("ORToStockMov",true)) then begin
-      r = RecordAction_raPasteOrdInStockMov(StockMovr,ORr.SerNr);
-      if (r==1) then begin
-        if (MatRowCnt(StockMovr)!=0) then begin
-          nwn = OpenWindow("StockMovDClass",1,0,"","",StockMovr);
+  
+  GetWindowRecord(wn,ORr);
+  cnt = 0;
+  while(ReadRecordLink(ORr,cnt,SMr,RLr)) begin
+		cnt = cnt+1;
+		if(SMr.SerNr>0)then begin
+		  found = true;
+			OpenWindow("StockMovDClass",1,0,"","",SMr); 
+		end;
+	end;
+  
+  if(found==false)then begin
+    if (WindowState(wn)==Rs_normal and HasModIN) then begin
+      GetWindowRecord(wn,ORr);
+      if (UserCanAction("ORToStockMov",true)) then begin
+        r = RecordAction_raPasteOrdInStockMov(StockMovr,ORr.SerNr);
+        if (r==1) then begin
+          if (MatRowCnt(StockMovr)!=0) then begin
+            nwn = OpenWindow("StockMovDClass",1,0,"","",StockMovr);
+          end else begin
+            Beep;
+          end;
         end else begin
-          Beep;
+          if (r!=-1) then begin 
+            MessageBox(r,"");
+          end;
         end;
       end else begin
-        if (r!=-1) then begin 
-          MessageBox(r,"");
-        end;
+        MessageBox(1274,StringFromStringSet(3,"ORToStockMov"));
       end;
     end else begin
-      MessageBox(1274,StringFromStringSet(3,"ORToStockMov"));
+      Beep;
     end;
-  end else begin
-    Beep;
   end;
   RETURN;
 END;
