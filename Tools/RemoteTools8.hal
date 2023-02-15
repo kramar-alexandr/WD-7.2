@@ -1441,6 +1441,7 @@ begin
   row ORVc ORrw;
   record ORVc ORr;
   row StockMovVc SMrw;
+  record INVc INr;
   
   
   if(SMr.OrderNr>-1)then begin
@@ -1528,7 +1529,9 @@ begin
 	for(k=0;k<matrowcnt(SMr);k=k+1)begin
 		matrowget(SMr,k,SMrw);
 		if(nonblank(SMrw.ArtCode))then begin
-			Actrw.Text = stringtoint(SMrw.Quant) & "x " & SMrw.ArtCode & " - " & SMrw.Spec;
+		  INr.Code = SMrw.ArtCode;
+		  readfirstmain(INr,1,true);
+			Actrw.Text = INr.Group & " | " & stringtoint(SMrw.Quant) & "x " & SMrw.ArtCode & " - " & SMrw.Spec;
 			matrowput(Actr,matrowcnt(Actr),Actrw);
 		end;
 	end;
