@@ -229,7 +229,7 @@ BEGIN
   StockMovp.ToAddr3 = Locr.Addr3;
   StockMovp.ToAddr4 = Locr.Addr4;
 
-  StockMovp.CurncyCode = ORp.CurncyCode;  
+  StockMovp.CurncyCode = "USD";  
   curcode = StockMovp.CurncyCode;
   GetFullCurncyRate(curcode,StockMovp.TransDate,fr,to1,to2,br1,br2);
   StockMovp.CurncyCode = curcode;
