@@ -217,7 +217,7 @@ BEGIN
     StockMovp.FrLocation = RepSpec.Stext;
   end;
   StockMovp.FrLocation = "OFFICE";
-  StockMovp.ThrouLocation = "K_TRANSIT";
+  StockMovp.ThrouLocation = "K_TR_KVZ";
   Locr.Code = StockMovp.FrLocation;//office  transit
   ReadFirstMain(Locr,1,true);
   StockMovp.FrAddr0 = Locr.Addr0;
