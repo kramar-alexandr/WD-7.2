@@ -52,6 +52,28 @@ begin
 return;
 end;
 
+global updating procedure SMFromActDsm()
+begin
+	record ActVc Actr,oldActr,old1Actr;
+	integer wn,cnt;
+	string 50 from,to;
+	record StockMovVc SMr;
+	record RLinkVc RLr;
+	
+	wn = curwindow;
+	deselectwindow(wn,true);
+	getwindowrecord(wn,oldActr);
+	
+	while(ReadRecordLink(oldActr,cnt,SMr,RLr)) begin
+		cnt = cnt+1;
+		if(SMr.SerNr>0)then begin
+			OpenWindow("StockMovDClass",1,0,"","",SMr); 
+		end;
+	end;
+	
+return;
+end;
+
 global updating procedure ActBackDsm()
 begin
 	record ActVc Actr,oldActr,old1Actr;

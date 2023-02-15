@@ -8341,6 +8341,8 @@ begin
     EditField(h2+200,v+=vs,80,"Керівник",Normal,Supervisor,false,UserSClass);
 		
 		halpushbutton(h,v,h+100,v+vs,"OrdFromActDsm","Рахунок");
+		v=v+24;
+		halpushbutton(h,v,h+100,v+vs,"SMFromActDsm","Переміщення");
 		halpushbutton(h2+10,v,h2+110,v+vs,"ActBackDsm","Відповісти");
 		
     //EditField(h4,v,-40,"Перенапр.затв.",Normal,ApprovalFwdPersons,false,UserSClass);

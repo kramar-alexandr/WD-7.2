@@ -261,6 +261,7 @@ BEGIN
             StockMovrw.BasePrice = blankval;
             StockMovrw.Coefficient = INr.UnitCoefficient;
             StockMovrw.Objects = ORrw.Objects;
+            StockMovrw.ORRow = i;
             MatRowPut(StockMovp,stcnt,StockMovrw);
             stcnt = stcnt + 1;
             ORrw.Shipd1 = 1;//ORrw.Quant;//-----------------------------------Customize
@@ -285,6 +286,7 @@ BEGIN
             StockMovrw.BasePrice = blankval;
             StockMovrw.Coefficient = INr.UnitCoefficient;
             StockMovrw.Objects = ORrw.Objects;
+            StockMovrw.ORRow = i;
             MatRowPut(StockMovp,stcnt,StockMovrw);
             stcnt = stcnt + 1;
             ORrw.Shipd1 = 1;//ORrw.Quant;//-----------------------------------Customize
