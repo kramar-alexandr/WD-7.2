@@ -1528,7 +1528,7 @@ begin
 	for(k=0;k<matrowcnt(SMr);k=k+1)begin
 		matrowget(SMr,k,SMrw);
 		if(nonblank(SMrw.ArtCode))then begin
-			Actrw.Text = stringtoint(ORrw.Quant) & "x " & ORrw.ArtCode & " - " & ORrw.Spec;
+			Actrw.Text = stringtoint(SMrw.Quant) & "x " & SMrw.ArtCode & " - " & SMrw.Spec;
 			matrowput(Actr,matrowcnt(Actr),Actrw);
 		end;
 	end;
