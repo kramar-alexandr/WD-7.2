@@ -217,8 +217,9 @@ BEGIN
     StockMovUpdateItemHist(StockMovr,StockMov2r);
   end;
   StockMovUpdateSerialNr(StockMovr,StockMov2r,false);
-  if ((StockMovr.OKFlag!=0) and (StockMov2r.OKFlag==0)) then begin
-    
+  
+  
+  if ((StockMovr.SentOKFlag!=0) and (StockMov2r.SentOKFlag==0)) then begin
     cnt = 0;
     while(ReadRecordLink(ORr,cnt,Actr,RLr)) begin// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 15 02 2023 y. at 2:58:00 PM
       cnt = cnt + 1;
@@ -228,6 +229,11 @@ BEGIN
         recordupdate(oldActr,Actr,true);
       end;
     end;
+  end;
+  
+  if ((StockMovr.OKFlag!=0) and (StockMov2r.OKFlag==0)) then begin
+    
+    
   
     if (ihef==false) then begin
       if (UpdateForkLiftQueue(StockMovr,true)) then begin end;

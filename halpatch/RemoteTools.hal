@@ -394,7 +394,7 @@ BEGIN
       CreateRecordLink(StockMovp,CurrentCompany,ORr,CurrentCompany);  
       CreateRecordLink(ORr,CurrentCompany,StockMovp,CurrentCompany);  
       
-      if (MakeActFromSM(StockMovp,Actr,false)) then begin
+      if (MakeActFromSM(StockMovp,Actr,true)) then begin
         Actr.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK";
         Actr.ActType = "COMPL";
         Actr.Comment = StockMovp.ToLocation & " Собрать заказ " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
@@ -405,6 +405,9 @@ BEGIN
         recordstore(Actr,true);
         CreateRecordLink(StockMovp,CurrentCompany,Actr,CurrentCompany);  
         CreateRecordLink(Actr,CurrentCompany,StockMovp,CurrentCompany);
+        
+        CreateRecordLink(ORr,CurrentCompany,Actr,CurrentCompany);  
+        CreateRecordLink(Actr,CurrentCompany,ORr,CurrentCompany);
       end;
       
       res = 1;
