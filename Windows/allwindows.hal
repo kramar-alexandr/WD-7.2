@@ -8360,6 +8360,7 @@ begin
       //TileButton(tilenr,"Визначено кор-чем"); tilenr = tilenr + 1;
     end;
     //CheckBox(-170,v,0,"Приватне",PrivateFlag); //##cc
+    EditField(-250,v+=vs,80,"Тип",Normal,ActType,false,ActTypeSClass);//ActType2SClass
     CheckBox(-100,v,0,"Виконано",OKFlag); //##cc
     tilenr = 1;
    /* if (showapprovaltile) then begin

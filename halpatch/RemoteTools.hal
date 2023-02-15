@@ -50,6 +50,7 @@ external procedure StockMovSumUp(var record StockMovVc);
 external function LongInt GetCurUserLastNr(string);
 external procedure IVVc_PasteSalesMan(var record IVVc,string);
 external function Boolean IVVc_PasteArtCode(var record IVVc,Integer,var string,var string,Boolean,var Integer);
+remote function Boolean MakeActFromSM(var record StockMovVc,var record ActVc,boolean);
 
 global
 procedure GetItemSalesAccFromOR(record ORVc ORr,var string salesacc)
@@ -212,7 +213,9 @@ BEGIN
   if (nonblank(RepSpec.Stext)) then begin
     StockMovp.FrLocation = RepSpec.Stext;
   end;
-  Locr.Code = StockMovp.FrLocation;
+  StockMovp.FrLocation = "OFFICE";
+  StockMovp.ThrouLocation = "K_TRANSIT";
+  Locr.Code = StockMovp.FrLocation;//office  transit
   ReadFirstMain(Locr,1,true);
   StockMovp.FrAddr0 = Locr.Addr0;
   StockMovp.FrAddr1 = Locr.Addr1;
@@ -340,6 +343,13 @@ BEGIN
   end;
   tstr = tstr & ORr.CustCode;
   StockMovp.Comment = tstr;
+  
+  
+  StockMovp.Comment = "Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
+	if(nonblankdate(ORr.PlanShipDate))then begin
+		StockMovp.Comment = StockMovp.Comment & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
+	end;
+  
 LPasteOrdInStockMov:; 
   RETURN;
 END;
@@ -350,6 +360,7 @@ BEGIN
   Integer res;
   Date td;
   record ORVc ORr;
+  record ActVc Actr;
   
   ORr.SerNr = ordnr;
   ReadFirstMain(ORr,1,true);
@@ -379,6 +390,20 @@ BEGIN
     if (RecordInsert(StockMovp,false)) then begin
       CreateRecordLink(StockMovp,CurrentCompany,ORr,CurrentCompany);  
       CreateRecordLink(ORr,CurrentCompany,StockMovp,CurrentCompany);  
+      
+      if (MakeActFromSM(StockMovp,Actr,false)) then begin
+        Actr.MainPersons = "GORIN,PODENKO,BABICH,MOROZ,PUSTYNNIKO,TARANIK,TALALAYEV";
+        Actr.ActType = "COMPL";
+        Actr.Comment = StockMovp.ToLocation & "Собрать заказ " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
+        if(nonblankdate(ORr.PlanShipDate))then begin
+          Actr.Comment = Actr.Comment & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
+        end;
+        Actr.StartTime = currenttime;
+        recordstore(Actr,true);
+        CreateRecordLink(StockMovp,CurrentCompany,Actr,CurrentCompany);  
+        CreateRecordLink(Actr,CurrentCompany,StockMovp,CurrentCompany);
+      end;
+      
       res = 1;
     end;
   end;

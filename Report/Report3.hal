@@ -247,6 +247,10 @@ begin
                   case "CUST": filtered = true;
                 end;
               end;
+              
+              if(currentuser=="VEKHA" and ORr.SalesMan!=currentuser)then begin
+                filtered = false;
+              end;
             
               
               if(filtered)then begin

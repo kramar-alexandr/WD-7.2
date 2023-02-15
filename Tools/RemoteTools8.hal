@@ -1428,7 +1428,7 @@ begin
 end;
 
 global
-updating function Boolean MakeActFromSM(var record StockMovVc SMr,var record ActVc Actr)
+updating function Boolean MakeActFromSM(var record StockMovVc SMr,var record ActVc Actr,boolean all)
 begin
   record ASTBlock ASTRec;
   Integer curcomp,k;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 2:56:26 PM
@@ -1493,7 +1493,7 @@ begin
   Actr.Supervisor = currentuser;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 8:51:31 PM
   
   Actr.Comment = ORr.Comment;
-  Actr.Comment = "Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
+  Actr.Comment = SMr.ToLocation & "Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
 	if(nonblankdate(ORr.PlanShipDate))then begin
 		Actr.Comment = Actr.Comment & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
 	end;
@@ -1528,7 +1528,7 @@ begin
 	end;
 	for(k=0;k<matrowcnt(SMr);k=k+1)begin
 		matrowget(SMr,k,SMrw);
-		if(nonblank(SMrw.ArtCode) and SMrw.POQuant>0)then begin
+		if(nonblank(SMrw.ArtCode) and (SMrw.POQuant>0 or all))then begin
 		  INr.Code = SMrw.ArtCode;
 		  readfirstmain(INr,1,true);
 			Actrw.Text = INr.Group & " | " & stringtoint(SMrw.POQuant) & "x " & SMrw.ArtCode & " - " & SMrw.Spec;
