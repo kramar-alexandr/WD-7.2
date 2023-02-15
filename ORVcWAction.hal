@@ -141,3 +141,20 @@ record INVc INr;
 	ORDClassAfterEditField = res;
 return;
 end;
+
+
+
+global procedure OpenOrderFromSMDsm()
+begin
+  record ORVc ORr;
+  record StockMovVc SMr;
+  
+  getwindowrecord(curwindow,SMr);
+  if(SMr.OrderNr>-1)then begin
+    ORr.SerNr = SMr.OrderNr;
+    readfirstmain(ORr,1,true);
+    OpenWindow("ORDClass",1,0,"","",ORr);
+  end;
+  
+return;
+end;

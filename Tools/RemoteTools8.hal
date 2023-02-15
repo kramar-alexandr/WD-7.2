@@ -1428,6 +1428,123 @@ begin
 end;
 
 global
+updating function Boolean MakeActFromSM(var record StockMovVc SMr,var record ActVc Actr)
+begin
+  record ASTBlock ASTRec;
+  Integer curcomp,k;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 2:56:26 PM
+  Boolean res;
+  record CUVc CUr;
+  record OrderClassVc ORClassr;
+  record ActTypeVc ActTyper;
+  record ActTypeGrVc ActTypeGrr;
+  row ActVc Actrw;
+  row ORVc ORrw;
+  record ORVc ORr;
+  row StockMovVc SMrw;
+  
+  
+  if(SMr.OrderNr>-1)then begin
+    ORr.SerNr = SMr.OrderNr;
+    if (ReadFirstMain(ORr,0,true)) then begin end;  
+  end;
+		
+  
+  curcomp = CurrentCompany;
+  Actr.SerNr = -1;
+  Actr.Invalid = 0;
+  Actr.TodoFlag = 1;
+  Actr.CUCode = ORr.CustCode;
+  Actr.Comment = SMr.Comment;
+  Actr.Contact = ORr.CustContact;
+  CUr.Code = ORr.CustCode;
+  if (ReadFirstMain(CUr,1,true)) then begin
+    Actr.CUName = CUr.Name;
+    Actr.Phone = CUr.Phone;
+    if (blank(Actr.Contact)) then begin
+      Actr.Contact = ORr.SalesMan;
+    end;
+  end;
+  BlockLoad(ASTRec);
+  GetUserDefActTypes(CurrentUser,"GenSalesOrd",ASTRec.GenSalesOrd,ASTRec.GenOrder,ASTRec.OrderDone);
+  Actr.ActType = ASTRec.GenSalesOrd;
+  if (PasteActTypeInAct("",Actr)) then begin
+  end;
+  ORClassr.Code = ORr.OrderClass;
+  if (ReadFirstMain(ORClassr,1,true)) then begin
+    if (nonblank(ORClassr.OrderActCode)) then begin
+      Actr.ActType = ORClassr.OrderActCode;
+      if (PasteActTypeInAct("",Actr)) then begin
+      end;
+    end;
+  end;
+  ActTyper.Code = Actr.ActType;
+  if (ReadFirstMain(ActTyper,1,true)) then begin
+    Actr.ItemCode = ActTyper.ItemCode;
+    ActTypeGrr.Code = ActTyper.ActTypeGr;
+    if (ReadFirstMain(ActTypeGrr,1,true)) then begin
+      Actr.CalTimeFlag = ActTypeGrr.DefTimeFlag;
+    end;
+  end;  
+  Actr.OKFlag = ASTRec.OrderDone;
+  Actr.TransDate = CurrentDate;
+
+  Actr.MainPersons = "";// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 2:54:54 PM
+  Actr.Supervisor = currentuser;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 8:51:31 PM
+  
+  Actr.Comment = ORr.Comment;
+  Actr.Comment = "Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
+	if(nonblankdate(ORr.PlanShipDate))then begin
+		Actr.Comment = Actr.Comment & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
+	end;
+	Actr.ActType = "ZAKAZ";
+	if(nonblank(ORr.InvAddr4))then begin
+		Actrw.Text = "Точка выдачи: " & ORr.InvAddr4;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.ShipAddr0))then begin
+		Actrw.Text = ORr.ShipAddr0;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.ShipAddr1))then begin
+		Actrw.Text = ORr.ShipAddr1;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.ShipAddr2))then begin
+		Actrw.Text = ORr.ShipAddr2;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.ShipAddr3))then begin
+		Actrw.Text = ORr.ShipAddr3;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.DelAddr3))then begin
+		Actrw.Text = ORr.DelAddr3;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	if(nonblank(ORr.DelAddr4))then begin
+		Actrw.Text = ORr.DelAddr4;
+		matrowput(Actr,matrowcnt(Actr),Actrw);
+	end;
+	for(k=0;k<matrowcnt(SMr);k=k+1)begin
+		matrowget(SMr,k,SMrw);
+		if(nonblank(SMrw.ArtCode))then begin
+			Actrw.Text = stringtoint(ORrw.Quant) & "x " & ORrw.ArtCode & " - " & ORrw.Spec;
+			matrowput(Actr,matrowcnt(Actr),Actrw);
+		end;
+	end;
+	
+	
+  Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");  
+  if (RecordStore(Actr,false)) then begin 
+    CreateRecordLink(Actr,curcomp,SMr,curcomp);  
+    CreateRecordLink(SMr,curcomp,Actr,curcomp);  
+    res = true;
+  end;  
+  MakeActFromSM = res;
+  return;
+end;
+
+global
 updating function Boolean MakeActFromCU(record CUVc CUr,var record ActVc Actr,Boolean readf)
 begin
   Integer curcomp;

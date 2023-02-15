@@ -2288,11 +2288,9 @@ begin
   EditField(h2,v,80,"через",Normal,ThrouLocation,false,LocationSClass);
     end;
   EditField(h3,v,80,"на склад",Normal,ToLocation,false,LocationSClass);
-  if(currentuser=="SA" or currentuser=="LADA" or currentuser=="KUDINA" or currentuser=="FILATIEV")then begin
-		EditField(h3,v+VS,80,"Order No.",Normal,OrderNr,false,0); //Edit***************************Sasha2,18:13 03.11.2014
-  end else begin
-  	EditField(h3,v+VS,80,"Order No.",Normal,OrderNr,false,0); //Edit***************************Sasha2,18:13 03.11.2014
-  end;
+  HalPushButton(h2,v+vs,h2+150,v+vs*2,"OpenOrderFromSMDsm","Замовлення клієнта");
+  EditField(h3,v+VS,80,"Замов.",ViewOnly,OrderNr,false,0); //Edit***************************Sasha2,18:13 03.11.2014
+
   end;
   tilenr = 1;
   if (HasPositions or HasModWHM or HasLocalization("PRT")) then begin 
@@ -2322,14 +2320,15 @@ begin
       EditField(h3,v,80,"Для виробництва",Normal,ProdSerNr,false,ProdSClass); v = v + vs; 
       EditField(h3,v,150,"Маршрут",Normal,Sorting,false,DelRouteSClass); v = v + vs; 
     end;
+    HalPushButton(h,v,h+150,v+vs,"CreateActFromSMDDsm","Замовити товар");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 15 02 2023 y. at 9:39:20 AM
     if ((HasLocalization("PRT") and HasModIN and HasMultiLocations) or IsStandardProduct==false) then begin 
       EditField(h3,v,150,"Тип",Normal,StockMovType,false,SetSClass); v = v + vs; 
     end;
-    if (HasModWHM) then begin
+    /*if (HasModWHM) then begin
       v = 6 + vs;
       CheckBox(h,v,0,"Manual Pick",ManualPick);
       CheckBox(h,v+=16,0,"Send To Forklift Queue",ToForkLiftQue);
-    end;
+    end;*/
   end;
   Tile(tilenr,70,false,tilenr,Comment); tilenr = tilenr + 1;
   v = 6;
