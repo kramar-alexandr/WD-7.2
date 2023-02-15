@@ -221,7 +221,7 @@ BEGIN
   
   if ((StockMovr.SentOKFlag!=0) and (StockMov2r.SentOKFlag==0)) then begin
     cnt = 0;
-    while(ReadRecordLink(ORr,cnt,Actr,RLr)) begin// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 15 02 2023 y. at 2:58:00 PM
+    while(ReadRecordLink(StockMovr,cnt,Actr,RLr)) begin// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 15 02 2023 y. at 2:58:00 PM
       cnt = cnt + 1;
       if(Actr.SerNr>0 and Actr.ActType=="COMPL")then begin
         recordcopy(oldActr,Actr);
