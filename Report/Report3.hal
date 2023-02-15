@@ -290,7 +290,7 @@ begin
     end;
     
     startformat(15);
-      OutString(0,0,"",false);
+      OutString(0,0,"Всього:",false);
       OutString(60,0,"",false);
       OutString(60,0,"",false);
       OutString(60,0,"",false);
