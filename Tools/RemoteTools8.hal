@@ -1528,10 +1528,10 @@ begin
 	end;
 	for(k=0;k<matrowcnt(SMr);k=k+1)begin
 		matrowget(SMr,k,SMrw);
-		if(nonblank(SMrw.ArtCode))then begin
+		if(nonblank(SMrw.ArtCode) and SMrw.POQuant>0)then begin
 		  INr.Code = SMrw.ArtCode;
 		  readfirstmain(INr,1,true);
-			Actrw.Text = INr.Group & " | " & stringtoint(SMrw.Quant) & "x " & SMrw.ArtCode & " - " & SMrw.Spec;
+			Actrw.Text = INr.Group & " | " & stringtoint(SMrw.POQuant) & "x " & SMrw.ArtCode & " - " & SMrw.Spec;
 			matrowput(Actr,matrowcnt(Actr),Actrw);
 		end;
 	end;
