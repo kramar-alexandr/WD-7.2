@@ -2260,9 +2260,9 @@ begin
   
   WindowBegin("Переміщення товарів 1",StockMovDClass,CGview,-);
   if (HasJewelleryInterface) then begin
-    SetWRect(20,80,850,400);
+    SetWRect(20,80,950,400);
   end else begin
-  SetWRect(20,80,700,400);
+  SetWRect(20,80,900,400);
   end;
   Sizeable(-1,-1,0,0);
   UseView(StockMovVc);
@@ -2361,14 +2361,12 @@ begin
   end else begin
     MatCol(1,32,"Товар",0,ArtCode,false,INSClass);
     Flip(flipnr);  flipnr = flipnr + 1;
-    if (HasVarieties) then begin
-  MatCol(1,144,"Зам. к-ть",0,OrdQuant,true,MATVARINSClass); //Edit***************************Sasha2,16:19 19.09.2014
-    end else begin
-      MatCol(1,86,"Req. Qty",0,OrdQuant,true,0); //!!PRODTRANSLATE
-    end;
-  MatCol(1,188,"Відп. к-ть",0,SentQuant,true,0); //Edit***************************Sasha2,16:20 19.09.2014
-  MatCol(1,230,"Отр. к-ть",0,Quant,true,0); //Edit***************************Sasha2,16:20 19.09.2014
-  MatCol(1,272,"Опис",0,Spec,false,0);
+    
+  MatCol(1,144,"Замовити",0,POQuant,true,0);
+  MatCol(1,198,"Зам.",0,OrdQuant,true,MATVARINSClass); //Edit***************************Sasha2,16:19 19.09.2014  
+  MatCol(1,250,"Відп.",0,SentQuant,true,0); //Edit***************************Sasha2,16:20 19.09.2014
+  MatCol(1,300,"Отр.",0,Quant,true,0); //Edit***************************Sasha2,16:20 19.09.2014
+  MatCol(1,352,"Опис",0,Spec,false,0);
   end;
   if (UserCanAction("ViewCostPrice",true)) then begin //Edit***************************Sasha2,10:30 18.08.2014 {
   	MatCol(1,-260,"Стара ціна",0,OldPrice,true,0); 
