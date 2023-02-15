@@ -166,7 +166,7 @@ begin
   record IVVc IVr;
   row IVVc IVrw;
   record INVc INr;
-  boolean testf,TrHs;
+  boolean testf,TrHs,filtered;
   string 20 mykey;
   integer mtrw,i;
   record ORVc ORr;
@@ -229,28 +229,49 @@ begin
           matrowget(IVr,i,IVrw);
           if(nonblank(IVrw.ArtCode))then begin
             if(IVrw.ArtCode==RepSpec.f2 or blank(RepSpec.f2))then begin
-              startformat(15);
-                OutString(0,0,IVr.CustCode,false);
-                OutString(60,0,IVr.InvDate,false);
-                OutString(60,"DblIVVc",IVr.SerNr,false);
-                OutString(60,"DblORVc",IVr.OrderNr,false);
-                OutString(120,0,IVrw.ArtCode,false);
-                OutString(200,0,IVrw.Spec,false);
-                OutString(310,0,IVrw.Price,false);
-                if(RepSpec.Media==mtExcel)then begin
-                  OutString(330,0,IVrw.FIFO,false);
-                  OutString(330,0,IVrw.SerialNr,false);
-                  OutString(330,0,ORr.SalesMan,false);
+              filtered = true;
+              
+              INr.Code = IVrw.ArtCode;
+              if(Readfirstmain(INr,1,true)) then begin end;
+              
+              if(currentuser=="GORIN")then begin
+                filtered = false;
+                switch(INr.Group)begin
+                  case "TRADE": filtered = true;
+                  case "WARRA": filtered = true;
+                  case "CUST": filtered = true;
                 end;
-                OutString(370,0,IVrw.Quant,false);
-                OutString(405,0,IVrw.vRebate,false);
-                OutString(460,0,IVrw.Sum,false);
-                INr.Code = IVrw.ArtCode;
-                if(Readfirstmain(INr,1,true)) then
-                begin
-                	OutString(1,0,INr.Group,false);
-								end;
-              endformat;
+              end;
+              
+              if(currentuser=="SA")then begin
+                filtered = false;
+                switch(INr.Group)begin
+                  case "TRADE": filtered = true;
+                  case "WARRA": filtered = true;
+                  case "CUST": filtered = true;
+                end;
+              end;
+              
+              if(filtered)then begin
+                startformat(15);
+                  OutString(0,0,IVr.CustCode,false);
+                  OutString(60,0,IVr.InvDate,false);
+                  OutString(60,"DblIVVc",IVr.SerNr,false);
+                  OutString(60,"DblORVc",IVr.OrderNr,false);
+                  OutString(120,0,IVrw.ArtCode,false);
+                  OutString(200,0,IVrw.Spec,false);
+                  OutString(310,0,IVrw.Price,false);
+                  if(RepSpec.Media==mtExcel)then begin
+                    OutString(330,0,IVrw.FIFO,false);
+                    OutString(330,0,IVrw.SerialNr,false);
+                    OutString(330,0,ORr.SalesMan,false);
+                  end;
+                  OutString(370,0,IVrw.Quant,false);
+                  OutString(405,0,IVrw.vRebate,false);
+                  OutString(460,0,IVrw.Sum,false);
+                  OutString(1,0,INr.Group,false);
+                endformat;
+              end;
             end;
           end;
         end;
