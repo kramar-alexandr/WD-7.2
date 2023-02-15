@@ -168,7 +168,7 @@ begin
   record INVc INr;
   boolean testf,TrHs,filtered;
   string 20 mykey;
-  integer mtrw,i;
+  integer mtrw,i,cred;
   record ORVc ORr;
   record SHVc SHr;
   row SHVc SHrw;
@@ -204,12 +204,17 @@ begin
     end;
     
     while(loopkey(mykey,IVr,1,TrHs))begin
+      cred = 1;
       testf = true;
       if(nonblank(RepSpec.f1) and RepSpec.f1!=IVr.CustCode)then begin 
         testf = false; 
         if(mykey=="CustCode")then begin
           TrHs = false;
         end;
+      end;
+      
+      if(IVr.InvType==3)then begin
+        cred = -1;
       end;
       
       if(RepSpec.sStartDate>IVr.InvDate and RepSpec.sEndDate<IVr.InvDate)then begin 
@@ -254,13 +259,16 @@ begin
                   OutString(200,0,IVrw.Spec,false);
                   OutString(310,0,IVrw.Price,false);
                   if(RepSpec.Media==mtExcel)then begin
-                    OutString(330,0,IVrw.FIFO,false);
+                    if(IVr.FrRate!=0)then begin
+                      IVrw.FIFO = IVrw.FIFO * IVr.FrRate;
+                    end;
+                    OutString(330,0,IVrw.FIFO*cred,false);
                     OutString(330,0,IVrw.SerialNr,false);
                     OutString(330,0,ORr.SalesMan,false);
                   end;
-                  OutString(370,0,IVrw.Quant,false);
+                  OutString(370,0,IVrw.Quant*cred,false);
                   OutString(405,0,IVrw.vRebate,false);
-                  OutString(460,0,IVrw.Sum,false);
+                  OutString(460,0,IVrw.Sum*cred,false);
                   OutString(1,0,INr.Group,false);
                 endformat;
               end;
