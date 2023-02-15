@@ -52,6 +52,9 @@ external procedure IVVc_PasteSalesMan(var record IVVc,string);
 external function Boolean IVVc_PasteArtCode(var record IVVc,Integer,var string,var string,Boolean,var Integer);
 remote function Boolean MakeActFromSM(var record StockMovVc,var record ActVc,boolean);
 
+SetLangMode(LangRussian,"RUS",0);
+
+
 global
 procedure GetItemSalesAccFromOR(record ORVc ORr,var string salesacc)
 BEGIN
