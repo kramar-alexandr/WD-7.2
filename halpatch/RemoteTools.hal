@@ -245,7 +245,7 @@ BEGIN
     MatRowGet(ORp,i,ORrw);
     if ((ORrw.Quant-ORrw.Shipd2>0) and ((ORrw.Location!=RepSpec.Stext) or (blank(RepSpec.Stext)))) then begin
       INr.Code = ORrw.ArtCode;
-      if (ReadFirstMain(INr,1,true)) then begin
+      if (ReadFirstMain(INr,1,true) and INr.ItemType==1) then begin
         if(INr.SerNrf==0)then begin
             ClearRow(StockMovp,StockMovrw,1);   
             StockMovrw.IntORRow = i;
