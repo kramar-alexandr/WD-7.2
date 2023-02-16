@@ -2638,6 +2638,13 @@ begin
 			Actr.CCPersons = Actr.CCPersons & "," & Actr.Supervisor;
 		end;
 	end;
+	if(Actr.ActType=="ZAKAZ")then begin
+	  if(setinset(to,"PODENKO,GORIN,BABICH,TALALAYEV,TARANIK"))then begin
+	    Actr.CCPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK";
+	  end else begin
+	    Actr.CCPersons = to & ",PODENKO,GORIN,BABICH,TALALAYEV,TARANIK";
+	  end;
+	end;
 	if(recordstore(Actr,true))then begin
 		notenr = 1;
 		while (ReadRecordLink(oldActr,notenr,ORr,RLr)) begin
