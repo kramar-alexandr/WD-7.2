@@ -2818,6 +2818,41 @@ begin
   return;
 end; //Edit_______________________________ABR,15:11 11.11.2019 }
 
+
+global // Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 02 2023 y. at 3:13:17 PM
+function Integer StockMovLClassRowColor(record StockMovVc SMr)
+begin
+  Integer res;
+  
+  if(SMr.OrdFlag!=0 or SMr.SentOKFlag!=0 or SMr.OKFlag!=0)then begin
+    if(SMr.OrdFlag==1)then begin
+      res = kRowcolorYellow;
+    end;
+    if(SMr.SentOKFlag==1)then begin
+      res = kRowcolorGreen;
+    end;
+    if(SMr.OKFlag==1)then begin
+      res = kRowcolorRed;
+    end;
+  end;
+  
+  
+  /*switch (ORr.OrderStatusCode) begin
+	  case 0: res = kRowColorNone;
+    case 1: res = kRowcolorYellow;
+    case 2: res = kRowcolorGreen;
+    case 3: res = kRowcolorGreen;
+    case 4: res = kRowcolorRed;
+   
+    
+    otherwise res = kRowColorNone;
+  end;
+  */
+  StockMovLClassRowColor = res;
+  return;
+end; // Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 02 2023 y. at 3:13:20 PM
+
+
 global
 procedure ORDClassButtonFlags(Integer wn,var Boolean duplOK,var Boolean newOK,var Boolean saveOK,var Boolean restOK)
 begin
