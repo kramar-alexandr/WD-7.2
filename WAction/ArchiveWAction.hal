@@ -42,8 +42,8 @@ begin
 	deselectwindow(wn,true);
 	getwindowrecord(wn,oldActr);
 	
-	while(ReadRecordLink(oldActr,cnt,ORr,RLr)) begin
-		cnt = cnt+1;
+	cnt = 1;
+	if(ReadRecordLink(oldActr,cnt,ORr,RLr))then begin
 		if(ORr.SerNr>0)then begin
 			OpenWindow("ORDClass",1,0,"","",ORr); 
 		end;
@@ -64,8 +64,8 @@ begin
 	deselectwindow(wn,true);
 	getwindowrecord(wn,oldActr);
 	
-	while(ReadRecordLink(oldActr,cnt,SMr,RLr)) begin
-		cnt = cnt+1;
+	cnt = 1;
+	if(ReadRecordLink(oldActr,cnt,SMr,RLr))then begin
 		if(SMr.SerNr>0)then begin
 			OpenWindow("StockMovDClass",1,0,"","",SMr); 
 		end;
