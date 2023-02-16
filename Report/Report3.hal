@@ -172,7 +172,7 @@ begin
   record ORVc ORr;
   record SHVc SHr;
   row SHVc SHrw;
-  val totalcost,totalsum;
+  val totalcost,totalsum,totalgp;
   
   startreportnoheaderjob("Історія продажів по клієнту");
   
@@ -185,13 +185,18 @@ begin
       OutString(200,0,"Найменування",false);
       OutString(330,0,"Ціна",false);
       if(RepSpec.Media==mtExcel)then begin
+        if(usercanaction("ViewCostPrice",false))then begin
         OutString(330,0,"Собівартість",false);
+        end;
         OutString(330,0,"Серійний номер",false);
         OutString(330,0,"Продавець",false);
       end;
       OutString(370,0,"Кіл-ть",false);
       OutString(405,0,"Знижка",false);
       OutString(460,0,"Сума",true);
+      if(usercanaction("ViewCostPrice",false))then begin
+        OutString(330,0,"Прибуток",false);
+      end;
       OutString(1,0,"Група",true);
     endformat;
       
@@ -276,10 +281,14 @@ begin
                   OutString(370,0,IVrw.Quant*cred,false);
                   OutString(405,0,IVrw.vRebate,false);
                   OutString(460,0,IVrw.Sum*cred,false);
+                  if(usercanaction("ViewCostPrice",false))then begin
+                    OutString(330,0,(IVrw.Sum - IVrw.FIFO)*cred,false);
+                  end;
                   OutString(1,0,INr.Group,false);
                   
                   totalcost = totalcost + IVrw.FIFO*cred*IVrw.Quant;
                   totalsum = totalsum + IVrw.Sum*cred;
+                  totalgp = totalgp + (IVrw.Sum - IVrw.FIFO)*cred;
                   
                 endformat;
               end;
@@ -306,7 +315,8 @@ begin
       end;
       OutString(370,0,"",false);
       OutString(405,0,"",false);
-      OutString(460,0,totalsum,false);      
+      OutString(460,0,totalsum,false);  
+      OutString(460,0,totalgp,false);  
     endformat;
     
     
