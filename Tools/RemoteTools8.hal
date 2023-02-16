@@ -1541,6 +1541,8 @@ begin
   if (RecordStore(Actr,false)) then begin 
     CreateRecordLink(Actr,curcomp,SMr,curcomp);  
     CreateRecordLink(SMr,curcomp,Actr,curcomp);  
+    CreateRecordLink(Actr,curcomp,ORr,curcomp);  
+    CreateRecordLink(ORr,curcomp,Actr,curcomp);  
     res = true;
   end;  
   MakeActFromSM = res;
