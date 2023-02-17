@@ -45,6 +45,7 @@ external function Integer TypeOfCurncy(var string,var Integer);
 external procedure GetFullCurncyRateText(Boolean,var string,val,val,val,val,val);
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
 remote updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
+external procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
 
 global
 updating procedure UnOKStockMovement(record StockMovVc SMr,record StockMovVc SM2r,Boolean deltrf)
@@ -196,7 +197,7 @@ updating function LongInt StockMovVcRecordUpdateAfter(var record StockMovVc Stoc
 BEGIN
   LongInt res;
   Boolean ihef;
-  record ORVc ORr; //Edit***************************Sasha2,17:48 31.10.2014
+  record ORVc ORr,oldORr; //Edit***************************Sasha2,17:48 31.10.2014
   record ActVc Actr,oldActr;
   record RLinkVc RLr;
   Integer cnt;
@@ -230,6 +231,7 @@ BEGIN
       end;
     end;
   end;
+  
   
   if ((StockMovr.OKFlag!=0) and (StockMov2r.OKFlag==0)) then begin
     
@@ -279,6 +281,41 @@ BEGIN
       end;
     end;
   end;
+  
+  if(currentcompany==13)then begin
+    if ((StockMovr.OKFlag!=0) and (StockMov2r.OKFlag==0)) then begin
+      if(StockMovr.OrderNr>-1)then begin
+        ORr.SerNr = StockMovr.OrderNr;
+        if(readfirstmain(ORr,1,true))then begin
+          recordcopy(oldORr,ORr);
+          
+          if(ORr.OrderStatusCode!=6 and blank(ORr.DoneMan))then begin
+            ORr.OrderStatusCode = 6;
+            ORr.ReadyToSentMan = currentuser;
+            ORr.ReadyToSentDate = currentdate;
+            ORr.ReadyToSentTime = currenttime;
+            switch(ORr.OrderStatusCode)begin
+              case 0:ORr.OrderStatusText = "Новий";
+              case 1:ORr.OrderStatusText = "В роботі";
+              case 2:ORr.OrderStatusText = "Відправлено";
+              case 3:ORr.OrderStatusText = "Виконано";
+              case 4:ORr.OrderStatusText = "Відхилено";
+              case 5:ORr.OrderStatusText = "Не додзвонилися";		
+              case 6:ORr.OrderStatusText = "Готовий до видачі";		
+            end;
+            if(recordupdate(oldORr,ORr,true)==0)then begin
+              if(ORr.NoSMS==0)then begin
+                logtext(0,"StockMovVcRecordUpdateAfter ORr.NoSMS " &  ORr.NoSMS);
+                SendORStatusToViber(ORr,"6");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+              end;
+            end;
+          end;
+        end;
+      end;
+    end;
+  end;
+  
+  
   StockMovVcRecordUpdateAfter = res;
   RETURN;
 END;
