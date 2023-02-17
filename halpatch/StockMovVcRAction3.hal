@@ -196,7 +196,7 @@ global
 updating function LongInt StockMovVcRecordUpdateAfter(var record StockMovVc StockMovr,record StockMovVc StockMov2r,LongInt stat,LongInt long4)
 BEGIN
   LongInt res;
-  Boolean ihef;
+  Boolean ihef,NoSMS;
   record ORVc ORr,oldORr; //Edit***************************Sasha2,17:48 31.10.2014
   record ActVc Actr,oldActr;
   record RLinkVc RLr;
@@ -303,10 +303,23 @@ BEGIN
               case 5:ORr.OrderStatusText = "Не додзвонилися";		
               case 6:ORr.OrderStatusText = "Готовий до видачі";		
             end;
-            if(recordupdate(oldORr,ORr,true)==0)then begin
-              if(ORr.NoSMS==0)then begin
-                logtext(0,"StockMovVcRecordUpdateAfter ORr.NoSMS " &  ORr.NoSMS);
-                SendORStatusToViber(ORr,"6");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+            
+            NoSMS = true;
+            switch(ORr.Location)begin
+              case "INV#1_KRS":ORr.TochkaVidachi = "METROGRAD";
+              case "INV#1_KVZ":ORr.TochkaVidachi = "BOYCHUK";
+              case "INV#1_NBR":ORr.TochkaVidachi = "NBR";
+              case "NOVAP":ORr.TochkaVidachi = "NP"; NoSMS = false;
+              case "OFFICE":ORr.TochkaVidachi = "DELIVERY"; NoSMS = false;            
+            end;
+            
+            
+            if(NoSMS)then begin
+              if(recordupdate(oldORr,ORr,true)==0)then begin
+                if(ORr.NoSMS==0)then begin
+                  logtext(0,"StockMovVcRecordUpdateAfter ORr.NoSMS " &  ORr.NoSMS);
+                  SendORStatusToViber(ORr,"6");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+                end;
               end;
             end;
           end;
