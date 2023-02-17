@@ -46,6 +46,7 @@ external procedure GetFullCurncyRateText(Boolean,var string,val,val,val,val,val)
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
 remote updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
 external procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
+external updating function boolean EasySendTurboSMS(string, string);
 
 global
 updating procedure UnOKStockMovement(record StockMovVc SMr,record StockMovVc SM2r,Boolean deltrf)
@@ -201,6 +202,8 @@ BEGIN
   record ActVc Actr,oldActr;
   record RLinkVc RLr;
   Integer cnt;
+  string 20 phone,ofnr;
+  record CUVc CUr;
   
   if (nonblank(StockMovr.ThrouLocation)) then begin
     if (StockMovr.SentOKFlag!=0) then begin
@@ -233,10 +236,7 @@ BEGIN
   end;
   
   
-  if ((StockMovr.OKFlag!=0) and (StockMov2r.OKFlag==0)) then begin
-    
-    
-  
+  if ((StockMovr.OKFlag!=0) and (StockMov2r.OKFlag==0)) then begin    
     if (ihef==false) then begin
       if (UpdateForkLiftQueue(StockMovr,true)) then begin end;
       UpdateStockResFromStockMov(StockMovr);
@@ -318,7 +318,31 @@ BEGIN
               if(recordupdate(oldORr,ORr,true)==0)then begin
                 if(ORr.NoSMS==0)then begin
                   logtext(0,"StockMovVcRecordUpdateAfter ORr.NoSMS " &  ORr.NoSMS);
-                  SendORStatusToViber(ORr,"6");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+                  if(nonblank(ORr.Phone))then begin
+                    phone = ORr.Phone;
+                  end else begin
+                    CUr.Code = ORr.CustCode;
+                    readfirstmain(CUr,1,true);
+                    phone = CUr.Phone;
+                    if(blank(phone))then begin
+                      phone = CUr.Mobile;
+                    end;
+                    if(blank(phone))then begin
+                      phone = CUr.AltPhone;
+                    end;
+                  end;
+                  phone  = trim(phone);
+                  if(len(phone)>10)then begin
+                    phone = right(phone,10);
+                  end;
+                  if(nonblank(phone))then begin
+                    ofnr = ORr.SerNr;
+                    if(nonblank(ORr.CustOrdNr))then begin
+                      ofnr = ORr.SerNr;
+                    end;
+                    EasySendTurboSMS(phone,"Замовлення #" & ofnr & " очікує у пункті видачі. Резерв 1 день(для неоплаченого товару)");
+                  end;
+                  //SendORStatusToViber(ORr,"6");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
                 end;
               end;
             end;

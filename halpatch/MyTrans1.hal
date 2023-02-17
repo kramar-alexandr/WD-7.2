@@ -23,7 +23,7 @@ begin
   json jobj;
   vector string 255 vres;
   integer status;
-  string 25 statustext,phone;
+  string 25 statustext,phone,ofnr;
   record CUVc CUr;
   
   setcompany(13,false);
@@ -106,7 +106,11 @@ begin
               phone = right(phone,10);
             end;
             if(nonblank(phone))then begin
-              EasySendTurboSMS(phone,"Замовлення #" & ORr.SerNr & " ТТН " & ORr.TTNNumber & " " & ORr.TTNNStatus);
+              ofnr = ORr.SerNr;
+              if(nonblank(ORr.CustOrdNr))then begin
+                ofnr = ORr.SerNr;
+              end;
+              EasySendTurboSMS(phone,"Замовлення #" & ofnr & " ТТН " & ORr.TTNNumber & " " & ORr.TTNNStatus);
             end;
           end;
         end;
