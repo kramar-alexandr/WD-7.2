@@ -394,6 +394,9 @@ BEGIN
     GetWindowRecord(wn,StockMovr);
     StockMovVc_PasteSerialNr(StockMovr,rownr,aWarning);
     DisplayStrArray(aWarning);
+    if(blankdate(StockMovr.SentTransDate) and nonblank(StockMovr.ThrouLocation))then begin
+      StockMovr.SentTransDate = currentdate;
+    end;
     PutWindowRecord(wn,StockMovr);    
   end;
   StockMovDClassSerialNrEFAfter = res;
@@ -986,6 +989,15 @@ begin
       end;
     end;
   end;  
+  
+  if(res)then begin
+    GetWindowRecord(wn,StockMovr);
+      if(blankdate(StockMovr.TransDate))then begin
+        StockMovr.TransDate = currentdate;
+        PutWindowRecord(wn,StockMovr);
+      end;
+  end;
+  
   StockMovDClassOKFlagButtonAction = res;
   return;
 end;
