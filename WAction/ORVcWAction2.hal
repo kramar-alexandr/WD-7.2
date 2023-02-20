@@ -231,7 +231,7 @@ BEGIN
     GetWindowRecord(wn,ORr);  
     
     notenr = 1;
-    while (ReadRecordLink(Actr,notenr,ORr,RLr)) begin
+    while (ReadRecordLink(ORr,notenr,Actr,RLr)) begin
       if(Actr.ActType=="ZAKAZ")then begin
         messagebox(0,"Замовлення на товар вже є");
         goto LCreateActFromORDsm;
