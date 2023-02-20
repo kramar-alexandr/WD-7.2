@@ -185,6 +185,7 @@ begin
       OutString(200,0,"Найменування",false);
       OutString(330,0,"Серійний номер",false);
       OutString(330,0,"Продавець",false);
+      OutString(330,0,"Склад",false);
       OutString(1,0,"Група",true);
       OutString(370,0,"Кіл-ть",false);
       OutString(405,0,"Знижка",false);
@@ -265,6 +266,7 @@ begin
                   OutString(200,0,IVrw.Spec,false);
                   OutString(330,0,IVrw.SerialNr,false);
                   OutString(330,0,ORr.SalesMan,false);
+                  OutString(330,0,ORr.Location,false);
                   OutString(1,0,INr.Group,false);
                   OutString(370,0,IVrw.Quant*cred,false);
                   OutString(405,0,IVrw.vRebate,false);
@@ -299,6 +301,7 @@ begin
       OutString(120,0,"",false);
       OutString(200,0,"",false);
       OutString(310,0,"",false);
+      OutString(330,0,"",false);
       OutString(330,0,"",false);
       OutString(330,0,"",false);
       OutString(370,0,"",false);
