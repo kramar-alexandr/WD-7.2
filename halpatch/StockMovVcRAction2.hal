@@ -687,6 +687,20 @@ BEGIN
       end;
     end;
   end;
+  
+  if ((StockMovr.OKFlag!=0) and (StockMov2r.OKFlag==0)) then begin
+    StockMovr.OkUser = currentuser;
+    StockMovr.OkDate = currentdate;
+    StockMovr.OkTime = currenttime;
+  end;
+  
+  if ((StockMovr.SentOKFlag!=0) and (StockMov2r.SentOKFlag==0)) then begin
+    StockMovr.SendUser = currentuser;
+    StockMovr.SendDate = currentdate;
+    StockMovr.SendTime = currenttime;
+  end;
+  
+  
   if ((StockMovr.OKFlag!=0) and (StockMov2r.OKFlag==0)) then begin
     if ((StockMovr.SentOKFlag!=0)) then begin
       if (ihef==false) then begin
@@ -761,6 +775,19 @@ global
 updating function LongInt StockMovVcRecordSave(var record StockMovVc StockMovr,record StockMovVc StockMov2r,LongInt stat,LongInt long4)
 BEGIN
   LongInt res;
+  
+  
+  if ((StockMovr.OKFlag!=0)) then begin
+    StockMovr.OkUser = currentuser;
+    StockMovr.OkDate = currentdate;
+    StockMovr.OkTime = currenttime;
+  end;
+  
+  if ((StockMovr.SentOKFlag!=0)) then begin
+    StockMovr.SendUser = currentuser;
+    StockMovr.SendDate = currentdate;
+    StockMovr.SendTime = currenttime;
+  end;
   
   if (blankdate(StockMovr.RegDate)) then begin
     StockMovr.RegDate = CurrentDate;

@@ -49,6 +49,15 @@ begin
   
   RecordAddBegin(StockMovVc,"Cust_StockMovVc");
     RecordField(OldShopsNr,M4Long,0,0);// Edit ************************** Tuesday, 13 June 2017 15:36:06
+    
+    RecordField(SendUser,M4Code,20,0);
+    RecordField(SendDate,M4Date,0,0);
+    RecordField(SendTime,M4Time,0,0);
+    
+    RecordField(OkUser,M4Code,20,0);
+    RecordField(OkDate,M4Date,0,0);
+    RecordField(OkTime,M4Time,0,0);
+    
     ArrayField(ORRow,M4Long,0,0);//Edit***************************Sasha2,13:35 01.09.2014
     ArrayField(stp,M4Int,0,0);//Edit***************************Sasha2,13:35 01.09.2014
     ArrayField(POQuant,M4UVal,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 15 02 2023 y. at 10:10:49 AM

@@ -2430,6 +2430,16 @@ begin
   CheckBox(20,-52,0,"Підтверджено",OrdFlag);
   CheckBox(20,-36,0,"Відправлено",SentOKFlag);
   CheckBox(20,-20,0,"Отримано",OKFlag);
+  
+  EditField(200,-58,62,"Відправлено:",ViewOnly,SendUser,true,0);
+  EditField(270,-58,62,"",ViewOnly,SendDate,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 20 02 2023 y. at 9:08:54 AM
+  EditField(340,-58,62,"",ViewOnly,SendTime,true,0);
+  
+  EditField(200,-38,62,"Отримано:",ViewOnly,OkUser,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 20 02 2023 y. at 9:08:55 AM
+  EditField(270,-38,62,"",ViewOnly,OkDate,true,0);
+  EditField(340,-38,62,"",ViewOnly,OkTime,true,0);
+  
+  
   EditField(170,-20,62,"Відправлено",Normal,TotSentQty,true,0);
   EditField(310,-20,62,"Отримано",Normal,TotQty,true,0);
   if (HasLocalization("HRV,PRT")) then begin 
