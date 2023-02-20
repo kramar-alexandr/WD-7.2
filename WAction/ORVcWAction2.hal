@@ -223,10 +223,22 @@ BEGIN
   record ORVc ORr;
   record ActVc Actr;
   Integer wn,nwn;
+  Integer notenr;
+	record RLinkVc RLr;
   
   wn = CurWindow;
   if (WindowState(wn)==Rs_normal) then begin
     GetWindowRecord(wn,ORr);  
+    
+    notenr = 1;
+    while (ReadRecordLink(Actr,notenr,ORr,RLr)) begin
+      if(Actr.ActType=="ZAKAZ")then begin
+        messagebox(0,"Замовлення на товар вже є");
+        goto LCreateActFromORDsm;
+      end;
+      notenr = notenr + 1;
+    end;
+    
     RecordNew(Actr);
     ActVcRecordDefClient(Actr);
     if (MakeActFromOR(ORr,Actr)) then begin
@@ -234,6 +246,9 @@ BEGIN
       SetRLink(wn,true);  
     end;
   end;
+  
+LCreateActFromORDsm:;
+  
   RETURN;
 END;
 
