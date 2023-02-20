@@ -80,7 +80,7 @@ external function Boolean INVc_AllowSales(record INVc,var LongInt);
 forward function val GetINCostPrice(string,string,Boolean);// Edit ************************** Thursday, 4 September 2014 10:44:53
 external procedure ORDchsum(var record ORVc,Integer);// Edit ************************** Thursday, 4 September 2014 10:45:26
 external procedure ORSumup(var record ORVc);// Edit ************************** Thursday, 4 September 2014 10:47:57
-external procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
+external updating procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
 external updating function LongInt RecordAction_raPasteOrdInShip2(var record SHVc,LongInt,var string);
 external procedure FindStockValueInclStockReserv(LongInt,string,string,string,var record ItemStatusVc,var val);
 external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
