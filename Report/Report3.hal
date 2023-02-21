@@ -183,6 +183,7 @@ begin
       OutString(60,0,"Рахунок",false);
       OutString(120,0,"Товар",false);
       OutString(200,0,"Найменування",false);
+      OutString(200,0,"Класифікація",false);
       OutString(330,0,"Серійний номер",false);
       OutString(330,0,"Продавець",false);
       OutString(330,0,"Склад",false);
@@ -264,6 +265,7 @@ begin
                   OutString(60,"DblORVc",IVr.OrderNr,false);
                   OutString(120,0,IVrw.ArtCode,false);
                   OutString(200,0,IVrw.Spec,false);
+                  OutString(200,0,INr.DispGroups,false);
                   OutString(330,0,IVrw.SerialNr,false);
                   OutString(330,0,ORr.SalesMan,false);
                   OutString(330,0,ORr.Location,false);
@@ -299,6 +301,7 @@ begin
       OutString(60,0,"",false);
       OutString(60,0,"",false);
       OutString(120,0,"",false);
+      OutString(200,0,"",false);
       OutString(200,0,"",false);
       OutString(310,0,"",false);
       OutString(330,0,"",false);
