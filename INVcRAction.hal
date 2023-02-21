@@ -1,0 +1,40 @@
+
+
+global
+function LongInt INVcRecordCheck(var record INVc INr,record INVc IN2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+  record INVc lINr;
+  record ITVc ITr;
+  Boolean checkf,check;
+  record ItemSettingBlock ISb;
+  string 255 tstr,gotofield;
+  record RecVc Recr;
+  record UnitVc Unitr;
+  Integer errcode;
+  Boolean lightFlag,found,testf;
+  record MainStockBlock MSb;
+  record AccVc Accr;
+  record ItemHistVc IHr;  
+  record STVc STr;    
+  record TaxTemplateVc TTr;
+  record ItemStatusVc ISr;
+  Integer rownr;
+  
+  res = 0;
+  
+  res = inner.INVcRecordCheck(INr,IN2r,stat,long4);
+  
+  if(res==0)then begin
+    if (blank(INr.DispGroups)) then begin
+      RecordCheckError(1058,"",-1,"DispGroups");//change type     
+      res = -1; 
+      goto LINVcRecordCheck;
+    end;
+  end;
+  
+
+LINVcRecordCheck:;
+  INVcRecordCheck = res;
+  return;
+end;
