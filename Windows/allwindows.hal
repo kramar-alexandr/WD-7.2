@@ -1115,6 +1115,7 @@ begin
   end;
   v = v + vs;
   SoftEditField(h1,v,82,"Сканувати штрихкод",Normal,"scanbarcode",false,0,M4Str,60);
+  EditField(h1,v+=vs,-20,"Коментар",ViewOnly,Comment,false,0); 
   if (HasObjects) then begin
     if (IsEnterprise) then begin
   EditField(h2,v=vm,135,"Об'єкти",Normal,Objects,false,ObjSClass);
