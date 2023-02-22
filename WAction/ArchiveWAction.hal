@@ -93,22 +93,23 @@ begin
     cnt = 1;
     if(ReadRecordLink(Actr,cnt,SMr,RLr))then begin
       if(SMr.SerNr>0)then begin
-      
-        recordnew(POr);
-        POr.VECode = "ODER";
-        POVc_PasteVECode(POr,true);
-        POr.Location = "OFFICE";
-        POr.SerNr = NextSerNr("POVc",POr.TransDate,-1,false,"");
-        POr.Comment = Actr.Comment;
-        POrw.Spec = "OrderItems";
-        matrowput(POr,0,POrw);
-        recordstore(POr,true);
-        createrecordlink(POr,currentcompany,SMr,currentcompany);
-        createrecordlink(SMr,currentcompany,POr,currentcompany);
-        createrecordlink(POr,currentcompany,Actr,currentcompany);
-        createrecordlink(Actr,currentcompany,POr,currentcompany);
+        if(ReadRecordLink(Actr,1,POr,RLr)==false)then begin
+          recordnew(POr);
+          POr.VECode = "ODER";
+          POVc_PasteVECode(POr,true);
+          POr.Location = "OFFICE";
+          POr.SerNr = NextSerNr("POVc",POr.TransDate,-1,false,"");
+          POr.Comment = Actr.Comment;
+          POrw.Spec = "OrderItems";
+          matrowput(POr,0,POrw);
+          recordstore(POr,true);
+          createrecordlink(POr,currentcompany,SMr,currentcompany);
+          createrecordlink(SMr,currentcompany,POr,currentcompany);
+          createrecordlink(POr,currentcompany,Actr,currentcompany);
+          createrecordlink(Actr,currentcompany,POr,currentcompany);
+        end;
         OpenWindow("PODClass",1,0,"","",POr); 
-      
+        
       end;
     end;
   end else begin

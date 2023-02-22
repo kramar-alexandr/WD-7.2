@@ -1442,6 +1442,7 @@ begin
   record ORVc ORr;
   row StockMovVc SMrw;
   record INVc INr;
+  record ActVc newActr;
   
   
   if(SMr.OrderNr>-1)then begin
@@ -1533,18 +1534,33 @@ begin
 		  readfirstmain(INr,1,true);
 			Actrw.Text = INr.Group & " | " & stringtoint(SMrw.POQuant) & "x " & SMrw.ArtCode & " - " & SMrw.Spec;
 			matrowput(Actr,matrowcnt(Actr),Actrw);
+			if(!all)then begin
+        recordnew(newActr);
+			  Actr.UUID = newActr.UUID;
+			  Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");  
+        if (RecordStore(Actr,false)) then begin 
+          CreateRecordLink(Actr,curcomp,SMr,curcomp);  
+          CreateRecordLink(SMr,curcomp,Actr,curcomp);  
+          CreateRecordLink(Actr,curcomp,ORr,curcomp);  
+          CreateRecordLink(ORr,curcomp,Actr,curcomp);  
+          res = true;
+        end;
+        matrowput(Actr,matrowcnt(Actr)-1,Actrw);
+        
+			end;
 		end;
 	end;
 	
-	
-  Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");  
-  if (RecordStore(Actr,false)) then begin 
-    CreateRecordLink(Actr,curcomp,SMr,curcomp);  
-    CreateRecordLink(SMr,curcomp,Actr,curcomp);  
-    CreateRecordLink(Actr,curcomp,ORr,curcomp);  
-    CreateRecordLink(ORr,curcomp,Actr,curcomp);  
-    res = true;
-  end;  
+	if(all)then begin
+    Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");  
+    if (RecordStore(Actr,false)) then begin 
+      CreateRecordLink(Actr,curcomp,SMr,curcomp);  
+      CreateRecordLink(SMr,curcomp,Actr,curcomp);  
+      CreateRecordLink(Actr,curcomp,ORr,curcomp);  
+      CreateRecordLink(ORr,curcomp,Actr,curcomp);  
+      res = true;
+    end; 
+  end; 
   MakeActFromSM = res;
   return;
 end;
