@@ -1431,7 +1431,7 @@ global
 updating function Boolean MakeActFromSM(var record StockMovVc SMr,var record ActVc Actr,boolean all)
 begin
   record ASTBlock ASTRec;
-  Integer curcomp,k;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 2:56:26 PM
+  Integer curcomp,k,point;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 2:56:26 PM
   Boolean res;
   record CUVc CUr;
   record OrderClassVc ORClassr;
@@ -1527,13 +1527,14 @@ begin
 		Actrw.Text = ORr.DelAddr4;
 		matrowput(Actr,matrowcnt(Actr),Actrw);
 	end;
+	point = matrowcnt(Actr);
 	for(k=0;k<matrowcnt(SMr);k=k+1)begin
 		matrowget(SMr,k,SMrw);
 		if(nonblank(SMrw.ArtCode) and (SMrw.POQuant>0 or all))then begin
 		  INr.Code = SMrw.ArtCode;
 		  readfirstmain(INr,1,true);
 			Actrw.Text = INr.Group & " | " & stringtoint(SMrw.POQuant) & "x " & SMrw.ArtCode & " - " & SMrw.Spec;
-			matrowput(Actr,matrowcnt(Actr),Actrw);
+			matrowput(Actr,point,Actrw);
 			if(!all)then begin
         recordnew(newActr);
 			  Actr.UUID = newActr.UUID;
@@ -1545,8 +1546,6 @@ begin
           CreateRecordLink(ORr,curcomp,Actr,curcomp);  
           res = true;
         end;
-        matrowdelete(Actr,matrowcnt(Actr)-1);
-        
 			end;
 		end;
 	end;
