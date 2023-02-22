@@ -4,6 +4,7 @@ remote updating function Integer RecordAction_raMailFromArchive(var record MailV
 remote updating function Boolean RecordAction_raNoteFromArchive(var record NotepadVc,record RLinkVc,Integer);
 remote updating function Boolean RecordAction_raActionFromArchive(var record ActionVc,record RLinkVc,Integer);
 remote updating procedure CreareActReply(var record ActVc,record ActVc);
+remote function Boolean POVc_PasteVECode(var record POVc,Boolean);
 
 global
 procedure NoteFromArchiveWsm()
@@ -73,6 +74,52 @@ begin
 	
 return;
 end;
+
+
+global updating procedure CreatePOFromActDsm()
+begin
+	record ActVc Actr,oldActr,old1Actr;
+	integer wn,cnt;
+	string 50 from,to;
+	record StockMovVc SMr;
+	record POVc POr;
+	row POVc POrw;
+	record RLinkVc RLr;
+	
+	wn = curwindow;
+	deselectwindow(wn,true);
+	getwindowrecord(wn,Actr);
+  	
+	cnt = 1;
+	if(ReadRecordLink(Actr,cnt,SMr,RLr))then begin
+    if(SMr.SerNr>0)then begin
+      
+      recordnew(POr);
+      POr.VECode = "ODER";
+      POVc_PasteVECode(POr,true);
+      POr.Location = "OFFICE";
+      POr.SerNr = NextSerNr("POVc",POr.TransDate,-1,false,"");
+      POr.Comment = Actr.Comment;
+      POrw.Spec = "OrderItems";
+      matrowput(POr,0,POrw);
+      recordstore(POr,true);
+      createrecordlink(POr,currentcompany,SMr,currentcompany);
+      createrecordlink(SMr,currentcompany,POr,currentcompany);
+      createrecordlink(POr,currentcompany,Actr,currentcompany);
+      createrecordlink(Actr,currentcompany,POr,currentcompany);
+      OpenWindow("PODClass",1,0,"","",POr); 
+      
+    end;
+  end;
+	
+	
+	
+	
+
+	
+return;
+end;
+
 
 global updating procedure ActBackDsm()
 begin
