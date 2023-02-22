@@ -5,6 +5,7 @@ remote updating function Boolean RecordAction_raNoteFromArchive(var record Notep
 remote updating function Boolean RecordAction_raActionFromArchive(var record ActionVc,record RLinkVc,Integer);
 remote updating procedure CreareActReply(var record ActVc,record ActVc);
 remote function Boolean POVc_PasteVECode(var record POVc,Boolean);
+remote function Boolean POVc_PasteArtCode(var record POVc,Integer,Boolean);
 
 global
 procedure NoteFromArchiveWsm()
@@ -100,8 +101,14 @@ begin
           POr.Location = "OFFICE";
           POr.SerNr = NextSerNr("POVc",POr.TransDate,-1,false,"");
           POr.Comment = Actr.Comment;
-          POrw.Spec = "OrderItems";
-          matrowput(POr,0,POrw);
+          if(nonblank(Actr.ArtCode))then begin
+            POrw.ArtCode = Actr.ArtCode;
+            MatRowPut(POr,0,POrw);      
+            if (POVc_PasteArtCode(POr,0,false)) then begin end;
+            MatRowGet(POr,0,POrw); 
+            POrw.Quant = Actr.Value;
+            MatRowPut(POr,0,POrw);
+          end;
           recordstore(POr,true);
           createrecordlink(POr,currentcompany,SMr,currentcompany);
           createrecordlink(SMr,currentcompany,POr,currentcompany);
