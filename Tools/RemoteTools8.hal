@@ -1536,6 +1536,8 @@ begin
 			Actrw.Text = INr.Group & " | " & stringtoint(SMrw.POQuant) & "x " & SMrw.ArtCode & " - " & SMrw.Spec;
 			matrowput(Actr,point,Actrw);
 			if(!all)then begin
+			  Actr.ArtCode = SMrw.ArtCode;
+			  Actr.Value = SMrw.POQuant;
         recordnew(newActr);
 			  Actr.UUID = newActr.UUID;
 			  Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");  
