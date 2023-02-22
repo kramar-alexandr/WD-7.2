@@ -1545,7 +1545,7 @@ begin
           CreateRecordLink(ORr,curcomp,Actr,curcomp);  
           res = true;
         end;
-        matrowdelete(Actr,matrowcnt(Actr)-1,Actrw);
+        matrowdelete(Actr,matrowcnt(Actr)-1);
         
 			end;
 		end;
