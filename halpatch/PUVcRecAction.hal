@@ -572,6 +572,28 @@ begin
   record POSettingBlock POSb;
   record RcVc RepSpec;
   val bc1v;
+  record POVc POr;
+  record ActVc Actr,oldActr;
+  record RLinkVc RLr;
+  integer cnt;
+  
+  
+  if ((PU2r.OKFlag==0) and (PUr.OKFlag!=0)) then begin
+    if(ReadRecordLink(PUr,1,POr,RLr))then begin
+      cnt = 1;
+      while(ReadRecordLink(Actr,cnt,Actr,RLr))begin
+        if(Actr.ActType=="COMPL")then begin
+          recordcopy(oldActr,Actr);
+          Actr.OKFlag = 1;
+          Actr.EndDate = currentdate;
+          Actr.EndTime = currenttime;
+          recordupdate(oldActr,Actr,true);
+        end;
+        cnt = cnt + 1;
+      end;
+    end;
+  end;
+  
 
   ihf = ItemHistExists("PUVc",PUr.SerNr);
   if ((PUr.OKFlag!=0) and (PU2r.OKFlag!=0)) then begin

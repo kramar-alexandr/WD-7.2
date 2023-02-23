@@ -79,13 +79,14 @@ end;
 
 global updating procedure CreatePOFromActDsm()
 begin
-	record ActVc Actr,oldActr,old1Actr;
+	record ActVc Actr,oldActr,old1Actr,newAcrt;
 	integer wn,cnt;
 	string 50 from,to;
 	record StockMovVc SMr;
 	record POVc POr;
 	row POVc POrw;
 	record RLinkVc RLr;
+	record ORVc ORr;
 	
 	wn = curwindow;
 	deselectwindow(wn,true);
@@ -94,6 +95,7 @@ begin
     cnt = 1;
     if(ReadRecordLink(Actr,cnt,SMr,RLr))then begin
       if(SMr.SerNr>0)then begin
+        ReadRecordLink(SMr,1,ORr,RLr)
         if(ReadRecordLink(Actr,1,POr,RLr)==false)then begin
           recordnew(POr);
           POr.VECode = "ODER";

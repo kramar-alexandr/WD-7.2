@@ -616,6 +616,14 @@ updating  function LongInt POVcRecordUpdateAfter(var record POVc POr,record POVc
 BEGIN
   LongInt res;
   val bc1v;
+  record ActVc Actr,oldActr,old1Actr,newAcrt;
+  row ActVc Actrw;
+	integer wn,cnt,k;
+	string 50 from,to;
+	record StockMovVc SMr;
+	row POVc POrw;
+	record RLinkVc RLr;
+	record ORVc ORr;
   
   POUpdatePOCO(PO2r,true);
   POUpdatePOCO(POr,false);
@@ -638,6 +646,66 @@ BEGIN
         CancelApprovalRequestActivities(kAcceptancePO,"POVc",POr.SerNr,POr.VECode);
       end;
   end;
+  
+  
+  if(POr.Sum4>0 and PO2r.Sum4==0)then begin
+    if(ReadRecordLink(POr,cnt,SMr,RLr))then begin
+      if(SMr.SerNr>0)then begin
+        if(ReadRecordLink(SMr,1,ORr,RLr))then begin
+          recordnew(newAcrt);
+          newAcrt.Comment = ORr.Location & " Поставить на приход заказ" & ORr.SerNr " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
+          newAcrt.ActType = "PRIHO";
+          newAcrt.Supervisor = currentuser;
+          newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK";
+          newAcrt.TodoFlag = 1;
+          newAcrt.TransDate = CurrentDate;
+    
+          if(nonblank(ORr.InvAddr4))then begin
+            Actrw.Text = "Точка выдачи: " & ORr.InvAddr4;
+            matrowput(newAcrt,matrowcnt(newAcrt),Actrw);
+          end;
+          if(nonblank(ORr.ShipAddr0))then begin
+            Actrw.Text = ORr.ShipAddr0;
+            matrowput(newAcrt,matrowcnt(newAcrt),Actrw);
+          end;
+          if(nonblank(ORr.ShipAddr1))then begin
+            Actrw.Text = ORr.ShipAddr1;
+            matrowput(newAcrt,matrowcnt(newAcrt),Actrw);
+          end;
+          if(nonblank(ORr.ShipAddr2))then begin
+            Actrw.Text = ORr.ShipAddr2;
+            matrowput(newAcrt,matrowcnt(newAcrt),Actrw);
+          end;
+          if(nonblank(ORr.ShipAddr3))then begin
+            Actrw.Text = ORr.ShipAddr3;
+            matrowput(newAcrt,matrowcnt(newAcrt),Actrw);
+          end;
+          if(nonblank(ORr.DelAddr3))then begin
+            Actrw.Text = ORr.DelAddr3;
+            matrowput(newAcrt,matrowcnt(newAcrt),Actrw);
+          end;
+          if(nonblank(ORr.DelAddr4))then begin
+            Actrw.Text = ORr.DelAddr4;
+            matrowput(newAcrt,matrowcnt(newAcrt),Actrw);
+          end;
+          
+          for(k=0;k<matrowcnt(POr);k=k+1)begin
+            matrowget(POr,k,POrw);
+            if(nonblank(POrw.ArtCode))then begin
+              Actrw.Text = stringtoint(POrw.Quant) & "x " & POrw.ArtCode & " - " & POrw.Spec;
+              matrowput(newAcrt,matrowcnt(newAcrt),Actrw);
+            end;
+          end;
+          
+          recordstore(newAcrt,true);
+          createrecordlink(POr,currentcompany,newAcrt,currentcompany);
+          createrecordlink(newAcrt,currentcompany,POr,currentcompany);
+        end;
+      end;
+    end;
+  end;
+  
+  
   POVcRecordUpdateAfter = res;
   RETURN;
 END;
