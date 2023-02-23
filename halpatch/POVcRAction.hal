@@ -649,7 +649,7 @@ BEGIN
   
   
   if(POr.Sum4>0 and PO2r.Sum4==0)then begin
-    if(ReadRecordLink(POr,cnt,SMr,RLr))then begin
+    if(ReadRecordLink(POr,1,SMr,RLr))then begin
       if(SMr.SerNr>0)then begin
         if(ReadRecordLink(SMr,1,ORr,RLr))then begin
           recordnew(newAcrt);
