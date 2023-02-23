@@ -7,6 +7,8 @@ remote updating procedure CreareActReply(var record ActVc,record ActVc);
 remote function Boolean POVc_PasteVECode(var record POVc,Boolean);
 remote function Boolean POVc_PasteArtCode(var record POVc,Integer,Boolean);
 
+SetLangMode(LangRussian,"RUS",0);
+
 global
 procedure NoteFromArchiveWsm()
 BEGIN

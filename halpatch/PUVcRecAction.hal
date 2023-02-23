@@ -86,6 +86,8 @@ external function Boolean SDVc_PasteQty(var record SDVc,Integer);// Edit *******
 external procedure SDVc_PasteSerialNr(var record SDVc,Integer,var string);// Edit ************************** Wednesday, 20 August 2014 18:28:59
 remote function boolean DenyOperationForShopsLocation(string,LongInt); //Edit***************************Sasha2,14:05 27.06.2017
 
+SetLangMode(LangRussian,"RUS",0);
+
 procedure SetPUAcceptanceFlag(var record PUVc PUr,record PUVc prevPUr,LongInt stat)
 begin
   val bc1v;

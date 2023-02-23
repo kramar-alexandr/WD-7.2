@@ -40,6 +40,8 @@ external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,va
 external procedure GetSalesGroup(string,var string);
 external updating procedure UpdateStockResFromPO(record POVc,boolean);
 
+SetLangMode(LangRussian,"RUS",0);
+
 procedure SetPOAcceptanceFlag(var record POVc POr,record POVc prevPOr,LongInt stat)
 begin
   val bc1v;
