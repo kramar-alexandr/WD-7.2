@@ -111,6 +111,7 @@ begin
             if (POVc_PasteArtCode(POr,0,false)) then begin end;
             MatRowGet(POr,0,POrw); 
             POrw.Quant = Actr.Value;
+            POrw.Price = Actr.Value;
             MatRowPut(POr,0,POrw);
           end;
           recordstore(POr,true);
