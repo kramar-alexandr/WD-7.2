@@ -653,7 +653,7 @@ BEGIN
       if(SMr.SerNr>0)then begin
         if(ReadRecordLink(SMr,1,ORr,RLr))then begin
           recordnew(newAcrt);
-          newAcrt.Comment = ORr.Location & " Поставить на приход заказ" & ORr.SerNr " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
+          newAcrt.Comment = ORr.Location & " Поставить на приход заказ" & ORr.SerNr & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
           newAcrt.ActType = "PRIHO";
           newAcrt.Supervisor = currentuser;
           newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK";
