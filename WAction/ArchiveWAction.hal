@@ -105,13 +105,15 @@ begin
           POr.Location = "OFFICE";
           POr.SerNr = NextSerNr("POVc",POr.TransDate,-1,false,"");
           POr.Comment = Actr.Comment;
+          POr.POClass = "PURCH";
           if(nonblank(Actr.ArtCode))then begin
             POrw.ArtCode = Actr.ArtCode;
             MatRowPut(POr,0,POrw);      
             if (POVc_PasteArtCode(POr,0,false)) then begin end;
             MatRowGet(POr,0,POrw); 
             POrw.Quant = Actr.Value;
-            POrw.Price = Actr.Value;
+            POrw.Price = blankval;
+            
             MatRowPut(POr,0,POrw);
           end;
           recordstore(POr,true);
