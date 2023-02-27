@@ -166,13 +166,15 @@ begin
   record IVVc IVr;
   row IVVc IVrw;
   record INVc INr;
-  boolean testf,TrHs,filtered;
+  boolean testf,TrHs,filtered,TrHs2;
   string 20 mykey;
   integer mtrw,i,cred;
   record ORVc ORr;
   record SHVc SHr;
   row SHVc SHrw;
   val totalcost,totalsum,totalgp;
+  date bd,indate;
+  record ItemHistVc IHr;
   
   startreportnoheaderjob("§сторґЯ продажґв по клґ№нту");
   
@@ -269,6 +271,35 @@ begin
                   OutString(200,0,IVrw.Spec,false);
                   OutString(200,0,INr.DispGroups,false);
                   OutString(330,0,IVrw.SerialNr,false);
+                  if(nonblank(IVrw.SerialNr) and INr.ItemType==1)then begin
+                    IHr.ArtCode = INr.Code;
+                    IHr.SerialNr = IVrw.SerialNr;
+                    TrHs2 = true;
+                    indate = bd;
+                    while(loopkey("CodeSerialNrArtCode",IHr,2,TrHs2))begin
+                      if(IHr.ArtCode!=INr.Code)then begin TrHs2 = false; end;
+                      if(IHr.SerialNr!=IVrw.SerialNr)then begin TrHs2 = false; end;
+                      
+                      if(TrHs2)then begin
+                        if(IHr.FileName=="PUVc")then begin
+                          indate = IHr.TransDate;
+                        end;
+                      end;  
+                    end;
+                    
+                    if(nonblankdate(indate))then begin
+                      OutString(330,0,indate,false);
+                      OutString(330,0,datediff(IVr.InvDate,indate),false);
+                    end else begin
+                      OutString(330,0,"",false);
+                      OutString(330,0,"",false);
+                    end;
+                  end else begin
+                    OutString(330,0,"",false);
+                    OutString(330,0,"",false);
+                  end;
+                  
+                  
                   OutString(330,0,ORr.SalesMan,false);
                   OutString(330,0,ORr.Location,false);
                   OutString(1,0,INr.Group,false);
