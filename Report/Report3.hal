@@ -188,6 +188,8 @@ begin
       OutString(200,0,"Найменування",false);
       OutString(200,0,"Класифікація",false);
       OutString(330,0,"Серійний номер",false);
+      OutString(330,0,"Прийшов",false);
+      OutString(330,0,"Днів",false);
       OutString(330,0,"Продавець",false);
       OutString(330,0,"Склад",false);
       OutString(1,0,"Група",true);
