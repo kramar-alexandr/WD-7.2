@@ -288,6 +288,7 @@ begin
                         end;
                       end;  
                     end;
+                    resetloop(IHr);
                     
                     if(nonblankdate(indate))then begin
                       OutString(330,0,indate,false);
