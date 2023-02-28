@@ -175,6 +175,7 @@ begin
   val totalcost,totalsum,totalgp;
   date bd,indate;
   record ItemHistVc IHr;
+  record DIVc DIr;
   
   startreportnoheaderjob("Історія продажів по клієнту");
   
@@ -187,6 +188,7 @@ begin
       OutString(120,0,"Товар",false);
       OutString(200,0,"Найменування",false);
       OutString(200,0,"Класифікація",false);
+      OutString(200,0,"Тип",false);
       OutString(330,0,"Серійний номер",false);
       OutString(330,0,"Прийшов",false);
       OutString(330,0,"Днів",false);
@@ -272,6 +274,10 @@ begin
                   OutString(120,0,IVrw.ArtCode,false);
                   OutString(200,0,IVrw.Spec,false);
                   OutString(200,0,INr.DispGroups,false);
+                  
+                  DIr.Code = INr.DispGroups;
+                  readfirstmain(DIr,1,true);
+                  OutString(200,0,DIr.DispGroups,false);
                   OutString(330,0,IVrw.SerialNr,false);
                   if(nonblank(IVrw.SerialNr) and INr.ItemType==1)then begin
                     IHr.ArtCode = INr.Code;
