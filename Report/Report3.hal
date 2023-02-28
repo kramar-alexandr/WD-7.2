@@ -308,8 +308,8 @@ begin
                       end;  
                     end;
                     resetloop(IHr);
-                    
-                if(printf)then begin
+                  end;  
+                  if(printf)then begin
                     if(nonblankdate(indate))then begin
                       OutString(330,0,indate,false);
                       OutString(330,0,datediff(IVr.InvDate,indate),false);
@@ -317,20 +317,15 @@ begin
                       OutString(330,0,"",false);
                       OutString(330,0,"",false);
                     end;
-                  end else begin
-                    OutString(330,0,"",false);
-                    OutString(330,0,"",false);
+                  
+                    OutString(330,0,ORr.SalesMan,false);
+                    OutString(330,0,ORr.Location,false);
+                    OutString(1,0,INr.Group,false);
+                    OutString(370,0,IVrw.Quant*cred,false);
+                    OutString(405,0,IVrw.vRebate,false);
+                    OutString(310,0,IVrw.Price,false);
+                    OutString(460,0,IVrw.Sum*cred,false);
                   end;
-                  
-                  
-                  OutString(330,0,ORr.SalesMan,false);
-                  OutString(330,0,ORr.Location,false);
-                  OutString(1,0,INr.Group,false);
-                  OutString(370,0,IVrw.Quant*cred,false);
-                  OutString(405,0,IVrw.vRebate,false);
-                  OutString(310,0,IVrw.Price,false);
-                  OutString(460,0,IVrw.Sum*cred,false);
-                end;
                   if(IVr.FrRate!=0)then begin
                     IVrw.FIFO = IVrw.FIFO * IVr.FrRate;
                   end;
