@@ -225,6 +225,7 @@ begin
         end;
       end;
       
+      
       if(IVr.InvType==3)then begin
         cred = -1;
       end;
@@ -240,8 +241,13 @@ begin
         ORr.SerNr = IVr.OrderNr;
         if (ReadFirstMain(ORr,1,true)) then begin
         end;
+        if(nonblank(RepSpec.f3) and RepSpec.f3!=ORr.SalesMan)then begin
+          testf = false;
+        end;
+      end;
+      
+      if(testf)then begin
         mtrw = matrowcnt(IVr);
-
         for(i=0;i<mtrw;i=i+1)begin
           matrowget(IVr,i,IVrw);
           if(nonblank(IVrw.ArtCode))then begin
