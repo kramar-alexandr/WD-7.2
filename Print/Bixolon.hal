@@ -998,6 +998,34 @@ begin
 		//TLTOARR(checklength,"контакти та ін.)",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
+		
+		text[""] = "У разі придбання додаткових пакетів:" & SetBoldOn & " Захист дисплею і корпусу" & SetBoldOff;
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "Послуги які входять до пакету :";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "1. Одноразова безкоштовна заміна дисплею або скла.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "2. Одноразова безкоштовна заміна скла задньої панелі.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "3. Безкоштовна заміна акумулятора, якщо його ємність менше 79%";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "Правила обслуговування:";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "1. Срок виконання ремонту від 3 до 7 робочих днів.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "2. Компанія iStore на власний розсуд замінить екран або скло.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "3. Захист корпусу передбачає лише заміну заднього скла.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "4. Заміну батареї виконується лише якщо ємність батареї стала нижчою за 79%";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "5. При виконанні ремонту можуть використовуватись як оригінальні запчастини, так і аналоги.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		
 		addtexttoarea(SetBoldOn,aFile);
 		addtexttoarea(SetUnderlineOn,aFile);
 		text[""] = "Товар отримав у цілому стані та повній комплектації";
