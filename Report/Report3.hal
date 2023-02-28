@@ -241,6 +241,9 @@ begin
         ORr.SerNr = IVr.OrderNr;
         if (ReadFirstMain(ORr,1,true)) then begin
         end;
+        if(blank(ORr.SalesMan))then begin
+          ORr.SalesMan = IVr.SalesMan;
+        end;
         if(nonblank(RepSpec.f3) and RepSpec.f3!=ORr.SalesMan)then begin
           testf = false;
         end;
