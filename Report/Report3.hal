@@ -175,7 +175,10 @@ begin
   val totalcost,totalsum,totalgp;
   date bd,indate;
   record ItemHistVc IHr;
-  record DIVc DIr;
+  record DIVc DIr,DI2r;
+  vector val vsum,vqty;
+  array string 50 avtags;
+  
   
     
     if(printf)then begin
@@ -288,6 +291,17 @@ begin
                 end;  
                   DIr.Code = INr.DispGroups;
                   readfirstmain(DIr,1,true);
+                  DI2r.Code = DIr.DispGroups;
+                  readfirstmain(DI2r,1,true);
+                  if(DI2r.CType=="SUM")then begin
+                    vsum[DI2r.DispGroups] = vsum[DI2r.DispGroups] + IVrw.Sum*cred;
+                  end;
+                  if(DI2r.CType=="QUANT")then begin
+                    vqty[DI2r.DispGroups] = vqty[DI2r.DispGroups] + IVrw.Quant*cred;
+                  end;
+                  
+                  
+                  
                   if(printf)then begin
                     OutString(200,0,DIr.DispGroups,false);
                     OutString(330,0,IVrw.SerialNr,false);
@@ -373,6 +387,27 @@ begin
           OutString(460,0,totalgp,false);  
         end;
       endformat;
+      
+      getvectortags(vsum,avtags);
+      SortStringArray(avtags);
+      for(i=0;i<avtags.length;i=i+1)begin
+        startformat(15);
+          OutString(0,0,avtags[i],false);
+          OutString(0,0,vsum[avtags[i]],false);
+        endformat;
+      end;
+      startformat(15);
+      endformat;
+      
+      getvectortags(vqty,avtags);
+      SortStringArray(avtags);
+      for(i=0;i<avtags.length;i=i+1)begin
+        startformat(15);
+          OutString(0,0,avtags[i],false);
+          OutString(0,0,vqty[avtags[i]],false);
+        endformat;
+      end;
+      
     end;
     
     
