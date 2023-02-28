@@ -328,7 +328,7 @@ begin
     PeriodField(h,20,"Џерґод");
     EditField(h,40,150,"Љлґ№нт",Normal,f1,false,CUSClass);
     EditField(h,60,150,"’овар",Normal,f2,false,INSClass);
-    EditField(h,60,150,"Њенеджер",Normal,f3,false,USSClass);
+    EditField(h,60,150,"Њенеджер",Normal,f3,false,UserSClass);
   EndWindow;
   
   WindowBegin("Ћтчет по телефонам клиентов",CUSalesRepRClass,CGRcW,RcType);
