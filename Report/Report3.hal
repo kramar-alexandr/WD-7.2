@@ -161,7 +161,7 @@ end;
 
 
 
-global procedure CustSalesReportRn(record RcVc RepSpec)
+global procedure CustSalesReportProc(record RcVc RepSpec,boolean printf)
 begin
   record IVVc IVr;
   row IVVc IVrw;
@@ -177,33 +177,34 @@ begin
   record ItemHistVc IHr;
   record DIVc DIr;
   
-  startreportnoheaderjob("Історія продажів по клієнту");
-  
-    startformat(15);
-      OutString(0,0,"Клієнт",false);
-      OutString(60,0,"Дата",false);
-      OutString(60,0,"Накладна",false);
-      OutString(60,0,"Рахунок",false);
-      OutString(60,0,"Оф. номер",false);
-      OutString(120,0,"Товар",false);
-      OutString(200,0,"Найменування",false);
-      OutString(200,0,"Класифікація",false);
-      OutString(200,0,"Тип",false);
-      OutString(330,0,"Серійний номер",false);
-      OutString(330,0,"Прийшов",false);
-      OutString(330,0,"Днів",false);
-      OutString(330,0,"Продавець",false);
-      OutString(330,0,"Склад",false);
-      OutString(1,0,"Група",true);
-      OutString(370,0,"Кіл-ть",false);
-      OutString(405,0,"Знижка",false);
-      OutString(330,0,"Ціна",false);
-      OutString(460,0,"Сума",true);
-      if(usercanaction("ViewCostPrice",false))then begin
-        OutString(330,0,"Собівартість",false);
-        OutString(330,0,"Прибуток",false);
-      end;
-    endformat;
+    
+    if(printf)then begin
+      startformat(15);
+        OutString(0,0,"Клієнт",false);
+        OutString(60,0,"Дата",false);
+        OutString(60,0,"Накладна",false);
+        OutString(60,0,"Рахунок",false);
+        OutString(60,0,"Оф. номер",false);
+        OutString(120,0,"Товар",false);
+        OutString(200,0,"Найменування",false);
+        OutString(200,0,"Класифікація",false);
+        OutString(200,0,"Тип",false);
+        OutString(330,0,"Серійний номер",false);
+        OutString(330,0,"Прийшов",false);
+        OutString(330,0,"Днів",false);
+        OutString(330,0,"Продавець",false);
+        OutString(330,0,"Склад",false);
+        OutString(1,0,"Група",true);
+        OutString(370,0,"Кіл-ть",false);
+        OutString(405,0,"Знижка",false);
+        OutString(330,0,"Ціна",false);
+        OutString(460,0,"Сума",true);
+        if(usercanaction("ViewCostPrice",false))then begin
+          OutString(330,0,"Собівартість",false);
+          OutString(330,0,"Прибуток",false);
+        end;
+      endformat;
+    end;
       
     TrHs = true;
     IVr.CustCode = RepSpec.f1;
@@ -265,6 +266,7 @@ begin
             
               
               if(filtered)then begin
+                if(printf)then begin
                 startformat(15);
                   OutString(0,0,IVr.CustCode,false);
                   OutString(60,0,IVr.InvDate,false);
@@ -274,11 +276,13 @@ begin
                   OutString(120,0,IVrw.ArtCode,false);
                   OutString(200,0,IVrw.Spec,false);
                   OutString(200,0,INr.DispGroups,false);
-                  
+                end;  
                   DIr.Code = INr.DispGroups;
                   readfirstmain(DIr,1,true);
-                  OutString(200,0,DIr.DispGroups,false);
-                  OutString(330,0,IVrw.SerialNr,false);
+                  if(printf)then begin
+                    OutString(200,0,DIr.DispGroups,false);
+                    OutString(330,0,IVrw.SerialNr,false);
+                  end;
                   if(nonblank(IVrw.SerialNr) and INr.ItemType==1)then begin
                     IHr.ArtCode = INr.Code;
                     IHr.SerialNr = IVrw.SerialNr;
@@ -296,6 +300,7 @@ begin
                     end;
                     resetloop(IHr);
                     
+                if(printf)then begin
                     if(nonblankdate(indate))then begin
                       OutString(330,0,indate,false);
                       OutString(330,0,datediff(IVr.InvDate,indate),false);
@@ -316,20 +321,25 @@ begin
                   OutString(405,0,IVrw.vRebate,false);
                   OutString(310,0,IVrw.Price,false);
                   OutString(460,0,IVrw.Sum*cred,false);
+                end;
                   if(IVr.FrRate!=0)then begin
                     IVrw.FIFO = IVrw.FIFO * IVr.FrRate;
                   end;
+                if(printf)then begin
                   if(usercanaction("ViewCostPrice",false))then begin
                     OutString(330,0,IVrw.FIFO*cred,false);
                     OutString(330,0,(IVrw.Sum - IVrw.FIFO)*cred,false);
                   end;
+                end;
                   
                   
                   totalcost = totalcost + IVrw.FIFO*cred*IVrw.Quant;
                   totalsum = totalsum + IVrw.Sum*cred;
                   totalgp = totalgp + (IVrw.Sum - IVrw.FIFO)*cred;
-                  
-                endformat;
+                
+                if(printf)then begin
+                  endformat;
+                end;
               end;
             end;
           end;
@@ -337,28 +347,54 @@ begin
       end;
     end;
     
-    startformat(15);
-      OutString(0,0,"Всього:",false);
-      OutString(60,0,"",false);
-      OutString(60,0,"",false);
-      OutString(60,0,"",false);
-      OutString(120,0,"",false);
-      OutString(200,0,"",false);
-      OutString(200,0,"",false);
-      OutString(310,0,"",false);
-      OutString(330,0,"",false);
-      OutString(330,0,"",false);
-      OutString(330,0,"",false);
-      OutString(370,0,"",false);
-      OutString(405,0,"",false);
-      OutString(405,0,"",false);
-      OutString(460,0,totalsum,false);  
-      if(usercanaction("ViewCostPrice",false))then begin
-        OutString(330,0,totalcost,false);
-        OutString(460,0,totalgp,false);  
-      end;
-    endformat;
+    if(printf)then begin
+      startformat(15);
+        OutString(0,0,"Всього:",false);
+        OutString(60,0,"",false);
+        OutString(60,0,"",false);
+        OutString(60,0,"",false);
+        OutString(120,0,"",false);
+        OutString(200,0,"",false);
+        OutString(200,0,"",false);
+        OutString(310,0,"",false);
+        OutString(330,0,"",false);
+        OutString(330,0,"",false);
+        OutString(330,0,"",false);
+        OutString(370,0,"",false);
+        OutString(405,0,"",false);
+        OutString(405,0,"",false);
+        OutString(460,0,totalsum,false);  
+        if(usercanaction("ViewCostPrice",false))then begin
+          OutString(330,0,totalcost,false);
+          OutString(460,0,totalgp,false);  
+        end;
+      endformat;
+    end;
     
+    
+return;
+end;
+
+
+global procedure CustSalesReportRn(record RcVc RepSpec)
+begin
+  record IVVc IVr;
+  row IVVc IVrw;
+  record INVc INr;
+  boolean testf,TrHs,filtered,TrHs2;
+  string 20 mykey;
+  integer mtrw,i,cred;
+  record ORVc ORr;
+  record SHVc SHr;
+  row SHVc SHrw;
+  val totalcost,totalsum,totalgp;
+  date bd,indate;
+  record ItemHistVc IHr;
+  record DIVc DIr;
+  
+  startreportnoheaderjob("Історія продажів по клієнту");
+  
+    CustSalesReportProc(RepSpec,true);
     
   endjob;
 return;
