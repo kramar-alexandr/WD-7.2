@@ -2220,6 +2220,9 @@ updating function LongInt ORVcRecordUpdateAfter(var record ORVc ORr,record ORVc 
 begin
   LongInt res;
   val bc1v;
+  record RLinkVc RLr;
+  record ActVc Actr,oldActr;
+  integer pos;
 
 //  ORObjectStats(ORr,OR2r); it is stored only and not used ever
   UpdateVARItemsOR(ORr);
@@ -2247,6 +2250,20 @@ begin
   if(ORr.Phone!=OR2r.Phone)then begin
     if(currentcompany==13)then begin
       SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+    end;
+  end;
+  
+  
+  if(ORr.OrderStatusCode==4 and OR2r.OrderStatusCode!=4)then begin
+    pos = 1;
+    while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
+      if(Actr.ActType=="ZAKAZ" or Actr.ActType=="COMPL" or Actr.ActType=="PRIHO")then begin
+        recordcopy(oldActr,Actr);
+        Actr.OKFlag = 1;
+        recordupdate(oldActr,Actr,true);
+      end;
+      
+      pos = pos + 1;
     end;
   end;
 

@@ -702,6 +702,12 @@ BEGIN
           recordstore(newAcrt,true);
           createrecordlink(POr,currentcompany,newAcrt,currentcompany);
           createrecordlink(newAcrt,currentcompany,POr,currentcompany);
+          
+          createrecordlink(ORr,currentcompany,newAcrt,currentcompany);
+          createrecordlink(newAcrt,currentcompany,ORr,currentcompany);
+          
+          createrecordlink(SMr,currentcompany,newAcrt,currentcompany);
+          createrecordlink(newAcrt,currentcompany,SMr,currentcompany);
         end;
       end;
     end;
