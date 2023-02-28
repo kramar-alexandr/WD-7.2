@@ -253,7 +253,7 @@ begin
         mtrw = matrowcnt(IVr);
         for(i=0;i<mtrw;i=i+1)begin
           matrowget(IVr,i,IVrw);
-          if(nonblank(IVrw.ArtCode))then begin
+          if(nonblank(IVrw.ArtCode) and IVrw.Price!=0)then begin
             if(IVrw.ArtCode==RepSpec.f2 or blank(RepSpec.f2))then begin
               filtered = true;
               
