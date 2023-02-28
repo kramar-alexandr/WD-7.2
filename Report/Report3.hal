@@ -292,11 +292,11 @@ begin
                     OutString(200,0,DIr.DispGroups,false);
                     OutString(330,0,IVrw.SerialNr,false);
                   end;
+                  indate = bd;
                   if(nonblank(IVrw.SerialNr) and INr.ItemType==1)then begin
                     IHr.ArtCode = INr.Code;
                     IHr.SerialNr = IVrw.SerialNr;
                     TrHs2 = true;
-                    indate = bd;
                     while(loopkey("CodeSerialNrArtCode",IHr,2,TrHs2))begin
                       if(IHr.ArtCode!=INr.Code)then begin TrHs2 = false; end;
                       if(IHr.SerialNr!=IVrw.SerialNr)then begin TrHs2 = false; end;
