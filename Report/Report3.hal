@@ -192,6 +192,7 @@ begin
         OutString(200,0,"Найменування",false);
         OutString(200,0,"Класифікація",false);
         OutString(200,0,"Тип",false);
+        OutString(200,0,"Бонус тип",false);
         OutString(330,0,"Серійний номер",false);
         OutString(330,0,"Прийшов",false);
         OutString(330,0,"Днів",false);
@@ -304,6 +305,7 @@ begin
                   
                   if(printf)then begin
                     OutString(200,0,DIr.DispGroups,false);
+                    OutString(200,0,DI2r.CType,false);
                     OutString(330,0,IVrw.SerialNr,false);
                   end;
                   indate = bd;
