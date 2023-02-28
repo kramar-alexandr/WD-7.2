@@ -292,20 +292,18 @@ begin
                 end;  
                   DIr.Code = INr.DispGroups;
                   readfirstmain(DIr,1,true);
-                  DI2r.Code = DIr.DispGroups;
-                  readfirstmain(DI2r,1,true);
-                  if(DI2r.CType=="SUM")then begin
-                    vsum[DI2r.DispGroups] = vsum[DI2r.DispGroups] + IVrw.Sum*cred;
+                  if(DIr.CType=="SUM")then begin
+                    vsum[DIr.DispGroups] = vsum[DIr.DispGroups] + IVrw.Sum*cred;
                   end;
-                  if(DI2r.CType=="QUANT")then begin
-                    vqty[DI2r.DispGroups] = vqty[DI2r.DispGroups] + IVrw.Quant*cred;
+                  if(DIr.CType=="QUANT")then begin
+                    vqty[DIr.DispGroups] = vqty[DIr.DispGroups] + IVrw.Quant*cred;
                   end;
                   
                   
                   
                   if(printf)then begin
                     OutString(200,0,DIr.DispGroups,false);
-                    OutString(200,0,DI2r.CType,false);
+                    OutString(200,0,DIr.CType,false);
                     OutString(330,0,IVrw.SerialNr,false);
                   end;
                   indate = bd;
