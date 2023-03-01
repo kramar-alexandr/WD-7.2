@@ -930,7 +930,7 @@ not ready yet
     end;
 	end;
   
-  ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:35 PM
+  //ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:35 PM
   
   OnLogin = res/* and (forcestockmaint==0)*/;//when offline records it should not open Master Control
   RETURN;
