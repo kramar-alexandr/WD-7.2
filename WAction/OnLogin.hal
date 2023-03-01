@@ -732,10 +732,8 @@ LOtherwise01:;
 				nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec); 
       end;  
     end;
-    ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:37 PM
   end;
   
-  ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:35 PM
 
   if (aSPDr.length>0) then begin
     UpdateSerialPortDevices(LMb.LocalMachineCode,aSPDr);
@@ -913,7 +911,8 @@ not ready yet
       RunReport(RepSpec,0);
     end;
 	end;
-
+  
+  ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:35 PM
   
   OnLogin = res/* and (forcestockmaint==0)*/;//when offline records it should not open Master Control
   RETURN;
