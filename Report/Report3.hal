@@ -377,6 +377,11 @@ begin
         OutString(330,0,"",false);
         OutString(330,0,"",false);
         OutString(330,0,"",false);
+        OutString(330,0,"",false);
+        OutString(330,0,"",false);
+        OutString(330,0,"",false);
+        OutString(330,0,"",false);
+        OutString(330,0,"",false);
         OutString(370,0,"",false);
         OutString(405,0,"",false);
         OutString(405,0,"",false);
