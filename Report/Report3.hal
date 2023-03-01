@@ -232,13 +232,19 @@ begin
       if(IVr.InvType==3)then begin
         cred = -1;
       end;
-      
-      if(RepSpec.sStartDate>IVr.InvDate and RepSpec.sEndDate<IVr.InvDate)then begin 
-        testf = false; 
-        if(mykey=="InvDate")then begin
+      if(mykey=="InvDate")then begin
+        if(IVr.InvDate>RepSpec.sEndDate)then begin
           TrHs = false;
         end;
       end;
+      if(mykey=="CustCode")then begin
+        if(IVr.InvDate>RepSpec.sEndDate)then begin
+          testf = false;
+        end;
+      end;
+      
+      
+      
       
       if(testf)then begin
         ORr.SerNr = IVr.OrderNr;
