@@ -235,6 +235,7 @@ begin
       if(mykey=="InvDate")then begin
         if(IVr.InvDate>RepSpec.sEndDate)then begin
           TrHs = false;
+          testf = false;
         end;
       end;
       if(mykey=="CustCode")then begin
