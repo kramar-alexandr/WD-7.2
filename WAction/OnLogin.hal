@@ -1001,7 +1001,7 @@ LOnLoginAfterMaster99:;
       SelectWindow(nwn);
     end;
   end;
-  
+  ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:35 PM
   InitLogActions;
 end;
 
