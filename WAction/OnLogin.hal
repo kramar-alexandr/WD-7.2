@@ -61,7 +61,7 @@ external function Boolean ShowCompanyTypeWindow();
 remote function integer ExpiredMoveForServDays();//Edit-------------------Vitalii 11:12 26.08.2016
 remote function string 50 TestCurrentUserOnServer();// Edit ************************** Friday, 11 December 2015 15:46:26
 remote procedure CurrentUserStockMovsRnRemote();// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 1:49:55 PM
-
+remote procedure CustSalesReportProc(record RcVc,boolean,var vector val,var vector val);
 
 global
 function Integer GetPOSOffLineCompNo()
@@ -82,8 +82,47 @@ BEGIN
   boolean showFlag;
   record UserVc USr;
   Record RcVc RepSpec;
+  date cd;
+  vector val vqty,vsum;
+  integer i;
+  array string 50 avtags;
+  string 255 tstr;
   
-  cnt=0;
+  cd = currentdate;
+  cd.day = 1;
+  USr.Code = CurrentUser;
+	if(readfirstmain(USr,1,true))then begin
+	  if(USr.IsSalesMan==1)then begin
+      RepSpec.sStartDate = cd;
+      RepSpec.sEndDate = currentdate;
+      RepSpec.f3 = currentuser;
+      CustSalesReportProc(RepSpec,false,vqty,vsum);
+    end;
+  end;
+  
+  if(currentuser=="SA")then begin
+      RepSpec.sStartDate = cd;
+      RepSpec.sEndDate = currentdate;
+      //RepSpec.f3 = "SHPAK";
+      CustSalesReportProc(RepSpec,false,vqty,vsum);
+      
+      getvectortags(vsum,avtags);
+      SortStringArray(avtags);
+      for(i=0;i<avtags.length;i=i+1)begin
+        tstr = tstr & avtags[i] & " " & vsum[avtags[i]] & chr(10);
+      end;
+      
+      tstr = tstr & chr(10);
+      
+      getvectortags(vqty,avtags);
+      SortStringArray(avtags);
+      for(i=0;i<avtags.length;i=i+1)begin
+        tstr = tstr & avtags[i] & " " & vqty[avtags[i]] & chr(10);
+      end;
+      
+  end;
+  
+  /*cnt=0;
   ttl=0;
   showFlag=false;
 	if(showFlag==true) begin
@@ -96,7 +135,7 @@ BEGIN
 			RepSpec.flags[1] = stringtoint(USr.Phone2);
 			OpenWindow("SelectSVOPointWClass",0,0,"","",RepSpec);
 		end;
-	end;
+	end;*/
 	
   return;
 END;

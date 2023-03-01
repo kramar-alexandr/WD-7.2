@@ -161,7 +161,7 @@ end;
 
 
 
-global procedure CustSalesReportProc(record RcVc RepSpec,boolean printf)
+global procedure CustSalesReportProc(record RcVc RepSpec,boolean printf,vector val vqty,vector val vsum)
 begin
   record IVVc IVr;
   row IVVc IVrw;
@@ -176,7 +176,6 @@ begin
   date bd,indate;
   record ItemHistVc IHr;
   record DIVc DIr,DI2r;
-  vector val vsum,vqty;
   array string 50 avtags;
   
   
@@ -430,10 +429,11 @@ begin
   date bd,indate;
   record ItemHistVc IHr;
   record DIVc DIr;
+  vector val vqty,vsum;
   
   startreportnoheaderjob("§сторґЯ продажґв по клґ№нту");
   
-    CustSalesReportProc(RepSpec,true);
+    CustSalesReportProc(RepSpec,true,vqty,vsum);
     
   endjob;
 return;
