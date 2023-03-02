@@ -146,7 +146,7 @@ BEGIN
       
   end;
   
-  /*cnt=0;
+  cnt=0;
   ttl=0;
   showFlag=false;
 	if(showFlag==true) begin
@@ -159,7 +159,7 @@ BEGIN
 			RepSpec.flags[1] = stringtoint(USr.Phone2);
 			OpenWindow("SelectSVOPointWClass",0,0,"","",RepSpec);
 		end;
-	end;*/
+	end;
 	
   return;
 END;
