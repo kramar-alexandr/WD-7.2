@@ -749,6 +749,9 @@ begin
   record INVc INr;
   record ActVc newActr;
   
+  logtext(0,"LinkAndActStockMov");
+  logtext(0,"StockMovr.Sorting " & StockMovr.Sorting);
+  logtext(0,"StockMovr.OrderNr " & StockMovr.OrderNr);
   if(nonblank(StockMovr.Sorting) and StockMovr.OrderNr>-1)then begin
     StockMov2r.SerNr = stringtolongint(StockMovr.Sorting);
     if(readfirstmain(StockMov2r,1,true))then begin
