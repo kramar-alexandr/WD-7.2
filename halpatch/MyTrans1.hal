@@ -9,7 +9,8 @@ external procedure WebGenRnForMail();// Edit ************************** BPI Ukra
 external procedure UpdateMasterWClassOnKPIs(string);
 external function string 255 ChekUnicode(string,var vector string);
 external updating function boolean EasySendTurboSMS(string, string);
-
+external updating procedure RDBBuildAllDataMn();
+external updating procedure RDBDoClearDataMn();
 SetLangMode(LangRussian,"RUS",0);
 
 
@@ -145,6 +146,23 @@ begin
 		DRB.DateRn = CurrentDate;
 		BlockStore(DRB);
 	end;
+	
+	if(currenttime>stringtotime("05:00"))then begin
+    if(DRB.RdbChackClear!=currentdate)then begin
+      RDBDoClearDataMn;
+      DRB.RdbChackClear = currentdate;
+      BlockStore(DRB);
+    end;
+  end;
+  
+  if(currenttime>stringtotime("05:30"))then begin
+    if(DRB.RdbChackBuild!=currentdate)then begin
+      RDBBuildAllDataMn;
+      DRB.RdbChackBuild = currentdate;
+      BlockStore(DRB);
+    end;
+	end;
+	
 	setcompany(1,false);
 	
     t1 = StringToTime("22:50");
@@ -169,41 +187,7 @@ begin
     	AutoRun;// Edit ************************** Tuesday, 1 November 2016 11:19:29
     end;
         
-    /*min = getminute(CurrentTime);
-    if(right(min,1)=="5" and currentdate>stringtodate("25/08/2016"))then begin
-			if (SetCompany(9,false)) then begin
-				SSLr.TransDate = addday(currentdate,-1);
-				if(!Readfirstkey("TransDate",SSLr,1,true))then begin
-					goto lCustTimeTableActionRun;
-				end;
-			end;
-    end;*/
-    
-    
-    
-   /* if (curtnew>=t1 and curtnew<t2 and SetCompany(9,false)) then begin
-lCustTimeTableActionRun:;
-			startdate = addday(currentdate,-2);
-			
-			if(currentdate>=stringtodate("25/08/2016"))then begin
-				For(i=0;i<3;i=i+1) begin
-					LogText(0,"SamsungSendFilesToFtpMn at planned time: " & curtnew);
-					RepSpec.sStartDate = startdate;
-					RepSpec.sEndDate = RepSpec.sStartDate;
-					SamsungSendFilesToFtpMn(RepSpec);
-					startdate = addday(startdate,1);
-				end; 
-			end else begin
-				LogText(0,"SamsungSendFilesToFtpMn at planned time: " & curtnew);
-				RepSpec.sStartDate = currentdate;
-				RepSpec.sEndDate = RepSpec.sStartDate;
-				SamsungSendFilesToFtpMn(RepSpec);
-				startdate = addday(startdate,1);
-			end;
-			
-    	ResetCompany(curcomp); 
-    end;
-    */
+  
     if(curt.minute==0)then begin
       UpdateNPStatuses;
     end;

@@ -890,6 +890,8 @@ RecordBegin(BinotelCallEndVc,-,"");//Edit-------------------Vitalii 17:10 03.11.
   
   BlockBegin(DateRnBlock,-,"");
 		RecordField(DateRn,M4Date,0,0);
+		RecordField(RdbChackClear,M4Date,0,0);
+		RecordField(RdbChackBuild,M4Date,0,0);
 	EndBlock;
   
   RecordBegin(PriceChangeVc,-,"");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 18 10 2019 y. at 4:57:34 PM
