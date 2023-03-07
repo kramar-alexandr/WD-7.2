@@ -49,6 +49,8 @@ external procedure GetFullCurncyRateText(Boolean,var string,val,val,val,val,val)
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
 remote updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
 
+SetLangMode(LangRussian,"RUS",0);
+
 global
 function LongInt StockMovVcRecordDefaults(var record StockMovVc StockMovr,record StockMovVc StockMov2r,LongInt stat,LongInt long4)
 BEGIN
@@ -749,9 +751,6 @@ begin
   record INVc INr;
   record ActVc newActr;
   
-  logtext(0,"LinkAndActStockMov");
-  logtext(0,"StockMovr.Sorting " & StockMovr.Sorting);
-  logtext(0,"StockMovr.OrderNr " & StockMovr.OrderNr);
   if(nonblank(StockMovr.Sorting) and StockMovr.OrderNr>-1)then begin
     StockMov2r.SerNr = stringtolongint(StockMovr.Sorting);
     if(readfirstmain(StockMov2r,1,true))then begin
