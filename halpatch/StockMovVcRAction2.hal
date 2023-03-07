@@ -760,11 +760,14 @@ begin
       
       recordnew(Actr);
       
-      if(StockMovr.OrderNr>-1)then begin
-        ORr.SerNr = StockMovr.OrderNr;
+      if(StockMov2r.OrderNr>-1)then begin
+        ORr.SerNr = StockMov2r.OrderNr;
         if (ReadFirstMain(ORr,0,true)) then begin end;  
       end;
-    
+      
+      
+      CreateRecordLink(ORr,CurrentCompany,StockMov2r,CurrentCompany);  
+      CreateRecordLink(StockMov2r,CurrentCompany,ORr,CurrentCompany); 
   
       curcomp = CurrentCompany;
       Actr.SerNr = -1;
@@ -791,7 +794,7 @@ begin
           matrowput(Actr,matrowcnt(Actr),Actrw);
         end;
       end;
-      
+      Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
       if (RecordStore(Actr,false)) then begin 
         CreateRecordLink(Actr,curcomp,StockMovr,curcomp);  
         CreateRecordLink(StockMovr,curcomp,Actr,curcomp);  
