@@ -811,7 +811,7 @@ BEGIN
   record ORVc ORr; //Edit***************************Sasha2,17:48 31.10.2014
   
   
-  if(StockMovr.OrdFlag!=0)then begin
+  if(nonblank(StockMovr.FrLocation))then begin
     LinkAndActStockMov(StockMovr);
   end;
   

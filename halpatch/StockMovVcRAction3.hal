@@ -207,7 +207,7 @@ BEGIN
   record CUVc CUr;
   
   
-  if(StockMovr.OrdFlag!=0 and StockMov2r.OrdFlag==0)then begin
+  if(nonblank(StockMovr.FrLocation) and blank(StockMov2r.FrLocation))then begin
     LinkAndActStockMov(StockMovr);
   end;
   
