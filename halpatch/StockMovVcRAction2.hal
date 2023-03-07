@@ -730,12 +730,91 @@ BEGIN
   RETURN;
 END;
 
+global updating procedure LinkAndActStockMov(record StockMovVc StockMovr)
+begin
+  record StockMovVc StockMov2r;
+  record ActVc Actr;
+  
+  record ASTBlock ASTRec;
+  Integer curcomp,k,point;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 30 09 2021 y. at 2:56:26 PM
+  Boolean res;
+  record CUVc CUr;
+  record OrderClassVc ORClassr;
+  record ActTypeVc ActTyper;
+  record ActTypeGrVc ActTypeGrr;
+  row ActVc Actrw;
+  row ORVc ORrw;
+  record ORVc ORr;
+  row StockMovVc SMrw;
+  record INVc INr;
+  record ActVc newActr;
+  
+  if(nonblank(StockMovr.Sorting) and StockMovr.OrderNr>-1)then begin
+    StockMov2r.SerNr = stringtolongint(StockMovr.Sorting);
+    if(readfirstmain(StockMov2r,1,true))then begin
+      createrecordlink(StockMov2r,currentcompany,StockMovr,currentcompany);
+      createrecordlink(StockMovr,currentcompany,StockMov2r,currentcompany);
+      
+      recordnew(Actr);
+      
+      if(StockMovr.OrderNr>-1)then begin
+        ORr.SerNr = StockMovr.OrderNr;
+        if (ReadFirstMain(ORr,0,true)) then begin end;  
+      end;
+    
+  
+      curcomp = CurrentCompany;
+      Actr.SerNr = -1;
+      Actr.Invalid = 0;
+      Actr.TodoFlag = 1;
+      Actr.CUCode = ORr.CustCode;
+      Actr.Comment = StockMovr.Comment;
+      Actr.TransDate = CurrentDate;
+      Actr.MainPersons = right(StockMovr.ToLocation,3);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 2:54:54 PM
+      Actr.Supervisor = currentuser;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 8:51:31 PM
+      Actr.Comment = ORr.Comment;
+      Actr.Comment = StockMovr.ToLocation & " Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
+      if(nonblankdate(ORr.PlanShipDate))then begin
+        Actr.Comment = Actr.Comment & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
+      end;
+      Actr.ActType = "MOVE";
+      
+      for(k=0;k<matrowcnt(StockMovr);k=k+1)begin
+        matrowget(StockMovr,k,SMrw);
+        if(nonblank(SMrw.ArtCode))then begin
+          INr.Code = SMrw.ArtCode;
+          readfirstmain(INr,1,true);
+          Actrw.Text = INr.Group & " | " & stringtoint(SMrw.OrdQuant) & "x " & SMrw.ArtCode & " - " & SMrw.Spec;
+          matrowput(Actr,matrowcnt(Actr),Actrw);
+        end;
+      end;
+      
+      if (RecordStore(Actr,false)) then begin 
+        CreateRecordLink(Actr,curcomp,StockMovr,curcomp);  
+        CreateRecordLink(StockMovr,curcomp,Actr,curcomp);  
+        CreateRecordLink(Actr,curcomp,ORr,curcomp);  
+        CreateRecordLink(ORr,curcomp,Actr,curcomp);  
+        res = true;
+      end;
+    end;
+  end;
+
+return;
+end;
+
+
+
 global
 updating function LongInt StockMovVcRecordSaveAfter(var record StockMovVc StockMovr,record StockMovVc StockMov2r,LongInt stat,LongInt long4)
 BEGIN
   LongInt res;
   record ORVc ORr; //Edit***************************Sasha2,17:48 31.10.2014
-
+  
+  
+  if(StockMovr.OrdFlag!=0)then begin
+    LinkAndActStockMov(StockMovr);
+  end;
+  
   StockMovUpdateStock(StockMovr,StockMov2r,true,false,false);
   StockMovUpdateCostPrice(StockMovr,StockMov2r);//Cost Price before history
   StockMovUpdateItemHist(StockMovr,StockMov2r);
@@ -771,11 +850,13 @@ BEGIN
   RETURN;
 END;
 
+
+
+
 global
 updating function LongInt StockMovVcRecordSave(var record StockMovVc StockMovr,record StockMovVc StockMov2r,LongInt stat,LongInt long4)
 BEGIN
   LongInt res;
-  
   
   if ((StockMovr.OKFlag!=0)) then begin
     StockMovr.OkUser = currentuser;

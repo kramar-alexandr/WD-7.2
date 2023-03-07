@@ -2317,7 +2317,7 @@ begin
   Integer tilenr,f,flipnr;
   integer sQuant,sSentQuant;
   
-  WindowBegin("Переміщення товарів 1",StockMovDClass,CGview,-);
+  WindowBegin("Переміщення товарів",StockMovDClass,CGview,-);
   if (HasJewelleryInterface) then begin
     SetWRect(20,80,950,400);
   end else begin
@@ -2380,6 +2380,7 @@ begin
       EditField(h3,v,150,"Маршрут",Normal,Sorting,false,DelRouteSClass); v = v + vs; 
     end;
     HalPushButton(h,v,h+150,v+vs,"CreateActFromSMDDsm","Замовити товар");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 15 02 2023 y. at 9:39:20 AM
+    HalPushButton(h+150,v,h+350,v+vs,"CreateSMFromSMDDsm","Перемістити з іншого маг.");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 15 02 2023 y. at 9:39:20 AM
     if ((HasLocalization("PRT") and HasModIN and HasMultiLocations) or IsStandardProduct==false) then begin 
       EditField(h3,v,150,"Тип",Normal,StockMovType,false,SetSClass); v = v + vs; 
     end;

@@ -47,6 +47,7 @@ external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,va
 remote updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
 external procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
 external updating function boolean EasySendTurboSMS(string, string);
+external updating procedure LinkAndActStockMov(record StockMovVc);
 
 global
 updating procedure UnOKStockMovement(record StockMovVc SMr,record StockMovVc SM2r,Boolean deltrf)
@@ -204,6 +205,11 @@ BEGIN
   Integer cnt;
   string 20 phone,ofnr;
   record CUVc CUr;
+  
+  
+  if(StockMovr.OrdFlag!=0 and StockMov2r.OrdFlag==0)then begin
+    LinkAndActStockMov(StockMovr);
+  end;
   
   if (nonblank(StockMovr.ThrouLocation)) then begin
     if (StockMovr.SentOKFlag!=0) then begin
