@@ -775,7 +775,7 @@ begin
       Actr.CUCode = ORr.CustCode;
       Actr.Comment = StockMovr.Comment;
       Actr.TransDate = CurrentDate;
-      Actr.MainPersons = right(StockMovr.ToLocation,3);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 2:54:54 PM
+      Actr.MainPersons = right(StockMovr.FrLocation,3);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 2:54:54 PM
       Actr.Supervisor = currentuser;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 11 2019 y. at 8:51:31 PM
       Actr.Comment = ORr.Comment;
       Actr.Comment = StockMovr.ToLocation & " Заказ товара по счету " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
