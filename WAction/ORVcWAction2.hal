@@ -2961,7 +2961,7 @@ BEGIN
         end;
       end;
     end;
-    if((ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_CPU_12") and ORrw.Price>0)then begin
+    if((ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_12") and ORrw.Price>0)then begin
       m12flag = true;
       found = false;
       for(j=0;j<rwcnt;j=j+1)begin
@@ -2998,7 +2998,7 @@ BEGIN
         end;
       end;
     end;
-    if((ORrw.ArtCode=="ISTORE_WAR_24" or ORrw.ArtCode=="ISTORE_WAR_CPU_24") and ORrw.Price>0)then begin
+    if((ORrw.ArtCode=="ISTORE_WAR_24") and ORrw.Price>0)then begin
       m12flag = true;
       found = false;
       for(j=0;j<rwcnt;j=j+1)begin
