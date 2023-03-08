@@ -118,34 +118,6 @@ BEGIN
     end;
   end;
   
-  if(currentuser=="SA" or currentuser=="MOROZ")then begin
-      RepSpec.sStartDate = cd;
-      RepSpec.sEndDate = currentdate;
-      //RepSpec.f3 = "SHPAK";
-      CustSalesReportProc(RepSpec,false,vqty,vsum);
-      
-      getvectortags(vsum,avtags);
-      SortStringArray(avtags);
-      for(i=0;i<avtags.length;i=i+1)begin
-        tstr = tstr & avtags[i] & " " & vsum[avtags[i]] & chr(10);
-        showFlag = true;
-      end;
-      
-      tstr = tstr & chr(10);
-      
-      getvectortags(vqty,avtags);
-      SortStringArray(avtags);
-      for(i=0;i<avtags.length;i=i+1)begin
-        tstr = tstr & avtags[i] & " " & vqty[avtags[i]] & chr(10);
-        showFlag = true;
-      end;
-      
-      if(showFlag)then begin
-        messagebox(0,tstr);
-      end;
-      
-  end;
-  
   cnt=0;
   ttl=0;
   showFlag=false;
