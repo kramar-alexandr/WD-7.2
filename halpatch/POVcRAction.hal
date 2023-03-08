@@ -698,7 +698,9 @@ BEGIN
               matrowput(newAcrt,matrowcnt(newAcrt),Actrw);
             end;
           end;
-          
+          if(newAcrt.SerNr<0)then begin
+            newAcrt.SerNr = NextSerNr("ActVc",newAcrt.TransDate,-1,false,"");
+          end;
           recordstore(newAcrt,true);
           createrecordlink(POr,currentcompany,newAcrt,currentcompany);
           createrecordlink(newAcrt,currentcompany,POr,currentcompany);
