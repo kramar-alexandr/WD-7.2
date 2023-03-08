@@ -2645,6 +2645,9 @@ begin
 	    Actr.CCPersons = to & ",PODENKO,GORIN,BABICH,TALALAYEV,TARANIK";
 	  end;
 	end;
+	if(Actr.SerNr<0)then begin
+    Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+  end;
 	if(recordstore(Actr,true))then begin
 		notenr = 1;
 		while (ReadRecordLink(oldActr,notenr,ORr,RLr)) begin

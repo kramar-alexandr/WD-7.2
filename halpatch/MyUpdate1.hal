@@ -1167,7 +1167,9 @@ begin
 			//Actr.SymbNr = 3;
 			Actr.ActType = "MES";
 			Actr.MainPersons = users;
-			
+		if(Actr.SerNr<0)then begin
+		  Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+		end;
 		recordstore(Actr,true);
 	end;
 	

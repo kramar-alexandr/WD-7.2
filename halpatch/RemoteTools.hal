@@ -402,6 +402,9 @@ BEGIN
           Actr.Comment = Actr.Comment & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
         end;
         Actr.StartTime = currenttime;
+        if(Actr.SerNr<0)then begin
+          Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+        end;
         recordstore(Actr,true);
         CreateRecordLink(StockMovp,CurrentCompany,Actr,CurrentCompany);  
         CreateRecordLink(Actr,CurrentCompany,StockMovp,CurrentCompany);

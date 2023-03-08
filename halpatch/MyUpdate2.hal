@@ -2139,6 +2139,9 @@ begin
 										Actr.TodoFlag = kTodoFlagTodo;
 										Actr.ActType = "MES";
 										Actr.MainPersons = "KUDINA,TARANIK,TKACHENKO,SA,SKLAD";
+									if(Actr.SerNr<0)then begin
+                    Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+                  end;
 									recordstore(Actr,true);
 									createrecordlink(Actr,currentcompany,SMr,currentcompany);
 									createrecordlink(SMr,currentcompany,Actr,currentcompany);
@@ -2172,6 +2175,9 @@ begin
 			Actr.TodoFlag = kTodoFlagTodo;
 			Actr.ActType = "MES";
 			Actr.MainPersons = "KUDINA,TARANIK,TKACHENKO,SA,SKLAD";
+		if(Actr.SerNr<0)then begin
+		  Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+		end;
 		recordstore(Actr,true);
 		createrecordlink(Actr,currentcompany,SMr,currentcompany);
 		createrecordlink(SMr,currentcompany,Actr,currentcompany);
@@ -2208,6 +2214,9 @@ begin
 					Actr.TodoFlag = kTodoFlagTodo;
 					Actr.ActType = "MES";
 					Actr.MainPersons = "SA,SKLAD,KUDINA";
+				if(Actr.SerNr<0)then begin
+          Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+        end;
 				recordstore(Actr,true);
 				createrecordlink(Actr,currentcompany,SHr,currentcompany);
 				createrecordlink(SHr,currentcompany,Actr,currentcompany);

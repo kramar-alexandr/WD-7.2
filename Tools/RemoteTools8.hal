@@ -1670,6 +1670,9 @@ begin
   if (ReadFirstMain(CUr,1,true)) then begin
     Actr.Phone = CUr.Phone;
   end;
+  if(Actr.SerNr<0)then begin
+    Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+  end;
   if (RecordStore(Actr,false)) then begin 
     CreateRecordLink(Actr,curcomp,PRr,curcomp);  
     CreateRecordLink(PRr,curcomp,Actr,curcomp);  
