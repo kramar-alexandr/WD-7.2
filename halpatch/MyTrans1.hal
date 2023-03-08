@@ -13,7 +13,7 @@ external updating procedure RDBBuildAllDataMn();
 external updating procedure RDBDoClearDataMn();
 SetLangMode(LangRussian,"RUS",0);
 
-global updating procedure CheckStockMovForSMS(boolean printf)
+global updating procedure CheckStockMovForSMS(boolean printf,string location)
 begin
   record StockMovVc SMr;
   boolean TrHs,testf;
@@ -34,7 +34,9 @@ begin
   while(loopkey("SentTransDate",SMr,1,TrHs))begin
     testf = true;
     if(SMr.SentTransDate!=currentdate)then begin TrHs = false; testf = false;  end;
-    if(SMr.ToLocation!="INV#1_KRS")then begin testf = false; end;
+    if(nonblank(location))then begin
+      if(!setinset(SMr.ToLocation,location))then begin testf = false; end;
+    end;
     if(SMr.OrderNr<0)then begin testf = false; end;
     if(testf)then begin
       ORr.SerNr = SMr.OrderNr;
@@ -67,7 +69,7 @@ global updating procedure CheckStockMovForSMSRn(record RcVc RepSpec)
 begin
   
   startreportnoheaderjob("CheckStockMovForSMSRn");
-  CheckStockMovForSMS(true);
+  CheckStockMovForSMS(true,"INV#1_KRS,INV#1_NBR");
   endjob;
 return;
 end;
@@ -222,10 +224,17 @@ begin
 	
 	if(DRB.LastSMSCheck!=currentdate)then begin
 	  if(currenttime>stringtotime("17:00"))then begin
-	    CheckStockMovForSMS(false);
+	    CheckStockMovForSMS(false,"INV#1_KRS");
 	    DRB.LastSMSCheck = currentdate;
 	    BlockStore(DRB);
-	  end;
+	  end;	  
+	end;
+	if(DRB.LastSMSCheck2!=currentdate)then begin
+	  if(currenttime>stringtotime("17:30"))then begin
+	    CheckStockMovForSMS(false,"INV#1_NBR");
+	    DRB.LastSMSCheck2 = currentdate;
+	    BlockStore(DRB);
+	  end;	  
 	end;
 	
 	setcompany(1,false);
