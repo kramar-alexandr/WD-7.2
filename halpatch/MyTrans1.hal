@@ -11,13 +11,18 @@ external function string 255 ChekUnicode(string,var vector string);
 external updating function boolean EasySendTurboSMS(string, string);
 external updating procedure RDBBuildAllDataMn();
 external updating procedure RDBDoClearDataMn();
+external updating procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
+
+
+
+
 SetLangMode(LangRussian,"RUS",0);
 
 global updating procedure CheckStockMovForSMS(boolean printf,string location)
 begin
   record StockMovVc SMr;
   boolean TrHs,testf;
-  record ORVc ORr;
+  record ORVc ORr,oldORr;
   
   if(printf)then begin
     startformat(15);
@@ -46,6 +51,9 @@ begin
     if(blank(ORr.Phone))then begin
       testf = false;
     end;
+    if(ORr.NoSMS==1)then begin
+      testf = false;
+    end;
     
     if(testf)then begin
       
@@ -58,7 +66,18 @@ begin
           outstring(250,0,SMr.ToLocation,false);
         endformat;
       end else begin
-      
+        if(SMr.ToLocation=="INV#1_NBR")then begin
+          ORr.TochkaVidachi = "NBR";
+        end;
+        if(SMr.ToLocation=="INV#1_KRS")then begin
+          ORr.TochkaVidachi = "METROGRAD";
+        end;
+        ORr.OrderStatusCode = 6;
+        ORr.ReadyToSentDate = currentdate;
+        ORr.ReadyToSentTime = currenttime;
+        ORr.OrderStatusText = "Готовий до видачі";
+        recordstore(ORr,true);
+        SendORStatusToViber(ORr,"6");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
       end;
     end;
   end;
