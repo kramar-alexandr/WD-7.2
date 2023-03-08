@@ -629,14 +629,14 @@ begin
   rwcnt = matrowcnt(ORr);
   for(i=0;i<rwcnt;i=i+1) begin
     matrowget(ORr,i,ORrw);
-    if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24")then begin
+    if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24" or ORrw.ArtCode=="ISTORE_WAR_CPU_12" or ORrw.ArtCode=="ISTORE_WAR_CPU_24")then begin
       ORrw.GarantyFor = blankval;
       matrowput(ORr,i,ORrw);
     end;
       
     if(transf)then begin
       if(currentcompany==13)then begin
-        if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24")then begin
+        if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24" or ORrw.ArtCode=="ISTORE_WAR_CPU_12" or ORrw.ArtCode=="ISTORE_WAR_CPU_24")then begin
           ORrw.GarantyFor = blankval;
           matrowput(ORr,i,ORrw);
           if(blank(ORrw.SerialNr))then begin
@@ -1374,7 +1374,7 @@ begin
             res = -1;
             goto LORVcRecordCheck;
           end;
-          if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24")then begin
+          if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24" or ORrw.ArtCode=="ISTORE_WAR_CPU_12" or ORrw.ArtCode=="ISTORE_WAR_CPU_24")then begin
           end else begin
             if (IsSerialNrCorrect(ORrw.SerialNr)==false) then begin
               RecordCheckError(24154,ORrw.SerialNr,i,"SerialNr");      
