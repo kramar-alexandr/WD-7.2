@@ -66,18 +66,22 @@ begin
           outstring(250,0,SMr.ToLocation,false);
         endformat;
       end else begin
+      
         if(SMr.ToLocation=="INV#1_NBR")then begin
           ORr.TochkaVidachi = "NBR";
         end;
         if(SMr.ToLocation=="INV#1_KRS")then begin
           ORr.TochkaVidachi = "METROGRAD";
         end;
-        ORr.OrderStatusCode = 6;
-        ORr.ReadyToSentDate = currentdate;
-        ORr.ReadyToSentTime = currenttime;
-        ORr.OrderStatusText = "Готовий до видачі";
-        recordstore(ORr,true);
-        SendORStatusToViber(ORr,"6");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+        if(ORr.OrderStatusCode!=6 and ORr.OrderStatusCode!=3)then begin
+          ORr.OrderStatusCode = 6;
+          ORr.ReadyToSentDate = currentdate;
+          ORr.ReadyToSentTime = currenttime;
+          ORr.OrderStatusText = "Готовий до видачі";
+          recordstore(ORr,true);
+          SendORStatusToViber(ORr,"6");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+        end;
+        
       end;
     end;
   end;
