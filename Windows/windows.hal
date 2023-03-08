@@ -36,6 +36,18 @@ begin
   EndWindow;
 end;
 
+window BlankRClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,h3,h4,t,v,vm,vs;
+  Integer tilenr,f,flipnr;
+	
+  WindowBegin("‡â´ò",BlankRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    h=100;
+  EndWindow;
+end;
+
 window SalesReportRClass:1
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
