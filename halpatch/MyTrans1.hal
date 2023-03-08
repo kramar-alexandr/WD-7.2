@@ -25,6 +25,7 @@ begin
       outstring(50,0,"Переміщення",false);
       outstring(100,0,"Клієнт",false);
       outstring(200,0,"Телефон",false);
+      outstring(250,0,"На склад",false);
     endformat;
   end;
   
@@ -54,6 +55,7 @@ begin
           outstring(50,"DblStockMovVc",SMr.SerNr,false);
           outstring(100,0,ORr.Addr0,false);
           outstring(200,0,ORr.Phone,false);
+          outstring(250,0,SMr.ToLocation,false);
         endformat;
       end else begin
       
