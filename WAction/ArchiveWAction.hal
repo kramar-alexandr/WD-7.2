@@ -93,39 +93,42 @@ begin
 	wn = curwindow;
 	deselectwindow(wn,true);
 	getwindowrecord(wn,Actr);
-  if(Actr.ActType=="ZAKAZ")then begin
+  if(Actr.ActType=="ZAKAZ" or Actr.ActType=="PRIHO")then begin
     cnt = 1;
-    if(ReadRecordLink(Actr,cnt,SMr,RLr))then begin
-      if(SMr.SerNr>0)then begin
-        ReadRecordLink(SMr,1,ORr,RLr)
-        if(ReadRecordLink(Actr,1,POr,RLr)==false)then begin
-          recordnew(POr);
-          POr.VECode = "ODER";
-          POVc_PasteVECode(POr,true);
-          POr.Location = "OFFICE";
-          POr.SerNr = NextSerNr("POVc",POr.TransDate,-1,false,"");
-          POr.Comment = Actr.Comment;
-          POr.POClass = "PURCH";
-          if(nonblank(Actr.ArtCode))then begin
-            POrw.ArtCode = Actr.ArtCode;
-            MatRowPut(POr,0,POrw);      
-            if (POVc_PasteArtCode(POr,0,false)) then begin end;
-            MatRowGet(POr,0,POrw); 
-            POrw.Quant = Actr.Value;
-            POrw.Price = blankval;
-            
-            MatRowPut(POr,0,POrw);
-          end;
-          recordstore(POr,true);
-          createrecordlink(POr,currentcompany,SMr,currentcompany);
-          createrecordlink(SMr,currentcompany,POr,currentcompany);
-          createrecordlink(POr,currentcompany,Actr,currentcompany);
-          createrecordlink(Actr,currentcompany,POr,currentcompany);
-        end;
-        OpenWindow("PODClass",1,0,"","",POr); 
+    ReadRecordLink(Actr,1,SMr,RLr);
+    ReadRecordLink(Actr,1,ORr,RLr);
+    if(ReadRecordLink(Actr,1,POr,RLr)==false)then begin
+      recordnew(POr);
+      POr.VECode = "ODER";
+      POVc_PasteVECode(POr,true);
+      POr.Location = "OFFICE";
+      POr.SerNr = NextSerNr("POVc",POr.TransDate,-1,false,"");
+      POr.Comment = Actr.Comment;
+      POr.POClass = "PURCH";
+      if(nonblank(Actr.ArtCode))then begin
+        POrw.ArtCode = Actr.ArtCode;
+        MatRowPut(POr,0,POrw);      
+        if (POVc_PasteArtCode(POr,0,false)) then begin end;
+        MatRowGet(POr,0,POrw); 
+        POrw.Quant = Actr.Value;
+        POrw.Price = blankval;
         
+        MatRowPut(POr,0,POrw);
       end;
+      recordstore(POr,true);
+      if(SMr.SerNr>-1)then begin
+        createrecordlink(POr,currentcompany,SMr,currentcompany);
+        createrecordlink(SMr,currentcompany,POr,currentcompany);
+      end;
+      if(ORr.SerNr>-1)then begin
+        createrecordlink(POr,currentcompany,ORr,currentcompany);
+        createrecordlink(ORr,currentcompany,POr,currentcompany);
+      end;
+      
+      createrecordlink(POr,currentcompany,Actr,currentcompany);
+      createrecordlink(Actr,currentcompany,POr,currentcompany);
     end;
+    OpenWindow("PODClass",1,0,"","",POr); 
   end else begin
     beep;
   end;
