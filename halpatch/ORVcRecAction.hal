@@ -633,6 +633,10 @@ begin
       ORrw.GarantyFor = blankval;
       matrowput(ORr,i,ORrw);
     end;
+    if(ORrw.ArtCode=="ISTORE_WAR_CPU_12" or ORrw.ArtCode=="ISTORE_WAR_CPU_24")then begin
+      ORrw.GarantyFor = blankval;
+      matrowput(ORr,i,ORrw);
+    end;
       
     if(transf)then begin
       if(currentcompany==13)then begin

@@ -964,6 +964,9 @@ begin
       if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24")then begin
         psname = "TSerialNrSClass";
       end;
+      if(ORrw.ArtCode=="ISTORE_WAR_CPU_12" or ORrw.ArtCode=="ISTORE_WAR_CPU_24")then begin
+        psname = "TSerialNrSClass";
+      end;
     end;
     
   end;
