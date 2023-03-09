@@ -1307,17 +1307,14 @@ begin
 		
 		text[""] = "Гарантія iStore для Mac " & garmonths & " місяців";
 		TLTOARRVECTOR(checklength,text,aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
 		if(garmonths==24)then begin
 		  text[""] = garmonths & " місяця гарантії від заводських дефектів для Mac.";
 		end else begin
 		  text[""] = garmonths & " місяців гарантії від заводських дефектів для Mac.";
 		end;
 		TLTOARRVECTOR(checklength,text,aFile);
-    addtexttoarea(chr(13) & chr(10),aFile);
     text[""] = "Знижка 10% на ремонт, при негарантійному випадку";
 		TLTOARRVECTOR(checklength,text,aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
 		if(garmonths==12)then begin
 		  text[""] = "Безкоштовна встановлення Microsoft Office 2019.";
 		end;
@@ -1325,16 +1322,12 @@ begin
 		  text[""] = "Безкоштовна встановлення Microsoft Office 2021.";
 		end;
 		TLTOARRVECTOR(checklength,text,aFile);
-    addtexttoarea(chr(13) & chr(10),aFile);
 		text[""] = "Безкоштовна чистка від пилу з заміною термопасти один раз на час дii пакет";
 		TLTOARRVECTOR(checklength,text,aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
 		text[""] = "Оцінка Вашого iPhone + 5% більше від калькуляції на сайті, при здачі його у Trade-in.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
 		text[""] = "Безкоштовна технічна консультація впродовж всього гарантійного терміну.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
 	  
 	  addtexttoarea(chr(13) & chr(10),aFile);
 	  addtexttoarea(chr(13) & chr(10),aFile);
