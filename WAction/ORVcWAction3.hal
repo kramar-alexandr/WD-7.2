@@ -773,6 +773,8 @@ begin
       if(currentcompany==13)then begin
         SendORStatusToViber(ORr,"1");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
       end;
+    end else begin
+      WindowDoCancel(wn);
     end;
 	end else begin
 		messagebox(0,"Сначала сохраните запись");
@@ -846,7 +848,8 @@ begin
       end;
     end else begin
       ORr.OKFlag = 0;
-      putwindowrecord(wn,ORr);
+      WindowDoCancel(wn);
+      //putwindowrecord(wn,ORr);
     end;
 		
 	end else begin
@@ -933,8 +936,9 @@ begin
         logtext(0,"ORr.Finished " & ORr.Finished);
       end;
     end else begin
-      ORr.OKFlag = 0;
-      putwindowrecord(wn,ORr);
+      WindowDoCancel(wn);
+      //ORr.OKFlag = 0;
+      //putwindowrecord(wn,ORr);
     end;
 	end else begin
 		messagebox(0,"Сначала сохраните запись");
@@ -975,6 +979,8 @@ begin
       if(currentcompany==13)then begin
         SendORStatusToViber(ORr,"4");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
       end;
+		end else begin
+		  WindowDoCancel(wn);
 		end;
 	end else begin
 		messagebox(0,"Сначала сохраните запись");
@@ -1131,6 +1137,8 @@ begin
       if(currentcompany==13)then begin
         SendORStatusToViber(ORr,"5");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
       end;
+		end else begin
+		  WindowDoCancel(wn);
 		end;
 	end else begin
 		messagebox(0,"Сначала сохраните запись");
@@ -1183,6 +1191,8 @@ begin
           logtext(0," ORr.NoSMS " &  ORr.NoSMS);
           SendORStatusToViber(ORr,"6");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
         end;
+			end else begin
+			  WindowDoCancel(wn);
 			end;
 		end else begin
 			messagebox(0,"Замовлення вже видано");

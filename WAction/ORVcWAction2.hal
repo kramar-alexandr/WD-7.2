@@ -1998,6 +1998,8 @@ BEGIN
         ORr.Location = Userr.ReservLocation;
         PutWindowRecord(wn,ORr);
         if (WindowDOOK(wn,0)) then begin
+        end else begin
+          WindowDoCancel(wn);
         end;
       end;
     end;
@@ -2437,6 +2439,7 @@ begin
 //          CloseWindow(wn);
         end else begin
           cancelf = true;
+          WindowDoCancel(wn);
           RecordDelete(PRr);
         end;
       end else begin
