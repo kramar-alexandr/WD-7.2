@@ -114,7 +114,7 @@ BEGIN
         end;
       
         if(showFlag)then begin
-          //messagebox(0,tstr);
+          messagebox(0,tstr);
         end;
       end;
     end;
@@ -125,7 +125,7 @@ BEGIN
 		if(USr.IsSalesMan==1)then begin
 		  recordnew(RepSpec);
 			RepSpec.flags[1] = stringtoint(USr.Phone2);
-			//OpenWindow("SelectSVOPointWClass",0,0,"","",RepSpec);
+			OpenWindow("SelectSVOPointWClass",0,0,"","",RepSpec);
 		end;
 	end;
 	
@@ -969,7 +969,7 @@ LOnLoginAfterMaster99:;
       SelectWindow(nwn);
     end;
   end;
-  ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:35 PM
+  //ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:35 PM
   InitLogActions;
 end;
 
