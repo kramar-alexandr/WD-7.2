@@ -99,21 +99,23 @@ BEGIN
       CustSalesReportProc(RepSpec,false,vqty,vsum);
       
       getvectortags(vsum,avtags);
-      SortStringArray(avtags);
-      for(i=0;i<avtags.length;i=i+1)begin
-        tstr = tstr & avtags[i] & " " & vsum[avtags[i]] & chr(10);
-        showFlag = true;
-      end;
-      tstr = tstr & chr(10);
-      getvectortags(vqty,avtags);
-      SortStringArray(avtags);
-      for(i=0;i<avtags.length;i=i+1)begin
-        tstr = tstr & avtags[i] & " " & vqty[avtags[i]] & chr(10);
-        showFlag = true;
-      end;
+      if(avtags.length>1)then begin
+        SortStringArray(avtags);
+        for(i=0;i<avtags.length;i=i+1)begin
+          tstr = tstr & avtags[i] & " " & vsum[avtags[i]] & chr(10);
+          showFlag = true;
+        end;
+        tstr = tstr & chr(10);
+        getvectortags(vqty,avtags);
+        SortStringArray(avtags);
+        for(i=0;i<avtags.length;i=i+1)begin
+          tstr = tstr & avtags[i] & " " & vqty[avtags[i]] & chr(10);
+          showFlag = true;
+        end;
       
-      if(showFlag)then begin
-        messagebox(0,tstr);
+        if(showFlag)then begin
+          messagebox(0,tstr);
+        end;
       end;
     end;
   end;
