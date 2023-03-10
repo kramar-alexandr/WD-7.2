@@ -302,12 +302,10 @@ begin
                   DIr.DispGroups = "UNKNOWN";
                 end;
                 if(DIr.CType=="SUM")then begin
-                  logtext(0,"Add to vsum " & DIr.DispGroups & " " & IVrw.Sum*cred);
                   vsum[DIr.DispGroups] = vsum[DIr.DispGroups] + IVrw.Sum*cred;
                 end;
                 if(DIr.CType=="QUANT")then begin
                   vqty[DIr.DispGroups] = vqty[DIr.DispGroups] + IVrw.Quant*cred;
-                  logtext(0,"Add to vsvqtyum " & DIr.DispGroups & " " & IVrw.Quant*cred);
                 end;
                   
                   
