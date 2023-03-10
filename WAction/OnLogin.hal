@@ -117,17 +117,11 @@ BEGIN
       end;
     end;
   end;
-  
-  cnt=0;
-  ttl=0;
-  showFlag=false;
-	if(showFlag==true) begin
-			MessageBox(0,"Співробітник:" & CurrentUser & "   Кількість ремонтів:" & cnt & "   Прибуток:" & ttl);
-	end;
 	
 	USr.Code = CurrentUser;
 	if(readfirstmain(USr,1,true))then begin
 		if(USr.IsSalesMan==1)then begin
+		  recordnew(RepSpec);
 			RepSpec.flags[1] = stringtoint(USr.Phone2);
 			OpenWindow("SelectSVOPointWClass",0,0,"","",RepSpec);
 		end;
