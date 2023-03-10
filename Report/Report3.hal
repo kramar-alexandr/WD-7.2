@@ -298,6 +298,9 @@ begin
                 end;  
                 DIr.Code = INr.DispGroups;
                 readfirstmain(DIr,1,true);
+                if(blank(DIr.DispGroups))then begin
+                  DIr.DispGroups = "UNKNOWN";
+                end;
                 if(DIr.CType=="SUM")then begin
                   logtext(0,"Add to vsum " & DIr.DispGroups & " " & IVrw.Sum*cred);
                   vsum[DIr.DispGroups] = vsum[DIr.DispGroups] + IVrw.Sum*cred;
