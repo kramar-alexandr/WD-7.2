@@ -96,6 +96,9 @@ BEGIN
       RepSpec.sStartDate = cd;
       RepSpec.sEndDate = currentdate;
       RepSpec.f3 = USr.Code;
+      logtext(0,"RepSpec.sStartDate " & RepSpec.sStartDate);
+      logtext(0,"RepSpec.sEndDate " & RepSpec.sEndDate);
+      logtext(0,"RepSpec.f3 " & RepSpec.f3);
       CustSalesReportProc(RepSpec,false,vqty,vsum);
       
       getvectortags(vsum,avtags);
@@ -118,10 +121,9 @@ BEGIN
           logtext(0,tstr);
           showFlag = true;
         end;
-      
-        if(showFlag)then begin
-          messagebox(0,tstr);
-        end;
+      end;
+      if(showFlag)then begin
+        messagebox(0,tstr);
       end;
     end;
   end;
