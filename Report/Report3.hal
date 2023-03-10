@@ -286,7 +286,7 @@ begin
               
               if(filtered)then begin
                 if(printf)then begin
-                startformat(15);
+                  startformat(15);
                   OutString(0,0,IVr.CustCode,false);
                   OutString(60,0,IVr.InvDate,false);
                   OutString(60,"DblIVVc",IVr.SerNr,false);
@@ -296,70 +296,70 @@ begin
                   OutString(200,0,IVrw.Spec,false);
                   OutString(200,0,INr.DispGroups,false);
                 end;  
-                  DIr.Code = INr.DispGroups;
-                  readfirstmain(DIr,1,true);
-                  if(DIr.CType=="SUM")then begin
-                    vsum[DIr.DispGroups] = vsum[DIr.DispGroups] + IVrw.Sum*cred;
-                  end;
-                  if(DIr.CType=="QUANT")then begin
-                    vqty[DIr.DispGroups] = vqty[DIr.DispGroups] + IVrw.Quant*cred;
-                  end;
+                DIr.Code = INr.DispGroups;
+                readfirstmain(DIr,1,true);
+                if(DIr.CType=="SUM")then begin
+                  vsum[DIr.DispGroups] = vsum[DIr.DispGroups] + IVrw.Sum*cred;
+                end;
+                if(DIr.CType=="QUANT")then begin
+                  vqty[DIr.DispGroups] = vqty[DIr.DispGroups] + IVrw.Quant*cred;
+                end;
                   
                   
                   
-                  if(printf)then begin
-                    OutString(200,0,DIr.DispGroups,false);
-                    OutString(200,0,DIr.CType,false);
-                    OutString(330,0,IVrw.SerialNr,false);
+                if(printf)then begin
+                  OutString(200,0,DIr.DispGroups,false);
+                  OutString(200,0,DIr.CType,false);
+                  OutString(330,0,IVrw.SerialNr,false);
+                end;
+                indate = bd;
+                if(nonblank(IVrw.SerialNr) and INr.ItemType==1)then begin
+                  IHr.ArtCode = INr.Code;
+                  IHr.SerialNr = IVrw.SerialNr;
+                  TrHs2 = true;
+                  while(loopkey("CodeSerialNrArtCode",IHr,2,TrHs2))begin
+                    if(IHr.ArtCode!=INr.Code)then begin TrHs2 = false; end;
+                    if(IHr.SerialNr!=IVrw.SerialNr)then begin TrHs2 = false; end;
+                    
+                    if(TrHs2)then begin
+                      if(IHr.FileName=="PUVc")then begin
+                        indate = IHr.TransDate;
+                      end;
+                    end;  
                   end;
-                  indate = bd;
-                  if(nonblank(IVrw.SerialNr) and INr.ItemType==1)then begin
-                    IHr.ArtCode = INr.Code;
-                    IHr.SerialNr = IVrw.SerialNr;
-                    TrHs2 = true;
-                    while(loopkey("CodeSerialNrArtCode",IHr,2,TrHs2))begin
-                      if(IHr.ArtCode!=INr.Code)then begin TrHs2 = false; end;
-                      if(IHr.SerialNr!=IVrw.SerialNr)then begin TrHs2 = false; end;
-                      
-                      if(TrHs2)then begin
-                        if(IHr.FileName=="PUVc")then begin
-                          indate = IHr.TransDate;
-                        end;
-                      end;  
-                    end;
-                    resetloop(IHr);
-                  end;  
-                  if(printf)then begin
-                    if(nonblankdate(indate))then begin
-                      OutString(330,0,indate,false);
-                      OutString(330,0,datediff(IVr.InvDate,indate),false);
-                    end else begin
-                      OutString(330,0,"",false);
-                      OutString(330,0,"",false);
-                    end;
+                  resetloop(IHr);
+                end;  
+                if(printf)then begin
+                  if(nonblankdate(indate))then begin
+                    OutString(330,0,indate,false);
+                    OutString(330,0,datediff(IVr.InvDate,indate),false);
+                  end else begin
+                    OutString(330,0,"",false);
+                    OutString(330,0,"",false);
+                  end;
+                
+                  OutString(330,0,ORr.SalesMan,false);
+                  OutString(330,0,ORr.Location,false);
+                  OutString(1,0,INr.Group,false);
+                  OutString(370,0,IVrw.Quant*cred,false);
+                  OutString(405,0,IVrw.vRebate,false);
+                  OutString(310,0,IVrw.Price,false);
+                  OutString(460,0,IVrw.Sum*cred,false);
+                end;
+                if(IVr.FrRate!=0)then begin
+                  IVrw.FIFO = IVrw.FIFO * IVr.FrRate;
+                end;
+                if(printf)then begin
+                  if(usercanaction("ViewCostPrice",false))then begin
+                    OutString(330,0,IVrw.FIFO*cred,false);
+                    OutString(330,0,(IVrw.Sum - IVrw.FIFO)*cred,false);
+                  end;
+                end;
                   
-                    OutString(330,0,ORr.SalesMan,false);
-                    OutString(330,0,ORr.Location,false);
-                    OutString(1,0,INr.Group,false);
-                    OutString(370,0,IVrw.Quant*cred,false);
-                    OutString(405,0,IVrw.vRebate,false);
-                    OutString(310,0,IVrw.Price,false);
-                    OutString(460,0,IVrw.Sum*cred,false);
-                  end;
-                  if(IVr.FrRate!=0)then begin
-                    IVrw.FIFO = IVrw.FIFO * IVr.FrRate;
-                  end;
-                  if(printf)then begin
-                    if(usercanaction("ViewCostPrice",false))then begin
-                      OutString(330,0,IVrw.FIFO*cred,false);
-                      OutString(330,0,(IVrw.Sum - IVrw.FIFO)*cred,false);
-                    end;
-                  end;
                   
-                  
-                  totalcost = totalcost + IVrw.FIFO*cred*IVrw.Quant;
-                  totalsum = totalsum + IVrw.Sum*cred;
-                  totalgp = totalgp + (IVrw.Sum - IVrw.FIFO)*cred;
+                totalcost = totalcost + IVrw.FIFO*cred*IVrw.Quant;
+                totalsum = totalsum + IVrw.Sum*cred;
+                totalgp = totalgp + (IVrw.Sum - IVrw.FIFO)*cred;
                 
                 if(printf)then begin
                   endformat;
@@ -422,7 +422,6 @@ begin
           OutString(0,0,vqty[avtags[i]],false);
         endformat;
       end;
-      
     end;
     
     
