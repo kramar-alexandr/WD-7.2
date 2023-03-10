@@ -76,6 +76,7 @@ remote procedure HandleBixolonWarrantyM(record ORVc,var area,boolean,integer,str
 remote procedure HandleBixolonWarrantyMAC(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);
 remote function val CommisionCodeBlockComission(string);
+remote procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -2803,6 +2804,7 @@ record CUVc CUr;
             ORr.InWorkTime = currenttime;
 					  
 					  recordstore(ORr,true);
+					  SendORStatusToViber(ORr,"1");
 					  putwindowrecord(wn,ORr);
 					  ReRunWindowDef(wn);
 					end;
