@@ -96,7 +96,7 @@ BEGIN
       RepSpec.sStartDate = cd;
       RepSpec.sEndDate = currentdate;
       RepSpec.f3 = currentuser;
-      CustSalesReportProc(RepSpec,false,vqty,vsum);
+      //CustSalesReportProc(RepSpec,false,vqty,vsum);
       
       getvectortags(vsum,avtags);
       if(avtags.length>1)then begin
@@ -969,7 +969,7 @@ LOnLoginAfterMaster99:;
       SelectWindow(nwn);
     end;
   end;
-  //ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:35 PM
+  ShowUserInfo;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 16 07 2020 y. at 1:19:35 PM
   InitLogActions;
 end;
 

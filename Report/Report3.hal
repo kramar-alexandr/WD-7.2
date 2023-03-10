@@ -349,12 +349,12 @@ begin
                   if(IVr.FrRate!=0)then begin
                     IVrw.FIFO = IVrw.FIFO * IVr.FrRate;
                   end;
-                if(printf)then begin
-                  if(usercanaction("ViewCostPrice",false))then begin
-                    OutString(330,0,IVrw.FIFO*cred,false);
-                    OutString(330,0,(IVrw.Sum - IVrw.FIFO)*cred,false);
+                  if(printf)then begin
+                    if(usercanaction("ViewCostPrice",false))then begin
+                      OutString(330,0,IVrw.FIFO*cred,false);
+                      OutString(330,0,(IVrw.Sum - IVrw.FIFO)*cred,false);
+                    end;
                   end;
-                end;
                   
                   
                   totalcost = totalcost + IVrw.FIFO*cred*IVrw.Quant;
@@ -400,7 +400,9 @@ begin
       endformat;
       
       getvectortags(vsum,avtags);
-      SortStringArray(avtags);
+      if(avtags.length>1)then begin
+        SortStringArray(avtags);
+      end;
       for(i=0;i<avtags.length;i=i+1)begin
         startformat(15);
           OutString(0,0,avtags[i],false);
@@ -411,7 +413,9 @@ begin
       endformat;
       
       getvectortags(vqty,avtags);
-      SortStringArray(avtags);
+      if(avtags.length>1)then begin
+        SortStringArray(avtags);
+      end;
       for(i=0;i<avtags.length;i=i+1)begin
         startformat(15);
           OutString(0,0,avtags[i],false);
