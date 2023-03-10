@@ -1193,7 +1193,7 @@ begin
 lOrderSetToST6Dsm:;
 return;
 end;
-
+ 
 
 global // Edit ************************** BPI Ukraine - KramarAlexandr - 03, 22 05 2019 y. at 6:25:50 PM
 function Boolean RejectStrSClassOnOKWindow(Integer wn)
