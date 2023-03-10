@@ -125,7 +125,7 @@ BEGIN
 		if(USr.IsSalesMan==1)then begin
 		  recordnew(RepSpec);
 			RepSpec.flags[1] = stringtoint(USr.Phone2);
-			OpenWindow("SelectSVOPointWClass",0,0,"","",RepSpec);
+			//OpenWindow("SelectSVOPointWClass",0,0,"","",RepSpec);
 		end;
 	end;
 	
