@@ -161,7 +161,7 @@ end;
 
 
 
-global procedure CustSalesReportProc(record RcVc RepSpec,boolean printf,vector val vqty,vector val vsum)
+global procedure CustSalesReportProc(record RcVc RepSpec,boolean printf,var vector val vqty,var vector val vsum)
 begin
   record IVVc IVr;
   row IVVc IVrw;

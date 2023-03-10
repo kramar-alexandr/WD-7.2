@@ -95,7 +95,7 @@ BEGIN
 	  if(USr.IsSalesMan==1)then begin
       RepSpec.sStartDate = cd;
       RepSpec.sEndDate = currentdate;
-      RepSpec.f3 = currentuser;
+      RepSpec.f3 = USr.Code;
       CustSalesReportProc(RepSpec,false,vqty,vsum);
       
       getvectortags(vsum,avtags);
