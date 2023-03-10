@@ -103,7 +103,7 @@ BEGIN
       logtext(0,"RepSpec.sEndDate " & RepSpec.sEndDate);
       logtext(0,"RepSpec.f3 " & RepSpec.f3);
       CustSalesReportProc(RepSpec,false,vqty,vsum);
-      
+      logtext(0,"CustSalesReportProc fin");
       getvectortags(vsum,avtags);
       logtext(0,"avtags.length " & avtags.length);
       if(avtags.length>1)then begin
