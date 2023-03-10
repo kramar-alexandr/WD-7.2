@@ -96,14 +96,8 @@ BEGIN
       RepSpec.sStartDate = cd;
       RepSpec.sEndDate = currentdate;
       RepSpec.f3 = USr.Code;
-      logtext(0,"RepSpec.sStartDate " & RepSpec.sStartDate);
-      logtext(0,"RepSpec.sEndDate " & RepSpec.sEndDate);
-      logtext(0,"RepSpec.f3 " & RepSpec.f3);
-      logtext(0,"CustSalesReportProc start");
       CustSalesReportProc(RepSpec,false,vqty,vsum);
-      logtext(0,"CustSalesReportProc fin");
       getvectortags(vsum,avtags);
-      logtext(0,"avtags.length " & avtags.length);
       if(avtags.length>1)then begin
         SortStringArray(avtags);
         for(i=0;i<avtags.length;i=i+1)begin
@@ -114,7 +108,6 @@ BEGIN
         tstr = tstr & chr(10);
       end;
       getvectortags(vqty,avtags);
-      logtext(0,"avtags.length " & avtags.length);
       if(avtags.length>1)then begin
         SortStringArray(avtags);
         for(i=0;i<avtags.length;i=i+1)begin
