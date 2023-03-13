@@ -1546,7 +1546,7 @@ begin
       setareazerosize(orarea);
       CreateORJson(ORr,orarea);
       AddAreaToArea(orarea,resarea);   
-      addtexttoarea("," & chr(13) & chr(19),resarea);
+      addtexttoarea("," & chr(13) & chr(10),resarea);
     end;
   end;
   delLastComaInArea(resarea);
