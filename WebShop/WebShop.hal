@@ -1563,8 +1563,12 @@ begin
 record CUVc CUr;
 string 100 phone,password;
 
+  setcompany(13,false);
+  logtext(0,"WebFindCustomersOrders");
+  
   phone = WebGetArg("phone");
   password = WebGetArg("password");
+  logtext(0,"phone " & phone & " password " & password);
   
   if(password=="tehdfgvhbnjmk")then begin
     CUr.Code = phone;
