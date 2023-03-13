@@ -1529,21 +1529,28 @@ return;
 end;
 
 
-procedure OutThisCustomer(record CUVc CUr)
+procedure OutThisCustomer(record CUVc CUr,string order)
 begin
   record ORVc ORr;
-  boolean TrHs;
+  boolean TrHs,testf;
   area resarea,orarea;
   
   TrHs = true;
   ORr.CustCode = CUr.Code;
   addtexttoarea("[",resarea);
   while(loopkey("CustCode",ORr,1,TrHs))begin
+    testf = true;
     if(ORr.CustCode!=CUr.Code)then begin
       TrHs = false;
+      testf = false;
+    end;
+    if(nonblank(order))then begin
+      if(ORr.SerNr!=stringtolongint(order) and ORr.CustOrdNr!=order)then begin
+        testf = false;
+      end;
     end;
     
-    if(TrHs)then begin
+    if(testf)then begin
       setareazerosize(orarea);
       CreateORJson(ORr,orarea);
       AddAreaToArea(orarea,resarea);   
@@ -1562,23 +1569,26 @@ end;
 global webpublic procedure WebFindCustomersOrders()
 begin
 record CUVc CUr;
-string 100 phone,password;
+string 100 phone,password,order;
 
   setcompany(13,false);
   logtext(0,"WebFindCustomersOrders");
   
   phone = WebGetArg("phone");
   password = WebGetArg("password");
+  order = WebGetArg("order");
   logtext(0,"phone " & phone & " password " & password);
   
   if(password=="tehdfgvhbnjmk")then begin
-    CUr.Code = phone;
-    if(readfirstmain(CUr,1,true))then begin
-      OutThisCustomer(CUr);
-    end else begin
-      CUr.Code = right(phone,10);
+    if(nonblank(phone))then begin
+      CUr.Code = phone;
       if(readfirstmain(CUr,1,true))then begin
-        OutThisCustomer(CUr);
+        OutThisCustomer(CUr,order);
+      end else begin
+        CUr.Code = right(phone,10);
+        if(readfirstmain(CUr,1,true))then begin
+          OutThisCustomer(CUr,order);
+        end;
       end;
     end;
   end;
