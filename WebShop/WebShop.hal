@@ -92,6 +92,7 @@ begin
 	addParamToJSONArea("Phone",NormalizeStrToJson(ORr.Phone),resarea);
 	addParamToJSONArea("Comment",NormalizeStrToJson(ORr.Comment),resarea);
 	addParamToJSONArea("CustOrdNr",NormalizeStrToJson(ORr.CustOrdNr),resarea);
+	addParamToJSONArea("Sum",NormalizeStrToJson(ORr.Sum4),resarea);
 	
 	if(nonblank(ORr.TochkaVidachi))then begin
 	  TVr.Code = ORr.TochkaVidachi;
