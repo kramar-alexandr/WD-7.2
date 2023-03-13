@@ -1552,6 +1552,7 @@ begin
   delLastComaInArea(resarea);
   addtexttoarea("]",resarea);
   
+  weboutarea2(resarea);
   
 return;
 end;
