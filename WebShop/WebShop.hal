@@ -1526,3 +1526,55 @@ begin
   
 return;
 end;
+
+
+procedure OutThisCustomer(record CUVc CUr)
+begin
+  record ORVc ORr;
+  boolean TrHs;
+  area resarea,orarea;
+  
+  TrHs = true;
+  ORr.CustCode = CUr.Code;
+  addtexttoarea("[",resarea);
+  while(loopkey("CustCode",ORr,1,TrHs))begin
+    if(ORr.CustCode!=CUr.Code)then begin
+      TrHs = false;
+    end;
+    
+    if(TrHs)then begin
+      setareazerosize(orarea);
+      CreateORJson(ORr,orarea);
+      AddAreaToArea(orarea,resarea);   
+      addtexttoarea("," & chr(13) & chr(19),resarea);
+    end;
+  end;
+  delLastComaInArea(resarea);
+  addtexttoarea("]",resarea);
+  
+  
+return;
+end;
+
+
+global webpublic procedure WebFindCustomersOrders()
+begin
+record CUVc CUr;
+string 100 phone,password;
+
+  phone = WebGetArg("phone");
+  password = WebGetArg("password");
+  
+  if(password=="tehdfgvhbnjmk")then begin
+    CUr.Code = phone;
+    if(readfirstmain(CUr,1,true))then begin
+      OutThisCustomer(CUr);
+    end else begin
+      CUr.Code = right(phone,10);
+      if(readfirstmain(CUr,1,true))then begin
+        OutThisCustomer(CUr);
+      end;
+    end;
+  end;
+return;
+end;
