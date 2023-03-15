@@ -21,8 +21,16 @@ end;
 
 procedure addParamToJSONArea(string param, string value, var area req)
 begin
+string 255 resval;
+integer i;
 
-AddTextToArea("\"" & param & "\":" &  "\"" & value & "\",",req);
+for(i=0;i<len(value);i=i+1)begin
+  if(asc(mid(value,i,1))>31)then begin
+    resval = resval & mid(value,i,1);
+  end;
+end;
+
+AddTextToArea("\"" & param & "\":" &  "\"" & resval & "\",",req);
 
 return;
 end;
