@@ -397,7 +397,8 @@ begin
         OutString(370,0,"",false);
         OutString(405,0,"",false);
         OutString(405,0,"",false);
-        OutString(460,0,totalsum,false);  
+        OutString(460,0,totalsum,false); 
+         OutString(470,0,"",false); 
         if(usercanaction("ViewCostPrice",false))then begin
           OutString(330,0,totalcost,false);
           OutString(460,0,totalgp,false);  
