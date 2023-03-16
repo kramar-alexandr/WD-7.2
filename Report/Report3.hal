@@ -202,6 +202,7 @@ begin
         OutString(405,0,"Знижка",false);
         OutString(330,0,"Ціна",false);
         OutString(460,0,"Сума",true);
+        OutString(470,0,"Комісія",true);
         if(usercanaction("ViewCostPrice",false))then begin
           OutString(330,0,"Собівартість",false);
           OutString(330,0,"Прибуток",false);
@@ -348,6 +349,7 @@ begin
                   OutString(405,0,IVrw.vRebate,false);
                   OutString(310,0,IVrw.Price,false);
                   OutString(460,0,IVrw.Sum*cred,false);
+                  OutString(470,0,ORr.ComisionCode,true);
                 end;
                 if(IVr.FrRate!=0)then begin
                   IVrw.FIFO = IVrw.FIFO * IVr.FrRate;
