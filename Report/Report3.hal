@@ -187,6 +187,7 @@ begin
         OutString(60,0,"Накладна",false);
         OutString(60,0,"Рахунок",false);
         OutString(60,0,"Оф. номер",false);
+        OutString(60,0,"Джерело",false);
         OutString(120,0,"Товар",false);
         OutString(200,0,"Найменування",false);
         OutString(200,0,"Класифікація",false);
@@ -293,6 +294,7 @@ begin
                   OutString(60,"DblIVVc",IVr.SerNr,false);
                   OutString(60,"DblORVc",IVr.OrderNr,false);
                   OutString(60,0,ORr.CustOrdNr,false);
+                  OutString(60,0,ORr.RefStr,false);
                   OutString(120,0,IVrw.ArtCode,false);
                   OutString(200,0,IVrw.Spec,false);
                   OutString(200,0,INr.DispGroups,false);
@@ -379,6 +381,7 @@ begin
     if(printf)then begin
       startformat(15);
         OutString(0,0,"Всього:",false);
+        OutString(60,0,"",false);
         OutString(60,0,"",false);
         OutString(60,0,"",false);
         OutString(60,0,"",false);
