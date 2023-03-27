@@ -1170,7 +1170,7 @@ string 200 pricerow,payment,address,first_name,summary,note,email,ensure,comment
 string 200 is_credit,discount_percent,datetxt,buyoneclick,storeH,storeN,delivery_cost,countrow,sumrow,smstext;
 record CUVc CUr,inCUr,blankCU;
 boolean cufound,chsum;
-string 100 warning,error;
+string 100 warning,error,ordsource;
 record ORVc ORr;
 row ORVc ORrw;
 longint acnt;
@@ -1236,7 +1236,7 @@ vector string 255 vres;
 				storeH = JSONGet(inputjson,"store/hansa");	
 				storeN = ChekUnicode(JSONGet(inputjson,"store/name"),vres);	
 				phone = NormPhoneNum(ChekUnicode(phone,vres));
-
+        ordsource = JSONGet(inputjson,"ordsource");	
 				
 				CUr.Code = phone;
 				if(readfirstmain(CUr,1,true))then begin
@@ -1301,6 +1301,7 @@ vector string 255 vres;
 						case"door": ORr.ShipAddr1 = "Доставка до дверей";
 					end;
 					ORr.OrderClass = "INTDL";
+					ORr.RefStr = ordsource;
 					ORr.SalesGroup = "NP";
 					switch(delivery_region)begin
 						case"0": ORr.ShipAddr2 = "Курьером"; ORr.OrderClass = "INTDL";ORr.SalesGroup = "NP";
