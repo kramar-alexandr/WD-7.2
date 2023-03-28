@@ -2461,6 +2461,7 @@ begin
   ORr.SalesGroup = USr.SalesGroup; 
   if(currentcompany==13)then begin
     ORr.SalesGroup = "NOTNP";
+    ORr.RefStr = "phone";
   end;
   if (SingleUserMode) then begin
     ORr.SerNr = NextSerNr("ORVc",ORr.OrdDate,-1,false,"");
