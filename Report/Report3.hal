@@ -1,6 +1,8 @@
 external procedure APRn(record RcVc);
 external procedure ARRn(record RcVc);
 external function longint DateDiff(date,date);
+external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
+
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -167,7 +169,7 @@ begin
   row IVVc IVrw;
   record INVc INr;
   boolean testf,TrHs,filtered,TrHs2;
-  string 20 mykey;
+  string 20 mykey,curcode;
   integer mtrw,i,cred;
   record ORVc ORr;
   record SHVc SHr;
@@ -177,6 +179,7 @@ begin
   record ItemHistVc IHr;
   record DIVc DIr,DI2r;
   array string 50 avtags;
+  val fr,to1,to2,br1,br2,t;
   
   
     
@@ -262,6 +265,11 @@ begin
       end;
       
       if(testf)then begin
+        if(left(IVr.CurncyCode,3)!="UAH")then begin
+          curcode = "UAH";
+          GetFullCurncyRate(curcode,IVr.InvDate,fr,to1,to2,br1,br2);
+        end;
+      
         mtrw = matrowcnt(IVr);
         for(i=0;i<mtrw;i=i+1)begin
           matrowget(IVr,i,IVrw);
@@ -287,6 +295,17 @@ begin
             
               
               if(filtered)then begin
+                if(left(IVr.CurncyCode,3)!="UAH")then begin
+                  IVrw.Sum = IVrw.Sum * fr;
+                  IVrw.Price = IVrw.Price * fr;
+                  IVrw.FIFO = IVrw.FIFO * fr;
+                end else begin
+                  if(IVr.FrRate!=0)then begin
+                    IVrw.FIFO = IVrw.FIFO * IVr.FrRate;
+                  end;
+                end;
+                
+                
                 if(printf)then begin
                   startformat(15);
                   OutString(0,0,IVr.CustCode,false);
@@ -353,9 +372,7 @@ begin
                   OutString(460,0,IVrw.Sum*cred,false);
                   OutString(470,0,ORr.ComisionCode,true);
                 end;
-                if(IVr.FrRate!=0)then begin
-                  IVrw.FIFO = IVrw.FIFO * IVr.FrRate;
-                end;
+                
                 if(printf)then begin
                   if(usercanaction("ViewCostPrice",false))then begin
                     OutString(330,0,IVrw.FIFO*cred,false);
