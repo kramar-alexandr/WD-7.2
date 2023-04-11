@@ -758,6 +758,9 @@ begin
 	string 255 tax_url;
 	area qrArea;
 	longint alen,ai;
+	date selldate;
+	record IVVc IVr;
+	record SHVc SHr;
 	
 	
 	checklength = 56;
@@ -783,7 +786,16 @@ begin
 	end;
 	
 	//SetAreaZeroSize(aFile);
-	
+	  
+	  selldate = ORr.OrdDate;
+    IVr.OrderNr = ORr.SerNr;
+    if(readfirstkey("OrderNr",IVr,1,true))then begin
+      selldate = IVr.InvDate;
+    end;
+    SHr.OrderNr = ORr.SerNr;
+    if (ReadLastKey("OrderKey",SHr,1,true)) then begin
+      selldate = SHr.ShipDate;
+    end;
 	
 		addtexttoarea(PrintImage,aFile);
 		
@@ -815,10 +827,10 @@ begin
         
         addtexttoarea(SetUnderlineOff,aFile);
         TLTOARR(checklength,"‘…§‰ˆ‰ Œ…: " & ORrw.SerialNr,aFile);
-
-        TLTOARR(checklength,"„€’€ „€†“: " & ORr.OrdDate,aFile);
+        
+        TLTOARR(checklength,"„€’€ „€†“: " & selldate,aFile);
         addtexttoarea(SetBoldOn,aFile);
-        TLTOARR(checklength,"„€’€ ‡€Š§—…Ÿ ƒ€€’§‰ƒ ’…Œ§“: " & addmonth(ORr.OrdDate,ORrw.GarantyFor),aFile);
+        TLTOARR(checklength,"„€’€ ‡€Š§—…Ÿ ƒ€€’§‰ƒ ’…Œ§“: " & addmonth(selldate,ORrw.GarantyFor),aFile);
         TLTOARR(checklength,"’…Œ§ ƒ€€’§º (Œ§‘Ÿ–§‚): " & ORrw.GarantyFor,aFile);
         addtexttoarea(SetBoldOff,aFile);
         addtexttoarea(chr(13) & chr(10),aFile);
@@ -1067,6 +1079,9 @@ begin
 	string 255 tax_url;
 	area qrArea;
 	longint alen,ai;
+	date selldate;
+	record IVVc IVr;
+	record SHVc SHr;
 	
 	
 	checklength = 56;
@@ -1092,7 +1107,15 @@ begin
 	end;
 	
 	//SetAreaZeroSize(aFile);
-	
+	  selldate = ORr.OrdDate;
+    IVr.OrderNr = ORr.SerNr;
+    if(readfirstkey("OrderNr",IVr,1,true))then begin
+      selldate = IVr.InvDate;
+    end;
+    SHr.OrderNr = ORr.SerNr;
+    if (ReadLastKey("OrderKey",SHr,1,true)) then begin
+      selldate = SHr.ShipDate;
+    end;
 	
 		addtexttoarea(PrintImage,aFile);
 		
@@ -1124,10 +1147,11 @@ begin
         
         addtexttoarea(SetUnderlineOff,aFile);
         TLTOARR(checklength,"‘…§‰ˆ‰ Œ…: " & ORrw.SerialNr,aFile);
-
-        TLTOARR(checklength,"„€’€ „€†“: " & ORr.OrdDate,aFile);
+        
+        
+        TLTOARR(checklength,"„€’€ „€†“: " & selldate,aFile);
         addtexttoarea(SetBoldOn,aFile);
-        TLTOARR(checklength,"„€’€ ‡€Š§—…Ÿ ƒ€€’§‰ƒ ’…Œ§“: " & addmonth(ORr.OrdDate,garmonths),aFile);
+        TLTOARR(checklength,"„€’€ ‡€Š§—…Ÿ ƒ€€’§‰ƒ ’…Œ§“: " & addmonth(selldate,garmonths),aFile);
         TLTOARR(checklength,"’…Œ§ ƒ€€’§º (Œ§‘Ÿ–§‚): " & garmonths,aFile);
         addtexttoarea(SetBoldOff,aFile);
         addtexttoarea(chr(13) & chr(10),aFile);
@@ -1375,6 +1399,9 @@ begin
 	string 255 tax_url;
 	area qrArea;
 	longint alen,ai;
+	date selldate;
+	record IVVc IVr;
+	record SHVc SHr;
 	
 	checklength = 56;
 	
@@ -1400,7 +1427,16 @@ begin
 	
 	//SetAreaZeroSize(aFile);
 	
-	
+	  selldate = ORr.OrdDate;
+    IVr.OrderNr = ORr.SerNr;
+    if(readfirstkey("OrderNr",IVr,1,true))then begin
+      selldate = IVr.InvDate;
+    end;
+    SHr.OrderNr = ORr.SerNr;
+    if (ReadLastKey("OrderKey",SHr,1,true)) then begin
+      selldate = SHr.ShipDate;
+    end;
+        
 		addtexttoarea(PrintImage,aFile);
 		
 		addtexttoarea(SetFontB,aFile);
@@ -1425,9 +1461,12 @@ begin
         
         addtexttoarea(SetUnderlineOff,aFile);
         TLTOARR(checklength,"‘…§‰ˆ‰ Œ…: " & ORrw.SerialNr,aFile);
-
-        TLTOARR(checklength,"„€’€ „€†“: " & ORr.OrdDate,aFile);
-        TLTOARR(checklength,"„€’€ ‡€Š§—…Ÿ ƒ€€’§‰ƒ ’…Œ§“:" & addmonth(ORr.OrdDate,garmonths),aFile);
+        
+        
+        
+        
+        TLTOARR(checklength,"„€’€ „€†“: " & selldate,aFile);
+        TLTOARR(checklength,"„€’€ ‡€Š§—…Ÿ ƒ€€’§‰ƒ ’…Œ§“:" & addmonth(selldate,garmonths),aFile);
         addtexttoarea(SetBoldOn,aFile);
         TLTOARR(checklength,"’…Œ§ ƒ€€’§º (Œ§‘Ÿ–§‚): " & garmonths,aFile);
         addtexttoarea(chr(13) & chr(10),aFile);
