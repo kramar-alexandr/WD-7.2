@@ -460,7 +460,9 @@ begin
 	end;
 	realsumbase[ressize] = round(realsumbase[ressize],defaultcurroundoff);
 	realcostbase[ressize] = round(realcostbase[ressize],defaultcurroundoff);
-		
+	if(blank(uahcurrate[ressize]))then begin
+	  uahcurrate[ressize] = IVr.ToRateB1;
+	end;
 	realcostuah[ressize] = realcostbase[ressize] * stringtoval(uahcurrate[ressize],m45val);
 
 	//newcostblockend*****************		
