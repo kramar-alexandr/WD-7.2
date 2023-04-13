@@ -462,7 +462,7 @@ begin
 	if(blank(uahcurrate[ressize]))then begin
 	  curncy = "UAH";
 		GetFullCurncyRate(curncy,IVr.InvDate,fr,to1,to2,br1,br2);
-		uahcurrate[ressize] = to1;
+		uahcurrate[ressize] = fr;
 	end;
 	
 	if(nonblank(uahcurrate[ressize]))then begin
