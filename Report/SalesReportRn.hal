@@ -459,21 +459,22 @@ begin
 		end;	
 	end;
 	
-	if(blank(uahcurrate[ressize]))then begin
-	  curncy = "UAH";
-		GetFullCurncyRate(curncy,IVr.InvDate,fr,to1,to2,br1,br2);
-		uahcurrate[ressize] = fr;
+	if(IVr.InvDate>stringtodate("13/04/2023"))then begin
+    if(blank(uahcurrate[ressize]))then begin
+      curncy = "UAH";
+      GetFullCurncyRate(curncy,IVr.InvDate,fr,to1,to2,br1,br2);
+      uahcurrate[ressize] = fr;
+    end;
+  
+    if(nonblank(uahcurrate[ressize]))then begin
+      realcostuah[ressize] = realcostbase[ressize] * stringtoval(uahcurrate[ressize],m45val);
+      realsumbase[ressize] = realsumuah[ressize] / stringtoval(uahcurrate[ressize],m45val);
+      realpricebase[ressize] = realpriceuah[ressize] / stringtoval(uahcurrate[ressize],m45val);
+    end;
+  
+    realsumbase[ressize] = round(realsumbase[ressize],defaultcurroundoff);
+    realcostbase[ressize] = round(realcostbase[ressize],defaultcurroundoff);
 	end;
-	
-	if(nonblank(uahcurrate[ressize]))then begin
-	  realcostuah[ressize] = realcostbase[ressize] * stringtoval(uahcurrate[ressize],m45val);
-	  realsumbase[ressize] = realsumuah[ressize] / stringtoval(uahcurrate[ressize],m45val);
-	  realpricebase[ressize] = realpriceuah[ressize] / stringtoval(uahcurrate[ressize],m45val);
-	end;
-	
-	realsumbase[ressize] = round(realsumbase[ressize],defaultcurroundoff);
-	realcostbase[ressize] = round(realcostbase[ressize],defaultcurroundoff);
-	
 	
 	
 	//newcostblockend*****************		
