@@ -460,6 +460,9 @@ begin
 	end;
 	realsumbase[ressize] = round(realsumbase[ressize],defaultcurroundoff);
 	realcostbase[ressize] = round(realcostbase[ressize],defaultcurroundoff);
+		
+	realcostuah[ressize] = realcostbase[ressize] * stringtoval(uahcurrate[ressize],m45val);
+
 	//newcostblockend*****************		
 return;
 end;
