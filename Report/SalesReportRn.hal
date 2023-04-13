@@ -458,8 +458,18 @@ begin
 			end;
 		end;	
 	end;
+	
+	if(nonblank(uahcurrate[ressize]))then begin
+	  realcostuah[ressize] = realcostbase[ressize] * stringtoval(uahcurrate[ressize],m45val);
+	  realsumbase[ressize] = realsumuah[ressize] / stringtoval(uahcurrate[ressize],m45val);
+	  realpricebase[ressize] = realpriceuah[ressize] / stringtoval(uahcurrate[ressize],m45val);
+	end;
+	
 	realsumbase[ressize] = round(realsumbase[ressize],defaultcurroundoff);
 	realcostbase[ressize] = round(realcostbase[ressize],defaultcurroundoff);
+	
+	
+	
 	//newcostblockend*****************		
 return;
 end;
