@@ -1287,9 +1287,10 @@ begin
   MatCol(1,144,"Зам. №",0,PONr,false,POSClass);
   MatCol(1,194,"Рядок",0,OrdRow,false,0);
   MatCol(1,-370,"Узг. зам.",0,PORecon,false,0);
+  //MatCol(1,-370,"Узг. зам.",0,PORecon,false,0);
   MatCol(1,-310,"Коментар",0,POReconComment,false,0);
   MatCol(1,-200,"Узг. накл.",0,VIRecon,false,0);
-  MatCol(1,-130,"Коментар",0,VIReconComment,false,0);
+  MatCol(1,-130,"VarianceAmount",0,VarianceAmount,false,0);
   if (CurrentCompany==8 or CurrentCompany==13) then begin
     MatCol(1,-60,"Ціна(друк)",0,RetailPrice,false,0); //Edit***************************Sasha2,15:19 25.01.2016 
   end;
