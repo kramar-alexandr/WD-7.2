@@ -1222,7 +1222,7 @@ Invoice may hapen in locked period they say
     res = -1;
     goto L99VIVcRecordCheck;
   end;
-  FillAmForVarianceVI(VIp);
+  //FillAmForVarianceVI(VIp);
   if (transf) then begin
     error = ConnectCreditNotetoIV(VIp);
     if (error!=0) then begin
