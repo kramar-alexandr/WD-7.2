@@ -861,6 +861,10 @@ updating function Boolean PUDClassAfterEditField(Integer wn,string fieldname,Int
 BEGIN
   Boolean res;
 
+  if(currentuser=="SA1")then begin
+    goto lPUDClassAfterEditField;
+  end;
+
   switch (fieldname) begin
     case "Location": res = PUDClassLocationEFAfter(wn,rownr,changed!=0);
     case "CostPrice": res = PUDClassCostPriceEFAfter(wn,fn,rownr,changed);
@@ -906,6 +910,8 @@ BEGIN
     case "TREO": res = PUDClassTREOEFAfter(wn,rownr,changed!=0);
     case "VEItemCode": res = PUDClassVEItemCodeEFAfter(wn,rownr,changed!=0);
   end;
+  
+lPUDClassAfterEditField:;
   PUDClassAfterEditField = res;
   RETURN;
 END;
