@@ -1422,7 +1422,7 @@ function Boolean ORDClassOverStrikeTest(Integer wn,Integer rownr)
 begin
   record ORVc ORr;
   row ORVc ORrw;
-  boolean res;
+  boolean res,check;
   integer i,rwcnt;
   vector boolean deleteditems;
   
@@ -1431,6 +1431,22 @@ begin
   res = ORDClassDeleteRowTest(wn,rownr);
   getwindowrecord(wn,ORr);
   MatRowGet(ORr,rownr,ORrw);
+
+  check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
+	if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
+		if(rownr>-1)then begin
+			if(currentuser!="SAUNOK" and check==false)then begin
+				if (WindowState(wn)!=Rs_insert) then begin
+					if(nonblank(ORr.SalesMan))then begin
+						if(currentuser!=ORr.SalesMan)then begin
+							res = false;
+							goto lORDClassOverStrikeTest;
+						end;
+					end;
+				end;
+			end;
+		end;
+	end;
 
   if(!res and rownr>-1)then begin
     if(ORrw.iswebshop==1)then begin
@@ -1464,18 +1480,9 @@ begin
         ORSumup(ORr);
         PutWindowRecord(wn,ORr);
       end;
-      
-      /*if(ORrw.ovst==0 and deleteditems[ORrw.ArtCode]==false)then begin
-        ORrw.ovst = 1;
-        ORrw.stp = kInvoiceRowTypeSubtotal;
-        ORrw.PriceFactor = ORrw.Sum;
-        MatRowPut(ORr,rownr,ORrw);
-        ORPasteRvrsVATCode(ORr,false);
-        ORSumup(ORr);
-        PutWindowRecord(wn,ORr);
-      end;*/
     end;
   end;
+lORDClassOverStrikeTest:;
   ORDClassOverStrikeTest = res;
   return;
 end;
