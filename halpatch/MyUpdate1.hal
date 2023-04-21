@@ -800,7 +800,7 @@ begin
               MatRowGet(collapsedSHr,i,SHrw);
               if (NonBlank(SHrw.ArtCode) and SHrw.OrdRow>-1) then begin
                 MatRowGet(ORr,SHrw.OrdRow,ORrw);
-                if (SHrw.ArtCode==ORrw.ArtCode) then begin
+                if (SHrw.ArtCode==ORrw.ArtCode and ORrw.stp==kInvoiceRowTypeNormal) then begin
                   ClearRow(POr,POrw,1);
                   POrw.ArtCode = ORrw.ArtCode;
                   MatRowPut(POr,rownr,POrw);

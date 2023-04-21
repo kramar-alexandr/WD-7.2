@@ -565,7 +565,9 @@ begin
   rwcnt = MatRowCnt(ORr);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(ORr,i,ORrw);
-    ORrw.BasePrice = GetINCostPrice(ORr.PriceList,ORrw.ArtCode,true);
+    if(ORrw.stp==kInvoiceRowTypeNormal)then begin
+      ORrw.BasePrice = GetINCostPrice(ORr.PriceList,ORrw.ArtCode,true);
+    end;
     MatRowPut(ORr,i,ORrw);
     ORDchsum(ORr,i);
   end;
@@ -629,77 +631,79 @@ begin
   rwcnt = matrowcnt(ORr);
   for(i=0;i<rwcnt;i=i+1) begin
     matrowget(ORr,i,ORrw);
-    if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24")then begin
-      ORrw.GarantyFor = blankval;
-      matrowput(ORr,i,ORrw);
-    end;
-    if(ORrw.ArtCode=="ISTORE_WAR_CPU_12" or ORrw.ArtCode=="ISTORE_WAR_CPU_24")then begin
-      ORrw.GarantyFor = blankval;
-      matrowput(ORr,i,ORrw);
-    end;
+    if(ORrw.stp==kInvoiceRowTypeNormal)then begin
+      if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24")then begin
+        ORrw.GarantyFor = blankval;
+        matrowput(ORr,i,ORrw);
+      end;
+      if(ORrw.ArtCode=="ISTORE_WAR_CPU_12" or ORrw.ArtCode=="ISTORE_WAR_CPU_24")then begin
+        ORrw.GarantyFor = blankval;
+        matrowput(ORr,i,ORrw);
+      end;
       
-    if(transf)then begin
-      if(currentcompany==13)then begin
-        if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24")then begin
-          ORrw.GarantyFor = blankval;
-          matrowput(ORr,i,ORrw);
-          if(blank(ORrw.SerialNr))then begin
-            RecordCheckError(1240,"",i,"SerialNr");      
-            res = -1; 
-            goto LORVcRecordCheck;
-          end else begin
-            for(j=0;j<rwcnt;j=j+1)begin
-              matrowget(ORr,j,OR2rw);
-              if(i!=j)then begin
-                if(ORrw.SerialNr==OR2rw.SerialNr)then begin
-                  if(serfound[OR2rw.SerialNr]==true)then begin
-                    RecordCheckError(1240,"",i,"SerialNr");      
-                    res = -1; 
-                    goto LORVcRecordCheck;
-                  end;
-                  if(serfound[OR2rw.SerialNr]==false)then begin
-                    serfound[OR2rw.SerialNr] = true;
+      if(transf)then begin
+        if(currentcompany==13)then begin
+          if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24")then begin
+            ORrw.GarantyFor = blankval;
+            matrowput(ORr,i,ORrw);
+            if(blank(ORrw.SerialNr))then begin
+              RecordCheckError(1240,"",i,"SerialNr");      
+              res = -1; 
+              goto LORVcRecordCheck;
+            end else begin
+              for(j=0;j<rwcnt;j=j+1)begin
+                matrowget(ORr,j,OR2rw);
+                if(i!=j)then begin
+                  if(ORrw.SerialNr==OR2rw.SerialNr)then begin
+                    if(serfound[OR2rw.SerialNr]==true)then begin
+                      RecordCheckError(1240,"",i,"SerialNr");      
+                      res = -1; 
+                      goto LORVcRecordCheck;
+                    end;
+                    if(serfound[OR2rw.SerialNr]==false)then begin
+                      serfound[OR2rw.SerialNr] = true;
+                    end;
                   end;
                 end;
               end;
-            end;
             
-            if(serfound[ORrw.SerialNr]==false)then begin
-              oldsernr = "";
-              pos = 0;
-              tstr = "";
-              ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
-              thissernr = tstr;
-              ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
-              if(nonblank(tstr))then begin
-                oldORr.SerNr = stringtolongint(tstr);
-                if(readfirstmain(oldORr,1,true))then begin
-                  rwcnt2 = matrowcnt(oldORr);
-                  for(j=0;j<rwcnt2;j=j+1)begin
-                    matrowget(oldORr,j,OR2rw);
-                    if(thissernr==OR2rw.SerialNr)then begin
-                      if(serfound[OR2rw.SerialNr]==true)then begin
-                        RecordCheckError(1240,"",i,"SerialNr");      
-                        res = -1; 
-                        goto LORVcRecordCheck;
-                      end;
-                      if(serfound[ORrw.SerialNr]==false)then begin
-                        serfound[ORrw.SerialNr] = true;
+              if(serfound[ORrw.SerialNr]==false)then begin
+                oldsernr = "";
+                pos = 0;
+                tstr = "";
+                ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
+                thissernr = tstr;
+                ExtractObjWithSeparator(";",ORrw.SerialNr,false,pos,tstr);
+                if(nonblank(tstr))then begin
+                  oldORr.SerNr = stringtolongint(tstr);
+                  if(readfirstmain(oldORr,1,true))then begin
+                    rwcnt2 = matrowcnt(oldORr);
+                    for(j=0;j<rwcnt2;j=j+1)begin
+                      matrowget(oldORr,j,OR2rw);
+                      if(thissernr==OR2rw.SerialNr)then begin
+                        if(serfound[OR2rw.SerialNr]==true)then begin
+                          RecordCheckError(1240,"",i,"SerialNr");      
+                          res = -1; 
+                          goto LORVcRecordCheck;
+                        end;
+                        if(serfound[ORrw.SerialNr]==false)then begin
+                          serfound[ORrw.SerialNr] = true;
+                        end;
                       end;
                     end;
                   end;
                 end;
               end;
-            end;
             
-            if(serfound[ORrw.SerialNr]==false)then begin
-              RecordCheckError(1240,"",i,"SerialNr");      
-              res = -1; 
-              goto LORVcRecordCheck;
+              if(serfound[ORrw.SerialNr]==false)then begin
+                RecordCheckError(1240,"",i,"SerialNr");      
+                res = -1; 
+                goto LORVcRecordCheck;
+              end;
             end;
           end;
-        end;
-      end;  
+        end;  
+      end;
     end;
     
     if(currentcompany==1 or currentcompany==12)then begin
@@ -1457,7 +1461,7 @@ begin
                     FindStockValue(ORrw.ArtCode,location,ISr);
                     for (j=0;j<i;j=j+1) begin
                       MatRowGet(ORr,j,OR2rw);
-                      if (OR2rw.ArtCode==ORrw.ArtCode) then begin
+                      if (OR2rw.ArtCode==ORrw.ArtCode and ORrw.stp==kInvoiceRowTypeNormal) then begin
                         orsrv = orsrv + OR2rw.Quant;
                       end;
                     end;
@@ -1532,19 +1536,21 @@ begin
             prev = 0;
             for (j=0;j<i;j=j+1) begin
               MatRowGet(ORr,j,OR2rw);
-              if (nonblank(OR2rw.Location)) then begin
-                loc3 = OR2rw.Location;
-              end else begin
-                loc3 = location;
-              end;
-              testf = true;
-              if (loc3!=loc2) then begin testf = false; end;
-              if (OR2rw.ArtCode!=ORrw.ArtCode) then begin testf = false; end;
-              if (INr.SerNrf!=0) then begin
-                if ((OR2rw.SerialNr!=ORrw.SerialNr) or (SNrb.BulkSerialNos!=0)) then begin testf = false; end;
-              end;
-              if (testf) then begin
-                prev = prev + (OR2rw.Quant - OR2rw.Shipd2);
+              if(ORrw.stp==kInvoiceRowTypeNormal)then begin
+                if (nonblank(OR2rw.Location)) then begin
+                  loc3 = OR2rw.Location;
+                end else begin
+                  loc3 = location;
+                end;
+                testf = true;
+                if (loc3!=loc2) then begin testf = false; end;
+                if (OR2rw.ArtCode!=ORrw.ArtCode) then begin testf = false; end;
+                if (INr.SerNrf!=0) then begin
+                  if ((OR2rw.SerialNr!=ORrw.SerialNr) or (SNrb.BulkSerialNos!=0)) then begin testf = false; end;
+                end;
+                if (testf) then begin
+                  prev = prev + (OR2rw.Quant - OR2rw.Shipd2);
+                end;
               end;
             end;  
           
@@ -1690,9 +1696,11 @@ LORVcRecordCheck:;
 	rwcnt = matrowcnt(ORr);
 	for(i=0;i<rwcnt;i=i+1) begin
 		MatRowGet(ORr,i,ORrw);
-		if(ORrw.ORPrint!=0)then begin
-			ORrw.ORPrint = 1;
-			MatRowPut(ORr,i,ORrw);
+		if(ORrw.stp==kInvoiceRowTypeNormal)then begin
+      if(ORrw.ORPrint!=0)then begin
+        ORrw.ORPrint = 1;
+        MatRowPut(ORr,i,ORrw);
+      end;
 		end;
 	end;
 	
@@ -2593,14 +2601,16 @@ begin
   rwcnt = MatRowCnt(ORr);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(ORr,i,ORrw);
-    ORrw.Shipd1 = blankval;
-    ORrw.Shipd2 = blankval;
-    ORrw.Invd = blankval;
-    ORrw.SerialNr = "";
-    ORrw.BasePrice = GetINCostPrice(ORr.PriceList,ORrw.ArtCode,true);
-    ORrw.Shopd = blankval; //Edit***************************Sasha2,12:29 20.05.2016
-    MatRowPut(ORr,i,ORrw);
-    ORDchsum(ORr,i);
+    if(ORrw.stp==kInvoiceRowTypeNormal)then begin
+      ORrw.Shipd1 = blankval;
+      ORrw.Shipd2 = blankval;
+      ORrw.Invd = blankval;
+      ORrw.SerialNr = "";
+      ORrw.BasePrice = GetINCostPrice(ORr.PriceList,ORrw.ArtCode,true);
+      ORrw.Shopd = blankval; //Edit***************************Sasha2,12:29 20.05.2016
+      MatRowPut(ORr,i,ORrw);
+      ORDchsum(ORr,i);
+    end;
   end;
   ORSumup(ORr);
   GetCurUser(USr);

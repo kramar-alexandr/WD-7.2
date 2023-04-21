@@ -833,15 +833,17 @@ startreportnoheaderjob("Информация о клиенте");
 				endformat;
 				for(i=0;i<matrowcnt(ORr);i=i+1) begin
 					matrowget(ORr,i,ORrw);
-					Gray_Divider(0,1);
-					startformat(15);
-						OutString(20,"DblINVc",ORrw.ArtCode,false);
-						OutString(80,0,ORrw.Spec,false);
-						OutString(200,0,ORrw.Quant,false);
-						OutString(250,0,ORrw.Price,false);
-						OutString(300,0,ORrw.vRebate,false);
-						OutString(350,0,ORrw.Sum,false);
-					endformat;
+					if(ORrw.stp==kInvoiceRowTypeNormal)then begin
+            Gray_Divider(0,1);
+            startformat(15);
+              OutString(20,"DblINVc",ORrw.ArtCode,false);
+              OutString(80,0,ORrw.Spec,false);
+              OutString(200,0,ORrw.Quant,false);
+              OutString(250,0,ORrw.Price,false);
+              OutString(300,0,ORrw.vRebate,false);
+              OutString(350,0,ORrw.Sum,false);
+            endformat;
+					end;
 				end;
 			end;
 		end;

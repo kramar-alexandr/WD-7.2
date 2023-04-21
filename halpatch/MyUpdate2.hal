@@ -154,24 +154,26 @@ begin
       mtrw = matrowcnt(ORr);
       for(i=0;i<mtrw;i=i+1)begin
         matrowget(ORr,i,ORrw);
-        rescnt = rescnt + ORrw.Quant - ORrw.Shipd2;
+        if(ORrw.stp==kInvoiceRowTypeNormal)then begin
+          rescnt = rescnt + ORrw.Quant - ORrw.Shipd2;
         
-        if((ORrw.Quant-ORrw.Shipd2)>0)then begin
-          Retr.OrdNr = ORr.SerNr;
-          TrHs1=true;
-          while(loopkey("OrdNr",Retr,1,TrHs1))begin
-            if(Retr.OrdNr!=ORr.SerNr)then begin TrHs1=false; end;
-            if(TrHs1)then begin
-              mtrw1 = matrowcnt(Retr);
-              for(j=0;j<mtrw1;j=j+1)begin
-                matrowget(Retr,j,Retrw);
-                if(Retrw.ArtCode==ORrw.ArtCode and Retrw.OrdRow==i)then begin
-                  rescnt = rescnt - Retrw.Quant;
+          if((ORrw.Quant-ORrw.Shipd2)>0)then begin
+            Retr.OrdNr = ORr.SerNr;
+            TrHs1=true;
+            while(loopkey("OrdNr",Retr,1,TrHs1))begin
+              if(Retr.OrdNr!=ORr.SerNr)then begin TrHs1=false; end;
+              if(TrHs1)then begin
+                mtrw1 = matrowcnt(Retr);
+                for(j=0;j<mtrw1;j=j+1)begin
+                  matrowget(Retr,j,Retrw);
+                  if(Retrw.ArtCode==ORrw.ArtCode and Retrw.OrdRow==i)then begin
+                    rescnt = rescnt - Retrw.Quant;
+                  end;
                 end;
               end;
             end;
+            resetloop(Retr);
           end;
-          resetloop(Retr);
         end;
       end;
       
@@ -216,7 +218,7 @@ begin
       mtrw = matrowcnt(ORr);
     		for(i=0;i<mtrw;i=i+1)begin
         matrowget(ORr,i,ORrw);
-        if((ORrw.Quant-ORrw.Shipd1)>0)then begin
+        if((ORrw.Quant-ORrw.Shipd1)>0 and ORrw.stp==kInvoiceRowTypeNormal)then begin
         		ISr.Code = ORrw.ArtCode;
         		ISr.Location = ";;;";
         		if(readfirstmain(ISr,2,true))then begin
@@ -1761,17 +1763,19 @@ begin
 		rwcnt = matrowcnt(ORr);
 		For(i=0;i<rwcnt;i=i+1) begin
 	  	matrowget(ORr,i,ORrw);
-			if (GetItemPriceDiscount3(ORrw.ArtCode,ORrw.Quant,INr,ORr.CurncyCode,
-				ORr.FrRate,ORr.ToRateB1,ORr.ToRateB2,ORr.BaseRate1,ORr.BaseRate2,
-				ORr.LangCode,ORr.CustCat,ORr.PriceList,ORr.RebCode,
-				price,tstr,vrebate,vatcode,baseprice,
-				salesacc,ORr.ExportFlag,calcprice,ORr.OrdDate,blankt,ORr.CustCode,true,dummyf,ORr.PayDeal,tax2code,tax2prc,ORr.Region,location,taxtemplatecode)) then 
-			begin
-		
-				ORrw.SalesAcc = salesacc;
-				matrowput(ORr,i,ORrw);
-				logtext(0,ORr.SerNr & " " & ORrw.ArtCode & " " & salesacc);
-			end;
+	  	if(ORrw.stp==kInvoiceRowTypeNormal)then begin
+        if (GetItemPriceDiscount3(ORrw.ArtCode,ORrw.Quant,INr,ORr.CurncyCode,
+          ORr.FrRate,ORr.ToRateB1,ORr.ToRateB2,ORr.BaseRate1,ORr.BaseRate2,
+          ORr.LangCode,ORr.CustCat,ORr.PriceList,ORr.RebCode,
+          price,tstr,vrebate,vatcode,baseprice,
+          salesacc,ORr.ExportFlag,calcprice,ORr.OrdDate,blankt,ORr.CustCode,true,dummyf,ORr.PayDeal,tax2code,tax2prc,ORr.Region,location,taxtemplatecode)) then 
+        begin
+    
+          ORrw.SalesAcc = salesacc;
+          matrowput(ORr,i,ORrw);
+          logtext(0,ORr.SerNr & " " & ORrw.ArtCode & " " & salesacc);
+        end;
+      end;
 		end; 
 		recordstore(ORr,true);
 	end;
@@ -1955,7 +1959,7 @@ begin
 							mtrw = matrowcnt(ORr);
 							For(i=0;i<mtrw;i=i+1) begin
 								matrowget(ORr,i,ORrw);
-								if(ORrw.ArtCode==INr.Code)then begin
+								if(ORrw.ArtCode==INr.Code and ORrw.stp==kInvoiceRowTypeNormal)then begin
 									ISr.Code = ORrw.ArtCode;
 									ISr.Location = ORr.Location;
 									if(readfirstmain(ISr,2,true))then begin
