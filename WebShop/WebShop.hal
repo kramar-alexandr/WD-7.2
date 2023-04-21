@@ -1356,6 +1356,7 @@ vector string 255 vres;
 						k = matrowcnt(ORr);
 						clearrow(ORr,ORrw,1);
 						ORrw.ArtCode = articlerow;
+						ORrw.iswebshop = 1;
 						matrowput(ORr,k,ORrw);
 						ORVc_PasteArtCode(ORr,k,warning,warning,false);
 						matrowget(ORr,k,ORrw);

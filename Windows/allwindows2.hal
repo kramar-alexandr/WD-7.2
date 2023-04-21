@@ -338,6 +338,7 @@ begin
       if(show)then begin
         MatrixBegin(3,v=200,-50,v+170,-,200);
         MatTypedRow(stp);
+        MatOverStrike(ovst);
         flipnr = 0;
         Flip(flipnr); flipnr = flipnr + 1;
         t = 1;

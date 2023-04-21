@@ -305,6 +305,7 @@ begin
 			v = 24;
 			MatrixBegin(3,v,-50,-49,-,200);
 			MatTypedRow(stp);
+			MatOverStrike(ovst);
 			flipnr = 0;
 			Flip(flipnr); flipnr = flipnr + 1;
 			MatText(t=9,32,"Разом",true);
@@ -1108,9 +1109,15 @@ lSimpleORWindow:;
           if(show)then begin
             MatrixBegin(3,v=260,-50,v+100,-,200);
             MatTypedRow(stp);
+            MatOverStrike(ovst);
             flipnr = 0;
             Flip(flipnr); flipnr = flipnr + 1;
             t = 1;
+            MatCol(t,24,"Товар",0,ArtCode,false,INSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+            MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);
+            EnterSkip(ArtCode);
+            
+            t = kInvoiceRowTypeSubtotal;
             MatCol(t,24,"Товар",0,ArtCode,false,INSClass);// Edit ************************** Monday, July 14, 2014 at 10:34:58
             MatCol(t,144,"Кіл-ть",0,Quant,true,MATVARINSClass);
             EnterSkip(ArtCode);
@@ -1123,14 +1130,44 @@ lSimpleORWindow:;
             MatCol(t,-255,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
             MatCol(t,-220,"Сума",0,Sum,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
             MatCol(t,-150,"Коммент.",0,DopComment,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 27 01 2021 y. at 6:04:10 PM
+            
+            t = kInvoiceRowTypeSubtotal;
+            MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
 
+            MatCol(t,-494,"Серійний номер",0,SerialNr,false,SerialNrSClass);
+            MatCol(t,-320,"Ціна",0,Price,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:43
+            MatCol(t,-255,"%",0,vRebate,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:44
+            MatCol(t,-220,"Сума",0,PriceFactor,true,0);// Edit ************************** Monday, July 14, 2014 at 10:34:45
+            MatCol(t,-150,"Коммент.",0,DopComment,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 27 01 2021 y. at 6:04:10 PM
+
+            
             Flip(flipnr); flipnr = flipnr + 1;
+            t = 1;
             MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
             MatCol(t,384,"Коммент.",0,DopComment,false,0);
+            if(currentuser=="SA" or currentuser=="NSA")then begin
+              MatCol(t,-220,"ov",0,ovst,true,0);  
+              MatCol(t,-200,"ws",0,iswebshop,true,0);  
+            end;
             MatCol(t,-180,"Склад",0,Location,true,0);
             MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
             MatCol(t,-60,"Друк ет.",0,ORPrint,true,0);
             EnterSkip(ORPrint);
+            
+            t = kInvoiceRowTypeSubtotal;
+            MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+            MatCol(t,384,"Коммент.",0,DopComment,false,0);
+            if(currentuser=="SA" or currentuser=="NSA")then begin
+              MatCol(t,-220,"ov",0,ovst,true,0);  
+              MatCol(t,-200,"ws",0,iswebshop,true,0);  
+            end;
+            MatCol(t,-180,"Склад",0,Location,true,0);
+            MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
+            MatCol(t,-60,"Друк ет.",0,ORPrint,true,0);
+            EnterSkip(ORPrint);
+            
+            
+            
 
             InsertRowTest;
             DeleteRowTest;

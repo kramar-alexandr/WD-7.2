@@ -1298,13 +1298,14 @@ function Boolean ORDClassDeleteRowTest(Integer wn,Integer rownr)
 begin
   record ORVc ORr;
   row ORVc ORrw;
-  Boolean res,puf,check;// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:22:09 PM
+  Boolean res,puf,check,isshops;// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:22:09 PM
   record INVc INr;
   Integer i,rwcnt;
   val ordqty;
   string 60 comment;
   string 60 location;
   string 255 msgerr; //Edit***************************Sasha2,13:45 11.02.2016
+  vector boolean deleteditems;
 
   res = true;
   GetWindowRecord(wn,ORr);
@@ -1386,6 +1387,16 @@ begin
       PutWindowRecord(wn,ORr);    
     end;
   end;
+  
+  
+  if(res and rownr>-1)then begin
+    getwindowrecord(wn,ORr);
+    MatRowGet(ORr,rownr,ORrw);
+    if(ORrw.iswebshop==1)then begin
+      res = false;
+    end;
+  end;
+  
 LORDClassDeleteRowTest:; 
   ORDClassDeleteRowTest = res;
   return;
@@ -1405,6 +1416,69 @@ BEGIN
   ORDClassOnOverStrike = true;
   RETURN;
 END;
+
+global 
+function Boolean ORDClassOverStrikeTest(Integer wn,Integer rownr)
+begin
+  record ORVc ORr;
+  row ORVc ORrw;
+  boolean res;
+  integer i,rwcnt;
+  vector boolean deleteditems;
+  
+  
+  
+  res = ORDClassDeleteRowTest(wn,rownr);
+  getwindowrecord(wn,ORr);
+  MatRowGet(ORr,rownr,ORrw);
+
+  if(!res and rownr>-1)then begin
+    if(ORrw.iswebshop==1)then begin
+      res = true;
+      rwcnt = matrowcnt(ORr);
+      for(i=0;i<rwcnt;i=i+1)begin
+        matrowget(ORr,i,ORrw);
+        if(ORrw.iswebshop==0)then begin
+          deleteditems[ORrw.ArtCode] = true;
+        end;
+      end;
+      MatRowGet(ORr,rownr,ORrw);
+      if(deleteditems[ORrw.ArtCode])then begin
+        res = false;
+      end;
+      if(res)then begin
+        if(ORrw.ovst==0)then begin
+          ORrw.ovst = 1;
+          ORrw.stp = kInvoiceRowTypeSubtotal;
+          ORrw.PriceFactor = ORrw.Sum;
+        end else begin
+          ORrw.ovst = 0;
+          ORrw.stp = kInvoiceRowTypeNormal;
+          res = false;
+          ORrw.Sum = ORrw.PriceFactor;
+          ORrw.PriceFactor = blankval;
+        end;
+        
+        MatRowPut(ORr,rownr,ORrw);
+        ORPasteRvrsVATCode(ORr,false);
+        ORSumup(ORr);
+        PutWindowRecord(wn,ORr);
+      end;
+      
+      /*if(ORrw.ovst==0 and deleteditems[ORrw.ArtCode]==false)then begin
+        ORrw.ovst = 1;
+        ORrw.stp = kInvoiceRowTypeSubtotal;
+        ORrw.PriceFactor = ORrw.Sum;
+        MatRowPut(ORr,rownr,ORrw);
+        ORPasteRvrsVATCode(ORr,false);
+        ORSumup(ORr);
+        PutWindowRecord(wn,ORr);
+      end;*/
+    end;
+  end;
+  ORDClassOverStrikeTest = res;
+  return;
+end;
 
 
 global procedure RecalcCOMValOR(var record ORVc ORr)
