@@ -172,6 +172,7 @@ begin
   string 20 mykey,curcode;
   integer mtrw,i,cred;
   record ORVc ORr;
+  row ORVc ORrw;
   record SHVc SHr;
   row SHVc SHrw;
   val totalcost,totalsum,totalgp;
@@ -191,6 +192,7 @@ begin
         OutString(60,0,"Рахунок",false);
         OutString(60,0,"Оф. номер",false);
         OutString(60,0,"Джерело",false);
+        OutString(60,0,"С Сайта",false);
         OutString(120,0,"Товар",false);
         OutString(200,0,"Найменування",false);
         OutString(200,0,"Класифікація",false);
@@ -292,7 +294,8 @@ begin
               if(currentuser=="VEKHA" and ORr.SalesMan!=currentuser)then begin
                 filtered = false;
               end;
-            
+              
+              matrowget(ORr,IVrw.OrdRow,ORrw);
               
               if(filtered)then begin
                 if(left(IVr.CurncyCode,3)!="UAH")then begin
@@ -314,6 +317,11 @@ begin
                   OutString(60,"DblORVc",IVr.OrderNr,false);
                   OutString(60,0,ORr.CustOrdNr,false);
                   OutString(60,0,ORr.RefStr,false);
+                  if(ORrw.iswebshop==1)then begin
+                    OutString(60,0,"С Сайта",false);
+                  end else begin
+                    OutString(60,0,"",false);
+                  end;
                   OutString(120,0,IVrw.ArtCode,false);
                   OutString(200,0,IVrw.Spec,false);
                   OutString(200,0,INr.DispGroups,false);
