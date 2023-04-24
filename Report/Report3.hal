@@ -410,6 +410,7 @@ begin
         OutString(60,0,"",false);
         OutString(60,0,"",false);
         OutString(60,0,"",false);
+        OutString(60,0,"",false);
         OutString(120,0,"",false);
         OutString(200,0,"",false);
         OutString(200,0,"",false);
