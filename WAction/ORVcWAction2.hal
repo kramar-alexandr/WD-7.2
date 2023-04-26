@@ -2891,18 +2891,17 @@ record CUVc CUr;
             ORr.InWorkMan = currentuser;
             ORr.InWorkDate = currentdate;
             ORr.InWorkTime = currenttime;
-					  
-            AddToText(CurrentDate & " ",ORr);
-            AddToText(CurrentTime & " ",ORr);
-            AddToText(CurrentUser & ": ",ORr);
-            AddToText("‡€Š€‡€ ‡‚Š Š‹§…’“" & chr(13) & chr(10),ORr);
-            putwindowrecord(wn,ORr);
-					  
-					  recordstore(ORr,true);
-					  SendORStatusToViber(ORr,"1");
-					  putwindowrecord(wn,ORr);
-					  ReRunWindowDef(wn);
 					end;
+					
+					AddToText(CurrentDate & " ",ORr);
+          AddToText(CurrentTime & " ",ORr);
+          AddToText(CurrentUser & ": ",ORr);
+          AddToText("‡€Š€‡€ ‡‚Š Š‹§…’“" & chr(13) & chr(10),ORr);
+          
+					recordstore(ORr,true);
+          SendORStatusToViber(ORr,"1");
+          putwindowrecord(wn,ORr);
+          ReRunWindowDef(wn);
 				end;
 			end;
 		end;
