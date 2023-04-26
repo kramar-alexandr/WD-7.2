@@ -595,7 +595,7 @@ node = "callDetails(getCallData)(domain)";
       end;
     end;
     
-    
+    ORr.CallStatus = BECr.disposition;
     AddToText(CurrentDate & " ",ORr);
     AddToText(CurrentTime & " ",ORr);
     AddToText(usrcode & ": ",ORr);
