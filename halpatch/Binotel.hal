@@ -589,7 +589,7 @@ node = "callDetails(getCallData)(domain)";
     usrcode = BECr.internalNumber;
     while(loopmain(USr,1,true))begin
       if(USr.TerminatedFlag==0)then begin
-        if(BECr.internalNumber==USr.Phone2)then begin
+        if(right(BECr.internalNumber,3)==USr.Phone2)then begin
           usrcode = USr.Code;
         end;
       end;
