@@ -16,15 +16,18 @@ begin
 	json jobj;
 	record BinotelCallEndVc BECr;
 	row BinotelCallEndVc BECrw;
-	string 255 node;
+	string 255 node,usrcode;
 	time timestamp;
 	date datestamp;
 	area delim,tmpar,tmpar1;
-	boolean foundf;
+	boolean foundf,found;
 	array string 255 lev1,lev2p1,lev2p2;
 	integer lev1k,lev2k;
 	boolean foundch;
 	string 1 c;
+	record ORVc ORr;
+	record CUVc CUr;
+	record UserVc USr;
 	
 	setcompany(13,false)
 	
@@ -306,6 +309,8 @@ begin
 		if(JSONNodeExists(jobj,node))then begin
 			BECr.externalNumber = JSONGet(jobj,node);
 		end;
+		
+		
 		node = "callDetails(srcNumber)";
 		if(JSONNodeExists(jobj,node))then begin
 			BECr.srcNumber = JSONGet(jobj,node);
@@ -565,6 +570,47 @@ node = "callDetails(getCallData)(domain)";
 			BECr.gCDdomain = JSONGet(jobj,node);
 		end;
 		
+		
+		
+	ORr.CustCode = BECr.externalNumber;
+  if(readlastkey("CustCode",ORr,1,true))then begin
+    found = true;
+  end else begin
+    CUr.Phone = BECr.externalNumber;
+    if(readfirstkey("Phone",CUr,1,true))then begin
+      ORr.CustCode = CUr.Code;
+      if(readlastkey("CustCode",ORr,1,true))then begin
+        found = true;
+      end;
+    end;
+  end;
+  
+  if(found)then begin
+    usrcode = BECr.internalNumber;
+    while(loopmain(USr,1,true))begin
+      if(USr.TerminatedFlag==0)then begin
+        if(BECr.internalNumber==USr.Phone2)then begin
+          usrcode = USr.Code;
+        end;
+      end;
+    end;
+    
+    
+    AddToText(CurrentDate & " ",ORr);
+    AddToText(CurrentTime & " ",ORr);
+    AddToText(usrcode & ": ",ORr);
+    AddToText("ЗВОНОК ОТ КЛИЕНТА: Статус(" & BECr.disposition & ")" & chr(13) & chr(10),ORr);
+    if(stringtoint(BECr.waitsec)>0)then begin
+      AddToText("  взяли трубку через:" & BECr.waitsec & " сек." & chr(13) & chr(10),ORr);
+    end;
+    if(stringtoint(BECr.billsec)>0)then begin
+      AddToText("  разговор длился:   " & BECr.billsec & " сек." & chr(13) & chr(10),ORr);
+    end;
+    
+    
+    recordstore(ORr,true);
+  end;
+	
 		
 	//recordstore(BECr,true);
 	

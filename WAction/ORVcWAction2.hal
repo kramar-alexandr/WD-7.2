@@ -2850,6 +2850,7 @@ longint port;
 string 50 location,winman;
 record ORVc ORr;
 record CUVc CUr;
+
 	
 	wn = curwindow;
 	getwindowrecord(wn,ORr);
