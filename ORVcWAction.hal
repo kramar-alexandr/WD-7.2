@@ -10,9 +10,16 @@ global
 function boolean ORChatSendAfterEF(integer wn,integer changed)
 begin
 	string 255 input;
-	record ORVc ORr;
+	record ORVc ORr,OR2r;
+	area tmpar;
 	
 	getwindowrecord(wn,ORr);
+	
+	OR2r.SerNr = ORr.SerNr;
+	readfirstmain(OR2r,1,true);
+	GETAREAFROMTEXTFIELD(OR2r,tmpar);
+	SetTextField(ORr,"");
+	ADDAREATOTEXTFIELD(tmpar,ORr);
 	
 	input = ORr.ORChatSend;
 	ORr.ORChatSend = "";
