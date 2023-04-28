@@ -585,6 +585,8 @@ node = "callDetails(getCallData)(domain)";
     end;
   end;
   
+  logtext(0,"externalNumber " & BECr.externalNumber);
+  
   if(found)then begin
     usrcode = BECr.internalNumber;
     while(loopmain(USr,1,true))begin
@@ -608,16 +610,85 @@ node = "callDetails(getCallData)(domain)";
     if(stringtoint(BECr.billsec)>0)then begin
       AddToText("  разговор длился: " & BECr.billsec & " сек." & chr(13) & chr(10),ORr);
     end;
-    
-    
     recordstore(ORr,true);
+  end else begin
+    recordstore(BECr,true);
+    NewTimedTask("RetryNextTime" & BECr.SerNr,"Amazon Get Feed Submission Result","RetryNextTime",BECr.SerNr & ":1",CurrentDate,addseconds(currenttime,60),"","");
   end;
 	
-		
-	//recordstore(BECr,true);
+	
 	
 return;
 end;
+
+
+global updating procedure RetryNextTime(string param)
+begin
+  record ORVc ORr;
+  record BinotelCallEndVc BECr;
+  record USerVc USr;
+  boolean found;
+  string 100 usrcode;
+  record CUVc CUr;
+  integer atempt;
+  
+  logtext(0,"RetryNextTime " & param);
+  
+  atempt = stringtoint(lastinrange(param,10));
+  if(atempt<10)then begin
+  
+    BECr.SerNr = stringtolongint(firstinrange(param,10));
+    if(readfirstmain(BECr,1,true))then begin
+      ORr.CustCode = BECr.externalNumber;
+      if(readlastkey("CustCode",ORr,1,true))then begin
+        found = true;
+      end else begin
+        CUr.Phone = BECr.externalNumber;
+        if(readfirstkey("Phone",CUr,1,true))then begin
+          ORr.CustCode = CUr.Code;
+          if(readlastkey("CustCode",ORr,1,true))then begin
+            found = true;
+          end;
+        end;
+      end;
+    
+      if(found)then begin
+        usrcode = BECr.internalNumber;
+        while(loopmain(USr,1,true))begin
+          if(USr.TerminatedFlag==0)then begin
+            if(right(BECr.internalNumber,3)==USr.Phone2)then begin
+              usrcode = USr.Code;
+            end;
+          end;
+        end;
+    
+        if(blank(ORr.CallStatus))then begin
+          ORr.CallStatus = BECr.disposition;
+        end;
+        AddToText(CurrentDate & " ",ORr);
+        AddToText(CurrentTime & " ",ORr);
+        AddToText(usrcode & ": ",ORr);
+        AddToText("ЗВОНОК ОТ КЛИЕНТА: Статус(" & BECr.disposition & ")" & chr(13) & chr(10),ORr);
+        if(stringtoint(BECr.waitsec)>0)then begin
+          AddToText("  время ожидания:  " & BECr.waitsec & " сек." & chr(13) & chr(10),ORr);
+        end;
+        if(stringtoint(BECr.billsec)>0)then begin
+          AddToText("  разговор длился: " & BECr.billsec & " сек." & chr(13) & chr(10),ORr);
+        end;
+        recordstore(ORr,true);
+      end else begin
+        recordstore(BECr,true);
+        NewTimedTask("RetryNextTime" & BECr.SerNr,"Amazon Get Feed Submission Result","RetryNextTime",BECr.SerNr & ":" & atempt+1,CurrentDate,addseconds(currenttime,60),"","");
+      end;
+    
+    
+    end;
+  
+  end;
+
+return;
+end;
+
 
 global webpublic updating procedure WebBinotelAPIPush()
 begin
