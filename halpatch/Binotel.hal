@@ -29,7 +29,7 @@ begin
 	record CUVc CUr;
 	record UserVc USr;
 	
-	setcompany(13,false)
+	setcompany(13,false);
 	
 	webgetpostdata(encodearea);
 	addtexttoarea(chr(13) & chr(10) & "*********" & currenttime & "************" & chr(13) & chr(10),delim);
@@ -634,6 +634,8 @@ begin
   integer atempt;
   
   logtext(0,"RetryNextTime " & param);
+  
+  setcompany(13,false);
   
   atempt = stringtoint(lastinrange(param,10));
   logtext(0,"atempt " & atempt);
