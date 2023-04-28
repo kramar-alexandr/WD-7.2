@@ -613,6 +613,7 @@ node = "callDetails(getCallData)(domain)";
     recordstore(ORr,true);
   end else begin
     recordstore(BECr,true);
+    logtext(0,"Order not fount. Try next time after 60 sec");
     NewTimedTask("RetryNextTime" & BECr.SerNr,"Amazon Get Feed Submission Result","RetryNextTime",BECr.SerNr & ":1",CurrentDate,addseconds(currenttime,60),"","");
   end;
 	
