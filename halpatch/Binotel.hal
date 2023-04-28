@@ -636,10 +636,13 @@ begin
   logtext(0,"RetryNextTime " & param);
   
   atempt = stringtoint(lastinrange(param,10));
+  logtext(0,"atempt " & atempt);
   if(atempt<10)then begin
-  
+    
+    logtext(0,"BECr.SerNr " & stringtolongint(firstinrange(param,10)));
     BECr.SerNr = stringtolongint(firstinrange(param,10));
     if(readfirstmain(BECr,1,true))then begin
+      logtext(0,"BECr.externalNumber " & BECr.externalNumber);
       ORr.CustCode = BECr.externalNumber;
       if(readlastkey("CustCode",ORr,1,true))then begin
         found = true;
@@ -652,7 +655,9 @@ begin
           end;
         end;
       end;
-    
+      
+      logtext(0,"found " & found);
+      
       if(found)then begin
         usrcode = BECr.internalNumber;
         while(loopmain(USr,1,true))begin
