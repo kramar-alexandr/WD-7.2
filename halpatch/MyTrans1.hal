@@ -267,7 +267,7 @@ begin
 	if(DRB.LastSMSCheck3!=currentdate)then begin
 	  if(currenttime>stringtotime("18:00"))then begin
 	    CheckStockMovForSMS(false,"INV#1_OL");
-	    DRB.LastSMSCheck2 = currentdate;
+	    DRB.LastSMSCheck3 = currentdate;
 	    BlockStore(DRB);
 	  end;	  
 	end;
