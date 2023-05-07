@@ -704,59 +704,58 @@ begin
           end;
         end;  
       end;
-    end;
     
-    if(currentcompany==1 or currentcompany==12)then begin
-      if(not(Checkprice(ORrw.ArtCode,ORr.PriceList,ORrw.Price)) and ORrw.Sum>0)then begin
-        RecordCheckError(20767,"",i,"Price");      
-        res = -1; 
-        goto LORVcRecordCheck;
-      end;
-    end;
-    
-    if(nonblank(ORr.FrRate))then begin
-      frrate = ORr.FrRate;
-    end else begin
-      frrate = 1;
-      If(nonblank(ORr.BaseRate2) and ORr.CurncyCode==BCb.BaseCur2)then begin// Edit ************************** Tuesday, 23 June 2015 18:02:37
-      	frrate = ORr.BaseRate2;
-      end;
-    end;
-    testf = true;
-    if(nonblank(ORr.PriceList))then begin
-      PLr.PLCode = ORr.PriceList;
-      PLr.ArtCode = ORrw.ArtCode;
-      if(ReadFirstMain(PLr,2,true))then begin
-        if(PLr.PLCode==ORr.PriceList and PLr.ArtCode==ORrw.ArtCode and PLr.ExVatPrice<=ORrw.Sum/ORrw.Quant)then begin
-          testf = false;
-        end;
-      end;
-    end;
-    if(testf)then begin
-      INr.Code = ORrw.ArtCode;
-      readfirstmain(INr,1,true);
-      percent = (round(ORrw.Sum/frrate/ORrw.Quant,defaultcurroundoff)/round(INr.WeighedAvPrice,defaultcurroundoff)-1)*100;
-      if(ORrw.BasePrice==0) THEN BEGIN percent=10000; END;
-      minpercent = INr.Markup;
-      if(ORr.CustCode=="EUROTEX")then begin  minpercent = 5;  end;
-      if(currentcompany==15)then begin
-      	if(ORr.Location=="INV#2_NEW")then begin
-      		minpercent = 20;
-      	end;
-      end;
-      
-      If(percent<minpercent) then begin
-        If(UserCanAction("ViewCostPrice",true) and currentuser!="RUDZ")then begin
-          MessageBox(20767," row " & i+1);    
-        end else begin
-          RecordCheckError(20767,"",i,"Sum");
-          res = -1;
+      if(currentcompany==1 or currentcompany==12)then begin
+        if(not(Checkprice(ORrw.ArtCode,ORr.PriceList,ORrw.Price)) and ORrw.Sum>0)then begin
+          RecordCheckError(20767,"",i,"Price");      
+          res = -1; 
           goto LORVcRecordCheck;
         end;
       end;
-    end; 
+    
+      if(nonblank(ORr.FrRate))then begin
+        frrate = ORr.FrRate;
+      end else begin
+        frrate = 1;
+        If(nonblank(ORr.BaseRate2) and ORr.CurncyCode==BCb.BaseCur2)then begin// Edit ************************** Tuesday, 23 June 2015 18:02:37
+          frrate = ORr.BaseRate2;
+        end;
+      end;
+      testf = true;
+      if(nonblank(ORr.PriceList))then begin
+        PLr.PLCode = ORr.PriceList;
+        PLr.ArtCode = ORrw.ArtCode;
+        if(ReadFirstMain(PLr,2,true))then begin
+          if(PLr.PLCode==ORr.PriceList and PLr.ArtCode==ORrw.ArtCode and PLr.ExVatPrice<=ORrw.Sum/ORrw.Quant)then begin
+            testf = false;
+          end;
+        end;
+      end;
+      if(testf)then begin
+        INr.Code = ORrw.ArtCode;
+        readfirstmain(INr,1,true);
+        percent = (round(ORrw.Sum/frrate/ORrw.Quant,defaultcurroundoff)/round(INr.WeighedAvPrice,defaultcurroundoff)-1)*100;
+        if(ORrw.BasePrice==0) THEN BEGIN percent=10000; END;
+        minpercent = INr.Markup;
+        if(ORr.CustCode=="EUROTEX")then begin  minpercent = 5;  end;
+        if(currentcompany==15)then begin
+          if(ORr.Location=="INV#2_NEW")then begin
+            minpercent = 20;
+          end;
+        end;
+      
+        If(percent<minpercent) then begin
+          If(UserCanAction("ViewCostPrice",true) and currentuser!="RUDZ")then begin
+            MessageBox(20767," row " & i+1);    
+          end else begin
+            RecordCheckError(20767,"",i,"Sum");
+            res = -1;
+            goto LORVcRecordCheck;
+          end;
+        end;
+      end; 
+    end;
   end;
-  
 	// Edit End ---------------------------------------------- Edit End
 	
   
