@@ -1625,6 +1625,10 @@ BEGIN
 		res = false; 
     goto LORDClassActiveEditField; 
 	end;
+	if(fieldname=="iswebshop" and currentuser=="SA")then begin
+		res = true; 
+    goto LORDClassActiveEditField; 
+	end;
   
   
   
