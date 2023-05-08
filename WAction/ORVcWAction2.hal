@@ -1625,10 +1625,6 @@ BEGIN
 		res = false; 
     goto LORDClassActiveEditField; 
 	end;
-	if(fieldname=="iswebshop" and currentuser=="SA")then begin
-		res = true; 
-    goto LORDClassActiveEditField; 
-	end;
   
   
   
@@ -1822,10 +1818,6 @@ BEGIN
           end;
         end;  
       end; //Edit***************************Sasha2,10:43 11.02.2016 }
-      MatRowGet(ORr,rownr,ORrw);
-      if(ORrw.iswebshop>0)then begin
-        res = false;
-      end;
 		case "Math2": res = UsercanAction("AllowEditCommentsAndTextFieldOR",false);	
   end;
   if (ORShipdTest(ORr)==false) then begin goto LORDClassActiveEditField; end;
