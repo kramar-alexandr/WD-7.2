@@ -26,7 +26,7 @@ begin
     Register("APVc","APVc",APVc,modDBMain);
 	Setting("Serial Number Support Register",SerBalLClass,modDBMain);
 	Setting("Додаткові витрати",ExtrCostLClass,modSL);//Edit_________________ABR 29.09.2018 17:23
-	
+	Report("Дебиторская задолженность",ARRClass,ARRn,0,modSO);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 09 05 2023 y. at 4:51:57 PM
 	Report("Отчет по стутаусам заказов",ORReport2RClass,ORReport2Rn,0,modSO); // Edit ************************** BPI Ukraine - KramarAlexandr - 01, 08 02 2021 y. at 3:17:18 PM
   Report("Пошук замовлень клієнтів",ORSearchRClass,ORSearchRn,0,modSO);
   
