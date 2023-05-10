@@ -1087,6 +1087,10 @@ begin
   
   notenr = 1;
   while (ReadRecordLink(SMr,notenr,Actr,RLr)) begin
+    if(Actr.ActType=="COMPL")then begin
+      Actr.ShowFlag = 2;
+      recordstore(Actr,true);
+    end;
     if(Actr.ActType=="ZAKAZ")then begin
       messagebox(0,"Замовлення на товар вже є");
       goto LCreateActFromSMDDsm;
