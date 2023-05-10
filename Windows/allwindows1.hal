@@ -1707,6 +1707,7 @@ begin
   RlCol(24,2,"Тип",ActType,false);
   RlCol(70,70,"Дата",TransDate,false);
   RlCol(140,140,"Задача",Comment,false);
+  RlCol(520,520,"Руководитель",Supervisor,false);
   RlCol(-300,-300,"Контакт",CUName,false);
   RlCol(-100,-100,"Телефон",Phone,false);
   SearchField("Поиск");

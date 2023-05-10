@@ -117,6 +117,10 @@ begin
         MatRowPut(POr,0,POrw);
       end;
       recordstore(POr,true);
+      if(Actr.ShowFlag==1)then begin
+        Actr.ShowFlag = 2;
+        recordstore(Actr,true);
+      end;
       if(SMr.SerNr>-1)then begin
         createrecordlink(POr,currentcompany,SMr,currentcompany);
         createrecordlink(SMr,currentcompany,POr,currentcompany);
