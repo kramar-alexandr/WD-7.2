@@ -1703,7 +1703,7 @@ begin
   FormName(PrintActL);
   RecordList(4,17,-21,-39);
   
-  RlColKey(4,2,"TodoFlag",TodoFlag,false,UserMain);
+  RlColKey(4,2,"TodoFlag",TodoFlag,false,ActUserMain);
   
   SearchField("Поиск");
   
