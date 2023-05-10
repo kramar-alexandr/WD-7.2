@@ -192,3 +192,15 @@ begin
   
 return;
 end;
+
+
+
+global
+function Boolean ActLClassOnOpenWindow(Integer wn)
+begin
+
+  SetWindowSubset(wn,currentuser);
+
+  ActLClassOnOpenWindow = false;
+  return;
+end;
