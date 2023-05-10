@@ -1703,7 +1703,7 @@ begin
   FormName(PrintActL);
   RecordList(4,17,-21,-39);
   
-  RlColKey(24,2,"TodoFlag",TodoFlag,false,ActUserMain);
+  RlColKey(4,2,"TodoFlag",TodoFlag,false,ActUserMain);
   RlCol(24,2,"Тип",ActType,false);
   RlCol(70,70,"Дата",TransDate,false);
   RlCol(140,140,"Задача",Comment,false);
