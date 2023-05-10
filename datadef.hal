@@ -495,6 +495,11 @@ begin
     ArrayField(ShopsRow,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 29 March 2018 13:23:22  
   EndRecordAdd;
 	  
+	RecordAddBegin(ActVc,"Cust_ActVc");
+    RecordField(ShowFlag,M4Int,0,0);
+  EndRecordAdd;
+	  
+	  
 return;
 end;
 	

@@ -8462,6 +8462,12 @@ begin
 		//EditField(h2,v+=vs,80,"Вартість",Normal,Value,true,0);
     end;
     v = 18;
+    
+    ButtonFrame(h3=h2+120,vm=v,120,3,"Увага");
+    RadioButton(h3,v,0,0,"Звичайна",ShowFlag);
+    RadioButton(h3,v+=16,1,0,"Увага",ShowFlag);
+    RadioButton(h3,v+=16,2,0,"Ок",ShowFlag);
+    
     /*ButtonFrame(h3=h2+120,vm=v,120,4,"Тип завдання");
     RadioButton(h3,v,kTodoFlagCalendar,0,"Календар",TodoFlag);
     RadioButton(h3,v+=16,kTodoFlagTodo,0,"Заплановане",TodoFlag);

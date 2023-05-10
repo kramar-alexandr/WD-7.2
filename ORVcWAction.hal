@@ -204,3 +204,35 @@ begin
   ActLClassOnOpenWindow = false;
   return;
 end;
+
+
+global
+function Integer ActLClassRowColor(record ActVc Actr)
+begin
+  Integer res;
+  record ARVc ARr;
+  
+  res = kRowColorNone;
+  
+  if(Actr.ShowFlag==1)then begin
+    res = kRowcolorRed;
+  end;
+  if(Actr.ShowFlag==2)then begin
+    res = kRowcolorGreen;
+  end;
+  
+  ActLClassRowColor = res;
+  return;
+end;
+
+global
+updating function LongInt ActVcRecordCheckClient(var record ActVc Actr,record ActVc Act2r,LongInt stat,LongInt long4)
+BEGIN
+  LongInt res;
+  
+  res = 0;
+  UpdateBrowses("ActLClass");
+  UpdateBrowses("ActVc");
+  ActVcRecordCheckClient = res;
+  return;
+end;
