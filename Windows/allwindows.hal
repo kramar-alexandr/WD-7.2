@@ -8405,7 +8405,7 @@ begin
 		// halpushbutton(h+90,v,h+90+80,v+vs,"OpenSVODsm","Відкр.");
     vm=vm+vs+vs+10;
     //EditField(h2,v=vm+vs,-40,"",Normal,ActTypeComment,false,0);
-    EditField(h2,v+=vs,140,"Особи",Normal,MainPersons,false,UserSClass);
+    EditField(h,v+=vs,280,"Особи",Normal,MainPersons,false,UserSClass);
     EditField(h4,v,-40,"Копія",Normal,CCPersons,false,UserSClass);
     EditField(h2+200,v+=vs,80,"Керівник",Normal,Supervisor,false,UserSClass);
 		
