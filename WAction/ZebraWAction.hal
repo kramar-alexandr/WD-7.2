@@ -1718,3 +1718,36 @@ begin
   end;
   return;
 end;
+
+global
+function Boolean ActLClassOnClose(Integer wn,Integer wn2)
+begin
+	
+	if(currentcompany==13)then begin
+		ActLClassOnClose = true;
+  end;
+  return;
+end;
+
+
+global
+function Integer OpenToDoWClass(string mailboxnr,string mailboxname,record RcVc RepSpec)
+begin
+  Integer wn,oldwn;
+  record ConfVc Confr;
+  record ActVc Actr;
+
+  if (GUIType!=kGuiWindowsMobile) then begin
+    Confr.SerNr = StringToLongInt(mailboxnr);
+    oldwn = FindWindow("ToDoWClass");
+    if (oldwn>0) then begin
+      CloseWindow(oldwn);
+    end;
+    wn = OpenWindow("ToDoWClass",1,0,"",mailboxname,RepSpec);
+  end;
+  
+  OpenWindow("ActLClass",1,0,"","",Actr);
+  
+  OpenToDoWClass = wn;
+  return;
+end;

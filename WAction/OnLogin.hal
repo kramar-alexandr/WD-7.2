@@ -640,6 +640,7 @@ if (IsDoingManagerOverride==false) then begin
       reshot = OnLoginRemote3_compat(newf,resve,rescont,cleanmail,CurrentDate,CurrentTime,CurrentUser,forcestockmaint,DBStatus,aVEIVNr,aVEIVComp,clockinaction,accpetancef,acptRepSpec,mailboxnr,mailboxname,LMb.LocalMachineCode,aSPDr);
       nwn = OpenMasterWClass2(mailboxnr,mailboxname);
       nwn = OpenWindow("ToDoWClass",1,0,"",mailboxname,RepSpec);
+      OpenWindow("ActLClass",1,0,"","",Actr);
       acptRepSpec.f1 = CurrentUser;
       PutWindowRecord(nwn,acptRepSpec);
     case 12:   
