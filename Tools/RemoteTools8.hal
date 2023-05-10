@@ -1376,6 +1376,7 @@ begin
 		Actr.Comment = Actr.Comment & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
 	end;
 	Actr.ActType = "ZAKAZ";
+	Actr.ShowFlag = 1;
 	if(nonblank(ORr.InvAddr4))then begin
 		Actrw.Text = "Точка выдачи: " & ORr.InvAddr4;
 		matrowput(Actr,matrowcnt(Actr),Actrw);
@@ -1499,6 +1500,7 @@ begin
 		Actr.Comment = Actr.Comment & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
 	end;
 	Actr.ActType = "ZAKAZ";
+	Actr.ShowFlag = 1;
 	if(nonblank(ORr.InvAddr4))then begin
 		Actrw.Text = "Точка выдачи: " & ORr.InvAddr4;
 		matrowput(Actr,matrowcnt(Actr),Actrw);
