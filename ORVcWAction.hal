@@ -236,3 +236,23 @@ BEGIN
   ActVcRecordCheckClient = res;
   return;
 end;
+
+
+global
+updating function Boolean ActLClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
+BEGIN
+  Boolean res;
+  string 20 user;
+  
+
+  switch (fieldname) begin
+    case "actusercode": user = GetWindowString(wn,"actusercode");
+                        if(nonblank(user))then begin
+                          setwindowsubset(wn,user);
+                        end;
+  end;
+  
+lActLClassAfterEditField:;
+  ActLClassAfterEditField = res;
+  RETURN;
+END;

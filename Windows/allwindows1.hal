@@ -1701,7 +1701,8 @@ begin
   Sizeable(-1,-1,0,0);
   UseView(ActVc);
   FormName(PrintActL);
-  RecordList(4,17,-21,-39);
+  SoftEditField(100,14,82,"Сотрудник",Normal,"actusercode",false,UserSClass,M4Str,60);
+  RecordList(4,57,-21,-39);
   
   RlColKey(4,2,"TodoFlag",TodoFlag,false,ActUserMain);
   RlCol(24,2,"Тип",ActType,false);
