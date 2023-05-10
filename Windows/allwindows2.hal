@@ -424,3 +424,23 @@ begin
   EndWindow;
 		
 end;
+
+
+
+window ActLClass:2
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Деятельности",ActLClass,CGmlist,ActView);
+  SpawnClass(ActDClass);
+  SetWRect(20,80,650,298);
+  Sizeable(-1,-1,0,0);
+  UseView(ActVc);
+  FormName(PrintActL);
+  RecordList(4,17,-21,-39);
+  
+  RlColKey(4,2,"TodoFlag",TodoFlag,false,UserMain);
+  
+  SearchField("Поиск");
+  
+  EndWindow;
+end;
