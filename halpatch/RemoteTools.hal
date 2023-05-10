@@ -397,6 +397,7 @@ BEGIN
       if (MakeActFromSM(StockMovp,Actr,true)) then begin
         Actr.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK";
         Actr.ActType = "COMPL";
+        Actr.ShowFlag = 0;
         Actr.Comment = StockMovp.ToLocation & " Собрать заказ " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
         if(nonblankdate(ORr.PlanShipDate))then begin
           Actr.Comment = Actr.Comment & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
