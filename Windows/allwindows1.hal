@@ -1710,7 +1710,7 @@ begin
   RlCol(140,140,"Время",StartTime,false);
   RlCol(200,200,"Задача",Comment,false);
   
-  RlCol(570,570,"Руководитель",Supervisor,false);
+  RlCol(-340,-340,"Руководитель",Supervisor,false);
   RlCol(-250,-250,"Контакт",CUName,false);
   RlCol(-100,-100,"Телефон",Phone,false);
   SearchField("Поиск");
