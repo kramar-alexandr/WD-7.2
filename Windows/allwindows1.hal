@@ -1707,10 +1707,11 @@ begin
   RlColKey(4,2,"TodoFlag",TodoFlag,false,ActUserMain);
   RlCol(24,2,"Тип",ActType,false);
   RlCol(70,70,"Дата",TransDate,false);
-  RlCol(140,140,"Задача",Comment,false);
-  RlCol(460,460,"Время",StartTime,false);
-  RlCol(520,520,"Руководитель",Supervisor,false);
-  RlCol(-300,-300,"Контакт",CUName,false);
+  RlCol(140,140,"Время",StartTime,false);
+  RlCol(200,200,"Задача",Comment,false);
+  
+  RlCol(570,570,"Руководитель",Supervisor,false);
+  RlCol(-250,-250,"Контакт",CUName,false);
   RlCol(-100,-100,"Телефон",Phone,false);
   SearchField("Поиск");
   
