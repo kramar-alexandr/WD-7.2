@@ -546,7 +546,10 @@ BEGIN
     if (SMp.SerNr<=0) and (SM2p.OKFlag==0) then begin
       SMp.SerNr = SM2p.SerNr;
     end;
-  end;      
+  end;   
+  
+  
+     
   
   if(stat==insertmode)then begin
 		if (SMp.OrdFlag == 1 and NonBlank(SMp.OrderNr)) then begin //Edit***************************Sasha2,11:40 16.11.2015 {
@@ -2068,7 +2071,7 @@ BEGIN
   res = 0;
 
   	//Edit-------------------Vitalii 11:02 04.12.2015
-
+  
   if(SMp.OrdFlag==0)then begin
 		if(SMp.OKFlag!=0)then begin
 			RecordCheckError(9930,"",-1,"FrLocation");
@@ -2081,6 +2084,7 @@ BEGIN
 			goto LStockMovVcRecordCheck;
 		end;
 	end;
+  	
   	
   if (CurrentCompany==8) then begin								//Edit----------------------Dima  04.05.2016
 		Userr.Code = CurrentUser;
@@ -2175,6 +2179,12 @@ LStockMovVcRecordCheck:;
     SMp.SerNr = oldnr; 
     SMp.OfficialSerNr = oldOfficialSerNr;
   end;
+  
+  if(SMp.SerNr<1)then begin
+    res = -1;
+    RecordCheckError(1033,"",-1,"SerNr");
+  end;
+  
   StockMovVcRecordCheck = res;
   RETURN;
 END;
