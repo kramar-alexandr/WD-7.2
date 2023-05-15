@@ -168,7 +168,7 @@ begin
   record IVVc IVr;
   row IVVc IVrw;
   record INVc INr;
-  boolean testf,TrHs,filtered,TrHs2;
+  boolean testf,TrHs,filtered,TrHs2,sumf;
   string 20 mykey,curcode;
   integer mtrw,i,cred;
   record ORVc ORr;
@@ -331,7 +331,14 @@ begin
                 if(blank(DIr.DispGroups))then begin
                   DIr.DispGroups = "UNKNOWN";
                 end;
-                if(ORrw.iswebshop==0)then begin
+                sumf = true;
+                if(RepSpec.flags[0]==1)then begin
+                  if(ORrw.iswebshop==1)then begin
+                    sumf = false;
+                  end;
+                end;
+                
+                if(sumf)then begin
                   if(DIr.CType=="SUM")then begin
                     vsum[DIr.DispGroups] = vsum[DIr.DispGroups] + IVrw.Sum*cred;
                   end;

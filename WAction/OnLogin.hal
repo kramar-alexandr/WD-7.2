@@ -96,6 +96,7 @@ BEGIN
       RepSpec.sStartDate = cd;
       RepSpec.sEndDate = currentdate;
       RepSpec.f3 = USr.Code;
+      RepSpec.flags[0] = 1;
       CustSalesReportProc(RepSpec,false,vqty,vsum);
       getvectortags(vsum,avtags);
       if(avtags.length>0)then begin
