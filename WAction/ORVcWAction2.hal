@@ -2930,28 +2930,14 @@ record CUVc CUr;
 	
 	wn = curwindow;
 	getwindowrecord(wn,ORr);
-	winman = ORr.SalesMan;
-	readfirstmain(ORr,1,true);
-	if(winman!=ORr.SalesMan)then begin
-	  closewindow(wn);
-		goto lTelToClientDsm;
-	end;
 	
-	USr.Code = currentuser;
-	
-	if(readfirstmain(USr,1,true))then begin
-	  if(USr.SalesGroup=="NOTNP" and ORr.SalesGroup=="NP")then begin
-	    messagebox(0,"Замовлення зачинено по группі продажу");
-	    goto lTelToClientDsm;
-	  end;
-    if(nonblank(ORr.Phone))then begin		
-      if(left(ORr.Phone,1)=="0")then begin
-        ORr.Phone = "+38" & ORr.Phone;
-      end;
-      OpenWebBrowser("https://telegram.me/" & ORr.Phone);
+  if(nonblank(ORr.Phone))then begin		
+    if(left(ORr.Phone,1)=="0")then begin
+      ORr.Phone = "+38" & ORr.Phone;
     end;
-	end;
-lTelToClientDsm:;
+    OpenWebBrowser("https://telegram.me/" & ORr.Phone);
+  end;
+
 return
 end;
 
