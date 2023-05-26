@@ -2948,13 +2948,10 @@ record CUVc CUr;
 			CUr.Code = ORr.CustCode;
 			if(readfirstmain(CUr,1,true))then begin
 				if(nonblank(USr.Phone2)and nonblank(NormalPhone(CUr.Phone)))then begin		
-				  if(currentuser!="SA")then begin	
-				    if(left(ORr.Phone,1)=="0")then begin
-				      ORr.Phone = "+38" & ORr.Phone;
-				    end;
-					  OpenWebBrowser("https://telegram.me/" & ORr.Phone);
-					end;
-					
+          if(left(ORr.Phone,1)=="0")then begin
+            ORr.Phone = "+38" & ORr.Phone;
+          end;
+          OpenWebBrowser("https://telegram.me/" & ORr.Phone);
 				end;
 			end;
 		end;
