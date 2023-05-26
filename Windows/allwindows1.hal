@@ -1019,7 +1019,8 @@ lSimpleORWindow:;
           EditField(150,v,70,"Ref.",ViewOnly,RefStr,false,0);
         end;
         // Middle buttons
-        HalPushButton(185,v=100,250,v+20,"CallToClientDsm","„çâ´íîê");
+        HalPushButton(185,v=100,220,v+20,"CallToClientDsm","„çâ.");
+        HalPushButton(220,v,250,v+20,"TelToClientDsm","Tel.");
         if(show)then begin
           HalPushButton(185,v+27,250,v+35,"OrderCustomerInfoDsm","‡â´ò");
         end;

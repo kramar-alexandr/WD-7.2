@@ -2911,6 +2911,55 @@ lCallToClientDsm:;
 return
 end;
 
+
+global updating procedure TelToClientDsm()
+begin
+integer wn;
+record SVOVc SVOr;
+array longint sernr;
+integer count;
+record RcVc RepSpec;
+record UserVc USr;
+string 100 host,page,getParam;
+area mainRequest,replyarea;
+longint port;
+string 50 location,winman;
+record ORVc ORr;
+record CUVc CUr;
+
+	
+	wn = curwindow;
+	getwindowrecord(wn,ORr);
+	winman = ORr.SalesMan;
+	readfirstmain(ORr,1,true);
+	if(winman!=ORr.SalesMan)then begin
+	  closewindow(wn);
+		goto lTelToClientDsm;
+	end;
+	
+	USr.Code = currentuser;
+	
+	if(readfirstmain(USr,1,true))then begin
+	  if(USr.SalesGroup=="NOTNP" and ORr.SalesGroup=="NP")then begin
+	    messagebox(0,"Замовлення зачинено по группі продажу");
+	    goto lTelToClientDsm;
+	  end;
+		if(nonblank(USr.Phone2))then begin
+			CUr.Code = ORr.CustCode;
+			if(readfirstmain(CUr,1,true))then begin
+				if(nonblank(USr.Phone2)and nonblank(NormalPhone(CUr.Phone)))then begin		
+				  if(currentuser!="SA")then begin	
+					  OpenWebBrowser("https://telegram.me/" & ORr.Phone);
+					end;
+					
+				end;
+			end;
+		end;
+	end;
+lTelToClientDsm:;
+return
+end;
+
 global //Edit_______________________________ABR,15:11 11.11.2019 {
 function Integer ORLClassRowColor(record ORVc ORr)
 begin
