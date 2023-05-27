@@ -1740,7 +1740,19 @@ BEGIN
   string 30 formcode,langcode,fname,datacode;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 06 10 2021 y. at 10:48:57 AM
   transaction Boolean gPDFEmailf;
   transaction string 255 gaPDFEmailFiles;
-    
+  boolean show;
+
+
+  show = true;
+  if(usercanaction("ViewAllOrderDetails",true)==false)then begin
+    if(blank(ORr.SalesMan) and ORr.SerNr>-1)then begin
+      show = false;
+    end;
+  end;
+  if(show==false)then begin
+    goto LDoOrdForm;
+  end;
+  
   BlockLoad(SysFormatRec);  
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
