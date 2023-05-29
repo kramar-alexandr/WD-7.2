@@ -1857,7 +1857,7 @@ BEGIN
   end;  
 LORDClassActiveEditField:;  
 
-  if(currentuser=="SAUNOK")then begin
+  if(currentuser=="SA")then begin
     res = true;
   end;
 
