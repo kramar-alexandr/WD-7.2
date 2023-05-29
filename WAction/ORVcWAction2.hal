@@ -1856,6 +1856,11 @@ BEGIN
     end;
   end;  
 LORDClassActiveEditField:;  
+
+  if(currentuser=="SAUNOK")then begin
+    res = true;
+  end;
+
   ORDClassActiveEditField = res;
   RETURN;
 END;
