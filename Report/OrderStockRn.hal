@@ -1235,6 +1235,10 @@ begin
                         OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_CPU_24",false,ORr.SerNr & ";" & "ISTORE_WAR_CPU_24" & ";" & ORrw.SerialNr);
                         OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_CPU_24" & ";" & ORrw.SerialNr);
                       endformat;
+                      startformat(15);
+                        OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12_DSN",false,ORr.SerNr & ";" & "ISTORE_WAR_12_DSN" & ";" & ORrw.SerialNr);
+                        OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12_DSN" & ";" & ORrw.SerialNr);
+                      endformat;
                     
                     
                       gray_divider(0,1);
