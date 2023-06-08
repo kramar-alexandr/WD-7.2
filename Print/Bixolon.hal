@@ -1666,6 +1666,238 @@ begin
 end;
 
 
+
+global 
+updating procedure HandleBixolonWarrantyOther(record ORVc ORr,var area aFile,boolean bixolonnewimg,integer garmonths,string needprint)
+begin
+	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
+	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
+	string 10 BigLetterOn,BigLetterOff,SmallLetterOn;
+	string 100 SetFontA,SetFontB;
+	string 10 rebate;
+	val sumreb;
+	integer checklength,rwcnt,i;
+	row ORVc ORrw;
+	integer k;
+	vector string 255 text;
+	string 255 tax_url;
+	area qrArea;
+	longint alen,ai;
+	date selldate;
+	record IVVc IVr;
+	record SHVc SHr;
+	
+	checklength = 56;
+	
+	SetFontA = chr(27) & chr(33) & chr(0);
+	SetFontB = chr(27) & chr(33) & chr(1);
+	SetLeftAlignment = chr(27) & chr(97) & "0";
+	SetMiddleAlignment = chr(27) & chr(97) & "1";
+	SetRightAlignment = chr(27) & chr(97) & "2";
+	SetBoldOn = chr(27) & chr(69) & "1";
+	SetBoldOff = chr(27) & chr(69) & "0";
+	SetUnderlineOn = chr(27) & chr(45) & "2";
+	SetUnderlineOff = chr(27) & chr(45) & "0";
+	BigLetterOn = chr(27) & chr(33)  & chr(32);
+	SmallLetterOn = chr(27) & chr(33)  & chr(1);
+	BigLetterOff = chr(27) & chr(33) & chr(0);
+	PrintImage = chr(28) & chr(112) & chr(1) & chr(0);
+	
+	
+	///1d 28 4c 06 00 30 45 30 30 01 01 0a
+	if(bixolonnewimg)then begin
+	  PrintImage = chr(29) & chr(40) & chr(76) & chr(6) &  chr(0) & chr(48) & chr(69) & chr(48) & chr(48) & chr(1) & chr(1);
+	end;
+	
+	//SetAreaZeroSize(aFile);
+	
+	  selldate = ORr.OrdDate;
+    IVr.OrderNr = ORr.SerNr;
+    if(readfirstkey("OrderNr",IVr,1,true))then begin
+      selldate = IVr.InvDate;
+    end;
+    SHr.OrderNr = ORr.SerNr;
+    if (ReadLastKey("OrderKey",SHr,1,true)) then begin
+      selldate = SHr.ShipDate;
+    end;
+        
+		addtexttoarea(PrintImage,aFile);
+		
+		addtexttoarea(SetFontB,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(SetMiddleAlignment,aFile);
+		addtexttoarea(SetBoldOn,aFile);
+		TLTOARR(checklength,"ГАРАНТІЙНИЙ ТАЛОН iSTORE",aFile);
+		addtexttoarea(SetBoldOff,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		addtexttoarea(SetLeftAlignment,aFile);
+		
+		rwcnt = MatRowCnt(ORr);
+	  for(i=0;i<rwcnt;i=i+1) begin
+      MatRowGet(ORr,i,ORrw);
+      if(ORrw.stp==kInvoiceRowTypeNormal)then begin
+        if(ORrw.GarantyFor>0 or (nonblank(needprint) and needprint==(ORrw.ArtCode & ":" & ORrw.SerialNr)))then begin
+          addtexttoarea(SetUnderlineOff,aFile);
+          TLTOARR(checklength,"НАЗВА ТОВАРУ:",aFile);
+          addtexttoarea(SetUnderlineOn,aFile);
+          TLTOARR(checklength,ORrw.Spec,aFile);
+        
+          addtexttoarea(SetUnderlineOff,aFile);
+          TLTOARR(checklength,"СЕРІЙНИЙ НОМЕР: " & ORrw.SerialNr,aFile);
+        
+        
+        
+        
+          TLTOARR(checklength,"ДАТА ПРОДАЖУ: " & selldate,aFile);
+          TLTOARR(checklength,"ДАТА ЗАКІНЧЕННЯ ГАРАНТІЙНОГО ТЕРМІНУ:" & addmonth(selldate,garmonths),aFile);
+          addtexttoarea(SetBoldOn,aFile);
+          TLTOARR(checklength,"ТЕРМІН ГАРАНТІЇ (МІСЯЦІВ): " & garmonths,aFile);
+          addtexttoarea(chr(13) & chr(10),aFile);
+        end;
+      end;
+		end;
+		
+		addtexttoarea(SetBoldOff,aFile);
+		
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+    
+    text[""] = "Гарантійний термін  експлуатації виробу дорівнює гарантійному строку. Строк гарантії відраховується з дати роздрібного продажу споживачеві.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "У разі виявлення несправностей, для здійснення діагностики та ремонту, просимо Вас звертатися в магазин, в якому була здійснена покупка або сервісний центр:";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "Сервісний центр А-сервіс:";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        Адреса: Київ, вул.Бойчука 1/2";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        Телефон: +380 (93) 170 45 00";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        Веб-сайт:";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        www.a-service.ua";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+    
+    text[""] = "Магазини iStore:";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        Телефон: 0 800 330 334";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        Веб-сайт:";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        www.istore.ua/ua/stores/";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "ОБМІН ТА ПОВЕРНЕННЯ ТОВАРУ";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "Споживач перед придбанням товару перевіряє його комплектацію, відсутність пошкоджень або дефектів.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "Обмін або повернення товару належної якості здійснюється протягом 14 днів.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "Будь ласка, зверніть увагу, обміну або поверненню підлягає тільки новий товар, який не активований, який не був в експлуатації і не має слідів використання.";
+		text[""] = text[""]  & " Обов`язково повинно бути збережено: повний комплект товару, цілісність, неушкодженість та всі частини упаковки, ярлики, захисні плівки, заводське маркування.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "ЦЯ ГАРАНТІЯ ПОКРИВАЄ";
+		TLTOARRVECTOR(checklength,text,aFile);
+    addtexttoarea(chr(13) & chr(10),aFile);
+    
+    text[""] = "1. У випадку підтвердженого заводського дефекту сервісним центром, Ви маєте право на заміну, протягом 3-5 робочих днів, на новий пристрій або на аналогічний.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "У випадку заміни пристрою – комплект та коробка пристрою не підлягає заміні та строк гарантійного терміну не подовжується, а залишається незмінним з дати покупки пристрою.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "2.  У випадку, коли з пристроєм було придбане та наклеєно скло або плівка, у разі заміни пристрою вартість скла або плівки не компенсується магазином. ";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "3. Магазин та сервісний центр не несуть відповідальності за пошкодження або втрату особистого контенту, налаштувань, даних користувача та будь-яких файлів, що знаходяться на пристою.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+				
+		addtexttoarea(chr(13) & chr(10),aFile);
+    
+		addtexttoarea(SetBoldOn,aFile);
+		addtexttoarea(SetUnderlineOff,aFile);
+		TLTOARR(checklength,"ЦЯ ГАРАНТІЯ НЕ РОЗПОВСЮДЖУЄТЬСЯ",aFile);
+		addtexttoarea(SetBoldOff,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "1.На косметичні пошкодження, включаючи, окрім іншого, подряпини, вм’ятини, та зламані пластикові деталі портів.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "2.На пошкодження, викликані використанням виробів інших фірм.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "3.На недоліки, що були спричинені внаслідок недбалого поводження (включно, без обмеження, пошкодження, що заподіяні гострими предметами, вигинанням, стисканням, падінням, контактом з рідиною,";
+		text[""] = text[""] & " вогнем тощо), чи спричинені неправильним використанням виробу, включаючи використання всупереч інструкціям, що супроводжують виріб.";
+
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "4.На пошкодження, спричинені землетрусами, нещасними випадками, дією непереборних сил, впливом на виріб магнітного чи іншого шкідливого випромінювання, потраплянням всередину виробу сторонніх";
+		text[""] = text[""] & " предметів, у тому числі комах, збоями в роботі або невідповідністю стандартам мереж електроживлення, навмисними або необережними діями з вашого боку, або з боку третіх осіб.";
+    TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "5.Якщо виріб було відкрито, модифіковано або відремонтовано особою, що не є представником уповноваженого сервісного центру, якщо цей виріб відремонтовано звикористанням несанкціонованих запасних";
+		text[""] = text[""] & " частин, коли серійний номер виробу було видалено, витерто, затерто, змінено, чи він є нерозбірливим, або у разі, якщо пошкодження виникли внаслідок обслуговування (включаючи оновлення та розширення).";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "6.На пошкодження, спричинені внаслідок використання виробу не у відповідності з опублікованими рекомендаціями компанії виробника.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "7.Якщо виріб піддавався впливу зовнішніх факторів (наприклад корозії, окислюванню та ін.) або перебував поза дозволеного виробником діапазону температури, вологості та ін., який вказано в технічних";
+		text[""] = text[""] & " специфікаціях, або на нього проливалася їжа або рідина, чи мали вплив хімічні речовини.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "8.На дефекти, які виникли у зв’язку з нормальним зносом або нормальним старінням виробу.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "9.На збережену інформацію та налаштування користувача (фотографії, музика, пошта, контакти та ін.)";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		addtexttoarea(SetBoldOn,aFile);
+		addtexttoarea(SetUnderlineOn,aFile);
+		TLTOARR(checklength,"Товар отримав у цілому стані та повній комплектації",aFile);
+		TLTOARR(checklength,"3 умовами гарантії ознайомлений і згоден",aFile);
+		addtexttoarea(SetBoldOff,aFile);
+		addtexttoarea(SetUnderlineOff,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		TLTOARR(checklength,"========================================================",aFile);
+		
+		addtexttoarea(SetMiddleAlignment,aFile);
+		TLTOARR(checklength,ORr.Addr0,aFile);
+		
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		//Cut receipt  
+		addtexttoarea(chr(29) & chr(86) & "1",aFile);
+end;
+
+
 global 
 updating procedure HandleSVOAct1(record SVOVc SVOr,var area aFile)		//Edit----------------------Dima  21.09.2015
 begin

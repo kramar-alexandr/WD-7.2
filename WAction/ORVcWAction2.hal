@@ -74,6 +74,8 @@ external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,In
 remote procedure HandleBixolonWarranty(record ORVc,var area,boolean,vector boolean);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyM(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyMAC(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarrantyOther(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
+
 external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);
 remote function val CommisionCodeBlockComission(string);
 remote procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
@@ -3254,7 +3256,7 @@ BEGIN
          matrowget(ORr,j,OR2rw);
          if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
             exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
-            HandleBixolonWarrantyMAC(ORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
+            HandleBixolonWarrantyOther(ORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
             needprint = needprint - 1;
             found = true;
          end;
