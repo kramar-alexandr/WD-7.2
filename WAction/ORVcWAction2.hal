@@ -3200,7 +3200,7 @@ BEGIN
               matrowget(oldORr,j,OR2rw);
               logtext(0,"ORrw.SerialNr==OR2rw.SerialNr " & thissernr & " == " & OR2rw.SerialNr);
               if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0)then begin
-                HandleBixolonWarrantyMAC(oldORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & thissernr);//6 months
+                HandleBixolonWarrantyMAC(oldORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & thissernr);//12 months
                 createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                 createrecordlink(ORr,currentcompany,oldORr,currentcompany);
                 found = true;
@@ -3218,7 +3218,7 @@ BEGIN
          matrowget(ORr,j,OR2rw);
          if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
             exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
-            HandleBixolonWarrantyMAC(ORr,aFile,fileexists("BixolonNewIMG"),24,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
+            HandleBixolonWarrantyMAC(ORr,aFile,fileexists("BixolonNewIMG"),24,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//24 months
             needprint = needprint - 1;
             found = true;
          end;
@@ -3238,7 +3238,7 @@ BEGIN
               matrowget(oldORr,j,OR2rw);
               logtext(0,"ORrw.SerialNr==OR2rw.SerialNr " & thissernr & " == " & OR2rw.SerialNr);
               if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0)then begin
-                HandleBixolonWarrantyMAC(oldORr,aFile,fileexists("BixolonNewIMG"),24,OR2rw.ArtCode & ":" & thissernr);//6 months
+                HandleBixolonWarrantyMAC(oldORr,aFile,fileexists("BixolonNewIMG"),24,OR2rw.ArtCode & ":" & thissernr);//24 months
                 createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                 createrecordlink(ORr,currentcompany,oldORr,currentcompany);
                 found = true;
@@ -3276,7 +3276,7 @@ BEGIN
               matrowget(oldORr,j,OR2rw);
               logtext(0,"ORrw.SerialNr==OR2rw.SerialNr " & thissernr & " == " & OR2rw.SerialNr);
               if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0)then begin
-                HandleBixolonWarrantyMAC(oldORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & thissernr);//6 months
+                HandleBixolonWarrantyOther(oldORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & thissernr);//12 months
                 createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                 createrecordlink(ORr,currentcompany,oldORr,currentcompany);
                 found = true;
