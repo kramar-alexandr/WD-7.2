@@ -1668,7 +1668,7 @@ end;
 
 
 global 
-updating procedure HandleBixolonWarrantyOther(record ORVc ORr,var area aFile,boolean bixolonnewimg,integer garmonths,string needprint)
+updating procedure HandleBixolonWarrantyDyson(record ORVc ORr,var area aFile,boolean bixolonnewimg,integer garmonths,string needprint)
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -1806,25 +1806,6 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
-		
-		text[""] = "ЦЯ ГАРАНТІЯ ПОКРИВАЄ";
-		TLTOARRVECTOR(checklength,text,aFile);
-    addtexttoarea(chr(13) & chr(10),aFile);
-    
-    text[""] = "1. У випадку підтвердженого заводського дефекту сервісним центром, Ви маєте право на заміну, протягом 3-5 робочих днів, на новий пристрій або на аналогічний.";
-		TLTOARRVECTOR(checklength,text,aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
-		text[""] = "У випадку заміни пристрою – комплект та коробка пристрою не підлягає заміні та строк гарантійного терміну не подовжується, а залишається незмінним з дати покупки пристрою.";
-		TLTOARRVECTOR(checklength,text,aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
-		text[""] = "2.  У випадку, коли з пристроєм було придбане та наклеєно скло або плівка, у разі заміни пристрою вартість скла або плівки не компенсується магазином. ";
-		TLTOARRVECTOR(checklength,text,aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
-		text[""] = "3. Магазин та сервісний центр не несуть відповідальності за пошкодження або втрату особистого контенту, налаштувань, даних користувача та будь-яких файлів, що знаходяться на пристою.";
-		TLTOARRVECTOR(checklength,text,aFile);
-		addtexttoarea(chr(13) & chr(10),aFile);
-				
-		addtexttoarea(chr(13) & chr(10),aFile);
     
 		addtexttoarea(SetBoldOn,aFile);
 		addtexttoarea(SetUnderlineOff,aFile);
@@ -1873,6 +1854,46 @@ begin
 		
 		text[""] = "9.На збережену інформацію та налаштування користувача (фотографії, музика, пошта, контакти та ін.)";
 		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		
+		text[""] = "Dyson не несе відповідальності за витрати, спричинені в результаті:";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Використання деталей, не передбачених інструкцією Dyson.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Неакуратної експлуатації, переміщення або неналежного догляду";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Вплив зовнішніх джерел, таких як перевезення або погодні умови.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Ремонт чи демонтаж деталей неуповноваженими особами чи представниками.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Експлуатації пилососу в інших, не побутових цілях.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Природного зношування, включаючи фільтр, щітку, шланг та електрошнур, або при встановленні";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Факту зовнішнього пошкодження або неналежного звернення.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		
+		text[""] = "Використання неоригінальних деталей чи аксесуарів";
+		TLTOARRVECTOR(checklength,text,aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
+		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		addtexttoarea(SetBoldOn,aFile);
