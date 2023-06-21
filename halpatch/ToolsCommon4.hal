@@ -961,10 +961,13 @@ begin
     rownr = WindowActiveRow(wn);
     if(rownr>-1)then begin
       matrowget(ORr,rownr,ORrw);
-      if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24")then begin
+      /*if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24")then begin
         psname = "TSerialNrSClass";
       end;
       if(ORrw.ArtCode=="ISTORE_WAR_CPU_12" or ORrw.ArtCode=="ISTORE_WAR_CPU_24" or ORrw.ArtCode=="ISTORE_WAR_12_DSN")then begin
+        psname = "TSerialNrSClass";
+      end;*/
+      if(left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(ORrw.ArtCode,10)=="ISTORE_WAR")then begin
         psname = "TSerialNrSClass";
       end;
     end;
