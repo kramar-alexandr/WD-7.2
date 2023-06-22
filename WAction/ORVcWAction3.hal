@@ -1015,7 +1015,7 @@ begin
   
   recordnew(Actr);
   if (MakeActFromOR(ORr,Actr)) then begin
-    Actr.MainPersons = "GORIN,PODENKO,BABICH,MOROZ,PUSTYNNIKO,TARANIK,TALALAYEV";
+    Actr.MainPersons = "GORIN,PODENKO,BABICH,MOROZ,PUSTYNNIKO,TARANIK,TALALAYEV,OSOKIN";
     Actr.StartTime = currenttime;
     if(Actr.SerNr<0)then begin
 		  Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
