@@ -1264,7 +1264,10 @@ begin
     end;  
   end;
   if(RepSpec.Media==mtExcel)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
-    OutString(230,0,comment,false);
+    
+    OutString(480,0,"",true);
+    OutString(480,0,"",true);
+    OutString(1,0,comment,false);
   end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
 
   
