@@ -801,6 +801,8 @@ begin
   string 255 tstr,tstr2,dblstr;
   Integer typeofcur,oldstyle;
   record BaseCurBlock BCb;
+  string 255 comment;
+  row VIVc VIrw;
 
   BlockLoad(BCb);
   h1=11; h2=60; h3 = 220;
@@ -816,6 +818,15 @@ begin
     rs = MulRateToBase1(orgVIp.CurncyCode,rvalp,orgVIp.FrRate,orgVIp.ToRateB1,orgVIp.ToRateB2,orgVIp.BaseRate1,orgVIp.BaseRate2,DefaultCurRoundOff);
   end;
 */
+  comment = "";
+  rwcnt = matrowcnt(VIr);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:51 AM
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(VIr,i,VIrw);
+    comment = comment & " " & VIrw.Comment;
+  end;
+  comment = trim(comment);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:54 AM
+
+
   if ((orgVIp.InstallmentInv==1) and (RepSpec.flags[19]!=0)) then begin
     PrintInstallments(RepSpec,orgVIp);
   end else begin
@@ -852,6 +863,10 @@ begin
       tstr = tstr & ")";
     end;
     OutStringID(60,dblstr,tstr,false,tstr2);
+    if(RepSpec.Media==mtScreen and RepSpec.ArtMode==0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
+      OutString(230,0,comment,false);
+    end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
+
     if (orgVIp.Closed==1) then begin
       res = true;
       tstr2 = " (*)";
