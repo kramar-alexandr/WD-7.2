@@ -624,7 +624,7 @@ BEGIN
           end;
           OutString(115,"DblVePerVI",tstr,false);
           if(RepSpec.Media==mtScreen)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
-            OutString(90,0,comment,false);
+            OutString(140,0,comment,false);
           end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
           switch (RepSpec.Media) begin
             case mtFile:
