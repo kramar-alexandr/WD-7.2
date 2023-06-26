@@ -1217,7 +1217,7 @@ begin
   OutString(210,0,VIr.PayDeal,false);
   //OutDate(230,0,VIr.DueDate,false);// Edit ************************** Tuesday, 17 March 2015 11:48:12
   
-  if(RepSpec.Media==mtScreen and RepSpec.ArtMode==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
+  if(RepSpec.Media==mtScreen and RepSpec.ArtMode==0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
     OutString(230,0,comment,false);
   end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
 
@@ -1263,7 +1263,7 @@ begin
       OutVal(480,0,rs,M4Val,true);
     end;  
   end;
-  if(RepSpec.Media==mtExcel and RepSpec.ArtMode==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
+  if(RepSpec.Media==mtExcel and RepSpec.ArtMode==0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
     
     OutString(480,0,"",true);
     OutString(480,0,"",true);
