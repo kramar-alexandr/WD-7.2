@@ -912,6 +912,10 @@ begin
   val v,v2,lossv,cuscurval;
   string 255 tstr,t2,t3,apacc;
   val frrate,torate1,torate2,baserate1,baserate2;
+  row VIVc VIrw;
+  integer rwcnt,i;
+  string 255 comment;
+  
 
   OPr.SerNr = OPrsr.TransNr;
   if (ReadFirstMain(OPr,1,true)) then begin
@@ -959,7 +963,16 @@ begin
             VI2r.SerNr = OPrw.VISerNr;
             if (RepSpec.flags[2]==0) then begin              
               if (OPrw.VISerNr>0) then begin   
-                ReadFirstMain(VI2r,1,true);                 
+                ReadFirstMain(VI2r,1,true);       
+                
+                rwcnt = matrowcnt(VI2r);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:51 AM
+                for(i=0;i<rwcnt;i=i+1)begin
+                  matrowget(VI2r,i,VIrw);
+                  comment = comment & " " & VIrw.Comment;
+                end;
+                comment = trim(comment);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:54 AM
+                
+                          
                 cuscurval = MULWITHRATETOBASE1(OPrw.PInvCurncy,OPr.TransDate,v,DefaultCurRoundOff);  
               end else begin
                 if (OPrw.PrepayNr>0) then begin
@@ -1013,7 +1026,14 @@ begin
               end;
             end else begin 
               cuscurval = v;
-              if (ReadFirstMain(VI2r,1,true)) then begin                    
+              if (ReadFirstMain(VI2r,1,true)) then begin  
+                rwcnt = matrowcnt(VI2r);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:51 AM
+                for(i=0;i<rwcnt;i=i+1)begin
+                  matrowget(VI2r,i,VIrw);
+                  comment = comment & " " & VIrw.Comment;
+                end;
+                comment = trim(comment);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:54 AM
+                              
                 cuscurval = MULWITHRATETOBASE1(OPrw.PInvCurncy,OPr.TransDate,v,DefaultCurRoundOff);  
               end else begin                    
                 if (OPrw.PrepayNr>0) then begin
@@ -1125,6 +1145,13 @@ endformat;
                 OutDateOvst(0,0,OPr.TransDate,false,OPr.Invalid);
                 OutStringOvst(65,0,t3,false,OPr.Invalid);
                 OutStringOvst(115,"DblVePerOP",tstr,false,OPr.Invalid);
+                
+                if(RepSpec.Media==mtScreen)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
+                  OutString(150,0,comment,false);
+                end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
+
+                
+                
                 ovst = OPrw.ovst;
                 if (ovst==0) then begin
                   ovst = OPr.Invalid;
@@ -1153,6 +1180,12 @@ LVEPer_PrintPaymenttoFile:;
                     end;
                 end;
                 OutValOvstBiDi(2,0,balp,M4Val,true,OPr.Invalid,2);
+                
+                if(RepSpec.Media==mtExcel)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
+                  OutString(1,0,comment,false);
+                end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
+
+                
                 EndFormat;
               end else begin
                 AddVePerFormPaymentRow(adocRwtype,adocInvoiceNr,adocVEInvNo,adocInvDate,adocDueDate,adocRVal,adocDebVal,adocCurncyCode,adoccnt,
