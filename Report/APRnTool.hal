@@ -819,9 +819,9 @@ begin
   end;
 */
   comment = "";
-  rwcnt = matrowcnt(VIr);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:51 AM
+  rwcnt = matrowcnt(orgVIp);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:51 AM
   for(i=0;i<rwcnt;i=i+1)begin
-    matrowget(VIr,i,VIrw);
+    matrowget(orgVIp,i,VIrw);
     comment = comment & " " & VIrw.Comment;
   end;
   comment = trim(comment);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:54 AM
@@ -864,7 +864,7 @@ begin
     end;
     OutStringID(60,dblstr,tstr,false,tstr2);
     if(RepSpec.Media==mtScreen and RepSpec.ArtMode==0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
-      OutString(230,0,comment,false);
+      OutString(90,0,comment,false);
     end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
 
     if (orgVIp.Closed==1) then begin
