@@ -647,10 +647,11 @@ LVEPer_PrintInvoicetoFile:;
                 OutVal(420,0,lossv,M4Val,true);
               end;                
               OutVal(2,0,balp,M4Val,true);
-              if(RepSpec.Media==mtExcel)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
-                OutString(1,0,comment,false);
-              end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
           end;
+          if(RepSpec.Media==mtExcel)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
+            OutString(1,0,comment,false);
+          end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
+
           EndFormat;
         end else begin
           AddVePerFormInvoiceRow(adocRwtype,adocInvoiceNr,adocVEInvNo,adocInvDate,adocDueDate,adocRVal,adocCredVal,adocCurncyCode,adoccnt,
