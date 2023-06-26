@@ -713,6 +713,12 @@ LVEPer_PrintInvoicetoFile:;
         SumCredit = SumCredit + cuscurval;
         balp = balp + v-v2;
         if (reportf) then begin
+          rwcnt = matrowcnt(VIr);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:51 AM
+          for(i=0;i<rwcnt;i=i+1)begin
+            matrowget(VIr,i,VIrw);
+            comment = comment & " " & VIrw.Comment;
+          end;
+          comment = trim(comment);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:54 AM
           StartFormat(15);
           OutDate(0,0,VIr.TransDate,false);
           OutString(65,0,USetStr(4188),false);
@@ -723,6 +729,9 @@ LVEPer_PrintInvoicetoFile:;
             tstr = tstr & ")";
           end;
           OutString(115,"DblVePerVI",tstr,false);
+          if(RepSpec.Media==mtScreen)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
+            OutString(90,0,comment,false);
+          end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
           OutVal(3,0,v2,M4Val,true);
           if (RepSpec.flags[2]==1) then begin
             OutString(7,0,VIr.CurncyCode,false);
@@ -732,15 +741,10 @@ LVEPer_PrintInvoicetoFile:;
             OutString(8,0,VIr.CurncyCode,false);
           end;  
           OutVal(2,0,balp,M4Val,true);
-          rwcnt = matrowcnt(VIr);
-          for(i=0;i<rwcnt;i=i+1)begin
-            matrowget(VIr,i,VIrw);
-            comment = comment & " " & VIrw.Comment;
-          end;
-          comment = trim(comment);
-          if(RepSpec.Media==mtExcel)then begin
+          
+          if(RepSpec.Media==mtExcel)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
             OutString(1,0,comment,false);
-          end;
+          end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
           
           EndFormat;
         end else begin
