@@ -1149,7 +1149,7 @@ endformat;
                 OutStringOvst(115,"DblVePerOP",tstr,false,OPr.Invalid);
                 
                 if(RepSpec.Media==mtScreen)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
-                  OutString(150,0,comment,false);
+                  OutString(160,0,comment,false);
                 end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
 
                 
