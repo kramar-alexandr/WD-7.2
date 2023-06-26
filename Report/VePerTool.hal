@@ -606,6 +606,7 @@ BEGIN
         end;
         balp = balp + cuscurval;
         SumCredit = SumCredit + cuscurval;
+        comment = "";
         if (reportf) then begin
           rwcnt = matrowcnt(VIr);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:51 AM
           for(i=0;i<rwcnt;i=i+1)begin
@@ -961,6 +962,7 @@ begin
             v = OPrw.PInvVal;
             lossv = 0;
             VI2r.SerNr = OPrw.VISerNr;
+            comment = "";
             if (RepSpec.flags[2]==0) then begin              
               if (OPrw.VISerNr>0) then begin   
                 ReadFirstMain(VI2r,1,true);       
