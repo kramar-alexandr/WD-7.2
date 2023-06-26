@@ -889,6 +889,10 @@ begin
       OutValBiDi(480,0,rvalbasp,M4Val,true,520);
       invsal = InvVal;
     end;
+    if(RepSpec.Media==mtExcel and RepSpec.ArtMode==0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
+      OutString(90,0,comment,false);
+    end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
+
     EndFormat;
   end;
   OPrsr.VINr = invnr;
