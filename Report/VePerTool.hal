@@ -564,6 +564,7 @@ BEGIN
   string 255 tstr;
   val frrate,torate1,torate2,baserate1,baserate2;
   Integer i,rwcnt;
+  string 255 comment;
   
   VIr.SerNr = VISerNr;
   if (ReadFirstMain(VIr,1,true)) then begin
@@ -731,6 +732,14 @@ LVEPer_PrintInvoicetoFile:;
             OutString(8,0,VIr.CurncyCode,false);
           end;  
           OutVal(2,0,balp,M4Val,true);
+          rwcnt = matrowcnt(VIr);
+          for(i=0;i<rwcnt;i=i+1)begin
+            matrowget(VIr,i,VIrw);
+            comment = comment & " " & VIrw.Comment;
+          end;
+          comment = trim(comment);
+          
+          
           EndFormat;
         end else begin
           AddVePerFormInvoiceRow(adocRwtype,adocInvoiceNr,adocVEInvNo,adocInvDate,adocDueDate,adocRVal,adocCredVal,adocCurncyCode,adoccnt,
