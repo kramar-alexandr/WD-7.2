@@ -738,7 +738,9 @@ LVEPer_PrintInvoicetoFile:;
             comment = comment & " " & VIrw.Comment;
           end;
           comment = trim(comment);
-          
+          if(RepSpec.Media==mtExcel)then begin
+            OutString(1,0,comment,false);
+          end;
           
           EndFormat;
         end else begin
