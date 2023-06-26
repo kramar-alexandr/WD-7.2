@@ -1134,6 +1134,9 @@ begin
   record POVc POr;
   record CUVc CUr;// Edit ************************** Thursday, 1 March 2012 11:24:23
   val fr,to1,to2,br1,br2;// Edit ************************** Thursday, 1 March 2012 11:24:22
+  string 255 comment;
+  row VIVc VIrw;
+  integer rwcnt,i;
   
   if ((VIr.InstallmentInv==1) and (RepSpec.flags[19]!=0)) then begin
     if (PrintInstallments(VIr,RepSpec,rval,rs,foundclosed)) then begin
@@ -1176,6 +1179,15 @@ begin
     tstr = tstr & " (*) ";
     foundclosed = true;
   end;
+  
+  rwcnt = matrowcnt(VIr);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:51 AM
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(VIr,i,VIrw);
+    comment = comment & " " & VIrw.Comment;
+  end;
+  comment = trim(comment);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:54 AM
+
+  
   StartFormat(15);
   if(RepSpec.Media==20 or RepSpec.Media==2)then begin
     //OutString(0,0,VIr.Objects,false);// Edit ************************** Thursday, 19 August 2010 14:32:15
@@ -1204,6 +1216,12 @@ begin
   end;
   OutString(210,0,VIr.PayDeal,false);
   //OutDate(230,0,VIr.DueDate,false);// Edit ************************** Tuesday, 17 March 2015 11:48:12
+  
+  if(RepSpec.Media==mtScreen)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
+    OutString(230,0,comment,false);
+  end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
+
+  
   if (Ab.ShowDelayDays!=0) then begin
     if (latedays<0) then begin
       OutLongInt(345,0,-latedays,true);
@@ -1245,6 +1263,13 @@ begin
       OutVal(480,0,rs,M4Val,true);
     end;  
   end;
+  if(RepSpec.Media==mtExcel)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:55 AM
+    OutString(230,0,comment,false);
+  end;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 06 2023 y. at 11:03:57 AM
+
+  
+     
+  
   EndFormat;
 LAPRPrintOverView:;  
   APRPrintOverView = foundclosed;
