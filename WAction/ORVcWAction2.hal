@@ -3095,7 +3095,7 @@ BEGIN
         end;
       end;
     end;
-    if((ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_12"  or ORrw.ArtCode=="ISTORE_WAR_12_WTH") and ORrw.Price>0)then begin
+    if((ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12_WTH" or ORrw.ArtCode=="ISTORE_WAR_12_PODS" or ORrw.ArtCode=="ISTORE_WAR_12_APODS") and ORrw.Price>0)then begin
       m12flag = true;
       found = false;
       for(j=0;j<rwcnt;j=j+1)begin

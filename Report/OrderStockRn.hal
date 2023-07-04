@@ -1257,6 +1257,16 @@ begin
                           OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12_WTH",false,ORr.SerNr & ";" & "ISTORE_WAR_12_WTH" & ";" & ORrw.SerialNr);
                           OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12_WTH" & ";" & ORrw.SerialNr);
                         endformat;
+                        
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12_PODS",false,ORr.SerNr & ";" & "ISTORE_WAR_12_PODS" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12_PODS" & ";" & ORrw.SerialNr);
+                        endformat;
+                        
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12_APODS",false,ORr.SerNr & ";" & "ISTORE_WAR_12_APODS" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12_APODS" & ";" & ORrw.SerialNr);
+                        endformat;
                       end;
                     
                     
