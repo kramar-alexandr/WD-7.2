@@ -678,7 +678,7 @@ begin
   string 200 varsubset;
   record CUVc CUr;
   Boolean cuf;
-  Boolean printedf,showorderf;
+  Boolean printedf,showorderf,onlytrade;
   val invgp;
   Integer sorting;
   record SMVc VATr;
@@ -1205,45 +1205,55 @@ begin
                         //OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & ORrw.ArtCode & ";" & ORrw.SerialNr);
                       EndFormat;
                       
+                      onlytrade = false;
+                      if(INr.Group=="TRADE")then begin
+                        onlytrade = true;
+                      end;
                       
-                      startformat(15);
-                        OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_6",false,ORr.SerNr & ";" & "ISTORE_WAR_6" & ";" & ORrw.SerialNr);
-                        OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_6" & ";" & ORrw.SerialNr);
-                      endformat;
+                      if(!onlytrade)then begin
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_6",false,ORr.SerNr & ";" & "ISTORE_WAR_6" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_6" & ";" & ORrw.SerialNr);
+                        endformat;
+                      end;
                       startformat(15);
                         OutStringID(300,"DblSelAddWaranty","ISTORE_USED_WAR_6",false,ORr.SerNr & ";" & "ISTORE_USED_WAR_6" & ";" & ORrw.SerialNr);
                         OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_USED_WAR_6" & ";" & ORrw.SerialNr);
                       endformat;
-                      startformat(15);
-                        OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12",false,ORr.SerNr & ";" & "ISTORE_WAR_12" & ";" & ORrw.SerialNr);
-                        OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12" & ";" & ORrw.SerialNr);
-                      endformat;
+                      if(!onlytrade)then begin
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12",false,ORr.SerNr & ";" & "ISTORE_WAR_12" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12" & ";" & ORrw.SerialNr);
+                        endformat;
+                      end;
                       startformat(15);
                         OutStringID(300,"DblSelAddWaranty","ISTORE_USED_WAR_12",false,ORr.SerNr & ";" & "ISTORE_USED_WAR_12" & ";" & ORrw.SerialNr);
                         OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_USED_WAR_12" & ";" & ORrw.SerialNr);
                       endformat;
-                      startformat(15);
-                        OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_24",false,ORr.SerNr & ";" & "ISTORE_WAR_24" & ";" & ORrw.SerialNr);
-                        OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_24" & ";" & ORrw.SerialNr);
-                      endformat;
+                      if(!onlytrade)then begin
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_24",false,ORr.SerNr & ";" & "ISTORE_WAR_24" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_24" & ";" & ORrw.SerialNr);
+                        endformat;
                       
-                      startformat(15);
-                        OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_CPU_12",false,ORr.SerNr & ";" & "ISTORE_WAR_CPU_12" & ";" & ORrw.SerialNr);
-                        OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_CPU_12" & ";" & ORrw.SerialNr);
-                      endformat;
-                      startformat(15);
-                        OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_CPU_24",false,ORr.SerNr & ";" & "ISTORE_WAR_CPU_24" & ";" & ORrw.SerialNr);
-                        OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_CPU_24" & ";" & ORrw.SerialNr);
-                      endformat;
-                      startformat(15);
-                        OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12_DSN",false,ORr.SerNr & ";" & "ISTORE_WAR_12_DSN" & ";" & ORrw.SerialNr);
-                        OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12_DSN" & ";" & ORrw.SerialNr);
-                      endformat;
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_CPU_12",false,ORr.SerNr & ";" & "ISTORE_WAR_CPU_12" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_CPU_12" & ";" & ORrw.SerialNr);
+                        endformat;
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_CPU_24",false,ORr.SerNr & ";" & "ISTORE_WAR_CPU_24" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_CPU_24" & ";" & ORrw.SerialNr);
+                        endformat;
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12_DSN",false,ORr.SerNr & ";" & "ISTORE_WAR_12_DSN" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12_DSN" & ";" & ORrw.SerialNr);
+                        endformat;
                       
-                      startformat(15);
-                        OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12_WTH",false,ORr.SerNr & ";" & "ISTORE_WAR_12_WTH" & ";" & ORrw.SerialNr);
-                        OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12_WTH" & ";" & ORrw.SerialNr);
-                      endformat;
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12_WTH",false,ORr.SerNr & ";" & "ISTORE_WAR_12_WTH" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12_WTH" & ";" & ORrw.SerialNr);
+                        endformat;
+                      end;
                     
                     
                       gray_divider(0,1);
