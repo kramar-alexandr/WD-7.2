@@ -1216,20 +1216,24 @@ begin
                           OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_6" & ";" & ORrw.SerialNr);
                         endformat;
                       end;
-                      startformat(15);
-                        OutStringID(300,"DblSelAddWaranty","ISTORE_USED_WAR_6",false,ORr.SerNr & ";" & "ISTORE_USED_WAR_6" & ";" & ORrw.SerialNr);
-                        OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_USED_WAR_6" & ";" & ORrw.SerialNr);
-                      endformat;
+                      if(onlytrade)then begin
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_USED_WAR_6",false,ORr.SerNr & ";" & "ISTORE_USED_WAR_6" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_USED_WAR_6" & ";" & ORrw.SerialNr);
+                        endformat;
+                      end;
                       if(!onlytrade)then begin
                         startformat(15);
                           OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_12",false,ORr.SerNr & ";" & "ISTORE_WAR_12" & ";" & ORrw.SerialNr);
                           OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12" & ";" & ORrw.SerialNr);
                         endformat;
                       end;
-                      startformat(15);
-                        OutStringID(300,"DblSelAddWaranty","ISTORE_USED_WAR_12",false,ORr.SerNr & ";" & "ISTORE_USED_WAR_12" & ";" & ORrw.SerialNr);
-                        OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_USED_WAR_12" & ";" & ORrw.SerialNr);
-                      endformat;
+                      if(onlytrade)then begin
+                        startformat(15);
+                          OutStringID(300,"DblSelAddWaranty","ISTORE_USED_WAR_12",false,ORr.SerNr & ";" & "ISTORE_USED_WAR_12" & ";" & ORrw.SerialNr);
+                          OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_USED_WAR_12" & ";" & ORrw.SerialNr);
+                        endformat;
+                      end;
                       if(!onlytrade)then begin
                         startformat(15);
                           OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_24",false,ORr.SerNr & ";" & "ISTORE_WAR_24" & ";" & ORrw.SerialNr);
