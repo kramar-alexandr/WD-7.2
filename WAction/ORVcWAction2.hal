@@ -2422,6 +2422,10 @@ BEGIN
   if (UserCanAction("UnOKAll",true)) then begin
     res = true;
   end;  
+  
+  if(currentuser=="MOROZ" or currentuser=="PUSTYNNIKO")then begin
+    res = true;
+  end;
   ORDClassPrintedButtonAction = res;
   RETURN;
 END;
