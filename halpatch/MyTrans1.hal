@@ -168,8 +168,6 @@ begin
         writeareatofile(replyarea,"NPStatus.txt",0);
         statustext = ChekUnicode(JSONGet(jobj,"data/[0]/Status"),vres);
         status = stringtoint(JSONGet(jobj,"data/[0]/StatusCode"));
-        logtext(0,"statusCode " & status);
-        logtext(0,"Status " & statustext);
         if(status>0 and status!=ORr.TTNStatusCode)then begin
           ORr.TTNStatusCode = status;
           ORr.TTNNStatus = statustext;

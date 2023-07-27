@@ -2443,6 +2443,24 @@ WindowBegin("Выберите внутренний номер",SelectSVOPointWClass,CGother,RcType);
 end;
 
 
+window SMSORWClass:1 //Edit-------------------Vitalii 15:51 04.11.2016
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+WindowBegin("Відправити СМС",SMSORWClass,CGother,0);
+  Modality(1);
+  UseView(ORVc);
+  SetWRect(80,200,400,350);
+  Sizeable(-1,-1,0,0);
+  h = 100; v = 30;
+  TextField(20,v-5,-20,100,Math2,0);
+  v = v + 40;
+  HalPushButton(50,5,200,25,"DblSMSORWClassDsm","Відправити");
+  
+  EndWindow;
+end;
+
+
 
 window ORReport2RClass:1 
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")

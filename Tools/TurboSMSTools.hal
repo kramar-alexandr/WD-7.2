@@ -352,3 +352,22 @@ begin
   BlockStore(SMSb);
   return;
 end;
+
+
+global updating procedure RA_DblSMSORWClassDsm(record ORVc smsORr)
+begin
+  string 20 phone;
+  string 255 text;
+  
+  phone = smsORr.Phone;
+  
+  if(len(phone)>10)then begin
+    phone = right(phone,10);
+  end;
+  
+  text = StringFromText(smsORr,0,SizeTextCnt(smsORr));
+  
+  EasySendTurboSMS(phone,text);
+
+return;
+end;

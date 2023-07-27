@@ -79,6 +79,8 @@ remote procedure HandleBixolonWarrantyDyson(record ORVc,var area,boolean,integer
 external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);
 remote function val CommisionCodeBlockComission(string);
 remote procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
+remote updating procedure RA_DblSMSORWClassDsm(record ORVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 27 07 2023 y. at 8:21:02 AM
+
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -2846,6 +2848,62 @@ begin
   PutWindowString(wn,"AcceptanceStatusFlag",StringFromSet(443,AcceptanceStatusFlag));  
   return;
 end;
+
+
+global updating procedure SMSToClientDsm()
+begin
+integer wn;
+record SVOVc SVOr;
+array longint sernr;
+integer count;
+record RcVc RepSpec;
+record UserVc USr;
+string 100 host,page,getParam;
+area mainRequest,replyarea;
+longint port;
+string 50 location,winman;
+record ORVc ORr,smsOR;
+record CUVc CUr;
+
+	
+	wn = curwindow;
+	getwindowrecord(wn,ORr);
+	winman = ORr.SalesMan;
+	readfirstmain(ORr,1,true);
+	
+	if(nonblank(ORr.Phone))then begin
+	  smsOR.Phone = ORr.Phone;
+	  OpenWindow("SMSORWClass",1,wn,"","",smsOR); 
+	end else begin
+	  beep;
+	end;
+	
+return;
+end;
+
+
+global updating procedure DblSMSORWClassDsm()
+begin
+  record ORVc smsOR;
+  integer wn;
+  
+  wn = curwindow;
+  deselectwindow(wn,true);
+	getwindowrecord(wn,smsOR);
+	
+	
+	if(SizeTextCnt(smsOR)>0)then begin
+	  RA_DblSMSORWClassDsm(smsOR);
+	  messagebox(0,"Відправлено смс");
+	  closewindow(wn);
+	end else begin
+	  beep;
+	  closewindow(wn);
+	end;
+  
+return;
+end;
+
 
 global updating procedure CallToClientDsm()
 begin

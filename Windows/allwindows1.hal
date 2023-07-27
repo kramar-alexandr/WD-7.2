@@ -996,7 +996,7 @@ lSimpleORWindow:;
           EditField(75,v+=vs,100,"Номер",Normal,SerNr,false,TSerSClass);
           EditField(75,v+=vs,100,"№ рах.",Normal,CustOrdNr,false,0);
         end;
-        EditField(75,v+=vs,150,"Найменув.",Normal,Addr0,false,0);
+        EditField(25,v+=vs,150,"",Normal,Addr0,false,0);
     
         if(show)then begin
           if(usercanaction("ViewAllOrderDetails",true) or blank(ORr.CustOrdNr))then begin
@@ -1021,6 +1021,7 @@ lSimpleORWindow:;
           EditField(150,v,70,"Ref.",ViewOnly,RefStr,false,0);
         end;
         // Middle buttons
+        HalPushButton(185,v=75,250,v+20,"SMSToClientDsm","SMS");
         HalPushButton(185,v=100,220,v+20,"CallToClientDsm","Дзв.");
         HalPushButton(220,v,250,v+20,"TelToClientDsm","Tel.");
         if(show)then begin
