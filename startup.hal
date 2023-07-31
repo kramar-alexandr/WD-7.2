@@ -350,6 +350,8 @@ begin
 	SString(31097,"цiна:");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 13 01 2021 y. at 6:31:55 PM
 	SString(31098,"грн");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 13 01 2021 y. at 6:31:57 PM
 	
+	SString(31099,"TradeIn гарантія не для того товару");
+	
   StrSetBegin(3); /* Try to keep them in alphabetical order */
   StrSetText(AllowUpperPrice,"Дозволити збільшити ціну в рахунку");
   StrSetText(UnCloseAll,"Відкрити записи");// Edit ************************** Wednesday, 15 April 2015 17:21:45
