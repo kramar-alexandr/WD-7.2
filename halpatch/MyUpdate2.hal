@@ -2273,11 +2273,11 @@ begin
   WebSetContentDisposition("attachment;filename=" & "pricelist.csv");
   
 
-  weboutstring("_MODEL_;_PRICE_");
+  weboutstring("_MODEL_,_PRICE_");
   weboutnl;
   while(loopkey("PLCode",PLr,1,TrHs))begin
     if(PLr.PLCode=="RRP")then begin 
-      weboutstring(PLr.ArtCode & ";" & valtostring(PLr.ExVatPrice,M4Val,"",".",0));
+      weboutstring(PLr.ArtCode & "," & valtostring(PLr.ExVatPrice,M4Val,"",".",0));
       weboutnl;
     end else begin
       TrHs = false;
