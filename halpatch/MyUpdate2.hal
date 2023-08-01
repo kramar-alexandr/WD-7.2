@@ -2271,9 +2271,10 @@ begin
   
   WebSetContentType("application/binary");	
   WebSetContentDisposition("attachment;filename=" & "pricelist.csv");
-  weboutnl;
+  
 
   weboutstring("_MODEL_;_PRICE_");
+  weboutnl;
   while(loopkey("PLCode",PLr,1,TrHs))begin
     if(PLr.PLCode=="RRP")then begin 
       weboutstring(PLr.ArtCode & ";" & valtostring(PLr.ExVatPrice,M4Val,"",".",0));
