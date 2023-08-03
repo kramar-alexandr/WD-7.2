@@ -3269,7 +3269,7 @@ begin
   EditField(h,v+=vs,100,"Формула товару",Normal,CalcPrice,false,CPMSClass);
   EditField(h,v+=vs,100,"Надбавка %",Normal,Markup,true,0);
   EditField(h,v+=vs,100,"% премії",Normal,Bonus,true,0);
-  EditField(h,v+=vs,-240,"Об'єкти",Normal,Objects,false,ObjSClass);
+  EditField(h,v+=vs,100,"Об'єкти",Normal,Objects,false,ObjSClass);
   if (HasItemClassification) then begin
   EditField(h,v+=vs,-240,"Класифікація",Normal,DispGroups,false,DISClass);
   end;
@@ -3291,6 +3291,9 @@ begin
   if (StandardHansa==false) then begin
   CheckBox(h1,v+=32,0,"Вважати товар матеріалом для проекту",ItemMaterial);
   end;
+  EditField(h1+100,v+20, 140,"Тип гарантії на товари",Normal,WarrantyType,false,SetSClass); // Edit ************************** BPI Ukraine - KramarAlexandr - 04, 03 08 2023 y. at 4:02:06 PM
+  EditField(h1+100,v+40, 140,"Місяців",Normal,WarrantyMonths,false,0); // Edit ************************** BPI Ukraine - KramarAlexandr - 04, 03 08 2023 y. at 4:02:06 PM
+
   if (HasJewelleryInterface) then begin
     Tile(tilenr,110,false,tilenr,Metal); tilenr = tilenr + 1;
     EditField(h,v=6, 140,"Metal",Normal,Metal,false,0); //!!PRODTRANSLATE

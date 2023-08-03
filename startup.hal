@@ -648,6 +648,13 @@ begin
   EndStrSet;
 	
 	
+	SetBegin(2001);
+    SetText(0,"");
+    SetText(1,"Гарантія від iStore");
+    SetText(2,"Гарантія від iStore + захист");
+    SetText(3,"Гарантія від виробника з посиланням");
+  EndSet;
+	
 	//comment
 	
 	return;

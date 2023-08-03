@@ -431,6 +431,10 @@ begin
     RecordField(LCustInt3,M4Int,0,0);
     RecordField(LCustInt4,M4Int,0,0);
     RecordField(LCustInt5,M4Int,0,0); //Edit***************************Sasha2,13:15 22.10.2014 }
+    
+    RecordField(WarrantyType,M4Set,2001,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 03 08 2023 y. at 4:09:55 PM
+    RecordField(WarrantyMonths,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 03 08 2023 y. at 4:09:56 PM
+    
     ArrayBegin(Math,-,1);
     ArrayField(LangCode,M4Code,5,0);
     ArrayField(Text,M4Str,100,0);
