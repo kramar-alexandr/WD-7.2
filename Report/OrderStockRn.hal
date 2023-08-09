@@ -652,8 +652,8 @@ procedure OrderStockRn(record RcVc RepSpec)
 begin
   record ORVc ORr;
   row ORVc ORrw;
-  record INVc INr;
-  Boolean TrHs;
+  record INVc INr,IN2r;
+  Boolean TrHs,TrHs2;
   val t,t2,t3,iv,gp;
   val TotSum,TotGP;
   val TotQty,TotLev,TotinPick,TotNotLev,TotInv,gpprc,shipd1;
@@ -1209,7 +1209,33 @@ begin
                       if(INr.Group=="TRADE")then begin
                         onlytrade = true;
                       end;
-                      
+                      IN2r.Group = "WARRA";
+                      TrHs2 = true;
+                      resetloop(IN2r);
+                      while(loopkey("Group",IN2r,1,TrHs2))begin
+                        if(IN2r.Group=="WARRA")then begin
+                          if(IN2r.Terminated==0)then begin
+                            if(onlytrade)then begin
+                              if(left(IN2r.Code,11)=="ISTORE_USED")then begin
+                                startformat(15);
+                                  OutStringID(300,"DblSelAddWaranty",IN2r.Code,false,ORr.SerNr & ";" & IN2r.Code & ";" & ORrw.SerialNr);
+                                  OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & IN2r.Code & ";" & ORrw.SerialNr);
+                                endformat;
+                              end;
+                            end else begin
+                              if(left(IN2r.Code,11)!="ISTORE_USED")then begin
+                                startformat(15);
+                                  OutStringID(300,"DblSelAddWaranty",IN2r.Code,false,ORr.SerNr & ";" & IN2r.Code & ";" & ORrw.SerialNr);
+                                  OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & IN2r.Code & ";" & ORrw.SerialNr);
+                                endformat;
+                              end;
+                            end;
+                          end;
+                        end else begin
+                          TrHs2 = false;
+                        end;
+                      end;
+                      /*
                       if(!onlytrade)then begin
                         startformat(15);
                           OutStringID(300,"DblSelAddWaranty","ISTORE_WAR_6",false,ORr.SerNr & ";" & "ISTORE_WAR_6" & ";" & ORrw.SerialNr);
@@ -1268,6 +1294,7 @@ begin
                           OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & "ISTORE_WAR_12_APODS" & ";" & ORrw.SerialNr);
                         endformat;
                       end;
+                      */
                     
                     
                       gray_divider(0,1);
