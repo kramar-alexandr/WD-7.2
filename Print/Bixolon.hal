@@ -875,6 +875,16 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		 
 		addtexttoarea(chr(13) & chr(10),aFile);
+		text[""] = "Гарантія Lite";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = " - Гарантія iStore 30 днів - це турбота про Ваш iPhone, iPad, Macbook та Apple Watch.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = " - Гарантійне обслуговування. У разі виявлення заводського дефекту, ми зробимо заміну пристрою на новий.";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = " - Після закінченя 30 днів, ремонтом пристрою займається Авторизований Сервісний центр згідно правилам компанії Apple";
+		TLTOARRVECTOR(checklength,text,aFile);
+		
+		addtexttoarea(chr(13) & chr(10),aFile);
 		text[""] = "ГАРАНТІЯ APPLE";
 		TLTOARRVECTOR(checklength,text,aFile);
 		
@@ -1011,7 +1021,7 @@ begin
 		//TLTOARR(checklength,"користувача (фотографії, музика, пошта,",aFile);
 		//TLTOARR(checklength,"контакти та ін.)",aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
-		
+		/*
 		
 		text[""] = "У разі придбання додаткових пакетів:" & SetBoldOn & " Захист дисплею і корпусу" & SetBoldOff;
 		TLTOARRVECTOR(checklength,text,aFile);
@@ -1038,7 +1048,7 @@ begin
 		text[""] = "4. Заміну батареї виконується лише якщо ємність батареї стала нижчою за 79%";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "5. При виконанні ремонту можуть використовуватись як оригінальні запчастини, так і аналоги.";
-		TLTOARRVECTOR(checklength,text,aFile);
+		TLTOARRVECTOR(checklength,text,aFile);*/
 		
 		addtexttoarea(SetBoldOn,aFile);
 		addtexttoarea(SetUnderlineOn,aFile);
