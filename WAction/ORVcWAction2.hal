@@ -73,6 +73,7 @@ remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
 external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
 remote procedure HandleBixolonWarranty(record ORVc,var area,boolean,vector boolean);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyM(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarrantyMplusS(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyMAC(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyDyson(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 
@@ -3135,7 +3136,7 @@ BEGIN
                      matrowget(ORr,j,OR2rw);
                      if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr)then begin
                         exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
-                        HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),INr.WarrantyMonths,OR2rw.ArtCode & ":" & OR2rw.SerialNr);
+                        HandleBixolonWarrantyMplusS(ORr,aFile,fileexists("BixolonNewIMG"),INr.WarrantyMonths,OR2rw.ArtCode & ":" & OR2rw.SerialNr);
                         needprint = needprint - 1;
                         found = true;
                      end;
@@ -3154,7 +3155,7 @@ BEGIN
                         for(j=0;j<rwcnt2;j=j+1)begin
                           matrowget(oldORr,j,OR2rw);
                           if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0)then begin
-                            HandleBixolonWarrantyM(oldORr,aFile,fileexists("BixolonNewIMG"),INr.WarrantyMonths,OR2rw.ArtCode & ":" & thissernr);
+                            HandleBixolonWarrantyMplusS(oldORr,aFile,fileexists("BixolonNewIMG"),INr.WarrantyMonths,OR2rw.ArtCode & ":" & thissernr);
                             createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                             createrecordlink(ORr,currentcompany,oldORr,currentcompany);
                             found = true;
