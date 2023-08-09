@@ -434,6 +434,7 @@ begin
     
     RecordField(WarrantyType,M4Set,2001,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 03 08 2023 y. at 4:09:55 PM
     RecordField(WarrantyMonths,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 03 08 2023 y. at 4:09:56 PM
+    RecordField(WarrantyLink,M4Str,255,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 03 08 2023 y. at 4:28:58 PM
     
     ArrayBegin(Math,-,1);
     ArrayField(LangCode,M4Code,5,0);

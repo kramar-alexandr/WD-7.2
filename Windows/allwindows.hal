@@ -3273,6 +3273,7 @@ begin
   if (HasItemClassification) then begin
   EditField(h,v+=vs,-240,"Класифікація",Normal,DispGroups,false,DISClass);
   end;
+  EditField(h,v+=vs,-240,"Посилання на гарантію",Normal,WarrantyLink,false,0);
   if (StandardHansa==false) then begin
   ButtonFrame(h1,v=24,120,4,"Тип товару");
   end else begin
