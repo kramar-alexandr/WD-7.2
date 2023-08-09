@@ -3361,7 +3361,7 @@ BEGIN
   end;*/
   
   if(needprint>0)then begin
-    HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"),exludeitems);//Базовая гарантия iStore
+    HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"),exludeitems);//Базовая гарантия iStore //Гарантийни Талон від виробника.docx
   end;
   PrintBixolonWarrantyReceipt(aFile);
   OR2r.Printed = 1;
