@@ -1214,7 +1214,7 @@ begin
                       resetloop(IN2r);
                       while(loopkey("Group",IN2r,1,TrHs2))begin
                         if(IN2r.Group=="WARRA")then begin
-                          if(IN2r.Terminated==0)then begin
+                          if(IN2r.Terminated==0 and IN2r.WarrantyType>0)then begin
                             if(onlytrade)then begin
                               if(left(IN2r.Code,11)=="ISTORE_USED")then begin
                                 startformat(15);
