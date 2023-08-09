@@ -632,7 +632,10 @@ begin
   for(i=0;i<rwcnt;i=i+1) begin
     matrowget(ORr,i,ORrw);
     if(ORrw.stp==kInvoiceRowTypeNormal)then begin
-      if(left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(ORrw.ArtCode,10)=="ISTORE_WAR")then begin
+      INr.Code = ORrw.ArtCode;
+      readfirstmain(INr,1,true);
+      if(INr.WarrantyType>0)then begin
+      //if(left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(ORrw.ArtCode,10)=="ISTORE_WAR")then begin
         ORrw.GarantyFor = blankval;
         matrowput(ORr,i,ORrw);
       end;
@@ -649,7 +652,8 @@ begin
       
       if(transf)then begin
         if(currentcompany==13)then begin
-          if(left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(ORrw.ArtCode,10)=="ISTORE_WAR")then begin
+          if(INr.WarrantyType>0)then begin
+          //if(left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(ORrw.ArtCode,10)=="ISTORE_WAR")then begin
           //if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24" or ORrw.ArtCode=="ISTORE_WAR_12_DSN")then begin
             ORrw.GarantyFor = blankval;
             matrowput(ORr,i,ORrw);
@@ -1400,7 +1404,8 @@ begin
             res = -1;
             goto LORVcRecordCheck;
           end;
-          if(left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(ORrw.ArtCode,10)=="ISTORE_WAR")then begin
+          if(INr.WarrantyType>0)then begin
+          //if(left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(ORrw.ArtCode,10)=="ISTORE_WAR")then begin
           //if(ORrw.ArtCode=="ISTORE_USED_WAR_12" or ORrw.ArtCode=="ISTORE_WAR_12" or ORrw.ArtCode=="ISTORE_USED_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_6" or ORrw.ArtCode=="ISTORE_WAR_24" or ORrw.ArtCode=="ISTORE_WAR_12_DSN")then begin
           end else begin
             if (IsSerialNrCorrect(ORrw.SerialNr)==false) then begin
