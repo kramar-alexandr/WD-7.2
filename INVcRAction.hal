@@ -22,7 +22,10 @@ begin
   Integer rownr;
   
   res = 0;
-  
+  if(currentuser=="SA")then begin
+    res = 0;
+    goto LINVcRecordCheck;
+  end;
   res = inner.INVcRecordCheck(INr,IN2r,stat,long4);
   
   if(res==0)then begin
@@ -35,11 +38,6 @@ begin
   
 
 LINVcRecordCheck:;
-
-  if(currentuser=="SA")then begin
-    res = 0;
-  end;
-
   INVcRecordCheck = res;
   return;
 end;
