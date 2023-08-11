@@ -24,7 +24,7 @@ begin
   res = 0;
   if(currentuser=="SA")then begin
     res = 0;
-    goto LINVcRecordCheck;
+    //goto LINVcRecordCheck;
   end;
   res = inner.INVcRecordCheck(INr,IN2r,stat,long4);
   
