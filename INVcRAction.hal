@@ -35,6 +35,11 @@ begin
   
 
 LINVcRecordCheck:;
+
+  if(currentuser=="SA")then begin
+    res = 0;
+  end;
+
   INVcRecordCheck = res;
   return;
 end;
