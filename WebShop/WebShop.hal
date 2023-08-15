@@ -1174,7 +1174,7 @@ string 100 orderid;
 string 200 delivery_region,delivery_type,last_name,phone,articlerow,fullnamerow;
 string 200 pricerow,payment,address,first_name,summary,note,email,ensure,commentrow;
 string 200 is_credit,discount_percent,datetxt,buyoneclick,storeH,storeN,delivery_cost,countrow,sumrow,smstext;
-string 100 ipn;
+string 100 ipn,site;
 record CUVc CUr,inCUr,blankCU;
 boolean cufound,chsum;
 string 100 warning,error,ordsource;
@@ -1235,6 +1235,7 @@ vector string 255 vres;
 				summary = JSONGet(inputjson,"summary");	
 				note = ChekUnicode(JSONGet(inputjson,"note"),vres);	
 				email = ChekUnicode(JSONGet(inputjson,"email"),vres);	
+				site = JSONGet(inputjson,"site");
 				ensure = ChekUnicode(JSONGet(inputjson,"ensure"),vres);	
 				is_credit = ChekUnicode(JSONGet(inputjson,"is_credit"),vres);	
 				ipn = ChekUnicode(JSONGet(inputjson,"ipn"),vres);	
@@ -1329,6 +1330,10 @@ vector string 255 vres;
 						case"according": ORr.ShipAddr3 = "Ћплата по реквизитам";
 					end;					
 					ORr.CustOrdNr = orderid;
+					
+					if(site=="ismart")then begin
+					  ORr.CustOrdNr = "ISMRT" & orderid
+					end;
 					
 					if(len(tradeinfo[""])>0)then begin
 					  ORr.OrderClass = "TRADE";ORr.SalesGroup = "NP";
