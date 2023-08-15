@@ -1332,7 +1332,7 @@ vector string 255 vres;
 					ORr.CustOrdNr = orderid;
 					
 					if(site=="ismart")then begin
-					  ORr.CustOrdNr = "ISMRT" & orderid
+					  ORr.CustOrdNr = "ISMRT" & orderid;
 					end;
 					
 					if(len(tradeinfo[""])>0)then begin
