@@ -261,8 +261,10 @@ begin
         if(blank(ORr.SalesMan))then begin
           ORr.SalesMan = IVr.SalesMan;
         end;
-        if(nonblank(RepSpec.f3) and RepSpec.f3!=ORr.SalesMan)then begin
-          testf = false;
+        if(currentuser!="SA")then begin
+          if(nonblank(RepSpec.f3) and RepSpec.f3!=ORr.SalesMan)then begin
+            testf = false;
+          end;
         end;
       end;
       
