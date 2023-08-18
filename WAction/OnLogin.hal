@@ -121,7 +121,7 @@ BEGIN
         for(i=0;i<avtags.length;i=i+1)begin
           
           Rebrw.ITCode = avtags[i];
-          Rebrw.vra0 = vsum[avtags[i]];
+          Rebrw.vra0 = vqty[avtags[i]];
           matrowput(Rebr,matrowcnt(Rebr),Rebrw);
           tstr = tstr & avtags[i] & " " & vqty[avtags[i]] & chr(10);
           showFlag = true;
