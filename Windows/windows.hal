@@ -2604,3 +2604,24 @@ Integer i;
 
   EndWindow;
 end; //Edit***************************Sasha2,17:18 06.01.2016 }
+
+window MessageWClass:2
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h1,h2,l,v,vs;
+  WindowBegin("Отчет",MessageWClass,CGother,-);
+  UseView(RebVc);
+  SetWRect(20,80,347,533);
+  Sizeable(-1,-1,-1,0);
+  vs=20; h=110; h1=210; h2=310;
+
+
+  h = 10; v=v+20; l = 30;
+  MatrixBegin(h,v,-40,-20,-,100);
+    MatCol(1,h=30,"Код",0,ITCode,false,0);
+    MatCol(1,h=124,"Сумма",0,vra0,false,0);
+  EndMatrix;
+  InsertRowTest;
+  DeleteRowTest;
+  EndWindow;
+end;
