@@ -1,0 +1,10 @@
+global
+function LongInt RHistVcRecordImportTest(var record RHistVc RHr,record RHistVc RH2r,LongInt long3,LongInt long4)
+begin
+  LongInt res;
+  
+  res = 0;
+  
+  RHistVcRecordImportTest = res;
+return;
+end;
