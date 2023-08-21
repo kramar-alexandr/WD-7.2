@@ -125,6 +125,34 @@ begin
     RecordField(ComisionCode,M4Code,20,0);
     RecordField(CallStatus,M4STR,50,0);
     
+    
+    ChangeField(Addr1,M4Str,255,0);
+    ChangeField(Addr2,M4Str,255,0);
+    ChangeField(Addr3,M4Str,255,0);
+    
+    
+    ChangeField(ShipAddr0,M4Str,255,0);
+    ChangeField(ShipAddr1,M4Str,255,0);
+    ChangeField(ShipAddr2,M4Str,255,0);
+    ChangeField(ShipAddr3,M4Str,255,0);
+    
+    ChangeField(InvAddr3,M4Str,255,0);
+    ChangeField(InvAddr4,M4Str,255,0);
+    ChangeField(DelAddr3,M4Str,255,0);
+    ChangeField(DelAddr4,M4Str,255,0);
+    
+    ChangeField(TerminalID,M4Str,255,0);
+    
+    ChangeField(Comment,M4Str,255,0);
+    ChangeField(Comment2,M4Str,255,0);
+    ChangeField(Comment3,M4Str,255,0);
+    ChangeField(Comment4,M4Str,255,0);
+    
+    ChangeField(RefStr,M4Str,255,0);
+    
+    
+    
+    
     ArrayField(Shopd,M4UVal,0,0);// Edit ************************** Friday, 31 October 2014 15:52:28
     ArrayField(ORPrint,M4Int,0,0);
     ArrayField(GarantyFor,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:14:26 PM

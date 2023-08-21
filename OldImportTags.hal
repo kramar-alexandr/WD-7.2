@@ -8,3 +8,15 @@ begin
   RHistVcRecordImportTest = res;
 return;
 end;
+
+
+global
+function LongInt UserActionLogVcRecordImportTest(var record UserActionLogVc RHr,record UserActionLogVc RH2r,LongInt long3,LongInt long4)
+begin
+  LongInt res;
+  
+  res = 0;
+  
+  UserActionLogVcRecordImportTest = res;
+return;
+end;
