@@ -332,6 +332,15 @@ begin
                 readfirstmain(DIr,1,true);
                 if(blank(DIr.DispGroups))then begin
                   DIr.DispGroups = "UNKNOWN";
+                end else begin
+                  if(blank(DIr.CType))then begin
+                    DI2r.Code = DIr.DispGroups;
+                    if(readfirstmain(DI2r,1,true))then begin
+                      if(nonblank(DI2r.CType))then begin
+                        DIr.CType = DI2r.CType;
+                      end;
+                    end;
+                  end;
                 end;
                 sumf = true;
                 if(RepSpec.flags[0]==1)then begin
