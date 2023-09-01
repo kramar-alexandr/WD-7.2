@@ -290,6 +290,7 @@ begin
                   case "TRADE": filtered = true;
                   case "WARRA": filtered = true;
                   case "CUST": filtered = true;
+                  case "USED": filtered = true;
                 end;
               end;
               

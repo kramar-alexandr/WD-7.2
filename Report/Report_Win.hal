@@ -323,7 +323,7 @@ begin
     //EditField(h,20,150,"№ карточки",Normal,f1,false,POSClientRClass);
   EndWindow;
 
-  WindowBegin("История продажу по клиэнтам",CUSalesRepRClass,CGRcW,RcType);
+  WindowBegin("История продажу по клиєнтам",CUSalesRepRClass,CGRcW,RcType);
     SetWRect(20,120,350,300);
     PeriodField(h,20,"Період");
     EditField(h,40,150,"Клієнт",Normal,f1,false,CUSClass);
