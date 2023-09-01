@@ -1223,7 +1223,7 @@ begin
                                 endformat;
                               end;
                             end else begin
-                              if(left(IN2r.Code,11)!="ISTORE_USED" and left(IN2r.Code,8)=="USED_WAR" and left(IN2r.Code,11)=="USED_PROTEC")then begin
+                              if(left(IN2r.Code,11)!="ISTORE_USED" and left(IN2r.Code,8)!="USED_WAR" and left(IN2r.Code,11)!="USED_PROTEC")then begin
                                 startformat(15);
                                   OutStringID(300,"DblSelAddWaranty",IN2r.Code,false,ORr.SerNr & ";" & IN2r.Code & ";" & ORrw.SerialNr);
                                   OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & IN2r.Code & ";" & ORrw.SerialNr);
