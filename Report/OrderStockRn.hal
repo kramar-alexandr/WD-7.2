@@ -1216,14 +1216,14 @@ begin
                         if(IN2r.Group=="WARRA")then begin
                           if(IN2r.Terminated==0 and IN2r.WarrantyType>0)then begin
                             if(onlytrade)then begin
-                              if(left(IN2r.Code,11)=="ISTORE_USED")then begin
+                              if(left(IN2r.Code,11)=="ISTORE_USED" or left(IN2r.Code,8)=="USED_WAR" or left(IN2r.Code,11)=="USED_PROTEC")then begin
                                 startformat(15);
                                   OutStringID(300,"DblSelAddWaranty",IN2r.Code,false,ORr.SerNr & ";" & IN2r.Code & ";" & ORrw.SerialNr);
                                   OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & IN2r.Code & ";" & ORrw.SerialNr);
                                 endformat;
                               end;
                             end else begin
-                              if(left(IN2r.Code,11)!="ISTORE_USED")then begin
+                              if(left(IN2r.Code,11)!="ISTORE_USED" and left(IN2r.Code,8)=="USED_WAR" and left(IN2r.Code,11)=="USED_PROTEC")then begin
                                 startformat(15);
                                   OutStringID(300,"DblSelAddWaranty",IN2r.Code,false,ORr.SerNr & ";" & IN2r.Code & ";" & ORrw.SerialNr);
                                   OutStringID(1,"DblSelAddWaranty","Продати дод. гарантію",true,ORr.SerNr & ";" & IN2r.Code & ";" & ORrw.SerialNr);
