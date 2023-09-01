@@ -676,11 +676,14 @@ begin
                       IN2r.Code = OR2rw.ArtCode;
                       readfirstmain(IN2r,1,true);
                       if((left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(IN2r.Code,8)=="USED_WAR" or left(IN2r.Code,11)=="USED_PROTEC") and IN2r.Group!="TRADE")then begin
+                        logtext(0,"1");
+
                         RecordCheckError(31099,"",i,"ArtCode");      
                         res = -1; 
                         goto LORVcRecordCheck;
                       end;
                       if((left(ORrw.ArtCode,15)!="ISTORE_USED_WAR" and left(IN2r.Code,8)!="USED_WAR" and left(IN2r.Code,11)!="USED_PROTEC") and IN2r.Group=="TRADE")then begin
+                        logtext(0,"2");
                         RecordCheckError(31099,"",i,"ArtCode");      
                         res = -1; 
                         goto LORVcRecordCheck;
