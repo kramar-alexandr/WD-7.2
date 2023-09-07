@@ -8837,14 +8837,14 @@ begin
   if (HasJewelleryInterface) then begin
     MatCol(1,-337,"Тип склада",0,StockType,false,SetSClass);
   end;
-  MatCol(1,-237,"Цена",0,Price,true,0);
-  MatCol(1,-151,"%",0,vRebate,true,0);
-  MatCol(1,-116,"Сумма",0,Sum,true,0);
-  if (CYb.UseTaxTemplatesforTaxCalc!=0) then begin
+  MatCol(1,-200,"Цена",0,Price,true,0);
+  MatCol(1,-110,"%",0,vRebate,true,0);
+  MatCol(1,-80,"Сумма",0,Sum,true,0);
+  /*if (CYb.UseTaxTemplatesforTaxCalc!=0) then begin
     MatCol(1,-45,"Ш.н.",0,TaxTemplateCode,false,TaxTemplateSClass);
   end else begin
     MatCol(1,-45,"НДС",0,VATCode,false,VATCodeSClass);
-  end;
+  end;*/
   if (HasObjects) then begin
     Flip(flipnr); flipnr = flipnr + 1;
     MatCol(1,164,"Наименование",0,Spec,false,0);
