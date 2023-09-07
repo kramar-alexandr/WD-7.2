@@ -8726,7 +8726,7 @@ begin
   vs = 20;
   BlockLoad(CYb);
   WindowBegin("Заказ поставщику",PODClass,CGview,-);
-  SetWRect(20,80,750,460);
+  SetWRect(20,80,950,460);
   Sizeable(-1,-1,0,0);
   UseView(POVc);
   CommunicateButton;
@@ -8824,16 +8824,16 @@ begin
 //  MatCol(1,84,"Var",0,VARList,true,VARSClass);
 //  MatCol(1,144,"Qty",0,Quant,true,0);
   if (HasVarieties) then begin
-    MatCol(1,150,"К-во",0,Quant,true,MATVARINSClass);
+    MatCol(1,190,"К-во",0,Quant,true,MATVARINSClass);
   end else begin
-    MatCol(1,150,"К-во",0,Quant,true,0);
+    MatCol(1,190,"К-во",0,Quant,true,0);
   end;
   EnterSkip(ArtCode);
 //  MatCol(1,194,"Описание",0,Spec,false,0);
   flipnr = 1;
   Flip(flipnr); flipnr = flipnr + 1;
   //MatColTL(1,164,"Ед.",0,M4Code,ViewOnly,5,UnitCode,false,UnitSCLass);
-  MatCol(1,204,"Наименование",0,Spec,false,0);
+  MatCol(1,234,"Наименование",0,Spec,false,0);
   if (HasJewelleryInterface) then begin
     MatCol(1,-337,"Тип склада",0,StockType,false,SetSClass);
   end;
