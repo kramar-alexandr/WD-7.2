@@ -1305,6 +1305,14 @@ area tempar;
 						if()then begin
 					end;*/
 				end;
+				ORr.CustOrdNr = orderid;
+				if(site=="ismart")then begin
+          ORr.CustOrdNr = "ISMRT" & orderid;
+        end;
+        if(readfirstkey("CustOrdNr",ORr,1,true))then begin
+          cufound = false;
+        end;
+				
 				if(cufound)then begin
 					recordnew(ORr);
 					ORr.CustCode = CUr.Code;
@@ -1414,7 +1422,6 @@ area tempar;
 							end;
 						end;
 					end;
-					 
 				end;
 			end;
 		end;
