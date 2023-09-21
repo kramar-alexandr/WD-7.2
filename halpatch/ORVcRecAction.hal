@@ -666,13 +666,13 @@ begin
                 matrowget(ORr,j,OR2rw);
                 if(i!=j and OR2rw.GarantyFor!=0)then begin
                   if(ORrw.SerialNr==OR2rw.SerialNr)then begin
-                    if(serfound[OR2rw.ArtCode & ":" & OR2rw.SerialNr]==true)then begin
+                    if(serfound[ORrw.ArtCode & ":" & ORrw.SerialNr]==true)then begin
                       RecordCheckError(1240,"",i,"SerialNr");      
                       res = -1; 
                       goto LORVcRecordCheck;
                     end;
-                    if(serfound[OR2rw.ArtCode & ":" & OR2rw.SerialNr]==false)then begin
-                      serfound[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+                    if(serfound[ORrw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
+                      serfound[ORrw.ArtCode & ":" & ORrw.SerialNr] = true;
                       IN2r.Code = OR2rw.ArtCode;
                       readfirstmain(IN2r,1,true);
                       if((left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(ORrw.ArtCode,8)=="USED_WAR" or left(ORrw.ArtCode,11)=="USED_PROTEC") and IN2r.Group!="TRADE")then begin
@@ -693,7 +693,7 @@ begin
                 end;
               end;
             
-              if(serfound[OR2rw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
+              if(serfound[ORrw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
                 oldsernr = "";
                 pos = 0;
                 tstr = "";
@@ -707,13 +707,13 @@ begin
                     for(j=0;j<rwcnt2;j=j+1)begin
                       matrowget(oldORr,j,OR2rw);
                       if(thissernr==OR2rw.SerialNr)then begin
-                        if(serfound[OR2rw.ArtCode & ":" & OR2rw.SerialNr]==true)then begin
+                        if(serfound[ORrw.ArtCode & ":" & OR2rw.SerialNr]==true)then begin
                           RecordCheckError(1240,"",i,"SerialNr");      
                           res = -1; 
                           goto LORVcRecordCheck;
                         end;
-                        if(serfound[OR2rw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
-                          serfound[OR2rw.ArtCode & ":" & ORrw.SerialNr] = true;
+                        if(serfound[ORrw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
+                          serfound[ORrw.ArtCode & ":" & ORrw.SerialNr] = true;
                         end;
                       end;
                     end;
@@ -721,7 +721,7 @@ begin
                 end;
               end;
             
-              if(serfound[OR2rw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
+              if(serfound[ORrw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
                 RecordCheckError(1240,"",i,"SerialNr");      
                 res = -1; 
                 goto LORVcRecordCheck;
