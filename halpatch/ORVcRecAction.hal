@@ -664,7 +664,7 @@ begin
             end else begin
               for(j=0;j<rwcnt;j=j+1)begin
                 matrowget(ORr,j,OR2rw);
-                if(i!=j and OR2rw.GarantyFor==0)then begin
+                if(i!=j and OR2rw.GarantyFor!=0)then begin
                   if(ORrw.SerialNr==OR2rw.SerialNr)then begin
                     if(serfound[OR2rw.ArtCode & ":" & OR2rw.SerialNr]==true)then begin
                       RecordCheckError(1240,"",i,"SerialNr");      
