@@ -39,7 +39,7 @@ external function Boolean SetInSet2(string,string);
 external procedure ItemClassTypef(string,string,var Boolean);
 external function Boolean FillItemVarArray(string,string,date,var array string,var array val,var Integer,var string,var string,var string,var string);
 external function val AbsoluteVal(val); //Edit***************************Sasha2,14:05 04.09.2014
-forward procedure GetIHFileName(record ItemHistVc,var string,string); //Edit***************************Sasha2,13:47 08.09.2014
+forward procedure GetIHFileName(record ItemHistVc,var string,string,var date); //Edit***************************Sasha2,13:47 08.09.2014
 external function LongInt DateDiff(Date,Date);
 
 
@@ -128,10 +128,9 @@ lEnd:
 				PUr.SerNr = IHr.InSerNr;
 				ReadFirstMain(PUr,1,true);
 				IVrw.VECode = PUr.VECode;
-				GetIHFileName(IHr,tstr,INr.Group);
-				IVrw.Spec = tstr;
 				IVrw.ServiceDelDate = PUr.TransDate;
-			  //IVrw.ServiceDelDate = IHr.TransDate;
+				GetIHFileName(IHr,tstr,INr.Group,IVrw.ServiceDelDate);
+				IVrw.Spec = tstr;
 				IVrw.Location = IHr.Location;
 				IVrw.SerialNr=IHr.SerialNr;
 				IVrw.CurncyCode = IHr.PUCurncyCode;
@@ -196,9 +195,9 @@ lEnd2:
 					PUr.SerNr = IHr.InSerNr;
 					ReadFirstMain(PUr,1,true);
 					IVrw.VECode = PUr.VECode;
-					GetIHFileName(IHr,tstr,INr.Group);
-					IVrw.Spec = tstr;
 					IVrw.ServiceDelDate = PUr.TransDate;
+					GetIHFileName(IHr,tstr,INr.Group,IVrw.ServiceDelDate);
+					IVrw.Spec = tstr;
 					IVrw.Location = IHr.Location;
 					IVrw.SerialNr=IHr.SerialNr;
 					IVrw.CurncyCode = IHr.PUCurncyCode;
@@ -343,7 +342,7 @@ begin
 end; //Edit***************************Sasha2,11:57 03.09.2014 }
 
 //Edit***************************Sasha2,11:58 03.09.2014 {
-procedure GetIHFileName(record ItemHistVc orIHr,var string tstr,string group)
+procedure GetIHFileName(record ItemHistVc orIHr,var string tstr,string group,var date inputdate)
 begin	
   record ItemHistVc tradeIHr,IHr;
   boolean TrHs,foundf;
@@ -363,6 +362,7 @@ begin
             TrHs = false;
             recordcopy(IHr,tradeIHr);
             foundf = true;
+            inputdate = tradeIHr.TransDate;
           end;
         end;
       end;
@@ -412,6 +412,7 @@ begin
   record BaseCurBlock BCr; //Edit***************************Sasha2,16:21 08.09.2014
 	record SerBalVc SerBalr;
 	val qtyBefore;
+	date inpdate;
   
   	BlockLoad(BCr);
   	itemsum = 0;
@@ -478,7 +479,7 @@ begin
 	    			print = true;
 	    			if (RepSpec.ArtMode==1) then begin
 	    				if (blankdate(RepSpec.d1)) then begin
-	    					GetIHFileName(IHr,tstr,INr.Group);
+	    					GetIHFileName(IHr,tstr,INr.Group,inpdate);
 	    					SerBalr.Item = IHr.ArtCode;							//Edit----------------------Dima  09.09.2015
 	    					SerBalr.Location = IHr.Location;
 	    					SerBalr.Serial = IHr.SerialNr;
