@@ -346,7 +346,7 @@ end; //Edit***************************Sasha2,11:57 03.09.2014 }
 procedure GetIHFileName(record ItemHistVc orIHr,var string tstr,string group)
 begin	
   record ItemHistVc tradeIHr,IHr;
-  boolean TrHs;
+  boolean TrHs,foundf;
     
     recordcopy(IHr,orIHr);
     
@@ -360,9 +360,9 @@ begin
         
         if(TrHs)then begin
           if(tradeIHr.FileName=="SRVc")then begin
-            logtext(0,"find");
             TrHs = false;
             recordcopy(IHr,tradeIHr);
+            foundf = true;
           end;
         end;
       end;
@@ -385,7 +385,7 @@ begin
 	    case "INTransferVc": tstr = USetStr(5040);
 	  end;
 	  //tstr = USetStr(1157) & ":" & IHr.InSerNr;// Edit ************************** Friday, 20 February 2015 18:26:10
-	  if(group=="TRADE")then begin
+	  if(group=="TRADE" and foundf)then begin
       tstr = tstr & ":";
 	    tstr = tstr & IHr.TransNr;
 	  end else begin
