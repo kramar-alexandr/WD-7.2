@@ -353,7 +353,7 @@ begin
     if(group=="TRADE")then begin
       tradeIHr.SerialNr = IHr.SerialNr;
       tradeIHr.ArtCode = IHr.ArtCode;
-      TrHs = false;
+      TrHs = true;
       while(loopkey("CodeSerialNrArtCode",tradeIHr,2,TrHs))begin
         logtext(0,"tradeIHr.SerialNr " & tradeIHr.SerialNr);
         logtext(0,"tradeIHr.ArtCode " & tradeIHr.ArtCode);
