@@ -353,18 +353,16 @@ begin
     if(group=="TRADE")then begin
       tradeIHr.SerialNr = IHr.SerialNr;
       tradeIHr.ArtCode = IHr.ArtCode;
-      logtext(0,"tradeIHr.SerialNr " & tradeIHr.SerialNr);
-      logtext(0,"tradeIHr.ArtCode " & tradeIHr.ArtCode);
-      
       TrHs = false;
       while(loopkey("CodeSerialNrArtCode",tradeIHr,2,TrHs))begin
+        logtext(0,"tradeIHr.SerialNr " & tradeIHr.SerialNr);
+        logtext(0,"tradeIHr.ArtCode " & tradeIHr.ArtCode);
         if(tradeIHr.SerialNr!=IHr.SerialNr)then begin TrHs = false; end;
         if(tradeIHr.ArtCode!=IHr.ArtCode)then begin TrHs = false; end;
         
         if(TrHs)then begin
           if(tradeIHr.FileName=="SRVc")then begin
             logtext(0,"find");
-
             TrHs = false;
             recordcopy(IHr,tradeIHr);
           end;
@@ -391,7 +389,9 @@ begin
 	  tstr = tstr & ":";
 	  tstr = tstr & IHr.InSerNr;
 	  //tstr = USetStr(1157) & ":" & IHr.InSerNr;// Edit ************************** Friday, 20 February 2015 18:26:10
-	  LogText(0,tstr);
+	  if(group=="TRADE")then begin
+      LogText(0,tstr);
+	  end;
   return;	  
 end; //Edit***************************Sasha2,11:58 03.09.2014 }
 
