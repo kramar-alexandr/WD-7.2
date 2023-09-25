@@ -166,3 +166,20 @@ begin
   
 return;
 end;
+
+
+
+global webpublic procedure FicIFileIHr()
+begin
+  record ItemHistVc IHr;
+  
+  while(loopmain(IHr,1,true))begin
+    if(IHr.StockAffectf==1)then begin
+      if(blank(IHr.InFileName))then begin
+        logtext(0,"blank InFileName " & IHr.ArtCode & " " & IHr.FileName);
+      end;
+    end;
+  end;
+  
+return;
+end;
