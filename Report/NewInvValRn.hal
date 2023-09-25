@@ -360,6 +360,8 @@ begin
         
         if(TrHs)then begin
           if(tradeIHr.FileName=="SRVc")then begin
+            logtext(0,"find");
+
             TrHs = false;
             recordcopy(IHr,tradeIHr);
           end;
