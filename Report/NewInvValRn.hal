@@ -370,7 +370,7 @@ begin
       end;
     end;
     
-	  switch (IHr.InFileName) begin
+	  switch (IHr.FileName) begin
 	    case "IVVc": tstr = USetStr(1150);
 	    case "PUVc": tstr = USetStr(1157);      
 	    case "ProdVc": tstr = USetStr(1162);
@@ -387,7 +387,7 @@ begin
 	    case "INTransferVc": tstr = USetStr(5040);
 	  end;
 	  tstr = tstr & ":";
-	  tstr = tstr & IHr.InSerNr;
+	  tstr = tstr & IHr.TransNr;
 	  //tstr = USetStr(1157) & ":" & IHr.InSerNr;// Edit ************************** Friday, 20 February 2015 18:26:10
 	  if(group=="TRADE")then begin
       LogText(0,tstr);
