@@ -347,7 +347,8 @@ procedure GetIHFileName(record ItemHistVc IHr,var string tstr,string group)
 begin	
   record ItemHistVc tradeIHr;
   boolean TrHs;
-  
+    
+    logtext(0,"group " & group);
     if(group=="TRADE")then begin
       tradeIHr.SerialNr = IHr.SerialNr;
       tradeIHr.ArtCode = IHr.ArtCode;
