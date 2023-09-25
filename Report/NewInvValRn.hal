@@ -348,11 +348,14 @@ begin
   record ItemHistVc tradeIHr;
   boolean TrHs;
     
-    logtext(0,"group " & group);
     if(group=="TRADE")then begin
       tradeIHr.SerialNr = IHr.SerialNr;
       tradeIHr.ArtCode = IHr.ArtCode;
       tradeIHr.TransDate = IHr.TransDate;
+      logtext(0,"tradeIHr.SerialNr " & tradeIHr.SerialNr);
+      logtext(0,"tradeIHr.ArtCode " & tradeIHr.ArtCode);
+      logtext(0,"tradeIHr.TransDate " & tradeIHr.TransDate);
+      
       TrHs = false;
       while(loopkey("CodeSerialNrArtCode",tradeIHr,3,TrHs))begin
         if(tradeIHr.SerialNr!=IHr.SerialNr)then begin TrHs = false; end;
