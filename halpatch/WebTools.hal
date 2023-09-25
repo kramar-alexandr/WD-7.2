@@ -169,7 +169,7 @@ end;
 
 
 
-global webpublic procedure FicIFileIHr()
+global webpublic procedure WebFicIFileIHr()
 begin
   record ItemHistVc IHr;
   
