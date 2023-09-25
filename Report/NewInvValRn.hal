@@ -352,9 +352,8 @@ begin
       tradeIHr.SerialNr = IHr.SerialNr;
       tradeIHr.ArtCode = IHr.ArtCode;
       tradeIHr.TransDate = IHr.TransDate;
-      tradeIHr.SerNr = IHr.SerNr;
       TrHs = false;
-      while(loopkey("CodeSerialNrArtCode",tradeIHr,4,TrHs))begin
+      while(loopkey("CodeSerialNrArtCode",tradeIHr,3,TrHs))begin
         if(tradeIHr.SerialNr!=IHr.SerialNr)then begin TrHs = false; end;
         if(tradeIHr.ArtCode!=IHr.ArtCode)then begin TrHs = false; end;
         
