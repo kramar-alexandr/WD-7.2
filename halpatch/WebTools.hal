@@ -169,9 +169,9 @@ end;
 
 
 
-global webpublic procedure WebFicIFileIHr()
+global webpublic updating procedure WebFicIFileIHr()
 begin
-  record ItemHistVc IHr;
+  record ItemHistVc IHr,sourceIHr;
   record INVc INr;
   
   setcompany(13,false);
@@ -182,7 +182,19 @@ begin
         INr.Code = IHr.ArtCode;
         if(readfirstmain(INr,1,true))then begin
           if(INr.ItemType==kItemTypeStocked)then begin
-            logtext(0,"blank InFileName " & IHr.ArtCode & " " & IHr.FileName);
+            sourceIHr.SerNr = IHr.Source;
+            if(readfirstmain(sourceIHr,1,true))then begin
+              if(nonblank(sourceIHr.InFileName))then begin
+                IHr.InFileName = sourceIHr.InFileName;
+                IHr.InSerNr = sourceIHr.InSerNr;
+                IHr.InRow = sourceIHr.InRow;
+                IHr.TotCostPriceCurncy = sourceIHr.TotCostPriceCurncy;
+                IHr.RemCostPriceCurncy = sourceIHr.TotCostPriceCurncy*(sourceIHr.RemCostPrice/sourceIHr.TotCostPrice);
+                recordstore(IHr,true);
+                logtext(0,"blank InFileName " & IHr.ArtCode & " " & IHr.FileName);
+              end;
+            end;
+            
           end;
         end;
       end;
