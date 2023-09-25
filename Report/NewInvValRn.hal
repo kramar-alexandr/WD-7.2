@@ -354,7 +354,7 @@ begin
       tradeIHr.TransDate = IHr.TransDate;
       tradeIHr.SerNr = IHr.SerNr;
       TrHs = false;
-      while(loopkey("CodeSerialNrArtCode",tradeIHr,1,TrHs))begin
+      while(loopkey("CodeSerialNrArtCode",tradeIHr,4,TrHs))begin
         if(tradeIHr.SerialNr!=IHr.SerialNr)then begin TrHs = false; end;
         if(tradeIHr.ArtCode!=IHr.ArtCode)then begin TrHs = false; end;
         if(tradeIHr.TransDate!=IHr.TransDate)then begin TrHs = false; end;
@@ -387,6 +387,7 @@ begin
 	  tstr = tstr & ":";
 	  tstr = tstr & IHr.TransNr;
 	  tstr = USetStr(1157) & ":" & IHr.InSerNr;// Edit ************************** Friday, 20 February 2015 18:26:10
+	  LogText(0,tstr);
   return;	  
 end; //Edit***************************Sasha2,11:58 03.09.2014 }
 
