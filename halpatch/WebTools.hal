@@ -173,6 +173,8 @@ global webpublic procedure WebFicIFileIHr()
 begin
   record ItemHistVc IHr;
   
+  setcompany(13,false);
+  
   while(loopmain(IHr,1,true))begin
     if(IHr.StockAffectf==1)then begin
       if(blank(IHr.InFileName))then begin
