@@ -1420,8 +1420,7 @@ begin
 	boolean TrHs,testf;
 	boolean IVfoundf;
 	integer curcom;
-	
-	
+		
 	blockload(BCb);// Edit ************************** Friday, 5 June 2015 13:12:36
 	
   if (blank(artcode)) then begin 
@@ -1782,3 +1781,11 @@ LStoreItemHistory_In:;
   return;
 end;
 
+global
+updating procedure StoreItemHistory_In2(record MainStockBlock MSb,string artcode,string serialnr,string location,string filename,Date td,Date fifod,val qty,val coeff,val totalcost,LongInt transnr,Integer rownr,Integer stockaffectf,string position,string vecode,record TempStockVc TSr,Boolean usetmpstkf,string frlocation,Boolean sourcef)
+begin
+  
+  StoreItemHistory_In(MSb,artcode,serialnr,location,filename,td,td,qty,coeff,totalcost,transnr,rownr,stockaffectf,position,"",TSr,usetmpstkf);
+  
+return;
+end;
