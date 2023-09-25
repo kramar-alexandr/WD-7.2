@@ -39,7 +39,7 @@ external function Boolean SetInSet2(string,string);
 external procedure ItemClassTypef(string,string,var Boolean);
 external function Boolean FillItemVarArray(string,string,date,var array string,var array val,var Integer,var string,var string,var string,var string);
 external function val AbsoluteVal(val); //Edit***************************Sasha2,14:05 04.09.2014
-forward procedure GetIHFileName(record ItemHistVc,var string); //Edit***************************Sasha2,13:47 08.09.2014
+forward procedure GetIHFileName(record ItemHistVc,var string,string); //Edit***************************Sasha2,13:47 08.09.2014
 external function LongInt DateDiff(Date,Date);
 
 
@@ -71,7 +71,7 @@ end;
 
 
 //Edit***************************Sasha2,12:45 08.09.2014
-procedure CollectPUVc(var record IVVc IVr,record ItemHIstVc IHr)
+procedure CollectPUVc(var record IVVc IVr,record ItemHIstVc IHr,record INVc INr)
 begin
   Integer i,rwcnt,pos,fi;
   record PUVc PUr;
@@ -128,7 +128,7 @@ lEnd:
 				PUr.SerNr = IHr.InSerNr;
 				ReadFirstMain(PUr,1,true);
 				IVrw.VECode = PUr.VECode;
-				GetIHFileName(IHr,tstr);
+				GetIHFileName(IHr,tstr,INr.Group);
 				IVrw.Spec = tstr;
 				IVrw.ServiceDelDate = PUr.TransDate;
 			  //IVrw.ServiceDelDate = IHr.TransDate;
@@ -196,7 +196,7 @@ lEnd2:
 					PUr.SerNr = IHr.InSerNr;
 					ReadFirstMain(PUr,1,true);
 					IVrw.VECode = PUr.VECode;
-					GetIHFileName(IHr,tstr);
+					GetIHFileName(IHr,tstr,INr.Group);
 					IVrw.Spec = tstr;
 					IVrw.ServiceDelDate = PUr.TransDate;
 					IVrw.Location = IHr.Location;
@@ -493,7 +493,7 @@ begin
 	    						print = false;
 	    					end;
 	    				end else begin
-	    					CollectPUVc(IVr,IHr);
+	    					CollectPUVc(IVr,IHr,INr);
 	    				end;
 	    			end;					
 				end;
