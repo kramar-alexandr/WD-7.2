@@ -355,8 +355,6 @@ begin
       tradeIHr.ArtCode = IHr.ArtCode;
       TrHs = true;
       while(loopkey("CodeSerialNrArtCode",tradeIHr,2,TrHs))begin
-        logtext(0,"tradeIHr.SerialNr " & tradeIHr.SerialNr);
-        logtext(0,"tradeIHr.ArtCode " & tradeIHr.ArtCode);
         if(tradeIHr.SerialNr!=IHr.SerialNr)then begin TrHs = false; end;
         if(tradeIHr.ArtCode!=IHr.ArtCode)then begin TrHs = false; end;
         
@@ -386,11 +384,12 @@ begin
 	    case "WSVc": tstr = USetStr(7650);
 	    case "INTransferVc": tstr = USetStr(5040);
 	  end;
-	  tstr = tstr & ":";
-	  tstr = tstr & IHr.TransNr;
 	  //tstr = USetStr(1157) & ":" & IHr.InSerNr;// Edit ************************** Friday, 20 February 2015 18:26:10
 	  if(group=="TRADE")then begin
-      LogText(0,tstr);
+      tstr = tstr & ":";
+	    tstr = tstr & IHr.TransNr;
+	  end else begin
+	    tstr = USetStr(1157) & ":" & IHr.InSerNr;// Edit ************************** Friday, 20 February 2015 18:26:10
 	  end;
   return;	  
 end; //Edit***************************Sasha2,11:58 03.09.2014 }
