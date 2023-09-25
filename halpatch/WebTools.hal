@@ -172,13 +172,19 @@ end;
 global webpublic procedure WebFicIFileIHr()
 begin
   record ItemHistVc IHr;
+  record INVc INr;
   
   setcompany(13,false);
   
   while(loopmain(IHr,1,true))begin
     if(IHr.StockAffectf==1)then begin
       if(blank(IHr.InFileName))then begin
-        logtext(0,"blank InFileName " & IHr.ArtCode & " " & IHr.FileName);
+        INr.Code = IHr.ArtCode;
+        if(readfirstmain(INr,1,true))then begin
+          if(INr.ItemType==kItemTypeStocked)then begin
+            logtext(0,"blank InFileName " & IHr.ArtCode & " " & IHr.FileName);
+          end;
+        end;
       end;
     end;
   end;
