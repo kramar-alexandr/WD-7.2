@@ -343,8 +343,31 @@ begin
 end; //Edit***************************Sasha2,11:57 03.09.2014 }
 
 //Edit***************************Sasha2,11:58 03.09.2014 {
-procedure GetIHFileName(record ItemHistVc IHr,var string tstr)
+procedure GetIHFileName(record ItemHistVc IHr,var string tstr,string group)
 begin	
+  record ItemHistVc tradeIHr;
+  boolean TrHs;
+  
+    if(group=="TRADE")then begin
+      tradeIHr.SerialNr = IHr.SerialNr;
+      tradeIHr.ArtCode = IHr.ArtCode;
+      tradeIHr.TransDate = IHr.TransDate;
+      tradeIHr.SerNr = IHr.SerNr;
+      TrHs = false;
+      while(loopkey("CodeSerialNrArtCode",tradeIHr,1,TrHs))begin
+        if(tradeIHr.SerialNr!=IHr.SerialNr)then begin TrHs = false; end;
+        if(tradeIHr.ArtCode!=IHr.ArtCode)then begin TrHs = false; end;
+        if(tradeIHr.TransDate!=IHr.TransDate)then begin TrHs = false; end;
+        
+        if(TrHs)then begin
+          if(tradeIHr.FileName=="SRVc")then begin
+            TrHs = false;
+            recordcopy(IHr,tradeIHr);
+          end;
+        end;
+      end;
+    end;
+    
 	  switch (IHr.FileName) begin
 	    case "IVVc": tstr = USetStr(1150);
 	    case "PUVc": tstr = USetStr(1157);      
@@ -451,7 +474,7 @@ begin
 	    			print = true;
 	    			if (RepSpec.ArtMode==1) then begin
 	    				if (blankdate(RepSpec.d1)) then begin
-	    					GetIHFileName(IHr,tstr);
+	    					GetIHFileName(IHr,tstr,INr.Group);
 	    					SerBalr.Item = IHr.ArtCode;							//Edit----------------------Dima  09.09.2015
 	    					SerBalr.Location = IHr.Location;
 	    					SerBalr.Serial = IHr.SerialNr;
