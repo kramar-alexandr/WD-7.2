@@ -1309,6 +1309,10 @@ area tempar;
 				if(site=="ismart")then begin
           ORr.CustOrdNr = "ISMRT" & orderid;
         end;
+        if(site=="tradein")then begin
+          ORr.CustOrdNr = "TRIN" & orderid;
+        end;
+                
         if(readfirstkey("CustOrdNr",ORr,1,true))then begin
           cufound = false;
         end;
