@@ -1354,6 +1354,10 @@ area tempar;
 					  ORr.CustOrdNr = "ISMRT" & orderid;
 					end;
 					
+					if(site=="tradein")then begin
+            ORr.CustOrdNr = "TRIN" & orderid;
+          end;
+					
 					if(len(tradeinfo[""])>0)then begin
 					  ORr.OrderClass = "TRADE";ORr.SalesGroup = "NP";
 					  AddToText("Trade Info: ",ORr);
