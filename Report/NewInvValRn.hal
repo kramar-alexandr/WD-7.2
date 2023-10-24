@@ -357,12 +357,18 @@ begin
       tradeIHr.SerialNr = IHr.SerialNr;
       tradeIHr.ArtCode = IHr.ArtCode;
       TrHs = true;
-      while(loopkey("CodeSerialNrArtCode",tradeIHr,2,TrHs))begin
+      while(loopbackkey("CodeSerialNrArtCode",tradeIHr,2,TrHs))begin
         if(tradeIHr.SerialNr!=IHr.SerialNr)then begin TrHs = false; end;
         if(tradeIHr.ArtCode!=IHr.ArtCode)then begin TrHs = false; end;
         
         if(TrHs)then begin
           if(tradeIHr.FileName=="SRVc")then begin
+            TrHs = false;
+            recordcopy(IHr,tradeIHr);
+            foundf = true;
+            inputdate = tradeIHr.TransDate;
+          end;
+          if(tradeIHr.FileName=="PUVc")then begin
             TrHs = false;
             recordcopy(IHr,tradeIHr);
             foundf = true;
