@@ -775,6 +775,9 @@ begin
     for (i=0;i<prlstcnt;i=i+1) begin
     	 OutString(pos+=40,0,prlists[i],false);
     end; 
+    OutString(200,0,"ЉласифґкацґЯ",false);
+    OutString(200,0,"’ип",false);
+    OutString(200,0,"Ѓонус тип",false);
     //OutStringAdjust(pos+=30,0,USetStr(2335),false,M4Val);
     EndFormat;
     Gray_Divider(0,1);
