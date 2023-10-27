@@ -274,6 +274,9 @@ begin
 				for (i=0;i<prlstcnt;i=i+1) begin
 					OutVal(pos+=30,0,prices[i],M45Val,false);
 				end;
+				OutString(200,0,"ЉласифґкацґЯ",false);
+        OutString(200,0,"’ип",false);
+        OutString(200,0,"Ѓонус тип",false);
 		EndFormat;
 	end;
   
@@ -337,6 +340,9 @@ begin
 						for (i=0;i<prlstcnt;i=i+1) begin
 							OutVal(pos+=30,0,prices[i],M45Val,false);
 						end;
+						OutString(200,0,"ЉласифґкацґЯ",false);
+            OutString(200,0,"’ип",false);
+            OutString(200,0,"Ѓонус тип",false);
 				EndFormat;
 			end;
 		end;
@@ -537,6 +543,9 @@ begin
 			  		for (i=0;i<prlstcnt;i=i+1) begin
 	    				OutVal(pos+=40,0,prices[i],M45Val,false);
 	    			end;
+	    			OutString(200,0,"ЉласифґкацґЯ",false);
+            OutString(200,0,"’ип",false);
+            OutString(200,0,"Ѓонус тип",false);
 	    			EndFormat;
 				  	Gray_Divider(0,1);
 				end;
@@ -777,6 +786,11 @@ begin
     	 OutString(pos+=30,0,prlists[i],false);
     end; 
     //OutStringAdjust(pos+=30,0,USetStr(2335),false,M4Val);
+    
+    OutString(200,0,"ЉласифґкацґЯ",false);
+    OutString(200,0,"’ип",false);
+    OutString(200,0,"Ѓонус тип",false);
+    
     EndFormat;
     Gray_Divider(0,1);
   end;
