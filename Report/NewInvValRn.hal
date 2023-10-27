@@ -43,6 +43,35 @@ forward procedure GetIHFileName(record ItemHistVc,var string,string,var date); /
 external function LongInt DateDiff(Date,Date);
 
 
+SetLangMode(LangRussian,"RUS",0);
+
+procedure PrintItemClass(record INVc INr)
+begin
+record DIVc DIr,DI2r;
+
+  DIr.Code = INr.DispGroups;
+  readfirstmain(DIr,1,true);
+  if(blank(DIr.DispGroups))then begin
+    DIr.DispGroups = "UNKNOWN";
+  end else begin
+    if(blank(DIr.CType))then begin
+      DI2r.Code = DIr.DispGroups;
+      if(readfirstmain(DI2r,1,true))then begin
+        if(nonblank(DI2r.CType))then begin
+          DIr.CType = DI2r.CType;
+        end;
+      end;
+    end;
+  end;
+  
+  OutString(200,0,INr.DispGroups,false);
+  OutString(200,0,DIr.DispGroups,false);
+  OutString(200,0,DIr.CType,false);
+                  
+return;
+end;
+
+
 function integer GetSign(val qty) //Edit***************************Sasha2,15:47 04.09.2014 {
 begin
   integer res;
@@ -274,9 +303,9 @@ begin
 				for (i=0;i<prlstcnt;i=i+1) begin
 					OutVal(pos+=30,0,prices[i],M45Val,false);
 				end;
-				OutString(200,0,"ЉласифґкацґЯ",false);
-        OutString(200,0,"’ип",false);
-        OutString(200,0,"Ѓонус тип",false);
+				PrintItemClass(INr);
+
+				
 		EndFormat;
 	end;
   
@@ -340,9 +369,7 @@ begin
 						for (i=0;i<prlstcnt;i=i+1) begin
 							OutVal(pos+=30,0,prices[i],M45Val,false);
 						end;
-						OutString(200,0,"ЉласифґкацґЯ",false);
-            OutString(200,0,"’ип",false);
-            OutString(200,0,"Ѓонус тип",false);
+						PrintItemClass(INr);
 				EndFormat;
 			end;
 		end;
@@ -543,9 +570,7 @@ begin
 			  		for (i=0;i<prlstcnt;i=i+1) begin
 	    				OutVal(pos+=40,0,prices[i],M45Val,false);
 	    			end;
-	    			OutString(200,0,"ЉласифґкацґЯ",false);
-            OutString(200,0,"’ип",false);
-            OutString(200,0,"Ѓонус тип",false);
+	    			PrintItemClass(INr);
 	    			EndFormat;
 				  	Gray_Divider(0,1);
 				end;
