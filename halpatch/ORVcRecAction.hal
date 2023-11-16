@@ -1598,8 +1598,8 @@ begin
                   end;
                   FindStockValueInclStockReserv(-1,ORrw.ArtCode,ORrw.SerialNr,loc2,ISr,stockreservq);
                 end;
-                logtext(0,"prev+stockreservq " & prev & " + " & stockreservq);
-                logtext(0,"ISr.Instock " & ISr.Instock);
+                //logtext(0,"prev+stockreservq " & prev & " + " & stockreservq);
+                //logtext(0,"ISr.Instock " & ISr.Instock);
                 if (ISr.Instock<(prev+stockreservq)) then begin
                   RecordCheckError(1247,"",i,"Quant");      
                   res = -1;
