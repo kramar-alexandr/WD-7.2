@@ -1146,9 +1146,7 @@ begin
 	writeareatofile(logarea,"ordertoviber.txt",1);
 	writeareatofile(resarea,"ordertoviber.txt",1);
 	
-	//SendRawWebRequest("bot.a-service.ua","443",true,"POST","/sender.php","application/json","",false,resarea,replyarea,5);
-	SendAsyncWebRequest("bot.a-service.ua",443,443,true,"POST","/sender.php","application/json","",resarea,"",5);
-
+	SendRawWebRequest("bot.a-service.ua","443",true,"POST","/sender.php","application/json","",false,resarea,replyarea,5);
 	//SendRawWebRequest("viber.a-service.ua","443",true,"POST","/istore/sender.php","application/json","",false,resarea,replyarea,5);
 	setareazerosize(logarea);
 	addtexttoarea(currentdate & " " & currenttime & ORr.SerNr & chr(13) & chr(10),logarea);
