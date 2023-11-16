@@ -815,7 +815,7 @@ begin
 				end;
 				
 				//logtext(0,"externalNumber " & BECr.externalNumber);
-				//logtext(0,"user " & user);
+				logtext(0,"user " & user);
 				CUr.Code = BECr.externalNumber;
 				if(readfirstmain(CUr,1,true)==false)then begin
 					CUr.Phone = BECr.externalNumber;
