@@ -1163,7 +1163,7 @@ begin
         if(RepSpec.flags[20]>0)then begin
           showorderf = true;
         end;
-        logtext(0,ORr.SerNr & " RepSpec.ArtMode " & RepSpec.ArtMode & " showorderf " & showorderf);
+        //logtext(0,ORr.SerNr & " RepSpec.ArtMode " & RepSpec.ArtMode & " showorderf " & showorderf);
           
         if (RepSpec.ArtMode==0) then begin
 //           if (iv!=0) then begin
