@@ -299,7 +299,9 @@ begin
                 filtered = false;
               end;
               
-              matrowget(ORr,IVrw.OrdRow,ORrw);
+              if(IVr.OrderNr>0)then begin
+                matrowget(ORr,IVrw.OrdRow,ORrw);
+              end;
               
               if(filtered)then begin
                 if(left(IVr.CurncyCode,3)!="UAH")then begin
