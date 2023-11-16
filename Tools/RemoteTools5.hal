@@ -820,7 +820,7 @@ begin
       goto LPasteOrdInShip;
     end;
   end;
-  logtext(0,2);
+  //logtext(0,2);
   SHp.SerNr = NextSerNr("SHVc",SHp.ShipDate,-1,false,"");
   SHp.TREONr = ORr.TREONr;
   SHp.SHClass = ORr.OrderClass;
@@ -864,7 +864,7 @@ begin
   SHp.ORCOType = SalesContractType(ORr.ORCONr);
   rwcnt = MatRowCnt(ORr);
   srw = 0;
-  logtext(0,"rwcnt " & rwcnt);
+  //logtext(0,"rwcnt " & rwcnt);
   for (i=0;i<rwcnt;i=i+1) begin
     MatRowGet(ORr,i,ORrw);
     remn = ORrw.Quant - ORrw.Shipd1;
@@ -978,7 +978,7 @@ L10PasteOrdInShip:;
       end else begin
         totq = totq + SHrw.Ship;
       end;
-      logtext(0,i & " totq " & totq);
+      //logtext(0,i & " totq " & totq);
       SHrw.BasePrice = ORrw.Price;
       SHrw.BBCostPrice = ORrw.BasePrice;
       SHrw.UnitXval = ORrw.UnitXval;
@@ -1021,7 +1021,7 @@ L10PasteOrdInShip:;
               MatRowPut(SHp,srw-1,SHrw);
               remn = remn - t1;
               if (srw>=200) then begin
-                logtext(0,"SaveShipment 1");
+                //logtext(0,"SaveShipment 1");
                 if (SaveShipment(aStockMovr,asmcnt,SHp,CUr,ORr,PDb,totv,totw,totq,srw)==false) then begin
                   goto LPasteOrdInShip;
                 end;
@@ -1054,7 +1054,7 @@ L10PasteOrdInShip:;
         end;
       end;
       if ((srw>=200) and (i!=(rwcnt-1))) then begin
-        logtext(0,"SaveShipment 2");
+        //logtext(0,"SaveShipment 2");
         if (SaveShipment(aStockMovr,asmcnt,SHp,CUr,ORr,PDb,totv,totw,totq,srw)==false) then begin
           goto LPasteOrdInShip;
         end;
@@ -1073,8 +1073,8 @@ L10PasteOrdInShip:;
 LSKIPROW:;    
   end;
   
-  logtext(0,"totq " & totq);
-  logtext(0,"SH rows " & matrowcnt(SHp));
+  //logtext(0,"totq " & totq);
+  //logtext(0,"SH rows " & matrowcnt(SHp));
   
   if (totq<=0) then begin
     while (MatRowCnt(SHp)>0) begin
