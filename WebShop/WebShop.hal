@@ -1083,6 +1083,9 @@ begin
 	record CUVc CUr;
 	record TochkaVidachiVc TVr;
 	
+	logtext(0,"SendORStatusToViber begin");
+
+	
 	if(nonblank(ORr.Phone))then begin
     phone = ORr.Phone;
   end else begin
@@ -1153,6 +1156,8 @@ begin
 	
 	
 		lSendORStatusToViber:;
+	logtext(0,"lSendORStatusToViber end");
+
 return;
 end;
 

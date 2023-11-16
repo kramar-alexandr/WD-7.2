@@ -2452,11 +2452,22 @@ begin
   logtext(0,"ORVcRecordSaveAfter begin");
 
 //  ORObjectStats(ORr,OR2r);it is stored only and not used ever
+  logtext(0,"CreateActFromOR begin");
   CreateActFromOR(ORr);
+  logtext(0,"CreateActFromOR end;");
+  
+  logtext(0,"UpdateVARItemsOR begin");
   UpdateVARItemsOR(ORr);
+  logtext(0,"UpdateVARItemsOR end");
+  logtext(0,"SMSWhenOR begin");
+
   SMSWhenOR(ORr,1);  
+  logtext(0,"SMSWhenOR end");
   if (nonblank(ORr.OfficialSerNr)) then begin
+    logtext(0,"UpdateOffSerNr begin");
+
     UpdateOffSerNr(ORr.SerNr,"ORVc",0,ORr.OfficialSerNr,false);
+    logtext(0,"UpdateOffSerNr end");
   end;
   
   if(currentcompany==13)then begin
