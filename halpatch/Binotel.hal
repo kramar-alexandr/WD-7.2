@@ -35,7 +35,7 @@ begin
 	addtexttoarea(chr(13) & chr(10) & "*********" & currenttime & "************" & chr(13) & chr(10),delim);
 	writeareatofile(delim,"WebBinotelAPICallEnd.txt",1);
 	writeareatofile(encodearea,"WebBinotelAPICallEnd.txt",1);
-	logtext(0,"WebBinotelAPICallEnd1");
+	//logtext(0,"WebBinotelAPICallEnd1");
 	tstr = "";
 	lenth = getarealength(encodearea);
 	
@@ -799,8 +799,8 @@ begin
 			BECr.externalNumber = JSONGet(jobj,node);
 		end;
 		
-		logtext(0,"BECr.requestType " & BECr.requestType);
-		logtext(0,"BECr.internalNumber " & BECr.internalNumber);
+		//logtext(0,"BECr.requestType " & BECr.requestType);
+		//logtext(0,"BECr.internalNumber " & BECr.internalNumber);
 		if(BECr.requestType=="answeredTheCall")then begin
 			if(nonblank(BECr.externalNumber))then begin
 				USr.Code = "";
@@ -814,14 +814,8 @@ begin
 					end;
 				end;
 				
-				if(blank(user))then begin
-					user = "SA1";
-				end else begin
-					user = user & "," & "SA1";
-				end;
-				
-				logtext(0,"externalNumber " & BECr.externalNumber);
-				logtext(0,"user " & user);
+				//logtext(0,"externalNumber " & BECr.externalNumber);
+				//logtext(0,"user " & user);
 				CUr.Code = BECr.externalNumber;
 				if(readfirstmain(CUr,1,true)==false)then begin
 					CUr.Phone = BECr.externalNumber;
@@ -834,22 +828,22 @@ begin
 								newCUr.Code = BECr.externalNumber;
 								newCUr.UUID = blankCUr.UUID;
 								newCUr.Name = "Новый клиент";
-								logtext(0,"OpenNewClient");
+								//logtext(0,"OpenNewClient");
 								AllClientsRemoteAsync.RemoteUserFunction(user,"OpenNewClient",newCUr.Code,"");
 							end else begin
-								logtext(0,"OpenClientReport 1");
+								//logtext(0,"OpenClientReport 1");
 								AllClientsRemoteAsync.RemoteUserFunction(user,"OpenClientReport",CUr.Code,"");
 							end;
 						end else begin
-							logtext(0,"OpenClientReport 2");
+							//logtext(0,"OpenClientReport 2");
 							AllClientsRemoteAsync.RemoteUserFunction(user,"OpenClientReport",CUr.Code,"");
 						end;
 					end else begin
-						logtext(0,"OpenClientReport 3");
+						//logtext(0,"OpenClientReport 3");
 						AllClientsRemoteAsync.RemoteUserFunction(user,"OpenClientReport",CUr.Code,"");
 					end;
 				end else begin
-					logtext(0,"OpenClientReport 4");
+					//logtext(0,"OpenClientReport 4");
 					AllClientsRemoteAsync.RemoteUserFunction(user,"OpenClientReport",CUr.Code,"");
 				end;
 			end;
@@ -917,7 +911,7 @@ begin
 	
 	webgetpostdata(encodearea);
 	writeareatofile(encodearea,"WebBinotelAPICallSet.txt",0);
-	logtext(0,"WebBinotelAPICallSet");
+	//logtext(0,"WebBinotelAPICallSet");
 	tstr = "";
 	lenth = getarealength(encodearea);
 	For(i=0;i<lenth;i=i+1) begin
@@ -944,7 +938,7 @@ begin
 	  	end else begin
 	  		tstr = tstr & "\"";
 	  	end;
-	  	logtext(0,tstr);
+	  	//logtext(0,tstr);
 	  	addtexttoarea(tstr,newarea);
 	  	lasti = i;
 	  	tstr = "";
@@ -1026,7 +1020,7 @@ begin
       //MySendRawWebRequest(host,"443",true,"POST","","application/json","",false,req,reply,10);
 			SendAsyncWebRequest(host,443,-1,true,"POST",page,"application/json","",req,"WebCalReqCallBack",10);
 			//WriteAreaToFile(reply,"WebCalReqCallBackCallBack.txt",0);
-			logtext(0,fromExtNumber & " CallTo " & toPhoneNumber);
+			//logtext(0,fromExtNumber & " CallTo " & toPhoneNumber);
     end;
     
   return;
@@ -1093,7 +1087,7 @@ begin
 	
 	setcompany(13,false)
 	
-	logtext(0,"WebCalReqCallBack");
+	//logtext(0,"WebCalReqCallBack");
 	webgetpostdata(a_reply);
 	WriteAreaToFile(a_reply,"WebCalReqCallBackCallBack.txt",0);
 
@@ -1162,7 +1156,7 @@ begin
 				BCEr.gCDgeoipOrg = a24;
 				BCEr.gCDdomain = a25;
 				recordstore(BCEr,true);
-				logtext(0,BCEr.generalCallID);
+				//logtext(0,BCEr.generalCallID);
 			end;
 		end;
 		if (NextImportLine(true)) then begin end;
@@ -1229,7 +1223,7 @@ begin
 				BCEr.CTgaTrackingId = a16;
 				BCEr.CTtimeSpentOnSiteBeforeMakeCall = a17;
 				recordstore(BCEr,true);
-				logtext(0,BCEr.generalCallID);
+				//logtext(0,BCEr.generalCallID);
 			end else begin
 				recordnew(BCEr);
 				BCEr.SerNr = NextSerNr("BinotelCallEndVc",currentdate,-1,false,"");
@@ -1264,7 +1258,7 @@ begin
 				BCEr.TransDate = stringtodate(a27);
 				BCEr.TransTime = stringtotime(a28);
 				recordstore(BCEr,true);
-				logtext(0,BCEr.generalCallID);
+				//logtext(0,BCEr.generalCallID);
 			end;
 		end;
 		if (NextImportLine(true)) then begin end;
