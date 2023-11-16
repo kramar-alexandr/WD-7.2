@@ -473,6 +473,9 @@ begin
 	row CommisionCodeBlock CommisionCoderw;
 	vector boolean serfound;
 	
+	logtext(0,"ORVcRecordCheck begin");
+
+	
 	blockload(BCb);// Edit ************************** Tuesday, 23 June 2015 18:02:59
 	oldnr = ORr.SerNr;
 	res = 0;
@@ -1741,7 +1744,8 @@ LORVcRecordCheck:;
   if(currentuser=="SA")then begin
     res = 0;
   end;
-  
+  logtext(0,"ORVcRecordCheck end");
+
   ORVcRecordCheck = res;
   return;
 end;
@@ -2231,6 +2235,8 @@ global
 updating function LongInt ORVcRecordUpdate(var record ORVc ORr,record ORVc OR2r,LongInt stat,LongInt long4)
 begin
   LongInt res;
+  
+  logtext(0,"ORVcRecordUpdate begin");
 
   ORr.Prntdf = 0;
   AutDelNonStockItem(ORr);
@@ -2250,6 +2256,8 @@ begin
     end;
   end;
   
+  logtext(0,"ORVcRecordUpdate end;");
+
   ORVcRecordUpdate = res; 
   return;
 end;
@@ -2262,6 +2270,8 @@ begin
   record RLinkVc RLr;
   record ActVc Actr,oldActr;
   integer pos;
+  
+  logtext(0,"ORVcRecordUpdateAfter begin");
 
 //  ORObjectStats(ORr,OR2r); it is stored only and not used ever
   UpdateVARItemsOR(ORr);
@@ -2305,7 +2315,8 @@ begin
       pos = pos + 1;
     end;
   end;
-
+  
+  logtext(0,"ORVcRecordUpdateAfter end");
   ORVcRecordUpdateAfter = res; 
   return;
 end;
@@ -2403,6 +2414,8 @@ global
 updating function LongInt ORVcRecordSave(var record ORVc ORr,record ORVc OR2r,LongInt stat,LongInt long4)
 begin
   LongInt res;
+  
+  logtext(0,"ORVcRecordSave begin");
 
   if (blankdate(ORr.RegDate)) then begin
     ORr.RegDate = CurrentDate;
@@ -2426,7 +2439,7 @@ begin
       ORr.SalesGroup = "NOTNP";
     end;
   end;
-  
+  logtext(0,"ORVcRecordSave end");
   ORVcRecordSave = res; 
   return;
 end;
@@ -2435,6 +2448,8 @@ global
 updating function LongInt ORVcRecordSaveAfter(var record ORVc ORr,record ORVc OR2r,LongInt long3,LongInt long4)
 begin
   LongInt res;
+  
+  logtext(0,"ORVcRecordSaveAfter begin");
 
 //  ORObjectStats(ORr,OR2r);it is stored only and not used ever
   CreateActFromOR(ORr);
@@ -2447,6 +2462,8 @@ begin
   if(currentcompany==13)then begin
 		SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
   end;
+  
+  logtext(0,"ORVcRecordSaveAfter end");
   ORVcRecordSaveAfter = res; 
   return;
 end;

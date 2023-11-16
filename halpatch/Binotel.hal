@@ -1018,7 +1018,7 @@ begin
       //SendRawWebRequest(host,"433",false,"POST",page,"application/json","",false,req,reply,10);
       //MySendWebRequest(host,443,-1,true,"POST",page,"application/json","",false,req,reply,10);
       //MySendRawWebRequest(host,"443",true,"POST","","application/json","",false,req,reply,10);
-			SendAsyncWebRequest(host,443,-1,true,"POST",page,"application/json","",req,"WebCalReqCallBack",10);
+			SendAsyncWebRequest(host,443,-1,true,"POST",page,"application/json","",req,"WebCalReqCallBack",5);
 			//WriteAreaToFile(reply,"WebCalReqCallBackCallBack.txt",0);
 			//logtext(0,fromExtNumber & " CallTo " & toPhoneNumber);
     end;
