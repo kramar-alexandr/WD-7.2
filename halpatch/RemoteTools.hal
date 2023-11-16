@@ -816,14 +816,10 @@ LSKIPIVROW:;
       end;  
     end;
   end; 
-  logtext(0,"PasteSHRowsToIVPasteSHRowsToIVPasteSHRowsToIV");
-  logtext(0,"lastshnr " & lastshnr);
-  logtext(0,"totshv " & totshv);
   
   if (lastshnr>0) and (totshv>0) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 27 09 2022 y. at 12:06:39 PM
     for (shi=0;shi<matrowcnt(ORp);shi=shi+1) begin
       MatRowGet(ORp,shi,ORrw);
-      logtext(0,"ORrw " & ORrw.ArtCode);
       if (ORrw.stp==1 and nonblank(ORrw.ArtCode) and ORrw.Invd<=ORrw.Quant and ORrw.ArtCode=="COM") then begin
         
         INr.Code = ORrw.ArtCode;
