@@ -182,7 +182,8 @@ begin
   array string 50 avtags;
   val fr,to1,to2,br1,br2,t;
   
-  
+  logtext(0,"CustSalesReportProc");
+
     
     if(printf)then begin
       startformat(15);

@@ -695,6 +695,8 @@ begin
 	record UserVc User;
 	string 20 res;
 	
+	logtext(0,"TestCurrentUserOnServer");
+
 	res = "";
 	User.Code = currentuser;
 	if(readfirstmain(User,1,true))then begin
@@ -831,6 +833,9 @@ function integer ExpiredMoveForServDays()//Edit-------------------Vitalii 12:21 
 begin
 	record UserVc User;
 	integer res;
+	
+	logtext(0,"ExpiredMoveForServDays");
+
 	
 	res = 0;
 	User.Code = currentuser;
