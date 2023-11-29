@@ -158,7 +158,7 @@ begin
     ArrayField(GarantyFor,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 06 2019 y. at 4:14:26 PM
     ArrayField(DopComment,M4Str,200,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 27 01 2021 y. at 6:05:44 PM
     ArrayField(ovst,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 17 04 2023 y. at 5:05:14 PM
-    ArrayField(iswebshop,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 19 04 2023 y. at 6:14:18 PM
+    ArrayField(iswebshop,M4Set,2002,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 19 04 2023 y. at 6:14:18 PM
     
     
     SubsetKeyBegin2(Location);// Edit ************************** Monday, 8 September 2014 09:11:39

@@ -654,6 +654,12 @@ begin
     SetText(2,"Гарантія від iStore + захист");
     SetText(3,"Гарантія від виробника з посиланням");
   EndSet;
+  
+  SetBegin(2002);
+    SetText(0,"-");
+    SetText(1,"Сайт");
+    SetText(2,"Допродаж");
+  EndSet;
 	
 	//comment
 	

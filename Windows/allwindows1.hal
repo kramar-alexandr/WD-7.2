@@ -1153,7 +1153,6 @@ lSimpleORWindow:;
             if(currentuser=="SA" or currentuser=="NSA")then begin
               MatCol(t,-220,"ov",0,ovst,true,0);  
             end;
-            MatCol(t,-200,"ІМ",0,iswebshop,true,0);  
             MatCol(t,-180,"Склад",0,Location,true,0);
             MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
             MatCol(t,-60,"Друк ет.",0,ORPrint,true,0);
@@ -1164,11 +1163,17 @@ lSimpleORWindow:;
             MatCol(t,384,"Коммент.",0,DopComment,false,0);
             if(currentuser=="SA" or currentuser=="NSA")then begin
               MatCol(t,-220,"ov",0,ovst,true,0);  
-              MatCol(t,-200,"ws",0,iswebshop,true,0);  
             end;
             MatCol(t,-180,"Склад",0,Location,true,0);
             MatCol(t,-120,"Гарантія",0,GarantyFor,true,0);
             MatCol(t,-60,"Друк ет.",0,ORPrint,true,0);
+            EnterSkip(ORPrint);
+            
+            Flip(flipnr); flipnr = flipnr + 1;
+            t = 1;
+            MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
+            MatCol(t,384,"Коммент.",0,DopComment,false,0);
+            MatCol(t,-200,"Тип",0,iswebshop,true,SetSClass);  
             EnterSkip(ORPrint);
             
             
@@ -1180,6 +1185,7 @@ lSimpleORWindow:;
             vs = 20;
             v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
             v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
+            v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
           end;
           v = v + 320;
           HalPushButton(400,v,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
