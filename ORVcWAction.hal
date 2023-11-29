@@ -124,6 +124,7 @@ vector boolean deleteditems;
         matrowget(ORr,rownr,ORrw);
           ORrw.iswebshop = 2;
         matrowput(ORr,rownr,ORrw);
+        putwindowrecord(wn,ORr);
       end;
     end;
 	end;
