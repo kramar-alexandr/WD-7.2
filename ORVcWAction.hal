@@ -102,9 +102,11 @@ vector boolean deleteditems;
     rwcnt = matrowcnt(ORr);
     for(i=0;i<rwcnt;i=i+1)begin
       matrowget(ORr,i,ORrw);
-      if(ORrw.iswebshop==1 and ORrw.ovst==1)then begin
+      if(ORrw.iswebshop==1)then begin
         isshops = true;
-        deleteditems[ORrw.ArtCode] = true;
+        if(ORrw.ovst==1)then begin
+          deleteditems[ORrw.ArtCode] = true;
+        end;
       end;
     end;
     
@@ -117,6 +119,12 @@ vector boolean deleteditems;
         res = false;
         goto lORDClassAfterEditField;
       end;  
+    end else begin
+      if(currentuser!=ORr.SalesMan)then begin
+        matrowget(ORr,rownr,ORrw);
+          ORrw.iswebshop = 2;
+        matrowput(ORr,rownr,ORrw);
+      end;
     end;
 	end;
 	

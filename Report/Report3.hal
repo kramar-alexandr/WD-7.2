@@ -323,10 +323,10 @@ begin
                   OutString(60,"DblORVc",IVr.OrderNr,false);
                   OutString(60,0,ORr.CustOrdNr,false);
                   OutString(60,0,ORr.RefStr,false);
-                  if(ORrw.iswebshop==1)then begin
-                    OutString(60,0,"С Сайта",false);
-                  end else begin
-                    OutString(60,0,"",false);
+                  switch(ORrw.iswebshop)begin
+                    case 0:OutString(60,0,"",false);
+                    case 1:OutString(60,0,"З сайту",false);
+                    case 2:OutString(60,0,"Допродаж",false);
                   end;
                   OutString(120,0,IVrw.ArtCode,false);
                   OutString(200,0,IVrw.Spec,false);
@@ -348,7 +348,7 @@ begin
                 end;
                 sumf = true;
                 if(RepSpec.flags[0]==1)then begin
-                  if(ORrw.iswebshop==1)then begin
+                  if(ORrw.iswebshop>0)then begin
                     sumf = false;
                   end;
                 end;
