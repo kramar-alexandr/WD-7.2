@@ -1630,6 +1630,10 @@ BEGIN
 		res = false; 
     goto LORDClassActiveEditField; 
 	end;
+	if(fieldname=="DiscApprovedBy" and currentuser!="SA")then begin
+		res = false; 
+    goto LORDClassActiveEditField; 
+	end;
   
   
   
