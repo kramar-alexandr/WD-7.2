@@ -118,7 +118,15 @@ vector boolean deleteditems;
         putwindowrecord(wn,ORr);
         res = false;
         goto lORDClassAfterEditField;
-      end;  
+      end else begin
+        if(currentuser!=ORr.SalesMan)then begin
+          matrowget(ORr,rownr,ORrw);
+            ORrw.iswebshop = 2;
+            ORrw.DiscApprovedBy = currentuser;
+          matrowput(ORr,rownr,ORrw);
+          putwindowrecord(wn,ORr);
+        end;
+      end; 
     end else begin
       if(currentuser!=ORr.SalesMan)then begin
         matrowget(ORr,rownr,ORrw);
