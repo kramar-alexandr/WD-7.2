@@ -1397,7 +1397,7 @@ begin
   if(res and rownr>-1)then begin
     getwindowrecord(wn,ORr);
     MatRowGet(ORr,rownr,ORrw);
-    if(ORrw.iswebshop==1)then begin
+    if(ORrw.iswebshop==1 or (nonblank(ORrw.DiscApprovedBy)  and ORrw.DiscApprovedBy!=currentuser))then begin
       res = false;
     end;
   end;
@@ -1459,7 +1459,7 @@ begin
       rwcnt = matrowcnt(ORr);
       for(i=0;i<rwcnt;i=i+1)begin
         matrowget(ORr,i,ORrw);
-        if(ORrw.iswebshop==0)then begin
+        if(ORrw.iswebshop==0 or (nonblank(ORrw.DiscApprovedBy)  and ORrw.DiscApprovedBy!=currentuser))then begin
           deleteditems[ORrw.ArtCode] = true;
         end;
       end;
