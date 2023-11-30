@@ -635,6 +635,7 @@ EndRecord;
 	ArrayField(ExtrSumCostUAH,M4val,0,0);
 	ArrayField(ExtrGP,M4val,0,0);
 	ArrayField(ExtrGPUAH,M4val,0,0);
+	ArrayField(Source,M4Str,100,0);
 	EndArray;
 	EndBlock; 
 	//Edit***************************ABR,14:24 01.10.2018 }

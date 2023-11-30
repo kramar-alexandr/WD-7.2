@@ -308,6 +308,7 @@ begin
   record IPrsVc IPrs2r;
   boolean TrHs,trhs2,testf,testf2,TRHS1,checkf;
   record ORVc ORr;
+  row ORVc ORrw;
   record SHVc SHr;
   row SHVc SHrw;
   integer mtrw,i,g,k,j,ivmtrw,mtrwsh;
@@ -428,6 +429,8 @@ begin
     OutString(pos[17],0,"Inv.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
     OutString(pos[18],0,"SalesMan",false);
     OutString(pos[19],0,"Inv. SalesMan",false);
+    OutString(pos[19],0,"Source",false);
+    
     if(currentcompany!=2)then begin
 			OutString(pos[20],0,"ServiceMan",false);
 			OutString(pos[21],0,"Service Order",false);
@@ -464,7 +467,9 @@ begin
         
       //----------------------------------------------------------------SALE
         IVr.SerNr=IPrsr.IVNr;       
-        ReadFirstMain(IVr,1,true);       
+        ReadFirstMain(IVr,1,true);  
+        ORr.SerNr = IVr.OrderNr;
+        readfirstmain(ORr,1,true);
         if(IVr.OKFlag==1 and IVr.Invalid!=1)then begin
           sum = IVr.Sum4;
           
@@ -732,6 +737,21 @@ begin
                       LBBlockw.SalesMan = CUr.SalesMan;
                     end; 
                     LBBlockw.InvSalesMan = IVr.SalesMan;
+                    LBBlockw.Source = "";
+                    if(ORr.SerNr>-1)then begin
+                      if(IVrw.OrdRow>=0)then begin
+                        matrowget(ORr,IVrw.OrdRow,ORrw);
+                        if(ORrw.iswebshop==1)then begin
+                          LBBlockw.Source = "З сайту";
+                        end;
+                        if(IVr.SalesMan!=ORrw.DiscApprovedBy and nonblank(ORrw.DiscApprovedBy))then begin
+                          LBBlockw.InvSalesMan = ORrw.DiscApprovedBy;
+                        end;
+                      end;
+                    end;
+                    
+                    
+                    
                     if(currentcompany!=2)then begin
 											LBBlockw.ServiceMan = enginer;
 											LBBlockw.ServiceOrder = IVr.SVONr;
@@ -810,6 +830,18 @@ begin
                     LBBlockw.SalesMan = CUr.SalesMan;
                     end; 
                     LBBlockw.InvSalesMan = IVr.SalesMan;
+                    LBBlockw.Source = "";
+                    if(ORr.SerNr>-1)then begin
+                      if(IVrw.OrdRow>=0)then begin
+                        matrowget(ORr,IVrw.OrdRow,ORrw);
+                        if(ORrw.iswebshop==1)then begin
+                          LBBlockw.Source = "З сайту";
+                        end;
+                        if(IVr.SalesMan!=ORrw.DiscApprovedBy and nonblank(ORrw.DiscApprovedBy))then begin
+                          LBBlockw.InvSalesMan = ORrw.DiscApprovedBy;
+                        end;
+                      end;
+                    end;
                     if(currentcompany!=2)then begin
 											LBBlockw.ServiceMan = enginer;
 											LBBlockw.ServiceOrder = IVr.SVONr;
@@ -839,6 +871,8 @@ l1:;
           if(testf2 and IPrs2r.TransType==0 and IPrs2r.TransNr!=IPrs2r.IVNr)then begin
             newIVr.SerNr = IPrs2r.TransNr;
             if(readfirstmain(newIVr,1,true) and ((newIVr.InvDate>=RepSpec.sStartDate and newIVr.InvDate<=RepSpec.sEndDate) or newIVr.InvDate<enddate) and usedinvno[IPrs2r.TransNr]==false)then begin// Edit ************************** Monday, 13 June 2016 15:29:47
+            	ORr.SerNr = newIVr.OrderNr;
+              readfirstmain(ORr,1,true);
             	checkf = true;
             	if(((newIVr.InvDate>=RepSpec.sStartDate and newIVr.InvDate<=RepSpec.sEndDate) or newIVr.InvDate<enddate)==false)then begin checkf = false; end;
             	if(usedinvno[IPrs2r.TransNr])then begin checkf = false; end;
@@ -1095,6 +1129,18 @@ l1:;
                             LBBlockw.SalesMan = CUr.SalesMan;
                           end; 
                           LBBlockw.InvSalesMan = newIVr.SalesMan;
+                          LBBlockw.Source = "";
+                          if(ORr.SerNr>-1)then begin
+                            if(IVrw.OrdRow>=0)then begin
+                              matrowget(ORr,IVrw.OrdRow,ORrw);
+                              if(ORrw.iswebshop==1)then begin
+                                LBBlockw.Source = "З сайту";
+                              end;
+                              if(newIVr.SalesMan!=ORrw.DiscApprovedBy and nonblank(ORrw.DiscApprovedBy))then begin
+                                LBBlockw.InvSalesMan = ORrw.DiscApprovedBy;
+                              end;
+                            end;
+                          end;
                           if(currentcompany!=2)then begin
                             LBBlockw.ServiceMan = enginer;
                             LBBlockw.ServiceOrder = newIVr.SVONr;
@@ -1195,6 +1241,7 @@ l1:;
 			OutString(pos[17],0,LBBlockw.InvCur,false);
 			OutString(pos[18],0,LBBlockw.SalesMan,false);
 			OutString(pos[19],0,LBBlockw.InvSalesMan,false);
+			OutString(pos[19],0,LBBlockw.Source,false);
 			if(currentcompany!=2)then begin
 			OutString(pos[20],0,LBBlockw.ServiceMan,false);
 			OutString(pos[21],0,LBBlockw.ServiceOrder,false);
@@ -1997,6 +2044,7 @@ begin
     OutString(pos[17],0,"Inv.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
     OutString(pos[18],0,"SalesMan",false);
     OutString(pos[19],0,"Inv. SalesMan",false);
+    OutString(pos[19],0,"Source",false);
     if(currentcompany!=2)then begin
 			OutString(pos[20],0,"ServiceMan",false);
 			OutString(pos[21],0,"Service Order",false);
