@@ -275,7 +275,7 @@ begin
             matrowget(ORr,IVrw.OrdRow,ORrw);
           end;
           if(ORrw.iswebshop==2)then begin
-            ORr.SalesMan = ORr.DoneMan;
+            ORr.SalesMan = ORrw.DiscApprovedBy;
           end;
           if(blank(ORr.SalesMan))then begin
             ORr.SalesMan = IVr.SalesMan;
