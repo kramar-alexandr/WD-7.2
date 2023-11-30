@@ -1591,7 +1591,7 @@ BEGIN
   record ORVc OR2r;
   row ORVc ORrw;
   record INVc INr;
-  Integer nwn;
+  Integer nwn,rwcnt;
   record POVc POr;
   record StockMovVc StockMovr; //Edit***************************Sasha2,11:19 11.02.2016
   boolean DT_BANKflag,check;
@@ -1666,6 +1666,18 @@ BEGIN
   
   if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
 		if(rownr>-1)then begin
+		  rwcnt = matrowcnt(ORr);
+		  if(rownr==rwcnt)then begin
+		    check = true;
+		  end else begin
+		    if(rownr<rwcnt)then begin
+		      matrowget(ORr,rownr,ORrw);
+		      if(ORrw.DiscApprovedBy==currentuser)then begin
+		        check = true;
+		      end;
+		    end;
+		  end;
+		  
 			if(currentuser!="SAUNOK" and check==false)then begin
 				if (wnst!=Rs_insert) then begin
 					if(nonblank(ORr.SalesMan))then begin
