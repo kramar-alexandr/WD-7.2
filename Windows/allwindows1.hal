@@ -1173,12 +1173,14 @@ lSimpleORWindow:;
             t = 1;
             MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
             MatCol(t,384,"Коммент.",0,DopComment,false,0);
+            MatCol(t,-300,"Менеджер",0,DiscApprovedBy,true,0);  
             MatCol(t,-200,"Тип",0,iswebshop,true,SetSClass);  
             EnterSkip(ORPrint);
             
             t = kInvoiceRowTypeSubtotal;
             MatCol(t,184,"Товар",0,Spec,false,0);// Edit ************************** Monday, July 14, 2014 at 10:34:58
             MatCol(t,384,"Коммент.",0,DopComment,false,0);
+            MatCol(t,-300,"Менеджер",0,DiscApprovedBy,true,0);  
             MatCol(t,-200,"Тип",0,iswebshop,true,SetSClass);  
             EnterSkip(ORPrint);
 

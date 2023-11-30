@@ -123,6 +123,7 @@ vector boolean deleteditems;
       if(currentuser!=ORr.SalesMan)then begin
         matrowget(ORr,rownr,ORrw);
           ORrw.iswebshop = 2;
+          ORrw.DiscApprovedBy = currentuser;
         matrowput(ORr,rownr,ORrw);
         putwindowrecord(wn,ORr);
       end;
