@@ -9,6 +9,8 @@ external function val CalcSumForSales(val,val,val,val,val,integer, val,boolean);
 external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode); //Edit***************************Sasha2,17:48 23.04.2015
 external function string 200 ValToMyString(val,integer); //Edit***************************Sasha2,11:32 27.04.2015
 
+SetLangMode(LangRussian,"RUS",0);
+
 global //Edit***************************Sasha2,14:29 10.09.2014 {
 procedure GetItemName(string Item, var string Name,var string Groupe)
 begin
