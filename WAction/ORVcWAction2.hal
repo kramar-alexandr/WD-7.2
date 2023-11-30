@@ -1666,23 +1666,11 @@ BEGIN
   
   if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
 		if(rownr>-1)then begin
-		  logtext(0,"rownr " & rownr);
-
-		  rwcnt = matrowcnt(ORr);
-		  logtext(0,"rwcnt " & rwcnt);
-
-		  if(rownr==rwcnt)then begin
-		    check = true;
-		  end else begin
-		    if(rownr<rwcnt)then begin
-		      matrowget(ORr,rownr,ORrw);
-		      logtext(0,"ORrw.DiscApprovedBy " & ORrw.DiscApprovedBy);
-
-		      if(ORrw.DiscApprovedBy==currentuser)then begin
-		        check = true;
-		      end;
-		    end;
-		  end;
+      matrowget(ORr,rownr,ORrw);
+      if(blank(ORrw.ArtCode) or ORrw.DiscApprovedBy==currentuser)then begin
+        check = true;
+      end;
+		  
 		  
 			if(currentuser!="SAUNOK" and check==false)then begin
 				if (wnst!=Rs_insert) then begin
