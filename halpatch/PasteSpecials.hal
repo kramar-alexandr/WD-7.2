@@ -1448,6 +1448,10 @@ begin
   		ORVc_PasteArtCode(ORr,k,inwarning,warning,false);
   		MatRowGet(ORr,k,ORrw);
   		ORrw.Quant = 1;
+  		if(currentuser!=ORr.SalesMan)then begin
+  		  ORrw.DiscApprovedBy = currentuser;
+  		  ORrw.iswebshop = 2;
+  		end;
   		MatRowPut(ORr,k,ORrw);
       ORVc_PasteQuant(ORr,k,true,chsum);
       ORrw.SerialNr = serialnr & ";" & ordernr;
