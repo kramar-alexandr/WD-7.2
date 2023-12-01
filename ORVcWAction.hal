@@ -97,7 +97,7 @@ vector boolean deleteditems;
 		end;
 	end;
 	
-	if(changed>0 and rownr>-1 and fieldname=="ArtCode")then begin
+	if(changed>0 and rownr>-1 and (fieldname=="ArtCode" or fieldname=="SerialNr"))then begin
     getwindowrecord(wn,ORr);
     rwcnt = matrowcnt(ORr);
     for(i=0;i<rwcnt;i=i+1)begin
