@@ -274,18 +274,16 @@ begin
           if(IVr.OrderNr>0)then begin
             matrowget(ORr,IVrw.OrdRow,ORrw);
           end;
-          if(ORrw.iswebshop==2)then begin
+          if(ORrw.iswebshop==2 and nonblank(ORrw.DiscApprovedBy))then begin
             ORr.SalesMan = ORrw.DiscApprovedBy;
           end;
           if(blank(ORr.SalesMan))then begin
             ORr.SalesMan = IVr.SalesMan;
           end;
           
-          /*if(currentuser!="SA")then begin
-            if(nonblank(RepSpec.f3) and RepSpec.f3!=ORr.SalesMan)then begin
-              testf = false;
-            end;
-          end;*/
+          if(nonblank(RepSpec.f3) and RepSpec.f3!=ORr.SalesMan)then begin
+            testf = false;
+          end;
           
           
           if(testf)then begin
@@ -305,23 +303,7 @@ begin
                     case "USED": filtered = true;
                   end;
                 end;
-                            
-                if(IVr.OrderNr>0)then begin
-                  matrowget(ORr,IVrw.OrdRow,ORrw);
-                end;
-                
-                salesman = ORr.SalesMan;
-                if(nonblank(ORrw.DiscApprovedBy))then begin
-                  salesman = ORrw.DiscApprovedBy;
-                end;
-                
-                if(filtered)then begin
-                  if(RepSpec.f3!=salesman)then begin
-                    filtered = false;
-                  end;
-                end;
-                
-              
+           
                 if(filtered)then begin
                   if(left(IVr.CurncyCode,3)!="UAH")then begin
                     IVrw.Sum = IVrw.Sum * fr;
