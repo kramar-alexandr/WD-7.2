@@ -119,12 +119,23 @@ vector boolean deleteditems;
         res = false;
         goto lORDClassAfterEditField;
       end else begin
-        if(currentuser!=ORr.SalesMan)then begin
+        if(fieldname=="ArtCode")then begin
+          if(currentuser!=ORr.SalesMan)then begin
+            matrowget(ORr,rownr,ORrw);
+              ORrw.iswebshop = 2;
+              ORrw.DiscApprovedBy = currentuser;
+            matrowput(ORr,rownr,ORrw);
+            putwindowrecord(wn,ORr);
+          end;
+        end;
+        if(fieldname=="SerialNr")then begin
           matrowget(ORr,rownr,ORrw);
+          if(blank(ORrw.ArtCode))then begin
             ORrw.iswebshop = 2;
             ORrw.DiscApprovedBy = currentuser;
-          matrowput(ORr,rownr,ORrw);
-          putwindowrecord(wn,ORr);
+            matrowput(ORr,rownr,ORrw);
+            putwindowrecord(wn,ORr);
+          end;
         end;
       end; 
     end else begin
