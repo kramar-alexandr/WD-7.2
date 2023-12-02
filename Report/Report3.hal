@@ -349,7 +349,7 @@ begin
                   end;
                   sumf = true;
                   if(RepSpec.flags[0]==1)then begin
-                    if(ORrw.iswebshop==1 or (nonblank(ORrw.DiscApprovedBy)  and ORrw.DiscApprovedBy!=currentuser))then begin
+                    if(ORrw.iswebshop==1)then begin
                       sumf = false;
                     end;
                   end;
