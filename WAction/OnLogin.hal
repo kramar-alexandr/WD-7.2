@@ -93,6 +93,9 @@ BEGIN
   cd = currentdate;
   cd.day = 1;
   USr.Code = CurrentUser;
+  if(currentuser=="SA")then begin
+    USr.Code = "VEKHA";
+  end;
 	if(readfirstmain(USr,1,true))then begin
 	  if(USr.IsSalesMan==1)then begin
       RepSpec.sStartDate = cd;
