@@ -269,19 +269,20 @@ begin
       
         mtrw = matrowcnt(IVr);
         for(i=0;i<mtrw;i=i+1)begin
+          salesman = ORr.SalesMan;
           matrowget(IVr,i,IVrw);
           testf = true;
           if(IVr.OrderNr>0)then begin
             matrowget(ORr,IVrw.OrdRow,ORrw);
           end;
           if(ORrw.iswebshop==2 and nonblank(ORrw.DiscApprovedBy))then begin
-            ORr.SalesMan = ORrw.DiscApprovedBy;
+            salesman = ORrw.DiscApprovedBy;
           end;
-          if(blank(ORr.SalesMan))then begin
-            ORr.SalesMan = IVr.SalesMan;
+          if(blank(salesman))then begin
+            salesman = IVr.SalesMan;
           end;
           
-          if(nonblank(RepSpec.f3) and RepSpec.f3!=ORr.SalesMan)then begin
+          if(nonblank(RepSpec.f3) and RepSpec.f3!=salesman)then begin
             testf = false;
           end;
           
@@ -396,7 +397,7 @@ begin
                       OutString(330,0,"",false);
                     end;
                 
-                    OutString(330,0,ORr.SalesMan,false);
+                    OutString(330,0,salesman,false);
                     OutString(330,0,ORr.Location,false);
                     OutString(1,0,INr.Group,false);
                     OutString(370,0,IVrw.Quant*cred,false);
