@@ -1468,7 +1468,7 @@ begin
 	  for(i=0;i<rwcnt;i=i+1) begin
       MatRowGet(ORr,i,ORrw);
       if(ORrw.stp==kInvoiceRowTypeNormal)then begin
-        if(ORrw.GarantyFor>0 or (nonblank(needprint) and needprint==(ORrw.ArtCode & ":" & ORrw.SerialNr)))then begin
+        if(ORrw.GarantyFor>0 and (blank(needprint) or needprint==(ORrw.ArtCode & ":" & ORrw.SerialNr)))then begin
           addtexttoarea(SetUnderlineOff,aFile);
           TLTOARR(checklength,"€‡‚€ ’‚€“:",aFile);
           addtexttoarea(SetUnderlineOn,aFile);
@@ -1820,7 +1820,7 @@ begin
 	  for(i=0;i<rwcnt;i=i+1) begin
       MatRowGet(ORr,i,ORrw);
       if(ORrw.stp==kInvoiceRowTypeNormal)then begin
-        if(ORrw.GarantyFor>0 or (nonblank(needprint) and needprint==(ORrw.ArtCode & ":" & ORrw.SerialNr)))then begin
+        if(ORrw.GarantyFor>0 and (blank(needprint) or needprint==(ORrw.ArtCode & ":" & ORrw.SerialNr)))then begin
           addtexttoarea(SetUnderlineOff,aFile);
           TLTOARR(checklength,"€‡‚€ ’‚€“:",aFile);
           addtexttoarea(SetUnderlineOn,aFile);
@@ -2156,7 +2156,7 @@ begin
 	  for(i=0;i<rwcnt;i=i+1) begin
       MatRowGet(ORr,i,ORrw);
       if(ORrw.stp==kInvoiceRowTypeNormal)then begin
-        if(ORrw.GarantyFor>0 or (nonblank(needprint) and needprint==(ORrw.ArtCode & ":" & ORrw.SerialNr)))then begin
+        if(ORrw.GarantyFor>0 and (blank(needprint) or needprint==(ORrw.ArtCode & ":" & ORrw.SerialNr)))then begin
           addtexttoarea(SetUnderlineOff,aFile);
           TLTOARR(checklength,"€‡‚€ ’‚€“:",aFile);
           addtexttoarea(SetUnderlineOn,aFile);
