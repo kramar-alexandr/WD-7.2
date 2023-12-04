@@ -71,7 +71,7 @@ external function Boolean PasteCustInOrder(var record ORVc,string,string,var str
 external function string 20 NormalPhone(string);
 remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
 external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
-remote procedure HandleBixolonWarranty(record ORVc,var area,boolean,vector boolean);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarranty(record ORVc,var area,boolean,integer);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyM(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyMplusS(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyMAC(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
@@ -3456,7 +3456,13 @@ BEGIN
   end;*/
   
   if(needprint>0)then begin
-    HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"),exludeitems);//Базовая гарантия iStore //Гарантийни Талон від виробника.docx
+    rwcnt = matrowcnt(ORr);
+    for(i=0;i<rwcnt;i=i+1)begin
+      matrowget(ORr,i,ORrw);
+      if(ORrw.stp==kInvoiceRowTypeNormal and ORrw.GarantyFor>0 and exludeitems[ORrw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
+        HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"),i);//Базовая гарантия iStore //Гарантийни Талон від виробника.docx
+      end;
+    end;
   end;
   PrintBixolonWarrantyReceipt(aFile);
   OR2r.Printed = 1;
