@@ -74,7 +74,7 @@ global
 updating function Boolean ORDClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
 begin
 record ORVc ORr,oldORr;
-row ORVc ORrw;
+row ORVc ORrw,oldORrw;
 boolean res,isshops;
 val pr,reb,sum;
 val newpr,newreb,newsum;
@@ -119,7 +119,9 @@ vector boolean deleteditems;
         res = false;
         goto lORDClassAfterEditField;
       end else begin
-        if(fieldname=="ArtCode")then begin
+        GetPrevWindowRecord(wn,oldORr);
+        matrowget(oldORr,rownr,oldORrw);
+        if(fieldname=="ArtCode" and blank(oldORrw.ArtCode))then begin
           if(currentuser!=ORr.SalesMan)then begin
             matrowget(ORr,rownr,ORrw);
               ORrw.iswebshop = 2;
