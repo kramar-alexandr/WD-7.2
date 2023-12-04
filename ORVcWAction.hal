@@ -142,7 +142,9 @@ vector boolean deleteditems;
       end; 
     end else begin
       if(currentuser!=ORr.SalesMan)then begin
-        if(fieldname=="ArtCode")then begin
+        GetPrevWindowRecord(wn,oldORr);
+        matrowget(oldORr,rownr,oldORrw);
+        if(fieldname=="ArtCode" and blank(oldORrw.ArtCode))then begin
           matrowget(ORr,rownr,ORrw);
             ORrw.iswebshop = 2;
             ORrw.DiscApprovedBy = currentuser;
