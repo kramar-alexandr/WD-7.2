@@ -19,6 +19,24 @@ WebOutString("<BR>");
 return;
 end;
 
+function string 255 cutslash(string input)
+begin
+  string 255 res;
+  string 1 c;
+  integer i,rwcnt;
+  
+  rwcnt = len(input);
+  for(i=0;i<rwcnt;i=i+1)begin
+    c = mid(input,i,1);
+    if(c!=chr(92))then begin
+      res = res & c;
+    end;
+  end;
+  
+  cutslash = res;
+return;
+end;
+
 procedure addParamToJSONArea(string param, string value, var area req)
 begin
 string 255 resval;
@@ -1391,7 +1409,7 @@ area tempar;
 					
 					ORr.SerNr = NextSerNr("ORVc",ORr.OrdDate,-1,false,"");    
 					for(i=0;i<JSONCountChildren(inputjson,"items");i=i+1) begin
-						articlerow = JSONGet(inputjson,"items/["  & i & "]/item/article");
+						articlerow = cutslash(JSONGet(inputjson,"items/["  & i & "]/item/article"));
 						fullnamerow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/fullname"),vres);
 						pricerow = JSONGet(inputjson,"items/["  & i & "]/item/price");
 						countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
