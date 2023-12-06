@@ -1316,7 +1316,7 @@ begin
   GetWindowRecord(wn,ORr);
   
   check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
-	if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
+	//if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
 		if(rownr>-1)then begin
       matrowget(ORr,rownr,ORrw);
       if(blank(ORrw.ArtCode) or ORrw.DiscApprovedBy==currentuser)then begin
@@ -1333,7 +1333,7 @@ begin
 				end;
 			end;
 		end;
-	end;
+	//end;
       
   if (WindowState(wn)==Rs_update) then begin//Rs_update
     if (ORr.Closed==0) then begin
@@ -1442,20 +1442,20 @@ begin
   MatRowGet(ORr,rownr,ORrw);
 
   check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
-	if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
+	//if(currentcompany==13)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:07 PM
 		if(rownr>-1)then begin
 			if(currentuser!="SAUNOK" and check==false)then begin
 				if (WindowState(wn)!=Rs_insert) then begin
 					if(nonblank(ORr.SalesMan))then begin
 						if(currentuser!=ORr.SalesMan)then begin
-							res = false;
-							goto lORDClassOverStrikeTest;
+							//res = false;
+							//goto lORDClassOverStrikeTest;
 						end;
 					end;
 				end;
 			end;
 		end;
-	end;
+	//end;
 
   if(!res and rownr>-1)then begin
     if(ORrw.iswebshop==1)then begin
@@ -1481,6 +1481,36 @@ begin
           ORrw.stp = kInvoiceRowTypeNormal;
           res = false;
           ORrw.Sum = ORrw.PriceFactor;
+          ORrw.PriceFactor = blankval;
+        end;
+        
+        MatRowPut(ORr,rownr,ORrw);
+        ORPasteRvrsVATCode(ORr,false);
+        ORSumup(ORr);
+        PutWindowRecord(wn,ORr);
+      end;
+    end else begin
+      if(currentuser!=ORr.SalesMan and ORrw.DiscApprovedBy!=currentuser)then begin
+        res = true;
+      end;
+      rwcnt = matrowcnt(ORr);
+
+      MatRowGet(ORr,rownr,ORrw);
+      if(deleteditems[ORrw.ArtCode])then begin
+        res = false;
+      end;
+      if(res)then begin
+        if(ORrw.ovst==0)then begin
+          ORrw.ovst = 1;
+          ORrw.stp = kInvoiceRowTypeSubtotal;
+          ORrw.Region = currentuser;
+          ORrw.PriceFactor = ORrw.Sum;
+        end else begin
+          ORrw.ovst = 0;
+          ORrw.stp = kInvoiceRowTypeNormal;
+          res = false;
+          ORrw.Sum = ORrw.PriceFactor;
+          ORrw.Region = "";
           ORrw.PriceFactor = blankval;
         end;
         
