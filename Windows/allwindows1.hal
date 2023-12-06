@@ -587,7 +587,7 @@ begin
 		//  EditField(h1+200,v,80,"#VAT Code#",Normal,CustVATCode,false,0);
 			EnterSkip(OrdDate);
       if(currentuser!="SA1")then begin
-      
+        SpecialMenu("Поновити ціни по прейскуранту",' ',13,"ORUpdatePricesDsm");
       end else begin
         SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
         SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");

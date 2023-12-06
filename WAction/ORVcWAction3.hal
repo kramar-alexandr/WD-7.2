@@ -31,6 +31,7 @@ remote function Boolean BA_ORMinMarkupWarning(record ORVc,var Integer);
 external procedure PrintORReceiptDsm();
 remote function Boolean MakeActFromOR(var record ORVc,var record ActVc);
 remote function Boolean MakeActFromSM(var record StockMovVc,var record ActVc,boolean);
+remote procedure RA_ORUpdatePricesDsm(var record ORVc);
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -1269,5 +1270,24 @@ begin
 		runreport(RepSpec,0);
 	end;
 		
+return;
+end;
+
+
+
+global procedure ORUpdatePricesDsm()
+begin
+  record ORVc ORr;
+  integer i,rwcnt,wn;
+  
+  wn = curwindow;
+  getwindowrecord(wn,ORr);
+  if(ORr.OKFlag==0 and ORr.InvFlag==0)then begin
+    RA_ORUpdatePricesDsm(ORr);
+    putwindowrecord(wn,ORr);
+  end else begin
+    beep;
+  end;
+
 return;
 end;

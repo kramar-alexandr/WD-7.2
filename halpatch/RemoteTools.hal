@@ -51,6 +51,13 @@ external function LongInt GetCurUserLastNr(string);
 external procedure IVVc_PasteSalesMan(var record IVVc,string);
 external function Boolean IVVc_PasteArtCode(var record IVVc,Integer,var string,var string,Boolean,var Integer);
 remote function Boolean MakeActFromSM(var record StockMovVc,var record ActVc,boolean);
+external function Boolean GetItemPriceDiscount3(string,val,var record INVc,string,val,val,val,val,val,string,string,string,string,
+                                                var val,var string,var val,var string,var val,var string,Integer,var Boolean,Date,Time,
+                                                string,Boolean,var Boolean,string,var string,var val,string,string,var string);
+external procedure ORSumup(var record ORVc);
+external function Boolean ORDchrsum(var record ORVc,Integer);
+external procedure ORDchsum(var record ORVc,Integer);
+
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -2135,3 +2142,43 @@ LRecordAction_raPasteOrdInInv:;
   RecordAction_raPasteOrdInInv = res;
   RETURN;
 END;
+
+
+global procedure RA_ORUpdatePricesDsm(var record ORVc ORr)
+begin
+  row ORVc ORrw;
+  integer i,rwcnt;
+  val price,vrebate,baseprice,tax2prc;
+	Boolean dummyf;
+	string 2 vatcode;
+  string 10 salesacc,tax2code,location,taxtemplatecode;
+  Boolean calcprice,chsum;
+  Time blankt;
+  record INVc INr;
+  string 255 tstr;
+  
+  rwcnt = matrowcnt(ORr);
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(ORr,i,ORrw);
+    price = blankval;
+    if(ORrw.stp==kInvoiceRowTypeNormal)then begin
+        INr.Code = ORrw.ArtCode;
+        if (GetItemPriceDiscount3(ORrw.ArtCode,ORrw.Quant,INr,ORr.CurncyCode,
+          ORr.FrRate,ORr.ToRateB1,ORr.ToRateB2,ORr.BaseRate1,ORr.BaseRate2,
+          ORr.LangCode,ORr.CustCat,ORr.PriceList,ORr.RebCode,
+          price,tstr,vrebate,vatcode,baseprice,
+          salesacc,ORr.ExportFlag,calcprice,ORr.OrdDate,blankt,ORr.CustCode,true,dummyf,ORr.PayDeal,tax2code,tax2prc,ORr.Region,location,taxtemplatecode)) then 
+          begin
+          if(ORrw.Price!=price)then begin
+            ORrw.Price = price;
+            matrowput(ORr,i,ORrw);
+            ORDchrsum(ORr,i);
+            ORDchsum(ORr,i);
+            ORSumup(ORr);
+          end;
+        end;
+    end;
+  end;
+  
+return;
+end;
