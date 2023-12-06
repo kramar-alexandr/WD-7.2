@@ -588,6 +588,7 @@ begin
 			EnterSkip(OrdDate);
       if(currentuser!="SA1")then begin
         SpecialMenu("Поновити ціни по прейскуранту",' ',13,"ORUpdatePricesDsm");
+        SpecialMenu("Друкувати чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
       end else begin
         SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
         SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
