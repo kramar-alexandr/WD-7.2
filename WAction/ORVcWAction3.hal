@@ -1282,6 +1282,7 @@ begin
   
   wn = curwindow;
   getwindowrecord(wn,ORr);
+  messagebox(0,"ORr.InvFlag " & ORr.InvFlag);
   if(ORr.OKFlag==0 and ORr.InvFlag==0)then begin
     RA_ORUpdatePricesDsm(ORr);
     putwindowrecord(wn,ORr);
