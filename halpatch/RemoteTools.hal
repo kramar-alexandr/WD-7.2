@@ -2163,18 +2163,20 @@ begin
     price = blankval;
     if(ORrw.stp==kInvoiceRowTypeNormal)then begin
         INr.Code = ORrw.ArtCode;
-        if (GetItemPriceDiscount3(ORrw.ArtCode,ORrw.Quant,INr,ORr.CurncyCode,
-          ORr.FrRate,ORr.ToRateB1,ORr.ToRateB2,ORr.BaseRate1,ORr.BaseRate2,
-          ORr.LangCode,ORr.CustCat,ORr.PriceList,ORr.RebCode,
-          price,tstr,vrebate,vatcode,baseprice,
-          salesacc,ORr.ExportFlag,calcprice,ORr.OrdDate,blankt,ORr.CustCode,true,dummyf,ORr.PayDeal,tax2code,tax2prc,ORr.Region,location,taxtemplatecode)) then 
-          begin
-          if(ORrw.Price!=price)then begin
-            ORrw.Price = price;
-            matrowput(ORr,i,ORrw);
-            ORDchrsum(ORr,i);
-            ORDchsum(ORr,i);
-            ORSumup(ORr);
+        if(readfirstmain(INr,1,true) and (INr.Group=="APPL" or INr.Group=="IPHON" or INr.Group=="AP_AC"))then begin
+          if (GetItemPriceDiscount3(ORrw.ArtCode,ORrw.Quant,INr,ORr.CurncyCode,
+            ORr.FrRate,ORr.ToRateB1,ORr.ToRateB2,ORr.BaseRate1,ORr.BaseRate2,
+            ORr.LangCode,ORr.CustCat,ORr.PriceList,ORr.RebCode,
+            price,tstr,vrebate,vatcode,baseprice,
+            salesacc,ORr.ExportFlag,calcprice,ORr.OrdDate,blankt,ORr.CustCode,true,dummyf,ORr.PayDeal,tax2code,tax2prc,ORr.Region,location,taxtemplatecode)) then 
+            begin
+            if(ORrw.Price!=price)then begin
+              ORrw.Price = price;
+              matrowput(ORr,i,ORrw);
+              ORDchrsum(ORr,i);
+              ORDchsum(ORr,i);
+              ORSumup(ORr);
+            end;
           end;
         end;
     end;
