@@ -884,6 +884,8 @@ begin
 			end;  
 			//EditField(h2,v,150,"GLN постачання",ViewOnly,DelRecipientGLN,false,0);
 		//  EditField(h1+200,v,80,"#VAT Code#",Normal,CustVATCode,false,0);
+		
+		
 			EnterSkip(OrdDate);
 			if (GuiType==kGuiMetro) then begin // Temporarily disabled on Windows 8
 				SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
@@ -1211,38 +1213,41 @@ lSimpleORWindow:;
           v = 600;
           StaticText(50,v,"_",true);
         end;
-   
-        SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
-        SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
-        SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
-        SpecialMenu("друк ZEBRA",'',0,"PrintORZebraDsm")
-        SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
-        SpecialMenu("Поновити товари валют. прейск.",' ',7,"UpdatePricesORDsm");
-        SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
-        SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
-        SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
-        SpecialMenu("Резервування",' ',15,"OrderReservORDsm");
-        SpecialMenu("Створити діяльність",'c',9,"CreateActFromORDsm");
-        SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
-        SpecialMenu("Акт/накладна на аванс",'o',3,"DownPayFromORDsm");
-        SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
-        if (HasModPO) then begin
-          SpecialMenu("Створити замовлення",' ',4,"POFromORDsm");
+        
+        if(currentuser=="SA1")then begin
+          SpecialMenu("Поновити ціни по прейскуранту",' ',13,"ORUpdatePricesDsm");
+        end else begin
+          SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
+          SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
+          SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
+          SpecialMenu("друк ZEBRA",'',0,"PrintORZebraDsm")
+          SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
+          SpecialMenu("Поновити товари валют. прейск.",' ',7,"UpdatePricesORDsm");
+          SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+          SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
+          SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
+          SpecialMenu("Резервування",' ',15,"OrderReservORDsm");
+          SpecialMenu("Створити діяльність",'c',9,"CreateActFromORDsm");
+          SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
+          SpecialMenu("Акт/накладна на аванс",'o',3,"DownPayFromORDsm");
+          SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
+          if (HasModPO) then begin
+            SpecialMenu("Створити замовлення",' ',4,"POFromORDsm");
+          end;
+          SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
+          SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+          SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
+          SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
+          SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
+        
+          SpecialMenu("Створити переміщення",' ',8,"StockMovFromORDsm");
+        
+          SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
+          SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
+          SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
+          SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
+          SpecialMenu("Печатать Фискальный Чек",'',28,"PrintFiscalORReceiptDsm"); // Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 11:17:46 AM
         end;
-        SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
-        SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
-        SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
-        SpecialMenu("Розбити рядки з серійними товарами",' ',25,"SplitSerialItemsORVcDm"); //Edit***************************Sasha2,11:20 23.07.2015
-        SpecialMenu("Експортувати товари у PARUS",'',16,"ORtoBuhDsm");
-        
-        SpecialMenu("Створити переміщення",' ',8,"StockMovFromORDsm");
-        
-        SpecialMenu("Видаткова накладна Excel (АЙДІСТРІБУШН)",'',16,"ORtoExcelDsm");
-        SpecialMenu("Видаткова накладна Excel (Айпоінт Дістрібушн)",'',16,"ORtoExcel2Dsm");
-        SpecialMenu("Видаткова накладна Excel (IsmartDist)",'',16,"ORtoExcel3Dsm");
-        SpecialMenu("Печатать чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
-        SpecialMenu("Печатать Фискальный Чек",'',28,"PrintFiscalORReceiptDsm"); // Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 11:17:46 AM
-
       EndWindow;
 		
 		end else begin
