@@ -1214,7 +1214,7 @@ lSimpleORWindow:;
           StaticText(50,v,"_",true);
         end;
         
-        if(currentuser=="SA1")then begin
+        if(currentuser!="SA1")then begin
           SpecialMenu("Поновити ціни по прейскуранту",' ',13,"ORUpdatePricesDsm");
         end else begin
           SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
