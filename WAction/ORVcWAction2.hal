@@ -1475,12 +1475,14 @@ begin
         if(ORrw.ovst==0)then begin
           ORrw.ovst = 1;
           ORrw.stp = kInvoiceRowTypeSubtotal;
+          ORrw.Region = currentuser;
           ORrw.PriceFactor = ORrw.Sum;
         end else begin
           ORrw.ovst = 0;
           ORrw.stp = kInvoiceRowTypeNormal;
           res = false;
           ORrw.Sum = ORrw.PriceFactor;
+          ORrw.Region = "";
           ORrw.PriceFactor = blankval;
         end;
         
