@@ -538,6 +538,8 @@ function Boolean ORDClassOnOpenWindow(Integer wn)
 begin
   record ORVc ORr;
   Integer AcceptanceStatusFlag;
+  row ORVc ORrw;
+  integer i,rwcnt;
   
   //GetWindowRecord(wn,ORr);
   //ORDClassOnOpenWindowRemote(ORr,AcceptanceStatusFlag);
@@ -545,6 +547,16 @@ begin
   if(currentcompany==13)then begin
     ReRunWindowDef(wn);
   end;
+  getwindowrecord(wn,ORr);
+  rwcnt = matrowcnt(ORr);
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(ORr,i,ORrw);
+    if(ORrw.ArtCode=="COM")then begin
+      ORr.Sum4 = ORr.Sum4 + ORrw.Price;
+    end;
+  end;
+  PutWindowString(wn,"topaysum4",ORr.Sum4);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 07 04 2020 y. at 3:18:39 PM
+
   
   ORDClassOnOpenWindow = false;
   return;

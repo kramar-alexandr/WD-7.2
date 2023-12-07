@@ -220,6 +220,18 @@ vector boolean deleteditems;
 		
 	end;
 lORDClassAfterEditField:;
+    
+    getwindowrecord(curwindow,ORr);
+    rwcnt = matrowcnt(ORr);
+    for(i=0;i<rwcnt;i=i+1)begin
+      matrowget(ORr,i,ORrw);
+      if(ORrw.ArtCode=="COM")then begin
+        ORr.Sum4 = ORr.Sum4 + ORrw.Price;
+      end;
+    end;
+  	PutWindowString(wn,"topaysum4",ORr.Sum4);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 07 04 2020 y. at 3:18:39 PM
+
+
 	ORDClassAfterEditField = res;
 return;
 end;

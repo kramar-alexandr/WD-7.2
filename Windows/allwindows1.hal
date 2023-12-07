@@ -1096,6 +1096,7 @@ lSimpleORWindow:;
           EditField(h4,v+=vs,70,"Б/Н з комісією",Normal,PayValWithCom,false,0);
           EditField(h4,v+=vs,70,"Коммісія",Normal,ComisionCode,false,CommisionCodeSClass);
           EditField(h4,v+=vs,70,"Всього",ViewOnly ,Sum4,true,0);
+          SoftEditField(h4,v+vs,70,"До сплати",ViewOnly,"topaysum4",true,0,M4Val,0);
   
           //1 
           v = 60;
