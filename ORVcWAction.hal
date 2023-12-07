@@ -78,7 +78,7 @@ row ORVc ORrw,oldORrw;
 boolean res,isshops;
 val pr,reb,sum;
 val newpr,newreb,newsum;
-boolean check;
+boolean check,newitem;
 record INVc INr;
 integer rwcnt,i;
 vector boolean deleteditems;
@@ -89,9 +89,13 @@ vector boolean deleteditems;
 			if(fieldname=="Sum" or fieldname=="Price" or fieldname=="vRebate")then begin
 				if(rownr>-1)then begin
 					matrowget(oldORr,rownr,ORrw);
-					pr = ORrw.Price;
-					reb = ORrw.vRebate;
-					sum = ORrw.Sum;
+					if(nonblank(ORrw.ArtCode) and ORrw.Price!=0)then begin
+            pr = ORrw.Price;
+            reb = ORrw.vRebate;
+            sum = ORrw.Sum;
+					end else begin
+					  newitem = true;
+					end;
 				end;
 			end;
 		end;
@@ -181,7 +185,7 @@ vector boolean deleteditems;
 				newsum = ORrw.Sum;
 			end;
 			INr.Code = ORrw.ArtCode;
-			if(readfirstmain(INr,1,true))then begin
+			if(readfirstmain(INr,1,true) and newitem==false)then begin
 				if(INr.Group!="SERVI" and INr.Group!="WARRA" and INr.Group!="DELIV")then begin
 					if(newsum>sum)then begin
 						ORrw.Price = pr;
