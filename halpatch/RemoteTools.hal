@@ -2163,7 +2163,7 @@ begin
     price = blankval;
     if(ORrw.stp==kInvoiceRowTypeNormal)then begin
         INr.Code = ORrw.ArtCode;
-        if(readfirstmain(INr,1,true) and (INr.Group=="APPL" or INr.Group=="IPHON" or INr.Group=="AP_AC"))then begin
+        if(readfirstmain(INr,1,true) and (INr.Group=="APPLE" or INr.Group=="IPHON" or INr.Group=="AP_AC"))then begin
           if (GetItemPriceDiscount3(ORrw.ArtCode,ORrw.Quant,INr,ORr.CurncyCode,
             ORr.FrRate,ORr.ToRateB1,ORr.ToRateB2,ORr.BaseRate1,ORr.BaseRate2,
             ORr.LangCode,ORr.CustCat,ORr.PriceList,ORr.RebCode,
