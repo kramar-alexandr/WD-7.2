@@ -1221,6 +1221,7 @@ lSimpleORWindow:;
           SpecialMenu("Друкувати чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
           SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
         end else begin
+          SpecialMenu("Поновити ціни по прейскуранту",' ',13,"ORUpdatePricesDsm");
           //SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");
           //SpecialMenu("Додати прихований рядок",' ',13,"ORAddHidLine");
           //SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
