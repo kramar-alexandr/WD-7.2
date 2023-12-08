@@ -93,7 +93,8 @@ vector boolean deleteditems;
             pr = ORrw.Price;
             reb = ORrw.vRebate;
             sum = ORrw.Sum;
-					end else begin
+					end;
+					if(blank(ORrw.ArtCode))then begin
 					  newitem = true;
 					end;
 				end;
@@ -171,7 +172,7 @@ vector boolean deleteditems;
 	res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
 	
 	
-	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);
+	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);
 	
 	usercanaction("AllowUpperPrice",false)
 	
@@ -183,20 +184,21 @@ vector boolean deleteditems;
 				newpr = ORrw.Price;
 				newreb = ORrw.vRebate;
 				newsum = ORrw.Sum;
-			end;
-			INr.Code = ORrw.ArtCode;
-			if(readfirstmain(INr,1,true) and newitem==false)then begin
-				if(INr.Group!="SERVI" and INr.Group!="WARRA" and INr.Group!="DELIV")then begin
-					if(newsum>sum)then begin
-						ORrw.Price = pr;
-						ORrw.vRebate = reb;
-						ORrw.Sum = sum;
-						matrowput(ORr,rownr,ORrw);
-						ORSumup(ORr);
-						putwindowrecord(wn,ORr);
-						res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
-					end;
-				end;
+			
+        INr.Code = ORrw.ArtCode;
+        if(readfirstmain(INr,1,true) and newitem==false)then begin
+          if(INr.Group!="SERVI" and INr.Group!="WARRA" and INr.Group!="DELIV")then begin
+            if(newsum>sum)then begin
+              ORrw.Price = pr;
+              ORrw.vRebate = reb;
+              ORrw.Sum = sum;
+              matrowput(ORr,rownr,ORrw);
+              ORSumup(ORr);
+              putwindowrecord(wn,ORr);
+              res = inner.ORDClassAfterEditField(wn,fieldname,fn,rownr,changed);
+            end;
+          end;
+        end;
 			end;
 		end;
 	end;
