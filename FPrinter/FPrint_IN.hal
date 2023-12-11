@@ -589,7 +589,7 @@ begin
             addtexttoarea("\"itemQuantity\":" & "\"" & stringtolongint(ORrw.Quant*1000) & "\",",receipt);
             addtexttoarea("\"itemDescription\":" & "\"" & NormalizeStrToJson(ORrw.Spec) & "\",",receipt);
             addtexttoarea("\"itemPrice\":" & "\"" & stringtolongint(ORrw.Price*100) & "\",",receipt);
-            addtexttoarea("\"itemSum\":" & "\"" & stringtolongint(IVrw.Sum*100) & "\",",receipt);
+            addtexttoarea("\"itemSum\":" & "\"" & stringtolongint(ORrw.Sum*100) & "\",",receipt);
             addtexttoarea("\"tax\":[8]",receipt);//tax number taxes
             addtexttoarea("}",receipt);
           end;
