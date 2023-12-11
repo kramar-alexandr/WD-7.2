@@ -215,7 +215,7 @@ begin
   boolean chngd;
   
   setcompany(13,false);
-  IVr.InvDate = stringtodate("01/12/2023");
+  IVr.InvDate = stringtodate("30/11/2023");
   while(loopkey("InvDate",IVr,1,true))begin
     chngd = false;
     rwcnt = matrowcnt(IVr);
