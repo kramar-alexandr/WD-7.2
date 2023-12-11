@@ -706,6 +706,7 @@ BEGIN
             if (blank(IVrw.SalesAcc)) then begin
               IVrw.SalesAcc = ORrw.SalesAcc;
             end;
+            IVrw.DiscApprovedBy = ORrw.DiscApprovedBy;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 11 December 2023, 09:08:42
             IVrw.VATCode = ORrw.VATCode;
             IVrw.Objects = ORrw.Objects;
             IVrw.PriceFactor = ORrw.PriceFactor;
@@ -894,7 +895,7 @@ LSKIPIVROW:;
               repaf = true;
             end;
             orsum = orsum + IVrw.Sum;
-
+            IVrw.DiscApprovedBy = ORrw.DiscApprovedBy;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 11 December 2023, 09:08:42
             IVrw.TaxTemplateCode = ORrw.TaxTemplateCode;
             UnpackRowFieldMatrix(ORrw,"TaxMatrix",TMr);
             PackRowFieldMatrix(IVrw,"TaxMatrix",TMr);
@@ -925,7 +926,7 @@ LSKIPIVROW:;
           IVrw.BaseRate2 = br2;    
           IVrw.PayMode =  TVr.PMCash;
           IVrw.Sum = ORp.PayVal01;        
-    
+          IVrw.DiscApprovedBy = ORrw.DiscApprovedBy;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 11 December 2023, 09:08:42
           MatRowPut(IVp,ivcnt,IVrw);
           if (IVDchrsum(IVp,ivcnt)) then begin end;
           IVsumup(IVp,true);
@@ -945,7 +946,7 @@ LSKIPIVROW:;
           IVrw.BaseRate2 = br2;    
           IVrw.PayMode =  TVr.PMTerminal;
           IVrw.Sum = ORp.PayVal02;        
-    
+          IVrw.DiscApprovedBy = ORrw.DiscApprovedBy;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 11 December 2023, 09:08:42
           MatRowPut(IVp,ivcnt,IVrw);
           if (IVDchrsum(IVp,ivcnt)) then begin end;
           IVsumup(IVp,true);
@@ -1724,6 +1725,7 @@ L20PasteOrdInInv:;
       IVrw.TAX2Acc = ORrw.TAX2Acc;
       IVrw.CUServiceHistNr = ORrw.CUServiceHistNr;
       IVrw.CUServiceUntilDate = ORrw.CUServiceUntilDate;
+      IVrw.DiscApprovedBy = ORrw.DiscApprovedBy;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 11 December 2023, 09:08:42
 // You can agree a price, but it will only work if the Entire order has been delivered 
       if (IVrw.Quant==ORrw.Quant) then begin
         IVrw.Sum = ORrw.Sum;

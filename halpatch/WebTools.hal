@@ -203,3 +203,41 @@ begin
   
 return;
 end;
+
+
+global webpublic updating procedure WebFillSAlesmanToIV()
+begin
+  record IVVc IVr;
+  row IVVc IVrw;
+  record ORVc ORr;
+  row ORVc ORrw;
+  integer i,rwcnt;
+  boolean chngd;
+  
+  setcompany(13,false);
+  IVr.InvDate = stringtodate("01/12/2023");
+  while(loopkey("InvDate",IVr,1,true))begin
+    chngd = false;
+    rwcnt = matrowcnt(IVr);
+    if(IVr.OrderNr>-1)then begin
+      ORr.SerNr = IVr.OrderNr;
+      if(readfirstmain(ORr,1,true))then begin
+        for(i=0;i<rwcnt;i=i+1)begin
+          matrowget(IVr,i,IVrw);
+          if(IVrw.stp==1)then begin
+            matrowget(ORr,IVrw.OrdRow,ORrw);
+            if(nonblank(ORrw.DiscApprovedBy))then begin
+              IVrw.DiscApprovedBy = ORrw.DiscApprovedBy;
+              matrowput(IVr,i,IVrw);
+              chngd = true;
+            end;
+          end;
+        end;
+        if(chngd)then begin
+          recordstore(IVr,true);
+        end;
+      end;
+    end;
+  end;
+return;
+end;

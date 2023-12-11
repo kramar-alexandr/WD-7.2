@@ -1447,12 +1447,12 @@ begin
       matrowput(ORr,k,ORrw);
   		ORVc_PasteArtCode(ORr,k,inwarning,warning,false);
   		MatRowGet(ORr,k,ORrw);
-  		if(currentuser!=ORr.SalesMan)then begin
+  		if(currentuser!=ORr.SalesMan and (currentuser!="KARUTSYK" and currentuser!="MOROZ" and currentuser!="GORIN" and currentuser!="PUSTYNNIKO"))then begin
   		  ORrw.DiscApprovedBy = currentuser;
   		  ORrw.iswebshop = 2;
   		end;
   		ORrw.Quant = 1;
-  		if(currentuser!=ORr.SalesMan)then begin
+  		if(currentuser!=ORr.SalesMan and (currentuser!="KARUTSYK" and currentuser!="MOROZ" and currentuser!="GORIN" and currentuser!="PUSTYNNIKO"))then begin
   		  ORrw.DiscApprovedBy = currentuser;
   		  ORrw.iswebshop = 2;
   		end;
