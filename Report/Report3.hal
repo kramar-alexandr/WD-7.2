@@ -205,6 +205,7 @@ begin
         OutString(330,0,"Серійний номер",false);
         OutString(330,0,"Прийшов",false);
         OutString(330,0,"Днів",false);
+        OutString(330,0,"Менеджер рахунка",false);
         OutString(330,0,"Продавець",false);
         OutString(330,0,"Склад",false);
         OutString(1,0,"Група",true);
@@ -396,7 +397,7 @@ begin
                       OutString(330,0,"",false);
                       OutString(330,0,"",false);
                     end;
-                
+                    OutString(330,0,ORr.SalesMan,false);
                     OutString(330,0,salesman,false);
                     OutString(330,0,ORr.Location,false);
                     OutString(1,0,INr.Group,false);
@@ -442,6 +443,7 @@ begin
         OutString(200,0,"",false);
         OutString(200,0,"",false);
         OutString(310,0,"",false);
+        OutString(330,0,"",false);
         OutString(330,0,"",false);
         OutString(330,0,"",false);
         OutString(330,0,"",false);
