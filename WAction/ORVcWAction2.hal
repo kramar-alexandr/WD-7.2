@@ -1662,11 +1662,11 @@ BEGIN
     goto LORDClassActiveEditField; 
 	end;
 	
-	if(fieldname=="iswebshop" and currentuser!="SA")then begin
+	if(fieldname=="iswebshop" and currentuser!="SA" and !check)then begin
 		res = false; 
     goto LORDClassActiveEditField; 
 	end;
-	if(fieldname=="DiscApprovedBy" and currentuser!="SA")then begin
+	if(fieldname=="DiscApprovedBy" and currentuser!="SA" and !check)then begin
 		res = false; 
     goto LORDClassActiveEditField; 
 	end;
