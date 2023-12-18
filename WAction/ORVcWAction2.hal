@@ -3551,7 +3551,7 @@ begin
 	if(currentcompany==13)then begin
 	  Userr.Code = currentuser;
 	  if(readfirstmain(Userr,1,true))then begin
-	    if(nonblank(Userr.SalesGroup))then begin
+	    if(nonblank(Userr.SalesGroup) and currenttime>stringtotime("15:00"))then begin
 	      setwindowsubset(wn,Userr.SalesGroup);
 	    end;
 	  end;
