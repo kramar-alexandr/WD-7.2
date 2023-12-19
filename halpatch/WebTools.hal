@@ -226,7 +226,7 @@ begin
           matrowget(IVr,i,IVrw);
           if(IVrw.stp==1)then begin
             matrowget(ORr,IVrw.OrdRow,ORrw);
-            if(nonblank(ORrw.DiscApprovedBy))then begin
+            if(IVrw.DiscApprovedBy!=ORrw.DiscApprovedBy)then begin
               IVrw.DiscApprovedBy = ORrw.DiscApprovedBy;
               matrowput(IVr,i,IVrw);
               chngd = true;
@@ -241,3 +241,41 @@ begin
   end;
 return;
 end;
+
+
+global updating procedure FillSAlesmanToIV(record ORVc ORr)
+begin
+  record IVVc IVr;
+  row IVVc IVrw;
+  row ORVc ORrw;
+  integer i,rwcnt;
+  boolean chngd;
+  boolean TrHs;
+  
+  setcompany(13,false);
+  IVr.OrderNr = ORr.SerNr;
+  TrHs = true;
+  while(loopkey("OrderNr",IVr,1,TrHs))begin
+    chngd = false;
+    rwcnt = matrowcnt(IVr);
+    if(IVr.OrderNr==ORr.SerNr)then begin
+      for(i=0;i<rwcnt;i=i+1)begin
+        matrowget(IVr,i,IVrw);
+        if(IVrw.stp==1)then begin
+          matrowget(ORr,IVrw.OrdRow,ORrw);
+          if(IVrw.DiscApprovedBy!=ORrw.DiscApprovedBy)then begin
+            IVrw.DiscApprovedBy = ORrw.DiscApprovedBy;
+            matrowput(IVr,i,IVrw);
+            chngd = true;
+          end;
+        end;
+      end;
+      if(chngd)then begin
+        recordstore(IVr,true);
+      end;
+    end;
+  end;
+return;
+end;
+
+

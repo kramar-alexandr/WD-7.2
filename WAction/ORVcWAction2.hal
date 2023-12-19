@@ -1635,7 +1635,7 @@ BEGIN
   
   DT_BANKflag = false;
   
-	check = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
+	check = (currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false));// Edit ************************** BPI Ukraine - KramarAlexandr - 06, 27 02 2021 y. at 5:21:05 PM
 	if(fieldname=="SerialNr")then begin
 		check = true;
 		res = true; 
@@ -1662,13 +1662,24 @@ BEGIN
     goto LORDClassActiveEditField; 
 	end;
 	
-	if(fieldname=="iswebshop" and currentuser!="SA" and !check)then begin
-		res = false; 
-    goto LORDClassActiveEditField; 
+	if(fieldname=="DiscApprovedBy") then begin
+	  if(currentuser=="SA" or currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO")then begin
+	    res = true; 
+      goto LORDClassActiveEditField; 
+	  end else begin
+      res = false; 
+      goto LORDClassActiveEditField; 
+    end;
 	end;
-	if(fieldname=="DiscApprovedBy" and currentuser!="SA" and !check)then begin
-		res = false; 
-    goto LORDClassActiveEditField; 
+	
+	if(fieldname=="iswebshop") then begin
+	  if(currentuser=="SA" or currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO")then begin
+	    res = true; 
+      goto LORDClassActiveEditField; 
+	  end else begin
+      res = false; 
+      goto LORDClassActiveEditField; 
+    end;
 	end;
   
   
