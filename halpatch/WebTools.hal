@@ -214,9 +214,14 @@ begin
   integer i,rwcnt;
   boolean chngd;
   
+  logtext(0,"WebFillSAlesmanToIV");
+
+  
   setcompany(13,false);
   IVr.InvDate = stringtodate("30/11/2023");
   while(loopkey("InvDate",IVr,1,true))begin
+    logtext(0,"IVr " & IVr.SerNr);
+
     chngd = false;
     rwcnt = matrowcnt(IVr);
     if(IVr.OrderNr>-1)then begin
@@ -227,6 +232,8 @@ begin
           if(IVrw.stp==1)then begin
             matrowget(ORr,IVrw.OrdRow,ORrw);
             if(IVrw.DiscApprovedBy!=ORrw.DiscApprovedBy)then begin
+              logtext(0,IVrw.DiscApprovedBy & " -> " & ORrw.DiscApprovedBy);
+
               IVrw.DiscApprovedBy = ORrw.DiscApprovedBy;
               matrowput(IVr,i,IVrw);
               chngd = true;
