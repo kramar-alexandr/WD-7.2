@@ -207,7 +207,9 @@ end;
 global updating procedure UpdateIV(record IVVc IVr)
 begin
   
-  recordstore(IVr);
+  logtext(0,"UpdateIV " & IVr.SerNr);
+
+  recordstore(IVr,true);
 return;
 end;
 
