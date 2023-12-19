@@ -252,7 +252,6 @@ begin
   boolean chngd;
   boolean TrHs;
   
-  setcompany(13,false);
   IVr.OrderNr = ORr.SerNr;
   TrHs = true;
   while(loopkey("OrderNr",IVr,1,TrHs))begin
@@ -273,6 +272,8 @@ begin
       if(chngd)then begin
         recordstore(IVr,true);
       end;
+    end else begin
+      TrHs = false;
     end;
   end;
 return;

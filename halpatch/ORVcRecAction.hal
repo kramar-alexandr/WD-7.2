@@ -85,6 +85,7 @@ external updating function LongInt RecordAction_raPasteOrdInShip2(var record SHV
 external procedure FindStockValueInclStockReserv(LongInt,string,string,string,var record ItemStatusVc,var val);
 external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
 external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);
+external updating procedure FillSAlesmanToIV(record ORVc);
 
 
 SetLangMode(LangRussian,"RUS",0);
@@ -2315,6 +2316,8 @@ begin
       pos = pos + 1;
     end;
   end;
+  
+  FillSAlesmanToIV(ORr);
   
   logtext(0,"ORVcRecordUpdateAfter end");
   ORVcRecordUpdateAfter = res; 
