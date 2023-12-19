@@ -204,8 +204,14 @@ begin
 return;
 end;
 
+global updating procedure UpdateIV(record IVVc IVr)
+begin
+  
+  recordstore(IVr);
+return;
+end;
 
-global webpublic updating procedure WebFillSAlesmanToIV()
+global webpublic procedure WebFillSAlesmanToIV()
 begin
   record IVVc IVr;
   row IVVc IVrw;
@@ -241,7 +247,8 @@ begin
           end;
         end;
         if(chngd)then begin
-          recordstore(IVr,true);
+          qupdating.UpdateIV(IVr);
+          //recordstore(IVr,true);
         end;
       end;
     end;
