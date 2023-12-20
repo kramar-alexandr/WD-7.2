@@ -249,21 +249,21 @@ begin
 	end;
 	
 	if(DRB.LastSMSCheck!=currentdate)then begin
-	  if(currenttime>stringtotime("17:00"))then begin
+	  if(currenttime>stringtotime("17:30"))then begin
 	    CheckStockMovForSMS(false,"INV#1_KRS");
 	    DRB.LastSMSCheck = currentdate;
 	    BlockStore(DRB);
 	  end;	  
 	end;
 	if(DRB.LastSMSCheck2!=currentdate)then begin
-	  if(currenttime>stringtotime("17:30"))then begin
+	  if(currenttime>stringtotime("18:00"))then begin
 	    CheckStockMovForSMS(false,"INV#1_NBR");
 	    DRB.LastSMSCheck2 = currentdate;
 	    BlockStore(DRB);
 	  end;	  
 	end;
 	if(DRB.LastSMSCheck3!=currentdate)then begin
-	  if(currenttime>stringtotime("18:00"))then begin
+	  if(currenttime>stringtotime("17:30"))then begin
 	    CheckStockMovForSMS(false,"INV#1_OL");
 	    DRB.LastSMSCheck3 = currentdate;
 	    BlockStore(DRB);
