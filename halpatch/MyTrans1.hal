@@ -76,6 +76,11 @@ begin
         if(SMr.ToLocation=="INV#1_OL")then begin
           ORr.TochkaVidachi = "OLYMP";
         end;
+        if(SMr.ToLocation=="INV#1_SLB")then begin
+          ORr.TochkaVidachi = "SILVER";
+        end;
+        
+                
         if(ORr.OrderStatusCode!=6 and ORr.OrderStatusCode!=3)then begin
           ORr.OrderStatusCode = 6;
           ORr.ReadyToSentDate = currentdate;
