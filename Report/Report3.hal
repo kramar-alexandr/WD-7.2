@@ -273,8 +273,10 @@ begin
           salesman = ORr.SalesMan;
           matrowget(IVr,i,IVrw);
           testf = true;
-          if(IVr.OrderNr>0)then begin
+          if(IVr.OrderNr>0 and IVrw.OrdRow>=0 and matrowcnt(ORr)>0)then begin
             matrowget(ORr,IVrw.OrdRow,ORrw);
+          end else begin
+            clearrow(ORr,ORrw,1);
           end;
           if(ORrw.iswebshop==2 and nonblank(ORrw.DiscApprovedBy))then begin
             salesman = ORrw.DiscApprovedBy;
