@@ -69,7 +69,7 @@ remote procedure BackupXLSX(string);
 remote procedure RecoverXLSX(string,string);
 external function Boolean PasteCustInOrder(var record ORVc,string,string,var string,var string);
 external function string 20 NormalPhone(string);
-external procedure MakeBinotelCallFromExtNumToPhone(string,string);
+remote procedure MakeBinotelCallFromExtNumToPhone(string,string);
 external outer function Boolean ORDClassAfterEditField(Integer,string,Integer,Integer,Integer);
 remote procedure HandleBixolonWarranty(record ORVc,var area,boolean,integer);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyM(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
