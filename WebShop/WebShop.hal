@@ -1348,7 +1348,7 @@ area tempar;
 					PasteCustInOrder(ORr,ORr.CustCode,ORr.CustCode,warning,error);
 					
 					ORr.ShipAddr0 = address;
-					if(nonblank(delivery_cost))then begin
+					if(nonblank(delivery_cost) and stringtoval(delivery_cost,m4val)!=0)then begin
 					  ORr.ShipAddr0 = ORr.ShipAddr0 & " Доставка: " & delivery_cost & " грн.";
 					end;
 					
