@@ -194,6 +194,7 @@ begin
         OutString(60,0,"Дата",false);
         OutString(60,0,"Накладна",false);
         OutString(60,0,"Рахунок",false);
+        OutString(60,0,"Вид рахунка",false);
         OutString(60,0,"Оф. номер",false);
         OutString(60,0,"Джерело",false);
         OutString(60,0,"С Сайта",false);
@@ -326,6 +327,7 @@ begin
                     OutString(60,0,IVr.InvDate,false);
                     OutString(60,"DblIVVc",IVr.SerNr,false);
                     OutString(60,"DblORVc",IVr.OrderNr,false);
+                    OutString(60,0,ORr.OrderClass,false);
                     OutString(60,0,ORr.CustOrdNr,false);
                     OutString(60,0,ORr.RefStr,false);
                     switch(ORrw.iswebshop)begin
@@ -436,6 +438,7 @@ begin
     if(printf)then begin
       startformat(15);
         OutString(0,0,"Всього:",false);
+        OutString(60,0,"",false);
         OutString(60,0,"",false);
         OutString(60,0,"",false);
         OutString(60,0,"",false);
