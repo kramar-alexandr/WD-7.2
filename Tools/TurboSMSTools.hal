@@ -256,6 +256,10 @@ begin
   if AuthTurboSMS(cookie) then begin
     if SMSb.Balance>0 then begin
       res = SendSMSTurboSMS(cookie,reciever,text);
+    end else begin
+      SMSb.Balance = GetCreditBalanceTurboSMS(cookie);
+      BlockStore(SMSb);
+      res = SendSMSTurboSMS(cookie,reciever,text);
     end;
   end;
   
@@ -302,6 +306,11 @@ begin
 			if AuthTurboSMS(cookie) then begin
 				if SMSb.Balance>0 then begin
 					error = "SMS sended to " & reciever & " " & phone & " " & text;
+					res = SendSMSTurboSMS(cookie,phone,text);
+				end else begin
+				  SMSb.Balance = GetCreditBalanceTurboSMS(cookie);
+          BlockStore(SMSb);
+          error = "SMS sended to " & reciever & " " & phone & " " & text;
 					res = SendSMSTurboSMS(cookie,phone,text);
 				end;
 			end;
