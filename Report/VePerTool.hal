@@ -577,20 +577,28 @@ BEGIN
         end;
       end;
       if (VIr.CurncyCode<>lastcur) then begin
-        if ((VEr.VECurncyCode<>"") and (nonblank(lastcur))) then begin printf = false; end;
+        //if ((VEr.VECurncyCode<>"") and (nonblank(lastcur))) then begin printf = false; end;
         lastcur = VIr.CurncyCode;
       end;
       
       if(RepSpec.flags[10]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:13:16
-        goto LVEPer_PrintInvoice;
+        printf = false;
         if(VIr.POSerNr>-1)then begin
           PUr.PONr = VIr.POSerNr;
           TrHs = true;
           while(loopkey("PONr",PUr,1,TrHs))begin
-            if(PUr.OKFlag==1)then begin
+            if(PUr.PONr==VIr.POSerNr)then begin
+              if(PUr.OKFlag==1)then begin
+                TrHs = false;
+                printf = true;
+              end;
+            end else begin
               TrHs = false;
             end;
           end;
+        end;
+        if(printf==false)then begin
+          goto LVEPer_PrintInvoice;
         end;
       end;
       
