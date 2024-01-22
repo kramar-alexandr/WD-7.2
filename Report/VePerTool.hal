@@ -566,6 +566,7 @@ BEGIN
   Integer i,rwcnt;
   string 255 comment;
   record PUVc PUr;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:13:19
+  row PUVc PUrw;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:40:42
   boolean TrHs;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:13:27
   
   VIr.SerNr = VISerNr;
@@ -596,6 +597,7 @@ BEGIN
               TrHs = false;
             end;
           end;
+          resetloop(PUr);
         end;
         if(printf==false)then begin
           goto LVEPer_PrintInvoice;
@@ -914,6 +916,36 @@ LVEPer_PrintInvoicetoFile:;
           end; 
         end;  
       end;
+      
+      if(RepSpec.flags[10]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:13:16
+        if(VIr.POSerNr>-1)then begin
+          PUr.PONr = VIr.POSerNr;
+          TrHs = true;
+          while(loopkey("PONr",PUr,1,TrHs))begin
+            if(PUr.PONr==VIr.POSerNr)then begin
+              if(PUr.OKFlag==1)then begin
+                rwcnt = matrowcnt(PUr);
+                for(i=0;i<rwcnt;i=i+1)begin
+                  matrowget(PUr,i,PUrw);
+                  if(nonblank(PUrw.ArtCode))then begin
+                    startformat(15);
+                      OutString(0,0,PUrw.ArtCode,false);    
+                      OutString(70,0,PUrw.Spec,false); 
+                      OutString(150,0,PUrw.SerialNr,false); 
+                      OutString(1,0,PUrw.UPrice,true); 
+                    endformat;
+                  end;
+                end;
+              end;
+            end else begin
+              TrHs = false;
+            end;
+          end;
+          resetloop(PUr);
+        end;
+      end;
+      
+      
     end;
   end;
 LVEPer_PrintInvoice:;  

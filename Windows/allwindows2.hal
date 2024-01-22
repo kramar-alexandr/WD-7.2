@@ -471,7 +471,6 @@ begin
   end;
   
   CheckBox(h,v+=16,0,"Только сч/ф с поступлениями",flags[10]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:11:04
-  CheckBox(h,v+=16,0,"Показать товары поступления",flags[11]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:11:06
   
   EndWindow;
 end;
