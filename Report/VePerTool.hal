@@ -565,6 +565,8 @@ BEGIN
   val frrate,torate1,torate2,baserate1,baserate2;
   Integer i,rwcnt;
   string 255 comment;
+  record PUVc PUr;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:13:19
+  boolean TrHs;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:13:27
   
   VIr.SerNr = VISerNr;
   if (ReadFirstMain(VIr,1,true)) then begin
@@ -578,6 +580,21 @@ BEGIN
         if ((VEr.VECurncyCode<>"") and (nonblank(lastcur))) then begin printf = false; end;
         lastcur = VIr.CurncyCode;
       end;
+      
+      if(RepSpec.flags[10]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:13:16
+        goto LVEPer_PrintInvoice;
+        if(VIr.POSerNr>-1)then begin
+          PUr.PONr = VIr.POSerNr;
+          TrHs = true;
+          while(loopkey("PONr",PUr,1,TrHs))begin
+            if(PUr.OKFlag==1)then begin
+              TrHs = false;
+            end;
+          end;
+        end;
+      end;
+      
+      
       if ((VIr.InvType==kInvoiceTypeNormal or VIr.InvType==kInvoiceTypeNormalSpecialSales) or (VIr.InvType==kInvoiceTypeInterest) or (VIr.InvType==kInvoiceTypePrepayment) or (VIr.InvType==kInvoiceTypeDebit)) then begin
         v = VIr.PayVal;
         cuscurval = MULRATETOBASE1(VIr.CurncyCode,v,VIr.FrRate,VIr.ToRateB1,VIr.ToRateB2,VIr.BaseRate1,VIr.BaseRate2,DefaultCurRoundOff); 

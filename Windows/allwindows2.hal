@@ -424,3 +424,54 @@ begin
   EndWindow;
 		
 end;
+
+
+window VePer2RClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm;
+  WindowBegin("Определите ведомость расчетов с поставщиками",VePer2RClass,CGRcW,RcType);
+  if (IsEnterprise) then begin
+    SetWRect(20,80,480,300); h=150;
+  end else begin
+    SetWRect(20,80,400,300); h=130;
+  end;
+  PeriodField(h,v=10,"Период");
+  EditFieldTL(h,v+=20, 150,"Поставщик",M4UStr,Normal,30,f1,false,VESClass);
+  if (HasCategories) then begin
+  EditFieldTL(h,v+=20, 80,"Категория",   M4UStr,Normal,5,f2,false,VGSClass);
+  end;
+  if (HasContactClassification) then begin
+    EditFieldTL(h,v+=20 ,150,"Классификация",M4UStr,Normal,60,f4,false,CClassSClass);
+    EditFieldTL(h,v+=20 ,70,"Вид классификации",M4UStr,Normal,30,f5,false,CTypeSClass);
+  end;
+  if (HasModNL and IsBooks==false) then begin
+    EditFieldTL(h,v+=20 ,70,"Счёт кредиторов",M4UStr,Normal,10,FirstAcc,false,AccSClass);
+    StaticText(h+80,v+13,"Игнор. в начальном сальдо и в сводном",false);
+  end;
+  if (IsEnterprise) then begin
+  ButtonFrame(h=30,vm=(v+=41),123,2,"Функция");
+  end else begin
+    ButtonFrame(h=30,vm=(v+=41),320,2,"Function"); //!!TRANSLATE
+  end;
+  RadioButton(h,v,0,0,"Сводный",ArtMode);
+  RadioButton(h,v+=16,1,0,"Подробно",ArtMode);
+  if (IsEnterprise==false) then begin
+    CheckBox(h,v+=30,0,"Только поставщики с остатком",flags[1]);
+  end else begin
+    CheckBox(h=190,v=vm,0,"Только поставщики с остатком",flags[1]);
+  end;
+  if (HasMultiCurrency) then begin
+    CheckBox(h,v+=16,0,"Суммы в валюте",flags[2]);
+  end;
+  CheckBox(h,v+=16,0,"Включить заказанные платежи",flags[3]);
+  if (IsEnterprise) then begin
+    CheckBox(h,v+=16,0,"Отрицательные суммы для кредитовых сч/ф",flags[7]);
+    CheckBox(h,v+=16,0,"Показать записи счетов-фактур",flags[9]);
+  end;
+  
+  CheckBox(h,v+=16,0,"Только сч/ф с поступлениями",flags[10]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:11:04
+  CheckBox(h,v+=16,0,"Показать товары поступления",flags[11]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:11:06
+  
+  EndWindow;
+end;
