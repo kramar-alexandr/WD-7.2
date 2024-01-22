@@ -931,7 +931,7 @@ LVEPer_PrintInvoicetoFile:;
                     startformat(15);
                       OutString(0,0,PUrw.ArtCode,false);    
                       OutString(70,0,PUrw.Spec,false); 
-                      OutString(-200,0,PUrw.SerialNr,false); 
+                      OutString(250,0,PUrw.SerialNr,false); 
                       OutString(1,0,PUrw.UPrice,true); 
                     endformat;
                   end;
