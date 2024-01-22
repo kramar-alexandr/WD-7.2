@@ -930,8 +930,8 @@ LVEPer_PrintInvoicetoFile:;
                   if(nonblank(PUrw.ArtCode))then begin
                     startformat(15);
                       OutString(0,0,PUrw.ArtCode,false);    
-                      OutString(70,0,PUrw.Spec,false); 
-                      OutString(250,0,PUrw.SerialNr,false); 
+                      OutString(50,0,PUrw.Spec,false); 
+                      OutString(350,0,PUrw.SerialNr,false); 
                       OutString(1,0,PUrw.UPrice,true); 
                     endformat;
                   end;
