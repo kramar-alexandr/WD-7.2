@@ -570,6 +570,7 @@ BEGIN
   boolean TrHs;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:13:27
   record RetPUVc RetPUr;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:13:19
   row RetPUVc RetPUrw;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 22 January 2024, 20:40:42
+  record RLinkVc RLr;
   
   VIr.SerNr = VISerNr;
   if (ReadFirstMain(VIr,1,true)) then begin
@@ -949,9 +950,11 @@ LVEPer_PrintInvoicetoFile:;
         end else begin
           RetPUr.PONr = VIr.POSerNr;
           TrHs = true;
+          printf = false;
           while(loopkey("PONr",RetPUr,1,TrHs))begin
             if(RetPUr.PONr==VIr.POSerNr)then begin
               if(RetPUr.OKFlag==1)then begin
+                printf = true;
                 rwcnt = matrowcnt(RetPUr);
                 for(i=0;i<rwcnt;i=i+1)begin
                   matrowget(RetPUr,i,RetPUrw);
@@ -970,6 +973,24 @@ LVEPer_PrintInvoicetoFile:;
             end;
           end;
           resetloop(RetPUr);
+          if(printf==false)then begin
+            ReadRecordLink(VIr,1,RetPUr,RLr);
+            if(RetPUr.OKFlag==1)then begin
+              printf = true;
+              rwcnt = matrowcnt(RetPUr);
+              for(i=0;i<rwcnt;i=i+1)begin
+                matrowget(RetPUr,i,RetPUrw);
+                if(nonblank(RetPUrw.ArtCode))then begin
+                  startformat(15);
+                    OutString(0,0,RetPUrw.ArtCode,false);    
+                    OutString(50,0,RetPUrw.Spec,false); 
+                    OutString(400,0,RetPUrw.SerialNr,false); 
+                    OutString(1,0,-RetPUrw.FIFO,true); 
+                  endformat;
+                end;
+              end;
+            end;
+          end;
         end;
       end;
       
