@@ -212,7 +212,7 @@ external function Boolean HasModTS();
 external function Boolean HasModWHM();
 
 SetLangMode(LangRussian,"RUS",0); //##ii
- 
+/*
 window ORDClass:2
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
@@ -424,7 +424,7 @@ begin
   EndWindow;
 		
 end;
-
+*/
 
 window VePer2RClass:1
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
