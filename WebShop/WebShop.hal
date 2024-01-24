@@ -1100,6 +1100,7 @@ begin
 	string 50 phone,ofnr;
 	record CUVc CUr;
 	record TochkaVidachiVc TVr;
+	transaction boolean tSendflag;
 	
 	logtext(0,"SendORStatusToViber begin");
 
@@ -1130,6 +1131,14 @@ begin
 	  
 	  if(status=="0")then begin	  
       EasySendTurboSMS(phone,"Замовлення #" & ofnr & " прийняте. Cтатус замовлення https://t.me/iStore_UA_bot");
+    end;
+    if(status=="7")then begin	
+    //Дякуємо за замовлення №343434, ми чекаємо на Ваше рішення 0800330334  
+      EasySendTurboSMS(phone,"Дякуємо за замовлення #" & ofnr & ", ми чекаємо на Ваше рішення 0800330334");
+    end;
+    if(status=="4" and tSendflag)then begin	  
+      //Нам дуже шкода але Ваше замовлення #343434 автоматично скасовано.
+      EasySendTurboSMS(phone,"Нам дуже шкода але Ваше замовлення #" & ofnr & "автоматично скасовано.");
     end;
 	  if(status=="5")then begin	  
       EasySendTurboSMS(phone,"Замовлення #" & ofnr & " На жаль нам не вдалося зв'язатися з Вами 0931700302");

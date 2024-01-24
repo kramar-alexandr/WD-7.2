@@ -963,7 +963,6 @@ lSimpleORWindow:;
       WindowBegin("Рахунок клієнту",ORDClass,CGview,-);
         SetWRect(20,80,1050,450);
         DynamicWindow;
-        //Sizeable(0,0,0,0);
         UseView(ORVc);
     
         vs = 20;
@@ -1025,6 +1024,7 @@ lSimpleORWindow:;
           //(2)
           EditField(h2=250,v=6,100,"Продавець",normal,SalesMan,false,UserSClass);
           HalPushButton(h2,v+=20,h2+130,v+=20,"OrderSetToST1Dsm","В роботі");
+          HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST7Dsm","Не визначився");
           HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST5Dsm","Не додзвонилися");
           HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST2Dsm","Відправлений");
           HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST6Dsm","Готовий до видачі");
@@ -1055,12 +1055,12 @@ lSimpleORWindow:;
           EditField(h2+250,v+vs,-180,"Причина",Normal,RejectStr,false,RejectStrSClass);
           
           h1 = 140;
-          EditField(h1,v+vs+vs,70,"Б/Н без ПДВ (архів)",ViewOnly,PayVal03,false,0);
-          EditField(h1+=200,v+vs+vs,70,"Кредит (архів)",ViewOnly,PayVal04,false,0);
-          EditField(h1+=200,v+vs+vs,70,"iBan (архів)",ViewOnly,PayVal05,false,0);
-          EditField(h1+=200,v+vs+vs,70,"Переказ (архів)",ViewOnly,PayVal07,false,0);
+          EditField(h1,v+vs+vs+vs,70,"Б/Н без ПДВ (архів)",ViewOnly,PayVal03,false,0);
+          EditField(h1+=200,v+vs+vs+vs,70,"Кредит (архів)",ViewOnly,PayVal04,false,0);
+          EditField(h1+=200,v+vs+vs+vs,70,"iBan (архів)",ViewOnly,PayVal05,false,0);
+          EditField(h1+=200,v+vs+vs+vs,70,"Переказ (архів)",ViewOnly,PayVal07,false,0);
           //HalPushButton(30,v+vs+vs+vs,150,v+vs+vs+vs+vs,"CreateActFromORDDsm","Замовити");
-          HalPushButton(30,v+vs+vs+vs,150,v+vs+vs+vs+vs,"StockMovFromORDsm","Замовити");
+          HalPushButton(30,v+vs+vs+vs+vs,150,v+vs+vs+vs+vs+vs,"StockMovFromORDsm","Замовити");
           //(5)
           v=6;
           h3 = 600;
@@ -1107,7 +1107,7 @@ lSimpleORWindow:;
           v = v + vs;
           //3
           if(show)then begin
-            MatrixBegin(3,v=260,-50,v+100,-,200);
+            MatrixBegin(3,v=275,-50,v+100,-,200);
             MatTypedRow(stp);
             MatOverStrike(ovst);
             flipnr = 0;

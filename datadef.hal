@@ -125,6 +125,10 @@ begin
     RecordField(ComisionCode,M4Code,20,0);
     RecordField(CallStatus,M4STR,50,0);
     
+    RecordField(ThinkingMan,M4Code,50,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:48 PM
+    RecordField(ThinkingDate,M4Date,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 01 11 2021 y. at 3:30:49 PM
+    RecordField(ThinkingTime,M4Time,0,0);
+    
     
     ChangeField(Addr1,M4Str,255,0);
     ChangeField(Addr2,M4Str,255,0);

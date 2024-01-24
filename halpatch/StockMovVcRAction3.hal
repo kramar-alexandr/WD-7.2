@@ -319,7 +319,8 @@ BEGIN
               case 3:ORr.OrderStatusText = "Виконано";
               case 4:ORr.OrderStatusText = "Відхилено";
               case 5:ORr.OrderStatusText = "Не додзвонилися";		
-              case 6:ORr.OrderStatusText = "Готовий до видачі";		
+              case 6:ORr.OrderStatusText = "Готовий до видачі";	
+              case 7:ORr.OrderStatusText = "Не визначився";	
             end;
             
             NoSMS = true;
