@@ -237,7 +237,7 @@ begin
 		BlockStore(DRB);
 	end;
 	
-	if(currenttime>stringtotime("05:00"))then begin
+	if(currenttime>stringtotime("04:00"))then begin
     if(DRB.RdbChackClear!=currentdate)then begin
       RDBDoClearDataMn;
       DRB.RdbChackClear = currentdate;
@@ -245,7 +245,7 @@ begin
     end;
   end;
   
-  if(currenttime>stringtotime("05:30"))then begin
+  if(currenttime>stringtotime("04:30"))then begin
     if(DRB.RdbChackBuild!=currentdate)then begin
       RDBBuildAllDataMn;
       DRB.RdbChackBuild = currentdate;
