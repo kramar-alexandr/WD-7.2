@@ -2268,7 +2268,22 @@ end;
 
 global updating procedure CreateActReminder(record ORVc ORr,string addUser,string acttype,date todate)
 begin
-
+  record ActVc Actr;
+  
+  recordnew(Actr);
+  Actr.MainPersons = ORr.SalesMan & "," & addUser & "," & ORr.ThinkingMan;
+  Actr.ActType = acttype;
+  Actr.ShowFlag = 1;
+  Actr.Comment = "Љлиент думает о заказе " & ORr.SerNr & " c " & currentdate;
+  Actr.TransDate = todate;
+  Actr.StartTime = stringtotime("09:00");
+  if(Actr.SerNr<0)then begin
+    Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+  end;
+  
+  recordstore(Actr,1);
+  CreateRecordLink(ORr,CurrentCompany,Actr,CurrentCompany);  
+  CreateRecordLink(Actr,CurrentCompany,ORr,CurrentCompany);
 
 return;
 end;
