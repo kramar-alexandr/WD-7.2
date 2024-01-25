@@ -765,6 +765,7 @@ begin
       case 5:ORr.OrderStatusText = "Не додзвонилися";	
       case 6:ORr.OrderStatusText = "Готовий до видачі";
       case 7:ORr.OrderStatusText = "Не визначився";
+      case 8:ORr.OrderStatusText = "Автозакриття";
     end;
     ORr.InWorkMan = currentuser;
     ORr.InWorkDate = currentdate;
@@ -818,6 +819,7 @@ begin
 			case 5:ORr.OrderStatusText = "Не додзвонилися";	
 			case 6:ORr.OrderStatusText = "Готовий до видачі";
 			case 7:ORr.OrderStatusText = "Не визначився";
+			case 8:ORr.OrderStatusText = "Автозакриття";
 		end;
 		ORr.OKFlag = 1;
 		putwindowrecord(wn,ORr);
@@ -908,6 +910,7 @@ begin
 			case 5:ORr.OrderStatusText = "Не додзвонилися";		
 			case 6:ORr.OrderStatusText = "Готовий до видачі";
 			case 7:ORr.OrderStatusText = "Не визначився";
+			case 8:ORr.OrderStatusText = "Автозакриття";
 		end;
 		ORr.OKFlag = 1;
 		putwindowrecord(wn,ORr);
@@ -978,6 +981,7 @@ begin
 			case 5:ORr.OrderStatusText = "Не додзвонилися";		
 			case 6:ORr.OrderStatusText = "Готовий до видачі";
 			case 7:ORr.OrderStatusText = "Не визначився";
+			case 8:ORr.OrderStatusText = "Автозакриття";
 		end;
 		putwindowrecord(wn,ORr);
 		if (WindowDoOK(wn,0)) then begin 
@@ -1022,6 +1026,7 @@ begin
 			case 5:ORr.OrderStatusText = "Не додзвонилися";		
 			case 6:ORr.OrderStatusText = "Готовий до видачі";
 			case 7:ORr.OrderStatusText = "Не визначився";
+			case 8:ORr.OrderStatusText = "Автозакриття";
 		end;
 		putwindowrecord(wn,ORr);
 		if (WindowDoOK(wn,0)) then begin 
@@ -1185,6 +1190,7 @@ begin
 			case 5:ORr.OrderStatusText = "Не додзвонилися";		
 			case 6:ORr.OrderStatusText = "Готовий до видачі";
 			case 7:ORr.OrderStatusText = "Не визначився";
+			case 8:ORr.OrderStatusText = "Автозакриття";
 		end;
 		putwindowrecord(wn,ORr);
 		if (WindowDoOK(wn,0)) then begin 
@@ -1238,7 +1244,8 @@ begin
 				case 4:ORr.OrderStatusText = "Відхилено";
 				case 5:ORr.OrderStatusText = "Не додзвонилися";		
 				case 6:ORr.OrderStatusText = "Готовий до видачі";	
-				case 7:ORr.OrderStatusText = "Не визначився";	
+				case 7:ORr.OrderStatusText = "Не визначився";
+				case 8:ORr.OrderStatusText = "Автозакриття";	
 			end;
 			putwindowrecord(wn,ORr);
 			if (WindowDoOK(wn,0)) then begin 

@@ -321,6 +321,7 @@ BEGIN
               case 5:ORr.OrderStatusText = "Не додзвонилися";		
               case 6:ORr.OrderStatusText = "Готовий до видачі";	
               case 7:ORr.OrderStatusText = "Не визначився";	
+              case 8:ORr.OrderStatusText = "Автозакриття";
             end;
             
             NoSMS = true;

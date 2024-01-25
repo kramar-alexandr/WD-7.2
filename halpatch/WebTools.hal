@@ -3,7 +3,8 @@ external updating procedure BuhExportEn();
 external procedure RetailSalesEn();
 external procedure ManagersFullStockEn();
 
-
+SetLangMode(LangRussian,"RUS",0);
+  
 global webpublic updating Procedure WebRunRetailSalesEn() //Edit***************************Sasha2,15:18 04.07.2014
 begin
 	integer compnr;
@@ -295,4 +296,34 @@ begin
 return;
 end;
 
+global updating procedure orstore(record ORVc ORr)
+begin
+  
+  recordstore(ORr,true);
+  
+return;
+end;
 
+global webpublic procedure WebCloseOldOrders()
+begin
+  record ORVc ORr;
+  
+  setcompany(13,false);
+  
+  while(loopmain(ORr,1,true))begin
+    if(blank(ORr.OrderStatusText) and ORr.OrderStatusCode==0)then begin
+      ORr.OrderStatusCode = 8;
+      ORr.OrderStatusText = "Автозакриття";	
+      qupdating.orstore(ORr);
+    end;
+    if(ORr.OrdDate<addday(currentdate,-t))then begin
+      if(ORr.OrderStatusCode==0 or ORr.OrderStatusCode==1 or ORr.OrderStatusCode==2 or ORr.OrderStatusCode==6 or ORr.OrderStatusCode==7)then begin
+        ORr.OrderStatusCode = 8;
+        ORr.OrderStatusText = "Автозакриття";	
+        qupdating.orstore(ORr);
+      end;
+    end;
+  end;
+  
+return;
+end;

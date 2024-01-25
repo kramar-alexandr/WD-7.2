@@ -3028,6 +3028,7 @@ record CUVc CUr;
               case 5:ORr.OrderStatusText = "Не додзвонилися";	
               case 6:ORr.OrderStatusText = "Готовий до видачі";
               case 7:ORr.OrderStatusText = "Не визначився";
+              case 8:ORr.OrderStatusText = "Автозакриття";
             end;
             ORr.InWorkMan = currentuser;
             ORr.InWorkDate = currentdate;
@@ -3092,6 +3093,7 @@ begin
     case 2: res = kRowcolorGreen;
     case 3: res = kRowcolorGreen;
     case 4: res = kRowcolorRed;
+    case 8: res = kRowcolorGreen;
    
     
     otherwise res = kRowColorNone;
