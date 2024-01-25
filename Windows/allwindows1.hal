@@ -1057,12 +1057,12 @@ lSimpleORWindow:;
           EditField(h2+250,v+vs,-180,"Причина",Normal,RejectStr,false,RejectStrSClass);
           
           h1 = 140;
-          EditField(h1,v+vs+vs+vs,70,"Б/Н без ПДВ (архів)",ViewOnly,PayVal03,false,0);
-          EditField(h1+=200,v+vs+vs+vs,70,"Кредит (архів)",ViewOnly,PayVal04,false,0);
-          EditField(h1+=200,v+vs+vs+vs,70,"iBan (архів)",ViewOnly,PayVal05,false,0);
-          EditField(h1+=200,v+vs+vs+vs,70,"Переказ (архів)",ViewOnly,PayVal07,false,0);
+          /*EditField(h1,v+vs,70,"Б/Н без ПДВ (архів)",ViewOnly,PayVal03,false,0);
+          EditField(h1+=200,v+vs+vs,70,"Кредит (архів)",ViewOnly,PayVal04,false,0);
+          EditField(h1+=200,v+vs+vs,70,"iBan (архів)",ViewOnly,PayVal05,false,0);
+          EditField(h1+=200,v+vs+vs,70,"Переказ (архів)",ViewOnly,PayVal07,false,0);*/
           //HalPushButton(30,v+vs+vs+vs,150,v+vs+vs+vs+vs,"CreateActFromORDDsm","Замовити");
-          HalPushButton(30,v+vs+vs+vs+vs,150,v+vs+vs+vs+vs+vs,"StockMovFromORDsm","Замовити");
+          HalPushButton(30,v+vs,150,v+vs+vs+vs,"StockMovFromORDsm","Замовити");
           //(5)
           v=6;
           h3 = 600;
@@ -1088,7 +1088,7 @@ lSimpleORWindow:;
     
         if(show)then begin
   
-          vv = v+25;
+          vv = v+15;
           EditField(h4,v+=vs,70,"Готівка",Normal,PayVal01,false,0);
           EditField(h4,v+=vs,70,"Термінал",Normal,PayVal02,false,0);
           EditField(h4,v+=vs,70,"Термінал 2",Normal,PayVal06,false,0);
@@ -1110,7 +1110,7 @@ lSimpleORWindow:;
           v = v + vs;
           //3
           if(show)then begin
-            MatrixBegin(3,v=275,-50,v+100,-,200);
+            MatrixBegin(3,v=255,-50,v+100,-,200);
             MatTypedRow(stp);
             MatOverStrike(ovst);
             flipnr = 0;
