@@ -316,7 +316,7 @@ begin
       ORr.OrderStatusText = "Автозакриття";	
       qupdating.orstore(ORr);
     end;
-    if(ORr.OrdDate<addday(currentdate,-t))then begin
+    if(ORr.OrdDate<addday(currentdate,-7))then begin
       if(ORr.OrderStatusCode==0 or ORr.OrderStatusCode==1 or ORr.OrderStatusCode==2 or ORr.OrderStatusCode==6 or ORr.OrderStatusCode==7)then begin
         ORr.OrderStatusCode = 8;
         ORr.OrderStatusText = "Автозакриття";	

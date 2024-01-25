@@ -494,6 +494,7 @@ begin
 		case 5:ORr.OrderStatusText = "Не додзвонилися";	
 		case 6:ORr.OrderStatusText = "Готовий до видачі";
 		case 7:ORr.OrderStatusText = "Не визначився";
+		case 8:ORr.OrderStatusText = "Автозакриття";
 	end;
 	
 	if(ORr.RejectMark==1 and blank(ORr.RejectStr))then begin
@@ -2264,6 +2265,14 @@ begin
   return;
 end;
 
+
+global updating procedure CreateActReminder(record ORVc ORr,string addUser,string acttype,date todate)
+begin
+
+
+return;
+end;
+
 global
 updating function LongInt ORVcRecordUpdateAfter(var record ORVc ORr,record ORVc OR2r,LongInt long3,LongInt long4)
 begin
@@ -2317,6 +2326,36 @@ begin
       pos = pos + 1;
     end;
   end;
+  
+  if(ORr.OrderStatusCode==4 and OR2r.OrderStatusCode!=4)then begin
+    pos = 1;
+    while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
+      if(Actr.ActType=="ZAKAZ" or Actr.ActType=="COMPL" or Actr.ActType=="PRIHO")then begin
+        recordcopy(oldActr,Actr);
+        Actr.OKFlag = 1;
+        recordupdate(oldActr,Actr,true);
+      end;
+      
+      pos = pos + 1;
+    end;
+  end;
+  
+  if(ORr.OrderStatusCode!=7 and OR2r.OrderStatusCode==7)then begin
+    pos = 1;
+    while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
+      if(Actr.ActType=="REMIN")then begin
+        recordcopy(oldActr,Actr);
+        Actr.OKFlag = 1;
+        recordupdate(oldActr,Actr,true);
+      end;
+      
+      pos = pos + 1;
+    end;
+  end;
+  if(ORr.OrderStatusCode==7 and OR2r.OrderStatusCode!=7)then begin
+    CreateActReminder(ORr,"MOROZ","REMIN",addday(currentdate,1));
+  end;
+    
   
   FillSAlesmanToIV(ORr);
   
