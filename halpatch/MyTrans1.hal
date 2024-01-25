@@ -245,7 +245,7 @@ begin
     end;
   end;
   
-  if(currenttime>stringtotime("04:30"))then begin
+  if(currenttime>stringtotime("04:10"))then begin
     if(DRB.RdbChackBuild!=currentdate)then begin
       RDBBuildAllDataMn;
       DRB.RdbChackBuild = currentdate;
