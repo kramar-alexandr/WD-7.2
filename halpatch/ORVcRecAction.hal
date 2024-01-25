@@ -2266,7 +2266,7 @@ begin
 end;
 
 
-global updating procedure CreateActReminder(record ORVc ORr,string addUser,string acttype,date todate)
+global updating procedure CreateActReminder(record ORVc ORr,string addUser,string acttype,date todate,string text)
 begin
   record ActVc Actr;
   
@@ -2274,7 +2274,7 @@ begin
   Actr.MainPersons = ORr.SalesMan & "," & addUser & "," & ORr.ThinkingMan;
   Actr.ActType = acttype;
   Actr.ShowFlag = 1;
-  Actr.Comment = "Клиент думает о заказе " & ORr.SerNr & " c " & currentdate;
+  Actr.Comment = text;
   Actr.TransDate = todate;
   Actr.StartTime = stringtotime("09:00");
   if(Actr.SerNr<0)then begin
@@ -2367,8 +2367,26 @@ begin
       pos = pos + 1;
     end;
   end;
+  if(ORr.OrderStatusCode!=1 and OR2r.OrderStatusCode==1)then begin
+    pos = 1;
+    while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
+      if(Actr.ActType=="REMIN")then begin
+        recordcopy(oldActr,Actr);
+        Actr.OKFlag = 1;
+        recordupdate(oldActr,Actr,true);
+      end;
+      
+      pos = pos + 1;
+    end;
+  end;
+  
+  
+  
   if(ORr.OrderStatusCode==7 and OR2r.OrderStatusCode!=7)then begin
-    CreateActReminder(ORr,"MOROZ","REMIN",addday(currentdate,1));
+    CreateActReminder(ORr,"MOROZ","REMIN",currentdate,"Клиент думает о заказе " & ORr.SerNr & " c " & currentdate);
+  end;
+  if(ORr.OrderStatusCode==1 and OR2r.OrderStatusCode!=1)then begin
+    CreateActReminder(ORr,"MOROZ","REMIN",addday(currentdate,1),"Заказ" & ORr.SerNr & " еще в работе с " & currentdate & "! Проверь!");
   end;
     
   
