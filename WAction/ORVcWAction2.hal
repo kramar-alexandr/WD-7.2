@@ -3007,7 +3007,7 @@ record CUVc CUr;
 	    messagebox(0,"Замовлення зачинено по групі продажу");
 	    goto lCallToClientDsm;
 	  end;
-	  if(usercanaction("AllowMakeNewOrder",true)==false and currenttime>stringtotime("15:00"))then begin
+	  if(usercanaction("AllowMakeNewOrder",true)==false)then begin
 		  messagebox(0,"Замовлення зачинено по групі доступу");
 		  goto lCallToClientDsm;
 		end;
@@ -3154,7 +3154,7 @@ begin
 		  duplOK = true;
 		end;
 		
-		if(usercanaction("AllowMakeNewOrder",true)==false and currenttime<stringtotime("15:00"))then begin
+		if(usercanaction("AllowMakeNewOrder",true)==false)then begin
 		  duplOK = false;
 		  newOK = false;
 		end;
@@ -3174,7 +3174,7 @@ begin
 		  duplOK = true;
 		end;
 		
-		if(usercanaction("AllowMakeNewOrder",true)==false and currenttime<stringtotime("15:00"))then begin
+		if(usercanaction("AllowMakeNewOrder",true)==false)then begin
 		  duplOK = false;
 		  newOK = false;
 		end;
