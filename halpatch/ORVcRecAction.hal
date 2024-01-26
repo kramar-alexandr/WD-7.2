@@ -2288,7 +2288,10 @@ begin
   record ActVc Actr;
   
   recordnew(Actr);
-  Actr.MainPersons = ORr.SalesMan & "," & addUser & "," & ORr.ThinkingMan;
+  Actr.MainPersons = ORr.SalesMan & "," & addUser;
+  if(!setinset(Actr.MainPersons,ORr.ThinkingMan) and nonblank(ORr.ThinkingMan))then begin
+    Actr.MainPersons = Actr.MainPersons & "," & ORr.ThinkingMan;
+  end;
   Actr.ActType = acttype;
   Actr.ShowFlag = 1;
   Actr.Comment = text;
