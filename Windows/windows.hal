@@ -2477,6 +2477,9 @@ begin
 	RadioButton(h,v+=20,2,0,"Відправлено",flags[0]); 
 	RadioButton(h,v+=20,3,0,"Виконано",flags[0]);
 	RadioButton(h,v+=20,4,0,"Відхилено",flags[0]);
+	RadioButton(h,v+=20,7,0,"Не визначився",flags[0]);
+	RadioButton(h,v+=20,8,0,"Автозакриття",flags[0]);
+	RadioButton(h,v+=20,9,0,"Очікує оплату",flags[0]);
 	
 	
   EndWindow;
