@@ -351,6 +351,7 @@ begin
 	SString(31098,"грн");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 13 01 2021 y. at 6:31:57 PM
 	
 	SString(31099,"TradeIn гарантія не для того товару");
+	SString(31100,"Нельзя менять поле Кредит по ограничениям груп доступа");
 	
   StrSetBegin(3); /* Try to keep them in alphabetical order */
   StrSetText(AllowUpperPrice,"Дозволити збільшити ціну в рахунку");
@@ -645,6 +646,9 @@ begin
   StrSetText(AllowEditCommentsAndTextFieldOR,"Дозволити редагувати коментарі та нотатки в рахунках клієнтів");//Edit_______________________________________ABR 04.11.19 11:50
   StrSetText(ViewAllOrderDetails,"Просмотр деталей заказа перед звонком");// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 11 05 2021 y. at 5:42:12 PM
   StrSetText(SimpleORWindow,"Упрощенное окно ИМ");// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 11 05 2021 y. at 5:42:12 PM
+  
+  StrSetText(AllowMakeNewOrder,"Создавать новые заказы");
+  StrSetText(AllowCreditOrder,"Кредитовать заказ");
   EndStrSet;
 	
 	

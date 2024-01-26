@@ -495,6 +495,7 @@ begin
 		case 6:ORr.OrderStatusText = "Готовий до видачі";
 		case 7:ORr.OrderStatusText = "Не визначився";
 		case 8:ORr.OrderStatusText = "Автозакриття";
+		case 9:ORr.OrderStatusText = "Очікує оплату";
 	end;
 	
 	if(ORr.RejectMark==1 and blank(ORr.RejectStr))then begin
@@ -790,6 +791,22 @@ begin
   end;
 	// Edit End ---------------------------------------------- Edit End
 	
+	if(usercanaction("AllowCreditOrder",true)==false)then begin
+	  if(stat==insertmode)then begin
+	    if(nonblank(ORr.TerminalID))then begin
+	      RecordCheckError(31100,"",-1,"TerminalID");      
+        res = -1;
+        goto LORVcRecordCheck;
+	    end;
+	  end;
+	  if(stat==updatemode)then begin
+	    if(ORr.TerminalID!=OR2r.TerminalID)then begin
+	      RecordCheckError(31100,"",-1,"TerminalID");      
+        res = -1;
+        goto LORVcRecordCheck;
+	    end;
+	  end;
+	end;
   
   if (RecordValid(OR2r)) then begin
     if (ORr.OKFlag==1) and (OR2r.OKFlag<>1) then begin
@@ -2379,6 +2396,18 @@ begin
       pos = pos + 1;
     end;
   end;
+  if(ORr.OrderStatusCode!=9 and OR2r.OrderStatusCode==9)then begin
+    pos = 1;
+    while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
+      if(Actr.ActType=="REMIN")then begin
+        recordcopy(oldActr,Actr);
+        Actr.OKFlag = 1;
+        recordupdate(oldActr,Actr,true);
+      end;
+      
+      pos = pos + 1;
+    end;
+  end;
   
   
   
@@ -2387,6 +2416,9 @@ begin
   end;
   if(ORr.OrderStatusCode==1 and OR2r.OrderStatusCode!=1)then begin
     CreateActReminder(ORr,"MOROZ","REMIN",addday(currentdate,1),"Заказ" & ORr.SerNr & " еще в работе с " & currentdate & "! Проверь!");
+  end;
+  if(ORr.OrderStatusCode==9 and OR2r.OrderStatusCode!=9)then begin
+    CreateActReminder(ORr,"MOROZ","REMIN",addday(currentdate,1),"Заказ" & ORr.SerNr & " ждет оплаты с " & currentdate & "! Проверь!");
   end;
     
   

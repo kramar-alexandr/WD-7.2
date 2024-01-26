@@ -3004,9 +3004,13 @@ record CUVc CUr;
 	
 	if(readfirstmain(USr,1,true))then begin
 	  if(USr.SalesGroup=="NOTNP" and ORr.SalesGroup=="NP" and currenttime>stringtotime("15:00"))then begin
-	    messagebox(0,"Замовлення зачинено по группі продажу");
+	    messagebox(0,"Замовлення зачинено по групі продажу");
 	    goto lCallToClientDsm;
 	  end;
+	  if(usercanaction("AllowMakeNewOrder",true)==false and currenttime>stringtotime("15:00"))then begin
+		  messagebox(0,"Замовлення зачинено по групі доступу");
+		  goto lCallToClientDsm;
+		end;
 		if(nonblank(USr.Phone2))then begin
 			CUr.Code = ORr.CustCode;
 			if(readfirstmain(CUr,1,true))then begin
@@ -3094,6 +3098,7 @@ begin
     case 3: res = kRowcolorGreen;
     case 4: res = kRowcolorRed;
     case 8: res = kRowcolorGreen;
+    case 9: res = kRowcolorRed;
    
     
     otherwise res = kRowColorNone;
@@ -3148,6 +3153,33 @@ begin
 		end else begin
 		  duplOK = true;
 		end;
+		
+		if(usercanaction("AllowMakeNewOrder",true)==false and currenttime<stringtotime("15:00"))then begin
+		  duplOK = false;
+		  newOK = false;
+		end;
+		
+		
+  return;
+end;
+
+global
+procedure ORLClassButtonFlags(Integer wn,var Boolean duplOK,var Boolean newOK,var Boolean saveOK,var Boolean restOK)
+begin
+    duplOK = false;
+    
+    if(currentcompany=13)then begin
+    	duplOK = currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or usercanaction("AllowUpperPrice",false);
+		end else begin
+		  duplOK = true;
+		end;
+		
+		if(usercanaction("AllowMakeNewOrder",true)==false and currenttime<stringtotime("15:00"))then begin
+		  duplOK = false;
+		  newOK = false;
+		end;
+		
+		
   return;
 end;
 

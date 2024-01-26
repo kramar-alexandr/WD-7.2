@@ -322,6 +322,7 @@ BEGIN
               case 6:ORr.OrderStatusText = "Готовий до видачі";	
               case 7:ORr.OrderStatusText = "Не визначився";	
               case 8:ORr.OrderStatusText = "Автозакриття";
+              case 9:ORr.OrderStatusText = "Очікує оплату";
             end;
             
             NoSMS = true;

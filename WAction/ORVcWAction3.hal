@@ -766,6 +766,7 @@ begin
       case 6:ORr.OrderStatusText = "Готовий до видачі";
       case 7:ORr.OrderStatusText = "Не визначився";
       case 8:ORr.OrderStatusText = "Автозакриття";
+      case 9:ORr.OrderStatusText = "Очікує оплату";
     end;
     ORr.InWorkMan = currentuser;
     ORr.InWorkDate = currentdate;
@@ -820,6 +821,7 @@ begin
 			case 6:ORr.OrderStatusText = "Готовий до видачі";
 			case 7:ORr.OrderStatusText = "Не визначився";
 			case 8:ORr.OrderStatusText = "Автозакриття";
+			case 9:ORr.OrderStatusText = "Очікує оплату";
 		end;
 		ORr.OKFlag = 1;
 		putwindowrecord(wn,ORr);
@@ -911,6 +913,7 @@ begin
 			case 6:ORr.OrderStatusText = "Готовий до видачі";
 			case 7:ORr.OrderStatusText = "Не визначився";
 			case 8:ORr.OrderStatusText = "Автозакриття";
+			case 9:ORr.OrderStatusText = "Очікує оплату";
 		end;
 		ORr.OKFlag = 1;
 		putwindowrecord(wn,ORr);
@@ -982,6 +985,7 @@ begin
 			case 6:ORr.OrderStatusText = "Готовий до видачі";
 			case 7:ORr.OrderStatusText = "Не визначився";
 			case 8:ORr.OrderStatusText = "Автозакриття";
+			case 9:ORr.OrderStatusText = "Очікує оплату";
 		end;
 		putwindowrecord(wn,ORr);
 		if (WindowDoOK(wn,0)) then begin 
@@ -1027,6 +1031,7 @@ begin
 			case 6:ORr.OrderStatusText = "Готовий до видачі";
 			case 7:ORr.OrderStatusText = "Не визначився";
 			case 8:ORr.OrderStatusText = "Автозакриття";
+			case 9:ORr.OrderStatusText = "Очікує оплату";
 		end;
 		putwindowrecord(wn,ORr);
 		if (WindowDoOK(wn,0)) then begin 
@@ -1040,6 +1045,52 @@ begin
 		messagebox(0,"Сначала сохраните запись");
 	end;
 lOrderSetToST7Dsm:;
+
+return;
+end;
+
+
+global updating procedure OrderSetToST9Dsm()
+begin
+	integer wn;
+	record ORVc ORr;
+	
+	wn = curwindow;
+	if(windowstate(wn)==0)then begin
+		deselectwindow(wn,true);
+		getwindowrecord(wn,ORr);
+    if(ORr.OrderStatusCode!=9)then begin
+		  messagebox(0,"Вже в очікує");
+		  goto lOrderSetToST9Dsm;
+		end;
+		ORr.OrderStatusCode = 9;
+    ORr.WaitPaymentMan = currentuser;
+    ORr.WaitPaymentDate = currentdate;
+    ORr.WaitPaymentTime = currenttime;
+		switch(ORr.OrderStatusCode)begin
+			case 0:ORr.OrderStatusText = "Новий";
+			case 1:ORr.OrderStatusText = "В роботі";
+			case 2:ORr.OrderStatusText = "Відправлено";
+			case 3:ORr.OrderStatusText = "Виконано";
+			case 4:ORr.OrderStatusText = "Відхилено";
+			case 5:ORr.OrderStatusText = "Не додзвонилися";		
+			case 6:ORr.OrderStatusText = "Готовий до видачі";
+			case 7:ORr.OrderStatusText = "Не визначився";
+			case 8:ORr.OrderStatusText = "Автозакриття";
+			case 9:ORr.OrderStatusText = "Очікує оплату";
+		end;
+		putwindowrecord(wn,ORr);
+		if (WindowDoOK(wn,0)) then begin 
+      if(currentcompany==13)then begin
+        SendORStatusToViber(ORr,"9");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
+      end;
+		end else begin
+		  WindowDoCancel(wn);
+		end;
+	end else begin
+		messagebox(0,"Сначала сохраните запись");
+	end;
+lOrderSetToST9Dsm:;
 
 return;
 end;
@@ -1191,6 +1242,7 @@ begin
 			case 6:ORr.OrderStatusText = "Готовий до видачі";
 			case 7:ORr.OrderStatusText = "Не визначився";
 			case 8:ORr.OrderStatusText = "Автозакриття";
+			case 9:ORr.OrderStatusText = "Очікує оплату";
 		end;
 		putwindowrecord(wn,ORr);
 		if (WindowDoOK(wn,0)) then begin 
@@ -1245,7 +1297,8 @@ begin
 				case 5:ORr.OrderStatusText = "Не додзвонилися";		
 				case 6:ORr.OrderStatusText = "Готовий до видачі";	
 				case 7:ORr.OrderStatusText = "Не визначився";
-				case 8:ORr.OrderStatusText = "Автозакриття";	
+				case 8:ORr.OrderStatusText = "Автозакриття";
+				case 9:ORr.OrderStatusText = "Очікує оплату";	
 			end;
 			putwindowrecord(wn,ORr);
 			if (WindowDoOK(wn,0)) then begin 

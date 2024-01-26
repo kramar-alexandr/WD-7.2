@@ -1026,6 +1026,7 @@ lSimpleORWindow:;
           HalPushButton(h2,v+=20,h2+130,v+=20,"OrderSetToST1Dsm","В роботі");
           HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST7Dsm","Не визначився");
           HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST5Dsm","Не додзвонилися");
+          HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST9Dsm","Очікує оплату");
           HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST2Dsm","Відправлений");
           HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST6Dsm","Готовий до видачі");
           HalPushButton(h2,v+=5,h2+130,v+=20,"OrderSetToST3Dsm","Виконаний");
@@ -1037,6 +1038,7 @@ lSimpleORWindow:;
           EditField(h3,v+=25,70,"Дата",ViewOnly,InWorkDate,false,0);
           EditField(h3,v+=25,70,"Дата",ViewOnly,ThinkingDate,false,0);
           EditField(h3,v+=25,70,"Дата",ViewOnly,NoCallDate,false,0);
+          EditField(h3,v+=25,70,"Дата",ViewOnly,WaitPaymentDate,false,0);
           EditField(h3,v+=25,70,"Дата",ViewOnly,SentDate,false,0);
           EditField(h3,v+=25,70,"Дата",ViewOnly,ReadyToSentDate,false,0);
           EditField(h3,v+=25,70,"Дата",ViewOnly,DoneDate,false,0);
@@ -1047,6 +1049,7 @@ lSimpleORWindow:;
           EditField(h3,v+=25,70,"",ViewOnly,InWorkTime,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,ThinkingTime,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,NoCallTime,false,0);
+          EditField(h3,v+=25,70,"",ViewOnly,WaitPaymentTime,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,SentTime,false,0);
           CheckBox(h3+160,v,0,"",TTNMark);
           EditField(h3+210,v,90,"ТТН",Normal,TTNNumber,false,0);	
@@ -1062,13 +1065,14 @@ lSimpleORWindow:;
           EditField(h1+=200,v+vs+vs,70,"iBan (архів)",ViewOnly,PayVal05,false,0);
           EditField(h1+=200,v+vs+vs,70,"Переказ (архів)",ViewOnly,PayVal07,false,0);*/
           //HalPushButton(30,v+vs+vs+vs,150,v+vs+vs+vs+vs,"CreateActFromORDDsm","Замовити");
-          HalPushButton(30,v+vs,150,v+vs+vs+vs,"StockMovFromORDsm","Замовити");
+          HalPushButton(30,v,150,v+vs,"StockMovFromORDsm","Замовити");
           //(5)
           v=6;
           h3 = 600;
           EditField(h3,v+=25,70,"",ViewOnly,InWorkMan,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,ThinkingMan,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,NoCallMan,false,0);
+          EditField(h3,v+=25,70,"",ViewOnly,WaitPaymentMan,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,SentMan,false,0);
           EditField(h3,v+=25,70,"",ViewOnly,ReadyToSentMan,false,0);
           EditField(h3+100,v,160,"",ViewOnly,TTNNStatus,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 20 09 2022 y. at 9:58:20 PM
@@ -1110,7 +1114,7 @@ lSimpleORWindow:;
           v = v + vs;
           //3
           if(show)then begin
-            MatrixBegin(3,v=255,-50,v+100,-,200);
+            MatrixBegin(3,v=270,-50,v+100,-,200);
             MatTypedRow(stp);
             MatOverStrike(ovst);
             flipnr = 0;
