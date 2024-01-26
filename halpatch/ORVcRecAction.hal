@@ -2293,6 +2293,7 @@ begin
   Actr.ShowFlag = 1;
   Actr.Comment = text;
   Actr.TransDate = todate;
+  Actr.EndDate = todate;
   Actr.StartTime = stringtotime("09:00");
   if(Actr.SerNr<0)then begin
     Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
