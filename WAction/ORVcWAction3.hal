@@ -1059,7 +1059,7 @@ begin
 	if(windowstate(wn)==0)then begin
 		deselectwindow(wn,true);
 		getwindowrecord(wn,ORr);
-    if(ORr.OrderStatusCode!=9)then begin
+    if(ORr.OrderStatusCode==9)then begin
 		  messagebox(0,"‚же в очґку№");
 		  goto lOrderSetToST9Dsm;
 		end;
