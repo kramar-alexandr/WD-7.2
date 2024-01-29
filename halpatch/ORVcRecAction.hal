@@ -671,8 +671,8 @@ begin
             end else begin
               for(j=0;j<rwcnt;j=j+1)begin
                 matrowget(ORr,j,OR2rw);
-                if(i!=j and OR2rw.GarantyFor!=0)then begin
-                  if(ORrw.SerialNr==OR2rw.SerialNr)then begin
+                if(i!=j)then begin
+                  if(ORrw.SerialNr==OR2rw.SerialNr and OR2rw.GarantyFor!=0)then begin
                     if(serfound[ORrw.ArtCode & ":" & ORrw.SerialNr]==true)then begin
                       RecordCheckError(1240," 2 " & i,i,"SerialNr");      
                       res = -1; 
@@ -695,6 +695,10 @@ begin
                         res = -1; 
                         goto LORVcRecordCheck;
                       end;
+                    end;
+                  end else begin
+                    if(ORrw.SerialNr==OR2rw.SerialNr and OR2rw.GarantyFor==0)then begin
+                      messagebox(0,"Проверьте срок гарантии на товар в строке " & j+1);
                     end;
                   end;
                 end;
