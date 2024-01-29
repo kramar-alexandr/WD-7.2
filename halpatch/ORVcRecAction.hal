@@ -665,7 +665,7 @@ begin
             ORrw.GarantyFor = blankval;
             matrowput(ORr,i,ORrw);
             if(blank(ORrw.SerialNr))then begin
-              RecordCheckError(1240,"",i,"SerialNr");      
+              RecordCheckError(1240,"1",i,"SerialNr");      
               res = -1; 
               goto LORVcRecordCheck;
             end else begin
@@ -674,7 +674,7 @@ begin
                 if(i!=j and OR2rw.GarantyFor!=0)then begin
                   if(ORrw.SerialNr==OR2rw.SerialNr)then begin
                     if(serfound[ORrw.ArtCode & ":" & ORrw.SerialNr]==true)then begin
-                      RecordCheckError(1240,"",i,"SerialNr");      
+                      RecordCheckError(1240,"2",i,"SerialNr");      
                       res = -1; 
                       goto LORVcRecordCheck;
                     end;
@@ -715,7 +715,7 @@ begin
                       matrowget(oldORr,j,OR2rw);
                       if(thissernr==OR2rw.SerialNr)then begin
                         if(serfound[ORrw.ArtCode & ":" & OR2rw.SerialNr]==true)then begin
-                          RecordCheckError(1240,"",i,"SerialNr");      
+                          RecordCheckError(1240,"3",i,"SerialNr");      
                           res = -1; 
                           goto LORVcRecordCheck;
                         end;
@@ -729,7 +729,7 @@ begin
               end;
             
               if(serfound[ORrw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
-                RecordCheckError(1240,"",i,"SerialNr");      
+                RecordCheckError(1240,"4",i,"SerialNr");      
                 res = -1; 
                 goto LORVcRecordCheck;
               end;
@@ -1612,7 +1612,7 @@ begin
                   FindStockValueInclStockReserv(-1,ORrw.ArtCode,"",loc2,ISr,stockreservq);
                 end else begin
                   if(blank(ORrw.SerialNr))then begin
-                    RecordCheckError(1240,"",i,"SerialNr");      
+                    RecordCheckError(1240,"5",i,"SerialNr");      
                     res = -1; 
                     goto LORVcRecordCheck;
                   end;
