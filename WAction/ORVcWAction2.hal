@@ -3098,7 +3098,7 @@ begin
     case 3: res = kRowcolorGreen;
     case 4: res = kRowcolorRed;
     case 8: res = kRowcolorGreen;
-    case 9: res = kRowcolorRed;
+    case 9: res = kRowColorNone;
    
     
     otherwise res = kRowColorNone;
