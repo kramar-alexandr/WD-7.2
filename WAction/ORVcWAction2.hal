@@ -3239,6 +3239,8 @@ BEGIN
                      matrowget(ORr,j,OR2rw);
                      if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr and OR2rw.stp==1)then begin
                         exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+                        logtext(0,"HandleBixolonWarrantyM 1");
+
                         HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),INr.WarrantyMonths,OR2rw.ArtCode & ":" & OR2rw.SerialNr);
                         needprint = needprint - 1;
                         found = true;
@@ -3258,6 +3260,8 @@ BEGIN
                         for(j=0;j<rwcnt2;j=j+1)begin
                           matrowget(oldORr,j,OR2rw);
                           if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0 and OR2rw.stp==1)then begin
+                            logtext(0,"HandleBixolonWarrantyM 2");
+
                             HandleBixolonWarrantyM(oldORr,aFile,fileexists("BixolonNewIMG"),INr.WarrantyMonths,OR2rw.ArtCode & ":" & thissernr);
                             createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                             createrecordlink(ORr,currentcompany,oldORr,currentcompany);
@@ -3273,6 +3277,8 @@ BEGIN
                      matrowget(ORr,j,OR2rw);
                      if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr and OR2rw.stp==1)then begin
                         exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+                        logtext(0,"HandleBixolonWarrantyMplusS 1");
+
                         HandleBixolonWarrantyMplusS(ORr,aFile,fileexists("BixolonNewIMG"),INr.WarrantyMonths,OR2rw.ArtCode & ":" & OR2rw.SerialNr);
                         needprint = needprint - 1;
                         found = true;
@@ -3292,6 +3298,8 @@ BEGIN
                         for(j=0;j<rwcnt2;j=j+1)begin
                           matrowget(oldORr,j,OR2rw);
                           if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0 and OR2rw.stp==1)then begin
+                            logtext(0,"HandleBixolonWarrantyMplusS 2");
+
                             HandleBixolonWarrantyMplusS(oldORr,aFile,fileexists("BixolonNewIMG"),INr.WarrantyMonths,OR2rw.ArtCode & ":" & thissernr);
                             createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                             createrecordlink(ORr,currentcompany,oldORr,currentcompany);
@@ -3313,6 +3321,8 @@ BEGIN
            matrowget(ORr,j,OR2rw);
            if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr and OR2rw.stp==1)then begin
               exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+              logtext(0,"HandleBixolonWarrantyM 3");
+
               HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),6,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//6 months
               needprint = needprint - 1;
               found = true;
@@ -3332,6 +3342,8 @@ BEGIN
               for(j=0;j<rwcnt2;j=j+1)begin
                 matrowget(oldORr,j,OR2rw);
                 if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0 and OR2rw.stp==1)then begin
+                  logtext(0,"HandleBixolonWarrantyM 4");
+
                   HandleBixolonWarrantyM(oldORr,aFile,fileexists("BixolonNewIMG"),6,OR2rw.ArtCode & ":" & thissernr);//6 months
                   createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                   createrecordlink(ORr,currentcompany,oldORr,currentcompany);
@@ -3349,6 +3361,8 @@ BEGIN
            matrowget(ORr,j,OR2rw);
            if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr and OR2rw.stp==1)then begin
               exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+              logtext(0,"HandleBixolonWarrantyM 5");
+
               HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
               needprint = needprint - 1;
               found = true;
@@ -3368,6 +3382,8 @@ BEGIN
               for(j=0;j<rwcnt2;j=j+1)begin
                 matrowget(oldORr,j,OR2rw);
                 if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0 and OR2rw.stp==1)then begin
+                  logtext(0,"HandleBixolonWarrantyM 6");
+
                   HandleBixolonWarrantyM(oldORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & thissernr);//6 months
                   createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                   createrecordlink(ORr,currentcompany,oldORr,currentcompany);
@@ -3385,6 +3401,8 @@ BEGIN
            matrowget(ORr,j,OR2rw);
            if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr and OR2rw.stp==1)then begin
               exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+              logtext(0,"HandleBixolonWarrantyM 7");
+
               HandleBixolonWarrantyM(ORr,aFile,fileexists("BixolonNewIMG"),24,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//24 months
               needprint = needprint - 1;
               found = true;
@@ -3404,6 +3422,8 @@ BEGIN
               for(j=0;j<rwcnt2;j=j+1)begin
                 matrowget(oldORr,j,OR2rw);
                 if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0 and OR2rw.stp==1)then begin
+                  logtext(0,"HandleBixolonWarrantyM 8");
+
                   HandleBixolonWarrantyM(oldORr,aFile,fileexists("BixolonNewIMG"),24,OR2rw.ArtCode & ":" & thissernr);//24 months
                   createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                   createrecordlink(ORr,currentcompany,oldORr,currentcompany);
@@ -3424,6 +3444,8 @@ BEGIN
            matrowget(ORr,j,OR2rw);
            if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr and OR2rw.stp==1)then begin
               exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+              logtext(0,"HandleBixolonWarrantyMAC 9");
+
               HandleBixolonWarrantyMAC(ORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
               needprint = needprint - 1;
               found = true;
@@ -3443,6 +3465,8 @@ BEGIN
               for(j=0;j<rwcnt2;j=j+1)begin
                 matrowget(oldORr,j,OR2rw);
                 if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0 and OR2rw.stp==1)then begin
+                  logtext(0,"HandleBixolonWarrantyMAC 10");
+
                   HandleBixolonWarrantyMAC(oldORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & thissernr);//12 months
                   createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                   createrecordlink(ORr,currentcompany,oldORr,currentcompany);
@@ -3461,6 +3485,8 @@ BEGIN
            matrowget(ORr,j,OR2rw);
            if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr and OR2rw.stp==1)then begin
               exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+              logtext(0,"HandleBixolonWarrantyMAC 11");
+
               HandleBixolonWarrantyMAC(ORr,aFile,fileexists("BixolonNewIMG"),24,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//24 months
               needprint = needprint - 1;
               found = true;
@@ -3480,6 +3506,8 @@ BEGIN
               for(j=0;j<rwcnt2;j=j+1)begin
                 matrowget(oldORr,j,OR2rw);
                 if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0 and OR2rw.stp==1)then begin
+                  logtext(0,"HandleBixolonWarrantyMAC 12");
+
                   HandleBixolonWarrantyMAC(oldORr,aFile,fileexists("BixolonNewIMG"),24,OR2rw.ArtCode & ":" & thissernr);//24 months
                   createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                   createrecordlink(ORr,currentcompany,oldORr,currentcompany);
@@ -3498,6 +3526,8 @@ BEGIN
            matrowget(ORr,j,OR2rw);
            if(OR2rw.ArtCode!=ORrw.ArtCode and OR2rw.SerialNr==ORrw.SerialNr and OR2rw.stp==1)then begin
               exludeitems[OR2rw.ArtCode & ":" & OR2rw.SerialNr] = true;
+              logtext(0,"HandleBixolonWarrantyDyson 13");
+
               HandleBixolonWarrantyDyson(ORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & OR2rw.SerialNr);//12 months
               needprint = needprint - 1;
               found = true;
@@ -3517,6 +3547,8 @@ BEGIN
               for(j=0;j<rwcnt2;j=j+1)begin
                 matrowget(oldORr,j,OR2rw);
                 if(thissernr==OR2rw.SerialNr and OR2rw.GarantyFor>0 and OR2rw.stp==1)then begin
+                  logtext(0,"HandleBixolonWarrantyDyson 14");
+
                   HandleBixolonWarrantyDyson(oldORr,aFile,fileexists("BixolonNewIMG"),12,OR2rw.ArtCode & ":" & thissernr);//12 months
                   createrecordlink(oldORr,currentcompany,ORr,currentcompany);
                   createrecordlink(ORr,currentcompany,oldORr,currentcompany);
@@ -3545,6 +3577,8 @@ BEGIN
     for(i=0;i<rwcnt;i=i+1)begin
       matrowget(ORr,i,ORrw);
       if(ORrw.stp==kInvoiceRowTypeNormal and ORrw.GarantyFor>0 and exludeitems[ORrw.ArtCode & ":" & ORrw.SerialNr]==false)then begin
+        logtext(0,"HandleBixolonWarranty 15");
+
         HandleBixolonWarranty(ORr,aFile,fileexists("BixolonNewIMG"),i);//Базовая гарантия iStore //Гарантийни Талон від виробника.docx
       end;
     end;
