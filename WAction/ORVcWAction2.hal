@@ -3230,7 +3230,7 @@ BEGIN
     end;
     
     INr.Code = ORrw.ArtCode;
-    if(readfirstmain(INr,1,true))then begin
+    if(readfirstmain(INr,1,true) and ORrw.stp==1)then begin
       if(INr.WarrantyType>0)then begin
         switch(INr.WarrantyType)begin
           case 1: skip = true;
