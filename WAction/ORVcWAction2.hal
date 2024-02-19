@@ -3003,7 +3003,7 @@ record CUVc CUr;
 	USr.Code = currentuser;
 	
 	if(readfirstmain(USr,1,true))then begin
-	  if(USr.SalesGroup=="NOTNP" and ORr.SalesGroup=="NP" and currenttime>stringtotime("15:00"))then begin
+	  if(USr.SalesGroup=="NOTNP" and ORr.SalesGroup=="NP" and currenttime>stringtotime("15:00") and currentuser!="SALESMAN")then begin
 	    messagebox(0,"Замовлення зачинено по групі продажу");
 	    goto lCallToClientDsm;
 	  end;
@@ -3627,7 +3627,7 @@ begin
 	if(currentcompany==13)then begin
 	  Userr.Code = currentuser;
 	  if(readfirstmain(Userr,1,true))then begin
-	    if(nonblank(Userr.SalesGroup) and currenttime>stringtotime("15:00"))then begin
+	    if(nonblank(Userr.SalesGroup) and currenttime>stringtotime("15:00") and currentuser!="SALESMAN")then begin
 	      setwindowsubset(wn,Userr.SalesGroup);
 	    end;
 	  end;
