@@ -1,4 +1,4 @@
-external inner function Time TimeDiff(Time,Time);
+external function Time TimeDiff(Time,Time);
 
 SetLangMode(LangRussian,"RUS",0);
 
