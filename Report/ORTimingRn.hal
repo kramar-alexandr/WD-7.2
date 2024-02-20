@@ -17,11 +17,11 @@ begin
   startformat(15);
     outstring(0,0,"ђахунок",false);
     outstring(50,0,"Њенеджер",false);
-    outstring(100,0,"„ата рахунку",false);
-    outstring(150,0,"—ас рахунку",false);
-    outstring(200,0,"„ата в роботґ",false);
-    outstring(250,0,"—ас в роботґ",false);
-    outstring(300,0,"•вилин (9:00-21:00)",false);  
+    outstring(150,0,"„ата рахунку",false);
+    outstring(200,0,"—ас рахунку",false);
+    outstring(250,0,"„ата в роботґ",false);
+    outstring(300,0,"—ас в роботґ",false);
+    outstring(1,0,"•вилин (9:00-21:00)",true);  
   endformat;
   
   ORr.OrdDate = RepSpec.sStartDate;
@@ -38,10 +38,10 @@ begin
       startformat(15);
         outstring(0,"DblORVc",ORr.SerNr,false);
         outstring(50,0,ORr.InWorkMan,false);
-        outstring(100,0,ORr.RegDate,false);
-        outstring(150,0,ORr.RegTime,false);
-        outstring(200,0,ORr.InWorkDate,false);
-        outstring(250,0,ORr.InWorkTime,false);
+        outstring(150,0,ORr.RegDate,false);
+        outstring(200,0,ORr.RegTime,false);
+        outstring(250,0,ORr.InWorkDate,false);
+        outstring(300,0,ORr.InWorkTime,false);
         
         regdate = ORr.RegDate;
         regtime = ORr.RegTime;
@@ -70,9 +70,7 @@ lNextDay:;
           minutes = minutes + diftime.hour*60+diftime.minute;
         end;
         
-        outstring(300,0,minutes,false);  
-        
-        outstring(350,0,diftime,false);  
+        outstring(1,0,minutes,true);  
       endformat;
       
     end;
