@@ -769,8 +769,10 @@ begin
       case 9:ORr.OrderStatusText = "Ћчґку№ оплату";
     end;
     ORr.InWorkMan = currentuser;
-    ORr.InWorkDate = currentdate;
-    ORr.InWorkTime = currenttime;
+    if(blankdate(ORr.InWorkDate))then begin
+      ORr.InWorkDate = currentdate;
+      ORr.InWorkTime = currenttime;
+    end;
     
     putwindowrecord(wn,ORr);
     if (WindowDoOK(wn,0)) then begin 
@@ -1224,10 +1226,6 @@ begin
 	if(windowstate(wn)==0)then begin
 		deselectwindow(wn,true);
 		getwindowrecord(wn,ORr);
-    if(ORr.OrderStatusCode==2 or ORr.OrderStatusCode==3)then begin
-		  messagebox(0,"‚же вґдвантажено");
-		  goto lOrderSetToST5Dsm;
-		end;
 		ORr.OrderStatusCode = 5;
 		ORr.NoCallMan = currentuser;
 		ORr.NoCallDate = currentdate;

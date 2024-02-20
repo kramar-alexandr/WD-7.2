@@ -3035,8 +3035,10 @@ record CUVc CUr;
               case 8:ORr.OrderStatusText = "Автозакриття";
             end;
             ORr.InWorkMan = currentuser;
-            ORr.InWorkDate = currentdate;
-            ORr.InWorkTime = currenttime;
+            if(blankdate(ORr.InWorkDate))then begin
+              ORr.InWorkDate = currentdate;
+              ORr.InWorkTime = currenttime;
+            end;
 					end;
 					
 					AddToText(CurrentDate & " ",ORr);
