@@ -90,11 +90,13 @@ lNextDay:;
   
   startformat(15);
     outstring(0,0,"Менеджер",false);  
+    outstring(100,0,"Замовлень",false);  
     outstring(150,0,"Час",false);  
   endformat;
   for(i=0;i<amanager.length;i=i+1)begin
     startformat(15);
       outstring(0,0,amanager[i],false);  
+      outstring(100,0,mancount[amanager[i]],false);  
       outstring(150,0,round(mantime[amanager[i]]/mancount[amanager[i]],SetRoundModeD(0)),false);  
     endformat;
   end;
