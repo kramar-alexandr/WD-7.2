@@ -984,7 +984,7 @@ lSimpleORWindow:;
     
         //(1)
         if(show)then begin
-          EditField(75,vm=(v=6),50,"Дата",Normal,RegDate,false,0);
+          EditField(75,vm=(v=6),50,"Дата",ViewOnly,RegDate,false,0);
           EditField(125,vm,50,"",ViewOnly,RegTime,false,0);	
           EditField(75,v+=vs,100,"Номер",Normal,SerNr,false,TSerSClass);
           EditField(75,v+=vs,100,"№ рах.",Normal,CustOrdNr,false,0);
