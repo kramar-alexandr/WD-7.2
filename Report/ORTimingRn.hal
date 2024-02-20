@@ -36,7 +36,7 @@ begin
     if(testf)then begin
       
       startformat(15);
-        outstring(0,0,ORr.SerNr,false);
+        outstring(0,"DblORVc",ORr.SerNr,false);
         outstring(50,0,ORr.InWorkMan,false);
         outstring(100,0,ORr.RegDate,false);
         outstring(150,0,ORr.RegTime,false);
