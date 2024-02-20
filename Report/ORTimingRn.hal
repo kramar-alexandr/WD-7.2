@@ -1,4 +1,5 @@
 external function Time TimeDiff(Time,Time);
+external function roundmode SetRoundModeD(Integer);
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -9,6 +10,9 @@ begin
   date regdate;
   integer minutes;
   time diftime,regtime;
+  vector val mantime,mancount;
+  array string 30 amanager;
+  integer i;
   
   
   startreportnoheaderjob("Час обробки замовлень");
@@ -69,11 +73,30 @@ lNextDay:;
           diftime = timediff(regtime,ORr.InWorkTime);
           minutes = minutes + diftime.hour*60+diftime.minute;
         end;
-        
+        mantime[ORr.InWorkMan] = mantime[ORr.InWorkMan] + minutes;
+        mancount[ORr.InWorkMan] = mancount[ORr.InWorkMan] + 1;
         outstring(1,0,minutes,true);  
       endformat;
       
     end;
+  end;
+  
+  gray_divider(0,1);
+  startformat(15);
+    outstring(0,0,"Середній час обробки замовлень",false);  
+  endformat;
+  
+  getvectortags(mancount,amanager);
+  
+  startformat(15);
+    outstring(0,0,"Менеджер",false);  
+    outstring(150,0,"Час",false);  
+  endformat;
+  for(i=0;i<amanager.length;i=i+1)begin
+    startformat(15);
+      outstring(0,0,amanager[i],false);  
+      outstring(150,0,round(mantime[amanager[i]]/mancount[amanager[i]],SetRoundModeD(0)),false);  
+    endformat;
   end;
   
   endjob;
