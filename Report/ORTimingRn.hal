@@ -69,6 +69,8 @@ lNextDay:;
         end;
         
         outstring(300,0,minutes,false);  
+        
+        outstring(350,0,diftime,false);  
       endformat;
       
     end;
