@@ -78,3 +78,41 @@ lNextDay:;
 
 return;
 end;
+
+
+global webpublic updating procedure WebSetCorrectDateTorOR()
+begin
+  record ORVc ORr;
+  boolean TrHs,TrHs2;
+  record RHistVc RHr;
+  string 100 tstr;
+  
+  setcompany(13,false);
+  
+  ORr.OrdDate = currentdate;
+  TrHs = true;
+  while(loopbackkey("OrdDate",ORr,1,TrHs))begin
+    logtext(0,ORr.OrdDate);
+    if(ORr.OrdDate>stringtodate("31/12/2023"))then begin
+      resetloop(RHr);
+      tstr = BuildRecordIdStr(ORr,currentcompany);
+      TrHs2 = true;
+      while(loopbackkey("RecidStr",RHr,1,TrHs2))begin
+        if(RHr.RecidStr!=tstr)then begin TrHs2 = false; end;
+        
+        if(TrHs2)then begin
+          if(RHr.accode==kRecordHistoryActionCreated)then begin
+            ORr.RegDate = RHr.TransDate;
+            ORr.RegTime = RHr.TransTime;
+            recordstore(ORr,true);
+            TrHs2 = false;
+          end;
+        end;
+      end;
+    end else begin
+      TrHs = false;
+    end;
+  end;
+
+return;
+end;
