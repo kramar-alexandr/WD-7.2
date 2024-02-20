@@ -64,7 +64,7 @@ lNextDay:;
           if(regtime<stringtotime("9:00"))then begin
             regtime = stringtotime("9:00");
           end;
-          diftime = timediff(regtime,ORr.InWorkTime);
+          diftime = timediff(ORr.InWorkTime,regtime);
           minutes = minutes + diftime.hour*60+diftime.minute;
         end;
         
