@@ -97,6 +97,7 @@ begin
       resetloop(RHr);
       tstr = BuildRecordIdStr(ORr,currentcompany);
       TrHs2 = true;
+      RHr.RecidStr = tstr;
       while(loopbackkey("RecidStr",RHr,1,TrHs2))begin
         if(RHr.RecidStr!=tstr)then begin TrHs2 = false; end;
         
