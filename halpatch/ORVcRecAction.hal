@@ -876,7 +876,15 @@ begin
     end;
   end;
   
-  switch (stat) begin
+  
+  if(blankdate(ORr.RegDate))then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 20 February 2024, 09:14:05
+    ORr.RegDate = CurrentDate;
+  end;
+  if(blanktime(ORr.RegTime))then begin
+    ORr.RegTime = CurrentTime;
+  end;
+  
+  /*switch (stat) begin
     case Rs_update:
       if (ORr.OKFlag!=0) and (OR2r.OKFlag==0) then begin
         ORr.RegDate = CurrentDate;
@@ -887,7 +895,7 @@ begin
         ORr.RegDate = CurrentDate;
         ORr.RegTime = CurrentTime;
       end;
-  end;
+  end;*/
 
   BlockLoad(LINrb);  
   if (nonblank(ORr.OfficialSerNr)) then begin
