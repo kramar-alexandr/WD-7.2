@@ -58,7 +58,9 @@ lNextDay:;
           end;
           
           if(regtime>=stringtotime("21:00"))then begin
+            regtime = stringtotime("9:00");
             regdate = addday(regdate,1);
+            goto lNextDay;
           end; 
         end else begin
           if(regtime<stringtotime("9:00"))then begin
