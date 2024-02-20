@@ -50,7 +50,7 @@ begin
 lNextDay:;
         if(regdate<ORr.InWorkDate)then begin
           if(regtime>=stringtotime("9:00") and regtime<=stringtotime("21:00"))then begin
-            diftime = timediff(stringtotime("21:00"),regtime);
+            diftime = timediff(regtime,stringtotime("21:00"));
             minutes = minutes + diftime.hour*60+diftime.minute;
             regtime = stringtotime("9:00");
             regdate = addday(regdate,1);
@@ -66,7 +66,7 @@ lNextDay:;
           if(regtime<stringtotime("9:00"))then begin
             regtime = stringtotime("9:00");
           end;
-          diftime = timediff(ORr.InWorkTime,regtime);
+          diftime = timediff(regtime,ORr.InWorkTime);
           minutes = minutes + diftime.hour*60+diftime.minute;
         end;
         
