@@ -1,0 +1,80 @@
+external inner function Time TimeDiff(Time,Time);
+
+SetLangMode(LangRussian,"RUS",0);
+
+global procedure ORTimingRn(record RcVc RepSpec)
+begin
+  record ORVc ORr;
+  boolean TrHs,testf;
+  date regdate;
+  integer minutes;
+  time diftime,regtime;
+  
+  
+  startreportnoheaderjob("Час обробки замовлень");
+  
+  
+  startformat(15);
+    outstring(0,0,"Рахунок",false);
+    outstring(50,0,"Менеджер",false);
+    outstring(100,0,"Дата рахунку",false);
+    outstring(150,0,"Час рахунку",false);
+    outstring(200,0,"Дата в роботі",false);
+    outstring(250,0,"Час в роботі",false);
+    outstring(300,0,"Хвилин (9:00-21:00)",false);  
+  endformat;
+  
+  ORr.OrdDate = RepSpec.sStartDate;
+  TrHs = true;
+  while(loopkey("OrdDate",ORr,1,TrHs))begin
+    testf = true;
+    if(ORr.OrdDate>RepSpec.sEndDate)then begin TrHs = false; testf = false; end;
+    if(blankdate(ORr.InWorkDate))then begin testf = false; end;
+    if(left(ORr.CustOrdNr,1)=="M")then begin testf = false; end;
+    
+    
+    if(testf)then begin
+      
+      startformat(15);
+        outstring(0,0,ORr.SerNr,false);
+        outstring(50,0,ORr.InWorkMan,false);
+        outstring(100,0,ORr.RegDate,false);
+        outstring(150,0,ORr.RegTime,false);
+        outstring(200,0,ORr.InWorkDate,false);
+        outstring(250,0,ORr.InWorkTime,false);
+        
+        regdate = ORr.RegDate;
+        regtime = ORr.RegTime;
+        minutes = 0;
+        
+lNextDay:;
+        if(regdate<ORr.InWorkDate)then begin
+          if(regtime>=stringtotime("9:00") and regtime<=stringtotime("21:00"))then begin
+            diftime = timediff(regtime,stringtotime("21:00"));
+            minutes = minutes + diftime.hour*60+diftime.minute;
+            regtime = stringtotime("9:00");
+            regdate = addday(regdate,1);
+            goto lNextDay;
+          end;
+          
+          if(regtime>=stringtotime("21:00"))then begin
+            regdate = addday(regdate,1);
+          end; 
+        end else begin
+          if(regtime<stringtotime("9:00"))then begin
+            regtime = stringtotime("9:00");
+          end;
+          diftime = timediff(regtime,ORr.InWorkTime);
+          minutes = minutes + diftime.hour*60+diftime.minute;
+        end;
+        
+        outstring(300,0,minutes,false);  
+      endformat;
+      
+    end;
+  end;
+  
+  endjob;
+
+return;
+end;
