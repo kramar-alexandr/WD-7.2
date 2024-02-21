@@ -1478,13 +1478,13 @@ area tempar;
 return;
 end;
 
-global webpublic updating procedure WebBitrixOrder()
+global webpublic procedure WebBitrixOrder()
 begin
   area request;
   
   logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrder");
   webgetpostdata(request);
-  WebBitrixOrderAsync(request);
+  qupdating.WebBitrixOrderAsync(request);
   weboutstring("ok");
   logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixEnd");
 return;
