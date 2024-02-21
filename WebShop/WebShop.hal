@@ -1484,7 +1484,7 @@ begin
   
   logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixOrder");
   webgetpostdata(request);
-  qupdating.WebBitrixOrderAsync(request);
+  WebBitrixOrderAsync(request);
   weboutstring("ok");
   logtext(0,"++++++++++++++++++++++++++++++++++++++++++++++++WebBitrixEnd");
 return;
