@@ -120,7 +120,7 @@ begin
   TrHs = true;
   while(loopbackkey("OrdDate",ORr,1,TrHs))begin
     logtext(0,ORr.OrdDate);
-    if(ORr.OrdDate>stringtodate("31/12/2023"))then begin
+    if(ORr.OrdDate>stringtodate("18/02/2023"))then begin
       resetloop(RHr);
       tstr = BuildRecordIdStr(ORr,currentcompany);
       TrHs2 = true;
