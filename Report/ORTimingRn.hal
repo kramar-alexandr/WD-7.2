@@ -100,6 +100,11 @@ begin
         mancount[ORr.InWorkMan] = mancount[ORr.InWorkMan] + 1;
         outstring(300,0,minutes,false);  
         
+        if(blankdate(ORr.ReadyToSentDate))then begin
+          ORr.ReadyToSentDate = ORr.SentDate;
+          ORr.ReadyToSentTime = ORr.SentTime;
+        end;
+        
         if(nonblanktime(ORr.ReadyToSentTime))then begin
           hrs = calcMinutesBetween(ORr.InWorkDate,ORr.ReadyToSentDate,ORr.InWorkTime,ORr.ReadyToSentTime);
           //outstring(300,0,ORr.ReadyToSentTime,false); 
