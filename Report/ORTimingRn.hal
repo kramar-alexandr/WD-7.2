@@ -103,7 +103,7 @@ begin
         if(nonblanktime(ORr.ReadyToSentTime))then begin
           hrs = calcMinutesBetween(ORr.InWorkDate,ORr.ReadyToSentDate,ORr.InWorkTime,ORr.ReadyToSentTime);
           //outstring(300,0,ORr.ReadyToSentTime,false); 
-          outstring(360,0,ORr.ReadyToSentMan,false); 
+          outstring(340,0,ORr.ReadyToSentMan,false); 
           outstring(420,0,hrs/60,false);  
           sobrtime[ORr.ReadyToSentMan] = sobrtime[ORr.ReadyToSentMan] + hrs/60;
           sobrcount[ORr.ReadyToSentMan] = sobrcount[ORr.ReadyToSentMan]+1;
