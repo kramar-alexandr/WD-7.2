@@ -64,10 +64,10 @@ begin
     outstring(250,0,"Дата в роботі",false);
     outstring(300,0,"Час в роботі",false);
     outstring(340,0,"Хвилин (9-21)",false);  
-    outstring(380,0,"Час до готовності",false);
+    outstring(380,0,"Готовність (год)",false);
     //outstring(360,0,"Хвилин (9:00-21:00)",false);
     //outstring(380,0,"Зібрав",false);
-    outstring(1,0,"Час до видачі",true);
+    outstring(1,0,"Видача(год)",true);
     //outstring(420,0,"Хвилин (9:00-21:00)",false);  
     //outstring(440,0,"Видав",false);  
   endformat;
@@ -102,7 +102,7 @@ begin
         if(nonblanktime(ORr.ReadyToSentTime))then begin
           minutes = calcMinutesBetween(ORr.InWorkDate,ORr.ReadyToSentDate,ORr.InWorkTime,ORr.ReadyToSentTime);
           //outstring(340,0,ORr.ReadyToSentTime,false); 
-          outstring(380,0,minutes,false);  
+          outstring(380,0,minutes/60,false);  
         end else begin
           //outstring(340,0,"",false);
           outstring(380,0,"",false);
@@ -111,7 +111,7 @@ begin
         if(nonblanktime(ORr.DoneTime))then begin
           minutes = calcMinutesBetween(ORr.ReadyToSentDate,ORr.DoneDate,ORr.ReadyToSentTime,ORr.DoneTime);
           //outstring(380,0,ORr.DoneTime,false); 
-          outstring(1,0,minutes,true);  
+          outstring(1,0,minutes/60,true);  
         end else begin
           //outstring(380,0,"",false);
           outstring(1,0,"",true);
