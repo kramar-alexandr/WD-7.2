@@ -103,6 +103,7 @@ begin
         if(nonblanktime(ORr.ReadyToSentTime))then begin
           hrs = calcMinutesBetween(ORr.InWorkDate,ORr.ReadyToSentDate,ORr.InWorkTime,ORr.ReadyToSentTime);
           //outstring(340,0,ORr.ReadyToSentTime,false); 
+          outstring(340,0,ORr.ReadyToSentMan,false); 
           outstring(380,0,hrs/60,false);  
           sobrtime[ORr.ReadyToSentMan] = sobrtime[ORr.ReadyToSentMan] + hrs/60;
           sobrcount[ORr.ReadyToSentMan] = sobrcount[ORr.ReadyToSentMan]+1;
@@ -113,7 +114,7 @@ begin
         
         if(nonblanktime(ORr.DoneTime))then begin
           hrs = calcMinutesBetween(ORr.ReadyToSentDate,ORr.DoneDate,ORr.ReadyToSentTime,ORr.DoneTime);
-          //outstring(380,0,ORr.DoneTime,false); 
+          outstring(420,0,ORr.DoneMan,false); 
           outstring(1,0,hrs/60,true);  
           vidaltime[ORr.ReadyToSentMan] = vidaltime[ORr.ReadyToSentMan] + hrs/60;
           vidalcount[ORr.ReadyToSentMan] = vidalcount[ORr.ReadyToSentMan]+1;
@@ -164,7 +165,7 @@ begin
     startformat(15);
       outstring(0,0,amanager[i],false);  
       outstring(100,0,sobrcount[amanager[i]],false);  
-      outstring(150,0,round(sobrtime[amanager[i]]/sobrcount[amanager[i]],SetRoundModeD(0)),false);  
+      outstring(150,0,round(sobrtime[amanager[i]]/sobrcount[amanager[i]],SetRoundModeD(1)),false);  
     endformat;
   end;
   
@@ -184,7 +185,7 @@ begin
     startformat(15);
       outstring(0,0,amanager[i],false);  
       outstring(100,0,vidalcount[amanager[i]],false);  
-      outstring(150,0,round(vidaltime[amanager[i]]/vidalcount[amanager[i]],SetRoundModeD(0)),false);  
+      outstring(150,0,round(vidaltime[amanager[i]]/vidalcount[amanager[i]],SetRoundModeD(1)),false);  
     endformat;
   end;
   
