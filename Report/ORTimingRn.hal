@@ -49,7 +49,7 @@ begin
   boolean TrHs,testf;
   integer minutes;
   val hrs;
-  vector val mantime,mancount;
+  vector val mantime,mancount,sobrtime,sobrcount,vidaltime,vidalcount;
   array string 30 amanager;
   integer i;
   
@@ -104,6 +104,8 @@ begin
           hrs = calcMinutesBetween(ORr.InWorkDate,ORr.ReadyToSentDate,ORr.InWorkTime,ORr.ReadyToSentTime);
           //outstring(340,0,ORr.ReadyToSentTime,false); 
           outstring(380,0,hrs/60,false);  
+          sobrtime[ORr.ReadyToSentMan] = sobrtime[ORr.ReadyToSentMan] + hrs/60;
+          sobrcount[ORr.ReadyToSentMan] = sobrcount[ORr.ReadyToSentMan]+1;
         end else begin
           //outstring(340,0,"",false);
           outstring(380,0,"",false);
@@ -113,6 +115,8 @@ begin
           hrs = calcMinutesBetween(ORr.ReadyToSentDate,ORr.DoneDate,ORr.ReadyToSentTime,ORr.DoneTime);
           //outstring(380,0,ORr.DoneTime,false); 
           outstring(1,0,hrs/60,true);  
+          vidaltime[ORr.ReadyToSentMan] = vidaltime[ORr.ReadyToSentMan] + hrs/60;
+          vidalcount[ORr.ReadyToSentMan] = vidalcount[ORr.ReadyToSentMan]+1;
         end else begin
           //outstring(380,0,"",false);
           outstring(1,0,"",true);
@@ -141,6 +145,46 @@ begin
       outstring(0,0,amanager[i],false);  
       outstring(100,0,mancount[amanager[i]],false);  
       outstring(150,0,round(mantime[amanager[i]]/mancount[amanager[i]],SetRoundModeD(0)),false);  
+    endformat;
+  end;
+  
+  gray_divider(0,1);
+  startformat(15);
+    outstring(0,0,"Середній час підготовки замовлень",false);  
+  endformat;
+  
+  getvectortags(sobrcount,amanager);
+  
+  startformat(15);
+    outstring(0,0,"Менеджер",false);  
+    outstring(100,0,"Замовлень",false);  
+    outstring(150,0,"Час",false);  
+  endformat;
+  for(i=0;i<amanager.length;i=i+1)begin
+    startformat(15);
+      outstring(0,0,amanager[i],false);  
+      outstring(100,0,sobrcount[amanager[i]],false);  
+      outstring(150,0,round(sobrtime[amanager[i]]/sobrcount[amanager[i]],SetRoundModeD(0)),false);  
+    endformat;
+  end;
+  
+  gray_divider(0,1);
+  startformat(15);
+    outstring(0,0,"Середній час видачі замовлень",false);  
+  endformat;
+  
+  getvectortags(vidalcount,amanager);
+  
+  startformat(15);
+    outstring(0,0,"Менеджер",false);  
+    outstring(100,0,"Замовлень",false);  
+    outstring(150,0,"Час",false);  
+  endformat;
+  for(i=0;i<amanager.length;i=i+1)begin
+    startformat(15);
+      outstring(0,0,amanager[i],false);  
+      outstring(100,0,vidalcount[amanager[i]],false);  
+      outstring(150,0,round(vidaltime[amanager[i]]/vidalcount[amanager[i]],SetRoundModeD(0)),false);  
     endformat;
   end;
   
