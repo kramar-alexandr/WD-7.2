@@ -59,11 +59,11 @@ begin
   
   startformat(15);
     outstring(0,0,"Рахунок",false);
-    outstring(50,0,"Менеджер",false);
-    outstring(150,0,"Дата рахунку",false);
-    outstring(200,0,"Час рахунку",false);
-    outstring(250,0,"Дата в роботі",false);
-    outstring(300,0,"Час в роботі",false);
+    outstring(30,0,"Менеджер",false);
+    outstring(100,0,"Дата рахунку",false);
+    outstring(150,0,"Час рахунку",false);
+    outstring(200,0,"Дата в роботі",false);
+    outstring(250,0,"Час в роботі",false);
     outstring(340,0,"Хвилин (9-21)",false);  
     outstring(420,0,"Готовність (год)",false);
     //outstring(360,0,"Хвилин (9:00-21:00)",false);
@@ -86,11 +86,11 @@ begin
       
       startformat(15);
         outstring(0,"DblORVc",ORr.SerNr,false);
-        outstring(50,0,ORr.InWorkMan,false);
-        outstring(150,0,ORr.RegDate,false);
-        outstring(200,0,ORr.RegTime,false);
-        outstring(250,0,ORr.InWorkDate,false);
-        outstring(300,0,ORr.InWorkTime,false);
+        outstring(30,0,ORr.InWorkMan,false);
+        outstring(100,0,ORr.RegDate,false);
+        outstring(150,0,ORr.RegTime,false);
+        outstring(200,0,ORr.InWorkDate,false);
+        outstring(250,0,ORr.InWorkTime,false);
         
         
         
@@ -139,13 +139,13 @@ begin
   startformat(15);
     outstring(0,0,"Менеджер",false);  
     outstring(100,0,"Замовлень",false);  
-    outstring(150,0,"Час",false);  
+    outstring(100,0,"Час",false);  
   endformat;
   for(i=0;i<amanager.length;i=i+1)begin
     startformat(15);
       outstring(0,0,amanager[i],false);  
       outstring(100,0,mancount[amanager[i]],false);  
-      outstring(150,0,round(mantime[amanager[i]]/mancount[amanager[i]],SetRoundModeD(0)),false);  
+      outstring(100,0,round(mantime[amanager[i]]/mancount[amanager[i]],SetRoundModeD(0)),false);  
     endformat;
   end;
   
@@ -159,13 +159,13 @@ begin
   startformat(15);
     outstring(0,0,"Менеджер",false);  
     outstring(100,0,"Замовлень",false);  
-    outstring(150,0,"Час",false);  
+    outstring(100,0,"Час",false);  
   endformat;
   for(i=0;i<amanager.length;i=i+1)begin
     startformat(15);
       outstring(0,0,amanager[i],false);  
       outstring(100,0,sobrcount[amanager[i]],false);  
-      outstring(150,0,round(sobrtime[amanager[i]]/sobrcount[amanager[i]],SetRoundModeD(1)),false);  
+      outstring(100,0,round(sobrtime[amanager[i]]/sobrcount[amanager[i]],SetRoundModeD(1)),false);  
     endformat;
   end;
   
@@ -179,13 +179,13 @@ begin
   startformat(15);
     outstring(0,0,"Менеджер",false);  
     outstring(100,0,"Замовлень",false);  
-    outstring(150,0,"Час",false);  
+    outstring(100,0,"Час",false);  
   endformat;
   for(i=0;i<amanager.length;i=i+1)begin
     startformat(15);
       outstring(0,0,amanager[i],false);  
       outstring(100,0,vidalcount[amanager[i]],false);  
-      outstring(150,0,round(vidaltime[amanager[i]]/vidalcount[amanager[i]],SetRoundModeD(1)),false);  
+      outstring(100,0,round(vidaltime[amanager[i]]/vidalcount[amanager[i]],SetRoundModeD(1)),false);  
     endformat;
   end;
   
