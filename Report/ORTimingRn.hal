@@ -118,6 +118,7 @@ begin
         end;
         
       endformat;
+      gray_divider(0,1);
       
     end;
   end;
