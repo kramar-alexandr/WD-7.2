@@ -114,7 +114,7 @@ begin
         
         if(nonblanktime(ORr.DoneTime))then begin
           hrs = calcMinutesBetween(ORr.ReadyToSentDate,ORr.DoneDate,ORr.ReadyToSentTime,ORr.DoneTime);
-          outstring(370,0,ORr.DoneMan,false); 
+          outstring(420,0,ORr.DoneMan,false); 
           outstring(1,0,hrs/60,true);  
           vidaltime[ORr.ReadyToSentMan] = vidaltime[ORr.ReadyToSentMan] + hrs/60;
           vidalcount[ORr.ReadyToSentMan] = vidalcount[ORr.ReadyToSentMan]+1;
