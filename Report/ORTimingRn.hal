@@ -63,7 +63,7 @@ begin
     outstring(200,0,"Час рахунку",false);
     outstring(250,0,"Дата в роботі",false);
     outstring(300,0,"Час в роботі",false);
-    outstring(340,0,"Хвилин (9:00-21:00)",false);  
+    outstring(340,0,"Хвилин (9-21)",false);  
     outstring(380,0,"Час до готовності",false);
     //outstring(360,0,"Хвилин (9:00-21:00)",false);
     //outstring(380,0,"Зібрав",false);
