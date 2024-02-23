@@ -103,6 +103,7 @@ begin
         if(blankdate(ORr.ReadyToSentDate))then begin
           ORr.ReadyToSentDate = ORr.SentDate;
           ORr.ReadyToSentTime = ORr.SentTime;
+          ORr.ReadyToSentMan = ORr.SentMan;
         end;
         
         if(nonblanktime(ORr.ReadyToSentTime))then begin
