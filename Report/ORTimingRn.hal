@@ -65,11 +65,11 @@ begin
     outstring(200,0,"Дата в роботі",false);
     outstring(250,0,"Час в роботі",false);
     outstring(300,0,"Хвилин (9-21)",false);  
-    outstring(420,0,"Готовність (год)",false);
+    outstring(400,0,"Готовність (год)",false);
     //outstring(360,0,"Хвилин (9:00-21:00)",false);
     //outstring(380,0,"Зібрав",false);
     outstring(1,0,"Видача(год)",true);
-    //outstring(420,0,"Хвилин (9:00-21:00)",false);  
+    //outstring(400,0,"Хвилин (9:00-21:00)",false);  
     //outstring(440,0,"Видав",false);  
   endformat;
   
@@ -104,17 +104,17 @@ begin
           hrs = calcMinutesBetween(ORr.InWorkDate,ORr.ReadyToSentDate,ORr.InWorkTime,ORr.ReadyToSentTime);
           //outstring(300,0,ORr.ReadyToSentTime,false); 
           outstring(340,0,ORr.ReadyToSentMan,false); 
-          outstring(420,0,hrs/60,false);  
+          outstring(400,0,hrs/60,false);  
           sobrtime[ORr.ReadyToSentMan] = sobrtime[ORr.ReadyToSentMan] + hrs/60;
           sobrcount[ORr.ReadyToSentMan] = sobrcount[ORr.ReadyToSentMan]+1;
         end else begin
           //outstring(300,0,"",false);
-          outstring(420,0,"",false);
+          outstring(400,0,"",false);
         end;
         
         if(nonblanktime(ORr.DoneTime))then begin
           hrs = calcMinutesBetween(ORr.ReadyToSentDate,ORr.DoneDate,ORr.ReadyToSentTime,ORr.DoneTime);
-          outstring(420,0,ORr.DoneMan,false); 
+          outstring(400,0,ORr.DoneMan,false); 
           outstring(1,0,hrs/60,true);  
           vidaltime[ORr.ReadyToSentMan] = vidaltime[ORr.ReadyToSentMan] + hrs/60;
           vidalcount[ORr.ReadyToSentMan] = vidalcount[ORr.ReadyToSentMan]+1;
