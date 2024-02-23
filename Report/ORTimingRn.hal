@@ -48,6 +48,7 @@ begin
   record ORVc ORr;
   boolean TrHs,testf;
   integer minutes;
+  val hrs;
   vector val mantime,mancount;
   array string 30 amanager;
   integer i;
@@ -100,18 +101,18 @@ begin
         outstring(340,0,minutes,false);  
         
         if(nonblanktime(ORr.ReadyToSentTime))then begin
-          minutes = calcMinutesBetween(ORr.InWorkDate,ORr.ReadyToSentDate,ORr.InWorkTime,ORr.ReadyToSentTime);
+          hrs = calcMinutesBetween(ORr.InWorkDate,ORr.ReadyToSentDate,ORr.InWorkTime,ORr.ReadyToSentTime);
           //outstring(340,0,ORr.ReadyToSentTime,false); 
-          outstring(380,0,minutes/60,false);  
+          outstring(380,0,hrs/60,false);  
         end else begin
           //outstring(340,0,"",false);
           outstring(380,0,"",false);
         end;
         
         if(nonblanktime(ORr.DoneTime))then begin
-          minutes = calcMinutesBetween(ORr.ReadyToSentDate,ORr.DoneDate,ORr.ReadyToSentTime,ORr.DoneTime);
+          hrs = calcMinutesBetween(ORr.ReadyToSentDate,ORr.DoneDate,ORr.ReadyToSentTime,ORr.DoneTime);
           //outstring(380,0,ORr.DoneTime,false); 
-          outstring(1,0,minutes/60,true);  
+          outstring(1,0,hrs/60,true);  
         end else begin
           //outstring(380,0,"",false);
           outstring(1,0,"",true);
