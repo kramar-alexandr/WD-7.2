@@ -3,13 +3,51 @@ external function roundmode SetRoundModeD(Integer);
 
 SetLangMode(LangRussian,"RUS",0);
 
+
+function integer calcMinutesBetween(date d1,date d2,time t1,time t2)
+begin
+  integer res;
+  date regdate;
+  time diftime,regtime;
+
+  
+  regdate = d1;
+  regtime = t1;
+  res = 0;
+  
+lNextDay:;
+  if(d1<d2)then begin
+    if(regtime>=stringtotime("9:00") and regtime<=stringtotime("21:00"))then begin
+      diftime = timediff(regtime,stringtotime("21:00"));
+      res = res + diftime.hour*60+diftime.minute;
+      regtime = stringtotime("9:00");
+      regdate = addday(regdate,1);
+      goto lNextDay;
+    end;
+    
+    if(regtime>=stringtotime("21:00"))then begin
+      regtime = stringtotime("9:00");
+      regdate = addday(regdate,1);
+      goto lNextDay;
+    end; 
+  end else begin
+    if(regtime<stringtotime("9:00"))then begin
+      regtime = stringtotime("9:00");
+    end;
+    diftime = timediff(regtime,t2);
+    res = res + diftime.hour*60+diftime.minute;
+  end;
+  
+  calcMinutesBetween = res;
+return;
+end;
+
+
 global procedure ORTimingRn(record RcVc RepSpec)
 begin
   record ORVc ORr;
   boolean TrHs,testf;
-  date regdate;
   integer minutes;
-  time diftime,regtime;
   vector val mantime,mancount;
   array string 30 amanager;
   integer i;
@@ -25,7 +63,13 @@ begin
     outstring(200,0,"Час рахунку",false);
     outstring(250,0,"Дата в роботі",false);
     outstring(300,0,"Час в роботі",false);
-    outstring(1,0,"Хвилин (9:00-21:00)",true);  
+    outstring(320,0,"Хвилин (9:00-21:00)",false);  
+    outstring(340,0,"Час до готовності",false);
+    outstring(360,0,"Хвилин (9:00-21:00)",false);
+    //outstring(380,0,"Зібрав",false);
+    outstring(400,0,"Час до видачі",false);
+    outstring(420,0,"Хвилин (9:00-21:00)",false);  
+    //outstring(440,0,"Видав",false);  
   endformat;
   
   ORr.OrdDate = RepSpec.sStartDate;
@@ -47,35 +91,32 @@ begin
         outstring(250,0,ORr.InWorkDate,false);
         outstring(300,0,ORr.InWorkTime,false);
         
-        regdate = ORr.RegDate;
-        regtime = ORr.RegTime;
-        minutes = 0;
         
-lNextDay:;
-        if(regdate<ORr.InWorkDate)then begin
-          if(regtime>=stringtotime("9:00") and regtime<=stringtotime("21:00"))then begin
-            diftime = timediff(regtime,stringtotime("21:00"));
-            minutes = minutes + diftime.hour*60+diftime.minute;
-            regtime = stringtotime("9:00");
-            regdate = addday(regdate,1);
-            goto lNextDay;
-          end;
-          
-          if(regtime>=stringtotime("21:00"))then begin
-            regtime = stringtotime("9:00");
-            regdate = addday(regdate,1);
-            goto lNextDay;
-          end; 
-        end else begin
-          if(regtime<stringtotime("9:00"))then begin
-            regtime = stringtotime("9:00");
-          end;
-          diftime = timediff(regtime,ORr.InWorkTime);
-          minutes = minutes + diftime.hour*60+diftime.minute;
-        end;
+        
+        minutes = calcMinutesBetween(ORr.RegDate,ORr.InWorkDate,ORr.RegTime,ORr.InWorkTime);
+        
         mantime[ORr.InWorkMan] = mantime[ORr.InWorkMan] + minutes;
         mancount[ORr.InWorkMan] = mancount[ORr.InWorkMan] + 1;
-        outstring(1,0,minutes,true);  
+        outstring(320,0,minutes,false);  
+        
+        if(nonblanktime(ORr.ReadyToSentTime))then begin
+          minutes = calcMinutesBetween(ORr.InWorkDate,ORr.ReadyToSentDate,ORr.InWorkTime,ORr.ReadyToSentTime);
+          outstring(340,0,ORr.ReadyToSentTime,false); 
+          outstring(360,0,minutes,false);  
+        end else begin
+          outstring(340,0,"",false);
+          outstring(360,0,"",false);
+        end;
+        
+        if(nonblanktime(ORr.DoneTime))then begin
+          minutes = calcMinutesBetween(ORr.ReadyToSentDate,ORr.DoneDate,ORr.ReadyToSentTime,ORr.DoneTime);
+          outstring(380,0,ORr.DoneTime,false); 
+          outstring(400,0,minutes,false);  
+        end else begin
+          outstring(380,0,"",false);
+          outstring(400,0,"",false);
+        end;
+        
       endformat;
       
     end;
@@ -100,6 +141,8 @@ lNextDay:;
       outstring(150,0,round(mantime[amanager[i]]/mancount[amanager[i]],SetRoundModeD(0)),false);  
     endformat;
   end;
+  
+  
   
   endjob;
 
