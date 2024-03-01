@@ -2688,6 +2688,9 @@ begin
   if(currentcompany==13)then begin
     if(nonblank(currentuser))then begin
       ORr.OrderClass = "CALDL";
+      if(nonblank(currentuser))then begin
+        ORr.OrderClass = "CALPC";
+      end;
       ORr.OrderStatusText = "В роботі";
       ORr.OrderStatusCode = 1;
       ORr.InWorkMan = currentuser;
@@ -2849,6 +2852,9 @@ begin
   if(currentcompany==13)then begin
     if(nonblank(currentuser))then begin
       ORr.OrderClass = "CALDL";
+      if(nonblank(currentuser))then begin
+        ORr.OrderClass = "CALPC";
+      end;
       ORr.OrderStatusText = "В роботі";
       ORr.OrderStatusCode = 1;
       ORr.InWorkMan = currentuser;
