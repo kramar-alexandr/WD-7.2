@@ -498,6 +498,13 @@ begin
 		case 9:ORr.OrderStatusText = "Ћчґку№ оплату";
 	end;
 	
+	
+	if(currentcompany==13)then begin
+    if(blank(ORr.OrderClass) and blank(ORr.CustOrdNr) or left(ORr.CustOrdNr,1)=="M")then begin
+      ORr.OrderClass = "CALPC";
+    end;
+  end;
+	
 	if(ORr.RejectMark==1 and blank(ORr.RejectStr))then begin
 		RecordCheckError(1058,"",-1,"RejectStr");      
     res = -1;
