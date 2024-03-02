@@ -77,8 +77,8 @@ remote procedure HandleBixolonWarrantyMplusS(record ORVc,var area,boolean,intege
 remote procedure HandleBixolonWarrantyMAC(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyDyson(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 
-remote procedure HandleBixolonWarrantyMain(record ORVc,var area);	//Edit **********************************************Vas-P	10/11/2021
-remote procedure HandleBixolonWarrantyMainAdditional(record ORVc,var area);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarrantyMain(record ORVc,var area,boolean);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarrantyMainAdditional(record ORVc,var area,boolean);	//Edit **********************************************Vas-P	10/11/2021
 
 
 
@@ -3233,8 +3233,8 @@ BEGIN
   
   if(currentuser=="SA")then begin
     
-    HandleBixolonWarrantyMain(ORr,aFile);
-    HandleBixolonWarrantyMainAdditional(ORr,aFile);
+    HandleBixolonWarrantyMain(ORr,aFile,fileexists("BixolonNewIMG"));
+    HandleBixolonWarrantyMainAdditional(ORr,aFile,fileexists("BixolonNewIMG"));
     goto lEndPrint;
   end;
   
