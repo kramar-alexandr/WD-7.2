@@ -77,6 +77,11 @@ remote procedure HandleBixolonWarrantyMplusS(record ORVc,var area,boolean,intege
 remote procedure HandleBixolonWarrantyMAC(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyDyson(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 
+remote procedure HandleBixolonWarrantyMain(record ORVc,var area);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarrantyMainAdditional(record ORVc,var area);	//Edit **********************************************Vas-P	10/11/2021
+
+
+
 external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);
 remote function val CommisionCodeBlockComission(string);
 remote procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
@@ -3223,6 +3228,16 @@ BEGIN
   recordcopy(ORr,OR2r);
 	
   SetExportCodePage("CP1251");
+  
+  
+  
+  if(currentuser=="SA")then begin
+    
+    HandleBixolonWarrantyMain(ORr,aFile);
+    HandleBixolonWarrantyMainAdditional(ORr,aFile);
+    goto lEndPrint;
+  end;
+  
   rwcnt = matrowcnt(ORr);
   for(i=0;i<rwcnt;i=i+1)begin
     skip = false;
@@ -3586,6 +3601,9 @@ BEGIN
       end;
     end;*/
   end;
+  
+lEndPrint:;
+  
   PrintBixolonWarrantyReceipt(aFile);
   OR2r.Printed = 1;
   recordstore(OR2r,true);
