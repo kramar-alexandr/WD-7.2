@@ -3231,7 +3231,7 @@ BEGIN
   
   
   
-  if(currentuser=="SA")then begin
+  if(currentuser=="SA" or currentuser=="SALESMAN")then begin
     
     HandleBixolonWarrantyMain(ORr,aFile,fileexists("BixolonNewIMG"));
     HandleBixolonWarrantyMainAdditional(ORr,aFile,fileexists("BixolonNewIMG"));
