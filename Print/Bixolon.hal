@@ -2771,6 +2771,7 @@ begin
       MatRowGet(ORr,i,ORrw);
       if(ORrw.stp==kInvoiceRowTypeNormal)then begin
         INr.Code = ORrw.ArtCode;
+        readfirstmain(INr,1,true);
         if(ORrw.GarantyFor>0 and INr.ItemType==1)then begin
           addtexttoarea(SetUnderlineOff,aFile);
           TLTOARR(checklength,"€‡‚€ ’‚€“:",aFile);
