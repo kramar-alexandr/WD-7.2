@@ -2701,7 +2701,7 @@ end;
 
 //Самый главный гарталон.
 global 
-updating procedure HandleBixolonWarrantyMain(record ORVc ORr,var area aFile,boolean bixolonnewimg)
+updating procedure HandleBixolonWarrantyMain(record ORVc ORr,var area aFile)
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -2961,7 +2961,7 @@ end;
 
 //Доп условия.
 global 
-updating procedure HandleBixolonWarrantyMainAdditional(record ORVc ORr,var area aFile,boolean bixolonnewimg)
+updating procedure HandleBixolonWarrantyMainAdditional(record ORVc ORr,var area aFile)
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
