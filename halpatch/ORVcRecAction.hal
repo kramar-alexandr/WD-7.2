@@ -1430,7 +1430,7 @@ begin
             res = -1; 
             goto LORVcRecordCheck;
           end;*/
-          if (closingf==false) then begin
+          if (closingf==false and transf) then begin
             if (INr.Terminated!=0) then begin
               RecordCheckError(1266,ORrw.ArtCode,i,"ArtCode");      
               res = -1;
