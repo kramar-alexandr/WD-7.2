@@ -3233,7 +3233,7 @@ BEGIN
 	
   SetExportCodePage("CP1251");
   
-  HandleBixolonWarrantyMain(ORr,aFile,fileexists("BixolonNewIMG"));
+  HandleBixolonWarrantyMainAdditional(ORr,aFile,fileexists("BixolonNewIMG"));
   PrintBixolonWarrantyReceipt(aFile);
 
   RETURN;
