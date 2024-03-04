@@ -1198,8 +1198,8 @@ lSimpleORWindow:;
           end;
           v = v + 320;
           HalPushButton(400,v,550,v+45,"ORPrintLabelDsm","Друк етикетки");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 12 02 2021 y. at 9:27:53 AM
-          HalPushButton(400,v+30,550,v+75,"PrintBixolonExecuteDsm","Друк гарантійного");//Edit **********************************************Vas-P	10/11/2021
-
+          HalPushButton(400,v+30,490,v+75,"PrintBixolonExecuteDsm","Гарант.");//Edit **********************************************Vas-P	10/11/2021
+          HalPushButton(500,v+30,590,v+75,"PrintBixolonExecute1Dsm","Дод. гарант.");
           
           ButtonFrame(10,v+vs,370,2,"Заполнить!!!");
           EditField(h1+80,v+=vs,70,"Дата видачи / доставки",Normal,PlanShipDate,false,PasteCurDate);
