@@ -2826,6 +2826,27 @@ begin
 		addtexttoarea(chr(13) & chr(10),aFile);
 				
 		
+		text[""] = "ДІЇ КОМПАНІЇ iStore У РАЗІ ОТРИМАННЯ ГАРАНТІЙНОЇ ПРЕТЕНЗІЇ";
+		TLTOARRVECTOR(checklength,text,aFile);
+    addtexttoarea(chr(13) & chr(10),aFile);
+    
+    text[""] = "Якщо протягом Гарантійного періоду ви звертаєтеся до компанії iStore на підставі цієї гарантії, компанія iStore на власний розсуд:";
+		TLTOARRVECTOR(checklength,text,aFile);
+    addtexttoarea(chr(13) & chr(10),aFile);
+    
+    text[""] = "(1) відремонтує Продукт, застосувавши нові або раніше використовувані деталі, які були перевірені та відповідають функціональним вимогам; або";
+		TLTOARRVECTOR(checklength,text,aFile);
+    addtexttoarea(chr(13) & chr(10),aFile);
+    
+    text[""] = "(2) замінить Продукт таким самим продуктом (або, за вашою згодою, таким, що має аналогічні чи в цілому подібні характеристики, що й оригінальний продукт, наприклад іншою моделлю з тими самими функціями або тією самою моделлю іншого кольору), який є новим або складається з нових і/або раніше використовуваних оригінальних деталей, що були перевірені та відповідають функціональним вимогам; або ";
+		TLTOARRVECTOR(checklength,text,aFile);
+    addtexttoarea(chr(13) & chr(10),aFile);
+    
+    text[""] = "(3) поверне вам витрачені кошти в обмін на дефектний Продукт.";
+		TLTOARRVECTOR(checklength,text,aFile);
+    addtexttoarea(chr(13) & chr(10),aFile);
+		
+		
 		text[""] = "ЦЯ ГАРАНТІЯ ПОКРИВАЄ";
 		TLTOARRVECTOR(checklength,text,aFile);
     addtexttoarea(chr(13) & chr(10),aFile);
