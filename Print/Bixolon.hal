@@ -2372,31 +2372,15 @@ begin
 	rowLength = 32;
 	
 	SetAreaZeroSize(aFile);
-
-	//LOGO
-	//addtexttoarea(PrintImage,aFile);
-	//addtexttoarea(SetMiddleAlignment,aFile);
-	//addtexttoarea("А-Сервіс",aFile);
 	
-	//addtexttoarea(chr(13) & chr(10),aFile);
-	
-	addtexttoarea(SetMiddleAlignment,aFile);
-	TLTOARR(cjecklength,SVOr.SerNr,aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);
 	//Rekviziti
-	addtexttoarea(SetLeftAlignment,aFile);
-	
-  //COST
-  /*TLTOARR(cjecklength,"__________________________________________",aFile);
-  addtexttoarea(SetBoldOn,aFile);
-  TLTOARR(cjecklength,"Вартість ремонту:          " & ValToString(SVOr.WSCost,M4Val,"",".",0) & " грн.",aFile);
-  addtexttoarea(SetBoldOff,aFile);
-  TLTOARR(cjecklength,"__________________________________________",aFile);*/
-  //Дата заказа
+	addtexttoarea(SetMiddleAlignment,aFile);
   addtexttoarea(SetBoldOn,aFile);
   TLTOARR(cjecklength,"Замовлення на обслуговування No " & SVOr.SerNr,aFile);
   addtexttoarea(SetBoldOff,aFile);
 
+  addtexttoarea(SetLeftAlignment,aFile);
   TLTOARR(cjecklength," від: " & SVOr.TransDate & " " & SVOr.RegTime & "",aFile);
   
   //Kon Info
