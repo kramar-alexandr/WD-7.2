@@ -4986,8 +4986,8 @@ begin
 		//v=v+10;
 		EditField(h,v+=vs,70,"Виробник",Normal,Region,false,ITSClass);	
 
-    SpecialMenu("Друкувати розписку 1",' ',0,"PrintSVOActExecute1Dsm");// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 04 2021 y. at 4:35:01 PM
-    SpecialMenu("Друкувати розписку 2",' ',0,"PrintSVOActExecute2Dsm");
+    SpecialMenu("Квитанция для СЦ",' ',0,"PrintSVOActExecute1Dsm");// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 26 04 2021 y. at 4:35:01 PM
+    SpecialMenu("Квитанция для клиента",' ',0,"PrintSVOActExecute2Dsm");
   EndWindow;
 end;
 

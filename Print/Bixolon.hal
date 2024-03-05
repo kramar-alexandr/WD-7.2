@@ -2444,23 +2444,37 @@ begin
   TLTOARR(0,SVOr.Comment3,aFile);
   TLTOARR(0,SVOr.Comment4,aFile);
   
-  addtexttoarea(SetBoldOn,aFile);
-  addtexttoarea(SetUnderlineOn,aFile);
-  TLTOARR(cjecklength,"Правила обслуговування сервісного центру А-сервiс: ",aFile);
-  addtexttoarea(SetUnderlineOff,aFile);
-  TLTOARR(cjecklength,"- Вартість діагностики пристроїв (платных",aFile);
-  TLTOARR(cjecklength,"та гарантiйних): iPhone - 250грн.,",aFile);
-  TLTOARR(cjecklength,"iPad - 400грн., MacBook - 500грн., ",aFile);
-  TLTOARR(cjecklength,"iMac - 1000грн., моноблоків - 400грн.,",aFile);
-  TLTOARR(cjecklength,"смартфонів - 250грн., планшетів- 300грн.,",aFile);
-  TLTOARR(cjecklength,"навушників- 250,00грн.",aFile);
-  //addtexttoarea(SetBoldOff,aFile);
   TLTOARR(cjecklength,"__________________________________________",aFile);
-
-  TLTOARR(cjecklength,"- Обладнання прийнято для передачі в сервісний центр А-сервiс",aFile);
-  TLTOARR(cjecklength,"центру для проведення діагностики,",aFile);
-  TLTOARR(cjecklength,"а у випадку необхідності подальшого",aFile);
-  TLTOARR(cjecklength,"його ремонту. ",aFile);
+  TLTOARR(cjecklength,"Сервісний центр :",aFile);
+  TLTOARR(cjecklength,"             Телефон: 0 800 330 334",aFile);
+  TLTOARR(cjecklength,"             Адреса: Київ, вул.Бойчука 1/2",aFile);
+  
+  addtexttoarea(chr(13) & chr(10),aFile);
+  TLTOARR(cjecklength,"- Обладнання прийнято для передачі в сервісний центр iStore",aFile);
+  TLTOARR(cjecklength,"Якщо протягом Гарантійного періоду ви",aFile);
+  TLTOARR(cjecklength,"звертаєтеся до компанії iStore на",aFile);
+  TLTOARR(cjecklength,"підставі цієї гарантії,",aFile);
+  TLTOARR(cjecklength,"компанія iStore на власний розсуд:",aFile);
+  addtexttoarea(chr(13) & chr(10),aFile);
+  TLTOARR(cjecklength,"(1) відремонтує Продукт, застосувавши",aFile);
+  TLTOARR(cjecklength,"нові або раніше використовувані деталі,",aFile);
+  TLTOARR(cjecklength,"які були перевірені та відповідають ",aFile);
+  TLTOARR(cjecklength,"функціональним вимогам; або",aFile);
+  addtexttoarea(chr(13) & chr(10),aFile);
+  TLTOARR(cjecklength,"(2) замінить Продукт таким самим продуктом (або,",aFile);
+  TLTOARR(cjecklength,"за вашою згодою, таким, що має аналогічні",aFile);
+  TLTOARR(cjecklength,"чи в цілому подібні характеристики, що й",aFile);
+  TLTOARR(cjecklength,"оригінальний продукт, наприклад іншою моделлю",aFile);
+  TLTOARR(cjecklength,"з тими самими функціями або тією самою моделлю",aFile);
+  
+  TLTOARR(cjecklength,"іншого кольору), який є новим або складається",aFile);
+  TLTOARR(cjecklength,"з нових і/або раніше використовуваних",aFile);
+  TLTOARR(cjecklength,"оригінальних деталей, що були перевірені та",aFile);
+  TLTOARR(cjecklength,"відповідають функціональним вимогам; ; або",aFile);
+  addtexttoarea(chr(13) & chr(10),aFile);
+  TLTOARR(cjecklength,"(3) поверне вам витрачені кошти в обмін на",aFile);
+  TLTOARR(cjecklength,"дефектний Продукт.",aFile);
+  addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"- Під час оформлення замовлення прово-",aFile);
   TLTOARR(cjecklength,"диться зовнішній огляд виробу на наявність",aFile);
   TLTOARR(cjecklength,"ознак порушення умов експлуатації.",aFile);
@@ -2480,7 +2494,7 @@ begin
   TLTOARR(cjecklength,"становить 14 днів.",aFile);
   TLTOARR(cjecklength,"У випадку відсутності запчастин на складі",aFile);
   TLTOARR(cjecklength,"сервісного центру термін ремонту може бути",aFile);
-  TLTOARR(cjecklength,"подовжено на 90 днів.",aFile);
+  TLTOARR(cjecklength,"подовжено на 180 днів.",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
 
   //addtexttoarea(SetBoldOn,aFile);
@@ -2526,9 +2540,6 @@ begin
   TLTOARR(cjecklength,"шкодження, сліди некваліфікованого втру-",aFile);
   TLTOARR(cjecklength,"чання або використання неоригінальних вит-",aFile);
   TLTOARR(cjecklength,"ратних матеріалів для ремонту. ",aFile);
-  TLTOARR(cjecklength,"- Починаючи з 15-ї доби після завершення",aFile);
-  TLTOARR(cjecklength,"ремонту вартість зберігання обладнання у ",aFile);
-  TLTOARR(cjecklength,"сервісному центрі складає 30 грн. за добу.",aFile);
   addtexttoarea(SetBoldOff,aFile);
   TLTOARR(cjecklength,"__________________________________________",aFile);
   TLTOARR(cjecklength,"\"З правилами обслуговування та тарифами ",aFile);
@@ -2686,6 +2697,33 @@ begin
   TLTOARR(cjecklength,USr.Name,aFile);
   TLTOARR(cjecklength,"__________________________________________",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
+  
+  TLTOARR(cjecklength,"- Обладнання прийнято для передачі в сервісний центр iStore",aFile);
+  TLTOARR(cjecklength,"Якщо протягом Гарантійного періоду ви",aFile);
+  TLTOARR(cjecklength,"звертаєтеся до компанії iStore на",aFile);
+  TLTOARR(cjecklength,"підставі цієї гарантії,",aFile);
+  TLTOARR(cjecklength,"компанія iStore на власний розсуд:",aFile);
+  addtexttoarea(chr(13) & chr(10),aFile);
+  TLTOARR(cjecklength,"(1) відремонтує Продукт, застосувавши",aFile);
+  TLTOARR(cjecklength,"нові або раніше використовувані деталі,",aFile);
+  TLTOARR(cjecklength,"які були перевірені та відповідають ",aFile);
+  TLTOARR(cjecklength,"функціональним вимогам; або",aFile);
+  addtexttoarea(chr(13) & chr(10),aFile);
+  TLTOARR(cjecklength,"(2) замінить Продукт таким самим продуктом (або,",aFile);
+  TLTOARR(cjecklength,"за вашою згодою, таким, що має аналогічні",aFile);
+  TLTOARR(cjecklength,"чи в цілому подібні характеристики, що й",aFile);
+  TLTOARR(cjecklength,"оригінальний продукт, наприклад іншою моделлю",aFile);
+  TLTOARR(cjecklength,"з тими самими функціями або тією самою моделлю",aFile);
+  
+  TLTOARR(cjecklength,"іншого кольору), який є новим або складається",aFile);
+  TLTOARR(cjecklength,"з нових і/або раніше використовуваних",aFile);
+  TLTOARR(cjecklength,"оригінальних деталей, що були перевірені та",aFile);
+  TLTOARR(cjecklength,"відповідають функціональним вимогам; ; або",aFile);
+  addtexttoarea(chr(13) & chr(10),aFile);
+  TLTOARR(cjecklength,"(3) поверне вам витрачені кошти в обмін на",aFile);
+  TLTOARR(cjecklength,"дефектний Продукт.",aFile);
+  addtexttoarea(chr(13) & chr(10),aFile);
+  
   TLTOARR(cjecklength," ",aFile);
   TLTOARR(cjecklength," ",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
