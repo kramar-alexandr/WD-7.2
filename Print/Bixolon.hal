@@ -2350,6 +2350,7 @@ begin
 	integer cjecklength;
 	row SVOVc SVOrw;
 	record UserVc USr;
+	record SalesGroupVc SGr;
 	
 	
 	cjecklength = 42;
@@ -2381,6 +2382,12 @@ begin
   addtexttoarea(SetBoldOff,aFile);
 
   addtexttoarea(SetLeftAlignment,aFile);
+  SGr.SGroupCode = SVOr.SalesGroup;
+  readfirstmain(SGr,1,true);
+  if(nonblank(SGr.SGroupName))then begin
+    TLTOARR(cjecklength,"Точка видачі: " & SGr.SGroupName,aFile);
+  end;
+  
   TLTOARR(cjecklength,"від: " & datetostring(SVOr.TransDate,"DD-YY-YYYY") & " " & SVOr.RegTime & "",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"Сервісний центр :",aFile);

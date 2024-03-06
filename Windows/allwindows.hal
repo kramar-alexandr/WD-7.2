@@ -4885,7 +4885,7 @@ begin
 		EditField(h=90,v=6, 82,"Номер",Normal,SerNr,false,TSerSClass);
 		EditField(h,v+=vs,60,"Дата замовл.",mode,TransDate,false,PasteCurDate);
     EditField(h,v+=vs,100,"Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
-  
+    EditField(h,v+=vs,100,"Точка видачі",Normal,SalesGroup,false,SalesGroupSClass);
     v = 6;
 //		EditField(255,v,100,"Гр.Пр.",ViewOnly,SalesGroup,false,0);
 		EditField(255,v,100,"Менеджер",normal,SalesMan,false,UserSClass);
