@@ -41,3 +41,30 @@ LINVcRecordCheck:;
   INVcRecordCheck = res;
   return;
 end;
+
+
+global
+function LongInt SVOVcRecordCheck(var record SVOVc SVOr,record SVOVc SVO2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+  res = 0;
+
+  res = inner.SVOVcRecordCheck(SVOr,SVO2r,stat,long4);
+  
+  if(res==0)then begin
+    if(stat==1 and blank(SVOr.SalesGroup))then begin
+      RecordCheckError(1058,"",-1,"SalesGroup"); 
+      res = -1;
+      goto LSVOVcRecordCheck;
+    end;
+  end;
+  
+
+LSVOVcRecordCheck:;
+  SVOVcRecordCheck = res;
+  return;
+end;
+
+
+  
+  
