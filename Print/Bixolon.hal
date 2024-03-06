@@ -2447,8 +2447,8 @@ begin
   
   TLTOARR(cjecklength,"іншого кольору), який є новим або складається",aFile);
   TLTOARR(cjecklength,"з нових і/або раніше використовуваних",aFile);
-  TLTOARR(cjecklength,"оригінальних деталей, що були перевірені та",aFile);
-  TLTOARR(cjecklength,"відповідають функціональним вимогам; ; або",aFile);
+  TLTOARR(cjecklength,"оригінальних деталей, що були перевірені",aFile);
+  TLTOARR(cjecklength,"та відповідають функціональним вимогам; або",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"(3) поверне вам витрачені кошти в обмін на",aFile);
   TLTOARR(cjecklength,"дефектний Продукт.",aFile);
@@ -2687,8 +2687,8 @@ begin
   
   TLTOARR(cjecklength,"іншого кольору), який є новим або складається",aFile);
   TLTOARR(cjecklength,"з нових і/або раніше використовуваних",aFile);
-  TLTOARR(cjecklength,"оригінальних деталей, що були перевірені та",aFile);
-  TLTOARR(cjecklength,"відповідають функціональним вимогам; ; або",aFile);
+  TLTOARR(cjecklength,"оригінальних деталей, що були перевірені",aFile);
+  TLTOARR(cjecklength,"та відповідають функціональним вимогам; або",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"(3) поверне вам витрачені кошти в обмін на",aFile);
   TLTOARR(cjecklength,"дефектний Продукт.",aFile);
