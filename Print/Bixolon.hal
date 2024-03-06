@@ -2385,7 +2385,7 @@ begin
   SGr.SGroupCode = SVOr.SalesGroup;
   readfirstmain(SGr,1,true);
   if(nonblank(SGr.SGroupName))then begin
-    TLTOARR(cjecklength,"Точка видачі: " & SGr.SGroupName,aFile);
+    TLTOARR(cjecklength,"Місце видачі: " & SGr.SGroupName,aFile);
   end;
   
   TLTOARR(cjecklength,"від: " & datetostring(SVOr.TransDate,"DD-YY-YYYY") & " " & SVOr.RegTime & "",aFile);
