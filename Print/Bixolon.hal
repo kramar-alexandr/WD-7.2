@@ -2381,8 +2381,11 @@ begin
   addtexttoarea(SetBoldOff,aFile);
 
   addtexttoarea(SetLeftAlignment,aFile);
-  TLTOARR(cjecklength," від: " & SVOr.TransDate & " " & SVOr.RegTime & "",aFile);
-  
+  TLTOARR(cjecklength,"від: " & datetostring(SVOr.TransDate,"DD-YY-YYYY") & " " & SVOr.RegTime & "",aFile);
+  addtexttoarea(chr(13) & chr(10),aFile);
+  TLTOARR(cjecklength,"Сервісний центр :",aFile);
+  TLTOARR(cjecklength,"             Телефон: 0 800 330 334",aFile);
+  TLTOARR(cjecklength,"             Адреса: Київ, вул.Бойчука 1/2",aFile);
   //Kon Info
   TLTOARR(cjecklength,"__________________________________________",aFile);
   addtexttoarea(SetBoldOn,aFile);
@@ -2423,10 +2426,6 @@ begin
   TLTOARR(0,SVOr.Comment4,aFile);
   
   TLTOARR(cjecklength,"__________________________________________",aFile);
-  TLTOARR(cjecklength,"Сервісний центр :",aFile);
-  TLTOARR(cjecklength,"             Телефон: 0 800 330 334",aFile);
-  TLTOARR(cjecklength,"             Адреса: Київ, вул.Бойчука 1/2",aFile);
-  
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"- Обладнання прийнято для передачі в",aFile);
   TLTOARR(cjecklength,"сервісний центр iStore",aFile);
@@ -2438,7 +2437,7 @@ begin
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"(1) відремонтує Продукт, застосувавши",aFile);
   TLTOARR(cjecklength,"нові або раніше використовувані деталі,",aFile);
-  TLTOARR(cjecklength,"які були перевірені та відповідають ",aFile);
+  TLTOARR(cjecklength,"які були перевірені та відповідають",aFile);
   TLTOARR(cjecklength,"функціональним вимогам; або",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"(2) замінить Продукт таким самим продуктом",aFile);
@@ -2485,13 +2484,14 @@ begin
   TLTOARR(cjecklength,"програмного забезпечення, персональних",aFile);
   TLTOARR(cjecklength,"даних,налаштувань користувача при",aFile);
   TLTOARR(cjecklength,"проведенні будь-яких робіт з обладнанням",aFile);
-  TLTOARR(cjecklength,"і не компенсує їх часткову або повну втрату.",aFile);
+  TLTOARR(cjecklength,"і не компенсує їх часткову або",aFile);
+  TLTOARR(cjecklength,"повну втрату.",aFile);
   //addtexttoarea(SetBoldOff,aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"- Результат попереднього огляду не є",aFile);
-  TLTOARR(cjecklength,"кінцевим, про виявлені в процесі діагностики",aFile);
-  TLTOARR(cjecklength,"або ремонту несправності сервісний центр",aFile);
-  TLTOARR(cjecklength,"повідомляє додатково. ",aFile);
+  TLTOARR(cjecklength,"кінцевим, про виявлені в процесі",aFile);
+  TLTOARR(cjecklength,"діагностики або ремонту несправності",aFile);
+  TLTOARR(cjecklength," сервісний центр повідомляє додатково. ",aFile);
   TLTOARR(cjecklength,"- Датою завершення робіт за замовленням",aFile);
   TLTOARR(cjecklength,"вважається дата повідомлення клієнта",aFile);
   TLTOARR(cjecklength,"телефоном або шляхом смс-інформування.",aFile);
