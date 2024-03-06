@@ -68,16 +68,19 @@ begin
       end else begin
       
         if(SMr.ToLocation=="INV#1_NBR")then begin
-          ORr.TochkaVidachi = "NBR";
+          ORr.TochkaVidachi = "4NBR";
         end;
         if(SMr.ToLocation=="INV#1_KRS")then begin
           ORr.TochkaVidachi = "METROGRAD";
         end;
         if(SMr.ToLocation=="INV#1_OL")then begin
-          ORr.TochkaVidachi = "OLYMP";
+          ORr.TochkaVidachi = "3OLYMP";
         end;
         if(SMr.ToLocation=="INV#1_SLB")then begin
-          ORr.TochkaVidachi = "SILVER";
+          ORr.TochkaVidachi = "2SILVER";
+        end;
+        if(SMr.ToLocation=="INV#1_SPL")then begin
+          ORr.TochkaVidachi = "5SMART";
         end;
         
                 

@@ -328,10 +328,11 @@ BEGIN
             NoSMS = true;
             switch(ORr.Location)begin
               case "INV#1_KRS":ORr.TochkaVidachi = "METROGRAD";
-              case "INV#1_KVZ":ORr.TochkaVidachi = "BOYCHUK";
-              case "INV#1_SLB":ORr.TochkaVidachi = "SILVER";
-              case "INV#1_NBR":ORr.TochkaVidachi = "NBR";
-              case "INV#1_OL":ORr.TochkaVidachi = "OLYMP";
+              case "INV#1_KVZ":ORr.TochkaVidachi = "1BOYCHUK";
+              case "INV#1_SLB":ORr.TochkaVidachi = "2SILVER";
+              case "INV#1_SPL":ORr.TochkaVidachi = "5SMART";
+              case "INV#1_NBR":ORr.TochkaVidachi = "4NBR";
+              case "INV#1_OL":ORr.TochkaVidachi = "3OLYMP";
               case "NOVAP":ORr.TochkaVidachi = "NP"; NoSMS = false;
               case "OFFICE":ORr.TochkaVidachi = "DELIVERY"; NoSMS = false;            
             end;
