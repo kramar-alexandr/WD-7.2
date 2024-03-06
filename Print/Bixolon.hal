@@ -2608,26 +2608,10 @@ begin
 	//addtexttoarea(chr(13) & chr(10),aFile);
 	
 	addtexttoarea(SetMiddleAlignment,aFile);
-	TLTOARR(cjecklength,SVOr.SerNr,aFile);
-	addtexttoarea(chr(13) & chr(10),aFile);
-	
-	//Rekviziti
-/*	addtexttoarea(SetLeftAlignment,aFile);
-	adresses(SVOr,Name,Address,Phone,eMail);
-	
-	TLTOARR(cjecklength,Name,aFile);
-	TLTOARR(cjecklength,Address,aFile);
-	TLTOARR(cjecklength,Phone,aFile);
-  TLTOARR(cjecklength,eMail,aFile);
-  */
-  //COST
-  //TLTOARR(cjecklength,"Вартість ремонту: " & ValToString(SVOr.WSCost,M4Val,"",".",0) & " грн.",aFile);
-  
-  //Дата заказа
   addtexttoarea(SetBoldOn,aFile);
   TLTOARR(cjecklength,"Замовлення на обслуговування No " & SVOr.SerNr,aFile);
   addtexttoarea(SetBoldOff,aFile);
-  
+  addtexttoarea(SetLeftAlignment,aFile);
   TLTOARR(cjecklength,"Сервісний центр :",aFile);
 	TLTOARR(cjecklength,"          Телефон: 0 800 330 334",aFile);	
   TLTOARR(cjecklength,"          Адреса: Київ, вул.Бойчука 1/2",aFile);	
