@@ -79,7 +79,7 @@ begin
         if(SMr.ToLocation=="INV#1_SLB")then begin
           ORr.TochkaVidachi = "2SILVER";
         end;
-        if(SMr.ToLocation=="INV#1_SPL")then begin
+        if(SMr.ToLocation=="INV#1_KPI")then begin
           ORr.TochkaVidachi = "5SMART";
         end;
         
