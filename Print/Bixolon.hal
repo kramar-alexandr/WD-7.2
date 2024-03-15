@@ -3053,9 +3053,9 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
-		text[""] = "ДОДАТКОВА гарантія для iPhone, iPad та Watch";
+		text[""] = "ДОДАТКОВА гарантія для iPhone, iPad та";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "12 або 24 місяці.";
+		text[""] = "Watch 12 або 24 місяці.";
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
@@ -3071,11 +3071,11 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "пристрою.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "-Безкоштовне захисне скло Base або преміальне";
+		text[""] = "-Безкоштовне захисне скло Base або ";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "захисне скло зі знижкою у 20% на iPhone";
+		text[""] = "преміальне захисне скло зі знижкою";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "або iPad.";
+		text[""] = "у 20% на iPhone або iPad.";
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
@@ -3109,15 +3109,15 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
-		text[""] = "12 місяців гарантії від заводських дефектів";
+		text[""] = "12 місяців гарантії від заводських";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "для Mac.";
+		text[""] = "дефектів для Mac.";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "-Знижка 10% на ремонт, при негарантійному";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "випадку.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "-Безкоштовна встановлення Microsoft Office.";
+		text[""] = "-Безкоштовна встановлення Microsoft Office";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "-Безкоштовна чистка від пилу з заміною";
 		TLTOARRVECTOR(checklength,text,aFile);
@@ -3139,9 +3139,11 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "звернень за календарний рік, додатково,";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "у разі настаня сервісного випадку стягується";
+		text[""] = "у разі настаня сервісного випадку";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "комісія за обслуговування у розмірі:";
+		text[""] = "стягується комісія за обслуговування";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "у розмірі:";
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
@@ -3153,10 +3155,12 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
-		text[""] = "Усунення пошкоджень проводитися в сервісному";
+		text[""] = "Усунення пошкоджень проводитися в";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "центрі, відповідно до регламенту.";
+		text[""] = "сервісному центрі, відповідно";
 		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "до регламенту. ";
+		TLTOARRVECTOR(checklength,text,aFile);		
 		text[""] = "Сервісний центр на власний розсуд виконує";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "ремонт чи заміну несправного модуля.";
@@ -3175,9 +3179,11 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "на новий, протягом 1-5 робочих днів.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "-Налаштування та підтримка нового пристрою.";
+		text[""] = "-Налаштування та підтримка нового пристрою";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "-Одна безкоштовна чистка протягом дії пакету.";
+		text[""] = "-Одна безкоштовна чистка протягом дії";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "пакету.";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "-Налаштування підписки AppleMusic.";
 		TLTOARRVECTOR(checklength,text,aFile);
@@ -3193,24 +3199,30 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "механічними пошкодженнями.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "Гарантійне обслуговування. У разі виявлення";
+		text[""] = "Гарантійне обслуговування. У разі";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "заводського дефекту, ми зробимо заміну";
+		text[""] = "виявлення заводського дефекту, ми";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "непрацюючого елементу на новий, протягом";
+		text[""] = "зробимо заміну непрацюючого елементу";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "1-5 робочих днів.";
+		text[""] = "на новий, протягом 1-5 робочих днів.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "Однарозова заміна при механічних пошкодженнях,";
+		text[""] = "Однарозова заміна при механічних";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "такі як (попадання вологи, незначні тріщини,";
+		text[""] = "пошкодженнях, такі як (попадання";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "потертості) ми зробимо заміну пошкодженого";
+		text[""] = "вологи, незначні тріщини, потертості)";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "елементу на новий, протягом 1-5 днів. *";
+		text[""] = "ми зробимо заміну пошкодженого";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "*не покриває втрату";
+		text[""] = "елементу на новий, протягом";
 		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "1-5 днів. *";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "* не покриває втрату";
+		TLTOARRVECTOR(checklength,text,aFile);
+		
+		
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		
