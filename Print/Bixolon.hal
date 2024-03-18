@@ -3117,7 +3117,7 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "випадку.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "-Безкоштовна встановлення Microsoft Office";
+		text[""] = "-Знижка 15% на Аксесуари для Mac";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "-Безкоштовна чистка від пилу з заміною";
 		TLTOARRVECTOR(checklength,text,aFile);
