@@ -136,6 +136,7 @@ begin
     end else begin
       ORr.SalesGroup = "NOCRE";
     end;
+    recordstore(ORr,true);
     
   end;
   
