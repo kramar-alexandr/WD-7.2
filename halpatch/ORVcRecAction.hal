@@ -2288,11 +2288,18 @@ begin
   RecalculateWeightORVc(ORr,false);  
   
   if(currentcompany==13)then begin
-    if(ORr.OrderClass!=OR2r.OrderClass)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 04 11 2022 y. at 9:56:11 AM
+    /*if(ORr.OrderClass!=OR2r.OrderClass)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 04 11 2022 y. at 9:56:11 AM
       if(blank(ORr.SalesGroup))then begin
         ORr.SalesGroup = "NOTNP";
       end;
-    end;
+    end;*/
+    /*if(blank(ORr.SalesGroup))then begin
+      if(nonblank(ORr.TerminalID))then begin
+        ORr.SalesGroup = "CREDI"; 
+      end else begin
+        ORr.SalesGroup = "NOCRE";
+      end;
+    end;*/
   end;
   
   logtext(0,"ORVcRecordUpdate end;");
@@ -2566,9 +2573,14 @@ begin
   end;
   
   if(currentcompany==13)then begin
-    if(blank(ORr.SalesGroup))then begin
+    /*if(blank(ORr.SalesGroup))then begin
       ORr.SalesGroup = "NOTNP";
-    end;
+    end;*/
+    /*if(nonblank(ORr.TerminalID))then begin
+      ORr.SalesGroup = "CREDI"; 
+    end else begin
+      ORr.SalesGroup = "NOCRE";
+    end;*/
   end;
   logtext(0,"ORVcRecordSave end");
   ORVcRecordSave = res; 
@@ -2654,7 +2666,8 @@ begin
   ORr.SalesMan = USr.Code;
   ORr.SalesGroup = USr.SalesGroup; 
   if(currentcompany==13)then begin
-    ORr.SalesGroup = "NOTNP";
+    //ORr.SalesGroup = "NOTNP";
+    ORr.SalesGroup = "NOCRE";
     ORr.RefStr = "phone";
   end;
   if (SingleUserMode) then begin

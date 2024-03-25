@@ -1002,18 +1002,20 @@ vector string 255 vres;
 						case"door": ORr.ShipAddr1 = "Доставка до дверей";
 					end;
 					switch(delivery_region)begin
-						case"0": ORr.ShipAddr2 = "Курьером"; ORr.OrderClass = "INTDL";ORr.SalesGroup = "NP";
-						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»"; ORr.OrderClass = "INTNP";ORr.SalesGroup = "NP";
-						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";ORr.SalesGroup = "NOTNP";
-						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)"; ORr.OrderClass = "INTDL";ORr.SalesGroup = "NP";
+						case"0": ORr.ShipAddr2 = "Курьером"; ORr.OrderClass = "INTDL";//ORr.SalesGroup = "NP";
+						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»"; ORr.OrderClass = "INTNP";//ORr.SalesGroup = "NP";
+						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";//ORr.SalesGroup = "NOTNP";
+						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)"; ORr.OrderClass = "INTDL";//ORr.SalesGroup = "NP";
 					end;
+					
+					ORr.SalesGroup = "NOCRE";
 					switch(payment)begin
 						case"cash": ORr.ShipAddr3 = "Наличными";
 						case"bank": ORr.ShipAddr3 = "Б/Н";
 						case"bank_nds": ORr.ShipAddr3 = "Б/Н+НДС";
 						case"visa": ORr.ShipAddr3 = "Visa";
 						case"pr24": ORr.ShipAddr3 = "Приват24";
-						case"credit": ORr.ShipAddr3 = "Кредит";
+						case"credit": ORr.ShipAddr3 = "Кредит";ORr.SalesGroup = "CREDI";
 					end;					
 					ORr.CustOrdNr = orderid;
 					
@@ -1367,21 +1369,22 @@ area tempar;
 					end;
 					ORr.OrderClass = "INTDL";
 					ORr.RefStr = ordsource;
-					ORr.SalesGroup = "NP";
+					//ORr.SalesGroup = "NP";
 					switch(delivery_region)begin
-						case"0": ORr.ShipAddr2 = "Курьером"; ORr.OrderClass = "INTDL";ORr.SalesGroup = "NP";
-						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»"; ORr.OrderClass = "INTNP";ORr.SalesGroup = "NP";
-						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";ORr.SalesGroup = "NOTNP";
-						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)"; ORr.OrderClass = "INTDL";ORr.SalesGroup = "NP";
+						case"0": ORr.ShipAddr2 = "Курьером"; ORr.OrderClass = "INTDL";
+						case"1": ORr.ShipAddr2 = "Доставка «Новой почтой»"; ORr.OrderClass = "INTNP";
+						case"2": ORr.ShipAddr2 = "Самовывоз"; ORr.OrderClass = "INTPC";//ORr.SalesGroup = "NOTNP";
+						case"3": ORr.ShipAddr2 = "Экспресс доставка (Киев)"; ORr.OrderClass = "INTDL";
 					end;
 					
+					ORr.SalesGroup = "NOCRE";
 					switch(payment)begin
 						case"cash": ORr.ShipAddr3 = "Наличными";
 						case"bank": ORr.ShipAddr3 = "Б/Н";
 						case"bank_nds": ORr.ShipAddr3 = "Б/Н+НДС";
 						case"visa": ORr.ShipAddr3 = "Visa";
 						case"pr24": ORr.ShipAddr3 = "Приват24";
-						case"credit": ORr.ShipAddr3 = "Кредит";
+						case"credit": ORr.ShipAddr3 = "Кредит";ORr.SalesGroup = "CREDI";
 						case"cash_delivery": ORr.ShipAddr3 = "Наложенный платеж";
 						case"according": ORr.ShipAddr3 = "Оплата по реквизитам";
 					end;					
@@ -1396,7 +1399,7 @@ area tempar;
           end;
 					
 					if(len(tradeinfo[""])>0)then begin
-					  ORr.OrderClass = "TRADE";ORr.SalesGroup = "NP";
+					  ORr.OrderClass = "TRADE";//ORr.SalesGroup = "NP";
 					  AddToText("Trade Info: ",ORr);
 					  AddToText(tradeinfo[""],ORr);
 					end;

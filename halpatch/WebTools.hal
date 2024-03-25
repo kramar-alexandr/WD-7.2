@@ -122,13 +122,19 @@ begin
   
   setcompany(13,false);
   
+  ORr.SerNr = 217979;
   while(loopmain(ORr,1,true))begin
     
-    if(ORr.SalesGroup=="NP")then begin
+    /*if(ORr.SalesGroup=="NP")then begin
       if(ORr.OrderClass=="INTPC")then begin
         ORr.SalesGroup = "NOTNP";
         recordstore(ORr,true);
       end;
+    end;*/
+    if(nonblank(ORr.TerminalID))then begin
+      ORr.SalesGroup = "CREDI"; 
+    end else begin
+      ORr.SalesGroup = "NOCRE";
     end;
     
   end;
