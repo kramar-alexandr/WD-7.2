@@ -3016,7 +3016,7 @@ record CUVc CUr;
 	    messagebox(0,"Замовлення зачинено по групі продажу");
 	    goto lCallToClientDsm;
 	  end;*/
-	  if(USr.SalesGroup=="NOCRE" and nonblank(ORr.TerminalID))then begin
+	  if(USr.SalesGroup=="NOCRE" and ORr.SalesGroup=="CREDI")then begin
 	    messagebox(0,"Замовлення зачинено по групі продажу");
 	    goto lCallToClientDsm;
 	  end;
