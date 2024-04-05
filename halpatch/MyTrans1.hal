@@ -257,7 +257,7 @@ begin
 	end;
 	
 	if(DRB.LastSMSCheck!=currentdate)then begin
-	  if(currenttime>stringtotime("17:30"))then begin
+	  if(currenttime>stringtotime("18:00"))then begin
 	    CheckStockMovForSMS(false,"INV#1_KRS");
 	    DRB.LastSMSCheck = currentdate;
 	    BlockStore(DRB);
@@ -271,9 +271,17 @@ begin
 	  end;	  
 	end;
 	if(DRB.LastSMSCheck3!=currentdate)then begin
-	  if(currenttime>stringtotime("17:30"))then begin
+	  if(currenttime>stringtotime("18:00"))then begin
 	    CheckStockMovForSMS(false,"INV#1_OL");
 	    DRB.LastSMSCheck3 = currentdate;
+	    BlockStore(DRB);
+	  end;	  
+	end;
+	
+	if(DRB.LastSMSCheck4!=currentdate)then begin
+	  if(currenttime>stringtotime("18:00"))then begin
+	    CheckStockMovForSMS(false,"INV#1_KPI");
+	    DRB.LastSMSCheck4 = currentdate;
 	    BlockStore(DRB);
 	  end;	  
 	end;

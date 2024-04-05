@@ -896,6 +896,7 @@ RecordBegin(BinotelCallEndVc,-,"");//Edit-------------------Vitalii 17:10 03.11.
 		RecordField(LastSMSCheck,M4Date,0,0);
 		RecordField(LastSMSCheck2,M4Date,0,0);
 		RecordField(LastSMSCheck3,M4Date,0,0);
+		RecordField(LastSMSCheck4,M4Date,0,0);
 	EndBlock;
   
   RecordBegin(PriceChangeVc,-,"");// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 18 10 2019 y. at 4:57:34 PM
