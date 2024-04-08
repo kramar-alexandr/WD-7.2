@@ -8767,7 +8767,7 @@ begin
     EditField(h1,v+=vs,82,"Действителен до",Normal,ValidUntil,false,PasteCurDate);
   end;
   if (HasModIN) then begin
-    EditField(h1,v+=vs,82,"Заплан.отгрузка",Normal,PlanShip,false,PasteCurDate);
+    EditField(h1,v+=vs,82,"Заплан.доставка",Normal,PlanShip,false,PasteCurDate);
   end;
   EditField(h1,v+=vs,-20,"Комментарій",Normal,Comment,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 22 02 2023 y. at 1:23:53 PM
   EditField(h2,v=vm,135,"Наша ссылка",Normal,OurContact,false,0);
@@ -8775,7 +8775,8 @@ begin
   if (HasObjects) then begin
     EditField(h2,v+=vs,135,"Объекты",Normal,Objects,false,ObjSClass);
   end;
-    EditField(h2,v+=vs,135,"Рекомендатель",Normal,Reference,false,0);
+    EditField(h2,v+=vs,82,"Время.доставка",Normal,PlannedTime,false,PasteCurTime);
+    //EditField(h2,v+=vs,135,"Рекомендатель",Normal,Reference,false,0);
   if (HasSalesman or HasSalesmanBonus) then begin
     EditField(h3,v=vm,80,"Продавец",Normal,SalesMan,false,UserSClass);
   end;
