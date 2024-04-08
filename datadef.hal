@@ -16,7 +16,11 @@ SourceFile("halcust\\SetComp",0);
 Exec_file("halcust\\datadef_cust.hal");
 
 begin 
-
+  
+  RecordAddBegin(POVc,"Cust_POVc");
+    RecordField(PlannedTime,M4Time,0,0); // Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 8 April 2024, 12:57:37
+  EndRecordAdd;
+  
   RecordAddBegin(CUVc,"Cust_CUVc");
     RecordField(PartnerMark,M4Mark,0,0); //Edit***************************Sasha2,10:03 09.12.2015
     RecordField(InnerMarkUp,M4Val,0,0); //Edit***************************Sasha2,14:30 04.01.2017
