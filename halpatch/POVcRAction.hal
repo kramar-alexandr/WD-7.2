@@ -596,26 +596,15 @@ BEGIN
   RETURN;
 END;
 
-global
-updating function LongInt POVcRecordSaveAfter(var record POVc POr,record POVc PO2r,LongInt stat,LongInt long4)
-BEGIN
-  LongInt res;
+
+updating procedure createPRIHDActForPO(record POVc POr)
+begin
   record StockMovVc SMr;
   record RLinkVc RLr;
   record ActVc newAcrt;
   
-  POUpdatePOCO(POr,false);
-  if (POr.IntORNo!=-1) then begin
-    UpdateIntOrderFromPO(POr,PO2r);
-  end;
-  UpdateVARItemsPO(POr);
-  if (POr.OKFlag!=0) then begin
-    AssignStockResFromPO(POr);
-  end;
-  
-  
   if(POr.Sum4>0)then begin
-    if(ReadRecordLink(POr,1,SMr,RLr)==false)then begin      
+    if(POr.VECode!="TRADE_IN")then begin
       if(nonblankdate(POr.PlanShip) and nonblanktime(POr.PlannedTime))then begin
         if(ReadRecordLink(POr,1,newAcrt,RLr)==false)then begin
           recordnew(newAcrt);
@@ -626,7 +615,7 @@ BEGIN
           newAcrt.TodoFlag = 1;
           newAcrt.TransDate = POr.PlanShip;
           newAcrt.StartTime = POr.PlannedTime;
-          
+      
           if(newAcrt.SerNr<0)then begin
             newAcrt.SerNr = NextSerNr("ActVc",newAcrt.TransDate,-1,false,"");
           end;
@@ -638,6 +627,25 @@ BEGIN
     end;
   end;
   
+return;
+end;
+
+global
+updating function LongInt POVcRecordSaveAfter(var record POVc POr,record POVc PO2r,LongInt stat,LongInt long4)
+BEGIN
+  LongInt res;
+  
+  
+  POUpdatePOCO(POr,false);
+  if (POr.IntORNo!=-1) then begin
+    UpdateIntOrderFromPO(POr,PO2r);
+  end;
+  UpdateVARItemsPO(POr);
+  if (POr.OKFlag!=0) then begin
+    AssignStockResFromPO(POr);
+  end;
+  
+  createPRIHDActForPO(POr);
   
   POVcRecordSaveAfter = res;
   RETURN;
@@ -745,28 +753,7 @@ BEGIN
     end;
   end;
   
-  if(POr.VECode!="TRADE_IN")then begin
-    if(nonblankdate(POr.PlanShip) and nonblanktime(POr.PlannedTime))then begin
-      if(ReadRecordLink(POr,1,newAcrt,RLr)==false)then begin
-        recordnew(newAcrt);
-        newAcrt.Comment = "Поставить на приход заказ поставщику " & POr.SerNr & ". Дата доставки от поставщика  " & POr.PlanShip & " " & POr.PlannedTime;
-        newAcrt.ActType = "PRIHD";
-        newAcrt.Supervisor = currentuser;
-        newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK,OSOKIN,DEMIANCHUK";
-        newAcrt.TodoFlag = 1;
-        newAcrt.TransDate = POr.PlanShip;
-        newAcrt.StartTime = POr.PlannedTime;
-      
-        if(newAcrt.SerNr<0)then begin
-          newAcrt.SerNr = NextSerNr("ActVc",newAcrt.TransDate,-1,false,"");
-        end;
-        recordstore(newAcrt,true);
-        createrecordlink(POr,currentcompany,newAcrt,currentcompany);
-        createrecordlink(newAcrt,currentcompany,POr,currentcompany);
-      end;
-    end;
-  end;
-  
+  createPRIHDActForPO(POr);
   
   POVcRecordUpdateAfter = res;
   RETURN;
