@@ -757,7 +757,7 @@ BEGIN
     
   if(POr.PlanShip!=PO2r.PlanShip or POr.PlannedTime!=PO2r.PlannedTime)then begin
     cnt = 1;
-    while(ReadRecordLink(Actr,cnt,Actr,RLr))begin
+    while(ReadRecordLink(POr,cnt,Actr,RLr))begin
       if(Actr.ActType=="PRIHD")then begin
         recorddelete(Actr);
         cnt = cnt - 1;
