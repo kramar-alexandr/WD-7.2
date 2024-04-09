@@ -591,6 +591,13 @@ begin
           Actr.EndTime = currenttime;
           recordupdate(oldActr,Actr,true);
         end;
+        if(Actr.ActType=="PRIHD")then begin
+          recordcopy(oldActr,Actr);
+          Actr.OKFlag = 1;
+          Actr.EndDate = currentdate;
+          Actr.EndTime = currenttime;
+          recordupdate(oldActr,Actr,true);
+        end;
         cnt = cnt + 1;
       end;
     end;
