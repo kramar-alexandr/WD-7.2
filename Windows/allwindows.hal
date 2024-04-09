@@ -8775,7 +8775,7 @@ begin
   if (HasObjects) then begin
     EditField(h2,v+=vs,135,"Объекты",Normal,Objects,false,ObjSClass);
   end;
-    EditField(h2,v+=vs,82,"Время.доставка",Normal,PlannedTime,false,PasteCurTime);
+    EditField(h2,v+=vs,82,"Время.доставка",Normal,PlannedTime,false,PasteCurTime);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 8 April 2024, 16:02:25
     //EditField(h2,v+=vs,135,"Рекомендатель",Normal,Reference,false,0);
   if (HasSalesman or HasSalesmanBonus) then begin
     EditField(h3,v=vm,80,"Продавец",Normal,SalesMan,false,UserSClass);

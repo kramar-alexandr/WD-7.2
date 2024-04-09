@@ -600,6 +600,9 @@ global
 updating function LongInt POVcRecordSaveAfter(var record POVc POr,record POVc PO2r,LongInt stat,LongInt long4)
 BEGIN
   LongInt res;
+  record StockMovVc SMr;
+  record RLinkVc RLr;
+  record ActVc newAcrt;
   
   POUpdatePOCO(POr,false);
   if (POr.IntORNo!=-1) then begin
@@ -609,6 +612,33 @@ BEGIN
   if (POr.OKFlag!=0) then begin
     AssignStockResFromPO(POr);
   end;
+  
+  
+  if(POr.Sum4>0)then begin
+    if(ReadRecordLink(POr,1,SMr,RLr)==false)then begin      
+      if(nonblankdate(POr.PlanShip) and nonblanktime(POr.PlannedTime))then begin
+        if(ReadRecordLink(POr,1,newAcrt,RLr)==false)then begin
+          recordnew(newAcrt);
+          newAcrt.Comment = "Поставить на приход заказ поставщику " & POr.SerNr & ". Дата доставки от поставщика  " & POr.PlanShip & " " & POr.PlannedTime;
+          newAcrt.ActType = "PRIHD";
+          newAcrt.Supervisor = currentuser;
+          newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK,OSOKIN,DEMIANCHUK";
+          newAcrt.TodoFlag = 1;
+          newAcrt.TransDate = POr.PlanShip;
+          newAcrt.StartTime = POr.PlannedTime;
+          
+          if(newAcrt.SerNr<0)then begin
+            newAcrt.SerNr = NextSerNr("ActVc",newAcrt.TransDate,-1,false,"");
+          end;
+          recordstore(newAcrt,true);
+          createrecordlink(POr,currentcompany,newAcrt,currentcompany);
+          createrecordlink(newAcrt,currentcompany,POr,currentcompany);
+        end;
+      end;
+    end;
+  end;
+  
+  
   POVcRecordSaveAfter = res;
   RETURN;
 END;
@@ -710,6 +740,26 @@ BEGIN
           
           createrecordlink(SMr,currentcompany,newAcrt,currentcompany);
           createrecordlink(newAcrt,currentcompany,SMr,currentcompany);
+        end;
+      end;
+    end else begin
+      if(nonblankdate(POr.PlanShip) and nonblanktime(POr.PlannedTime))then begin
+        if(ReadRecordLink(POr,1,newAcrt,RLr)==false)then begin
+          recordnew(newAcrt);
+          newAcrt.Comment = "Поставить на приход заказ поставщику " & POr.SerNr & ". Дата доставки от поставщика  " & POr.PlanShip & " " & POr.PlannedTime;
+          newAcrt.ActType = "PRIHD";
+          newAcrt.Supervisor = currentuser;
+          newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK,OSOKIN,DEMIANCHUK";
+          newAcrt.TodoFlag = 1;
+          newAcrt.TransDate = POr.PlanShip;
+          newAcrt.StartTime = POr.PlannedTime;
+          
+          if(newAcrt.SerNr<0)then begin
+            newAcrt.SerNr = NextSerNr("ActVc",newAcrt.TransDate,-1,false,"");
+          end;
+          recordstore(newAcrt,true);
+          createrecordlink(POr,currentcompany,newAcrt,currentcompany);
+          createrecordlink(newAcrt,currentcompany,POr,currentcompany);
         end;
       end;
     end;
@@ -873,6 +923,8 @@ begin
   Boolean initotcheckf;    
   transaction string 255 gRuniningMaint;
   record AccVc Accr;
+  record StockMovVc SMr;
+  record RLinkVc RLr;
 
   res = 0;
   insertmode = 1;
@@ -1267,7 +1319,23 @@ begin
             res = errcode; 
             goto LPOVcRecordCheck;
           end;
-//        end;          
+//        end;      
+        
+        if(ReadRecordLink(POr,1,SMr,RLr))then begin
+          if(SMr.SerNr==-1)then begin
+            if(POr.VECode!="TRADE_IN")then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 8 April 2024, 16:05:39
+              if(POr.PUFlag==0 and POr.Sum4>0)then begin
+                if(blankdate(POr.PlanShip))then begin
+                  RecordCheckError(1058,"",-1,"PlanShip");
+                end;
+                if(blanktime(POr.PlannedTime))then begin
+                  RecordCheckError(1058,"",-1,"PlannedTime");
+                end;
+              end;
+            end;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 8 April 2024, 16:06:23
+          end;
+        end;
+        
         if (nonblank(POrw.ArtCode)) and (gRuniningMaint!="GenPOFromORMn1") then begin     
           if (blank(POr.PlanShip)) then begin
             if (blank(POrw.PlanShipRow)) then begin
