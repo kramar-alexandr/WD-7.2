@@ -602,26 +602,29 @@ begin
   record StockMovVc SMr;
   record RLinkVc RLr;
   record ActVc newAcrt;
+  record ORVc ORr;
   
   if(POr.Sum4>0)then begin
-    if(POr.VECode!="TRADE_IN")then begin
-      if(nonblankdate(POr.PlanShip) and nonblanktime(POr.PlannedTime))then begin
-        if(ReadRecordLink(POr,1,newAcrt,RLr)==false)then begin
-          recordnew(newAcrt);
-          newAcrt.Comment = "Поставить на приход заказ поставщику " & POr.SerNr & ". Дата доставки от поставщика  " & POr.PlanShip & " " & POr.PlannedTime;
-          newAcrt.ActType = "PRIHD";
-          newAcrt.Supervisor = currentuser;
-          newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK,OSOKIN,DEMIANCHUK";
-          newAcrt.TodoFlag = 1;
-          newAcrt.TransDate = POr.PlanShip;
-          newAcrt.StartTime = POr.PlannedTime;
-      
-          if(newAcrt.SerNr<0)then begin
-            newAcrt.SerNr = NextSerNr("ActVc",newAcrt.TransDate,-1,false,"");
+    if(nonblankdate(POr.PlanShip) and nonblanktime(POr.PlannedTime))then begin
+      if(ReadRecordLink(POr,1,SMr,RLr))then begin
+        if(SMr.SerNr>0)then begin
+          if(ReadRecordLink(SMr,1,ORr,RLr))then begin
+            recordnew(newAcrt);
+            newAcrt.Comment = ORr.Location & " ТОВАР НЕ ПРИЕХАЛ! " & ORr.SerNr & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
+            newAcrt.ActType = "PRIHD";
+            newAcrt.Supervisor = currentuser;
+            newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK,OSOKIN,DEMIANCHUK";
+            newAcrt.TodoFlag = 1;
+            newAcrt.TransDate = POr.PlanShip;
+            newAcrt.StartTime = POr.PlannedTime;
+    
+            if(newAcrt.SerNr<0)then begin
+              newAcrt.SerNr = NextSerNr("ActVc",newAcrt.TransDate,-1,false,"");
+            end;
+            recordstore(newAcrt,true);
+            createrecordlink(POr,currentcompany,newAcrt,currentcompany);
+            createrecordlink(newAcrt,currentcompany,POr,currentcompany);
           end;
-          recordstore(newAcrt,true);
-          createrecordlink(POr,currentcompany,newAcrt,currentcompany);
-          createrecordlink(newAcrt,currentcompany,POr,currentcompany);
         end;
       end;
     end;
@@ -644,9 +647,7 @@ BEGIN
   if (POr.OKFlag!=0) then begin
     AssignStockResFromPO(POr);
   end;
-  
-  createPRIHDActForPO(POr);
-  
+    
   POVcRecordSaveAfter = res;
   RETURN;
 END;
@@ -693,7 +694,7 @@ BEGIN
       if(SMr.SerNr>0)then begin
         if(ReadRecordLink(SMr,1,ORr,RLr))then begin
           recordnew(newAcrt);
-          newAcrt.Comment = ORr.Location & " Поставить на приход заказ" & ORr.SerNr & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
+          newAcrt.Comment = ORr.Location & " Поставить на приход заказ " & ORr.SerNr & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
           newAcrt.ActType = "PRIHO";
           newAcrt.Supervisor = currentuser;
           newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK,OSOKIN,DEMIANCHUK";
@@ -753,7 +754,18 @@ BEGIN
     end;
   end;
   
-  createPRIHDActForPO(POr);
+    
+  if(POr.PlanShip!=PO2r.PlanShip or POr.PlannedTime!=PO2r.PlannedTime)then begin
+    cnt = 1;
+    while(ReadRecordLink(Actr,cnt,Actr,RLr))begin
+      if(Actr.ActType=="PRIHD")then begin
+        recorddelete(Actr);
+        cnt = cnt - 1;
+      end;
+      cnt = cnt + 1;
+    end;
+    createPRIHDActForPO(POr);
+  end;
   
   POVcRecordUpdateAfter = res;
   RETURN;
@@ -1310,18 +1322,16 @@ begin
           end;
 //        end;      
         
-        if(ReadRecordLink(POr,1,SMr,RLr))then begin
-          if(SMr.SerNr==-1)then begin
-            if(POr.VECode!="TRADE_IN")then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 8 April 2024, 16:05:39
-              if(POr.PUFlag==0 and POr.Sum4>0)then begin
-                if(blankdate(POr.PlanShip))then begin
-                  RecordCheckError(1058,"",-1,"PlanShip");
-                end;
-                if(blanktime(POr.PlannedTime))then begin
-                  RecordCheckError(1058,"",-1,"PlannedTime");
-                end;
+        if(stat==updatemode)then begin
+          if(ReadRecordLink(POr,1,SMr,RLr))then begin
+            if(POr.PUFlag==0 and POr.Sum4>0)then begin
+              if(blankdate(POr.PlanShip))then begin
+                RecordCheckError(1058,"",-1,"PlanShip");
               end;
-            end;// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 8 April 2024, 16:06:23
+              if(blanktime(POr.PlannedTime))then begin
+                RecordCheckError(1058,"",-1,"PlannedTime");
+              end;
+            end;
           end;
         end;
         
