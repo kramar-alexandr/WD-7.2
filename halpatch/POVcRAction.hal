@@ -743,8 +743,14 @@ BEGIN
         end;
       end;
     end else begin
+      logtext(0,"1");
+
       if(nonblankdate(POr.PlanShip) and nonblanktime(POr.PlannedTime))then begin
+        logtext(0,"2");
+
         if(ReadRecordLink(POr,1,newAcrt,RLr)==false)then begin
+          logtext(0,"3");
+
           recordnew(newAcrt);
           newAcrt.Comment = "Поставить на приход заказ поставщику " & POr.SerNr & ". Дата доставки от поставщика  " & POr.PlanShip & " " & POr.PlannedTime;
           newAcrt.ActType = "PRIHD";
