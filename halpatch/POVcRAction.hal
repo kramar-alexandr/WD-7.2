@@ -613,7 +613,7 @@ begin
             newAcrt.Comment = ORr.Location & " ТОВАР НЕ ПРИЕХАЛ! " & ORr.SerNr & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
             newAcrt.ActType = "PRIHD";
             newAcrt.Supervisor = currentuser;
-            newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK,OSOKIN,DEMIANCHUK";
+            newAcrt.MainPersons = currentuser;
             newAcrt.TodoFlag = 1;
             newAcrt.TransDate = POr.PlanShip;
             newAcrt.StartTime = POr.PlannedTime;
