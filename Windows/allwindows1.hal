@@ -1729,7 +1729,7 @@ begin
   SoftEditField(100,14,82,"Сотрудник",Normal,"actusercode",false,UserSClass,M4Str,60);
   RecordList(4,57,-21,-39);
   
-  RlColKey(4,2,"TodoFlag",TodoFlag,false,ActUserMain);
+  RlColKey(4,2,"TodoFlag",TodoFlag,false,ActDateTypeUserMain);
   RlCol(24,2,"Тип",ActType,false);
   RlCol(70,70,"Дата",TransDate,false);
   RlCol(140,140,"Время",StartTime,false);
