@@ -612,7 +612,7 @@ begin
             recordnew(newAcrt);
             newAcrt.Comment = ORr.Location & " ТОВАР НЕ ПРИЕХАЛ! " & ORr.SerNr & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
             newAcrt.ActType = "PRIHD";
-            newAcrt.Supervisor = "TMP";
+            //newAcrt.Supervisor = "TMP";
             newAcrt.MainPersons = "TMP";
             newAcrt.InventoryNr = currentuser;
             newAcrt.TodoFlag = 1;
