@@ -639,7 +639,8 @@ begin
   record ActVc Actr;
   boolean TrHs;
   logtext(0,"ActivateActsPRIHD");
-
+  
+  setcompany(13,false);
   
   Actr.ActType = "PRIHD";
   Actr.TransDate = addday(currentdate,100);
