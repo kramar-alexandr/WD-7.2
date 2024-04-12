@@ -647,12 +647,12 @@ begin
   Actr.MainPersons = "TMP";
   TrHs = true;
   while(loopbackkey("ActType",Actr,2,TrHs))begin
-    logtext(0,"Actr.Text " & Actr.Comment & " " & Actr.SerNr);
+    //logtext(0,"Actr.Text " & Actr.Comment & " " & Actr.SerNr);
     if(Actr.TransDate<addday(currentdate,-1))then begin TrHs = false; end;
     if(Actr.ActType!="PRIHD")then begin TrHs = false; end;
     
     if(TrHs)then begin
-      logtext(0,"Actr.Text " & Actr.Comment);
+      //logtext(0,"Actr.Text " & Actr.Comment);
 
       if(Actr.MainPersons!="TMP")then begin 
         if(Actr.TransDate>currentdate)then begin
