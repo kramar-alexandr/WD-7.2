@@ -12,6 +12,7 @@ external updating function boolean EasySendTurboSMS(string, string);
 external updating procedure RDBBuildAllDataMn();
 external updating procedure RDBDoClearDataMn();
 external updating procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
+external updating procedure ActivateActsPRIHD();// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 12 April 2024, 10:07:28
 
 
 
@@ -230,6 +231,8 @@ begin
 	record DateRnBlock DRB;
 	
 	AllClientsRemoteAsync.UpdateMasterWClassOnKPIs("");
+	
+	ActivateActsPRIHD;
 	
 	setcompany(13,false);
 	BlockLoad(DRB);

@@ -612,8 +612,9 @@ begin
             recordnew(newAcrt);
             newAcrt.Comment = ORr.Location & " íéÇÄê çÖ èêàÖïÄã! " & ORr.SerNr & " ÑÓÒÚ‡‚Í‡ Ì‡ [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
             newAcrt.ActType = "PRIHD";
-            newAcrt.Supervisor = currentuser;
-            newAcrt.MainPersons = currentuser;
+            newAcrt.Supervisor = "TMP";
+            newAcrt.MainPersons = "TMP";
+            newAcrt.InventoryNr = currentuser;
             newAcrt.TodoFlag = 1;
             newAcrt.TransDate = POr.PlanShip;
             newAcrt.StartTime = POr.PlannedTime;
@@ -628,6 +629,49 @@ begin
         end;
       end;
     end;
+  end;
+  
+return;
+end;
+
+global updating procedure ActivateActsPRIHD()
+begin
+  record ActVc Actr;
+  boolean TrHs;
+  
+  Actr.ActType = "PRIHD";
+  Actr.TransDate = addday(currentdate,100);
+  Actr.MainPersons = "TMP";
+  TrHs = true;
+  while(loopbackkey("ActType",Actr,2,TrHs))begin
+    if(Actr.TransDate<addday(currentdate,-10))then begin TrHs = false; end;
+    if(Actr.ActType!="PRIHD")then begin TrHs = false; end;
+    
+    if(TrHs)then begin
+      if(Actr.MainPersons!="TMP")then begin 
+        if(Actr.TransDate>currentdate)then begin
+          Actr.InventoryNr = Actr.MainPersons;
+          Actr.MainPersons = "TMP";
+          recordstore(Actr,true);
+        end;
+        if(Actr.TransDate==currentdate and Actr.StartTime>currenttime)then begin
+          Actr.InventoryNr = Actr.MainPersons;
+          Actr.MainPersons = "TMP";
+          recordstore(Actr,true);
+        end;
+      end;
+      if(Actr.MainPersons!="TMP")then begin 
+        if(Actr.TransDate<currentdate)then begin
+          Actr.MainPersons = Actr.InventoryNr;
+          recordstore(Actr,true);
+        end;
+        if(Actr.TransDate==currentdate and Actr.StartTime<=currenttime)then begin
+          Actr.MainPersons = Actr.InventoryNr;
+          recordstore(Actr,true);
+        end;
+      end;
+    end;
+    
   end;
   
 return;
