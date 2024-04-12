@@ -660,7 +660,7 @@ begin
           recordstore(Actr,true);
         end;
       end;
-      if(Actr.MainPersons!="TMP")then begin 
+      if(Actr.MainPersons=="TMP")then begin 
         if(Actr.TransDate<currentdate)then begin
           Actr.MainPersons = Actr.InventoryNr;
           recordstore(Actr,true);
