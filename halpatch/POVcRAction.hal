@@ -644,7 +644,7 @@ begin
   Actr.MainPersons = "TMP";
   TrHs = true;
   while(loopbackkey("ActType",Actr,2,TrHs))begin
-    if(Actr.TransDate<addday(currentdate,-10))then begin TrHs = false; end;
+    if(Actr.TransDate<addday(currentdate,-1))then begin TrHs = false; end;
     if(Actr.ActType!="PRIHD")then begin TrHs = false; end;
     
     if(TrHs)then begin
