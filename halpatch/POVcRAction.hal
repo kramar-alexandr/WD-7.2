@@ -638,6 +638,8 @@ global updating procedure ActivateActsPRIHD()
 begin
   record ActVc Actr;
   boolean TrHs;
+  logtext(0,"ActivateActsPRIHD");
+
   
   Actr.ActType = "PRIHD";
   Actr.TransDate = addday(currentdate,100);
@@ -648,6 +650,8 @@ begin
     if(Actr.ActType!="PRIHD")then begin TrHs = false; end;
     
     if(TrHs)then begin
+      logtext(0,"Actr.Text " & Actr.Comment);
+
       if(Actr.MainPersons!="TMP")then begin 
         if(Actr.TransDate>currentdate)then begin
           Actr.InventoryNr = Actr.MainPersons;
