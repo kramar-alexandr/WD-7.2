@@ -625,6 +625,12 @@ begin
             recordstore(newAcrt,true);
             createrecordlink(POr,currentcompany,newAcrt,currentcompany);
             createrecordlink(newAcrt,currentcompany,POr,currentcompany);
+            
+            createrecordlink(SMr,currentcompany,newAcrt,currentcompany);
+            createrecordlink(newAcrt,currentcompany,SMr,currentcompany);
+            
+            createrecordlink(ORr,currentcompany,newAcrt,currentcompany);
+            createrecordlink(newAcrt,currentcompany,ORr,currentcompany);
           end;
         end;
       end;
