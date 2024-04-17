@@ -652,6 +652,11 @@ begin
       //if(left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(ORrw.ArtCode,10)=="ISTORE_WAR")then begin
         ORrw.GarantyFor = blankval;
         matrowput(ORr,i,ORrw);
+      end else begin
+        if(ORrw.GarantyFor==0 and nonblank(ORrw.ArtCode))then begin
+          ORrw.GarantyFor = 1;
+          matrowput(ORr,i,ORrw);
+        end;
       end;
     
     
