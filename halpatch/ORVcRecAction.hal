@@ -468,11 +468,12 @@ begin
   record PLVc PLr;// Edit ************************** Thursday, 4 September 2014 10:40:41
 	record BaseCurBlock BCb;// Edit ************************** Tuesday, 23 June 2015 18:03:02
 	record ORVc oldORr;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 01 11 2019 y. at 4:14:28 PM
-	boolean TrHs;
+	boolean TrHs,classf;
 	record SerNrTrackBlock SNrb;
 	record CommisionCodeBlock CommisionCodeb;
 	row CommisionCodeBlock CommisionCoderw;
 	vector boolean serfound;
+	record DIVc DIr;
 	
 	logtext(0,"ORVcRecordCheck begin");
 
@@ -648,12 +649,77 @@ begin
     if(ORrw.stp==kInvoiceRowTypeNormal)then begin
       INr.Code = ORrw.ArtCode;
       readfirstmain(INr,1,true);
+      DIr.Code = INr.DispGroups;
+      readfirstmain(DIr,1,true);
+      classf = true;
+      if(DIr.Code=="GRAVA_300")then begin
+        classf = false;
+      end;
+      
+      if(DIr.DispGroups=="ALL_CASE")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="ALL_OTHER")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="POWER_OTH")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="GADGET")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="GLASS_IPAD")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="ALL_GL699")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="CASES")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="HUB_OTHER")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="ALL_GL999")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="ALL_ECOFLO")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="SERTIFICATE")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="ALL_GLWAR")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="ALL_GL1599")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="ALL_GL1999")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="HUB_APPLE")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="APPLE_ACC")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="POWER_APP")then begin
+        classf = false;
+      end;
+      if(DIr.DispGroups=="MC_OFF_WAR")then begin
+        classf = false;
+      end;
+      
+      
+      
+      
       if(INr.WarrantyType>0)then begin
       //if(left(ORrw.ArtCode,15)=="ISTORE_USED_WAR" or left(ORrw.ArtCode,10)=="ISTORE_WAR")then begin
         ORrw.GarantyFor = blankval;
         matrowput(ORr,i,ORrw);
       end else begin
-        if(ORrw.GarantyFor==0 and nonblank(ORrw.ArtCode) and !setinset("GRAVA_300",INr.DispGroups))then begin
+        if(ORrw.GarantyFor==0 and nonblank(ORrw.ArtCode) and classf)then begin
           ORrw.GarantyFor = 1;
           matrowput(ORr,i,ORrw);
         end;
