@@ -653,7 +653,7 @@ begin
         ORrw.GarantyFor = blankval;
         matrowput(ORr,i,ORrw);
       end else begin
-        if(ORrw.GarantyFor==0 and nonblank(ORrw.ArtCode))then begin
+        if(ORrw.GarantyFor==0 and nonblank(ORrw.ArtCode) and !setinset("GRAVA_300",INr.DispGroups))then begin
           ORrw.GarantyFor = 1;
           matrowput(ORr,i,ORrw);
         end;
