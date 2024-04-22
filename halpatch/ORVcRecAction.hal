@@ -501,7 +501,7 @@ begin
 	
 	
 	if(currentcompany==13)then begin
-    if(blank(ORr.OrderClass) and blank(ORr.CustOrdNr) or left(ORr.CustOrdNr,1)=="M")then begin
+    if(blank(ORr.OrderClass) and (blank(ORr.CustOrdNr) or left(ORr.CustOrdNr,1)=="M"))then begin
       ORr.OrderClass = "CALPC";
     end;
   end;
