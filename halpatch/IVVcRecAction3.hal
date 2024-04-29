@@ -1150,6 +1150,7 @@ not needed any more
                   if (IsEnterprise or (IsStandardProduct and HasModIN)) then begin
                   if (ORr.InvBeforeShip==0) then begin
                     if (GetDeliveredQty(IVp.OrderNr,IVrw.OrdRow,IVrw.Quant,shquant,MSb)) then begin end;
+                    logtext(0,"IVrw.Quant " & IVrw.Quant & " shquant " & shquant);
                     if (IVrw.Quant>shquant) then begin
                       RecordCheckError(1235,"",i,"Quant");      
                       res = -1; 
