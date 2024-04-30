@@ -1257,6 +1257,7 @@ begin
       case kCountryAddrLineUserAddr3: tstr = ORr.InvAddr3; errstr = "InvAddr3";
       case kCountryAddrLineUserAddr4: tstr = ORr.InvAddr4; errstr = "InvAddr4";
     end;
+    
     if (nonblank(tstr)) then begin
       Countryr.Comment = tstr;
       if (ReadFirstKey("Comment",Countryr,1,true)==false) then begin
@@ -1330,6 +1331,25 @@ begin
       if (OR2r.OKFlag==0) then begin transf = true; end;
     end;
   end;
+  
+  
+  if(nonblank(ORr.InvAddr4) and ORr.Reserved==0)then begin
+    if(stat==insertmode or (stat==updatemode and ORr.InvAddr4!=OR2r.InvAddr4))then begin
+      rwcnt = matrowcnt(ORr);
+      for(i=0;i<rwcnt;i=i+1)begin
+        matrowget(ORr,i,ORrw);
+        INr.Code = ORrw.ArtCode;
+        readfirstmain(INr,1,true);
+        if(INr.Group=="TRADE")then begin
+          RecordCheckError(-1,"’реба поставити в резерв товар TRADE-IN",-1,tstr);      
+          res = -1; 
+          goto LORVcRecordCheck;
+        end;
+      end;
+    end;
+  end;
+  
+  
   if (transf) then begin
     if (GetVATLaw==vatPortuguese) then begin
       if (blank(ORr.OfficialSerNr)) then begin
@@ -1598,7 +1618,11 @@ begin
                       location = MSb.MainStock;
                     end;  
                     orsrv = ORrw.Quant;
-                    FindStockValue(ORrw.ArtCode,location,ISr);
+                    if(INr.Group=="TRADE")then begin
+                      FindStockValue(ORrw.ArtCode,";;;",ISr);
+                    end else begin
+                      FindStockValue(ORrw.ArtCode,location,ISr);
+                    end;
                     for (j=0;j<i;j=j+1) begin
                       MatRowGet(ORr,j,OR2rw);
                       if (OR2rw.ArtCode==ORrw.ArtCode and ORrw.stp==kInvoiceRowTypeNormal) then begin
