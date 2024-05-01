@@ -1333,18 +1333,16 @@ begin
   end;
   
   
-  if(nonblank(ORr.InvAddr4) and ORr.Reserved==0)then begin
-    if(stat==insertmode or (stat==updatemode and ORr.InvAddr4!=OR2r.InvAddr4))then begin
-      rwcnt = matrowcnt(ORr);
-      for(i=0;i<rwcnt;i=i+1)begin
-        matrowget(ORr,i,ORrw);
-        INr.Code = ORrw.ArtCode;
-        readfirstmain(INr,1,true);
-        if(INr.Group=="TRADE")then begin
-          RecordCheckError(1058," ’реба поставити в резерв товар TRADE-IN",i,"ArtCode");      
-          res = -1; 
-          goto LORVcRecordCheck;
-        end;
+  if(nonblank(currentuser) and ORr.Reserved==0 and ORr.OrderStatusCode<2)then begin
+    rwcnt = matrowcnt(ORr);
+    for(i=0;i<rwcnt;i=i+1)begin
+      matrowget(ORr,i,ORrw);
+      INr.Code = ORrw.ArtCode;
+      readfirstmain(INr,1,true);
+      if(INr.Group=="TRADE")then begin
+        RecordCheckError(1058," ’реба поставити в резерв товар TRADE-IN",i,"ArtCode");      
+        res = -1; 
+        goto LORVcRecordCheck;
       end;
     end;
   end;
