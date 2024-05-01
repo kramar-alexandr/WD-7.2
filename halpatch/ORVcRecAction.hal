@@ -1341,7 +1341,7 @@ begin
         INr.Code = ORrw.ArtCode;
         readfirstmain(INr,1,true);
         if(INr.Group=="TRADE")then begin
-          RecordCheckError(-1,"’реба поставити в резерв товар TRADE-IN",-1,tstr);      
+          RecordCheckError(0,"’реба поставити в резерв товар TRADE-IN",i,"ArtCode");      
           res = -1; 
           goto LORVcRecordCheck;
         end;
