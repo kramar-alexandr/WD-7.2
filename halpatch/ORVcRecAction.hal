@@ -1347,7 +1347,7 @@ begin
     end;
   end;
   
-  rwcnt = matrowcnt;
+  rwcnt = matrowcnt(ORr);
   for(i=0;i<rwcnt;i=i+1)begin
     matrowget(ORr,i,ORrw);
     INr.Code = ORrw.ArtCode;
