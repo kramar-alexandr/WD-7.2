@@ -1572,7 +1572,7 @@ begin
           // Edit Start ---------------------------------------------- Edit Start
 	//Monday, July 7, 2014 at 12:16:16
 	
-          if(stat==updatemode)then begin
+          /*if(stat==updatemode)then begin
 						if(ORr.Reserved!=0 and OR2r.Reserved!=0)then begin
 							if(ORr.Location!=OR2r.Location)then begin
 								RecordCheckError(22067,"",-1,"Location");      
@@ -1580,7 +1580,7 @@ begin
 								goto LORVcRecordCheck;
 							end;
 						end;
-          end;
+          end;*/
           
           if(currentcompany==2 or currentcompany==7 or currentcompany==5)then begin	
 						if ((ORr.Reserved!=0) and (blank(ORr.ReservToDate))) then begin
