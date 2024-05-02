@@ -448,7 +448,7 @@ begin
   val ordqty;
   string 60 comment,oldsernr;
   record UserVc User;
-  Boolean closingf;
+  Boolean closingf,recordhastrade;
   record TaxTemplateVc TTr;
   record LegalInvNrBlock LINrb;
   row LegalInvNrBlock LINrbrw;
@@ -1347,6 +1347,16 @@ begin
     end;
   end;
   
+  rwcnt = matrowcnt;
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(ORr,i,ORrw);
+    INr.Code = ORrw.ArtCode;
+    readfirstmain(INr,1,true);
+    if(INr.Group=="TRADE")then begin
+      recordhastrade = true;
+    end;
+  end;
+  
   
   if (transf) then begin
     if (GetVATLaw==vatPortuguese) then begin
@@ -1627,7 +1637,7 @@ begin
                       location = MSb.MainStock;
                     end;  
                     orsrv = ORrw.Quant;
-                    if(INr.Group=="TRADE")then begin
+                    if(recordhastrade)then begin
                       FindStockValue(ORrw.ArtCode,";;;",ISr);
                     end else begin
                       FindStockValue(ORrw.ArtCode,location,ISr);
