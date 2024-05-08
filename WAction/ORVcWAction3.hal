@@ -989,6 +989,7 @@ begin
 			case 8:ORr.OrderStatusText = "Автозакриття";
 			case 9:ORr.OrderStatusText = "Очікує оплату";
 		end;
+		ORr.Reserved = 0;
 		putwindowrecord(wn,ORr);
 		if (WindowDoOK(wn,0)) then begin 
       if(currentcompany==13)then begin
