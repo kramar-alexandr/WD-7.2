@@ -710,6 +710,18 @@ begin
       if(DIr.DispGroups=="MC_OFF_WAR")then begin
         classf = false;
       end;
+      if(ORrw.ArtCode=="COM")then begin
+      	classf = false;
+      end;
+      if(DIr.DispGroups=="S_PACKAGE")then begin
+      	classf = false;
+      end;
+      if(DIr.DispGroups=="L_PACKAGE")then begin
+      	classf = false;
+      end;
+      if(DIr.DispGroups=="PACKAGE_BG")then begin
+      	classf = false;
+      end;
       
       
       
