@@ -1525,6 +1525,7 @@ begin
 							end else begin
 								rsrved = blankval;
 							end;// Edit ************************** Wednesday, 15 October 2014 11:24:55
+							rsrved = blankval;// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 10 May 2024 at 11:44:09
 	/*						
 SO->SH->Ret full qty and SH->Ret full qty again, code here causes item status being worng
               if (rebuildstockf and orfound) then begin
