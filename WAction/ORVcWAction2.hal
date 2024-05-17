@@ -1885,6 +1885,13 @@ BEGIN
           end;
         end;  
       end; //Edit***************************Sasha2,10:43 11.02.2016 }
+      if(ORr.Reserver==1)then begin
+        res = false;
+        MessageBox(0,"Рахунок в резерві. Треба зняти резерв перед редагуванням коду товару");
+      end;
+      
+      
+      
 		case "Math2": res = UsercanAction("AllowEditCommentsAndTextFieldOR",false);	
   end;
   if (ORShipdTest(ORr)==false) then begin goto LORDClassActiveEditField; end;
