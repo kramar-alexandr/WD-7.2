@@ -1865,14 +1865,7 @@ BEGIN
         res = ORShipdTest(ORr)==false;
       end;
     case "Spec": 
-      //if (HasLocalization("PRT")) then begin
-        //MatRowGet(ORr,rownr,ORrw);
-        //if (nonblank(ORrw.ArtCode)) then begin
-       //   res = false;
-       // end;
-      //end else begin
-        if (UserCanAction("ChangeORItemSpec",false)==false) then begin res = false; end;
-      //end;
+      if (UserCanAction("ChangeORItemSpec",false)==false) then begin res = false; end;
     case "ArtCode": //Edit***************************Sasha2,10:43 11.02.2016 {
       if (ORr.OrderClass=="Shops" and rownr<MatRowCnt(OR2r)) then begin 
         StockMovr.OrderNr = ORr.SerNr;
@@ -1885,15 +1878,18 @@ BEGIN
           end;
         end;  
       end; //Edit***************************Sasha2,10:43 11.02.2016 }
-      if(ORr.Reserved==1)then begin
-        res = false;
-        MessageBox(0,"Рахунок в резерві. Треба зняти резерв перед редагуванням коду товару");
-      end;
-      
-      
       
 		case "Math2": res = UsercanAction("AllowEditCommentsAndTextFieldOR",false);	
   end;
+  
+  switch (fieldname) begin
+    case "ArtCode": if(ORr.Reserved==1)then begin
+                      res = false;
+                      MessageBox(0,"Рахунок в резерві. Треба зняти резерв перед редагуванням коду товару");
+                    end;
+  end;
+  
+  
   if (ORShipdTest(ORr)==false) then begin goto LORDClassActiveEditField; end;
   if (wnst==Rs_update) then begin
     if (OR2r.OKFlag!=0) then begin
