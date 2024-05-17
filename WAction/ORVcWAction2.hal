@@ -1883,7 +1883,7 @@ BEGIN
   end;
   
   switch (fieldname) begin
-    case "ArtCode": if(ORr.Reserved==1)then begin
+    case "ArtCode": if(ORr.Reserved==1 or OR2r.Reserved==1)then begin
                       res = false;
                       MessageBox(0,"Рахунок в резерві. Треба зняти резерв перед редагуванням коду товару");
                     end;
