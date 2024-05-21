@@ -1898,8 +1898,6 @@ begin
     text[""] = "Гарантія iStore + захист iPhone";
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
-		text[""] = " - 12 місяців захисту дисплею та корпусу";
-		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = " - Одноразова безкоштовна заміна дисплею або скла.";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = " - Одноразова безкоштовна заміна скла задньої панелі.";
@@ -3083,8 +3081,6 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
-		text[""] = "12 місяців захисту дисплею та корпусу";
-		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "-Одноразова безкоштовна заміна дисплею";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "або скла.";
