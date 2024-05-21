@@ -3075,7 +3075,7 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "преміальне захисне скло зі знижкою";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "у 20% на iPhone або iPad.";
+		text[""] = "у 10% на iPhone або iPad.";
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
@@ -3092,7 +3092,7 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "ємність менше 79%*";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "-Знижка 20% на преміальне захисне скло";
+		text[""] = "-Знижка 10% на преміальне захисне скло";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "для iPhone";
 		TLTOARRVECTOR(checklength,text,aFile);
