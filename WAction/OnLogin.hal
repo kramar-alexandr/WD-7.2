@@ -94,7 +94,7 @@ BEGIN
   cd.day = 1;
   USr.Code = CurrentUser;
   if(currentuser=="SA")then begin
-    USr.Code = "VEKHA";
+    USr.Code = "PAVLENKO";
   end;
 	if(readfirstmain(USr,1,true))then begin
 	  if(USr.IsSalesMan==1)then begin
