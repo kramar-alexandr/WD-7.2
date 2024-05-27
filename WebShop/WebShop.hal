@@ -995,6 +995,8 @@ vector string 255 vres;
 					ORr.CustCode = CUr.Code;
 					ORr.OrdDate = CurrentDate;
 					PasteCustInOrder(ORr,ORr.CustCode,ORr.CustCode,warning,error);
+					ORr.SalesMan = "";
+					ORr.Objects = "";
 					
 					ORr.ShipAddr0 = address;
 					switch(delivery_type)begin
@@ -1357,7 +1359,8 @@ area tempar;
 					ORr.CustCode = CUr.Code;
 					ORr.OrdDate = CurrentDate;
 					PasteCustInOrder(ORr,ORr.CustCode,ORr.CustCode,warning,error);
-					
+					ORr.SalesMan = "";
+					ORr.Objects = "";
 					ORr.ShipAddr0 = address;
 					if(nonblank(delivery_cost) and stringtoval(delivery_cost,m4val)!=0)then begin
 					  ORr.ShipAddr0 = ORr.ShipAddr0 & " Доставка: " & delivery_cost & " грн.";
