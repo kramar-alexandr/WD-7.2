@@ -1135,7 +1135,7 @@ BEGIN
     ORp.CurncyCode = CUr.CurncyCode;
     ORp.BankCode = CUr.AccOperator;
     ORp.Objects = AddObjectToObjectList(ORp.Objects,CUr.Objects);
-    /*   
+    /*   // Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 28 May 2024 at 11:18:36
     SetSalesMan(tstr,CUr.SalesMan);
     tstr2 = ORp.Objects;
     RemoveOldPersObjects(ORp.SalesMan,tstr2);
