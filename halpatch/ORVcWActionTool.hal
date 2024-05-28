@@ -1135,6 +1135,7 @@ BEGIN
     ORp.CurncyCode = CUr.CurncyCode;
     ORp.BankCode = CUr.AccOperator;
     ORp.Objects = AddObjectToObjectList(ORp.Objects,CUr.Objects);
+    /*   
     SetSalesMan(tstr,CUr.SalesMan);
     tstr2 = ORp.Objects;
     RemoveOldPersObjects(ORp.SalesMan,tstr2);
@@ -1145,6 +1146,7 @@ BEGIN
       ORp.Objects = AddObjectToObjectList(ORp.Objects,Userr.PersObjx);
       ORp.SalesGroup = Userr.SalesGroup;
     end;   
+    */
     ORp.LangCode = CUr.LangCode;
     ORp.ShipDeal = CUr.ShipDeal;
     ORp.ShipMode = CUr.ShipMode;
