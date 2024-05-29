@@ -1638,7 +1638,7 @@ begin
               chekf = true;
             end;
           end;
-          if(!recordhastrade)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 29 May 2024 at 11:26:37
+          if(INr.Group!="TRADE")then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 29 May 2024 at 11:26:37
             chekf = false;
           end;
           if(chekf)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 1 May 2024 at 16:25:20
