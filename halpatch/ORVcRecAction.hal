@@ -1638,6 +1638,9 @@ begin
               chekf = true;
             end;
           end;
+          if(!recordhastrade)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 29 May 2024 at 11:26:37
+            chekf = false;
+          end;
           if(chekf)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 1 May 2024 at 16:25:20
             if (true) then begin// Edit ************************** Monday, July 7, 2014 at 12:17:45
               if (true) then begin
