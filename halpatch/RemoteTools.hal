@@ -402,7 +402,7 @@ BEGIN
       CreateRecordLink(ORr,CurrentCompany,StockMovp,CurrentCompany);  
       
       if (MakeActFromSM(StockMovp,Actr,true)) then begin
-        Actr.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK,OSOKIN,DEMIANCHUK";
+        Actr.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,TARANIK,OBYDENNYI,DEMIANCHUK";
         Actr.ActType = "COMPL";
         Actr.ShowFlag = 1;
         Actr.Comment = StockMovp.ToLocation & " Собрать заказ " & ORr.SerNr;// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 11 2019 y. at 3:22:02 PM
