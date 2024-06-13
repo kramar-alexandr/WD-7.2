@@ -222,7 +222,7 @@ begin
   string 30 host,page,sign;
   record SMSConfigBlock SMSb;
   longint pos1,pos2;
-  string 255 response;
+  string 255 response,tstr;
   
   if(len(reciever)==10)then begin
   	reciever = "+38" & reciever;
@@ -256,8 +256,13 @@ begin
   AddTextToArea(chr(13) & chr(10),mainRequest);
   AddTextToArea(chr(13) & chr(10),mainRequest);
   
-  SetWebHeaders("Cookie:  PHPSESSID=" & SMSb.Auth);//WEB HEADERS!
-  SetWebHeaders("SOAPAction: http:" & Chr(47) & Chr(47) & host & page & Chr(47) & "SendSMS");//WEB HEADERS!
+  
+  tstr = "Cookie:  PHPSESSID=" & SMSb.Auth;
+  tstr = tstr & chr(13) & chr(10);
+  tstr = tstr & "SOAPAction: http:" & Chr(47) & Chr(47) & host & page & Chr(47) & "SendSMS";
+  SetWebHeaders(tstr);//WEB HEADERS!
+  logtext(0,"tstr " & tstr);
+
 
   SendWebRequestTurboAsync(host,page,mainRequest);
   
