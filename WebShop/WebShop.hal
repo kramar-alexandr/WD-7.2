@@ -1132,7 +1132,8 @@ begin
       ofnr = ORr.SerNr;
     end;
 	  
-	  
+	  logtext(0,"status " & status);
+
 	  if(status=="0")then begin	  
       EasySendTurboSMS(phone,"Замовлення #" & ofnr & " прийняте. Cтатус замовлення https://t.me/iStore_UA_bot");
     end;
