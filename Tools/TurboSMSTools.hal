@@ -121,6 +121,8 @@ begin
     pos2 = FindStringInArea("; path=",replyarea);
     cookie = GetStringFromArea(replyarea,pos1,pos2 - pos1);
     SMSb.Auth = cookie;
+    logtext(0,"cookie " & cookie);
+
     BlockStore(SMSb);
     pos1 = FindStringInArea("<ns1:AuthResult>",replyarea) + 16;
     pos2 = FindStringInArea("<" & Chr(47) & "ns1:AuthResult>",replyarea);

@@ -1701,11 +1701,8 @@ begin
   wn = curwindow;
   UpdBalSMSRemote(true);
   BlockLoad(SMSb);
-  //ReOpenWindow(wn,"SMSConfigTClass",0,wn,"","",SMSb);
-  //UpdateNamedWindow("SMSConfigTClass");
 	deselectwindow(wn,true);
   PutWindowRecord(wn,SMSb);
-  //SetWindowState(wn,Rs_normal)
 	return;
 end;
 
