@@ -291,6 +291,8 @@ begin
   record SMSConfigBlock SMSb;
   boolean res;
   
+  logtext(0,"EasySendTurboSMS " & reciever);
+
   BlockLoad(SMSb);
   /*if AuthTurboSMS(cookie) then begin
     if SMSb.Balance>0 then begin
