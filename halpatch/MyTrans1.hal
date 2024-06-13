@@ -13,6 +13,7 @@ external updating procedure RDBBuildAllDataMn();
 external updating procedure RDBDoClearDataMn();
 external updating procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
 external updating procedure ActivateActsPRIHD();// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 12 April 2024, 10:07:28
+external updating function boolean AuthTurboSMS(var string);
 
 
 
@@ -224,7 +225,7 @@ updating procedure CustTimeTableAction()
 begin
   record RcVc RepSpec;
   time t1,t2,t3,t4,t5,t6,t7,t8,t9,curt,curtnew;
-  string 5 hr,mn;
+  string 5 hr,mn,tstr;
   integer minute, curcomp, days,i,min;
   date startdate;
   record SamsungSendLog1Vc SSLr;
@@ -236,6 +237,10 @@ begin
 	
 	setcompany(13,false);
 	BlockLoad(DRB);
+	
+	if(right(currenttime,2)=="00")then begin
+	  AuthTurboSMS(tstr);
+	end;
 	
 	if(left(CurrentTime,2)=="10" and DRB.DateRn!=CurrentDate) then begin
 		WebGenRnForMail;

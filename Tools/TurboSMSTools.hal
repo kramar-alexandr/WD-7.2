@@ -399,8 +399,8 @@ begin
   record SMSConfigBlock SMSb;
   string 50 cookie;
   
-  BlockLoad(SMSb);
   AuthTurboSMS(cookie);
+  BlockLoad(SMSb);
   SMSb.Balance = GetCreditBalanceTurboSMS(cookie);
   BlockStore(SMSb);
   return;
