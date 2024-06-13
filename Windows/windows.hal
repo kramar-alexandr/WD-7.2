@@ -2419,6 +2419,7 @@ WindowBegin("Налаштування СМС",SMSConfigTClass,CGSbl,-);// Edit ****************
   EditField(h,v+=vs,200,"Остання помилка",Normal,LastErr,false,0);
   EditField(h,v+=vs,80,"Дата помилки",Normal,LEDate,false,0);
   EditField(h+120,v,80,"Час",Normal,LETime,false,0);
+  EditField(h,v+=vs,-20,"Токен",Normal,Auth,false,0);
   EndWindow;
 end;
 

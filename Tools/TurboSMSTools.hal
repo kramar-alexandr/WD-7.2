@@ -27,6 +27,37 @@ begin
   return;
 end;
 
+global updating procedure SendWebRequestTurboReply(Area a_reply,Area a_replyheader,boolean timeout)
+begin
+	xml sopaxml;
+	string 200 session;
+	boolean check;
+	json jobj;
+	string 255 node,tstr,user,loginstr,fopname;
+	area nl;
+	record ORVc ORr;
+	record FOPDataBlock FOPb;
+	row FOPDataBlock FOPrw;
+	integer i;
+	
+	writeareatofile(a_reply,"turbo.log",1);
+	
+return;
+end;
+
+
+procedure SendWebRequestTurboAsync(string host,string page, area mainRequest)
+begin
+  boolean res,testf;
+  integer i;
+  
+  SendAsyncWebRequest(host,80,80,false,"POST",page,"text" & Chr(47) & "xml; charset=utf-8","",mainRequest,"SendWebRequestTurboReply",5);
+
+  return;
+end;
+
+
+
 function boolean SendWebRequestTurbo(string host,string page, area mainRequest,var area replyarea,integer iterQty)
 begin
   boolean res,testf;
@@ -89,7 +120,8 @@ begin
     pos1 = FindStringInArea("PHPSESSID=",replyarea) + 10;
     pos2 = FindStringInArea("; path=",replyarea);
     cookie = GetStringFromArea(replyarea,pos1,pos2 - pos1);
-    
+    SMSb.Auth = cookie;
+    BlockStore(SMSb);
     pos1 = FindStringInArea("<ns1:AuthResult>",replyarea) + 16;
     pos2 = FindStringInArea("<" & Chr(47) & "ns1:AuthResult>",replyarea);
     response = GetStringFromArea(replyarea,pos1,pos2 - pos1);
@@ -131,7 +163,8 @@ begin
   host = SMSb.Host;
   page = SMSb.Page;
   
-  AddTextToArea("Cookie: PHPSESSID=" & cookie & ";" & chr(13) & chr(10),mainRequest);
+  //AddTextToArea("Cookie: PHPSESSID=" & cookie & ";" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("Cookie: PHPSESSID=" & SMSb.Auth & ";" & chr(13) & chr(10),mainRequest);
   AddTextToArea("SOAPAction: http:" & Chr(47) & Chr(47) & host & page & Chr(47) & "GetCreditBalance" & chr(13) & chr(10),mainRequest);
   AddTextToArea(chr(13) & chr(10),mainRequest);
   
@@ -195,7 +228,8 @@ begin
   page = SMSb.Page;
   sign = SMSb.Sign;
   
-  AddTextToArea("Cookie: PHPSESSID=" & cookie & ";" & chr(13) & chr(10),mainRequest);
+  //AddTextToArea("Cookie: PHPSESSID=" & cookie & ";" & chr(13) & chr(10),mainRequest);
+  AddTextToArea("Cookie: PHPSESSID=" & SMSb.Auth & ";" & chr(13) & chr(10),mainRequest);
   AddTextToArea("SOAPAction: http:" & Chr(47) & Chr(47) & host & page & Chr(47) & "SendSMS" & chr(13) & chr(10),mainRequest);
   AddTextToArea(chr(13) & chr(10),mainRequest);
   
@@ -215,7 +249,10 @@ begin
   AddTextToArea(chr(13) & chr(10),mainRequest);
   AddTextToArea(chr(13) & chr(10),mainRequest);
   
-  if SendWebRequestTurbo(host,page,mainRequest,replyarea,10) then begin
+  
+  SendWebRequestTurboAsync(host,page,mainRequest);
+  
+  /*if SendWebRequestTurbo(host,page,mainRequest,replyarea,10) then begin
     pos1 = FindStringInArea("<ns1:ResultArray>",replyarea) + 17;
     pos2 = FindStringInArea("<" & Chr(47) & "ns1:ResultArray>",replyarea);
     response = GetStringFromArea(replyarea,pos1,pos2 - pos1);
@@ -239,7 +276,7 @@ begin
   writeareatofile(mainRequest,"SendTurboSMS.log",1);
   SetAreaZeroSize(mainRequest);
   AddTextToArea(CurrentDate & " " & CurrentTime & " SendSMSTurboSMS(" & reciever & ":" & text & ") - " & response & chr(13) & chr(10),mainRequest);
-  writeareatofile(mainRequest,"TurboSMS.log",1);
+  writeareatofile(mainRequest,"TurboSMS.log",1);*/
   
   SendSMSTurboSMS = res;
   return;
@@ -253,7 +290,7 @@ begin
   boolean res;
   
   BlockLoad(SMSb);
-  if AuthTurboSMS(cookie) then begin
+  /*if AuthTurboSMS(cookie) then begin
     if SMSb.Balance>0 then begin
       res = SendSMSTurboSMS(cookie,reciever,text);
     end else begin
@@ -261,7 +298,9 @@ begin
       BlockStore(SMSb);
       res = SendSMSTurboSMS(cookie,reciever,text);
     end;
-  end;
+  end;*/
+  
+  res = SendSMSTurboSMS(SMSb.Auth,reciever,text);
   
   EasySendTurboSMS = res;
   return;
@@ -303,7 +342,7 @@ begin
 					phone = "+380" & phonetmp;
 			end;
 			BlockLoad(SMSb);
-			if AuthTurboSMS(cookie) then begin
+			/*if AuthTurboSMS(cookie) then begin
 				if SMSb.Balance>0 then begin
 					error = "SMS sended to " & reciever & " " & phone & " " & text;
 					res = SendSMSTurboSMS(cookie,phone,text);
@@ -313,7 +352,10 @@ begin
           error = "SMS sended to " & reciever & " " & phone & " " & text;
 					res = SendSMSTurboSMS(cookie,phone,text);
 				end;
-			end;
+			end;*/
+			
+			res = SendSMSTurboSMS(SMSb.Auth,phone,text);
+			
 		end else begin
 			logtext(0,"EasySendTurboSMStoUser blank phone");
 			error = "Blank phone";

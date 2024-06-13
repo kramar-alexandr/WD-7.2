@@ -920,6 +920,7 @@ RecordBegin(BinotelCallEndVc,-,"");//Edit-------------------Vitalii 17:10 03.11.
     RecordField(LEDate,M4Date,0,0);
     RecordField(LETime,M4Time,0,0);
     RecordField(Sign,M4Str,255,0);
+    RecordField(Auth,M4Str,255,0);
 	EndBlock;	
 	
   RecordBegin(TochkaVidachiVc,-,"");	// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 26 01 2022 y. at 9:59:15 AM
