@@ -52,6 +52,9 @@ begin
   integer i;
   
   logtext(0,"SendWebRequestTurboAsync");
+  logtext(0,"host " & host);
+  logtext(0,"page " & page);
+  writeareatofile(mainRequest,"turbo.log",1);
 
   SendAsyncWebRequest(host,80,80,false,"POST",page,"text" & Chr(47) & "xml; charset=utf-8","",mainRequest,"SendWebRequestTurboReply",5);
 
