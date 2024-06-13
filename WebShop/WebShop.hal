@@ -1166,8 +1166,8 @@ begin
 	EncodedLogPass = "Authorization: Basic " & Base64Encode(LogPass);
 	// addtexttoarea("host: " & "viber.a-service.ua" & chr(13) & chr(10),resarea);// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 15 11 2020 y. at 1:29:51 PM
 	// addtexttoarea("Content-Type: application/json" & chr(13) & chr(10),resarea);// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 15 11 2020 y. at 1:29:54 PM
-	addtexttoarea(EncodedLogPass & chr(13) & chr(10),resarea);
-	AddTextToArea("" & chr(13) & chr(10),resarea);
+	//addtexttoarea(EncodedLogPass & chr(13) & chr(10),resarea);
+	//AddTextToArea("" & chr(13) & chr(10),resarea);
 	
 	//AddTextToArea("{\""& status &"\":",resarea);
 	CreateORJson(ORr,resarea);
@@ -1179,6 +1179,7 @@ begin
 	writeareatofile(resarea,"ordertoviber.txt",1);
 	
 	//SendRawWebRequest("bot.a-service.ua","443",true,"POST","/sender.php","application/json","",false,resarea,replyarea,5);
+	SetWebHeaders("Authorization: Basic " & Base64Encode(LogPass));
 	SendAsyncWebRequest("bot.a-service.ua",443,443,true,"POST","/sender.php","application/json","",resarea,"NoCallBack",5);
 
 	//SendRawWebRequest("viber.a-service.ua","443",true,"POST","/istore/sender.php","application/json","",false,resarea,replyarea,5);
