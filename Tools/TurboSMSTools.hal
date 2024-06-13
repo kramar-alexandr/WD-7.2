@@ -231,9 +231,9 @@ begin
   sign = SMSb.Sign;
   
   //AddTextToArea("Cookie: PHPSESSID=" & cookie & ";" & chr(13) & chr(10),mainRequest);
-  AddTextToArea("Cookie: PHPSESSID=" & SMSb.Auth & ";" & chr(13) & chr(10),mainRequest);
-  AddTextToArea("SOAPAction: http:" & Chr(47) & Chr(47) & host & page & Chr(47) & "SendSMS" & chr(13) & chr(10),mainRequest);
-  AddTextToArea(chr(13) & chr(10),mainRequest);
+  //AddTextToArea("Cookie: PHPSESSID=" & SMSb.Auth & ";" & chr(13) & chr(10),mainRequest);
+  //AddTextToArea("SOAPAction: http:" & Chr(47) & Chr(47) & host & page & Chr(47) & "SendSMS" & chr(13) & chr(10),mainRequest);
+  //AddTextToArea(chr(13) & chr(10),mainRequest);
   
   
   AddTextToArea("<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>" & chr(13) & chr(10),mainRequest);
@@ -251,7 +251,9 @@ begin
   AddTextToArea(chr(13) & chr(10),mainRequest);
   AddTextToArea(chr(13) & chr(10),mainRequest);
   
-  
+  SetWebHeaders("Cookie:  PHPSESSID=" & SMSb.Auth);//WEB HEADERS!
+  SetWebHeaders("SOAPAction: http:" & Chr(47) & Chr(47) & host & page & Chr(47) & "SendSMS");//WEB HEADERS!
+
   SendWebRequestTurboAsync(host,page,mainRequest);
   
   /*if SendWebRequestTurbo(host,page,mainRequest,replyarea,10) then begin
