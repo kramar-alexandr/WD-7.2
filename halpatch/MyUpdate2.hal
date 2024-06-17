@@ -2142,7 +2142,7 @@ begin
 										Actr.AlarmType = kAlarmTypeNone;
 										Actr.TodoFlag = kTodoFlagTodo;
 										Actr.ActType = "MES";
-										Actr.MainPersons = "KUDINA,TARANIK,TKACHENKO,SA,SKLAD";
+										Actr.MainPersons = "KUDINA,KRUGLYK,TKACHENKO,SA,SKLAD";
 									if(Actr.SerNr<0)then begin
                     Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
                   end;
@@ -2178,7 +2178,7 @@ begin
 			Actr.AlarmType = kAlarmTypeNone;
 			Actr.TodoFlag = kTodoFlagTodo;
 			Actr.ActType = "MES";
-			Actr.MainPersons = "KUDINA,TARANIK,TKACHENKO,SA,SKLAD";
+			Actr.MainPersons = "KUDINA,KRUGLYK,TKACHENKO,SA,SKLAD";
 		if(Actr.SerNr<0)then begin
 		  Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
 		end;
