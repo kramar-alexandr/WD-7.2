@@ -295,10 +295,12 @@ begin
 				end else begin
 					OutString(pos+=25,0,"",false);
 				end;
-				OutVal(pos+=15,0,AbsoluteVal(IHr.TotCostPriceCurncy/IHr.Qty),M45Val,false);
-				OutVal(pos+=35,0,(IHr.TotCostPriceCurncy/IHr.Qty)*IHr.RemQty,M45Val,false);
-				OutVal(pos+=30,0,AbsoluteVal(IHr.TotCostPrice/IHr.Qty),M45Val,false);
-				OutVal(pos+=30,0,(IHr.TotCostPrice/IHr.Qty)*IHr.RemQty,M45Val,false);
+				if(usercanaction("ViewCostPrice",false))then begin
+          OutVal(pos+=15,0,AbsoluteVal(IHr.TotCostPriceCurncy/IHr.Qty),M45Val,false);
+          OutVal(pos+=35,0,(IHr.TotCostPriceCurncy/IHr.Qty)*IHr.RemQty,M45Val,false);
+          OutVal(pos+=30,0,AbsoluteVal(IHr.TotCostPrice/IHr.Qty),M45Val,false);
+          OutVal(pos+=30,0,(IHr.TotCostPrice/IHr.Qty)*IHr.RemQty,M45Val,false);
+				end;
 
 				for (i=0;i<prlstcnt;i=i+1) begin
 					OutVal(pos+=30,0,prices[i],M45Val,false);
@@ -362,10 +364,12 @@ begin
 						end else begin
 							OutString(pos+=25,0,"",false);
 						end;
-						OutVal(pos+=15,0,IVrw.PriceFactor/IVrw.FIFO,M45Val,false);
-					OutVal(pos+=35,0,IVrw.PriceFactor,M45Val,false);	
-						OutVal(pos+=30,0,IVrw.Coefficient/IVrw.FIFO,M45Val,false);
-					OutVal(pos+=30,0,IVrw.Coefficient,M45Val,false);	
+						if(usercanaction("ViewCostPrice",false))then begin
+              OutVal(pos+=15,0,IVrw.PriceFactor/IVrw.FIFO,M45Val,false);
+              OutVal(pos+=35,0,IVrw.PriceFactor,M45Val,false);	
+              OutVal(pos+=30,0,IVrw.Coefficient/IVrw.FIFO,M45Val,false);
+              OutVal(pos+=30,0,IVrw.Coefficient,M45Val,false);	
+					  end;
 						for (i=0;i<prlstcnt;i=i+1) begin
 							OutVal(pos+=30,0,prices[i],M45Val,false);
 						end;
@@ -564,8 +568,10 @@ begin
 	    			end;
 	    			ReadFirstMain(ISr,2,true);
 	    			OutVal(pos+=30,0,ISr.RsrvQty,M45Val,false);
-	    			OutVal(costpos,0,itemcostsum/itemqty,M45Val,false);
-			  		OutVal(totcostpos,0,itemsum,M45Val,false);
+	    			if(usercanaction("ViewCostPrice",false))then begin
+              OutVal(costpos,0,itemcostsum/itemqty,M45Val,false);
+              OutVal(totcostpos,0,itemsum,M45Val,false);
+			  		end;
 			  		pos = totcostpos;
 			  		for (i=0;i<prlstcnt;i=i+1) begin
 	    				OutVal(pos+=40,0,prices[i],M45Val,false);
@@ -582,12 +588,16 @@ begin
 					StartFormat(15);
 					if (RepSpec.Media == mtExcel or RepSpec.Media == mtFile) then begin
 						OutString(rempos,0,"",false);
-						OutString(costpos,0,"",false);
-						OutString(totcostpos,0,"",false);
+						if(usercanaction("ViewCostPrice",false))then begin
+              OutString(costpos,0,"",false);
+              OutString(totcostpos,0,"",false);
+						end;
 					end else begin
 						OutVal(rempos,0,itemrem,M45Val,false);
-						OutVal(costpos,0,itemcostsum/itemqty,M45Val,false);
-						OutVal(totcostpos,0,itemsum,M45Val,false);	
+						if(usercanaction("ViewCostPrice",false))then begin
+              OutVal(costpos,0,itemcostsum/itemqty,M45Val,false);
+              OutVal(totcostpos,0,itemsum,M45Val,false);	
+						end;
 					end;
 				  	EndFormat;
 				  	Gray_Divider(0,1);					
@@ -598,15 +608,18 @@ begin
 		end;	
 	end;
 	Black_Divider(2,1);
-	StartFormat(15);
-	if (RepSpec.Media == mtExcel or RepSpec.Media == mtFile) then begin
-		OutString(rempos,0,"",false);
-		OutString(totcostpos,0,"",false);
-	end else begin
-		OutVal(rempos,0,totrem,M45Val,false);
-		OutVal(totcostpos,0,totsum,M45Val,false);
-	end;
-  	EndFormat; 
+	
+	if(usercanaction("ViewCostPrice",false))then begin
+    StartFormat(15);
+    if (RepSpec.Media == mtExcel or RepSpec.Media == mtFile) then begin
+      OutString(rempos,0,"",false);
+      OutString(totcostpos,0,"",false);
+    end else begin
+      OutVal(rempos,0,totrem,M45Val,false);
+      OutVal(totcostpos,0,totsum,M45Val,false);
+    end;
+    EndFormat; 
+  end;
 	
   return;
 end; //Edit***************************Sasha2,10:48 09.09.2014 }
@@ -768,10 +781,12 @@ begin
     OutStringAdjust(pos+=30,0,USetStr(2330),false,M4Val);
     rempos = pos;
     OutString(pos+=30,0,USetStr(11540),false); //резерв
-    OutStringAdjust(pos+=30,0,USetStr(2331),false,M4Val); //Закуп.вар-ть
-    costpos = pos;
-    OutStringAdjust(pos+=50,0,USetStr(2332),false,M4Val); //Сума
-    totcostpos = pos;
+    if(usercanaction("ViewCostPrice",false))then begin
+      OutStringAdjust(pos+=30,0,USetStr(2331),false,M4Val); //Закуп.вар-ть
+      costpos = pos;
+      OutStringAdjust(pos+=50,0,USetStr(2332),false,M4Val); //Сума
+      totcostpos = pos;
+    end;
     for (i=0;i<prlstcnt;i=i+1) begin
     	 OutString(pos+=40,0,prlists[i],false);
     end; 
@@ -800,16 +815,14 @@ begin
     rempos = pos;
     OutString(pos+=20,0,USetStr(2514),false);
     OutString(pos+=25,0,USetStr(5247),false);
-    OutString(pos+=15,0,USetStr(2331) & "," & USetStr(2519),false);
-    OutString(pos+=35,0,USetStr(2332) & "," & USetStr(2519),false);
-    /*if (RepSpec.flags[11]==1) then begin
-      OutStringAdjust(pos+=30,0,USetStr(2350),true,M4Val);
-    end else begin*/
+    if(usercanaction("ViewCostPrice",false))then begin
+      OutString(pos+=15,0,USetStr(2331) & "," & USetStr(2519),false);
+      OutString(pos+=35,0,USetStr(2332) & "," & USetStr(2519),false);
       OutStringAdjust(pos+=30,0,USetStr(2331),false,M4Val);
       costpos = pos;
-    //end;
-    OutStringAdjust(pos+=30,0,USetStr(2332),false,M4Val);
-    totcostpos = pos;
+      OutStringAdjust(pos+=30,0,USetStr(2332),false,M4Val);
+      totcostpos = pos;
+    end;
     for (i=0;i<prlstcnt;i=i+1) begin
     	 OutString(pos+=30,0,prlists[i],false);
     end; 
