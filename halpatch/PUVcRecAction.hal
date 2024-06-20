@@ -583,7 +583,7 @@ begin
   if ((PU2r.OKFlag==0) and (PUr.OKFlag!=0)) then begin
     if(ReadRecordLink(PUr,1,POr,RLr))then begin
       cnt = 1;
-      while(ReadRecordLink(Actr,cnt,Actr,RLr))begin
+      while(ReadRecordLink(POr,cnt,Actr,RLr))begin
         if(Actr.ActType=="COMPL")then begin
           recordcopy(oldActr,Actr);
           Actr.OKFlag = 1;
