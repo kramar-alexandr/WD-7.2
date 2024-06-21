@@ -1202,7 +1202,7 @@ area areply,orderarea,tmparr;
 Boolean TrHs,testf,comma,TrHs1;
 record WebSyncRegVc WSRr;
 record WebSyncBlock WSBb;
-integer lenth,i,sum,rwcnt,k;
+integer lenth,i,sum,rwcnt,k,itemsqty;
 longint price;
 string 50 partno,availab;
 string 5 char;
@@ -1433,39 +1433,41 @@ area tempar;
 					
 					ORr.SerNr = NextSerNr("ORVc",ORr.OrdDate,-1,false,"");    
 					for(i=0;i<JSONCountChildren(inputjson,"items");i=i+1) begin
-						articlerow = cutslash(JSONGet(inputjson,"items/["  & i & "]/item/article"));
-						fullnamerow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/fullname"),vres);
-						pricerow = JSONGet(inputjson,"items/["  & i & "]/item/price");
-						countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
-						commentrow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/comment"),vres);
-						
-						sumrow = JSONGet(inputjson,"items/["  & i & "]/discount_summary");
-						k = matrowcnt(ORr);
-						clearrow(ORr,ORrw,1);
-						ORrw.ArtCode = articlerow;
-						ORrw.iswebshop = 1;
-						matrowput(ORr,k,ORrw);
-						ORVc_PasteArtCode(ORr,k,warning,warning,false);
-						matrowget(ORr,k,ORrw);
-						if(blank(ORrw.Spec))then begin
-							ORrw.Spec = urldecode(fullnamerow);
-							matrowput(ORr,k,ORrw)
+					  countrow = JSONGet(inputjson,"items/["  & i & "]/qty");
+					  for(itemsqty=0;itemsqty<stringtoint(countrow);itemsqty=itemsqty+1)begin
+              articlerow = cutslash(JSONGet(inputjson,"items/["  & i & "]/item/article"));
+              fullnamerow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/fullname"),vres);
+              pricerow = JSONGet(inputjson,"items/["  & i & "]/item/price");
+              commentrow = ChekUnicode(JSONGet(inputjson,"items/["  & i & "]/item/comment"),vres);
+            
+              sumrow = JSONGet(inputjson,"items/["  & i & "]/discount_summary");
+              k = matrowcnt(ORr);
+              clearrow(ORr,ORrw,1);
+              ORrw.ArtCode = articlerow;
+              ORrw.iswebshop = 1;
+              matrowput(ORr,k,ORrw);
+              ORVc_PasteArtCode(ORr,k,warning,warning,false);
+              matrowget(ORr,k,ORrw);
+              if(blank(ORrw.Spec))then begin
+                ORrw.Spec = urldecode(fullnamerow);
+                matrowput(ORr,k,ORrw)
+              end;
+              ORrw.Quant = 1;//stringtoval(countrow,m4val);
+              ORrw.Price = stringtoval(pricerow,m4val);
+              ORrw.DopComment = urldecode(commentrow);
+              matrowput(ORr,k,ORrw);
+              ORVc_PasteQuant(ORr,k,true,chsum);
+            
+              matrowget(ORr,k,ORrw);
+              if(stringtoval(sumrow,m4val)!=ORrw.Sum)then begin
+                ORrw.Sum = stringtoval(sumrow,m4val)/stringtoval(countrow,m4val);
+                matrowput(ORr,k,ORrw);
+                ORVc_PasteSum(ORr,k,chsum);
+              end;
+            
+              ORDchsum(ORr,k);
+              ORSumup(ORr);
 						end;
-						ORrw.Quant = stringtoval(countrow,m4val);
-						ORrw.Price = stringtoval(pricerow,m4val);
-						ORrw.DopComment = urldecode(commentrow);
-						matrowput(ORr,k,ORrw);
-						ORVc_PasteQuant(ORr,k,true,chsum);
-						
-						matrowget(ORr,k,ORrw);
-							if(stringtoval(sumrow,m4val)!=ORrw.Sum)then begin
-								ORrw.Sum = stringtoval(sumrow,m4val);
-								matrowput(ORr,k,ORrw);
-								ORVc_PasteSum(ORr,k,chsum);
-							end;
-						
-						ORDchsum(ORr,k);
-						ORSumup(ORr);
 					end;
 					
 					recordinsert(ORr,true);    
