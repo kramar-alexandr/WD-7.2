@@ -2389,8 +2389,8 @@ begin
   TLTOARR(cjecklength,"від: " & datetostring(SVOr.TransDate,"DD-YY-YYYY") & " " & SVOr.RegTime & "",aFile);
   addtexttoarea(chr(13) & chr(10),aFile);
   TLTOARR(cjecklength,"Сервісний центр :",aFile);
-  TLTOARR(cjecklength,"             Телефон: 0 800 330 334",aFile);
-  TLTOARR(cjecklength,"             Адреса: Київ, вул.Бойчука 1/2",aFile);
+  TLTOARR(cjecklength,"Адреса: м.Київ, вул. Велика Васильківська 72",aFile);	
+  TLTOARR(cjecklength,"ТЦ Олімпійський \"0 поверх\"",aFile);	
   //Kon Info
   TLTOARR(cjecklength,"__________________________________________",aFile);
   addtexttoarea(SetBoldOn,aFile);
@@ -2623,7 +2623,8 @@ begin
   addtexttoarea(SetLeftAlignment,aFile);
   TLTOARR(cjecklength,"Сервісний центр :",aFile);
 	TLTOARR(cjecklength,"          Телефон: 0 800 330 334",aFile);	
-  TLTOARR(cjecklength,"          Адреса: Київ, вул.Бойчука 1/2",aFile);	
+  TLTOARR(cjecklength,"Адреса: м.Київ, вул. Велика Васильківська 72",aFile);	
+  TLTOARR(cjecklength,"ТЦ Олімпійський \"0 поверх\"",aFile);	
   
 
   TLTOARR(cjecklength," від: " & SVOr.TransDate & " " & SVOr.RegTime & "",aFile);
@@ -2826,7 +2827,9 @@ begin
 		addtexttoarea(chr(13) & chr(10),aFile);
 		text[""] = "Сервісний центр:";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "        Адреса: Київ, вул.Бойчука 1/2";
+		text[""] = "        Адреса: м.Київ, вул. Велика Васильківська 72,";
+		TLTOARRVECTOR(checklength,text,aFile);
+		text[""] = "        ТЦ Олімпійський \"0 поверх\"";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "        Телефон: 0 800 330 334";
 		TLTOARRVECTOR(checklength,text,aFile);
