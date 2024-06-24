@@ -601,7 +601,7 @@ begin
 	addtexttoarea(chr(13) & chr(10),aFile);
 
 	addtexttoarea(SetMiddleAlignment,aFile);
-	addtexttoarea("info@istore.solutions" & chr(13) & chr(10) ,aFile);
+	//addtexttoarea("info@istore.solutions" & chr(13) & chr(10) ,aFile);
 	addtexttoarea(BigLetterOn,aFile);
 	addtexttoarea("Дякуємо," & chr(13) & chr(10) ,aFile);
 	addtexttoarea("що обрали нас!" & chr(13) & chr(10) ,aFile);
