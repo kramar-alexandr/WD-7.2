@@ -3446,7 +3446,7 @@ begin
   EditField(h5,v+=vs ,50,"Вага",Normal,Weight,true,0);
   end;
   EditField(h,v+=vs, 300,"Тип гарантії на товари",Normal,WarrantyType,false,SetSClass); // Edit ************************** BPI Ukraine - KramarAlexandr - 04, 03 08 2023 y. at 4:02:06 PM
-  EditField(h,v+=vs, 70,"Місяців",Normal,WarrantyMonths,false,0); // Edit ************************** BPI Ukraine - KramarAlexandr - 04, 03 08 2023 y. at 4:02:06 PM
+  EditField(h,v+=vs, 70,"Місяців (для товару гарантії)",Normal,WarrantyMonths,false,0); // Edit ************************** BPI Ukraine - KramarAlexandr - 04, 03 08 2023 y. at 4:02:06 PM
   EditField(h,v+=vs,-20,"Посилання на гарантію",Normal,WarrantyLink,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 09 08 2023 y. at 1:39:46 PM
 
   if (UserCanAction("ViewCostPrice",false)) then begin
