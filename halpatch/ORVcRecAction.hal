@@ -733,6 +733,9 @@ begin
       end else begin
         if(ORrw.GarantyFor==0 and nonblank(ORrw.ArtCode) and classf)then begin
           ORrw.GarantyFor = 1;
+          if(INr.WarrantyLength>0)then begin
+            ORrw.GarantyFor = INr.WarrantyLength;
+          end;
           matrowput(ORr,i,ORrw);
         end;
       end;
