@@ -1111,6 +1111,13 @@ begin
   deselectwindow(wn,true);
   getwindowrecord(wn,ORr);
   
+  if(usercanaction("ViewAllOrderDetails",true)==false)then begin
+    if(blank(ORr.SalesMan) and ORr.SerNr>-1)then begin
+      beep;
+      goto LCreateActFromORDDsm;
+    end;
+  end;
+  
   notenr = 1;
   while (ReadRecordLink(ORr,notenr,Actr,RLr)) begin
     if(Actr.ActType=="ZAKAZ")then begin

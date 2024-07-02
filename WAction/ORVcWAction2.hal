@@ -242,6 +242,15 @@ BEGIN
   if (WindowState(wn)==Rs_normal) then begin
     GetWindowRecord(wn,ORr);  
     
+    
+    if(usercanaction("ViewAllOrderDetails",true)==false)then begin
+      if(blank(ORr.SalesMan) and ORr.SerNr>-1)then begin
+        beep;
+        goto LCreateActFromORDsm;
+      end;
+    end;
+    
+    
     notenr = 1;
     while (ReadRecordLink(ORr,notenr,Actr,RLr)) begin
       if(Actr.ActType=="ZAKAZ")then begin
