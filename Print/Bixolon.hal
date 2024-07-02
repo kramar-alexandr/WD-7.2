@@ -3132,8 +3132,8 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "випадку.";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "-Безкоштовна встановлення Microsoft Office";
-		TLTOARRVECTOR(checklength,text,aFile);
+//		text[""] = "-Безкоштовна встановлення Microsoft Office";
+//		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "-Безкоштовна чистка від пилу з заміною";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "термопасти один раз на час дiї пакету.";
