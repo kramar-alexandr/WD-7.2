@@ -585,18 +585,20 @@ begin
       cnt = 1;
       while(ReadRecordLink(POr,cnt,Actr,RLr))begin
         if(Actr.ActType=="COMPL")then begin
-          recordcopy(oldActr,Actr);
+          //recordcopy(oldActr,Actr);
           Actr.OKFlag = 1;
           Actr.EndDate = currentdate;
           Actr.EndTime = currenttime;
-          recordupdate(oldActr,Actr,true);
+          //recordupdate(oldActr,Actr,true);
+          recordstore(Actr,true);
         end;
         if(Actr.ActType=="PRIHD")then begin
-          recordcopy(oldActr,Actr);
+          //recordcopy(oldActr,Actr);
           Actr.OKFlag = 1;
           Actr.EndDate = currentdate;
           Actr.EndTime = currenttime;
-          recordupdate(oldActr,Actr,true);
+          //recordupdate(oldActr,Actr,true);
+          recordstore(Actr,true);
         end;
         cnt = cnt + 1;
       end;

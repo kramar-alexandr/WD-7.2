@@ -234,9 +234,12 @@ BEGIN
     while(ReadRecordLink(StockMovr,cnt,Actr,RLr)) begin// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 15 02 2023 y. at 2:58:00 PM
       cnt = cnt + 1;
       if(Actr.SerNr>0 and (Actr.ActType=="COMPL" or Actr.ActType=="ZAKAZ") and Actr.OKFlag==0)then begin
-        recordcopy(oldActr,Actr);
+        //recordcopy(oldActr,Actr);
         Actr.OKFlag = 1;
-        recordupdate(oldActr,Actr,true);
+        Actr.EndDate = currentdate;
+          Actr.EndTime = currenttime;
+        //recordupdate(oldActr,Actr,true);
+        recordstore(Actr,true);
       end;
     end;
   end;
@@ -246,9 +249,12 @@ BEGIN
     while(ReadRecordLink(StockMovr,cnt,Actr,RLr)) begin// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 15 02 2023 y. at 2:58:00 PM
       cnt = cnt + 1;
       if(Actr.SerNr>0 and (Actr.ActType=="COMPL" or Actr.ActType=="ZAKAZ") and Actr.OKFlag==0)then begin
-        recordcopy(oldActr,Actr);
+        //recordcopy(oldActr,Actr);
         Actr.OKFlag = 1;
-        recordupdate(oldActr,Actr,true);
+        Actr.EndDate = currentdate;
+          Actr.EndTime = currenttime;
+        //recordupdate(oldActr,Actr,true);
+        recordstore(Actr,true);
       end;
     end;
   end;

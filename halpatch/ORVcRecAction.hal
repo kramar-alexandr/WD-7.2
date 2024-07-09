@@ -2514,9 +2514,12 @@ begin
     pos = 1;
     while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
       if(Actr.ActType=="ZAKAZ" or Actr.ActType=="COMPL" or Actr.ActType=="PRIHO")then begin
-        recordcopy(oldActr,Actr);
+        //recordcopy(oldActr,Actr);
+        Actr.EndDate = currentdate;
+          Actr.EndTime = currenttime;
         Actr.OKFlag = 1;
-        recordupdate(oldActr,Actr,true);
+        //recordupdate(oldActr,Actr,true);
+        recordstore(Actr,true);
       end;
       
       pos = pos + 1;
@@ -2527,9 +2530,12 @@ begin
     pos = 1;
     while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
       if(Actr.ActType=="ZAKAZ" or Actr.ActType=="COMPL" or Actr.ActType=="PRIHO")then begin
-        recordcopy(oldActr,Actr);
+        //recordcopy(oldActr,Actr);
         Actr.OKFlag = 1;
-        recordupdate(oldActr,Actr,true);
+        Actr.EndDate = currentdate;
+          Actr.EndTime = currenttime;
+        //recordupdate(oldActr,Actr,true);
+        recordstore(Actr,true);
       end;
       
       pos = pos + 1;
@@ -2540,9 +2546,12 @@ begin
     pos = 1;
     while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
       if(Actr.ActType=="REMIN")then begin
-        recordcopy(oldActr,Actr);
+        //recordcopy(oldActr,Actr);
         Actr.OKFlag = 1;
-        recordupdate(oldActr,Actr,true);
+        Actr.EndDate = currentdate;
+          Actr.EndTime = currenttime;
+        //recordupdate(oldActr,Actr,true);
+        recordstore(Actr,true);
       end;
       
       pos = pos + 1;
@@ -2552,9 +2561,12 @@ begin
     pos = 1;
     while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
       if(Actr.ActType=="REMIN")then begin
-        recordcopy(oldActr,Actr);
+        //recordcopy(oldActr,Actr);
         Actr.OKFlag = 1;
-        recordupdate(oldActr,Actr,true);
+        Actr.EndDate = currentdate;
+          Actr.EndTime = currenttime;
+        //recordupdate(oldActr,Actr,true);
+        recordstore(Actr,true);
       end;
       
       pos = pos + 1;
@@ -2564,9 +2576,12 @@ begin
     pos = 1;
     while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
       if(Actr.ActType=="REMIN")then begin
-        recordcopy(oldActr,Actr);
+        //recordcopy(oldActr,Actr);
         Actr.OKFlag = 1;
-        recordupdate(oldActr,Actr,true);
+        Actr.EndDate = currentdate;
+          Actr.EndTime = currenttime;
+        //recordupdate(oldActr,Actr,true);
+        recordstore(Actr,true);
       end;
       
       pos = pos + 1;
