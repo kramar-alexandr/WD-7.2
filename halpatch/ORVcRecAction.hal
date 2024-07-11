@@ -1843,7 +1843,7 @@ begin
           end;
         end;
         
-        if (ORrw.Quant<=0 and ORrw.stp==1 and nonblank(ORrw.ArtCode)) then begin
+        if (ORrw.Quant<=0 and ORrw.stp==1 and nonblank(ORrw.ArtCode) and ORrw.ArtCode!="COM") then begin
             RecordCheckError(20773,"",i,"Quant");      
             res = -1;
             goto LORVcRecordCheck;          
