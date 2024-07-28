@@ -2501,7 +2501,7 @@ begin
 	string 255 res;
 	
 	messagebox(0,"Друк призупинено.");
-	goto lPrintFiscalORReceiptPrintDsm:;
+	goto lPrintFiscalORReceiptPrintDsm;
 	
 		wn = CurWindow;
 		mwn = motherwindow(wn);
