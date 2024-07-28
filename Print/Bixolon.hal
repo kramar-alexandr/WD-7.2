@@ -3251,6 +3251,7 @@ begin
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(29) & chr(86) & "1",aFile);
 		
+		SetExportCodePage("CP1251");
 		writeareatofile(aFile,"tmprec.txt",1);
     RunProgram("./gen_rec.sh", ORr.CustOrdNr);
 end;
