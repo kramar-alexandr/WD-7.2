@@ -3252,5 +3252,6 @@ begin
 		addtexttoarea(chr(29) & chr(86) & "1",aFile);
 		
 		writeareatofile(aFile,"tmprec.txt",1);
-		RunProgram("/usr/bin/php","/home/kramar/phpEscPos/escpos-tools/esc2html.php tmprec.txt > Warranty/" & ORr.CustOrdNr & " .html ");
+		logtext(0,"/usr/bin/php " & "/home/kramar/phpEscPos/escpos-tools/esc2html.php tmprec.txt > Warranty/" & ORr.CustOrdNr & "1.html");
+		RunProgram("/usr/bin/php","/home/kramar/phpEscPos/escpos-tools/esc2html.php tmprec.txt > Warranty/" & ORr.CustOrdNr & "1.html");
 end;
