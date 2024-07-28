@@ -2030,14 +2030,16 @@ begin
   	res = -1;
   end else begin
 	
-  locORr.SerNr = ORr.SerNr;
-  if (ReadFirstMain(locORr,1,true)) then begin
-    res = ORRemoveTest(locORr,long3);
-  end else begin
-    res = ORRemoveTest(ORr,long3);
-  end;
-  
-  
+    locORr.SerNr = ORr.SerNr;
+    if (ReadFirstMain(locORr,1,true)) then begin
+      res = ORRemoveTest(locORr,long3);
+    end else begin
+      res = ORRemoveTest(ORr,long3);
+    end;
+    
+    if(ORr.SalesMan!=currentuser)then begin
+      res = 0;
+    end;
   
   end;
   
