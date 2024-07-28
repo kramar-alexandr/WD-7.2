@@ -3770,6 +3770,7 @@ begin
   end;
   pos = pos + 60;
   RlColKey(pos,pos,"Найменув.",Addr0,false,Name); 
+  RlColKey(-275,-275,"Менеджер",SalesMan,true,SalesMan);
   if (IsEnterprise) then begin
     if(usercanaction("ViewAllOrderDetails",true))then begin
       RlColKey(-280,-280,"Вид",OrderClass,false,OrderClass);
