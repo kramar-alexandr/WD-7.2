@@ -2398,7 +2398,11 @@ begin
 	record RcVc RepSpec;
 	record FOPDataBlock FOPb;
 	row FOPDataBlock FOPrw;
-	
+
+messagebox(0,"Друк чеків призупинено.");
+goto lPrintORReceiptDsm;
+
+
 		wn = CurWindow;
 		if (WindowState(wn)==Rs_normal) then begin
   		DeselectWindow(wn,false);
@@ -2418,6 +2422,9 @@ begin
 		end else begin
 		  MessageBox(1356,"");
 		end;
+		
+lPrintORReceiptDsm:;
+return;
 end;
 
 
@@ -2428,6 +2435,9 @@ begin
 	integer wn;
 	record ORVc ORr;
 	record RcVc RepSpec;
+	
+	messagebox(0,"Друк призупинено.");
+	goto lPrintORReceiptPrintDsm;
 	
 		wn = CurWindow;
 		DeselectWindow(wn,false);
@@ -2446,6 +2456,8 @@ begin
 				messagebox(0,"Заповніть способи сплати рахунку! До суми " & ORr.Sum4);
 			end;
 		end;
+		
+lPrintORReceiptPrintDsm:;
 return;
 end;
 
@@ -2488,6 +2500,8 @@ begin
 	boolean foundf;
 	string 255 res;
 	
+	messagebox(0,"Друк призупинено.");
+	goto lPrintFiscalORReceiptPrintDsm:;
 	
 		wn = CurWindow;
 		mwn = motherwindow(wn);
