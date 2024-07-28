@@ -3032,7 +3032,7 @@ record CUVc CUr;
 	    messagebox(0,"Замовлення зачинено по групі продажу");
 	    goto lCallToClientDsm;
 	  end;
-	  if(USr.SalesGroup=="OWN" and ORr.SalesMan!=USr.Code)then begin
+	  if(USr.SalesGroup=="OWN" and blank(ORr.SalesMan))then begin
 	    messagebox(0,"Замовлення зачинено по групі продажу");
 	    goto lCallToClientDsm;
 	  end;
@@ -3721,7 +3721,6 @@ begin
 	      setwindowsubset(wn,Userr.SalesGroup);
 	    end;*/
 	    if(Userr.SalesGroup=="OWN")then begin
-	      setwindowsubset(wn,Userr.Code);
 	      goto lORLClassOnOpenWindow;
 	    end;
 	    if(nonblank(Userr.SalesGroup))then begin
