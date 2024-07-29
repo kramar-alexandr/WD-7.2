@@ -595,7 +595,7 @@ begin
 		
 	addtexttoarea("________________________________" & chr(13) & chr(10) ,aFile);
 //Signature	
-	addtexttoarea("Товарний чек № " & ORr.SerNr & chr(13) & chr(10) ,aFile);
+	addtexttoarea("Чек № " & ORr.SerNr & chr(13) & chr(10) ,aFile);
 	addtexttoarea("Дата " & CurrentDate & chr(13) & chr(10) ,aFile);
 	addtexttoarea("Час " & CurrentTime & chr(13) & chr(10) ,aFile);	
 	
