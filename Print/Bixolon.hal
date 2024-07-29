@@ -693,7 +693,7 @@ begin
 	
 	
 	filename = makeuuid;
-  RunProgram("./gen_rec.sh", filename);
+  RunProgram("./gen_rec2.sh", filename);
   res = qupdating.EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://warranty.istore.ua/receipt/" & filename & ".html");
 
 //Cut receipt  
