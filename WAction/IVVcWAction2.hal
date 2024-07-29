@@ -2442,7 +2442,7 @@ begin
     //messagebox(0,"Друк призупинено.");
     //goto lPrintORReceiptPrintDsm;
 	end;
-	messagebox(0,"СМС Відправлено");
+	
 	
 		wn = CurWindow;
 		DeselectWindow(wn,false);
@@ -2453,10 +2453,12 @@ begin
 			if((ORr.PayVal01 + ORr.PayVal02 + ORr.PayVal03 + ORr.PayVal04 + ORr.PayVal05 + ORr.PayVal06 + ORr.PayVal07 + ORr.PayValWithCom)==ORr.Sum4)then begin
 				SetExportCodePage("CP1251");
 				HandleORReceiptPrinting(ORr,aFile,RepSpec.f1,RepSpec.flags[0]);
-				if(RepSpec.flags[0]==1)then begin
+				if(RepSpec.flags[0]==0)then begin
           PrintBixolonReceipt(aFile);
           millisleep(1000);
           PrintBixolonReceipt(aFile);
+				end else begin
+				  messagebox(0,"СМС Відправлено");
 				end;
 				closewindow(wn);
 			end else begin
