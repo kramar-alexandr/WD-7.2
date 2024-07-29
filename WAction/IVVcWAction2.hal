@@ -2325,17 +2325,18 @@ begin
 	record ReceiptPrinterBlock RPb;
 	String 100 filename;
 
-
-    blockload(RPb);
-    filename = "Bixolon.txt";
-    WriteAreaToFile(aFile,filename,0);
-    millisleep(100);
-    if (WindowsMode==1) then begin
-  			RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & filename & " \\\\" & RPb.CompNameWin & "\\" & RPb.PrinterNameWin & "\"");
-    end; 
-    if (WindowsMode==0) then begin
-		    RunProgram("/usr/bin/lp","-d " & RPb.PrinterNameMac & " -o raw " & filename);
-    end;     
+    if(getarealength(aFile)>10)then begin
+      blockload(RPb);
+      filename = "Bixolon.txt";
+      WriteAreaToFile(aFile,filename,0);
+      millisleep(100);
+      if (WindowsMode==1) then begin
+          RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & filename & " \\\\" & RPb.CompNameWin & "\\" & RPb.PrinterNameWin & "\"");
+      end; 
+      if (WindowsMode==0) then begin
+          RunProgram("/usr/bin/lp","-d " & RPb.PrinterNameMac & " -o raw " & filename);
+      end;  
+    end;   
 end;
 
 
@@ -2399,11 +2400,11 @@ begin
 	record FOPDataBlock FOPb;
 	row FOPDataBlock FOPrw;
 
-  if(currentuser!="SA")then begin
-    messagebox(0,"Друк чеків призупинено.");
-    goto lPrintORReceiptDsm;
-  end;
-
+  //if(currentuser!="SA")then begin
+    //messagebox(0,"Друк чеків призупинено.");
+    //goto lPrintORReceiptDsm;
+  //end;
+  messagebox(0,"СМС Відправлено");
 
 		wn = CurWindow;
 		if (WindowState(wn)==Rs_normal) then begin
@@ -2439,9 +2440,10 @@ begin
 	record RcVc RepSpec;
 	
 	if(currentuser!="SA")then begin
-    messagebox(0,"Друк призупинено.");
-    goto lPrintORReceiptPrintDsm;
+    //messagebox(0,"Друк призупинено.");
+    //goto lPrintORReceiptPrintDsm;
 	end;
+	messagebox(0,"СМС Відправлено");
 	
 		wn = CurWindow;
 		DeselectWindow(wn,false);
