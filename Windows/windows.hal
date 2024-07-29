@@ -1928,13 +1928,13 @@ window ORCheckPrintWClass:2
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real f,h,v,vs;
-  WindowBegin("Оповещение",ORCheckPrintWClass,CGother,RcType);
+  WindowBegin("Друк чеку",ORCheckPrintWClass,CGother,RcType);
   UseView(RcVc);
   CloseOnCancel;
   SetWRect(20,80,490,170);
   h = 100; v = 20; vs = 30; f = 100;
   EditFieldTL(h,v,-40,"ФОП",M4Str,Normal,60,f1,false,FOPDataSClass);
-  HalPushButton(h,v+=vs,h+f,25,"PrintORReceiptPrintDsm","Печать");
+  HalPushButton(h,v+=vs,h+f,25,"PrintORReceiptPrintDsm","Печать");CheckBox(h+200,v,0,"Відправити чек по смс",flags[1]);
   EndWindow;
 end;
 

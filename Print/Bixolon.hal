@@ -331,7 +331,7 @@ end;
 
 
 global 
-procedure HandleORReceiptPrinting(record ORVc ORr,var area aFile,string fop)		//Edit----------------------Dima  21.09.2015
+procedure HandleORReceiptPrinting(record ORVc ORr,var area aFile,string fop,integer sendsms)		//Edit----------------------Dima  21.09.2015
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -690,15 +690,17 @@ begin
     addtexttoarea(chr(13) & chr(10),aFile);
     addtexttoarea(chr(13) & chr(10),aFile);
     addtexttoarea(chr(13) & chr(10),aFile);
-    
-    filename = makeuuid;
-    SetExportCodePage("CP1251");
-    writeareatofile(aFile,"tmprec.txt",0);
-    RunProgram("./gen_rec2.sh", filename);
-    res = qupdating.EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://warranty.istore.ua/receipt/" & filename & ".html");
-    //Cut receipt  
-    addtexttoarea(chr(29) & chr(86) & "1",aFile);
-    setareazerosize(aFile);//"Друк чеків призупинено."
+    if(sendsms==1)then begin
+      filename = makeuuid;
+      SetExportCodePage("CP1251");
+      writeareatofile(aFile,"tmprec.txt",0);
+      RunProgram("./gen_rec2.sh", filename);
+      res = qupdating.EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://warranty.istore.ua/receipt/" & filename & ".html");
+      setareazerosize(aFile);//"Друк чеків призупинено."
+    end else begin
+      //Cut receipt  
+      addtexttoarea(chr(29) & chr(86) & "1",aFile);
+    end;
     
   end;
 	
