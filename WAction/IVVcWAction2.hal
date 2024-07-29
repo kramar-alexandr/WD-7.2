@@ -2436,8 +2436,10 @@ begin
 	record ORVc ORr;
 	record RcVc RepSpec;
 	
-	messagebox(0,"Друк призупинено.");
-	goto lPrintORReceiptPrintDsm;
+	if(currentuser!="SA")then begin
+    messagebox(0,"Друк призупинено.");
+    goto lPrintORReceiptPrintDsm;
+	end;
 	
 		wn = CurWindow;
 		DeselectWindow(wn,false);
