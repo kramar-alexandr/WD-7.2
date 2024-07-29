@@ -3001,7 +3001,7 @@ begin
 		
 		SetExportCodePage("CP1251");
 		writeareatofile(aFile,"tmprec.txt",0);
-    RunProgram("./gen_rec.sh", ORr.CustOrdNr & "_2");
+    RunProgram("./gen_rec.sh", makeuuid);
 end;
 
 
@@ -3257,5 +3257,5 @@ begin
 		
 		SetExportCodePage("CP1251");
 		writeareatofile(aFile,"tmprec.txt",0);
-    RunProgram("./gen_rec.sh", ORr.CustOrdNr & "_1");
+    RunProgram("./gen_rec.sh", makeuuid);
 end;
