@@ -2399,8 +2399,10 @@ begin
 	record FOPDataBlock FOPb;
 	row FOPDataBlock FOPrw;
 
-messagebox(0,"„рук чекґв призупинено.");
-goto lPrintORReceiptDsm;
+  if(currentuser!="SA")then begin
+    messagebox(0,"„рук чекґв призупинено.");
+    goto lPrintORReceiptDsm;
+  end;
 
 
 		wn = CurWindow;
