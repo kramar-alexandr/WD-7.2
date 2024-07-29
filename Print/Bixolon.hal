@@ -1,6 +1,7 @@
 external procedure M4PadString(string,Integer,string,Boolean,var string);
 external procedure ValToText(val,Integer,string,string,var string);
 external function roundmode SetRoundModeD(Integer);
+external updating function boolean EasySendTurboSMS(string, string);
 
 SetLangMode(LangRussian,"RUS",0); 
 
@@ -2725,7 +2726,7 @@ begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
 	string 10 BigLetterOn,BigLetterOff,SmallLetterOn;
-	string 100 SetFontA,SetFontB;
+	string 100 SetFontA,SetFontB,filename;
 	string 10 rebate;
 	val sumreb;
 	integer checklength,rwcnt,i;
@@ -3001,7 +3002,11 @@ begin
 		
 		SetExportCodePage("CP1251");
 		writeareatofile(aFile,"tmprec.txt",0);
-    RunProgram("./gen_rec.sh", makeuuid);
+		filename = makeuuid;
+    RunProgram("./gen_rec.sh", filename);
+    if(currentuser=="SA")then begin
+      EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html");
+    end;
 end;
 
 
