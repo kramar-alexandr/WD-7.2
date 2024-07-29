@@ -3004,9 +3004,9 @@ begin
 		writeareatofile(aFile,"tmprec.txt",0);
 		filename = makeuuid;
     RunProgram("./gen_rec.sh", filename);
-    if(currentuser=="SA")then begin
+    //if(currentuser=="SA")then begin
       EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html");
-    end;
+    //end;
 end;
 
 
