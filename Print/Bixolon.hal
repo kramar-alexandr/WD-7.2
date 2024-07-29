@@ -350,6 +350,7 @@ begin
 	area qrArea,tmpar;
 	longint alen,ai,acnt,alast;
   vector string 255 vstr;
+  boolean res;
 	
 	
 	blockload(PCb);
@@ -665,6 +666,23 @@ begin
     
   end else begin
     addtexttoarea(chr(13) & chr(10),aFile);
+    addtexttoarea("Будь ласка, напишіть свій відгук!" & chr(13) & chr(10) ,aFile);
+    addtexttoarea(chr(13) & chr(10),aFile);
+    //http://qrcoder.ru/code/?https%3A%2F%2Fwww.istore.ua%2Fua%2Ffeedback%2F&6&0
+    tax_url = "https://www.istore.ua/feedback/";
+    
+    getQRCode(tax_url,qrArea);
+    alast = 0;
+    if(getarealength(qrArea)>100)then begin
+      alen = CountLinesInArea(qrArea);
+      for(ai=0;ai<alen;ai=ai+1)begin
+        vstr[""] = convertstringfromcodepage("WINDOWS-1251",GetLineFromArea(qrArea,ai));
+        //OutComPort(1,vstr[""]);
+        addtexttoarea(vstr[""],aFile);
+        addtexttoarea(vstr[""],tmpar);
+      end;
+    end;
+    addtexttoarea(chr(10),aFile);
     //addtexttoarea("НЕФІСКАЛЬНИЙ ЧЕК" & chr(13) & chr(10) ,aFile);
     //addtexttoarea(chr(13) & chr(10),aFile);
     //addtexttoarea(chr(13) & chr(10),aFile);
@@ -676,7 +694,7 @@ begin
 	
 	filename = makeuuid;
   RunProgram("./gen_rec.sh", filename);
-  EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://warranty.istore.ua/receipt/" & filename & ".html");
+  res = qupdating.EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://warranty.istore.ua/receipt/" & filename & ".html");
 
 //Cut receipt  
   addtexttoarea(chr(29) & chr(86) & "1",aFile);
