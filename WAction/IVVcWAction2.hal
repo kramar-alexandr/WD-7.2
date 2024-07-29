@@ -2500,8 +2500,8 @@ begin
 	boolean foundf;
 	string 255 res;
 	
-	messagebox(0,"Друк призупинено.");
-	goto lPrintFiscalORReceiptPrintDsm;
+//	messagebox(0,"Друк призупинено.");
+//	goto lPrintFiscalORReceiptPrintDsm;
 	
 		wn = CurWindow;
 		mwn = motherwindow(wn);
