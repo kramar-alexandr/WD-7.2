@@ -2462,6 +2462,37 @@ WindowBegin("Відправити СМС",SMSORWClass,CGother,0);
 end;
 
 
+window GarantyWClass:1 //Edit-------------------Vitalii 15:51 04.11.2016
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+WindowBegin("Гарантійний талон",GarantyWClass,CGother,0);
+  Modality(1);
+  SetWRect(80,200,500,250);
+  h = 100; v = 30;
+  v = v + 40;
+  HalPushButton(50,5,200,25,"PrintBixolonExecutePrint","Друк");
+  HalPushButton(250,5,400,25,"PrintBixolonExecuteSMS","СМС");
+  
+  EndWindow;
+end;
+
+window Garanty1WClass:1 //Edit-------------------Vitalii 15:51 04.11.2016
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+WindowBegin("Гарантійний талон",Garanty1WClass,CGother,0);
+  Modality(1);
+  SetWRect(80,200,500,250);
+  h = 100; v = 30;
+  v = v + 40;
+  HalPushButton(50,5,200,25,"PrintBixolonExecute1Print","Друк");
+  HalPushButton(250,5,400,25,"PrintBixolonExecute1SMS","СМС");
+  
+  EndWindow;
+end;
+
+
 
 window ORReport2RClass:1 
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")

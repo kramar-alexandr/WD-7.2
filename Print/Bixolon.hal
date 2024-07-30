@@ -2754,7 +2754,7 @@ end;
 
 //Самый главный гарталон.
 global 
-updating procedure HandleBixolonWarrantyMain(record ORVc ORr,var area aFile,boolean bixolonnewimg)
+updating procedure HandleBixolonWarrantyMain(record ORVc ORr,var area aFile,boolean bixolonnewimg,integer sms)
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -3033,20 +3033,22 @@ begin
 		//Cut receipt  
 		addtexttoarea(chr(29) & chr(86) & "1",aFile);
 		
-		SetExportCodePage("CP1251");
-		writeareatofile(aFile,"tmprec.txt",0);
-		filename = makeuuid;
-    RunProgram("./gen_rec.sh", filename);
-    //if(currentuser=="SA")then begin
-      EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html");
-    //end;
+		if(sms==1)then begin
+      SetExportCodePage("CP1251");
+      writeareatofile(aFile,"tmprec.txt",0);
+      filename = makeuuid;
+      RunProgram("./gen_rec.sh", filename);
+      //if(currentuser=="SA")then begin
+        EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html");
+      //end;
+    end;
 end;
 
 
 
 //Доп условия.
 global 
-updating procedure HandleBixolonWarrantyMainAdditional(record ORVc ORr,var area aFile,boolean bixolonnewimg)
+updating procedure HandleBixolonWarrantyMainAdditional(record ORVc ORr,var area aFile,boolean bixolonnewimg,integer sms)
 begin
 	string 10 SetLeftAlignment,SetRightAlignment,SetMiddleAlignment,SetTextSize,PrintImage;
 	string 10 SetBoldOn,SetBoldOff,SetUnderlineOn,SetUnderlineOff;
@@ -3292,10 +3294,11 @@ begin
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(29) & chr(86) & "1",aFile);
-		
-		SetExportCodePage("CP1251");
-		writeareatofile(aFile,"tmprec.txt",0);
-		filename = makeuuid;
-    RunProgram("./gen_rec.sh", filename);
-    EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html");
+		if(sms==1)then begin
+      SetExportCodePage("CP1251");
+      writeareatofile(aFile,"tmprec.txt",0);
+      filename = makeuuid;
+      RunProgram("./gen_rec.sh", filename);
+      EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html");
+    end;
 end;

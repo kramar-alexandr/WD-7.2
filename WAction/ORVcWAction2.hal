@@ -77,8 +77,8 @@ remote procedure HandleBixolonWarrantyMplusS(record ORVc,var area,boolean,intege
 remote procedure HandleBixolonWarrantyMAC(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 remote procedure HandleBixolonWarrantyDyson(record ORVc,var area,boolean,integer,string);	//Edit **********************************************Vas-P	10/11/2021
 
-remote procedure HandleBixolonWarrantyMain(record ORVc,var area,boolean);	//Edit **********************************************Vas-P	10/11/2021
-remote procedure HandleBixolonWarrantyMainAdditional(record ORVc,var area,boolean);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarrantyMain(record ORVc,var area,boolean,integer);	//Edit **********************************************Vas-P	10/11/2021
+remote procedure HandleBixolonWarrantyMainAdditional(record ORVc,var area,boolean,integer);	//Edit **********************************************Vas-P	10/11/2021
 
 
 
@@ -3236,7 +3236,7 @@ begin
 end;
 
 
-global updating procedure PrintBixolonWarrantyExecute1(var record ORVc OR2r)
+global updating procedure PrintBixolonWarrantyExecute1(var record ORVc OR2r, integer sms)
 BEGIN
   area aFile;
   Boolean testf,found;
@@ -3253,14 +3253,14 @@ BEGIN
 	
   SetExportCodePage("CP1251");
   
-  HandleBixolonWarrantyMainAdditional(ORr,aFile,fileexists("BixolonNewIMG"));
+  HandleBixolonWarrantyMainAdditional(ORr,aFile,fileexists("BixolonNewIMG"),sms);
   PrintBixolonWarrantyReceipt(aFile);
 
   RETURN;
 END;
 
 //Edit **********************************************Vas-P	added 10/11/2021
-global updating procedure PrintBixolonWarrantyExecute(var record ORVc OR2r)
+global updating procedure PrintBixolonWarrantyExecute(var record ORVc OR2r,integer sms)
 BEGIN
   area aFile;
   Boolean testf,found;
@@ -3281,7 +3281,7 @@ BEGIN
   
   //if(currentuser=="SA" or currentuser=="SALESMAN")then begin
     
-    HandleBixolonWarrantyMain(ORr,aFile,fileexists("BixolonNewIMG"));
+    HandleBixolonWarrantyMain(ORr,aFile,fileexists("BixolonNewIMG"),sms);
     //HandleBixolonWarrantyMainAdditional(ORr,aFile,fileexists("BixolonNewIMG"));
     goto lEndPrint;
   //end;
@@ -3660,20 +3660,114 @@ lEndPrint:;
 END;
 
 
+global updating procedure PrintBixolonExecute(integer sms)
+begin
+  record ORVc ORr;
+  integer mwn;
+  
+  
+  mwn = motherwindow(curwindow);
+  getwindowrecord(mwn,ORr);
+  if(windowstate(mwn)==0)then begin
+    if(ORr.OKFlag==1)then begin      
+      if(ORr.Printed==0 or sms==1)then begin
+        PrintBixolonWarrantyExecute(ORr,sms);
+        putwindowrecord(mwn,ORr);
+        if(sms==1)then begin
+          messagebox(0,"‘Њ‘ вґдправлено");
+        end;
+      end else begin
+        messagebox(0,"‚же надруковано");
+      end; 
+    end else begin
+      messagebox(0,"‡початку заЋкейте чек");
+    end;
+  end else begin
+    beep;
+  end;
+  
+return;
+end;
+
+global updating procedure PrintBixolonExecutePrint()
+begin
+  record ORVc ORr;
+  integer mwn;
+
+  PrintBixolonExecute(0);
+  
+return;
+end;
+
+global updating procedure PrintBixolonExecuteSMS()
+begin
+  record ORVc ORr;
+  integer mwn;
+  
+  PrintBixolonExecute(1);
+  
+return;
+end;
+
+
+global updating procedure PrintBixolonExecute1(integer sms)
+begin
+  record ORVc ORr;
+  integer mwn;
+  
+  mwn = motherwindow(curwindow);
+  deselectwindow(mwn,true);
+  getwindowrecord(mwn,ORr);
+  if(windowstate(mwn)==0)then begin
+    if(ORr.OKFlag==1)then begin
+        PrintBixolonWarrantyExecute1(ORr,sms);
+        if(sms==1)then begin
+          messagebox(0,"‘Њ‘ вґдправлено");
+        end;
+        putwindowrecord(mwn,ORr);
+    end else begin
+      messagebox(0,"‡початку заЋкейте чек");
+    end;
+  end else begin
+    beep;
+  end;
+  
+return;
+end;
+
+
+global updating procedure PrintBixolonExecute1Print()
+begin
+  record ORVc ORr;
+  integer mwn;
+  
+  PrintBixolonExecute1(0);
+  
+return;
+end;
+
+global updating procedure PrintBixolonExecute1SMS()
+begin
+  record ORVc ORr;
+  integer mwn;
+  
+  PrintBixolonExecute1(1);
+  
+return;
+end;
+
+
+
 global updating procedure PrintBixolonExecuteDsm()
 begin
   record ORVc ORr;
+  record RcVc RepSpec;
   
   deselectwindow(curwindow,true);
   getwindowrecord(curwindow,ORr);
   if(windowstate(curwindow)==0)then begin
     if(ORr.OKFlag==1)then begin
-      if(ORr.Printed==0)then begin
-        PrintBixolonWarrantyExecute(ORr);
-        putwindowrecord(curwindow,ORr);
-      end else begin
-        messagebox(0,"‚же надруковано");
-      end; 
+      OpenWindow("GarantyWClass",0,curwindow,"","",RepSpec);
     end else begin
       messagebox(0,"‡початку заЋкейте чек");
     end;
@@ -3688,13 +3782,14 @@ end;
 global updating procedure PrintBixolonExecute1Dsm()
 begin
   record ORVc ORr;
+  record RcVc RepSpec;
   
   deselectwindow(curwindow,true);
   getwindowrecord(curwindow,ORr);
   if(windowstate(curwindow)==0)then begin
     if(ORr.OKFlag==1)then begin
-        PrintBixolonWarrantyExecute1(ORr);
-        putwindowrecord(curwindow,ORr);
+      OpenWindow("Garanty1WClass",0,curwindow,"","",RepSpec);
+        
     end else begin
       messagebox(0,"‡початку заЋкейте чек");
     end;
