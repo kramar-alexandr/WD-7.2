@@ -3254,7 +3254,9 @@ BEGIN
   SetExportCodePage("CP1251");
   
   HandleBixolonWarrantyMainAdditional(ORr,aFile,fileexists("BixolonNewIMG"),sms);
-  PrintBixolonWarrantyReceipt(aFile);
+  if(sms==0)then begin
+    PrintBixolonWarrantyReceipt(aFile);
+  end;
 
   RETURN;
 END;
@@ -3652,9 +3654,11 @@ BEGIN
   
 lEndPrint:;
   
-  PrintBixolonWarrantyReceipt(aFile);
-  OR2r.Printed = 1;
-  recordstore(OR2r,true);
+  if(sms==0)then begin
+    PrintBixolonWarrantyReceipt(aFile);
+    OR2r.Printed = 1;
+    recordstore(OR2r,true);
+  end;
 
   RETURN;
 END;
