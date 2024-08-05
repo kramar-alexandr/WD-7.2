@@ -2416,7 +2416,7 @@ begin
         end;
         RepSpec.long1 = ORr.SerNr;
         RepSpec.f1 = FOPrw.Name;
-        RepSpec.flags[0] = 1;
+        RepSpec.flags[0] = 0;//SMS
         OpenWindow("ORCheckPrintWClass",1,0,"","",RepSpec); 
    		end else begin
    		  MessageBox(0,"Завершіть або відправте замовлення");

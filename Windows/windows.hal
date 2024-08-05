@@ -1934,7 +1934,7 @@ begin
   SetWRect(20,80,490,170);
   h = 100; v = 20; vs = 30; f = 100;
   EditFieldTL(h,v,-40,"ФОП",M4Str,Normal,60,f1,false,FOPDataSClass);
-  HalPushButton(h,v+=vs,h+f,25,"PrintORReceiptPrintDsm","Печать");CheckBox(h+200,v,0,"Відправити чек по смс",flags[0]);
+  HalPushButton(h,v+=vs,h+f,25,"PrintORReceiptPrintDsm","Печать");//CheckBox(h+200,v,0,"Відправити чек по смс",flags[0]);
   EndWindow;
 end;
 
@@ -2472,7 +2472,7 @@ WindowBegin("Гарантійний талон",GarantyWClass,CGother,0);
   h = 100; v = 30;
   v = v + 40;
   HalPushButton(50,5,200,25,"PrintBixolonExecutePrint","Друк");
-  HalPushButton(250,5,400,25,"PrintBixolonExecuteSMS","СМС");
+  //HalPushButton(250,5,400,25,"PrintBixolonExecuteSMS","СМС");
   
   EndWindow;
 end;
@@ -2487,7 +2487,7 @@ WindowBegin("Гарантійний талон",Garanty1WClass,CGother,0);
   h = 100; v = 30;
   v = v + 40;
   HalPushButton(50,5,200,25,"PrintBixolonExecute1Print","Друк");
-  HalPushButton(250,5,400,25,"PrintBixolonExecute1SMS","СМС");
+  //HalPushButton(250,5,400,25,"PrintBixolonExecute1SMS","СМС");
   
   EndWindow;
 end;
