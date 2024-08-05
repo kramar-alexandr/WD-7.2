@@ -753,7 +753,7 @@ BEGIN
           newAcrt.Comment = ORr.Location & " Поставить на приход заказ " & ORr.SerNr & " Доставка на [[[" & ORr.PlanShipDate & " " & ORr.DespatchTime & " c " & ORr.InvAddr4 & "]]]";
           newAcrt.ActType = "PRIHO";
           newAcrt.Supervisor = currentuser;
-          newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,KRUGLYK,SHILKIN,DEMIANCHUK";
+          newAcrt.MainPersons = "PODENKO,GORIN,BABICH,TALALAYEV,KRUGLYK,GULA,DEMIANCHUK";
           newAcrt.TodoFlag = 1;
           newAcrt.TransDate = CurrentDate;
     
