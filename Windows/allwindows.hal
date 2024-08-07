@@ -2514,7 +2514,7 @@ begin
 		EditField(650,-46,50,"ToLocOKNr",Normal,ToLocOKNr,false,0);// Edit ************************** Thursday, 3 September 2015 10:07:58
   end;
   EditField(550,-20,100,"Неврах. накладні витрати",Normal,OtherExtraCosts,false,0);
-  HalPushButton(600,-40,700,-20,"SMPrintLabel","Друк етикеток");// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 7 August 2024 at 10:49:38
+  HalPushButton(600,-40,700,-20,"SMPrintLabelDsm","Друк етикеток");// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 7 August 2024 at 10:49:38
   if (HasMultiCurrency or HasBase2) then begin
     Tile(tilenr,70,false,tilenr,FrRate); tilenr = tilenr + 1;
     h1 = 110; vs = 20;
