@@ -1822,7 +1822,13 @@ BEGIN
   Boolean found,infound;
   string 255 tstr;
   record INVc INr;
-
+  record LocationVc Locr;// Edit ************************** BPI Ukraine - KramarAlexandr - Saturday, 10 August 2024 at 12:27:38
+  vector boolean vactiveloc;// Edit ************************** BPI Ukraine - KramarAlexandr - Saturday, 10 August 2024 at 12:27:40
+  
+  while(loopmain(Locr,1,true))begin
+    vactiveloc[Locr.Code] = Locr.Closed==1;// Edit ************************** BPI Ukraine - KramarAlexandr - Saturday, 10 August 2024 at 12:27:37
+  end;
+  
   SBr.Item = item;
   SBr.Location = location;
   found = true;
@@ -1838,7 +1844,7 @@ BEGIN
       asernr[acnt] = USetStr(30070);
       acnt = acnt + 1;
     end;
-    if (found) then begin
+    if (found and vactiveloc[SBr.Location]) then begin
       if (SBr.Quant!=0 and SBr.Quant-SerialNrReservedQty(item,SBr.Serial,SBr.Location)>0) then begin
         if (infound==false) then begin
           infound = ReadFirstItem(item,INr,false,false);
