@@ -1779,7 +1779,9 @@ BEGIN
   vector boolean vactiveloc;// Edit ************************** BPI Ukraine - KramarAlexandr - Saturday, 10 August 2024 at 12:27:40
   
   while(loopmain(Locr,1,true))begin
-    vactiveloc[Locr.Code] = Locr.Closed==1;// Edit ************************** BPI Ukraine - KramarAlexandr - Saturday, 10 August 2024 at 12:27:37
+    if(Locr.Closed==0)then begin
+      vactiveloc[Locr.Code] = true;// Edit ************************** BPI Ukraine - KramarAlexandr - Saturday, 10 August 2024 at 12:50:08
+    end;
   end;
 
   SBr.Item = item;
@@ -1827,7 +1829,9 @@ BEGIN
   vector boolean vactiveloc;// Edit ************************** BPI Ukraine - KramarAlexandr - Saturday, 10 August 2024 at 12:27:40
   
   while(loopmain(Locr,1,true))begin
-    vactiveloc[Locr.Code] = Locr.Closed==1;// Edit ************************** BPI Ukraine - KramarAlexandr - Saturday, 10 August 2024 at 12:27:37
+    if(Locr.Closed==0)then begin
+      vactiveloc[Locr.Code] = true;// Edit ************************** BPI Ukraine - KramarAlexandr - Saturday, 10 August 2024 at 12:50:08
+    end;
   end;
   
   SBr.Item = item;
