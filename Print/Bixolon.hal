@@ -790,7 +790,8 @@ begin
 	addtexttoarea(chr(13) & chr(10),aFile);	
 	addtexttoarea(chr(13) & chr(10),aFile);	
 	addtexttoarea(chr(13) & chr(10),aFile);	
-    
+   //Cut receipt  
+  addtexttoarea(chr(29) & chr(86) & "1",aFile);
 end;
 
 
