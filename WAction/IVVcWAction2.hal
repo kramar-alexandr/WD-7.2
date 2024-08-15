@@ -57,7 +57,9 @@ external function Boolean HasAccessGroups();
 external function Boolean HasAvalara();
 remote procedure HandleWSReceiptPrinting(record WSVc,var area);//Edit----------------------Dima  21.09.2015
 remote procedure HandleIVReceiptPrinting(record IVVc,var area);//Edit----------------------Dima  21.09.2015
-remote procedure HandleORReceiptPrinting(record IVVc,var area,string,integer);//Edit----------------------Dima  21.09.2015
+remote procedure HandleORReceiptPrinting(record ORVc,var area,string,integer);//Edit----------------------Dima  21.09.2015
+remote procedure HandleORReceiptPrintingMini(record ORVc,var area,string,integer);//Edit----------------------Dima  21.09.2015
+
 remote function string 255 FiscalizeOrder(var record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 12:06:22 PM
 
 
@@ -2456,6 +2458,8 @@ begin
 				if(RepSpec.flags[0]==0)then begin
           PrintBixolonReceipt(aFile);
           millisleep(1000);
+          SetAreaZeroSize(aFile);
+          HandleORReceiptPrintingMini(ORr,aFile,RepSpec.f1,RepSpec.flags[0]);
           PrintBixolonReceipt(aFile);
 				end else begin
 				  messagebox(0,"‘Œ‘ ‚´äïðàâëåíî");
@@ -2485,6 +2489,8 @@ begin
       HandleORReceiptPrinting(ORr,aFile,fopname,0);
       PrintBixolonReceipt(aFile);
       millisleep(1000);
+      setareazerosize(aFile);
+      HandleORReceiptPrintingMini(ORr,aFile,fopname,0);
       PrintBixolonReceipt(aFile);
       wn = FindWindow("ORDClass");
       if(wn>0)then begin
@@ -2562,6 +2568,8 @@ begin
             HandleORReceiptPrinting(ORr,aFile,RepSpec.f1,0);
             PrintBixolonReceipt(aFile);
             millisleep(1000);
+            setareazerosize(aFile);
+            HandleORReceiptPrintingMini(ORr,aFile,RepSpec.f1,0);
             PrintBixolonReceipt(aFile);
             closewindow(wn);
           end;
