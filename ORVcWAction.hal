@@ -127,7 +127,7 @@ vector boolean deleteditems;
         GetPrevWindowRecord(wn,oldORr);
         matrowget(oldORr,rownr,oldORrw);
         if(fieldname=="ArtCode" and blank(oldORrw.ArtCode))then begin
-          if(currentuser!=ORr.SalesMan and (currentuser!="KARUTSYK" and currentuser!="MOROZ" and currentuser!="GORIN" and currentuser!="PUSTYNNIKO"))then begin
+          if(currentuser!=ORr.SalesMan and (currentuser!="KARUTSYK" and currentuser!="MOROZ" and currentuser!="GORIN" and currentuser!="PUSTYNNIKO" and currentuser!="TEMNIY"))then begin
             matrowget(ORr,rownr,ORrw);
               ORrw.iswebshop = 2;
               ORrw.DiscApprovedBy = currentuser;
@@ -137,7 +137,7 @@ vector boolean deleteditems;
         end;
         if(fieldname=="SerialNr")then begin
           matrowget(ORr,rownr,ORrw);
-          if(blank(ORrw.ArtCode) and (currentuser!="KARUTSYK" and currentuser!="MOROZ" and currentuser!="GORIN" and currentuser!="PUSTYNNIKO"))then begin
+          if(blank(ORrw.ArtCode) and (currentuser!="KARUTSYK" and currentuser!="MOROZ" and currentuser!="GORIN" and currentuser!="PUSTYNNIKO" and currentuser!="TEMNIY"))then begin
             ORrw.iswebshop = 2;
             ORrw.DiscApprovedBy = currentuser;
             matrowput(ORr,rownr,ORrw);
@@ -146,7 +146,7 @@ vector boolean deleteditems;
         end;
       end; 
     end else begin
-      if(currentuser!=ORr.SalesMan and (currentuser!="KARUTSYK" and currentuser!="MOROZ" and currentuser!="GORIN" and currentuser!="PUSTYNNIKO"))then begin
+      if(currentuser!=ORr.SalesMan and (currentuser!="KARUTSYK" and currentuser!="MOROZ" and currentuser!="GORIN" and currentuser!="PUSTYNNIKO" and currentuser!="TEMNIY"))then begin
         GetPrevWindowRecord(wn,oldORr);
         matrowget(oldORr,rownr,oldORrw);
         if(fieldname=="ArtCode" and blank(oldORrw.ArtCode))then begin

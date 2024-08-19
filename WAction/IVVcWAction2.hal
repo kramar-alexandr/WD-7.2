@@ -992,7 +992,7 @@ LIVDClassActiveEditField:;
 		res = true;
 	end;
 	
-	if(currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or currentuser=="SA")then begin
+	if(currentuser=="KARUTSYK" or currentuser=="MOROZ" or currentuser=="GORIN" or currentuser=="PUSTYNNIKO" or currentuser=="SA" or currentuser=="TEMNIY")then begin
 	  if(fieldname=="DiscApprovedBy")then begin
 	    res = true;
 	  end;
