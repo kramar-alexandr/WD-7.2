@@ -264,7 +264,7 @@ begin
     end;
 	end;
 	
-	if(DRB.LastSMSCheck!=currentdate)then begin
+	/*if(DRB.LastSMSCheck!=currentdate)then begin
 	  if(currenttime>stringtotime("18:00"))then begin
 	    CheckStockMovForSMS(false,"INV#1_KRS");
 	    DRB.LastSMSCheck = currentdate;
@@ -292,7 +292,7 @@ begin
 	    DRB.LastSMSCheck4 = currentdate;
 	    BlockStore(DRB);
 	  end;	  
-	end;
+	end;*/
 	
 	setcompany(1,false);
 	
