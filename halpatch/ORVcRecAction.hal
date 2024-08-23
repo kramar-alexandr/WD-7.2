@@ -2536,18 +2536,15 @@ begin
     end;
   end;
   
-  if(ORr.OrderStatusCode==4 and OR2r.OrderStatusCode!=4)then begin
+  if(ORr.OrderStatusCode==3 and OR2r.OrderStatusCode!=3)then begin
     pos = 1;
     while(ReadRecordLink(ORr,pos,Actr,RLr)) begin
       if(Actr.ActType=="ZAKAZ" or Actr.ActType=="COMPL" or Actr.ActType=="PRIHO")then begin
-        //recordcopy(oldActr,Actr);
         Actr.OKFlag = 1;
         Actr.EndDate = currentdate;
-          Actr.EndTime = currenttime;
-        //recordupdate(oldActr,Actr,true);
+        Actr.EndTime = currenttime;
         recordstore(Actr,true);
       end;
-      
       pos = pos + 1;
     end;
   end;

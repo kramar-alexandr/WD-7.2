@@ -643,7 +643,8 @@ end;
 global updating procedure ActivateActsPRIHD()
 begin
   record ActVc Actr;
-  boolean TrHs;
+  boolean TrHs,testf;
+  
   logtext(0,"ActivateActsPRIHD");
   
   setcompany(13,false);
@@ -653,13 +654,15 @@ begin
   Actr.MainPersons = "TMP";
   TrHs = true;
   while(loopbackkey("ActType",Actr,2,TrHs))begin
+    testf = true;
     //logtext(0,"Actr.Text " & Actr.Comment & " " & Actr.SerNr);
-    if(Actr.TransDate<addday(currentdate,-1))then begin TrHs = false; end;
-    if(Actr.ActType!="PRIHD")then begin TrHs = false; end;
+    if(Actr.TransDate<addday(currentdate,-1))then begin TrHs = false; testf = false; end;
+    if(Actr.ActType!="PRIHD")then begin TrHs = false; testf = false; end;
+    if(Actr.OKFlag==1)then begin
+      testf = false;
+    end;
     
-    if(TrHs)then begin
-      //logtext(0,"Actr.Text " & Actr.Comment);
-
+    if(testf)then begin
       if(Actr.MainPersons!="TMP")then begin 
         if(Actr.TransDate>currentdate)then begin
           Actr.InventoryNr = Actr.MainPersons;
