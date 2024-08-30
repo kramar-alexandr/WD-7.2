@@ -218,6 +218,7 @@ begin
         if(usercanaction("ViewCostPrice",false))then begin
           OutString(330,0,"Собівартість",false);
           OutString(330,0,"Прибуток",false);
+          OutString(330,0,"Маржа",false);
         end;
       endformat;
     end;
@@ -416,6 +417,8 @@ begin
                     if(usercanaction("ViewCostPrice",false))then begin
                       OutString(330,0,IVrw.FIFO*cred,false);
                       OutString(330,0,(IVrw.Sum - IVrw.FIFO)*cred,false);
+                      OutString(330,0,(IVrw.rowGP)*cred,false);
+                      
                     end;
                   end;
                   
@@ -465,6 +468,7 @@ begin
         if(usercanaction("ViewCostPrice",false))then begin
           OutString(330,0,totalcost,false);
           OutString(460,0,totalgp,false);  
+          OutString(405,0,"",false);
         end;
       endformat;
       
