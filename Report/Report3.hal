@@ -417,7 +417,7 @@ begin
                     if(usercanaction("ViewCostPrice",false))then begin
                       OutString(330,0,IVrw.FIFO*cred,false);
                       OutString(330,0,(IVrw.Sum - IVrw.FIFO)*cred,false);
-                      OutString(330,0,((IVrw.Sum - IVrw.FIFO)/IVrw.FIFO)*cred,false);
+                      OutString(330,0,((IVrw.Sum - IVrw.FIFO)/IVrw.FIFO)*100*cred,false);
                     end;
                   end;
                   
