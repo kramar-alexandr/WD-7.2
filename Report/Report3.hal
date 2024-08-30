@@ -218,7 +218,7 @@ begin
         if(usercanaction("ViewCostPrice",false))then begin
           OutString(330,0,"Собівартість",false);
           OutString(330,0,"Прибуток",false);
-          OutString(330,0,"Маржа",false);
+          OutString(330,0,"Маржа, %",false);
         end;
       endformat;
     end;
