@@ -1,5 +1,6 @@
 remote procedure FindStockMovSerial(var record StockMovVc,string,var boolean,var integer,var string);
 remote procedure FindSHSerial(var record SHVc,string,var boolean,var integer,var string);
+remote procedure RA_FOPDataTClassGetTokensDsm;
 
 //Edit-------------------Vitalii 15:37 04.12.2015 from Odessa
 
@@ -1021,3 +1022,12 @@ BEGIN
 
   RETURN;
 END;
+
+
+global updating procedure FOPDataTClassGetTokensDsm()
+begin
+  
+  RA_FOPDataTClassGetTokensDsm;
+  
+return;
+end;

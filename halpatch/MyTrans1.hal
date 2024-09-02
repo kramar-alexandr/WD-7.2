@@ -14,8 +14,6 @@ external updating procedure RDBDoClearDataMn();
 external updating procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
 external updating procedure ActivateActsPRIHD();// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 12 April 2024, 10:07:28
 external updating function boolean AuthTurboSMS(var string);
-remote procedure RA_FOPDataTClassGetTokensDsm;
-
 
 
 SetLangMode(LangRussian,"RUS",0);
@@ -1034,12 +1032,3 @@ LGetDateOfSerial:;
 	GetDateOfSerial = dt;
 return;
 end; //Edit***************************Sasha2,17:28 18.04.2016 }
-
-
-global updating procedure FOPDataTClassGetTokensDsm()
-begin
-  
-  RA_FOPDataTClassGetTokensDsm;
-  
-return;
-end;
