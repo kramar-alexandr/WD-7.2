@@ -673,6 +673,8 @@ BlockBegin(FOPDataBlock,-,"");
   ArrayField(FisLogin,M4Str,255,0);
   ArrayField(FisPasswd,M4Str,255,0);
   ArrayField(FisToken,M4Str,255,0);
+  ArrayField(Location,M4Str,100,0);
+  
 	
 	EndArray;
 EndBlock;

@@ -1885,10 +1885,11 @@ real h,f,v,vs;
         MatCol(1,200,"Фиск. Адрес",0,FisAddress,false,0);
         MatCol(1,300,"Фиск. ИД",0,FisID,false,0);
         Flip(3);
-        MatCol(1,100,"Login",0,FisLogin,false,0);
-        MatCol(1,200,"Passwd",0,FisPasswd,false,0);
+        MatCol(1,100,"Логин",0,FisLogin,false,0);
+        MatCol(1,200,"Пароль",0,FisPasswd,false,0);
+        MatCol(1,300,"Склад",0,Location,false,LocationSClass);
         Flip(4);
-        MatCol(1,100,"Token",0,FisToken,false,0);
+        MatCol(1,100,"Токен",0,FisToken,false,0);
         
         
       EndMatrix;
