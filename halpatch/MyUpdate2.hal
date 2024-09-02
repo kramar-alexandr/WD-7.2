@@ -2331,3 +2331,45 @@ begin
 	resetcompany(curcomp);
 return;
 end;
+
+
+global updating procedure RA_FOPDataTClassGetTokensDsm()
+begin
+  record FOPDataBlock FOPb;
+  row FOPDataBlock FOPrw;
+  integer i,rwcnt;
+  area a_req,replyarea;
+  json jobj;
+  
+  logtext(0,"RA_FOPDataTClassGetTokensDsm");
+
+  
+  blockload(FOPb);
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(FOPb,i,FOPrw);
+    setareazerosize(a_req);
+    setareazerosize(replyarea);
+    if(nonblank(FOPrw.FisLogin) and nonblank(FOPrw.FisPasswd) and blank(FOPrw.FisToken))then begin
+      if(blank(FOPrw.FisToken))then begin
+        if(nonblank(FOPrw.FisLogin) and nonblank(FOPrw.FisPasswd))then begin
+          addtexttoarea("{\"login\":\"" & FOPrw.FisLogin & "\",\"password\":\"" & FOPrw.FisPasswd & "\"}",a_req);
+          if(SendWebRequest("s.erpjs.biz","443",-1,true,"POST","/checkbox/public/login","application/json","",false,a_req,replyarea,10))then begin  //WORK! 
+            jobj = parsejsonarea(replyarea);
+            if(nonblank(JSONGet(jobj,"token")))then begin
+              FOPrw.FisToken = JSONGet(jobj,"token");
+              matrowput(FOPb,i,FOPrw);
+              blockstore(FOPb);
+            end;
+            logtext(0,"EndRequest FOPrw.FisToken " & FOPrw.FisToken);
+          end;
+        end;
+      end;
+    end;
+  end;
+  
+
+
+return;
+end;
+
+

@@ -1897,6 +1897,8 @@ real h,f,v,vs;
       v=v+ vs; VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
       v=v+ vs; VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
       v=v+ vs; VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
+      
+  SpecialMenu("Получить токены",'',2,"FOPDataTClassGetTokensDsm");
   EndWindow;
   return;
 end;

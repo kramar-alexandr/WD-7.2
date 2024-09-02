@@ -2610,7 +2610,6 @@ begin
           RepSpec.long1 = ORr.SerNr;
           RepSpec.f1 = FOPrw.Name;
           RepSpec.f2 = FOPrw.FisLogin;
-          
           i=rwcnt;
    		  end;
    		end;
