@@ -2457,10 +2457,10 @@ begin
 				HandleORReceiptPrinting(ORr,aFile,RepSpec.f1,RepSpec.flags[0]);
 				if(RepSpec.flags[0]==0)then begin
           PrintBixolonReceipt(aFile);
-          millisleep(1000);
-          SetAreaZeroSize(aFile);
-          HandleORReceiptPrintingMini(ORr,aFile,RepSpec.f1,RepSpec.flags[0]);
-          PrintBixolonReceipt(aFile);
+          //millisleep(1000);
+          //SetAreaZeroSize(aFile);
+          //HandleORReceiptPrintingMini(ORr,aFile,RepSpec.f1,RepSpec.flags[0]);
+          //PrintBixolonReceipt(aFile);
 				end else begin
 				  messagebox(0,"‘Œ‘ ‚´äïðàâëåíî");
 				end;
@@ -2488,10 +2488,10 @@ begin
       SetExportCodePage("CP1251");
       HandleORReceiptPrinting(ORr,aFile,fopname,0);
       PrintBixolonReceipt(aFile);
-      millisleep(1000);
-      setareazerosize(aFile);
-      HandleORReceiptPrintingMini(ORr,aFile,fopname,0);
-      PrintBixolonReceipt(aFile);
+      //millisleep(1000);
+      //setareazerosize(aFile);
+      //HandleORReceiptPrintingMini(ORr,aFile,fopname,0);
+      //PrintBixolonReceipt(aFile);
       wn = FindWindow("ORDClass");
       if(wn>0)then begin
         putwindowrecord(wn,ORr);
@@ -2567,10 +2567,10 @@ begin
             SetExportCodePage("CP1251");
             HandleORReceiptPrinting(ORr,aFile,RepSpec.f1,0);
             PrintBixolonReceipt(aFile);
-            millisleep(1000);
-            setareazerosize(aFile);
-            HandleORReceiptPrintingMini(ORr,aFile,RepSpec.f1,0);
-            PrintBixolonReceipt(aFile);
+            //millisleep(1000);
+            //setareazerosize(aFile);
+            //HandleORReceiptPrintingMini(ORr,aFile,RepSpec.f1,0);
+            //PrintBixolonReceipt(aFile);
             closewindow(wn);
           end;
         end else begin

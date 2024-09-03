@@ -1224,9 +1224,11 @@ lSimpleORWindow:;
         end;
         
         if(currentuser!="KARUTSYK" and currentuser!="SA")then begin
+          SpecialMenu("Печатать обычный чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
           SpecialMenu("Поновити ціни по прейскуранту",' ',13,"ORUpdatePricesDsm");
           SpecialMenu("Друкувати чек",'p',27,"PrintORReceiptDsm"); //Edit----------------------Dima  21.09.2015
           SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
+          SpecialMenu("Печатать Фискальный Чек",'',28,"PrintFiscalORReceiptDsm"); // Edit ************************** BPI Ukraine - KramarAlexandr - 05, 28 01 2022 y. at 11:17:46 AM
         end else begin
           SpecialMenu("Поновити ціни по прейскуранту",' ',13,"ORUpdatePricesDsm");
           //SpecialMenu("Додати заголовок",' ',13,"ORAddHeaderLine");

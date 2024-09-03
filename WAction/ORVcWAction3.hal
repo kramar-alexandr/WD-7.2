@@ -933,7 +933,7 @@ begin
           if(TryToFinishOrder(ORr,msg))then begin
             putwindowrecord(wn,ORr);
             WindowDoOK(wn,0);
-            PrintORReceiptDsm;
+            //PrintORReceiptDsm;
           end else begin
             ORr.OKFlag = 0;
             putwindowrecord(wn,ORr);
