@@ -2606,7 +2606,7 @@ begin
    		rwcnt = matrowcnt(FOPb);
    		for(i=0;i<rwcnt;i=i+1)begin
    		  matrowget(FOPb,i,FOPrw);
-   		  if(nonblank(FOPrw.FisLogin) or (FOPrw.Location==ORr.Location and nonblank(FOPrw.Location)))then begin
+   		  if((FOPrw.Location==ORr.Location and nonblank(FOPrw.Location)))then begin
           RepSpec.long1 = ORr.SerNr;
           RepSpec.f1 = FOPrw.Name;
           RepSpec.f2 = FOPrw.FisLogin;
