@@ -1111,6 +1111,9 @@ begin
 	
 	logtext(0,"SendORStatusToViber begin");
 
+	if(left(ORr.CustOrdNr,5)=="ISMRT")then begin
+	  goto lSendORStatusToViber;
+	end;
 	
 	if(nonblank(ORr.Phone))then begin
     phone = ORr.Phone;
