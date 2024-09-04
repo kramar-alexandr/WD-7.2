@@ -1,7 +1,7 @@
 external procedure M4PadString(string,Integer,string,Boolean,var string);
 external procedure ValToText(val,Integer,string,string,var string);
 external function roundmode SetRoundModeD(Integer);
-external updating function boolean EasySendTurboSMS(string, string);
+external updating function boolean EasySendTurboSMS(string, string, string);
 
 SetLangMode(LangRussian,"RUS",0); 
 
@@ -351,6 +351,9 @@ begin
 	longint alen,ai,acnt,alast;
   vector string 255 vstr;
   boolean res;
+  record SMSConfigBlock SMSb;
+    
+  blockload(SMSb);
 	
 	
 	blockload(PCb);
@@ -695,7 +698,7 @@ begin
       SetExportCodePage("CP1251");
       writeareatofile(aFile,"tmprec.txt",0);
       RunProgram("./gen_rec2.sh", filename);
-      res = qupdating.EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://warranty.istore.ua/receipt/" & filename & ".html");
+      res = qupdating.EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://warranty.istore.ua/receipt/" & filename & ".html",SMSb.Sign);
       setareazerosize(aFile);//"Друк чеків призупинено."
     end else begin
       //Cut receipt  
@@ -2860,6 +2863,9 @@ begin
 	record INVc INr;
 	record IVVc IVr;
 	record SHVc SHr;
+	record SMSConfigBlock SMSb;
+    
+  blockload(SMSb);
 
 	
 	checklength = 56;
@@ -3126,7 +3132,7 @@ begin
       filename = makeuuid;
       RunProgram("./gen_rec.sh", filename);
       //if(currentuser=="SA")then begin
-        EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html");
+        EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html",SMSb.Sign);
       //end;
     end;
 end;
@@ -3153,6 +3159,9 @@ begin
 	date selldate;
 	record IVVc IVr;
 	record SHVc SHr;
+	record SMSConfigBlock SMSb;
+    
+  blockload(SMSb);
 	
 	checklength = 56;
 	
@@ -3386,6 +3395,6 @@ begin
       writeareatofile(aFile,"tmprec.txt",0);
       filename = makeuuid;
       RunProgram("./gen_rec.sh", filename);
-      EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html");
+      EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html",SMSb.Sign);
     end;
 end;

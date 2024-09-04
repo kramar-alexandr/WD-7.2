@@ -6,7 +6,7 @@ external procedure ORDchsum(var record ORVc,Integer);
 external procedure ORSumup(var record ORVc);
 external function LongInt POSNETHexToLong(string);
 external procedure ORVc_PasteSum(var record ORVc,Integer,var Boolean);
-external updating function boolean EasySendTurboSMS(string, string);
+external updating function boolean EasySendTurboSMS(string, string, string);
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -1105,6 +1105,9 @@ begin
 	record CUVc CUr;
 	record TochkaVidachiVc TVr;
 	transaction boolean tSendflag;
+	record SMSConfigBlock SMSb;
+    
+  blockload(SMSb);
 	
 	logtext(0,"SendORStatusToViber begin");
 
@@ -1135,23 +1138,23 @@ begin
 	  logtext(0,"status " & status);
 
 	  if(status=="0")then begin	  
-      EasySendTurboSMS(phone,"Замовлення #" & ofnr & " прийняте. Cтатус замовлення https://t.me/iStore_UA_bot");
+      EasySendTurboSMS(phone,"Замовлення #" & ofnr & " прийняте. Cтатус замовлення https://t.me/iStore_UA_bot",SMSb.Sign);
     end;
     if(status=="7")then begin	
     //Дякуємо за замовлення №343434, ми чекаємо на Ваше рішення 0800330334  
-      EasySendTurboSMS(phone,"Дякуємо за замовлення #" & ofnr & ", ми чекаємо на Ваше рішення 0800330334");
+      EasySendTurboSMS(phone,"Дякуємо за замовлення #" & ofnr & ", ми чекаємо на Ваше рішення 0800330334",SMSb.Sign);
     end;
     if(status=="4" and tSendflag)then begin	  
       //Нам дуже шкода але Ваше замовлення #343434 автоматично скасовано.
-      EasySendTurboSMS(phone,"Нам дуже шкода але Ваше замовлення #" & ofnr & "автоматично скасовано.");
+      EasySendTurboSMS(phone,"Нам дуже шкода але Ваше замовлення #" & ofnr & "автоматично скасовано.",SMSb.Sign);
     end;
 	  if(status=="5")then begin	  
-      EasySendTurboSMS(phone,"Замовлення #" & ofnr & " На жаль нам не вдалося зв'язатися з Вами 0931700302");
+      EasySendTurboSMS(phone,"Замовлення #" & ofnr & " На жаль нам не вдалося зв'язатися з Вами 0931700302",SMSb.Sign);
     end;
     if(status=="6")then begin
       TVr.Code = ORr.TochkaVidachi;
       readfirstmain(TVr,1,true);
-      EasySendTurboSMS(phone,"Замовлення #" & ofnr & " очікує у пункті видачі. " & TVr.Addr01 & " Резерв 1 день(для неоплаченого товару) 0931700302");
+      EasySendTurboSMS(phone,"Замовлення #" & ofnr & " очікує у пункті видачі. " & TVr.Addr01 & " Резерв 1 день(для неоплаченого товару) 0931700302",SMSb.Sign);
     end;
 	
 	end;

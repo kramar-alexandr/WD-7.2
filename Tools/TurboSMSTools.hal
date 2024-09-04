@@ -215,11 +215,11 @@ begin
 end;
 
 global 
-updating function boolean SendSMSTurboSMS(string cookie,var string reciever, string text)
+updating function boolean SendSMSTurboSMS(string cookie,var string reciever, string text, string sign)
 begin
   area mainRequest,replyarea;
   boolean res;
-  string 30 host,page,sign;
+  string 30 host,page;
   record SMSConfigBlock SMSb;
   longint pos1,pos2;
   string 255 response,tstr;
@@ -233,7 +233,7 @@ begin
   
   host = SMSb.Host;
   page = SMSb.Page;
-  sign = SMSb.Sign;
+  //sign = SMSb.Sign;
   
   //AddTextToArea("Cookie: PHPSESSID=" & cookie & ";" & chr(13) & chr(10),mainRequest);
   //AddTextToArea("Cookie: PHPSESSID=" & SMSb.Auth & ";" & chr(13) & chr(10),mainRequest);
@@ -297,7 +297,7 @@ begin
 end;
 
 global 
-updating function boolean EasySendTurboSMS(string reciever, string text)
+updating function boolean EasySendTurboSMS(string reciever, string text, string sign)
 begin
   string 50 cookie;
   record SMSConfigBlock SMSb;
@@ -316,7 +316,7 @@ begin
     end;
   end;*/
   
-  res = SendSMSTurboSMS(SMSb.Auth,reciever,text);
+  res = SendSMSTurboSMS(SMSb.Auth,reciever,text,sign);
   
   EasySendTurboSMS = res;
   return;
@@ -331,6 +331,7 @@ begin
   record USerVc Userr;
   string 255 phonetmp,phone;
   
+  blockload(SMSb);
   
   Userr.Code = reciever;
   if(readfirstmain(Userr,1,true))then begin
@@ -357,7 +358,6 @@ begin
 				otherwise
 					phone = "+380" & phonetmp;
 			end;
-			BlockLoad(SMSb);
 			/*if AuthTurboSMS(cookie) then begin
 				if SMSb.Balance>0 then begin
 					error = "SMS sended to " & reciever & " " & phone & " " & text;
@@ -370,7 +370,7 @@ begin
 				end;
 			end;*/
 			
-			res = SendSMSTurboSMS(SMSb.Auth,phone,text);
+			res = SendSMSTurboSMS(SMSb.Auth,phone,text,SMSb.Sign);
 			
 		end else begin
 			logtext(0,"EasySendTurboSMStoUser blank phone");
@@ -426,6 +426,9 @@ begin
   string 20 phone;
   string 255 text;
   record ORVc ORr;
+  record SMSConfigBlock SMSb;
+    
+  blockload(SMSb);
   
   phone = smsORr.Phone;
   
@@ -444,7 +447,7 @@ begin
     recordstore(ORr,true);
   end;
   
-  EasySendTurboSMS(phone,text);
+  EasySendTurboSMS(phone,text,SMSb.Sign);
 
 return;
 end;
