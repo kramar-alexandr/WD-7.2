@@ -1176,9 +1176,7 @@ begin
         readfirstmain(TVr,1,true);
         EasySendTurboSMS(phone,"Замовлення #" & ofnr & " очікує у пункті видачі. " & TVr.Addr01 & " Резерв 1 день(для неоплаченого товару) 0931700302","MAGAZIN");
       end;
-      if(fileexists("UseViber")==false)then begin
-        goto lSendORStatusToViber;
-      end;
+      goto lSendORStatusToViber;
     end;
 	end;
 	
