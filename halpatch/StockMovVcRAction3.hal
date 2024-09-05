@@ -370,7 +370,7 @@ BEGIN
                     if(nonblank(ORr.CustOrdNr))then begin
                       ofnr = ORr.SerNr;
                     end;
-                    //EasySendTurboSMS(phone,"Замовлення #" & ofnr & " очікує у пункті видачі. Резерв 1 день(для неоплаченого товару) 0931700302");
+                    //EasySendTurboSMS(phone,"Замовлення #" & ofnr & " у пункті видачі. Резерв 1 день(для неоплаченого товару) 0931700302");
                   end;
                   SendORStatusToViber(ORr,"6");// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
                 end;
