@@ -207,7 +207,7 @@ begin
               if(nonblank(ORr.CustOrdNr))then begin
                 ofnr = ORr.SerNr;
               end;
-              EasySendTurboSMS(phone,"Замовлення #" & ofnr & " ТТН " & ORr.TTNNumber & " " & ORr.TTNNStatus,SMSb.Sign);
+              EasySendTurboSMS(phone,"Замовлення " & ofnr & " ТТН " & ORr.TTNNumber & " " & ORr.TTNNStatus,SMSb.Sign);
             end;
           end;
         end;
