@@ -2512,8 +2512,9 @@ begin
 	record RcVc RepSpec;
 	record FOPDataBlock FOPb;
 	row FOPDataBlock FOPrw;
-	boolean foundf;
+	boolean foundf,grcheck;
 	string 255 res;
+	record INVc INr;
 	
 //	messagebox(0,"Друк призупинено.");
 //	goto lPrintFiscalORReceiptPrintDsm;
@@ -2541,6 +2542,30 @@ begin
             messagebox(0,"Все товары должны быть с положительным кол-вом");
             goto lPrintFiscalORReceiptPrintDsm;
           end;
+        end;
+        
+        
+        grcheck = false;
+        for(i=0;i<rwcnt;i=i+1)begin
+          matrowget(ORr,i,ORrw);
+          if(ORrw.stp==1 and ORrw.Sum!=0)then begin
+            INr.Code = ORrw.ArtCode;
+            readfirstmain(INr,1,true);
+            if(INr.Group=="APPLE")then begin grcheck = true; end;
+            if(INr.Group=="TRADE")then begin grcheck = true; end;
+            if(INr.Group=="BEATS")then begin grcheck = true; end;
+            if(INr.Group=="B&W")then begin grcheck = true; end;
+            if(INr.Group=="HK/JB")then begin grcheck = true; end;
+            if(INr.Group=="MARSH")then begin grcheck = true; end;
+            if(INr.Group=="GADG")then begin grcheck = true; end;
+            if(INr.Group=="IPHON")then begin grcheck = true; end;
+            if(INr.Group=="WARRA")then begin grcheck = true; end;
+            if(INr.Group=="USED_WARRA")then begin grcheck = true; end;            
+          end;
+        end;
+        if(grcheck)then begin
+          messagebox(0,"В рахунку є товари які не можна відправляти на фіскальний чек!");
+          goto lPrintFiscalORReceiptPrintDsm;
         end;
         
         if((ORr.PayVal01 + ORr.PayVal02 + ORr.PayVal03 + ORr.PayVal04 + ORr.PayVal05 + ORr.PayVal06 + ORr.PayVal07 + ORr.PayValWithCom)==ORr.Sum4)then begin
