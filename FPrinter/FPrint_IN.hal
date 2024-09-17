@@ -798,8 +798,8 @@ begin
             if(FOPrw.Location==ORr.Location)then begin
               logtext(0,"CheckInvoicesFiscalNums for order " & ORr.SerNr);
               SetWebHeaders("Authorization: Bearer " & FOPrw.FisToken);//WEB HEADERS!
-              addtexttoarea("{\"id\":\"" & FOPrw.FisID & "\"}",receipt);
-              logtext(0,"FOPrw.FisID " & FOPrw.FisID & " FOPrw.FisToken " & FOPrw.FisToken);
+              addtexttoarea("{\"id\":\"" & ORr.FiscalID & "\"}",receipt);
+              logtext(0,"ORr.FiscalID " & ORr.FiscalID & " FOPrw.FisToken " & FOPrw.FisToken);
 
               SendAsyncWebRequest("s.erpjs.biz",443,443,true,"POST","/checkbox/basic/sell-status/","application/json","",receipt,"CheckInvoicesFiscalNumsReply",60);
               //SendAsyncWebRequest("f4o.site",443,443,true,"POST","/checkbox/basic/sell-status/","application/json","",receipt,"CheckInvoicesFiscalNumsReply",20);
