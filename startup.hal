@@ -102,6 +102,7 @@ begin
 	
 	
  	Maintenance("Розбіжність складу з балансом",MyVClass,StockBalDiffMn,modIN);
+ 	Maintenance("Затянути фіскальні чеки",MyVClass,CheckInvoicesFiscalNums,modSO);
  	
  	Maintenance("Fix SO SalesAcc",MyVClass,FixItemCostAndSaleAccMn,modSO);
  	Maintenance("Створити карти лояльності",CreateLoyaltyCardsVClass,CreateLoyaltyCardsMn,modPOS);
