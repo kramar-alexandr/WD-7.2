@@ -1082,7 +1082,11 @@ lSimpleORWindow:;
           EditField(h3,v+=25,70,"",ViewOnly,RejectMan,false,0);
           //(6)
           EditField(h3,v=6,80,"‚ид рахунка",Normal,OrderClass,false,OrderClassSClass);
-          EditField(h3+150,v,100,"”иск. Ь",ViewOnly,FiscalCode,false,0);
+          if(currentuser!="SA")then begin
+            EditField(h3+150,v,100,"”иск. Ь",ViewOnly,FiscalCode,false,0);
+          end else begin
+            EditField(h3+150,v,100,"”иск. Ь",Normal,FiscalCode,false,0);
+          end;
           EditField(h3+150,v+25,100,"URL",ViewOnly,tax_url,false,0);
           EditField(h3+150,v+50,100,"Status",ViewOnly,CallStatus,false,0);
     

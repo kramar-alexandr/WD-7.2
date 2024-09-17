@@ -673,3 +673,134 @@ begin
 	
   return;
 end;
+
+
+
+global updating procedure CheckRegSalesReply(Area a_reply,Area a_replyheader,boolean timeout)
+begin
+	area tmparea;
+	record ORVc ORr;
+	json jobj;
+	boolean TrHs,testf;
+	integer i;
+	
+	logtext(0,"CheckRegSalesReply");
+	
+	addtexttoarea(chr(13) & chr(10) & currentdate & " CheckRegSalesReply " & chr(13) & chr(10),tmparea);
+	
+	writeareatofile(tmparea,"FiscalReply.txt",1);
+	writeareatofile(a_reply,"FiscalReply.txt",1);
+	
+	jobj = parsejsonarea(a_reply);
+	while(nonblank(JSONGet(jobj,"data/[" & i & "]/checkbox_id")))begin	  
+	  ORr.SerNr = stringtolongint(JSONGet(jobj,"data/[" & i & "]/serial_number"));
+	  if(readfirstmain(ORr,1,true))then begin
+	    if(blank(ORr.FiscalID))then begin
+	      ORr.FiscalID = JSONGet(jobj,"data/[" & i & "]/checkbox_id");
+	      recordstore(ORr,true);
+	      logtext(0,"CheckRegSalesReply add fiscal id to " & ORr.SerNr);
+	    end;
+	  end;
+	  
+	  i=i+1;
+	end;
+	
+	
+return;
+end;
+
+global updating procedure CheckInvoicesFiscalNumsReply(Area a_reply,Area a_replyheader,boolean timeout)
+begin
+	area tmparea;
+	record ORVc ORr;
+	json jobj;
+	boolean TrHs,testf;
+	
+	logtext(0,"CheckInvoicesFiscalNumsReply");
+	
+	addtexttoarea(currentdate & "  " & currenttime & chr(13) & chr(10),tmparea);
+	writeareatofile(tmparea,"GetReceiptResponse.txt",1);
+	writeareatofile(a_reply,"GetReceiptResponse.txt",1);
+	setareazerosize(tmparea);
+	addtexttoarea(chr(13) & chr(10),tmparea);
+	writeareatofile(tmparea,"GetReceiptResponse.txt",1);
+	
+	jobj = parsejsonarea(a_reply);
+	if(JSONGet(jobj,"status")=="DONE")then begin
+	  ORr.OrdDate = currentdate;
+    TrHs = true;
+    while(loopbackkey("OrdDate",ORr,1,TrHs))begin
+      testf = true;
+      if(ORr.OrdDate<addday(currentdate,-1))then begin TrHs = false; testf = false; end;
+      if(blank(ORr.FiscalID))then begin testf = false; end;
+      
+      if(testf)then begin
+        if(ORr.FiscalID==JSONGet(jobj,"id"))then begin 
+          ORr.FiscalNum = JSONGet(jobj,"shift/cash_register/fiscal_number");
+          ORr.FiscalCode = JSONGet(jobj,"fiscal_code");
+          ORr.FiscalDate = JSONGet(jobj,"fiscal_date");
+          ORr.tax_url = JSONGet(jobj,"tax_url");
+          recordstore(ORr,true);
+          TrHs = false;
+        end;
+      end;
+    end;
+	end;
+	
+	
+return;
+end;
+
+global updating procedure CheckInvoicesFiscalNums()
+begin
+  string 20 ctime;
+  record ORVc ORr;
+  boolean TrHs,testf;
+  area receipt;
+  record FOPDataBlock FOPb;
+	row FOPDataBlock FOPrw;
+	integer rwcnt,i;
+  
+  ctime = getminute(currenttime);
+  blockload(FOPb);
+  rwcnt = matrowcnt(FOPb);
+  for(i=0;i<rwcnt;i=i+1)begin
+    matrowget(FOPb,i,FOPrw);
+    if(nonblank(FOPrw.FisToken) and nonblank(FOPrw.FisLogin))then begin
+        setareazerosize(receipt);
+        SetWebHeaders("Authorization: Bearer " & FOPrw.FisToken);//WEB HEADERS!
+        addtexttoarea("{\"login\":\"" & FOPrw.FisLogin & "\",\"fromDate\":\"" & datetostring(addday(currentdate,-2),"YYYY-MM-DD") & "\"}",receipt);
+        SendAsyncWebRequest("s.erpjs.biz",443,443,true,"POST","/checkbox/basic/sell-links","application/json","",receipt,"CheckRegSalesReply",60);
+        //SendAsyncWebRequest("f4o.site",443,443,true,"POST","/checkbox/basic/sell-links","application/json","",receipt,"CheckRegSalesReply",20);
+    end;
+  end;
+  
+  setareazerosize(receipt);
+  if(right(ctime,1)=="2" or right(ctime,1)=="4" or right(ctime,1)=="6" or right(ctime,1)=="8" or right(ctime,1)=="0")then begin
+    ORr.OrdDate = currentdate;
+    TrHs = true;
+    while(loopbackkey("OrdDate",ORr,1,TrHs))begin
+      testf = true;
+      if(ORr.OrdDate<addday(currentdate,-2))then begin TrHs = false; testf = false; end;
+      if(blank(ORr.FiscalID))then begin testf = false; end;
+      
+      if(testf)then begin
+        if(ORr.FiscalCode=="Fiscalization..." or blank(ORr.FiscalCode) or ORr.FiscalCode=="null")then begin
+          blockload(FOPb);
+          rwcnt = matrowcnt(FOPb);
+          for(i=0;i<rwcnt;i=i+1)begin
+            matrowget(FOPb,i,FOPrw);
+            if(FOPrw.Location==ORr.Location)then begin
+              SetWebHeaders("Authorization: Bearer " & FOPrw.FisToken);//WEB HEADERS!
+              addtexttoarea("{\"id\":\"" & FOPrw.FisID & "\"}",receipt);
+              SendAsyncWebRequest("s.erpjs.biz",443,443,true,"POST","/checkbox/basic/sell-status/","application/json","",receipt,"CheckInvoicesFiscalNumsReply",60);
+              //SendAsyncWebRequest("f4o.site",443,443,true,"POST","/checkbox/basic/sell-status/","application/json","",receipt,"CheckInvoicesFiscalNumsReply",20);
+            end;
+          end;
+        end;
+      end;
+    end;
+  end;
+  
+return;
+end;

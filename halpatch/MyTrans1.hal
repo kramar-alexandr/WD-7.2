@@ -14,7 +14,7 @@ external updating procedure RDBDoClearDataMn();
 external updating procedure SendORStatusToViber(record ORVc,string);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:23 AM
 external updating procedure ActivateActsPRIHD();// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 12 April 2024, 10:07:28
 external updating function boolean AuthTurboSMS(var string);
-
+external updating procedure CheckInvoicesFiscalNums;
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -233,7 +233,7 @@ begin
 	record DateRnBlock DRB;
 	
 	AllClientsRemoteAsync.UpdateMasterWClassOnKPIs("");
-	
+	CheckInvoicesFiscalNums;
 	ActivateActsPRIHD;
 	
 	setcompany(13,false);
