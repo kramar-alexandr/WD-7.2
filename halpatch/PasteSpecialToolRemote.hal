@@ -1800,7 +1800,6 @@ BEGIN
       acnt = acnt + 1;
     end;
     if (found) then begin
-      logtext(0,SBr.Location & " 1vactiveloc[SBr.Location] " & vactiveloc[SBr.Location]);
       if (SBr.Quant!=0 and vactiveloc[SBr.Location]) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Saturday, 10 August 2024 at 12:27:34
         if (SBr.Quant - SerialNrReservedQty(item,SBr.Serial,SBr.Location)>0) then begin
           if (infound==false) then begin
