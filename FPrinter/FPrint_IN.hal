@@ -789,9 +789,8 @@ begin
       if(blank(ORr.FiscalID))then begin testf = false; end;
       
       if(testf)then begin
-        logtext(0,"CheckInvoicesFiscalNums for order " & ORr.SerNr);
-
         if(ORr.FiscalCode=="Fiscalization..." or blank(ORr.FiscalCode) or ORr.FiscalCode=="null")then begin
+          logtext(0,"CheckInvoicesFiscalNums for order " & ORr.SerNr);
           blockload(FOPb);
           rwcnt = matrowcnt(FOPb);
           for(i=0;i<rwcnt;i=i+1)begin
