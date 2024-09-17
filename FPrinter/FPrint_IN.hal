@@ -792,15 +792,11 @@ begin
         if(ORr.FiscalCode=="Fiscalization..." or blank(ORr.FiscalCode) or ORr.FiscalCode=="null")then begin
           blockload(FOPb);
           rwcnt = matrowcnt(FOPb);
-          logtext(0,"1CheckInvoicesFiscalNums for order " & ORr.SerNr);
           for(i=0;i<rwcnt;i=i+1)begin
             matrowget(FOPb,i,FOPrw);
             if(FOPrw.Location==ORr.Location)then begin
-              logtext(0,"CheckInvoicesFiscalNums for order " & ORr.SerNr);
               SetWebHeaders("Authorization: Bearer " & FOPrw.FisToken);//WEB HEADERS!
               addtexttoarea("{\"id\":\"" & ORr.FiscalID & "\"}",receipt);
-              logtext(0,"ORr.FiscalID " & ORr.FiscalID & " FOPrw.FisToken " & FOPrw.FisToken);
-
               SendAsyncWebRequest("s.erpjs.biz",443,443,true,"POST","/checkbox/basic/sell-status/","application/json","",receipt,"CheckInvoicesFiscalNumsReply",60);
               //SendAsyncWebRequest("f4o.site",443,443,true,"POST","/checkbox/basic/sell-status/","application/json","",receipt,"CheckInvoicesFiscalNumsReply",20);
             end;
