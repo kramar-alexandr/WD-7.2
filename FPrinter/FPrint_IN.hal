@@ -660,7 +660,7 @@ begin
     
     
         SetWebHeaders("Authorization: Bearer " & FOPrw.FisToken);//WEB HEADERS!
-        SendAsyncWebRequest("s.erpjs.biz",443,443,true,"POST","/checkbox/basic/complete-sell","application/json","",receipt,"ORVc_PasteFiscalPrintTextReply",20);
+        SendAsyncWebRequest("s.erpjs.biz",443,443,true,"POST","/checkbox/basic/complete-sell","application/json","",receipt,"ORVc_PasteFiscalPrintTextReply",50);
         ORr.FiscalCode = "Fiscalization...";
         recordstore(ORr,true);
         writeareatofile(nl,"FiscalRequest.txt",1);
