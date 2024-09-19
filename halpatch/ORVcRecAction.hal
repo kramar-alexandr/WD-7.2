@@ -1115,6 +1115,18 @@ begin
       ORr.CustOrdNr = "M" & ORr.SerNr;
     end;
   end;
+  if(left(ORr.CustOrdNr,1)=="M")then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 19 September 2024 at 12:07:53
+    if(blank(ORr.Region))then begin
+      if(nonblank(User.Department))then begin
+        ORr.Region = User.Department;
+      end;
+    end;
+    if(blank(ORr.Region))then begin
+      RecordCheckError(1058,"",-1,"Region");
+      res = -1;
+      goto LORVcRecordCheck;  
+    end;
+  end;// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 19 September 2024 at 12:07:55
   if (OSb.RequireCustOrdNo!=0) then begin
     if (blank(ORr.CustOrdNr)) then begin
       RecordCheckError(2281,"",-1,"CustOrdNr");
