@@ -1137,7 +1137,7 @@ begin
 	  logtext(0,"status " & status);
     if(left(ORr.CustOrdNr,5)!="ISMRT" and ORr.Region!="2")then begin
       if(status=="0")then begin	  
-        EasySendTurboSMS(phone,"Замовлення #" & ofnr & " прийняте. Cтатус https://t.me/iStore_UA_bot",SMSb.Sign);
+        EasySendTurboSMS(phone,"Замовлення #" & ofnr & " прийняте.",SMSb.Sign);
       end;
       if(status=="7")then begin	
       //Дякуємо за замовлення №343434, ми чекаємо на Ваше рішення 0800330334  
