@@ -391,7 +391,7 @@ begin
 //Header	
 	//addtexttoarea(PrintImage,aFile);
 	addtexttoarea(SetMiddleAlignment,aFile);
-	addtexttoarea("www.istore.ua" & chr(13) & chr(10),aFile);
+	//////  addtexttoarea("www.istore.ua" & chr(13) & chr(10),aFile);
 	addtexttoarea("0800 330 334" & chr(13) & chr(10),aFile);
 	addtexttoarea(chr(13) & chr(10) ,aFile);
 	addtexttoarea(SetLeftAlignment,aFile);	
@@ -673,7 +673,7 @@ begin
     addtexttoarea("Будь ласка, напишіть свій відгук!" & chr(13) & chr(10) ,aFile);
     addtexttoarea(chr(13) & chr(10),aFile);
     //http://qrcoder.ru/code/?https%3A%2F%2Fwww.istore.ua%2Fua%2Ffeedback%2F&6&0
-    tax_url = "https://www.istore.ua/feedback/";
+    /*tax_url = "https://www.istore.ua/feedback/";
     
     getQRCode(tax_url,qrArea);
     alast = 0;
@@ -681,11 +681,10 @@ begin
       alen = CountLinesInArea(qrArea);
       for(ai=0;ai<alen;ai=ai+1)begin
         vstr[""] = convertstringfromcodepage("WINDOWS-1251",GetLineFromArea(qrArea,ai));
-        //OutComPort(1,vstr[""]);
         addtexttoarea(vstr[""],aFile);
         addtexttoarea(vstr[""],tmpar);
       end;
-    end;
+    end;*/
     addtexttoarea(chr(10),aFile);
     //addtexttoarea("НЕФІСКАЛЬНИЙ ЧЕК" & chr(13) & chr(10) ,aFile);
     //addtexttoarea(chr(13) & chr(10),aFile);
@@ -698,7 +697,9 @@ begin
       SetExportCodePage("CP1251");
       writeareatofile(aFile,"tmprec.txt",0);
       RunProgram("./gen_rec2.sh", filename);
-      res = qupdating.EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://warranty.istore.ua/receipt/" & filename & ".html",SMSb.Sign);
+//      res = qupdating.EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://warranty.istore.ua/receipt/" & filename & ".html",SMSb.Sign);
+      res = qupdating.EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://148.251.9.237/receipt/" & filename & ".html",SMSb.Sign);
+
       setareazerosize(aFile);//"Друк чеків призупинено."
     end else begin
       //Cut receipt  
@@ -1640,10 +1641,10 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "        Телефон: 0 800 330 334";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "        Веб-сайт:";
+		/*text[""] = "        Веб-сайт:";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "        www.istore.ua/ua/stores/";
-		TLTOARRVECTOR(checklength,text,aFile);
+		TLTOARRVECTOR(checklength,text,aFile);*/
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
@@ -1992,10 +1993,10 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "        Телефон: 0 800 330 334";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "        Веб-сайт:";
+		/*text[""] = "        Веб-сайт:";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "        www.istore.ua/ua/stores/";
-		TLTOARRVECTOR(checklength,text,aFile);
+		TLTOARRVECTOR(checklength,text,aFile);*/
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
@@ -2326,10 +2327,10 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "        Телефон: 0 800 330 334";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "        Веб-сайт:";
+		/*text[""] = "        Веб-сайт:";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "        www.istore.ua/ua/stores/";
-		TLTOARRVECTOR(checklength,text,aFile);
+		TLTOARRVECTOR(checklength,text,aFile);*/
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
@@ -2966,10 +2967,10 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "        Телефон: 0 800 330 334";
 		TLTOARRVECTOR(checklength,text,aFile);
-		text[""] = "        Веб-сайт:";
+		/*text[""] = "        Веб-сайт:";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "        www.istore.ua/ua/stores";
-		TLTOARRVECTOR(checklength,text,aFile);
+		TLTOARRVECTOR(checklength,text,aFile);*/
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 				
@@ -3059,7 +3060,7 @@ begin
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
 		addtexttoarea(SetMiddleAlignment,aFile);
-    tax_url = "https://www.istore.ua/ua/istore-care/";
+    /*tax_url = "https://www.istore.ua/ua/istore-care/";
     getQRCode(tax_url,qrArea);
     if(getarealength(qrArea)>100)then begin
       alen = CountLinesInArea(qrArea);
@@ -3067,7 +3068,7 @@ begin
         text[""] = convertstringfromcodepage("WINDOWS-1251",GetLineFromArea(qrArea,ai));
         addtexttoarea(text[""],aFile);
       end;
-    end;
+    end;*/
 		addtexttoarea(SetLeftAlignment,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
