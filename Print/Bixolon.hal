@@ -3133,7 +3133,6 @@ begin
       filename = makeuuid;
       RunProgram("./gen_rec.sh", filename);
       //if(currentuser=="SA")then begin
-      148.251.9.237
 //        EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "https://warranty.istore.ua/warranty/" & filename & ".html",SMSb.Sign);
         EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Гарантія на Ваші товари доступна за посиланням: " & "http://148.251.9.237/warranty/" & filename & ".html",SMSb.Sign);
       //end;
