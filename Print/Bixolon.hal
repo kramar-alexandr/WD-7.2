@@ -698,7 +698,7 @@ begin
       writeareatofile(aFile,"tmprec.txt",0);
       RunProgram("./gen_rec2.sh", filename);
 //      res = qupdating.EasySendTurboSMS(ORr.Phone,"Дякуємо за покупку. Ваш чек за посиланням: " & "https://warranty.istore.ua/receipt/" & filename & ".html",SMSb.Sign);
-      res = qupdating.EasySendTurboSMS(ORr.Phone,"Ваш чек: " & "https://148.251.9.237/receipt/" & filename & ".html",SMSb.Sign);
+      res = qupdating.EasySendTurboSMS(ORr.Phone,"Ваш чек: " & "http://148.251.9.237/receipt/" & filename & ".html",SMSb.Sign);
 
       setareazerosize(aFile);//"Друк чеків призупинено."
     end else begin
