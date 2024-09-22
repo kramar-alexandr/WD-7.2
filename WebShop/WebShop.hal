@@ -1153,7 +1153,7 @@ begin
       if(status=="6")then begin
         TVr.Code = ORr.TochkaVidachi;
         readfirstmain(TVr,1,true);
-        EasySendTurboSMS(phone,"Замовлення " & ofnr & " у пункті видачі. " & TVr.Addr01,SMSb.Sign);
+        EasySendTurboSMS(phone,"Замовлення " & ofnr & " у пункті видачі. "/* & TVr.Addr01*/,SMSb.Sign);
       end;
     end else begin
     //  -------------------------------  ismart ----
@@ -1174,7 +1174,7 @@ begin
       if(status=="6")then begin
         TVr.Code = ORr.TochkaVidachi;
         readfirstmain(TVr,1,true);
-        EasySendTurboSMS(phone,"Замовлення " & ofnr & " у пункті видачі. " & TVr.Addr01,"MAGAZIN");
+        EasySendTurboSMS(phone,"Замовлення " & ofnr & " у пункті видачі. "/* & TVr.Addr01*/,"MAGAZIN");
       end;
       goto lSendORStatusToViber;
     end;
