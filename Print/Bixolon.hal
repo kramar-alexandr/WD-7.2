@@ -3187,12 +3187,12 @@ begin
 		addtexttoarea(chr(13) & chr(10),aFile);
     
     addtexttoarea(chr(13) & chr(10),aFile);
-		text[""] = "Гарантія від iStore 12 або 24 місяці -";
+		text[""] = "Гарантія 12 або 24 місяці -";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "це турбота про Ваш пристрій.";
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
-		text[""] = "ДОДАТКОВА ГАРАНТІЯ iStore (додаткова оплата)";
+		text[""] = "ДОДАТКОВА ГАРАНТІЯ (додаткова оплата)";
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
@@ -3260,7 +3260,7 @@ begin
 		addtexttoarea(chr(13) & chr(10),aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
-		text[""] = "ДОДАТКОВА гарантія iStore";
+		text[""] = "ДОДАТКОВА гарантія";
 		TLTOARRVECTOR(checklength,text,aFile);
 		text[""] = "для Mac 12 або 24 місяців";
 		TLTOARRVECTOR(checklength,text,aFile);
@@ -3327,7 +3327,7 @@ begin
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
-		text[""] = "ДОДАТКОВА гарантія iStore для AirPods";
+		text[""] = "ДОДАТКОВА гарантія для AirPods";
 		TLTOARRVECTOR(checklength,text,aFile);
 		addtexttoarea(chr(13) & chr(10),aFile);
 		
