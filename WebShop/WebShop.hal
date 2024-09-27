@@ -1141,14 +1141,14 @@ begin
       end;
       if(status=="7")then begin	
       //Дякуємо за замовлення №343434, ми чекаємо на Ваше рішення 0800330334  
-        EasySendTurboSMS(phone,"Дякуємо за замовлення #" & ofnr & ", ми чекаємо на Ваше рішення 0800330334",SMSb.Sign);
+        //EasySendTurboSMS(phone,"Дякуємо за замовлення #" & ofnr & ", ми чекаємо на Ваше рішення 0800330334",SMSb.Sign);
       end;
       if(status=="4" and tSendflag)then begin	  
         //Нам дуже шкода але Ваше замовлення #343434 автоматично скасовано.
         EasySendTurboSMS(phone,"Нам дуже шкода але Ваше замовлення #" & ofnr & "автоматично скасовано.",SMSb.Sign);
       end;
       if(status=="5")then begin	  
-        EasySendTurboSMS(phone,"Замовлення #" & ofnr & " На жаль нам не вдалося зв'язатися з Вами 0931700302",SMSb.Sign);
+        //EasySendTurboSMS(phone,"Замовлення #" & ofnr & " На жаль нам не вдалося зв'язатися з Вами 0931700302",SMSb.Sign);
       end;
       if(status=="6")then begin
         TVr.Code = ORr.TochkaVidachi;
@@ -1162,14 +1162,14 @@ begin
       end;
       if(status=="7")then begin	
       //Дякуємо за замовлення №343434, ми чекаємо на Ваше рішення 0800330334  
-        EasySendTurboSMS(phone,"Дякуємо за замовлення #" & ofnr & ", ми чекаємо на Ваше рішення 0800330334","MAGAZIN");
+        //EasySendTurboSMS(phone,"Дякуємо за замовлення #" & ofnr & ", ми чекаємо на Ваше рішення 0800330334","MAGAZIN");
       end;
       if(status=="4" and tSendflag)then begin	  
         //Нам дуже шкода але Ваше замовлення #343434 автоматично скасовано.
         EasySendTurboSMS(phone,"Нам дуже шкода але Ваше замовлення #" & ofnr & "автоматично скасовано.","MAGAZIN");
       end;
       if(status=="5")then begin	  
-        EasySendTurboSMS(phone,"Замовлення #" & ofnr & " На жаль нам не вдалося зв'язатися з Вами 0931700302","MAGAZIN");
+        //EasySendTurboSMS(phone,"Замовлення #" & ofnr & " На жаль нам не вдалося зв'язатися з Вами 0931700302","MAGAZIN");
       end;
       if(status=="6")then begin
         TVr.Code = ORr.TochkaVidachi;
