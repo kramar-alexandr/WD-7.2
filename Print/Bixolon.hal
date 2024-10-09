@@ -623,7 +623,7 @@ begin
 		fdate.year = stringtoint(left(ORr.FiscalDate,4));
 		
 		ftime = stringtotime(mid(ORr.FiscalDate,11,8));
-		ftime = addhours(ftime,2);
+		ftime = addhours(ftime,3);
     tstr = fdate & " об " & ftime; ////”€скальнй дата
 		addtexttoarea(tstr & chr(10),aFile); tstr ="";
 		
