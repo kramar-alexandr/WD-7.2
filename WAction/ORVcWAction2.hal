@@ -3044,7 +3044,7 @@ record CUVc CUr;
 			CUr.Code = ORr.CustCode;
 			if(readfirstmain(CUr,1,true))then begin
 				if(nonblank(USr.Phone2)and nonblank(NormalPhone(CUr.Phone)))then begin		
-				  if(currentuser!="SA")then begin	
+				  if(currentuser!="SA" and left(ORr.CustOrdNr,5)!="ISMRT")then begin	
 					  MakeBinotelCallFromExtNumToPhone(USr.Phone2,NormalPhone(CUr.Phone));
 					end;
 					if(blank(ORr.SalesMan))then begin
