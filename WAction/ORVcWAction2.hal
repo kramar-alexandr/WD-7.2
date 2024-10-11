@@ -3046,6 +3046,10 @@ record CUVc CUr;
 				if(nonblank(USr.Phone2)and nonblank(NormalPhone(CUr.Phone)))then begin		
 				  if(currentuser!="SA" and left(ORr.CustOrdNr,5)!="ISMRT")then begin	
 					  MakeBinotelCallFromExtNumToPhone(USr.Phone2,NormalPhone(CUr.Phone));
+					  AddToText(CurrentDate & " ",ORr);
+            AddToText(CurrentTime & " ",ORr);
+            AddToText(CurrentUser & ": ",ORr);
+            AddToText("‡€Š€‡€ ‡‚Š Š‹§…’“" & chr(13) & chr(10),ORr);
 					end;
 					if(blank(ORr.SalesMan))then begin
 					  ORr.SalesMan = currentuser;
@@ -3070,11 +3074,7 @@ record CUVc CUr;
             end;
 					end;
 					
-					AddToText(CurrentDate & " ",ORr);
-          AddToText(CurrentTime & " ",ORr);
-          AddToText(CurrentUser & ": ",ORr);
-          AddToText("‡€Š€‡€ ‡‚Š Š‹§…’“" & chr(13) & chr(10),ORr);
-          
+					
 					recordstore(ORr,true);
           SendORStatusToViber(ORr,"1");
           putwindowrecord(wn,ORr);
