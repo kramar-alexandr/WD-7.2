@@ -430,7 +430,7 @@ begin
     
   blockload(SMSb);
   
-  phone = smsORr.Phone;
+  phone = trim(smsORr.Phone);
   
   if(len(phone)>10)then begin
     phone = right(phone,10);

@@ -2962,7 +2962,7 @@ record CUVc CUr;
 	readfirstmain(ORr,1,true);
 	
 	if(nonblank(ORr.Phone))then begin
-	  smsOR.Phone = ORr.Phone;
+	  smsOR.Phone = trim(ORr.Phone);
 	  smsOR.SerNr = ORr.SerNr;
 	  OpenWindow("SMSORWClass",1,wn,"","",smsOR); 
 	end else begin

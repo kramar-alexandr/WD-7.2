@@ -505,7 +505,7 @@ begin
       ORr.OrderClass = "CALPC";
     end;
   end;
-	
+	ORr.Phone = trim(ORr.Phone);
 	if(ORr.RejectMark==1 and blank(ORr.RejectStr))then begin
 		RecordCheckError(1058,"",-1,"RejectStr");      
     res = -1;
@@ -2525,6 +2525,7 @@ begin
         CancelApprovalRequestActivities(kAcceptanceOR,"ORVc",ORr.SerNr,ORr.CustCode);
       end;
   end;
+  
   if(ORr.Phone!=OR2r.Phone)then begin
     if(currentcompany==13)then begin
       SendORStatusToViber(ORr,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 08 07 2020 y. at 9:30:36 AM
