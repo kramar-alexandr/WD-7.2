@@ -122,7 +122,7 @@ begin
   
   setcompany(13,false);
   
-  ORr.SerNr = 217979;
+  ORr.SerNr = 280303;
   while(loopmain(ORr,1,true))begin
     
     /*if(ORr.SalesGroup=="NP")then begin
