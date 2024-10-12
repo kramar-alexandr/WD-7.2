@@ -131,10 +131,13 @@ begin
         recordstore(ORr,true);
       end;
     end;*/
-    if(nonblank(ORr.TerminalID))then begin
+    /*if(nonblank(ORr.TerminalID))then begin
       ORr.SalesGroup = "CREDI"; 
     end else begin
       ORr.SalesGroup = "NOCRE";
+    end;*/
+    if(left(ORr.CustOrdNr,1)=="M")then begin
+      ORr.SalesGroup = "OWN";
     end;
     recordstore(ORr,true);
     

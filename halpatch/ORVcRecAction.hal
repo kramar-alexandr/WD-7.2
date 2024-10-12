@@ -2837,7 +2837,7 @@ begin
   ORr.SalesGroup = USr.SalesGroup; 
   if(currentcompany==13)then begin
     //ORr.SalesGroup = "NOTNP";
-    ORr.SalesGroup = "NOCRE";
+    //ORr.SalesGroup = "NOCRE";
     ORr.RefStr = "phone";
   end;
   if (SingleUserMode) then begin
