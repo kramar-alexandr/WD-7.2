@@ -3787,7 +3787,7 @@ begin
     RlColKey(-55,-55,"Всього",Sum4,true,Sum4); 
   end;
   if (HasLimitedAccess) then begin
-  BrowseSubsetButton(-40,-15);
+  //BrowseSubsetButton(-40,-15);
   end;
   SearchField("Пошук"); 
   if (GuiType==kGuiMetro) then begin

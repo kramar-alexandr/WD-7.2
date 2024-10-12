@@ -138,8 +138,9 @@ begin
     end;*/
     if(left(ORr.CustOrdNr,1)=="M")then begin
       ORr.SalesGroup = "OWN";
+      recordstore(ORr,true);
     end;
-    recordstore(ORr,true);
+    
     
   end;
   
