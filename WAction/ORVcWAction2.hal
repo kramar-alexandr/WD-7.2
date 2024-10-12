@@ -3826,6 +3826,7 @@ begin
 	      setwindowsubset(wn,Userr.SalesGroup);
 	    end;*/
 	    if(Userr.SalesGroup=="OWN")then begin
+	      setwindowsubset(wn,Userr.SalesGroup);
 	      goto lORLClassOnOpenWindow;
 	    end;
 	    if(nonblank(Userr.SalesGroup))then begin
