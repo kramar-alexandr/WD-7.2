@@ -1113,6 +1113,7 @@ begin
   if(currentcompany==13)then begin
     if(blank(ORr.CustOrdNr))then begin
       ORr.CustOrdNr = "M" & ORr.SerNr;
+      ORr.SalesGroup = "OWN";
     end;
   end;
   if(left(ORr.CustOrdNr,1)=="M")then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 19 September 2024 at 12:07:53
