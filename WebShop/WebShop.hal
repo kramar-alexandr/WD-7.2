@@ -1158,7 +1158,7 @@ begin
     end else begin
     //  -------------------------------  ismart ----
       if(status=="0")then begin	  
-        EasySendTurboSMS(phone,"Замовлення #" & ofnr & " прийняте.","MAGAZIN");
+        EasySendTurboSMS(phone,"Замовлення #" & ofnr & " прийняте.","Best-Shop");
       end;
       if(status=="7")then begin	
       //Дякуємо за замовлення №343434, ми чекаємо на Ваше рішення 0800330334  
@@ -1166,7 +1166,7 @@ begin
       end;
       if(status=="4" and tSendflag)then begin	  
         //Нам дуже шкода але Ваше замовлення #343434 автоматично скасовано.
-        EasySendTurboSMS(phone,"Нам дуже шкода але Ваше замовлення #" & ofnr & "автоматично скасовано.","MAGAZIN");
+        EasySendTurboSMS(phone,"Нам дуже шкода але Ваше замовлення #" & ofnr & "автоматично скасовано.","Best-Shop");
       end;
       if(status=="5")then begin	  
         //EasySendTurboSMS(phone,"Замовлення #" & ofnr & " На жаль нам не вдалося зв'язатися з Вами 0931700302","MAGAZIN");
@@ -1174,7 +1174,7 @@ begin
       if(status=="6")then begin
         TVr.Code = ORr.TochkaVidachi;
         readfirstmain(TVr,1,true);
-        EasySendTurboSMS(phone,"Замовлення " & ofnr & " у пункті видачі. "/* & TVr.Addr01*/,"MAGAZIN");
+        EasySendTurboSMS(phone,"Замовлення " & ofnr & " у пункті видачі. "/* & TVr.Addr01*/,"Best-Shop");
       end;
       goto lSendORStatusToViber;
     end;
