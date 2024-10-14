@@ -1908,9 +1908,12 @@ LORVcRecordRowCheck:;
   	oldORr.CustCode = ORr.CustCode;
   	TrHs = true;
   	while(loopkey("CustCode",oldORr,1,TrHs))begin
-  		if(oldORr.CustCode!=ORr.CustCode)then begin TrHs = false; end;
+  	  testf = true;
+  		if(oldORr.CustCode!=ORr.CustCode)then begin TrHs = false; testf = false; end;
+  		if(ORr.OrderStatusCode!=3)then begin testf = false; end;
   		
-  		if(TrHs)then begin
+  		
+  		if(testf)then begin
   			ORr.OrderCnt = ORr.OrderCnt + 1;
   		end;
   	end;
