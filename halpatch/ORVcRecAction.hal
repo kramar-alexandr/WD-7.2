@@ -1910,7 +1910,7 @@ LORVcRecordRowCheck:;
   	while(loopkey("CustCode",oldORr,1,TrHs))begin
   	  testf = true;
   		if(oldORr.CustCode!=ORr.CustCode)then begin TrHs = false; testf = false; end;
-  		if(ORr.OrderStatusCode!=3)then begin testf = false; end;
+  		if(oldORr.OrderStatusCode!=3)then begin testf = false; end;
   		
   		
   		if(testf)then begin
