@@ -60,7 +60,7 @@ external procedure GetDatePriceBasedOn(string,Date,Date,string,var Date);
 external procedure GetPriceList(string,Date,Time,var string,var Integer);
 
 forward procedure ORVc_PasteQuant(var record ORVc,Integer,Boolean,var Boolean);
-external procedure ORVc_GetPriceList(var record ORVc);
+forward procedure ORVc_GetPriceList(var record ORVc);
 
 global
 procedure ORVc_PasteInvCountry(var record ORVc ORp,string oldCountryCode)
@@ -715,7 +715,7 @@ begin
   Time blankt;
   string 255 tstr,oldpricelist;
   record RegionVc Regionr;
-  
+    
   oldpricelist = ORr.PriceList;
   CUr.Code = ORr.CustCode;
   if (ReadFirstMain(CUr,1,true)) then begin
