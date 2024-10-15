@@ -1749,3 +1749,26 @@ begin
   
   EndWindow;
 end;
+
+
+window RegionDClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v;
+  WindowBegin("Регион",RegionDClass,CGview,-);
+  SetWRect(64,80,509,200);
+  UseView(RegionVc);
+  EditField(h=115,v=6,150,"Регион",St_i,Code,false,0);
+  EditField(h,v+=20,-40,"Название",Normal,Name,false,0);
+  EditField(h,v+=20,100,"Прайс",Normal,RPCUTAXAcc,false,PLDEFSClass);
+  if (HasExtTax) then begin
+    CheckBox(h,v+=25,0,"Фиксированный курс взыскиваемых рег. налогов",FixedRPCUTax);
+  end;
+  if (HasLocalization("ARG")) then begin  
+    CheckBox(h,v+=16,0,"Фиксированный курс удержания",FixedWHVE);
+    EditField(h,v+=20,80,"Base Rate %",Normal,Rate,true,0);  
+    EditField(h,v+=20,80,"Minimun Taxed",Normal,BaseMin,true,0);  
+    EditField(h,v+=20,40,"Налоговый код",Normal,TaxCode,false,0);  
+  end;
+  EndWindow;
+end;
