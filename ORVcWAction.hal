@@ -3,7 +3,7 @@ remote inner function Boolean ORDchrsum(var record ORVc,Integer);
 remote inner procedure ORSumup(var record ORVc);
 remote inner procedure RecalcCOMValOR(var record ORVc);
 external inner updating procedure OrderSetToST6Dsm();
-remote procedure ORVc_GetPriceList(var record ORVc);
+remote inner procedure ORVc_GetPriceList(var record ORVc);
 
 SetLangMode(LangRussian,"RUS",0);
 
