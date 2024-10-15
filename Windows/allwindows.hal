@@ -3737,6 +3737,7 @@ window ORLClass:3
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer") 
 begin
   Integer pos,rn;
+  record UserVc Userr;
 //  RlColKey(341,341,"C._O.no.",CustOrdNr,false,CustOrdNr);
   WindowBegin("Рахунки клієнтів",ORLClass,CGmlist,-);
   SpawnClass(ORDClass);
@@ -3786,8 +3787,10 @@ begin
   end else begin
     RlColKey(-55,-55,"Всього",Sum4,true,Sum4); 
   end;
-  if (HasLimitedAccess) then begin
-  //BrowseSubsetButton(-40,-15);
+  Userr.Code = currentuser;
+  readfirstmain(Userr,1,true);
+  if (Userr.AccessGroup!="OWN") then begin
+  BrowseSubsetButton(-40,-15);
   end;
   SearchField("Пошук"); 
   if (GuiType==kGuiMetro) then begin
