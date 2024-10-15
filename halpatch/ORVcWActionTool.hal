@@ -714,6 +714,7 @@ begin
   Date d;
   Time blankt;
   string 255 tstr,oldpricelist;
+  record RegionVc Regionr;
   
   oldpricelist = ORr.PriceList;
   CUr.Code = ORr.CustCode;
@@ -735,6 +736,16 @@ begin
   if (nonblank(tstr)) then begin
     ORr.PriceList = tstr;
   end;
+  
+  if(nonblank(ORr.Region))then begin
+    Regionr.Code = ORr.Region;
+    if(readfirstmain(Regionr,1,true))then begin
+      if(nonblank(Regionr.RPCUTAXAcc))then begin
+        ORr.PriceList = Regionr.RPCUTAXAcc;
+      end;
+    end;
+  end;
+  
   if (oldpricelist!=ORr.PriceList) then begin
     ORDUpdatePrices(ORr,false);
   end;

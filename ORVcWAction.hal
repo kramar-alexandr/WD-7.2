@@ -3,6 +3,7 @@ remote inner function Boolean ORDchrsum(var record ORVc,Integer);
 remote inner procedure ORSumup(var record ORVc);
 remote inner procedure RecalcCOMValOR(var record ORVc);
 external inner updating procedure OrderSetToST6Dsm();
+remote procedure ORVc_GetPriceList(var record ORVc);
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -53,6 +54,21 @@ begin
 		
 		
 	end;
+	
+return;
+end;
+
+global
+function boolean ChangeStore(integer wn,integer changed)
+begin
+	string 255 input;
+	record ORVc ORr;
+	
+	if(changed==1)then begin
+    getwindowrecord(wn,ORr);
+      ORVc_GetPriceList(ORr)
+    putwindowrecord(wn,ORr);
+  end;
 	
 return;
 end;
@@ -216,9 +232,8 @@ vector boolean deleteditems;
 		case "PayVal07": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
 		case "PayValWithCom": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end; 
 		case "ComisionCode": if(changed==1)then begin RecalcCOMValOR(ORr);  putwindowrecord(wn,ORr) end;  
-		
 		case "TochkaVidachi": if(changed==1)then begin ReadyToVidach(ORr,wn); end;  
-		
+		case "Region": ChangeStore(wn,changed);
 		
 	end;
 lORDClassAfterEditField:;
