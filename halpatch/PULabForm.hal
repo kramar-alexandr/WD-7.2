@@ -293,9 +293,9 @@ BEGIN
 
   pucnt = 0;
  
-  Docr1.Code = "ETIKETKA1";
+  Docr1.Code = "ETIKETKA1_SM";
   if (RepSpec.flags[1]==1) then begin  //edit ------------------------Dima 28.11.2014
-		Docr1.Code = "ETIKETKA1_WIN";
+		Docr1.Code = "ETIKETKA1_SM_WIN";
 	end;
 	
 	
