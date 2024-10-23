@@ -399,7 +399,6 @@ BEGIN
 				 // if (OpenForm(formcode)==false) then begin goto LDoPULabFormPrint; end;
 					formisopen = true;
 				end;
-				OpenForm(formcode);
 				for (i=0;i<rwcnt;i=i+1) begin
 					MatRowGet(newPUr,i,newPUrw);
 					if (nonblank(newPUrw.ArtCode)) then begin
@@ -407,7 +406,6 @@ BEGIN
 							//EndFormRow;
 					end;
 				end;
-				CloseForm;
       end;
       //CloseForm;
       formisopen = false;
@@ -477,13 +475,13 @@ LBREAKPULab:;
 		formcode=formcode & "_WIN";
 	end;
       if (formisopen==false) then begin
-        //if (OpenForm(formcode)==false) then begin goto LDoPULabFormPrint1; end;
-        //SetPrinter(FDrw.PrintGroupCode);  
+        if (OpenForm(formcode)==false) then begin goto LDoPULabFormPrint1; end;
+        SetPrinter(FDrw.PrintGroupCode);  
         formisopen = true;
       end;
       DoPULabFormPrint(RepSpec,formcode,FDrw.PrintGroupCode);// Edit ************************** среда, 23 июня 2010 г. 11:43:31
       if (formisopen) then begin
-        //CloseForm;
+        CloseForm;
       end;
 LDoPULabFormPrint1:;
     end else begin
